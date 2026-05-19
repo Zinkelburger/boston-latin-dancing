@@ -68,27 +68,19 @@ function linkLabel(url: string): { label: string; icon: string } {
   }
 }
 
-function toIcsDate(iso: string): string {
+function toGcalDate(iso: string): string {
   return new Date(iso).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
 }
 
-function generateIcsBlob(event: DanceEvent): Blob {
-  const lines = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//Boston Latin Dance//EN',
-    'BEGIN:VEVENT',
-    `DTSTART:${toIcsDate(event.startDate)}`,
-    `DTEND:${toIcsDate(event.endDate)}`,
-    `SUMMARY:${event.name.replace(/,/g, '\\,')}`,
-    `LOCATION:${event.location.replace(/,/g, '\\,')}`,
-    `DESCRIPTION:${event.description.slice(0, 500).replace(/\n/g, '\\n').replace(/,/g, '\\,')}`,
-    ...(event.url ? [`URL:${event.url}`] : []),
-    `UID:${event.id}`,
-    'END:VEVENT',
-    'END:VCALENDAR',
-  ];
-  return new Blob([lines.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
+function googleCalendarUrl(event: DanceEvent): string {
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: event.name,
+    dates: `${toGcalDate(event.startDate)}/${toGcalDate(event.endDate)}`,
+    location: event.location,
+    details: [event.description.slice(0, 500), event.url].filter(Boolean).join('\n\n'),
+  });
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
 
 export default function EventPopup({ event, onClose }: Props) {
@@ -100,17 +92,7 @@ export default function EventPopup({ event, onClose }: Props) {
     return () => document.removeEventListener('keydown', onKey);
   }, [onClose]);
 
-  const handleAddToCalendar = useCallback(() => {
-    const blob = generateIcsBlob(event);
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${event.name.replace(/[^a-zA-Z0-9 ]/g, '').trim().replace(/\s+/g, '-').slice(0, 50)}.ics`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  }, [event]);
+  const calendarUrl = googleCalendarUrl(event);
 
   const [descExpanded, setDescExpanded] = useState(false);
 
@@ -249,12 +231,14 @@ export default function EventPopup({ event, onClose }: Props) {
               Google Maps
             </a>
           )}
-          <button
-            onClick={handleAddToCalendar}
+          <a
+            href={calendarUrl}
+            target="_blank"
+            rel="noopener"
             className="pretty-pill pretty-pill-blue"
           >
             Add to Calendar
-          </button>
+          </a>
         </div>
       </div>
     </div>

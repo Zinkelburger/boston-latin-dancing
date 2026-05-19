@@ -34,7 +34,7 @@ type MarkerProps = { id: string; __color: string };
 type MarkerFeature = Feature<Point, MarkerProps>;
 type MarkerCollection = FeatureCollection<Point, MarkerProps>;
 
-const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
+const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json';
 
 function dateToDay(d: Date): number {
   return Math.floor(d.getTime() / 86400000);
@@ -178,20 +178,12 @@ export default function MapView() {
     [],
   );
 
-  const handleSearchFlyTo = useCallback(
-    (lat: number, lng: number) => {
-      mapRef.current?.flyTo({ center: [lng, lat], zoom: 12, duration: 1200 });
-    },
-    [],
-  );
-
   return (
     <div className="flex flex-col h-full">
       <div className="relative flex-1 overflow-hidden min-h-[40vh]">
         <SearchBar
           events={mappableEvents}
           onSelectEvent={handleSearchSelectEvent}
-          onFlyTo={handleSearchFlyTo}
         />
         <MapGL
           ref={mapRef}
