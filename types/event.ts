@@ -25,3 +25,22 @@ export interface DanceEvent {
   /** Whether this is a recurring event */
   recurring: boolean;
 }
+
+export interface RecurringSchedule {
+  dayOfWeek: DayOfWeek;
+  time: string;
+  note?: string;
+}
+
+export interface RecurringVenue {
+  id: string;
+  name: string;
+  location: string;
+  lat: number;
+  lng: number;
+  description: string;
+  url: string | null;
+  styles: DanceStyle[];
+  cost: string | null;
+  schedule: RecurringSchedule[];
+}

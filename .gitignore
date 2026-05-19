@@ -6,3 +6,4 @@ out/
 *.tsbuildinfo
 next-env.d.ts
 favicon_io/
+data/geocode-cache.json

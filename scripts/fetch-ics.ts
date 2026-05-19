@@ -4,7 +4,7 @@
  * Outputs public/events.json for the frontend.
  */
 
-import { writeFileSync } from 'fs';
+import { writeFileSync, readFileSync, existsSync } from 'fs';
 import { resolve } from 'path';
 
 const ICS_URL =
@@ -199,6 +199,7 @@ const VENUE_COORDS: Record<string, { lat: number; lng: number }> = {
   'docks near the hatch memorial shell': { lat: 42.357256, lng: -71.073702 },
 };
 
+
 async function nominatimQuery(query: string): Promise<{ lat: number; lng: number } | null> {
   try {
     const resp = await fetch(
@@ -248,6 +249,25 @@ function buildQueryVariants(location: string): string[] {
   return variants;
 }
 
+const GEOCODE_CACHE_PATH = resolve(import.meta.dirname ?? '.', '..', 'data', 'geocode-cache.json');
+
+type GeoCache = Record<string, { lat: number; lng: number } | null>;
+
+function loadGeoCache(): GeoCache {
+  if (existsSync(GEOCODE_CACHE_PATH)) {
+    try {
+      return JSON.parse(readFileSync(GEOCODE_CACHE_PATH, 'utf-8'));
+    } catch { /* ignore corrupt file */ }
+  }
+  return {};
+}
+
+function saveGeoCache(cache: GeoCache): void {
+  writeFileSync(GEOCODE_CACHE_PATH, JSON.stringify(cache, null, 2));
+}
+
+const geoCache = loadGeoCache();
+
 async function geocodeAddress(location: string): Promise<{ lat: number; lng: number } | null> {
   if (!location) return null;
 
@@ -256,14 +276,23 @@ async function geocodeAddress(location: string): Promise<{ lat: number; lng: num
 
   if (location.length < 5) return null;
 
+  // Check cache (stores both hits and misses)
+  if (lower in geoCache) return geoCache[lower];
+
   const variants = buildQueryVariants(location);
 
   for (const query of variants) {
     const result = await nominatimQuery(query);
-    if (result) return result;
+    if (result) {
+      geoCache[lower] = result;
+      saveGeoCache(geoCache);
+      return result;
+    }
     await sleep(1100);
   }
 
+  geoCache[lower] = null;
+  saveGeoCache(geoCache);
   return null;
 }
 
@@ -281,8 +310,13 @@ async function main() {
   const icsText = await resp.text();
   console.log(`Fetched ${icsText.length} bytes`);
 
-  const events = parseIcs(icsText);
-  console.log(`Parsed ${events.length} events`);
+  const allEvents = parseIcs(icsText);
+  console.log(`Parsed ${allEvents.length} events`);
+
+  // Only keep future events (from today onward)
+  const now = Date.now();
+  const events = allEvents.filter(e => new Date(e.startDate).getTime() >= now - 86400000);
+  console.log(`  ${events.length} future events`);
 
   let geocoded = 0;
   for (const event of events) {
@@ -294,7 +328,7 @@ async function main() {
       event.lng = coords.lng;
       geocoded++;
       console.log(`  Geocoded: ${event.name} -> ${coords.lat}, ${coords.lng}`);
-    } else {
+    } else if (event.location) {
       console.log(`  No coords: ${event.name} (location: "${event.location}")`);
     }
     await sleep(1100); // Nominatim rate limit: 1 req/sec
