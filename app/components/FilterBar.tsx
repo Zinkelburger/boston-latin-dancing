@@ -108,7 +108,7 @@ export default function FilterBar({
 
   return (
     <div className="filter-bar">
-      {/* Row 1: Style + Day filters */}
+      {/* Row 1: Style */}
       <div className="filter-bar-row">
         <div className="filter-group">
           <span className="filter-label">Style</span>
@@ -136,7 +136,10 @@ export default function FilterBar({
             ))}
           </div>
         </div>
+      </div>
 
+      {/* Row 2: Day */}
+      <div className="filter-bar-row">
         <div className="filter-group">
           <span className="filter-label">Day</span>
           <div className="filter-pills">
@@ -165,7 +168,7 @@ export default function FilterBar({
         </div>
       </div>
 
-      {/* Row 2: Date range + count */}
+      {/* Row 3: Date range + count */}
       <div className="filter-bar-row filter-bar-date-row">
         <div className="filter-date-section">
           <span className="filter-label">When</span>
