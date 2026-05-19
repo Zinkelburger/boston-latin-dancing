@@ -167,7 +167,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  backdrop-filter: blur(8px);
 }
 
 .filter-bar-row {

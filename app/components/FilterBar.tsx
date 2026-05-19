@@ -36,6 +36,8 @@ type Props = {
   onStylesChange: (styles: DanceStyle[]) => void;
   selectedDays: DayOfWeek[];
   onDaysChange: (days: DayOfWeek[]) => void;
+  dateMode: 'any' | 'custom';
+  onDateModeChange: (mode: 'any' | 'custom') => void;
   dateSlider: DateRangeValue;
   onDateSliderChange: (v: DateRangeValue) => void;
   sliderMin: number;
@@ -49,6 +51,7 @@ type Props = {
 export default function FilterBar({
   selectedStyles, onStylesChange,
   selectedDays, onDaysChange,
+  dateMode, onDateModeChange,
   dateSlider, onDateSliderChange,
   sliderMin, sliderMax,
   defaultFrom, defaultTo,
@@ -73,11 +76,15 @@ export default function FilterBar({
     }
   };
 
-  const resetDates = () => {
+  const setAnyMode = () => {
+    onDateModeChange('any');
+  };
+
+  const resetSliderToDefault = () => {
     onDateSliderChange({ fromDay: defaultFrom, toDay: defaultTo });
   };
 
-  const isDefault = dateSlider.fromDay === defaultFrom && dateSlider.toDay === defaultTo;
+  const isAny = dateMode === 'any';
 
   useEffect(() => {
     if (!dateDialogOpen) return;
@@ -163,19 +170,22 @@ export default function FilterBar({
         <div className="filter-date-section">
           <span className="filter-label">When</span>
           <button
-            onClick={resetDates}
+            onClick={setAnyMode}
             className={clsx(
               'pretty-pill text-xs',
-              isDefault ? 'pretty-pill-rose' : 'pretty-pill-ghost',
+              isAny ? 'pretty-pill-rose' : 'pretty-pill-ghost',
             )}
           >
             Any
           </button>
           <button
-            onClick={() => setDateDialogOpen(true)}
+            onClick={() => {
+              onDateModeChange('custom');
+              setDateDialogOpen(true);
+            }}
             className={clsx(
               'pretty-pill text-xs',
-              !isDefault ? 'pretty-pill-rose' : 'pretty-pill-ghost',
+              !isAny ? 'pretty-pill-rose' : 'pretty-pill-ghost',
             )}
           >
             {dateLabel}
@@ -206,7 +216,10 @@ export default function FilterBar({
                 minDay={sliderMin}
                 maxDay={sliderMax}
                 value={dateSlider}
-                onChange={onDateSliderChange}
+                onChange={v => {
+                  onDateModeChange('custom');
+                  onDateSliderChange(v);
+                }}
               />
 
               <div className="filter-dialog-inputs">
@@ -219,6 +232,7 @@ export default function FilterBar({
                       if (!e.target.value) return;
                       const day = isoToDay(e.target.value);
                       if (day <= dateSlider.toDay) {
+                        onDateModeChange('custom');
                         onDateSliderChange({ ...dateSlider, fromDay: day });
                       }
                     }}
@@ -233,6 +247,7 @@ export default function FilterBar({
                       if (!e.target.value) return;
                       const day = isoToDay(e.target.value);
                       if (day >= dateSlider.fromDay) {
+                        onDateModeChange('custom');
                         onDateSliderChange({ ...dateSlider, toDay: day });
                       }
                     }}
@@ -242,7 +257,7 @@ export default function FilterBar({
 
               <div className="filter-dialog-actions">
                 <button
-                  onClick={resetDates}
+                  onClick={resetSliderToDefault}
                   className="pretty-pill pretty-pill-ghost text-sm"
                 >
                   Reset to default

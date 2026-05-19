@@ -199,24 +199,7 @@ const VENUE_COORDS: Record<string, { lat: number; lng: number }> = {
   'docks near the hatch memorial shell': { lat: 42.357256, lng: -71.073702 },
 };
 
-async function geocodeAddress(location: string): Promise<{ lat: number; lng: number } | null> {
-  if (!location) return null;
-
-  const lower = location.toLowerCase().trim();
-  if (VENUE_COORDS[lower]) return VENUE_COORDS[lower];
-
-  if (location.length < 5) return null;
-
-  const cleaned = location
-    .replace(/#\w+\s*/g, '')       // remove "#Building", "#125" etc
-    .replace(/,\s*FL\s+\d+/i, '')  // remove "FL 1" floor designators
-    .replace(/\s+-\s+\d+\w*\s+Floor/i, '') // remove "- 1st Floor"
-    .trim();
-
-  const query = cleaned.includes('MA') || cleaned.includes('Boston')
-    ? cleaned
-    : `${cleaned}, Boston, MA`;
-
+async function nominatimQuery(query: string): Promise<{ lat: number; lng: number } | null> {
   try {
     const resp = await fetch(
       `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1&countrycodes=us`,
@@ -229,6 +212,58 @@ async function geocodeAddress(location: string): Promise<{ lat: number; lng: num
   } catch {
     // geocoding failure is non-fatal
   }
+  return null;
+}
+
+function buildQueryVariants(location: string): string[] {
+  const cleaned = location
+    .replace(/#\w+\s*/g, '')
+    .replace(/,\s*FL\s+\d+/i, '')
+    .replace(/\s+-\s+\d+\w*\s+Floor/i, '')
+    .trim();
+
+  // Deduplicate repeated city/state segments (e.g. "charlestown, MA 02129, charlestown, MA")
+  const parts = cleaned.split(',').map(p => p.trim());
+  const seen = new Set<string>();
+  const deduped: string[] = [];
+  for (const part of parts) {
+    const norm = part.toLowerCase().replace(/\d{5}(-\d{4})?/, '').trim();
+    if (!seen.has(norm)) {
+      seen.add(norm);
+      deduped.push(part);
+    }
+  }
+  const dedupedStr = deduped.join(', ');
+
+  const base = dedupedStr.includes('MA') || dedupedStr.includes('Boston')
+    ? dedupedStr
+    : `${dedupedStr}, Boston, MA`;
+
+  const variants = [base];
+
+  // Try without leading street number (for parks/venues where "1 Park Name" confuses Nominatim)
+  const noNumber = base.replace(/^\d+\s+/, '');
+  if (noNumber !== base) variants.push(noNumber);
+
+  return variants;
+}
+
+async function geocodeAddress(location: string): Promise<{ lat: number; lng: number } | null> {
+  if (!location) return null;
+
+  const lower = location.toLowerCase().trim();
+  if (VENUE_COORDS[lower]) return VENUE_COORDS[lower];
+
+  if (location.length < 5) return null;
+
+  const variants = buildQueryVariants(location);
+
+  for (const query of variants) {
+    const result = await nominatimQuery(query);
+    if (result) return result;
+    await sleep(1100);
+  }
+
   return null;
 }
 

@@ -92,6 +92,7 @@ export default function MapView() {
 
   const [selectedStyles, setSelectedStyles] = useState<DanceStyle[]>([]);
   const [selectedDays, setSelectedDays] = useState<DayOfWeek[]>([]);
+  const [dateMode, setDateMode] = useState<'any' | 'custom'>('any');
   const [dateSlider, setDateSlider] = useState<DateRangeValue>({
     fromDay: defaultFrom,
     toDay: defaultTo,
@@ -110,8 +111,10 @@ export default function MapView() {
   );
 
   const filteredEvents = useMemo(() => {
-    const fromMs = dateSlider.fromDay * 86400000;
-    const toMs = (dateSlider.toDay + 1) * 86400000 - 1;
+    const effectiveFrom = dateMode === 'any' ? sliderMin : dateSlider.fromDay;
+    const effectiveTo = dateMode === 'any' ? sliderMax : dateSlider.toDay;
+    const fromMs = effectiveFrom * 86400000;
+    const toMs = (effectiveTo + 1) * 86400000 - 1;
 
     return mappableEvents.filter(event => {
       const matchesStyle = selectedStyles.length === 0 ||
@@ -125,7 +128,7 @@ export default function MapView() {
 
       return matchesStyle && matchesDay && matchesDate;
     });
-  }, [mappableEvents, selectedStyles, selectedDays, dateSlider]);
+  }, [mappableEvents, selectedStyles, selectedDays, dateSlider, dateMode, sliderMin, sliderMax]);
 
   const coordinateOffsets = useMemo(
     () => staggerCoordinates(filteredEvents),
@@ -211,6 +214,8 @@ export default function MapView() {
           onStylesChange={setSelectedStyles}
           selectedDays={selectedDays}
           onDaysChange={setSelectedDays}
+          dateMode={dateMode}
+          onDateModeChange={setDateMode}
           dateSlider={dateSlider}
           onDateSliderChange={setDateSlider}
           sliderMin={sliderMin}
