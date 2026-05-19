@@ -1,0 +1,32 @@
+{
+  "name": "boston-latin-dance",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "fetch-events": "npx tsx scripts/fetch-ics.ts"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "ical.js": "^2.1.0",
+    "maplibre-gl": "^5.5.0",
+    "next": "15.3.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-map-gl": "^8.0.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/geojson": "^7946.0.16",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tailwindcss": "^4",
+    "tsx": "^4.19.0",
+    "typescript": "^5"
+  }
+}
