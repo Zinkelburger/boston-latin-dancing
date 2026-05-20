@@ -76,14 +76,6 @@ function extractCost(text: string): string | null {
   return null;
 }
 
-function extractGeo(raw: string): { lat: number; lng: number } | null {
-  const geoMatch = raw.match(/geo:([-\d.]+),([-\d.]+)/);
-  if (geoMatch) {
-    return { lat: parseFloat(geoMatch[1]), lng: parseFloat(geoMatch[2]) };
-  }
-  return null;
-}
-
 function unfoldLines(ics: string): string {
   return ics.replace(/\r\n[ \t]/g, '').replace(/\n[ \t]/g, '');
 }
@@ -158,8 +150,6 @@ function parseIcs(raw: string): DanceEvent[] {
     const styles = detectStyles(combinedText);
     const cost = extractCost(combinedText + ' ' + description);
 
-    const geo = extractGeo(block);
-
     const dayOfWeek = DAYS[startDate.getDay()];
 
     events.push({
@@ -169,8 +159,8 @@ function parseIcs(raw: string): DanceEvent[] {
       endDate: endDate.toISOString(),
       dayOfWeek,
       location,
-      lat: geo?.lat ?? null,
-      lng: geo?.lng ?? null,
+      lat: null,
+      lng: null,
       description,
       url: url && !url.startsWith('fb://') ? url : null,
       styles,
@@ -197,6 +187,9 @@ const VENUE_COORDS: Record<string, { lat: number; lng: number }> = {
   'distillery gallery':      { lat: 42.340000, lng: -71.055000 },
   'club cafe boston':         { lat: 42.345300, lng: -71.072100 },
   'docks near the hatch memorial shell': { lat: 42.357256, lng: -71.073702 },
+  'the anchor':              { lat: 42.3731772, lng: -71.0526574 },
+  '1 shipyard park':         { lat: 42.3731772, lng: -71.0526574 },
+  'shipyard park':           { lat: 42.3731772, lng: -71.0526574 },
 };
 
 
@@ -268,11 +261,23 @@ function saveGeoCache(cache: GeoCache): void {
 
 const geoCache = loadGeoCache();
 
+function lookupVenue(location: string): { lat: number; lng: number } | null {
+  const lower = location.toLowerCase().trim();
+  // Exact match first
+  if (VENUE_COORDS[lower]) return VENUE_COORDS[lower];
+  // Check if any known venue name appears within the location string
+  for (const [venue, coords] of Object.entries(VENUE_COORDS)) {
+    if (lower.includes(venue)) return coords;
+  }
+  return null;
+}
+
 async function geocodeAddress(location: string): Promise<{ lat: number; lng: number } | null> {
   if (!location) return null;
 
   const lower = location.toLowerCase().trim();
-  if (VENUE_COORDS[lower]) return VENUE_COORDS[lower];
+  const venueMatch = lookupVenue(location);
+  if (venueMatch) return venueMatch;
 
   if (location.length < 5) return null;
 
@@ -283,10 +288,13 @@ async function geocodeAddress(location: string): Promise<{ lat: number; lng: num
 
   for (const query of variants) {
     const result = await nominatimQuery(query);
-    if (result) {
+    if (result && isNearBoston(result)) {
       geoCache[lower] = result;
       saveGeoCache(geoCache);
       return result;
+    }
+    if (result) {
+      console.log(`  Rejected (too far): "${query}" -> ${result.lat}, ${result.lng} (${distKm(result.lat, result.lng, BOSTON.lat, BOSTON.lng).toFixed(1)}km)`);
     }
     await sleep(1100);
   }
@@ -294,6 +302,19 @@ async function geocodeAddress(location: string): Promise<{ lat: number; lng: num
   geoCache[lower] = null;
   saveGeoCache(geoCache);
   return null;
+}
+
+const BOSTON = { lat: 42.36, lng: -71.06 };
+const MAX_DISTANCE_KM = 50;
+
+function distKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const dlat = lat1 - lat2;
+  const dlng = (lng1 - lng2) * Math.cos(lat1 * Math.PI / 180);
+  return Math.sqrt(dlat * dlat + dlng * dlng) * 111;
+}
+
+function isNearBoston(coords: { lat: number; lng: number }): boolean {
+  return distKm(coords.lat, coords.lng, BOSTON.lat, BOSTON.lng) <= MAX_DISTANCE_KM;
 }
 
 function sleep(ms: number): Promise<void> {
@@ -320,8 +341,6 @@ async function main() {
 
   let geocoded = 0;
   for (const event of events) {
-    if (event.lat && event.lng) continue;
-
     const coords = await geocodeAddress(event.location);
     if (coords) {
       event.lat = coords.lat;
@@ -331,9 +350,8 @@ async function main() {
     } else if (event.location) {
       console.log(`  No coords: ${event.name} (location: "${event.location}")`);
     }
-    await sleep(1100); // Nominatim rate limit: 1 req/sec
   }
-  console.log(`Geocoded ${geocoded} additional events`);
+  console.log(`Geocoded ${geocoded} events`);
 
   const withCoords = events.filter(e => e.lat && e.lng).length;
   const withoutCoords = events.length - withCoords;
