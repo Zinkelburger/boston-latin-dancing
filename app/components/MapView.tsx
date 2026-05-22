@@ -17,6 +17,7 @@ import FilterBar from './FilterBar';
 import type { DateRangeValue } from './DateRangeSlider';
 import EventPopup from './EventPopup';
 import SearchBar from './SearchBar';
+import FeedView from './FeedView';
 
 const unclusteredLayer: LayerProps = {
   id: 'unclustered',
@@ -93,6 +94,7 @@ export default function MapView() {
     toDay: defaultTo,
   });
   const [activeEvent, setActiveEvent] = useState<DanceEvent | null>(null);
+  const [viewMode, setViewMode] = useState<'map' | 'feed'>('map');
 
   const openEvent = useCallback((event: DanceEvent | null) => {
     setActiveEvent(event);
@@ -133,13 +135,13 @@ export default function MapView() {
     [events],
   );
 
-  const filteredEvents = useMemo(() => {
+  const applyFilters = useCallback((source: DanceEvent[]) => {
     const effectiveFrom = dateMode === 'any' ? sliderMin : dateSlider.fromDay;
     const effectiveTo = dateMode === 'any' ? sliderMax : dateSlider.toDay;
     const fromMs = effectiveFrom * 86400000;
     const toMs = (effectiveTo + 1) * 86400000 - 1;
 
-    return mappableEvents.filter(event => {
+    return source.filter(event => {
       const matchesStyle = selectedStyles.length === 0 ||
         event.styles.some(s => selectedStyles.includes(s));
 
@@ -153,7 +155,17 @@ export default function MapView() {
 
       return matchesStyle && matchesDay && matchesDate;
     });
-  }, [mappableEvents, selectedStyles, selectedDays, dateSlider, dateMode, sliderMin, sliderMax]);
+  }, [selectedStyles, selectedDays, dateSlider, dateMode, sliderMin, sliderMax]);
+
+  const filteredEvents = useMemo(
+    () => applyFilters(mappableEvents),
+    [mappableEvents, applyFilters],
+  );
+
+  const filteredAllEvents = useMemo(
+    () => applyFilters(events),
+    [events, applyFilters],
+  );
 
   const allMapItems = useMemo(() => {
     return filteredEvents.map(e => ({
@@ -210,30 +222,50 @@ export default function MapView() {
     [openEvent],
   );
 
-  const totalVisible = filteredEvents.length;
-  const totalAll = mappableEvents.length;
+  const handleFeedSelectEvent = useCallback(
+    (event: DanceEvent) => {
+      openEvent(event);
+      if (event.lat != null && event.lng != null) {
+        setViewMode('map');
+        setTimeout(() => {
+          mapRef.current?.flyTo({ center: [event.lng!, event.lat!], zoom: 14, duration: 1200 });
+        }, 100);
+      }
+    },
+    [openEvent],
+  );
 
   return (
     <div className="flex flex-col h-full">
-      <div className="relative flex-1 overflow-hidden min-h-[40vh]">
-        <SearchBar
-          events={mappableEvents}
-          onSelectEvent={handleSearchSelectEvent}
-        />
-        <MapGL
-          ref={mapRef}
-          initialViewState={{ longitude: -71.08, latitude: 42.36, zoom: 11 }}
-          mapStyle={MAP_STYLE}
-          style={{ width: '100%', height: '100%' }}
-          dragRotate={false}
-          interactiveLayerIds={['unclustered']}
-          onClick={handleClick}
-        >
-          <Source id="events" type="geojson" data={geojson} cluster={false}>
-            <Layer {...unclusteredLayer} />
-          </Source>
-        </MapGL>
-      </div>
+      {viewMode === 'map' ? (
+        <div className="relative flex-1 overflow-hidden min-h-[40vh]">
+          <SearchBar
+            events={mappableEvents}
+            onSelectEvent={handleSearchSelectEvent}
+          />
+          <MapGL
+            ref={mapRef}
+            initialViewState={{ longitude: -71.08, latitude: 42.36, zoom: 11 }}
+            mapStyle={MAP_STYLE}
+            style={{ width: '100%', height: '100%' }}
+            dragRotate={false}
+            interactiveLayerIds={['unclustered']}
+            onClick={handleClick}
+          >
+            <Source id="events" type="geojson" data={geojson} cluster={false}>
+              <Layer {...unclusteredLayer} />
+            </Source>
+          </MapGL>
+        </div>
+      ) : (
+        <div className="flex-1 overflow-hidden">
+          <FeedView
+            events={filteredAllEvents}
+            selectedDays={selectedDays}
+            onSelectEvent={handleFeedSelectEvent}
+          />
+        </div>
+      )}
 
       <div className="shrink-0">
         <FilterBar
@@ -249,8 +281,8 @@ export default function MapView() {
           sliderMax={sliderMax}
           defaultFrom={defaultFrom}
           defaultTo={defaultTo}
-          totalCount={totalAll}
-          visibleCount={totalVisible}
+          viewMode={viewMode}
+          onViewModeToggle={() => setViewMode(v => v === 'map' ? 'feed' : 'map')}
         />
       </div>
 

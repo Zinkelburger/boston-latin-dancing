@@ -35,7 +35,10 @@
     "facebook_events_url": "https://www.facebook.com/profile.php?id=61551665503735&sk=events",
     "instagram_handle": "bobas.dance",
     "defaults": {
-      "styles": ["bachata", "salsa"],
+      "styles": [
+        "bachata",
+        "salsa"
+      ],
       "cost": "Free",
       "recurring": true,
       "location": "Hatch Shell on the Esplanade",
@@ -50,9 +53,20 @@
     "name": "Dante's Salsa Inferno",
     "facebook_events_url": "https://www.facebook.com/DantesSalsaInferno/events",
     "defaults": {
-      "styles": ["bachata", "salsa"],
+      "styles": [
+        "bachata",
+        "salsa"
+      ],
       "location": "The Dante Alighieri Society of Massachusetts"
     },
     "enabled": true
+  },
+  {
+    "id": "sensualeros-boston",
+    "type": "ics",
+    "name": "Sensualeros Boston Events",
+    "scraper": "scrape_ics.py",
+    "enabled": true,
+    "url": "https://calendar.google.com/calendar/ical/76db9d79f4cf645f26e28373c575d9fcb865a264521c8f0880044b4e7283ead7%40group.calendar.google.com/public/basic.ics"
   }
 ]

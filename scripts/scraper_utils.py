@@ -75,6 +75,15 @@ VENUE_COORDS = {
     "60 rowes wharf": (42.3562, -71.0502),
     "cambridge common": (42.3763, -71.1217),
     "10 waterside ave": (42.3485, -71.0440),
+    "kendall/mit open space": (42.3625, -71.0862),
+    "292 main street, cambridge": (42.3625, -71.0862),
+    "moves & vibes dance and entertainment co": (42.3697, -71.0816),
+    "moves & vibes dance": (42.3697, -71.0816),
+    "shore leave": (42.3451, -71.0672),
+    "mango studio rental": (42.3633, -71.1006),
+    "112 bishop allen drive": (42.3633, -71.1006),
+    "sunset cantina": (42.3508, -71.1165),
+    "916 commonwealth avenue": (42.3508, -71.1165),
 }
 
 BOSTON = (42.36, -71.06)
@@ -151,8 +160,11 @@ def _nominatim_query(query: str) -> Optional[tuple[float, float]]:
         pass
     return None
 
+def _normalize(s: str) -> str:
+    return s.replace("\u2018", "'").replace("\u2019", "'").replace("\u201c", '"').replace("\u201d", '"')
+
 def _lookup_venue(location: str) -> Optional[tuple[float, float]]:
-    lower = location.lower().strip()
+    lower = _normalize(location).lower().strip()
     if lower in VENUE_COORDS:
         return VENUE_COORDS[lower]
     for venue, coords in VENUE_COORDS.items():

@@ -29,9 +29,8 @@ from scraper_utils import (
     DAYS,
 )
 
-SOURCE_ID = "beatrice-calendar"
+DEFAULT_SOURCE_ID = "beatrice-calendar"
 
-# How far into the future to expand RRULEs
 RRULE_HORIZON_WEEKS = 12
 
 
@@ -59,7 +58,7 @@ def _unescape_ics(text: str) -> str:
     )
 
 
-def parse_ics_feed(ics_text: str) -> list[dict]:
+def parse_ics_feed(ics_text: str, source_id: str = DEFAULT_SOURCE_ID) -> list[dict]:
     """Parse an ICS feed and return a list of DanceEvent dicts."""
     cal = Calendar.from_ical(ics_text)
     now = datetime.now(timezone.utc) - timedelta(days=1)
@@ -129,11 +128,10 @@ def parse_ics_feed(ics_text: str) -> list[dict]:
                 styles=styles,
                 cost=cost,
                 recurring=is_recurring,
-                source=SOURCE_ID,
+                source=source_id,
             )
             events.append(ev)
         else:
-            # Multiple occurrences from RRULE: emit one event with recurrences
             start, end = occurrences[0]
             ev = make_event(
                 id=uid,
@@ -146,7 +144,7 @@ def parse_ics_feed(ics_text: str) -> list[dict]:
                 styles=styles,
                 cost=cost,
                 recurring=True,
-                source=SOURCE_ID,
+                source=source_id,
             )
             ev["recurrences"] = [s.isoformat() for s, _ in occurrences]
             events.append(ev)
@@ -154,14 +152,15 @@ def parse_ics_feed(ics_text: str) -> list[dict]:
     return events
 
 
-def main():
-    source = get_source(SOURCE_ID)
+def scrape_ics_source(source_id: str) -> list[dict]:
+    """Fetch and parse a single ICS source. Returns the event list."""
+    source = get_source(source_id)
     if not source or not source.get("enabled"):
-        print(f"Source '{SOURCE_ID}' is disabled or not found in sources.json")
-        return
+        print(f"Source '{source_id}' is disabled or not found in sources.json")
+        return []
 
     ics_url = source["url"]
-    print(f"Fetching ICS feed from {ics_url[:80]}...")
+    print(f"[{source_id}] Fetching ICS feed from {ics_url[:80]}...")
 
     resp = requests.get(
         ics_url,
@@ -169,10 +168,10 @@ def main():
         timeout=30,
     )
     resp.raise_for_status()
-    print(f"Fetched {len(resp.text)} bytes")
+    print(f"[{source_id}] Fetched {len(resp.text)} bytes")
 
-    events = parse_ics_feed(resp.text)
-    print(f"Parsed {len(events)} future events")
+    events = parse_ics_feed(resp.text, source_id=source_id)
+    print(f"[{source_id}] Parsed {len(events)} future events")
 
     with_coords = sum(1 for e in events if e.get("lat") and e.get("lng"))
     print(f"  {with_coords} with coordinates, {len(events) - with_coords} without")
@@ -183,7 +182,13 @@ def main():
             style_counts[s] = style_counts.get(s, 0) + 1
     print(f"  Styles: {style_counts}")
 
-    write_scraped(SOURCE_ID, events)
+    write_scraped(source_id, events)
+    return events
+
+
+def main():
+    source_id = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_SOURCE_ID
+    scrape_ics_source(source_id)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,19 @@
+{"ts": "2026-05-22T21:49:03.383454+00:00", "action": "add", "event_id": "manual-c8989864d1c58bfd", "details": ""}
+{"ts": "2026-05-22T21:54:46.598856+00:00", "action": "add", "event_id": "C2AACCF3-329B-460A-9962-619E4F6EE579", "details": ""}
+{"ts": "2026-05-22T21:54:46.603198+00:00", "action": "add", "event_id": "FEDCE609-3D05-480B-98DA-84EEF66EA4E3", "details": ""}
+{"ts": "2026-05-22T21:54:47.805762+00:00", "action": "add", "event_id": "A5C119D4-B458-4ED2-A5C5-7808ACF4EFC2", "details": ""}
+{"ts": "2026-05-22T21:54:49.008505+00:00", "action": "add", "event_id": "3AD71742-433C-4DA2-B7E1-4FC9E9DDAF76", "details": ""}
+{"ts": "2026-05-22T21:54:50.225359+00:00", "action": "add", "event_id": "61E6D366-0999-414D-981A-752F5465DB99", "details": ""}
+{"ts": "2026-05-22T21:54:50.229558+00:00", "action": "add", "event_id": "61B50538-D7A5-466E-9039-7663B3F54F9D", "details": ""}
+{"ts": "2026-05-22T21:54:51.434997+00:00", "action": "add", "event_id": "4A38D91F-E41D-4132-9750-D4AADBE2E81A", "details": ""}
+{"ts": "2026-05-22T21:54:51.443164+00:00", "action": "add", "event_id": "F75203DD-C2C0-40BB-BE0E-A67013E17125", "details": ""}
+{"ts": "2026-05-22T21:54:51.446407+00:00", "action": "add", "event_id": "5984F5C6-9A2D-454E-AE0B-B201FC78B814", "details": ""}
+{"ts": "2026-05-22T21:54:52.675955+00:00", "action": "add", "event_id": "4BACCA44-811C-4F7E-99D8-7AC8DA46D5CC", "details": ""}
+{"ts": "2026-05-22T21:54:53.885791+00:00", "action": "add", "event_id": "4F3C0539-FB64-445B-A388-4DE2C5402E59", "details": ""}
+{"ts": "2026-05-22T21:54:55.114826+00:00", "action": "add", "event_id": "FB32CAE0-0960-48BE-94DA-95BDD1E2EC35", "details": ""}
+{"ts": "2026-05-22T21:54:55.121259+00:00", "action": "add", "event_id": "D7362ECA-A6A7-4528-B752-3CBD6141CE81", "details": ""}
+{"ts": "2026-05-22T22:17:32.667848+00:00", "action": "pending_review", "event_id": "889D612C-9A01-473C-8F8A-CE9A2220306A", "details": "uncertain dup of 1530CBC9-9873-4E9D-AF8E-805ECBDC1D61: word_overlap(3/5)+within_24h+same_location"}
+{"ts": "2026-05-22T22:17:32.686540+00:00", "action": "pending_review", "event_id": "0DF55F55-2D75-4EC3-BB89-C6016890E375", "details": "uncertain dup of 481FAC51-0AA9-4AC7-81A2-DBE1423A4800: word_overlap(5/6)+within_24h+same_location"}
+{"ts": "2026-05-22T22:17:32.697735+00:00", "action": "pending_review", "event_id": "1D423917-82D3-409E-A9AB-62ACAE3481FD", "details": "uncertain dup of 4bfa06bee079409dd54d0a78632f3808b658e575@dance-calendar: word_overlap(9/9)+within_24h+same_location"}
+{"ts": "2026-05-22T22:40:57.216600+00:00", "action": "archive", "event_id": "F75203DD-C2C0-40BB-BE0E-A67013E17125", "details": "manual"}
+{"ts": "2026-05-22T22:41:06.612841+00:00", "action": "edit", "event_id": "16m8bm77eru8te9pak73f904qn@google.com", "details": "{\"_verified_status\": \"confirmed\", \"_verified_notes\": \"Instagram @timbadescontrol confirms Cambridge Common, Tuesdays @ 6pm\", \"_verification_url\": \"https://www.instagram.com/timbadescontrol/\"}"}

@@ -1,0 +1,39 @@
+[
+  {
+    "id": "F75203DD-C2C0-40BB-BE0E-A67013E17125",
+    "name": "West Coast Swing @ Dancing Fools",
+    "startDate": "2026-05-27T20:15:00-04:00",
+    "endDate": "2026-05-27T23:00:00-04:00",
+    "dayOfWeek": "Wednesday",
+    "location": "",
+    "lat": null,
+    "lng": null,
+    "description": "⏰ Time:\n•Class: 8:25 pm \n•Social Dancing: 9:30 pm\n💵 Cover: $12 (includes class and social ) if student 6$\n💳 Payment: you can buy in advance  https://www.thedancingfools.com/register-to-dance  they accept cards too \n🍹 Extras: Bar upstairs \n💼 Dress Code: comfy clothes \n📍 Location: 351 Summer St, Somerville, MA 02144\n🅿️ Parking: The VFW Post has a dedicated parking lot for approximately 40 cars. There is also a free parking lot after 6pm behind the Henderson Carriage Building, about 0.3 miles from the venue. \nNo partner needed—just bring your energy!",
+    "url": null,
+    "styles": [
+      "other"
+    ],
+    "cost": "Cover: $12",
+    "recurring": true,
+    "source": "sensualeros-boston",
+    "recurrences": [
+      "2026-05-27T20:15:00-04:00",
+      "2026-06-03T20:15:00-04:00",
+      "2026-06-10T20:15:00-04:00",
+      "2026-06-17T20:15:00-04:00",
+      "2026-06-24T20:15:00-04:00",
+      "2026-07-01T20:15:00-04:00",
+      "2026-07-08T20:15:00-04:00",
+      "2026-07-15T20:15:00-04:00",
+      "2026-07-22T20:15:00-04:00",
+      "2026-07-29T20:15:00-04:00",
+      "2026-08-05T20:15:00-04:00",
+      "2026-08-12T20:15:00-04:00"
+    ],
+    "_verified_at": "2026-05-22T22:33:52.956753+00:00",
+    "_verified_status": "no_source",
+    "_verified_notes": "No URL. Search suggestion: \"West Coast Swing @ Dancing Fools  boston\"",
+    "_verification_url": null,
+    "archivedAt": "2026-05-22T22:40:57.215134+00:00"
+  }
+]

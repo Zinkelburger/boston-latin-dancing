@@ -28,6 +28,7 @@ from scraper_utils import ROOT, SCRAPED_DIR, geocode
 
 EVENTS_JSON = ROOT / "public" / "events.json"
 RECURRING_JSON = ROOT / "public" / "recurring.json"
+VENUES_JSON = ROOT / "data" / "venues.json"
 
 
 def slugify(name: str, event_id: str) -> str:
@@ -44,6 +45,7 @@ SOURCE_PRIORITY = {
     "lister-events": 3,
     "bobas": 4,
     "dantes-salsa": 4,
+    "submissions": 5,
 }
 
 
@@ -413,11 +415,12 @@ def generate_from_recurring(weeks_ahead: int = 8) -> list[dict]:
     One event per venue, with schedule preserved and recurrences listing
     all upcoming dates for the next `weeks_ahead` weeks.
     """
-    if not RECURRING_JSON.exists():
-        print("  recurring.json not found, skipping")
+    venues_path = VENUES_JSON if VENUES_JSON.exists() else RECURRING_JSON
+    if not venues_path.exists():
+        print("  venues/recurring.json not found, skipping")
         return []
 
-    venues = json.loads(RECURRING_JSON.read_text())
+    venues = json.loads(venues_path.read_text())
     today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
     end_window = today + timedelta(weeks=weeks_ahead)
     events: list[dict] = []
@@ -584,6 +587,18 @@ def main():
 
     EVENTS_JSON.write_text(json.dumps(deduped, indent=2, ensure_ascii=False))
     print(f"\nWrote {len(deduped)} events to {EVENTS_JSON}")
+
+    # Sync to new event store (keeps data/events/active.json in sync)
+    try:
+        from event_store import save_active, ACTIVE_JSON
+        active_events = [dict(ev) for ev in deduped]
+        for ev in active_events:
+            if "source" not in ev:
+                ev["source"] = ""
+        save_active(active_events)
+        print(f"Synced {len(active_events)} events to {ACTIVE_JSON}")
+    except Exception as e:
+        print(f"  (event store sync skipped: {e})")
 
 
 if __name__ == "__main__":

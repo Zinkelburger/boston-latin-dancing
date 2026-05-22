@@ -68,18 +68,23 @@ def discover_event_urls(search_urls: list[str]) -> list[str]:
     return sorted(all_urls)
 
 
+_EVENT_TYPES = {
+    "SocialEvent", "Event", "DanceEvent", "EducationEvent",
+    "MusicEvent", "Festival", "BusinessEvent",
+}
+
 def extract_event_jsonld(soup: BeautifulSoup) -> dict | None:
-    """Find the SocialEvent or Event JSON-LD on an Eventbrite page."""
+    """Find an event JSON-LD on an Eventbrite page (any schema.org event type)."""
     for script in soup.find_all("script", type="application/ld+json"):
         try:
             data = json.loads(script.string)
         except (json.JSONDecodeError, TypeError):
             continue
-        if isinstance(data, dict) and data.get("@type") in ("SocialEvent", "Event", "DanceEvent"):
+        if isinstance(data, dict) and data.get("@type") in _EVENT_TYPES:
             return data
         if isinstance(data, list):
             for item in data:
-                if isinstance(item, dict) and item.get("@type") in ("SocialEvent", "Event", "DanceEvent"):
+                if isinstance(item, dict) and item.get("@type") in _EVENT_TYPES:
                     return item
     return None
 
