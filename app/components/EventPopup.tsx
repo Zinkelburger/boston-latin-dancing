@@ -1,10 +1,17 @@
 'use client';
 
 import { useEffect, useCallback, useState, type ReactNode } from 'react';
-import type { DanceEvent } from '@/types/event';
-import { STYLE_LABELS, STYLE_PILL_CLASS } from '@/lib/constants';
+import type { DanceEvent, DayOfWeek } from '@/types/event';
+import { SITE_URL, STYLE_LABELS, STYLE_PILL_CLASS } from '@/lib/constants';
+import { stripHtml } from '@/lib/strip-html';
+import ShareButton from './ShareButton';
 
 const URL_RE = /(https?:\/\/[^\s,)]+)/g;
+
+const DAY_SHORT: Record<DayOfWeek, string> = {
+  Monday: 'Mon', Tuesday: 'Tue', Wednesday: 'Wed',
+  Thursday: 'Thu', Friday: 'Fri', Saturday: 'Sat', Sunday: 'Sun',
+};
 
 function linkifyText(text: string): ReactNode[] {
   const parts = text.split(URL_RE);
@@ -93,13 +100,16 @@ export default function EventPopup({ event, onClose }: Props) {
   }, [onClose]);
 
   const calendarUrl = googleCalendarUrl(event);
+  const shareUrl = event.slug ? `${SITE_URL}/event/${event.slug}` : '';
 
   const [descExpanded, setDescExpanded] = useState(false);
 
-  const allDescLines = event.description.split('\n').filter(l => l.trim());
-  const COLLAPSE_LIMIT = 8;
-  const isLong = allDescLines.length > COLLAPSE_LIMIT;
-  const descriptionLines = descExpanded ? allDescLines : allDescLines.slice(0, COLLAPSE_LIMIT);
+  const cleanDesc = stripHtml(event.description);
+  const CHAR_LIMIT = 300;
+  const isLong = cleanDesc.length > CHAR_LIMIT;
+  const visibleDesc = descExpanded || !isLong
+    ? cleanDesc
+    : cleanDesc.slice(0, cleanDesc.lastIndexOf(' ', CHAR_LIMIT)) + '…';
 
   const link = event.url ? linkLabel(event.url) : null;
 
@@ -135,25 +145,24 @@ export default function EventPopup({ event, onClose }: Props) {
         }}
         onClick={e => e.stopPropagation()}
       >
-        <button
-          onClick={onClose}
-          aria-label="Close"
-          className="pretty-pill pretty-pill-neutral"
-          style={{
-            position: 'absolute',
-            top: '0.5rem',
-            right: '0.5rem',
-            padding: '0.2rem 0.5rem',
-            lineHeight: 1,
-            zIndex: 1,
-          }}
-        >
-          &#x2715;
-        </button>
-
-        <h2 className="text-lg font-semibold pr-8" style={{ margin: 0 }}>
-          {event.name}
-        </h2>
+        <div className="flex items-start">
+          <h2 className="text-lg font-semibold min-w-0 flex-1" style={{ margin: 0 }}>
+            {event.name}
+          </h2>
+          <div className="flex items-center shrink-0" style={{ gap: '0.5rem' }}>
+            {shareUrl && (
+              <ShareButton url={shareUrl} title={event.name} text={stripHtml(event.description).slice(0, 120) || undefined} className="shrink-0 text-xs" />
+            )}
+            <button
+              onClick={onClose}
+              aria-label="Close"
+              className="pretty-pill pretty-pill-neutral shrink-0"
+              style={{ padding: '0.2rem 0.5rem', lineHeight: 1 }}
+            >
+              &#x2715;
+            </button>
+          </div>
+        </div>
 
         {/* Style pills */}
         <div className="flex flex-wrap gap-1.5">
@@ -172,6 +181,38 @@ export default function EventPopup({ event, onClose }: Props) {
           {formatTimeRange(event.startDate, event.endDate)}
         </div>
 
+        {/* Upcoming dates for recurring series */}
+        {event.recurrences && event.recurrences.length > 1 && (
+          <div className="text-sm text-gray-500">
+            <span className="font-medium text-gray-600">Upcoming dates: </span>
+            {event.recurrences.map(d => new Date(d)).map((d, i) => (
+              <span key={i}>
+                {i > 0 && <span className="text-gray-300 mx-0.5">&middot;</span>}
+                <span className={d.getTime() >= Date.now() - 86400000 ? 'text-gray-700' : 'text-gray-400 line-through'}>
+                  {d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                </span>
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* Weekly schedule table (for venue-style recurring events) */}
+        {event.schedule && event.schedule.length > 0 && (
+          <table className="w-full text-sm border-collapse mt-1">
+            <tbody>
+              {event.schedule.map(s => (
+                <tr key={s.dayOfWeek} className="border-t border-gray-100">
+                  <td className="py-1.5 pr-3 font-semibold text-gray-700 whitespace-nowrap w-[1%]">
+                    {DAY_SHORT[s.dayOfWeek]}
+                  </td>
+                  <td className="py-1.5 pr-3 text-gray-600 whitespace-nowrap">{s.time}</td>
+                  <td className="py-1.5 text-gray-400 text-xs">{s.note}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
         {/* Location */}
         {event.location && (
           <div className="text-sm text-gray-500">
@@ -187,15 +228,15 @@ export default function EventPopup({ event, onClose }: Props) {
         )}
 
         {/* Description */}
-        {descriptionLines.length > 0 && (
+        {cleanDesc.trim() && (
           <div className="text-sm text-gray-600 leading-relaxed whitespace-pre-line border-t border-gray-100 pt-2 mt-1">
-            {linkifyText(descriptionLines.join('\n'))}
+            {linkifyText(visibleDesc)}
             {isLong && !descExpanded && (
               <button
                 onClick={() => setDescExpanded(true)}
                 className="block mt-1 text-xs font-medium text-rose-500 hover:text-rose-700 cursor-pointer"
               >
-                Show more ({allDescLines.length - COLLAPSE_LIMIT} more lines)
+                Show more
               </button>
             )}
             {isLong && descExpanded && (

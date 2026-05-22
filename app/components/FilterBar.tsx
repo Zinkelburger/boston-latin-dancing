@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import Link from 'next/link';
 import clsx from 'clsx';
 import type { DanceStyle, DayOfWeek } from '@/types/event';
 import { STYLE_LABELS, STYLE_PILL_CLASS } from '@/lib/constants';
@@ -194,9 +195,17 @@ export default function FilterBar({
             {dateLabel}
           </button>
         </div>
-        <span className="filter-count">
-          {visibleCount} of {totalCount}
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <span className="pretty-pill pretty-pill-ghost text-xs" style={{ cursor: 'default', pointerEvents: 'none' }}>
+            Showing {visibleCount} of {totalCount}
+          </span>
+          <Link
+            href="/submit"
+            className="pretty-pill pretty-pill-ghost text-xs"
+          >
+            + Submit event
+          </Link>
+        </div>
       </div>
 
       {/* Floating date dialog */}

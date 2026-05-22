@@ -3,9 +3,9 @@ import { ReactNode } from 'react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Boston Latin Dance Map – Salsa, Bachata, Kizomba & Zouk Events',
+  title: 'Boston Latin Dance Map',
   description:
-    'Find salsa, bachata, kizomba, zouk, and merengue events in Greater Boston. Interactive map of Latin dance socials, classes, and parties happening this week.',
+    'A map of Latin dance events happening around Boston this week.',
   keywords: [
     'Boston salsa',
     'Boston bachata',

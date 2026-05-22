@@ -6,6 +6,7 @@ export type DayOfWeek =
 
 export interface DanceEvent {
   id: string;
+  slug?: string;
   name: string;
   /** ISO datetime string for event start */
   startDate: string;
@@ -24,6 +25,10 @@ export interface DanceEvent {
   cost: string | null;
   /** Whether this is a recurring event */
   recurring: boolean;
+  /** ISO datetime strings for all known occurrences (present when recurring) */
+  recurrences?: string[];
+  /** Weekly schedule for venue-style recurring events (e.g. Havana Club) */
+  schedule?: RecurringSchedule[];
 }
 
 export interface RecurringSchedule {
@@ -34,6 +39,7 @@ export interface RecurringSchedule {
 
 export interface RecurringVenue {
   id: string;
+  slug?: string;
   name: string;
   location: string;
   lat: number;

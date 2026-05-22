@@ -6,6 +6,7 @@
 
 import { writeFileSync, readFileSync, existsSync } from 'fs';
 import { resolve } from 'path';
+import { slugify } from '../lib/slugify';
 
 const ICS_URL =
   'https://calendar.google.com/calendar/ical/31d111cd5f84b2c5cde57a9a175e4769da698d758828fb8de8b47158eefb819c%40group.calendar.google.com/public/basic.ics';
@@ -18,6 +19,7 @@ type DayOfWeek =
 
 interface DanceEvent {
   id: string;
+  slug: string;
   name: string;
   startDate: string;
   endDate: string;
@@ -154,6 +156,7 @@ function parseIcs(raw: string): DanceEvent[] {
 
     events.push({
       id: uid,
+      slug: slugify(summary, uid),
       name: summary,
       startDate: startDate.toISOString(),
       endDate: endDate.toISOString(),
@@ -368,6 +371,13 @@ async function main() {
   const outPath = resolve(import.meta.dirname ?? '.', '..', 'public', 'events.json');
   writeFileSync(outPath, JSON.stringify(events, null, 2));
   console.log(`Wrote ${events.length} events to ${outPath}`);
+
+  // Also write to data/scraped/ for the merge pipeline
+  const scrapedDir = resolve(import.meta.dirname ?? '.', '..', 'data', 'scraped');
+  const scrapedPath = resolve(scrapedDir, 'beatrice-calendar.json');
+  const tagged = events.map(e => ({ ...e, source: 'beatrice-calendar' }));
+  writeFileSync(scrapedPath, JSON.stringify(tagged, null, 2));
+  console.log(`Wrote ${tagged.length} events to ${scrapedPath}`);
 }
 
 main().catch((err) => {

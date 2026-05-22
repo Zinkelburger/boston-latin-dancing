@@ -7,11 +7,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "fetch-events": "npx tsx scripts/fetch-ics.ts"
+    "fetch-events": "python3 scripts/scrape_ics.py",
+    "fetch-lister": "python3 scripts/scrape_lister.py",
+    "fetch-eventbrite": "python3 scripts/scrape_eventbrite.py",
+    "fetch-bobas": "python3 scripts/scrape_facebook.py bobas",
+    "merge-events": "python3 scripts/merge_events.py",
+    "fetch-all": "npm run fetch-events && npm run fetch-lister && npm run fetch-eventbrite && npm run fetch-bobas && npm run merge-events"
   },
   "dependencies": {
     "clsx": "^2.1.1",
-    "ical.js": "^2.1.0",
     "maplibre-gl": "^5.5.0",
     "next": "15.3.2",
     "react": "^19.0.0",
@@ -26,7 +30,6 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "tailwindcss": "^4",
-    "tsx": "^4.19.0",
     "typescript": "^5"
   }
 }

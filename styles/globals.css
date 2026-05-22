@@ -316,6 +316,150 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   border-top: 1px solid #f3f4f6;
 }
 
+/* ─── Submit Event Page ─── */
+
+.submit-page {
+  min-height: 100%;
+  background: #f5f5f4;
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+  overflow-y: auto;
+}
+
+.submit-page-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
+  width: min(94vw, 480px);
+  align-self: flex-start;
+  overflow: hidden;
+}
+
+.submit-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.submit-modal-header h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.submit-modal-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.submit-section {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.submit-section-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0;
+  margin-bottom: 0.25rem;
+}
+
+.submit-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.submit-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.submit-field label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.submit-input {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  font-size: 0.85rem;
+  color: #374151;
+  padding: 0.5rem 0.65rem;
+  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.submit-input:focus {
+  outline: none;
+  border-color: #e11d48;
+  box-shadow: 0 0 0 2px rgba(225, 29, 72, 0.15);
+}
+
+.submit-input-error {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+}
+
+.submit-input::placeholder {
+  color: #c0c4cc;
+}
+
+.submit-textarea {
+  resize: vertical;
+  min-height: 3.5rem;
+  line-height: 1.5;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 0.6rem 1rem !important;
+  font-size: 0.9rem !important;
+  justify-content: center;
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.submit-spinner {
+  display: inline-block;
+  width: 0.85rem;
+  height: 0.85rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 /* ─── Mobile adjustments ─── */
 
 @media (max-width: 640px) {
@@ -339,5 +483,19 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   .pretty-pill {
     padding: 0.25rem 0.55rem;
     font-size: 0.72rem;
+  }
+
+  .submit-row {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .submit-modal {
+    max-height: 92vh;
+  }
+
+  .submit-modal-body {
+    padding: 1rem;
+    gap: 1rem;
   }
 }

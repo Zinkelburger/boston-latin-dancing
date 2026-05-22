@@ -1,0 +1,16 @@
+[Unit]
+Description=Boston Latin Dance Event Submission API
+After=network.target
+
+[Service]
+Type=simple
+User=bld
+Group=bld
+WorkingDirectory=/opt/bld-api
+EnvironmentFile=/opt/bld-api/.env
+ExecStart=/opt/bld-api/venv/bin/uvicorn server:app --host 127.0.0.1 --port 8001
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

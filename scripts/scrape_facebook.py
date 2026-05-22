@@ -1,0 +1,240 @@
+#!/usr/bin/env python3
+"""
+Generic Facebook events scraper for any page with an Events tab.
+
+Works for BOBAS, Dante's Salsa Inferno, or any FB page listed in sources.json
+with type "facebook". Designed to be run by a Cursor agent with browser MCP:
+
+  1. Navigate to the page's facebook_events_url
+  2. Close the login dialog (click the X)
+  3. Check for an "Upcoming" tab; if it exists, click event links to get details
+  4. Extract event data from the accessibility snapshot
+  5. Write raw JSON to data/scraped/<source_id>-raw.json
+  6. This script normalizes it into data/scraped/<source_id>.json
+
+Usage:
+  python3 scripts/scrape_facebook.py <source_id>
+  python3 scripts/scrape_facebook.py <source_id> --from-file data/scraped/<id>-raw.json
+  python3 scripts/scrape_facebook.py --all
+
+The --from-file flag accepts a JSON array of raw event objects:
+  [{"name": "...", "date": "May 22, 2026", "time": "6:00 PM",
+    "end_time": "9:00 PM", "location": "...", "url": "...", "description": "..."}]
+"""
+
+import argparse
+import json
+import re
+import sys
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from scraper_utils import (
+    detect_styles,
+    extract_cost,
+    get_source,
+    load_sources,
+    make_event,
+    write_scraped,
+)
+
+
+def _parse_fb_datetime(date_str: str, time_str: str = "") -> datetime | None:
+    """Parse date/time strings scraped from Facebook into a datetime."""
+    combined = f"{date_str} {time_str}".strip()
+    if not combined:
+        return None
+
+    for fmt in [
+        "%A, %B %d, %Y at %I:%M %p",
+        "%A, %B %d, %Y at %I:%M%p",
+        "%B %d, %Y at %I:%M %p",
+        "%B %d, %Y %I:%M %p",
+        "%B %d, %Y %I%p",
+        "%B %d, %Y",
+        "%b %d, %Y %I:%M %p",
+        "%b %d, %Y",
+        "%m/%d/%Y %I:%M %p",
+        "%m/%d/%Y",
+        "%Y-%m-%dT%H:%M:%S",
+        "%Y-%m-%d %H:%M",
+        "%Y-%m-%d",
+    ]:
+        try:
+            return datetime.strptime(combined, fmt)
+        except ValueError:
+            continue
+
+    try:
+        from dateutil.parser import parse as dtparse
+        return dtparse(combined)
+    except Exception:
+        return None
+
+
+def _parse_fb_time_range(text: str) -> tuple[str, str, str] | None:
+    """Parse FB's event header format:
+    'Friday, May 22, 2026 at 8:30 PM – 1:00 AM EDT Event Name Venue'
+    Returns (date_with_start_time, end_time, tz) or None.
+    """
+    m = re.match(
+        r"(\w+,\s+\w+\s+\d{1,2},\s+\d{4}\s+at\s+\d{1,2}:\d{2}\s*[AP]M)"
+        r"\s*[–—-]\s*"
+        r"(\d{1,2}:\d{2}\s*[AP]M)"
+        r"\s*(E[DS]T|C[DS]T|P[DS]T|M[DS]T)?",
+        text,
+    )
+    if m:
+        return m.group(1), m.group(2), m.group(3) or "EDT"
+    return None
+
+
+def parse_raw_event(raw: dict, idx: int, source_id: str, defaults: dict | None = None) -> dict | None:
+    """Convert a raw scraped event dict into a DanceEvent."""
+    defaults = defaults or {}
+
+    name = raw.get("name", defaults.get("name", "Event"))
+
+    date_str = raw.get("date", "")
+    time_str = raw.get("time", "")
+    start = _parse_fb_datetime(date_str, time_str)
+
+    if not start:
+        print(f"  Could not parse date for event #{idx}: date='{date_str}' time='{time_str}'")
+        return None
+
+    edt = timezone(timedelta(hours=-4))
+    if start.tzinfo is None:
+        start = start.replace(tzinfo=edt)
+
+    end_time_str = raw.get("end_time", "")
+    duration_hours = raw.get("duration_hours", 3)
+    if end_time_str:
+        end_dt = _parse_fb_datetime(date_str, end_time_str)
+        if end_dt:
+            if end_dt.tzinfo is None:
+                end_dt = end_dt.replace(tzinfo=edt)
+            if end_dt <= start:
+                end_dt += timedelta(days=1)
+            end = end_dt
+        else:
+            end = start + timedelta(hours=duration_hours)
+    else:
+        end = start + timedelta(hours=duration_hours)
+
+    location = raw.get("location", defaults.get("location", ""))
+    description = raw.get("description", defaults.get("description", ""))
+    url = raw.get("url", defaults.get("url"))
+    recurring = raw.get("recurring", defaults.get("recurring", False))
+
+    combined = f"{name} {description}"
+    styles = detect_styles(combined)
+    if styles == ["other"] and defaults.get("styles"):
+        styles = defaults["styles"]
+
+    cost = extract_cost(combined)
+    if cost is None:
+        cost = defaults.get("cost")
+
+    return make_event(
+        id=f"{source_id}-{start.strftime('%Y%m%d')}-{idx}",
+        name=name,
+        start=start,
+        end=end,
+        location=location,
+        description=description,
+        url=url,
+        styles=styles,
+        cost=cost,
+        recurring=recurring,
+        source=source_id,
+    )
+
+
+def from_file(path: Path, source_id: str, defaults: dict | None = None) -> list[dict]:
+    """Load and parse raw events from a JSON file."""
+    raw_events = json.loads(path.read_text())
+    if not isinstance(raw_events, list):
+        raw_events = [raw_events]
+
+    events = []
+    for i, raw in enumerate(raw_events):
+        ev = parse_raw_event(raw, i, source_id, defaults)
+        if ev:
+            events.append(ev)
+            print(f"  -> {ev['name'][:50]} ({ev['dayOfWeek']} {ev['startDate'][:10]})")
+    return events
+
+
+def get_fb_sources() -> list[dict]:
+    """Get all Facebook-type sources from sources.json."""
+    return [s for s in load_sources() if s.get("type") == "facebook" and s.get("enabled")]
+
+
+def scrape_source(source: dict, from_file_path: Path | None = None) -> list[dict]:
+    """Scrape events for a single Facebook source."""
+    source_id = source["id"]
+    fb_url = source.get("facebook_events_url", "")
+
+    defaults = source.get("defaults", {})
+
+    print(f"\n{'='*60}")
+    print(f"Source: {source['name']} ({source_id})")
+    print(f"FB URL: {fb_url}")
+
+    if from_file_path:
+        if not from_file_path.exists():
+            print(f"File not found: {from_file_path}")
+            return []
+        print(f"Loading from file: {from_file_path}")
+        events = from_file(from_file_path, source_id, defaults)
+    else:
+        print(
+            f"No upcoming events file found.\n"
+            f"To scrape, a Cursor agent should:\n"
+            f"  1. Navigate to {fb_url}\n"
+            f"  2. Close the login dialog\n"
+            f"  3. Check for Upcoming tab, extract events\n"
+            f"  4. Save to data/scraped/{source_id}-raw.json\n"
+            f"  5. Re-run: python3 scripts/scrape_facebook.py {source_id} "
+            f"--from-file data/scraped/{source_id}-raw.json"
+        )
+        events = []
+
+    write_scraped(source_id, events)
+    return events
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Scrape Facebook events for sources in sources.json")
+    parser.add_argument("source_id", nargs="?", help="Source ID to scrape (from sources.json)")
+    parser.add_argument("--from-file", type=Path, help="Path to raw events JSON")
+    parser.add_argument("--all", action="store_true", help="Scrape all Facebook sources")
+    args = parser.parse_args()
+
+    if args.all:
+        sources = get_fb_sources()
+        if not sources:
+            print("No enabled Facebook sources in sources.json")
+            return
+        for source in sources:
+            scrape_source(source)
+    elif args.source_id:
+        source = get_source(args.source_id)
+        if not source:
+            print(f"Source '{args.source_id}' not found in sources.json")
+            sys.exit(1)
+        if not source.get("enabled"):
+            print(f"Source '{args.source_id}' is disabled")
+            return
+        scrape_source(source, args.from_file)
+    else:
+        fb_sources = get_fb_sources()
+        if fb_sources:
+            print(f"Available Facebook sources: {[s['id'] for s in fb_sources]}")
+        parser.print_help()
+
+
+if __name__ == "__main__":
+    main()

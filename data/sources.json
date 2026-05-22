@@ -1,0 +1,58 @@
+[
+  {
+    "id": "beatrice-calendar",
+    "type": "ics",
+    "scraper": "scrape_ics.py",
+    "name": "Greater Boston Dance Socials (Beatrice)",
+    "url": "https://calendar.google.com/calendar/ical/31d111cd5f84b2c5cde57a9a175e4769da698d758828fb8de8b47158eefb819c%40group.calendar.google.com/public/basic.ics",
+    "enabled": true
+  },
+  {
+    "id": "lister-events",
+    "type": "wix-events",
+    "scraper": "scrape_lister.py",
+    "name": "Lister Events (Liz)",
+    "url": "https://www.listerevents.com/events",
+    "enabled": true
+  },
+  {
+    "id": "eventbrite-boston-latin",
+    "type": "eventbrite",
+    "scraper": "scrape_eventbrite.py",
+    "name": "Eventbrite Boston Latin Dance",
+    "search_queries": [
+      "https://www.eventbrite.com/d/ma--boston/salsa/",
+      "https://www.eventbrite.com/d/ma--boston/bachata/",
+      "https://www.eventbrite.com/d/ma--boston/latin-dance/"
+    ],
+    "enabled": true
+  },
+  {
+    "id": "bobas",
+    "type": "facebook",
+    "scraper": "scrape_facebook.py",
+    "name": "Boston Outdoor Bachata And Salsa (BOBAS)",
+    "facebook_events_url": "https://www.facebook.com/profile.php?id=61551665503735&sk=events",
+    "instagram_handle": "bobas.dance",
+    "defaults": {
+      "styles": ["bachata", "salsa"],
+      "cost": "Free",
+      "recurring": true,
+      "location": "Hatch Shell on the Esplanade",
+      "description": "Outdoor salsa and bachata social on the docks behind the Hatch Shell. Bachata on one side, salsa on the other. Free, weather permitting."
+    },
+    "enabled": true
+  },
+  {
+    "id": "dantes-salsa",
+    "type": "facebook",
+    "scraper": "scrape_facebook.py",
+    "name": "Dante's Salsa Inferno",
+    "facebook_events_url": "https://www.facebook.com/DantesSalsaInferno/events",
+    "defaults": {
+      "styles": ["bachata", "salsa"],
+      "location": "The Dante Alighieri Society of Massachusetts"
+    },
+    "enabled": true
+  }
+]

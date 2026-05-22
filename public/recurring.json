@@ -6,17 +6,46 @@
     "lat": 42.3649,
     "lng": -71.1035,
     "url": "https://havanaclubsalsa.com",
-    "styles": ["bachata", "salsa", "merengue"],
+    "styles": [
+      "bachata",
+      "salsa",
+      "merengue"
+    ],
     "cost": "$15",
     "description": "Boston's hot spot for Bachata and Salsa dancing in Cambridge. Lessons + social dancing every night. Amazing venue, inexpensive parking garage next door, public transportation one block away on Mass Ave.",
     "schedule": [
-      { "dayOfWeek": "Monday", "time": "8:00 PM – 12:30 AM", "note": "90% Bachata, 10% Salsa (21+)" },
-      { "dayOfWeek": "Tuesday", "time": "8:00 PM – 11:30 PM", "note": "60% Bachata, 40% Salsa" },
-      { "dayOfWeek": "Thursday", "time": "9:00 PM – 12:00 AM", "note": "80% Bachata, 20% Salsa (21+)" },
-      { "dayOfWeek": "Friday", "time": "9:00 PM – 2:00 AM", "note": "70% Bachata, 25% Salsa, 5% Merengue (21+)" },
-      { "dayOfWeek": "Saturday", "time": "9:00 PM – 2:00 AM", "note": "70% Bachata, 25% Salsa, 5% Merengue (21+)" },
-      { "dayOfWeek": "Sunday", "time": "7:00 PM – 10:00 PM", "note": "90% Bachata, 10% Salsa" }
-    ]
+      {
+        "dayOfWeek": "Monday",
+        "time": "8:00 PM – 12:30 AM",
+        "note": "90% Bachata, 10% Salsa (21+)"
+      },
+      {
+        "dayOfWeek": "Tuesday",
+        "time": "8:00 PM – 11:30 PM",
+        "note": "60% Bachata, 40% Salsa"
+      },
+      {
+        "dayOfWeek": "Thursday",
+        "time": "9:00 PM – 12:00 AM",
+        "note": "80% Bachata, 20% Salsa (21+)"
+      },
+      {
+        "dayOfWeek": "Friday",
+        "time": "9:00 PM – 2:00 AM",
+        "note": "70% Bachata, 25% Salsa, 5% Merengue (21+)"
+      },
+      {
+        "dayOfWeek": "Saturday",
+        "time": "9:00 PM – 2:00 AM",
+        "note": "70% Bachata, 25% Salsa, 5% Merengue (21+)"
+      },
+      {
+        "dayOfWeek": "Sunday",
+        "time": "7:00 PM – 10:00 PM",
+        "note": "90% Bachata, 10% Salsa"
+      }
+    ],
+    "slug": "havana-club-havana-c"
   },
   {
     "id": "bachata-room",
@@ -25,12 +54,21 @@
     "lat": 42.3634,
     "lng": -71.1012,
     "url": null,
-    "styles": ["bachata", "salsa", "merengue"],
+    "styles": [
+      "bachata",
+      "salsa",
+      "merengue"
+    ],
     "cost": "$15",
     "description": "Your weekly fix for all your dancing needs.\n\n9:00pm – 10:00pm Bachata Lesson (Beginner/Intermediate)\n10:00pm – 12:00am Social Dancing (Bachata, Salsa, Merengue)\n\n$15 Lesson/Social Dancing (18+)",
     "schedule": [
-      { "dayOfWeek": "Wednesday", "time": "9:00 PM – 12:00 AM", "note": "Lesson + social (18+)" }
-    ]
+      {
+        "dayOfWeek": "Wednesday",
+        "time": "9:00 PM – 12:00 AM",
+        "note": "Lesson + social (18+)"
+      }
+    ],
+    "slug": "bachata-room-bachata-"
   },
   {
     "id": "dantes-tambo",
@@ -39,12 +77,20 @@
     "lat": 42.3679,
     "lng": -71.0885,
     "url": null,
-    "styles": ["salsa", "bachata"],
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
     "cost": "$20",
     "description": "Alternating between Tambó Salsa Social and Salsa Inferno. Plenty of dance space, parking lot, powerful A/C, and a full cash bar.\n\n8:30pm – 9:30pm Beginner Salsa Lesson\n9:30pm – 1:00am Social Dancing\n\nEvery other Friday.",
     "schedule": [
-      { "dayOfWeek": "Friday", "time": "8:30 PM – 1:00 AM", "note": "Tambó Salsa Social / Salsa Inferno (alternating Fridays)" }
-    ]
+      {
+        "dayOfWeek": "Friday",
+        "time": "8:30 PM – 1:00 AM",
+        "note": "Tambó Salsa Social / Salsa Inferno (alternating Fridays)"
+      }
+    ],
+    "slug": "dante-s-salsa-fridays-dantes-t"
   },
   {
     "id": "jl-underground",
@@ -53,26 +99,43 @@
     "lat": 42.3667,
     "lng": -71.1042,
     "url": "https://jandldancestudio.com/jl-underground-social",
-    "styles": ["bachata", "salsa", "kizomba", "merengue"],
+    "styles": [
+      "bachata",
+      "salsa",
+      "kizomba",
+      "merengue"
+    ],
     "cost": "$15",
     "description": "Energy, fun, and an exciting mix of Bachata with sprinkles of Salsa, Kizomba, and Merengue.\n\nResident DJ: DJ Luis Talavera Díaz\n\n7:00pm – 8:00pm Bachata Footwork Challenge\n8:00pm – 11:00pm Social Dancing\n\n$15 cash at the door. 1st Saturday of each month.",
     "schedule": [
-      { "dayOfWeek": "Saturday", "time": "7:00 PM – 11:00 PM", "note": "1st Saturday of each month" }
-    ]
+      {
+        "dayOfWeek": "Saturday",
+        "time": "7:00 PM – 11:00 PM",
+        "note": "1st Saturday of each month"
+      }
+    ],
+    "slug": "j-l-underground-bachata-social-jl-under"
   },
   {
     "id": "mambo-city",
     "name": "Mambo City Salsa Social",
     "location": "Filarmonica Santo Antonio, 575 Cambridge St, Cambridge, MA 02141",
-    "lat": 42.3720,
+    "lat": 42.372,
     "lng": -71.0858,
     "url": null,
-    "styles": ["salsa"],
+    "styles": [
+      "salsa"
+    ],
     "cost": "$15",
     "description": "The hottest Salsa/Mambo in the heart of Cambridge! Plenty of room for dancing, socializing, and MAMBO!\n\nResident DJ: DJ Rob Suave\n\n7:00pm – 11:00pm Social Dancing\n\nEvery other Sunday.",
     "schedule": [
-      { "dayOfWeek": "Sunday", "time": "7:00 PM – 11:00 PM", "note": "Every other Sunday" }
-    ]
+      {
+        "dayOfWeek": "Sunday",
+        "time": "7:00 PM – 11:00 PM",
+        "note": "Every other Sunday"
+      }
+    ],
+    "slug": "mambo-city-salsa-social-mambo-ci"
   },
   {
     "id": "fuego-y-candela",
@@ -81,11 +144,18 @@
     "lat": 42.3679,
     "lng": -71.0885,
     "url": null,
-    "styles": ["salsa"],
+    "styles": [
+      "salsa"
+    ],
     "cost": "$20",
     "description": "Non-stop dancing with only the best Salsa/Mambo Boston has to offer. Strengthening our community one social at a time!\n\nResident DJ: DJ Condori\n\n8:30pm – 9:30pm Beginner Salsa Class Workshop\n9:30pm – 1:30am Social Dancing\n\nMonthly (2nd Saturday).",
     "schedule": [
-      { "dayOfWeek": "Saturday", "time": "8:30 PM – 1:30 AM", "note": "2nd Saturday of each month" }
-    ]
+      {
+        "dayOfWeek": "Saturday",
+        "time": "8:30 PM – 1:30 AM",
+        "note": "2nd Saturday of each month"
+      }
+    ],
+    "slug": "fuego-y-candela-salsa-social-fuego-y-"
   }
 ]
