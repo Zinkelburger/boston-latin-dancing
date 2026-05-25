@@ -17,3 +17,30 @@
 {"ts": "2026-05-22T22:17:32.697735+00:00", "action": "pending_review", "event_id": "1D423917-82D3-409E-A9AB-62ACAE3481FD", "details": "uncertain dup of 4bfa06bee079409dd54d0a78632f3808b658e575@dance-calendar: word_overlap(9/9)+within_24h+same_location"}
 {"ts": "2026-05-22T22:40:57.216600+00:00", "action": "archive", "event_id": "F75203DD-C2C0-40BB-BE0E-A67013E17125", "details": "manual"}
 {"ts": "2026-05-22T22:41:06.612841+00:00", "action": "edit", "event_id": "16m8bm77eru8te9pak73f904qn@google.com", "details": "{\"_verified_status\": \"confirmed\", \"_verified_notes\": \"Instagram @timbadescontrol confirms Cambridge Common, Tuesdays @ 6pm\", \"_verification_url\": \"https://www.instagram.com/timbadescontrol/\"}"}
+{"ts": "2026-05-25T20:47:38.339424+00:00", "action": "add", "event_id": "B5E9158E6D115D857243E9512E0DDC3BE88670DF_0", "details": ""}
+{"ts": "2026-05-25T20:47:38.369373+00:00", "action": "add", "event_id": "F6FB3684-154F-457E-98FD-79D3FBC4E41C", "details": ""}
+{"ts": "2026-05-25T20:47:38.492902+00:00", "action": "add", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": ""}
+{"ts": "2026-05-25T20:47:39.734365+00:00", "action": "add", "event_id": "A64F337F-8D93-447F-B415-FB206398143D", "details": ""}
+{"ts": "2026-05-25T20:47:40.990668+00:00", "action": "add", "event_id": "eb-1990316528314", "details": ""}
+{"ts": "2026-05-25T20:47:41.018411+00:00", "action": "add", "event_id": "eb-1990335344594", "details": ""}
+{"ts": "2026-05-25T20:47:41.052299+00:00", "action": "add", "event_id": "eb-1990291472371", "details": ""}
+{"ts": "2026-05-25T20:47:41.072201+00:00", "action": "add", "event_id": "lister-bachata-salsa-by-the-river-3", "details": ""}
+{"ts": "2026-05-25T20:47:41.077507+00:00", "action": "add", "event_id": "lister-bachata-dance-workout-morse-library-2", "details": ""}
+{"ts": "2026-05-25T20:47:42.315898+00:00", "action": "add", "event_id": "25E9FCB5-66BC-4D33-8FBE-836081750F65", "details": ""}
+{"ts": "2026-05-25T20:47:42.342715+00:00", "action": "reactivate", "event_id": "F75203DD-C2C0-40BB-BE0E-A67013E17125", "details": "from archive (certain)"}
+{"ts": "2026-05-25T20:47:43.589245+00:00", "action": "add", "event_id": "DF158B3C-08AD-47D6-87A4-BBB5AE2865C5", "details": ""}
+{"ts": "2026-05-25T20:47:43.601867+00:00", "action": "add", "event_id": "F441F1EA-460D-4749-96BE-D5B39FEE7C3F", "details": ""}
+{"ts": "2026-05-25T20:47:43.673326+00:00", "action": "pending_review", "event_id": "889D612C-9A01-473C-8F8A-CE9A2220306A", "details": "uncertain dup of 1530CBC9-9873-4E9D-AF8E-805ECBDC1D61: word_overlap(3/5)+within_24h+same_location"}
+{"ts": "2026-05-25T20:47:43.688195+00:00", "action": "archive", "event_id": "submit-71c62271c58a120a", "details": ""}
+{"ts": "2026-05-25T20:47:43.688289+00:00", "action": "archive", "event_id": "9F653959-9317-45E3-B870-C2E6C976776B", "details": ""}
+{"ts": "2026-05-25T20:47:43.688348+00:00", "action": "archive", "event_id": "7A4FC8EF-3225-4A1B-B609-9D1ACE9BFFE6", "details": ""}
+{"ts": "2026-05-25T20:47:43.688413+00:00", "action": "archive", "event_id": "4bfa06bee079409dd54d0a78632f3808b658e575@dance-calendar", "details": ""}
+{"ts": "2026-05-25T20:47:43.688470+00:00", "action": "archive", "event_id": "523d05d4fce4a101262182e648c9fac4635326c1@dance-calendar", "details": ""}
+{"ts": "2026-05-25T20:47:43.688522+00:00", "action": "archive", "event_id": "7C4607A0-24FE-45DE-B74C-671B89B0D81D", "details": ""}
+{"ts": "2026-05-25T20:47:43.688574+00:00", "action": "archive", "event_id": "33E31D27-4646-4010-95B2-010B847151AA", "details": ""}
+{"ts": "2026-05-25T20:47:43.688627+00:00", "action": "archive", "event_id": "E139A7FD-4E10-4F4B-91AB-95416EE8113C", "details": ""}
+{"ts": "2026-05-25T20:47:43.688682+00:00", "action": "archive", "event_id": "4A575AB7-80D9-458D-98CB-F92EC84BDA1D", "details": ""}
+{"ts": "2026-05-25T20:47:43.688789+00:00", "action": "archive", "event_id": "C2AACCF3-329B-460A-9962-619E4F6EE579", "details": ""}
+{"ts": "2026-05-25T20:47:43.688839+00:00", "action": "archive", "event_id": "61E6D366-0999-414D-981A-752F5465DB99", "details": ""}
+{"ts": "2026-05-25T20:47:43.688875+00:00", "action": "archive", "event_id": "4A38D91F-E41D-4132-9750-D4AADBE2E81A", "details": ""}
+{"ts": "2026-05-25T21:18:56.835816+00:00", "action": "reject", "event_id": "889D612C-9A01-473C-8F8A-CE9A2220306A", "details": "Duplicate of Leandro & Nayara Brazilian Zouk Weekender \u2014 same studio, same date (Jun 5 2026 at Salsa y Control)"}

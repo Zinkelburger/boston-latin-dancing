@@ -16,6 +16,7 @@
     "merge-events": "python3 scripts/merge_events.py",
     "publish-events": "python3 -c \"import sys; sys.path.insert(0,'scripts'); from event_store import publish; print(publish())\"",
     "dedup-report": "python3 scripts/dedup_report.py",
+    "review-dedup": "python3 scripts/review_dedup.py --json",
     "verify-events": "python3 scripts/verify_events.py",
     "fetch-all": "npm run fetch-events && npm run fetch-sensualeros && npm run fetch-lister && npm run fetch-eventbrite && npm run fetch-submissions && npm run merge-events"
   },

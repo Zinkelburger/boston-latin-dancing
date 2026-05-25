@@ -44,23 +44,40 @@ DEDUP_LOG = EVENTS_DIR / "dedup-log.jsonl"
 EVENTS_DIR.mkdir(parents=True, exist_ok=True)
 
 # ── Source priority ───────────────────────────────────────────────────
+# Lower rank = higher precedence. Venue schedule hubs always win (see source_rank).
 
 SOURCE_PRIORITY = {
-    "beatrice-calendar": 0,
-    "sensualeros-boston": 0,
-    "": 0,
-    "recurring-venues": 1,
-    "eventbrite-boston-latin": 2,
-    "lister-events": 3,
-    "bobas": 4,
-    "dantes-salsa": 4,
-    "submissions": 5,
-    "manual": 6,
+    "manual": 0,
+    "submissions": 1,
+    "recurring-venues": 2,
+    "beatrice-calendar": 10,
+    "sensualeros-boston": 10,
+    "eventbrite-boston-latin": 11,
+    "lister-events": 12,
+    "bobas": 13,
+    "dantes-salsa": 13,
+    "": 20,
 }
+
+VENUE_HUB_RANK = -1000
+
+
+def _is_venue_schedule_record(event: dict) -> bool:
+    """Venue hub records carry a weekly schedule and must not collapse into scraped series."""
+    return bool(event.get("schedule"))
 
 
 def source_rank(event: dict) -> int:
-    return SOURCE_PRIORITY.get(event.get("source", ""), 6)
+    if _is_venue_schedule_record(event):
+        return VENUE_HUB_RANK
+    return SOURCE_PRIORITY.get(event.get("source", ""), 50)
+
+
+def pick_winner(a: dict, b: dict) -> tuple[dict, dict]:
+    """Return (winner, loser) by source precedence. Never uses description length."""
+    if source_rank(a) <= source_rank(b):
+        return a, b
+    return b, a
 
 
 # ── Location aliases ──────────────────────────────────────────────────
@@ -195,6 +212,10 @@ def dedup_confidence(a: dict, b: dict) -> Optional[str]:
 
     Returns None if no match detected.
     """
+    # Venue schedule hubs are distinct map entries from scraped night-specific series.
+    if _is_venue_schedule_record(a) != _is_venue_schedule_record(b):
+        return None
+
     name_a = normalize_name(a["name"])
     name_b = normalize_name(b["name"])
     if not name_a or not name_b:
@@ -290,46 +311,50 @@ def _log_dedup(action: str, kept: dict, candidate: dict, confidence: str, reason
         f.write(json.dumps(entry) + "\n")
 
 
-def merge_event(existing: dict, new: dict) -> dict:
-    merged = dict(existing)
+def merge_event(a: dict, b: dict) -> dict:
+    """Merge two events, keeping the higher-precedence record as the base."""
+    winner, loser = pick_winner(a, b)
+    merged = dict(winner)
 
     # Preserve location overrides set by verification or manual fix.
-    # When _location_override is set, re-scraping cannot change the location.
-    if existing.get("_location_override"):
-        merged["location"] = existing["_location_override"]
-        merged["_location_override"] = existing["_location_override"]
-        if existing.get("lat") is not None:
-            merged["lat"] = existing["lat"]
-            merged["lng"] = existing["lng"]
-    elif new.get("location") and not merged.get("location"):
-        merged["location"] = new["location"]
+    if winner.get("_location_override"):
+        merged["location"] = winner["_location_override"]
+        merged["_location_override"] = winner["_location_override"]
+        if winner.get("lat") is not None:
+            merged["lat"] = winner["lat"]
+            merged["lng"] = winner["lng"]
+    elif loser.get("location") and not merged.get("location"):
+        merged["location"] = loser["location"]
 
-    # Preserve verification metadata across merges
+    # Preserve verification metadata from whichever side has it (prefer winner).
     for key in ("_verified_at", "_verified_status", "_verified_notes", "_verification_url", "_location_override"):
-        if existing.get(key):
-            merged[key] = existing[key]
+        if winner.get(key):
+            merged[key] = winner[key]
+        elif loser.get(key):
+            merged[key] = loser[key]
 
-    if not merged.get("description") and new.get("description"):
-        merged["description"] = new["description"]
-    elif new.get("description") and len(new["description"]) > len(merged.get("description", "")):
-        if source_rank(new) <= source_rank(existing):
-            merged["description"] = new["description"]
+    # Never overwrite winner fields with loser content when winner is a venue hub.
+    if _is_venue_schedule_record(winner):
+        if not merged.get("description") and loser.get("description"):
+            merged["description"] = loser["description"]
+    elif not merged.get("description") and loser.get("description"):
+        merged["description"] = loser["description"]
 
-    if not merged.get("url") and new.get("url"):
-        merged["url"] = new["url"]
-    if not merged.get("cost") and new.get("cost"):
-        merged["cost"] = new["cost"]
-    if (merged.get("lat") is None or merged.get("lng") is None) and new.get("lat") and new.get("lng"):
-        merged["lat"] = new["lat"]
-        merged["lng"] = new["lng"]
-    if merged.get("styles") == ["other"] and new.get("styles") != ["other"]:
-        merged["styles"] = new["styles"]
-    if not merged.get("recurring") and new.get("recurring"):
+    if not merged.get("url") and loser.get("url"):
+        merged["url"] = loser["url"]
+    if not merged.get("cost") and loser.get("cost"):
+        merged["cost"] = loser["cost"]
+    if (merged.get("lat") is None or merged.get("lng") is None) and loser.get("lat") and loser.get("lng"):
+        merged["lat"] = loser["lat"]
+        merged["lng"] = loser["lng"]
+    if merged.get("styles") == ["other"] and loser.get("styles") != ["other"]:
+        merged["styles"] = loser["styles"]
+    if not merged.get("recurring") and loser.get("recurring"):
         merged["recurring"] = True
-    if not merged.get("schedule") and new.get("schedule"):
-        merged["schedule"] = new["schedule"]
-    if not merged.get("recurrences") and new.get("recurrences"):
-        merged["recurrences"] = new["recurrences"]
+    if not merged.get("schedule") and loser.get("schedule"):
+        merged["schedule"] = loser["schedule"]
+    if not merged.get("recurrences") and loser.get("recurrences"):
+        merged["recurrences"] = loser["recurrences"]
 
     return merged
 
@@ -430,6 +455,11 @@ def collapse_recurring_series(events: list[dict]) -> list[dict]:
             name_j = normalize_name(ev_j["name"])
             loc_j = _location_key(ev_j.get("location", ""))
 
+            # Venue schedule hubs (e.g. Havana Club) share a location/name with
+            # scraped night-specific series but are distinct map entries.
+            if _is_venue_schedule_record(ev_i) != _is_venue_schedule_record(ev_j):
+                continue
+
             if not _names_are_same_series(name_i, name_j):
                 continue
             if loc_i and loc_j:
@@ -450,7 +480,7 @@ def collapse_recurring_series(events: list[dict]) -> list[dict]:
             result.append(group_events[0])
             continue
 
-        group_events.sort(key=lambda e: (source_rank(e), -len(e.get("description", ""))))
+        group_events.sort(key=source_rank)
         best = dict(group_events[0])
         dates: list[str] = sorted({ev["startDate"] for ev in group_events})
 
