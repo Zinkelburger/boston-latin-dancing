@@ -59,7 +59,7 @@
       ],
       "location": "The Dante Alighieri Society of Massachusetts"
     },
-    "enabled": true
+    "enabled": false
   },
   {
     "id": "sensualeros-boston",
@@ -68,5 +68,18 @@
     "scraper": "scrape_ics.py",
     "enabled": true,
     "url": "https://calendar.google.com/calendar/ical/76db9d79f4cf645f26e28373c575d9fcb865a264521c8f0880044b4e7283ead7%40group.calendar.google.com/public/basic.ics"
+  },
+  {
+    "id": "fiesta-dance-company",
+    "type": "custom",
+    "scraper": "scrape_fiesta_dance.py",
+    "name": "Fiesta Dance Company",
+    "url": "https://fiestadancecompany.com/upcoming-socials",
+    "website": "https://fiestadancecompany.com",
+    "instagram_handle": "fiestadancecompany",
+    "defaults": {
+      "styles": ["salsa", "bachata"]
+    },
+    "enabled": true
   }
 ]

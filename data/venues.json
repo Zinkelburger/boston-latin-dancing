@@ -3,8 +3,8 @@
     "id": "havana-club",
     "name": "Havana Club",
     "location": "288 Green St, Cambridge, MA 02139",
-    "lat": 42.3649,
-    "lng": -71.1035,
+    "lat": 42.3646,
+    "lng": -71.1044,
     "url": "https://havanaclubsalsa.com",
     "styles": [
       "bachata",
@@ -95,9 +95,9 @@
   {
     "id": "jl-underground",
     "name": "J&L Underground Bachata Social",
-    "location": "Rumba y Timbal, 7 Temple St, Cambridge, MA 02139",
-    "lat": 42.3667,
-    "lng": -71.1042,
+    "location": "J&L Dance Studio, 75 Pleasant St, Malden, MA 02148",
+    "lat": 42.4271,
+    "lng": -71.0662,
     "url": "https://jandldancestudio.com/jl-underground-social",
     "styles": [
       "bachata",

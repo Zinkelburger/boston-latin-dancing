@@ -1,29 +1,5 @@
 [
   {
-    "id": "submit-71c62271c58a120a",
-    "name": "lalalala",
-    "startDate": "2026-05-22T20:00:00-04:00",
-    "endDate": "2026-05-22T23:00:00-04:00",
-    "dayOfWeek": "Friday",
-    "location": "aaaaaaaaaaaaa",
-    "lat": null,
-    "lng": null,
-    "description": "no",
-    "url": "https://aaaaaaaaaaaa.com",
-    "styles": [
-      "other"
-    ],
-    "cost": null,
-    "recurring": false,
-    "slug": "lalalala-submit-7",
-    "source": "",
-    "_verified_at": "2026-05-22T22:33:13.994852+00:00",
-    "_verified_status": "page_gone",
-    "_verified_notes": "Request failed: HTTPSConnectionPool(host='aaaaaaaaaaaa.com', port=443): Max retries exceeded with url: / (Caused by ConnectTimeoutError(<HTTPSConnection(host='aaaaaaaaaaaa.com', port=443) at 0x7f48aaae5be0>, 'Connection to aaaaaaaaaaaa.com timed out. (connect timeout=15)'))",
-    "_verification_url": "https://aaaaaaaaaaaa.com",
-    "archivedAt": "2026-05-25T20:47:43.688152+00:00"
-  },
-  {
     "id": "9F653959-9317-45E3-B870-C2E6C976776B",
     "name": "Cuban Salsa on the Patio",
     "startDate": "2026-05-22T23:00:00+00:00",
@@ -289,5 +265,29 @@
     "_verification_url": "https://fiestadancecompany.com/",
     "_location_override": true,
     "archivedAt": "2026-05-25T20:47:43.688152+00:00"
+  },
+  {
+    "id": "4c1ade683923ef2455dc3274fed14db83899e908@dance-calendar",
+    "name": "Kizomba Meets Konpa + DJ Eloi",
+    "startDate": "2026-05-25T00:00:00+00:00",
+    "endDate": "2026-05-25T01:00:00+00:00",
+    "dayOfWeek": "Monday",
+    "location": "735 William T Morrissey Boulevard, Boston, MA 02122, Boston, MA",
+    "lat": 42.2953653,
+    "lng": -71.0488803,
+    "description": "Get ready to dance Kizomba & Konpa with Noche Latina + DJ Eloi. Workshops with Bev Flowers & Edson Kiz  !\n\nSource: https://www.eventbrite.com/e/kizomba-meets-konpa-dj-eloi-tickets-1989028851839",
+    "url": "https://www.eventbrite.com/e/kizomba-meets-konpa-dj-eloi-tickets-1989028851839",
+    "styles": [
+      "kizomba"
+    ],
+    "cost": null,
+    "recurring": false,
+    "slug": "kizomba-meets-konpa-dj-eloi-4c1ade68",
+    "source": "",
+    "_verified_at": "2026-05-22T22:33:45.340630+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD event data matches",
+    "_verification_url": "https://www.eventbrite.com/e/kizomba-meets-konpa-dj-eloi-tickets-1989028851839",
+    "archivedAt": "2026-05-26T16:45:08.977074+00:00"
   }
 ]

@@ -1,0 +1,20 @@
+[
+  {
+    "id_a": "10225066-4ADF-4765-BE8C-C5A006A3C700",
+    "id_b": "62ekr0aga5340rgd7nmh6cvj3m@google.com",
+    "verdict": "same",
+    "reviewed_at": "2026-05-26T20:00:00+00:00"
+  },
+  {
+    "id_a": "1530CBC9-9873-4E9D-AF8E-805ECBDC1D61",
+    "id_b": "889D612C-9A01-473C-8F8A-CE9A2220306A",
+    "verdict": "same",
+    "reviewed_at": "2026-05-26T20:00:00+00:00"
+  },
+  {
+    "id_a": "B0E75D91-FDEB-40B1-8DCC-130C4614EBB1",
+    "id_b": "d3953ee79b4effa6b332abf32cb4e01ba180f56e@occurrence-1@dance-calendar",
+    "verdict": "same",
+    "reviewed_at": "2026-05-26T20:00:00+00:00"
+  }
+]

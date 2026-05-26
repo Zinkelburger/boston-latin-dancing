@@ -44,3 +44,31 @@
 {"ts": "2026-05-25T20:47:43.688839+00:00", "action": "archive", "event_id": "61E6D366-0999-414D-981A-752F5465DB99", "details": ""}
 {"ts": "2026-05-25T20:47:43.688875+00:00", "action": "archive", "event_id": "4A38D91F-E41D-4132-9750-D4AADBE2E81A", "details": ""}
 {"ts": "2026-05-25T21:18:56.835816+00:00", "action": "reject", "event_id": "889D612C-9A01-473C-8F8A-CE9A2220306A", "details": "Duplicate of Leandro & Nayara Brazilian Zouk Weekender \u2014 same studio, same date (Jun 5 2026 at Salsa y Control)"}
+{"ts": "2026-05-26T16:45:08.852847+00:00", "action": "add", "event_id": "eb-1990397458378", "details": ""}
+{"ts": "2026-05-26T16:45:08.881215+00:00", "action": "add", "event_id": "eb-1990048459513", "details": ""}
+{"ts": "2026-05-26T16:45:08.933993+00:00", "action": "pending_review", "event_id": "889D612C-9A01-473C-8F8A-CE9A2220306A", "details": "uncertain dup of 1530CBC9-9873-4E9D-AF8E-805ECBDC1D61: word_overlap(3/5)+within_24h+same_location"}
+{"ts": "2026-05-26T16:45:08.945515+00:00", "action": "pending_review", "event_id": "10225066-4ADF-4765-BE8C-C5A006A3C700", "details": "uncertain dup of 62ekr0aga5340rgd7nmh6cvj3m@google.com: word_overlap(2/2)+within_24h+same_location"}
+{"ts": "2026-05-26T16:45:08.976143+00:00", "action": "reactivate", "event_id": "submit-71c62271c58a120a", "details": "from archive (certain)"}
+{"ts": "2026-05-26T16:45:08.977095+00:00", "action": "archive", "event_id": "4c1ade683923ef2455dc3274fed14db83899e908@dance-calendar", "details": ""}
+{"ts": "2026-05-26T16:45:08.977171+00:00", "action": "archive", "event_id": "submit-71c62271c58a120a", "details": ""}
+{"ts": "2026-05-26T16:45:35.594182+00:00", "action": "add", "event_id": "bobas-20260526-0", "details": ""}
+{"ts": "2026-05-26T16:50:59.376379+00:00", "action": "pending_review", "event_id": "889D612C-9A01-473C-8F8A-CE9A2220306A", "details": "uncertain dup of 1530CBC9-9873-4E9D-AF8E-805ECBDC1D61: word_overlap(3/5)+within_24h+same_location"}
+{"ts": "2026-05-26T16:50:59.376487+00:00", "action": "approve", "event_id": "889D612C-9A01-473C-8F8A-CE9A2220306A", "details": ""}
+{"ts": "2026-05-26T16:51:02.314360+00:00", "action": "merge", "event_id": "10225066-4ADF-4765-BE8C-C5A006A3C700", "details": "force-merged uncertain dup of 62ekr0aga5340rgd7nmh6cvj3m@google.com"}
+{"ts": "2026-05-26T16:51:02.314478+00:00", "action": "approve", "event_id": "10225066-4ADF-4765-BE8C-C5A006A3C700", "details": "force-merge duplicate review"}
+{"ts": "2026-05-26T16:51:02.318723+00:00", "action": "merge", "event_id": "889D612C-9A01-473C-8F8A-CE9A2220306A", "details": "force-merged uncertain dup of 1530CBC9-9873-4E9D-AF8E-805ECBDC1D61"}
+{"ts": "2026-05-26T16:51:02.318798+00:00", "action": "approve", "event_id": "889D612C-9A01-473C-8F8A-CE9A2220306A", "details": "force-merge duplicate review"}
+{"ts": "2026-05-26T17:00:00.649237+00:00", "action": "add", "event_id": "fiesta-20260613-sol-de-mexico-milford", "details": ""}
+{"ts": "2026-05-26T19:21:12.891915+00:00", "action": "merge", "event_id": "test-pending", "details": "force-merged uncertain dup of test-existing"}
+{"ts": "2026-05-26T19:21:12.892147+00:00", "action": "approve", "event_id": "test-pending", "details": ""}
+{"ts": "2026-05-26T19:37:58.191871+00:00", "action": "add", "event_id": "8EDCCA4B-FCFA-4CD9-ABA3-8074966ACFCB", "details": ""}
+{"ts": "2026-05-26T19:37:58.219129+00:00", "action": "pending_review", "event_id": "B0E75D91-FDEB-40B1-8DCC-130C4614EBB1", "details": "review dup of d3953ee79b4effa6b332abf32cb4e01ba180f56e@occurrence-1@dance-calendar: exact_name+within_24h+same_location+same_day"}
+{"ts": "2026-05-26T19:37:58.229251+00:00", "action": "pending_review", "event_id": "889D612C-9A01-473C-8F8A-CE9A2220306A", "details": "review dup of 1530CBC9-9873-4E9D-AF8E-805ECBDC1D61: word_overlap(3/5)+within_24h+same_location+same_day"}
+{"ts": "2026-05-26T19:37:58.244003+00:00", "action": "pending_review", "event_id": "10225066-4ADF-4765-BE8C-C5A006A3C700", "details": "review dup of 62ekr0aga5340rgd7nmh6cvj3m@google.com: word_overlap(2/2)+within_24h+same_location+same_day"}
+{"ts": "2026-05-26T19:37:58.294965+00:00", "action": "reactivate", "event_id": "submit-71c62271c58a120a", "details": "from archive (certain)"}
+{"ts": "2026-05-26T19:38:11.426170+00:00", "action": "pending_review", "event_id": "B0E75D91-FDEB-40B1-8DCC-130C4614EBB1", "details": "review dup of d3953ee79b4effa6b332abf32cb4e01ba180f56e@occurrence-1@dance-calendar: exact_name+within_24h+same_location+same_day"}
+{"ts": "2026-05-26T19:38:11.441028+00:00", "action": "pending_review", "event_id": "889D612C-9A01-473C-8F8A-CE9A2220306A", "details": "review dup of 1530CBC9-9873-4E9D-AF8E-805ECBDC1D61: word_overlap(3/5)+within_24h+same_location+same_day"}
+{"ts": "2026-05-26T19:38:11.461690+00:00", "action": "pending_review", "event_id": "10225066-4ADF-4765-BE8C-C5A006A3C700", "details": "review dup of 62ekr0aga5340rgd7nmh6cvj3m@google.com: word_overlap(2/2)+within_24h+same_location+same_day"}
+{"ts": "2026-05-26T19:38:25.564580+00:00", "action": "pending_review", "event_id": "B0E75D91-FDEB-40B1-8DCC-130C4614EBB1", "details": "review dup of d3953ee79b4effa6b332abf32cb4e01ba180f56e@occurrence-1@dance-calendar: exact_name+within_24h+same_location+same_day"}
+{"ts": "2026-05-26T19:38:25.576913+00:00", "action": "pending_review", "event_id": "889D612C-9A01-473C-8F8A-CE9A2220306A", "details": "review dup of 1530CBC9-9873-4E9D-AF8E-805ECBDC1D61: word_overlap(3/5)+within_24h+same_location+same_day"}
+{"ts": "2026-05-26T19:38:25.593413+00:00", "action": "pending_review", "event_id": "10225066-4ADF-4765-BE8C-C5A006A3C700", "details": "review dup of 62ekr0aga5340rgd7nmh6cvj3m@google.com: word_overlap(2/2)+within_24h+same_location+same_day"}
