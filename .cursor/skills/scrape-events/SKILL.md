@@ -2,7 +2,7 @@
 name: scrape-events
 description: >-
   Scrape dance events from all sources and update the map. Use when asked to
-  refresh events, scrape Facebook pages (BOBAS, Dante's, etc.), run the pipeline,
+  refresh events, scrape Facebook pages (BOBAS, etc.), run the pipeline,
   check for new events, update public/events.json, or "update the map".
 ---
 
@@ -28,9 +28,9 @@ Call the MCP tool:
 event_scrape()
 ```
 
-This runs all automated scrapers (ICS, Lister, Eventbrite, submissions),
-ingests new events into `data/events/active.json` (with dedup), and auto-archives
-past events.
+This runs all enabled automated scrapers, ingests new events into
+`data/events/active.json` (with dedup), and auto-archives past events.
+It does **not** publish — call `event_publish()` separately (Step 4).
 
 To scrape a single source:
 
@@ -38,20 +38,40 @@ To scrape a single source:
 event_scrape(source_id="beatrice-calendar")
 ```
 
-Available source_ids: `beatrice-calendar`, `lister-events`, `eventbrite-boston-latin`, `submissions`
+**Full `event_scrape()` source list** (from `mcp-server/server.py`):
+
+| source_id | Scraper | Notes |
+|-----------|---------|-------|
+| `beatrice-calendar` | `scrape_ics.py` | Greater Boston Dance Socials (Google Calendar ICS) |
+| `sensualeros-boston` | `scrape_ics.py` | Sensualeros Boston Events (Google Calendar ICS) |
+| `lister-events` | `scrape_lister.py` | Lister Events (Wix/JSON-LD) |
+| `eventbrite-boston-latin` | `scrape_eventbrite.py` | Eventbrite search (salsa/bachata/latin) |
+| `submissions` | `fetch_submissions.py` | User-submitted events from API |
+
+Facebook sources are **not** auto-runnable — they require browser MCP (Step 2).
+
+All registered sources (including disabled ones) are in `data/sources.json`.
 
 ## Step 2: Run Facebook scrapers via browser
 
-For each Facebook source in `data/sources.json` with `"type": "facebook"`:
+Only scrape Facebook sources that are **enabled** in `data/sources.json` with
+`"type": "facebook"`. Skip disabled sources.
+
+### Which Facebook sources are worth scraping?
+
+| Source ID | Status | Why |
+|-----------|--------|-----|
+| `bobas` | **Scrape** | Publishes one-off outdoor events with specific dates on Facebook |
+| `dantes-salsa` | **Skip (disabled)** | No upcoming Facebook events; weekly schedule is covered by `data/venues.json` (`dantes-tambo`) |
 
 ### 2a. Navigate to the Facebook events page
 
-Source URLs are in `data/sources.json` under `facebook_events_url`. Current sources:
+Source URLs are in `data/sources.json` under `facebook_events_url`. Current
+enabled Facebook source:
 
 | Source ID | URL |
 |-----------|-----|
 | bobas | `https://www.facebook.com/profile.php?id=61551665503735&sk=events` |
-| dantes-salsa | `https://www.facebook.com/DantesSalsaInferno/events` |
 
 Use `browser_navigate` to open the URL.
 
@@ -111,33 +131,66 @@ After the scraper writes `data/scraped/<source-id>.json`, ingest it:
 event_ingest(source_id="<source-id>")
 ```
 
-## Step 3: Publish
+## Step 3: Review pending dedup pairs
 
-Call the MCP tool:
+After ingest, check for uncertain duplicate matches routed to the pending queue.
 
-```
-event_publish()
-```
+**There is no admin web UI** for dedup review. Use MCP tools or the JSON file.
 
-This regenerates `public/events.json` from the active event store + expanded venues.
-
-## Step 4: Review flagged events
-
-Check active events for issues:
+### View pending dedup pairs
 
 ```
-event_list(status="active")
+event_list(status="pending")
 ```
 
-For events with `styles=["other"]`, `cost=null`, or missing coords:
-- Use `event_edit` to fix styles, cost, or coordinates
-- For missing coords, follow the **geocode-events** skill
+Each item with `_dedup_candidate_of` is an uncertain duplicate of an active event.
+Get full details (including dedup metadata) with:
 
-Ask the user if unsure about any classification.
+```
+event_get(event_id="<pending-id>")
+```
 
-## Step 4.5: Verify events against sources
+Or inspect the file directly:
 
-Run the verification tool to check event details against their source URLs:
+```bash
+python3 -c "
+import json
+for e in json.load(open('data/events/pending.json')):
+    if '_dedup_candidate_of' in e:
+        print(f\"{e['name'][:50]}\")
+        print(f\"  pending id: {e['id']}\")
+        print(f\"  matches active: {e['_dedup_candidate_of']}\")
+        print(f\"  reason: {e.get('_dedup_reason')}\")
+"
+```
+
+Compare the pending event against the existing one:
+
+```
+event_get(event_id="<_dedup_candidate_of value>")
+```
+
+### Resolve pending dedup pairs
+
+| Situation | Action |
+|-----------|--------|
+| Same event (merge) | `event_approve(event_id)` — merges into the active duplicate |
+| Different event | `event_reject(event_id, reason="distinct event")` then re-add with `event_add` if needed |
+| Force merge without review | `add_event(event, force=True)` via Python/MCP internals |
+
+The ingest result from `event_scrape` / `event_ingest` also reports
+`pending_review` count and `review_items` when uncertain pairs are found.
+
+### Post-publish suspicious pairs (different tool)
+
+`npm run dedup-report` scans **already published** events for pairs that *look*
+like duplicates but weren't merged. This is read-only analysis, not the pending
+review queue. Use `--active` to scan the active store instead, `--log` for recent
+audit entries.
+
+## Step 4: Verify events against sources
+
+Run verification **before** publishing so flagged items can be fixed first:
 
 ```
 event_verify(stale_days=7)
@@ -155,9 +208,58 @@ This produces a report categorizing each event. Handle by status:
 | `needs_review` | Check the flagged text and present to user. |
 | `unverifiable` | Flag for user to manually check (Instagram links, etc.) |
 
-Present all flagged items to the user **before** publishing. Never auto-remove events.
+Present all flagged items to the user before publishing. Never auto-remove events.
 
-## Step 5: Clear processed submissions
+Report is written to `data/events/verification-report.json`.
+
+## Step 5: Review flagged events
+
+Check active events for data quality issues:
+
+```
+event_list(status="active")
+```
+
+For events with `styles=["other"]`, `cost=null`, or missing coords:
+- Use `event_edit` to fix styles, cost, or coordinates
+- For missing coords, follow the **geocode-events** skill
+
+Ask the user if unsure about any classification.
+
+## Step 6: Publish
+
+Call the MCP tool:
+
+```
+event_publish()
+```
+
+This regenerates `public/events.json` from the active event store + expanded venues.
+
+### Active count vs published count
+
+These numbers **will differ** — a smaller published count is normal, not data loss.
+
+Example from a recent scrape: **55 active → 51 published**.
+
+What happens during publish (`scripts/event_store.py` → `publish()`):
+
+1. **Expand venues** — `data/venues.json` weekly schedules become dated events
+   (Havana Club, Dante's, Bachata Room, etc.)
+2. **Combine** — expanded venue events + all active events
+3. **Second dedup pass** — merges **certain** duplicates only (same ID or URL)
+   that coexist in the combined pool (e.g. venue hub records duplicated between
+   active store and venue expansion)
+4. **Recurring-series collapse** — groups same-name/same-location events into
+   one entry with a `recurrences[]` array (e.g. multiple Lister workout dates)
+
+Typical math: 55 active + 6 venue-expanded = 61 combined → ~56 after dedup →
+~51–52 after collapse.
+
+Venue hub records (those with a `schedule` field) are kept separate from
+scraped night-specific series during collapse — they won't merge into each other.
+
+## Step 7: Clear processed submissions
 
 ```bash
 curl -s -X POST \
@@ -165,13 +267,13 @@ curl -s -X POST \
   https://api.bostonsalsa.org/api/submissions/clear
 ```
 
-## Step 6: Verify build
+## Step 8: Verify build
 
 ```bash
 npx next build
 ```
 
-## Step 7: Commit and push
+## Step 9: Commit and push
 
 Ask the user to confirm, then:
 
@@ -183,23 +285,78 @@ git push
 
 ---
 
+## Deduplication: ingest vs publish
+
+Dedup runs at **two stages** with different behavior.
+
+### Ingest dedup (`add_event()` during `event_ingest` / `event_scrape`)
+
+When a scraped event arrives, it is compared against active + archive:
+
+| Confidence | Criteria (simplified) | Action |
+|------------|----------------------|--------|
+| **certain** | Same ID or same URL; or a human-approved pair in `known_duplicates.json` | Auto-merge into active |
+| **review** | Exact name + within 24h; same location + same calendar day; substring name + within 24h; word overlap ≥50% (min 2 words) + within 24h; exact name with no parseable dates | Routed to `pending.json` with `_dedup_candidate_of` for human review |
+| **none** | No match | Added as new active event |
+
+Human review outcomes are persisted in `data/known_duplicates.json` (`verdict: "same"` or `"different"`).
+
+All decisions are logged to `data/events/dedup-log.jsonl`.
+
+### Publish dedup (`deduplicate()` + `collapse_recurring_series()`)
+
+During `event_publish()`, the combined pool (active + venue-expanded) gets:
+
+1. **`deduplicate()`** — merges **certain** pairs only (same ID or URL); review-tier
+   pairs stay separate unless already approved in `known_duplicates.json`
+2. **`collapse_recurring_series()`** — collapses multiple dated instances of the
+   same recurring series (same normalized name + location) into one event with
+   `recurrences[]`
+
+This is why ingest can add 55 events but publish outputs fewer.
+
+---
+
+## Weekly venues: Dante's and Havana Club
+
+These are **not** dependent on Facebook scraping. Both are permanent weekly
+venues in `data/venues.json`, expanded into dated events during publish.
+
+| Venue ID | Name | Schedule | Facebook scrape? |
+|----------|------|----------|------------------|
+| `dantes-tambo` | Dante's Salsa Fridays | Every other Friday at Dante Alighieri Society | **No** — `dantes-salsa` disabled; FB page has no upcoming events |
+| `havana-club` | Havana Club | Mon–Sun nightly schedule | **No** — no Facebook source; site is `havanaclubsalsa.com` |
+
+**Dante's:** The map shows "Dante's Salsa Fridays" from venue expansion. The
+Facebook page (`dantes-salsa`) is disabled in `data/sources.json` — do not
+scrape it during Step 2.
+
+**Havana Club:** The venue hub covers the full weekly schedule. The Sensualeros
+ICS calendar (`sensualeros-boston`) also lists night-specific entries (e.g.
+"Bachata Sensual Mondays @ Havana Club") which collapse into recurring series
+on publish. These complement the venue hub with per-night URLs and names.
+No config change needed — just don't expect a Facebook scrape for Havana.
+
+---
+
 ## Architecture Reference
 
 ```
 data/events/active.json     Source of truth for live events
 data/events/archive.json    Past events (dedup history + reactivation)
-data/events/pending.json    Unreviewed submissions
+data/events/pending.json    Unreviewed submissions + uncertain dedup pairs
 data/events/changelog.jsonl Audit log of all mutations
 data/events/dedup-log.jsonl Dedup decision audit trail
 data/events/verification-report.json Last verification run output
 data/venues.json            Permanent weekly venues (Havana Club, Dante's, etc.)
-data/sources.json           Config: URLs, source IDs, defaults
+data/sources.json           Config: URLs, source IDs, defaults, enabled flags
 data/scraped/*.json         Intermediate scraped data
 data/geocode-cache.json     Nominatim results cache
 public/events.json          BUILD ARTIFACT (generated by event_publish)
 scripts/event_store.py      Core lifecycle logic (dedup, archive, publish)
 scripts/verify_events.py   Event verification engine
 scripts/scraper_utils.py    Geocoding, style detection, VENUE_COORDS
+scripts/dedup_report.py     Read-only scan for suspicious pairs in published/active
 mcp-server/server.py        MCP tool definitions
 ```
 
@@ -212,7 +369,7 @@ mcp-server/server.py        MCP tool definitions
 | `event_add` | Add event (auto dedup + geocode + style detect) |
 | `event_edit` | Update fields on an active event |
 | `event_archive` | Move past events to archive |
-| `event_approve` | Move pending submission to active |
+| `event_approve` | Approve pending submission or merge uncertain dedup pair |
 | `event_reject` | Remove pending with reason |
 | `event_scrape` | Run scrapers + ingest + archive |
 | `event_ingest` | Ingest from data/scraped/ without re-scraping |

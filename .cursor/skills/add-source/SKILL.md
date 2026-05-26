@@ -189,6 +189,9 @@ if __name__ == "__main__":
 
 Fill in `fetch_events()` based on the site's HTML structure.
 
+If the listing shows a date but no time, do **not** guess hours — set `startDate` and
+`endDate` to midnight local on that date (`start === end`).
+
 ### 4B.3: Register the source
 
 Use the `source_add` MCP tool:

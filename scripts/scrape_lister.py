@@ -84,7 +84,16 @@ def extract_about_text(soup: BeautifulSoup) -> str:
                 idx = text.lower().find("about the event")
                 if idx >= 0:
                     desc = text[idx + len("about the event"):].strip()
-                    for cutoff in ["Share this event", "bottom of page"]:
+                    for cutoff in [
+                        "Share this event",
+                        "bottom of page",
+                        "Show More",
+                        "Show more",
+                        "See More",
+                        "See more",
+                        "Read More",
+                        "Read more",
+                    ]:
                         ci = desc.find(cutoff)
                         if ci > 0:
                             desc = desc[:ci].strip()
@@ -113,7 +122,12 @@ def parse_detail_page(url: str) -> dict | None:
     description_short = unescape(ld.get("description", ""))
 
     about = extract_about_text(soup)
-    description = about if about else description_short
+    # Prefer whichever description is longer — the HTML "about" text may be
+    # truncated by Wix's collapsed view while JSON-LD has the full version.
+    if about and description_short:
+        description = about if len(about) >= len(description_short) else description_short
+    else:
+        description = about or description_short
 
     location_obj = ld.get("location", {})
     venue_name = location_obj.get("name", "")

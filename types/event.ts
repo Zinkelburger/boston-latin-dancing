@@ -25,6 +25,8 @@ export interface DanceEvent {
   cost: string | null;
   /** Whether this is a recurring event */
   recurring: boolean;
+  /** Human-readable pattern, e.g. "First Sunday of each month" (set at publish) */
+  recurrenceLabel?: string;
   /** ISO datetime strings for all known occurrences (present when recurring) */
   recurrences?: string[];
   /** Weekly schedule for venue-style recurring events (e.g. Havana Club) */

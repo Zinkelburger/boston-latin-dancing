@@ -10,8 +10,9 @@ import MapGL, {
 import type { MapLayerMouseEvent } from 'maplibre-gl';
 import type { Feature, FeatureCollection, Point } from 'geojson';
 
-import allEvents from '@/public/events.json';
+import allEvents from '@/data/events-published.json';
 import type { DanceEvent, DanceStyle, DayOfWeek } from '@/types/event';
+import { eventMatchesDateRange } from '@/lib/recurrences';
 import { STYLE_COLORS } from '@/lib/constants';
 import FilterBar from './FilterBar';
 import type { DateRangeValue } from './DateRangeSlider';
@@ -94,15 +95,18 @@ export default function MapView() {
     toDay: defaultTo,
   });
   const [activeEvent, setActiveEvent] = useState<DanceEvent | null>(null);
+  const [activeDisplayDate, setActiveDisplayDate] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'map' | 'feed'>('map');
 
-  const openEvent = useCallback((event: DanceEvent | null) => {
+  const openEvent = useCallback((event: DanceEvent | null, displayDate?: string) => {
     setActiveEvent(event);
+    setActiveDisplayDate(displayDate ?? null);
     window.history.replaceState(null, '', event?.slug ? `#event=${event.slug}` : ' ');
   }, []);
 
   const closePopup = useCallback(() => {
     setActiveEvent(null);
+    setActiveDisplayDate(null);
     window.history.replaceState(null, '', ' ');
   }, []);
 
@@ -149,9 +153,7 @@ export default function MapView() {
         selectedDays.includes(event.dayOfWeek) ||
         (event.schedule?.some(s => selectedDays.includes(s.dayOfWeek)) ?? false);
 
-      const eventMs = new Date(event.startDate).getTime();
-      const hasSchedule = !!event.schedule;
-      const matchesDate = hasSchedule || (eventMs >= fromMs && eventMs <= toMs);
+      const matchesDate = eventMatchesDateRange(event, fromMs, toMs);
 
       return matchesStyle && matchesDay && matchesDate;
     });
@@ -166,6 +168,15 @@ export default function MapView() {
     () => applyFilters(events),
     [events, applyFilters],
   );
+
+  const { effectiveFromMs, effectiveToMs } = useMemo(() => {
+    const effectiveFrom = dateMode === 'any' ? sliderMin : dateSlider.fromDay;
+    const effectiveTo = dateMode === 'any' ? sliderMax : dateSlider.toDay;
+    return {
+      effectiveFromMs: effectiveFrom * 86400000,
+      effectiveToMs: (effectiveTo + 1) * 86400000 - 1,
+    };
+  }, [dateMode, sliderMin, sliderMax, dateSlider]);
 
   const allMapItems = useMemo(() => {
     return filteredEvents.map(e => ({
@@ -223,8 +234,8 @@ export default function MapView() {
   );
 
   const handleFeedSelectEvent = useCallback(
-    (event: DanceEvent) => {
-      openEvent(event);
+    (event: DanceEvent, displayDate?: string) => {
+      openEvent(event, displayDate);
       if (event.lat != null && event.lng != null) {
         setViewMode('map');
         setTimeout(() => {
@@ -262,6 +273,8 @@ export default function MapView() {
           <FeedView
             events={filteredAllEvents}
             selectedDays={selectedDays}
+            fromMs={effectiveFromMs}
+            toMs={effectiveToMs}
             onSelectEvent={handleFeedSelectEvent}
           />
         </div>
@@ -290,6 +303,9 @@ export default function MapView() {
         <EventPopup
           event={activeEvent}
           onClose={closePopup}
+          displayDate={activeDisplayDate}
+          fromMs={effectiveFromMs}
+          toMs={effectiveToMs}
         />
       )}
     </div>

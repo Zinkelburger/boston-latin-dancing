@@ -1,19 +1,16 @@
 import type { Metadata } from 'next';
-import allEvents from '@/public/events.json';
-import type { DanceEvent, DayOfWeek } from '@/types/event';
+import allEvents from '@/data/events-published.json';
+import type { DanceEvent } from '@/types/event';
 import { SITE_URL, STYLE_LABELS, STYLE_PILL_CLASS } from '@/lib/constants';
+import { formatEventTimeRange, getRecurrenceLabel } from '@/lib/recurrences';
 import { stripHtml } from '@/lib/strip-html';
 import EventDetailClient from './EventDetailClient';
 import CollapsibleText from '@/app/components/CollapsibleText';
+import { UpcomingDatesTable, WeeklyScheduleTable } from '@/app/components/EventTable';
 
 const events = allEvents as DanceEvent[];
 
 type Params = { slug: string };
-
-const DAY_SHORT: Record<DayOfWeek, string> = {
-  Monday: 'Mon', Tuesday: 'Tue', Wednesday: 'Wed',
-  Thursday: 'Thu', Friday: 'Fri', Saturday: 'Sat', Sunday: 'Sun',
-};
 
 function findBySlug(slug: string): DanceEvent | undefined {
   return events.find(e => e.slug === slug);
@@ -62,25 +59,6 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   };
 }
 
-function formatTimeRange(start: string, end: string): string {
-  const s = new Date(start);
-  const e = new Date(end);
-  const sameDay = s.toDateString() === e.toDateString();
-
-  const dateStr = s.toLocaleDateString('en-US', {
-    weekday: 'short', month: 'short', day: 'numeric',
-  });
-  const startTime = s.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-  const endTime = e.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-
-  if (sameDay) return `${dateStr}, ${startTime} – ${endTime}`;
-
-  const endDateStr = e.toLocaleDateString('en-US', {
-    weekday: 'short', month: 'short', day: 'numeric',
-  });
-  return `${dateStr} ${startTime} – ${endDateStr} ${endTime}`;
-}
-
 export default async function EventPage({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
   const event = findBySlug(slug);
@@ -98,7 +76,8 @@ export default async function EventPage({ params }: { params: Promise<Params> })
   }
 
   const shareUrl = `${SITE_URL}/event/${slug}`;
-  const shareText = `${event.name} — ${formatTimeRange(event.startDate, event.endDate)}`;
+  const shareText = `${event.name} — ${formatEventTimeRange(event.startDate, event.endDate)}`;
+  const recurrenceLabel = getRecurrenceLabel(event);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -137,46 +116,24 @@ export default async function EventPage({ params }: { params: Promise<Params> })
                 {STYLE_LABELS[style]}
               </span>
             ))}
-            {event.recurring && (
+            {event.recurring && !recurrenceLabel && (
               <span className="pretty-pill pretty-pill-neutral text-xs">Recurring</span>
             )}
           </div>
 
-          {/* Time */}
-          <div className="text-sm text-gray-600">
-            {formatTimeRange(event.startDate, event.endDate)}
-          </div>
-
-          {/* Upcoming dates for recurring series */}
-          {event.recurrences && event.recurrences.length > 1 && (
-            <div className="text-sm text-gray-500">
-              <span className="font-medium text-gray-600">Upcoming dates: </span>
-              {event.recurrences.map(d => new Date(d)).map((d, i) => (
-                <span key={i}>
-                  {i > 0 && <span className="text-gray-300 mx-0.5">&middot;</span>}
-                  <span className={d.getTime() >= Date.now() - 86400000 ? 'text-gray-700' : 'text-gray-400 line-through'}>
-                    {d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                  </span>
-                </span>
-              ))}
-            </div>
+          {recurrenceLabel && (
+            <div className="text-sm font-medium text-gray-800">{recurrenceLabel}</div>
           )}
 
-          {/* Weekly schedule table */}
+          {/* Time */}
+          <div className="text-sm text-gray-600">
+            {formatEventTimeRange(event.startDate, event.endDate)}
+          </div>
+
+          <UpcomingDatesTable event={event} className="mt-1" />
+
           {event.schedule && event.schedule.length > 0 && (
-            <table className="w-full text-sm border-collapse mt-1">
-              <tbody>
-                {event.schedule.map(s => (
-                  <tr key={s.dayOfWeek} className="border-t border-gray-100">
-                    <td className="py-1.5 pr-3 font-semibold text-gray-700 whitespace-nowrap w-[1%]">
-                      {DAY_SHORT[s.dayOfWeek]}
-                    </td>
-                    <td className="py-1.5 pr-3 text-gray-600 whitespace-nowrap">{s.time}</td>
-                    <td className="py-1.5 text-gray-400 text-xs">{s.note}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <WeeklyScheduleTable schedule={event.schedule} className="mt-1" />
           )}
 
           {/* Location */}

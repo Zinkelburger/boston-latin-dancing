@@ -6,6 +6,7 @@ coordinates, geocoding (Nominatim + venue lookup + cache), and output writing.
 All scrapers import from here so the DanceEvent schema stays consistent.
 """
 
+import html
 import json
 import math
 import os
@@ -61,6 +62,8 @@ VENUE_COORDS = {
     "1 shipyard park": (42.3731772, -71.0526574),
     "shipyard park": (42.3731772, -71.0526574),
     # Venues discovered from geocoding failures
+    "havana club": (42.3646071, -71.1043523),
+    "288 green st": (42.3646071, -71.1043523),
     "j&l dance studio": (42.4271, -71.0662),
     "j&l dance": (42.4271, -71.0662),
     "west end johnnies": (42.3632, -71.0618),
@@ -84,6 +87,24 @@ VENUE_COORDS = {
     "112 bishop allen drive": (42.3633, -71.1006),
     "sunset cantina": (42.3508, -71.1165),
     "916 commonwealth avenue": (42.3508, -71.1165),
+    "multicultural arts center": (42.3699327, -71.0796219),
+    "long live roxbury": (42.3277529, -71.0748973),
+    "152 hampden st": (42.3277529, -71.0748973),
+    "faces brewing co": (42.4265326, -71.0686213),
+    "faces brewing co.": (42.4265326, -71.0686213),
+    "marina bay ferry": (42.299906, -71.0312343),
+    "marina bay quincy": (42.2985665, -71.0293661),
+    "552 victory road": (42.299906, -71.0312343),
+    "the event factory kitchen & stage": (41.7246794, -71.456138),
+    "event factory kitchen": (41.7246794, -71.456138),
+    "providence rink": (41.8249423, -71.4115681),
+    "isles of shoals steamship company": (43.0799477, -70.7595803),
+    "dancing fools": (42.393693, -71.119445),
+    "351 summer st": (42.393693, -71.119445),
+    "morse library": (42.2846114, -71.345821),
+    "14 e central st": (42.2846114, -71.345821),
+    "sol de mexico": (42.1530123, -71.4913262),
+    "350 e main st": (42.1530123, -71.4913262),
 }
 
 BOSTON = (42.36, -71.06)
@@ -163,8 +184,16 @@ def _nominatim_query(query: str) -> Optional[tuple[float, float]]:
 def _normalize(s: str) -> str:
     return s.replace("\u2018", "'").replace("\u2019", "'").replace("\u201c", '"').replace("\u201d", '"')
 
+def clean_location(location: str) -> str:
+    """Normalize location strings from scrapers (newlines, HTML entities, spacing)."""
+    s = html.unescape(location or "")
+    s = s.replace("\r\n", "\n").replace("\r", "\n")
+    s = re.sub(r"\n+", ", ", s)
+    s = re.sub(r",\s*,+", ", ", s)
+    return s.strip()
+
 def _lookup_venue(location: str) -> Optional[tuple[float, float]]:
-    lower = _normalize(location).lower().strip()
+    lower = _normalize(clean_location(location)).lower().strip()
     if lower in VENUE_COORDS:
         return VENUE_COORDS[lower]
     for venue, coords in VENUE_COORDS.items():
@@ -172,8 +201,25 @@ def _lookup_venue(location: str) -> Optional[tuple[float, float]]:
             return coords
     return None
 
+def _eventbrite_address(url: str) -> Optional[str]:
+    """Extract streetAddress from Eventbrite JSON-LD (no API key needed)."""
+    if not url or "eventbrite.com" not in url:
+        return None
+    try:
+        resp = requests.get(
+            url,
+            headers={"User-Agent": "boston-latin-dance-dev/0.1"},
+            timeout=10,
+        )
+        m = re.search(r'"streetAddress"\s*:\s*"([^"]+)"', resp.text)
+        if m:
+            return m.group(1).strip()
+    except Exception:
+        pass
+    return None
+
 def _build_query_variants(location: str) -> list[str]:
-    cleaned = re.sub(r"#\w+\s*", "", location)
+    cleaned = re.sub(r"#\w+\s*", "", clean_location(location))
     cleaned = re.sub(r",\s*FL\s+\d+", "", cleaned, flags=re.I)
     cleaned = re.sub(r"\s+-\s+\d+\w*\s+Floor", "", cleaned, flags=re.I)
     cleaned = cleaned.strip()
@@ -198,6 +244,7 @@ def _build_query_variants(location: str) -> list[str]:
 
 def geocode(location: str) -> Optional[tuple[float, float]]:
     """Return (lat, lng) for a location string, or None."""
+    location = clean_location(location)
     if not location:
         return None
 

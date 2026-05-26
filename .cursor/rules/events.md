@@ -5,7 +5,6 @@ globs:
   - "data/venues.json"
   - "public/events.json"
   - "scripts/event_store.py"
-  - "scripts/merge_events.py"
   - "mcp-server/**"
 ---
 
@@ -13,18 +12,21 @@ globs:
 
 ## Golden Rule
 
-**Never manually edit `public/events.json`** — it is a generated build artifact.
-Regenerate it by calling the `event_publish` MCP tool.
+**Never manually edit `public/events.json` or `data/events-published.json`** — they are generated build artifacts.
+Regenerate them by calling the `event_publish` MCP tool or running `npm run publish-events`.
 
 ## Data Architecture
 
 ```
-data/events/active.json   ← source of truth for live/upcoming events
-data/events/archive.json  ← past events (for dedup history + reactivation)
-data/events/pending.json  ← unreviewed user submissions
-data/venues.json          ← permanent weekly venues (Havana Club, Dante's, etc.)
-public/events.json        ← BUILD ARTIFACT consumed by Next.js frontend
+data/events/active.json      ← source of truth for live/upcoming events
+data/events/archive.json     ← past events (for dedup history + reactivation)
+data/events/pending.json     ← unreviewed user submissions + review-tier dedup pairs
+data/venues.json             ← permanent weekly venues (Havana Club, Dante's, etc.)
+data/events-published.json   ← BUILD ARTIFACT imported by the Next.js app
+public/events.json           ← legacy copy of events-published.json (same content)
 ```
+
+The Next.js app imports from `data/events-published.json` (via `@/data/events-published.json`), not directly from `public/events.json`.
 
 ## How to Add Events
 
@@ -39,15 +41,27 @@ Do NOT append to JSON files manually.
 ## How to Run the Pipeline
 
 1. `event_scrape` — runs all automated scrapers, ingests results, archives past events
-2. `event_publish` — regenerates public/events.json
+2. `event_verify(stale_days=7)` — verify events against sources **before** publishing
+3. Review pending dedup pairs — `event_list(status="pending")` for items with `_dedup_candidate_of`
+4. `event_publish` — regenerates public/events.json (expand venues, suppress covered, collapse series)
 
 Or scrape a single source: `event_scrape` with `source_id` argument.
 
-## How to Review Submissions
+Automated source_ids: `beatrice-calendar`, `sensualeros-boston`, `lister-events`,
+`eventbrite-boston-latin`, `fiesta-dance-company`, `submissions`. Facebook sources require browser MCP.
+
+Active store count ≠ published count because
+publish expands venues, suppresses venue-covered scrapes, and collapses recurring series.
+
+## How to Review Submissions and Dedup Pairs
+
+There is no admin web UI. Use MCP tools or read `data/events/pending.json`.
 
 1. `event_list` with `status="pending"` to see the queue
-2. For each: verify the event is real (check URL, confirm venue)
-3. `event_approve` or `event_reject` with a reason
+2. Items with `_dedup_candidate_of` are review-tier duplicate matches — compare
+   against the active event via `event_get`
+3. User submissions: verify the event is real (check URL, confirm venue)
+4. `event_approve` (merge dedup pair or approve submission) or `event_reject` with a reason
 
 ## Venues vs Events
 
@@ -71,9 +85,10 @@ Discovery (scraper/submission/manual) → Active → Archive (when past)
 1. recurring-venues (expanded from data/venues.json)
 2. eventbrite-boston-latin
 3. lister-events
-4. bobas / dantes-salsa (Facebook sources)
-5. submissions
-6. manual
+4. bobas (Facebook — dantes-salsa disabled; Dante's covered by venues.json)
+5. sensualeros-boston (Google Calendar ICS)
+6. submissions
+7. manual
 
 ## Important Files
 

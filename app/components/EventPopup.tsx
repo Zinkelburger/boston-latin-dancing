@@ -1,17 +1,14 @@
 'use client';
 
-import { useEffect, useCallback, useState, type ReactNode } from 'react';
-import type { DanceEvent, DayOfWeek } from '@/types/event';
+import { useEffect, useState, type ReactNode } from 'react';
+import type { DanceEvent } from '@/types/event';
 import { SITE_URL, STYLE_LABELS, STYLE_PILL_CLASS } from '@/lib/constants';
+import { formatEventTimeRange, getRecurrenceLabel, resolveDisplayOccurrence } from '@/lib/recurrences';
 import { stripHtml } from '@/lib/strip-html';
 import ShareButton from './ShareButton';
+import { UpcomingDatesTable, WeeklyScheduleTable } from './EventTable';
 
 const URL_RE = /(https?:\/\/[^\s,)]+)/g;
-
-const DAY_SHORT: Record<DayOfWeek, string> = {
-  Monday: 'Mon', Tuesday: 'Tue', Wednesday: 'Wed',
-  Thursday: 'Thu', Friday: 'Fri', Saturday: 'Sat', Sunday: 'Sun',
-};
 
 function linkifyText(text: string): ReactNode[] {
   const parts = text.split(URL_RE);
@@ -35,27 +32,12 @@ function linkifyText(text: string): ReactNode[] {
 type Props = {
   event: DanceEvent;
   onClose: () => void;
+  /** Specific occurrence clicked in feed view. */
+  displayDate?: string | null;
+  /** Active filter window — used to pick first in-range occurrence on map. */
+  fromMs?: number;
+  toMs?: number;
 };
-
-function formatTimeRange(start: string, end: string): string {
-  const s = new Date(start);
-  const e = new Date(end);
-  const sameDay = s.toDateString() === e.toDateString();
-
-  const dateStr = s.toLocaleDateString('en-US', {
-    weekday: 'short', month: 'short', day: 'numeric',
-  });
-  const startTime = s.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-  const endTime = e.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-
-  if (sameDay) {
-    return `${dateStr}, ${startTime} – ${endTime}`;
-  }
-  const endDateStr = e.toLocaleDateString('en-US', {
-    weekday: 'short', month: 'short', day: 'numeric',
-  });
-  return `${dateStr} ${startTime} – ${endDateStr} ${endTime}`;
-}
 
 function linkLabel(url: string): { label: string; icon: string } {
   try {
@@ -79,18 +61,18 @@ function toGcalDate(iso: string): string {
   return new Date(iso).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
 }
 
-function googleCalendarUrl(event: DanceEvent): string {
+function googleCalendarUrl(event: DanceEvent, startDate: string, endDate: string): string {
   const params = new URLSearchParams({
     action: 'TEMPLATE',
     text: event.name,
-    dates: `${toGcalDate(event.startDate)}/${toGcalDate(event.endDate)}`,
+    dates: `${toGcalDate(startDate)}/${toGcalDate(endDate)}`,
     location: event.location,
     details: [event.description.slice(0, 500), event.url].filter(Boolean).join('\n\n'),
   });
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
 
-export default function EventPopup({ event, onClose }: Props) {
+export default function EventPopup({ event, onClose, displayDate, fromMs, toMs }: Props) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -99,7 +81,12 @@ export default function EventPopup({ event, onClose }: Props) {
     return () => document.removeEventListener('keydown', onKey);
   }, [onClose]);
 
-  const calendarUrl = googleCalendarUrl(event);
+  const { start: displayStart, end: displayEnd } = resolveDisplayOccurrence(event, {
+    displayDate,
+    fromMs,
+    toMs,
+  });
+  const calendarUrl = googleCalendarUrl(event, displayStart, displayEnd);
   const shareUrl = event.slug ? `${SITE_URL}/event/${event.slug}` : '';
 
   const [descExpanded, setDescExpanded] = useState(false);
@@ -112,6 +99,7 @@ export default function EventPopup({ event, onClose }: Props) {
     : cleanDesc.slice(0, cleanDesc.lastIndexOf(' ', CHAR_LIMIT)) + '…';
 
   const link = event.url ? linkLabel(event.url) : null;
+  const recurrenceLabel = getRecurrenceLabel(event);
 
   return (
     <div
@@ -171,46 +159,24 @@ export default function EventPopup({ event, onClose }: Props) {
               {STYLE_LABELS[style]}
             </span>
           ))}
-          {event.recurring && (
+          {event.recurring && !recurrenceLabel && (
             <span className="pretty-pill pretty-pill-neutral text-xs">Recurring</span>
           )}
         </div>
 
-        {/* Time */}
-        <div className="text-sm text-gray-600">
-          {formatTimeRange(event.startDate, event.endDate)}
-        </div>
-
-        {/* Upcoming dates for recurring series */}
-        {event.recurrences && event.recurrences.length > 1 && (
-          <div className="text-sm text-gray-500">
-            <span className="font-medium text-gray-600">Upcoming dates: </span>
-            {event.recurrences.map(d => new Date(d)).map((d, i) => (
-              <span key={i}>
-                {i > 0 && <span className="text-gray-300 mx-0.5">&middot;</span>}
-                <span className={d.getTime() >= Date.now() - 86400000 ? 'text-gray-700' : 'text-gray-400 line-through'}>
-                  {d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                </span>
-              </span>
-            ))}
-          </div>
+        {recurrenceLabel && (
+          <div className="text-sm font-medium text-gray-800">{recurrenceLabel}</div>
         )}
 
-        {/* Weekly schedule table (for venue-style recurring events) */}
+        {/* Time */}
+        <div className="text-sm text-gray-600">
+          {formatEventTimeRange(displayStart, displayEnd)}
+        </div>
+
+        <UpcomingDatesTable event={event} className="mt-1" />
+
         {event.schedule && event.schedule.length > 0 && (
-          <table className="w-full text-sm border-collapse mt-1">
-            <tbody>
-              {event.schedule.map(s => (
-                <tr key={s.dayOfWeek} className="border-t border-gray-100">
-                  <td className="py-1.5 pr-3 font-semibold text-gray-700 whitespace-nowrap w-[1%]">
-                    {DAY_SHORT[s.dayOfWeek]}
-                  </td>
-                  <td className="py-1.5 pr-3 text-gray-600 whitespace-nowrap">{s.time}</td>
-                  <td className="py-1.5 text-gray-400 text-xs">{s.note}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <WeeklyScheduleTable schedule={event.schedule} className="mt-1" />
         )}
 
         {/* Location */}

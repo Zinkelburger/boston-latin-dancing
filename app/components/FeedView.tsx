@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import type { DanceEvent, DayOfWeek } from '@/types/event';
 import { STYLE_LABELS, STYLE_PILL_CLASS, SITE_URL } from '@/lib/constants';
 import { stripHtml } from '@/lib/strip-html';
+import { getRecurrenceLabel, recurrencesInRange, isDateOnlyEvent } from '@/lib/recurrences';
 import ShareButton from './ShareButton';
 
 const DAY_NAMES: DayOfWeek[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -42,12 +43,14 @@ type DateGroup = { key: string; label: string; entries: FeedEntry[] };
 function expandAndGroup(
   events: DanceEvent[],
   selectedDays: DayOfWeek[],
+  fromMs: number,
+  toMs: number,
 ): DateGroup[] {
   const entries: FeedEntry[] = [];
 
   for (const event of events) {
     if (event.recurrences && event.recurrences.length > 0) {
-      for (const recDate of event.recurrences) {
+      for (const recDate of recurrencesInRange(event.recurrences, fromMs, toMs)) {
         const d = new Date(recDate);
         const day = DAY_NAMES[d.getDay()];
         if (selectedDays.length > 0 && !selectedDays.includes(day)) continue;
@@ -82,11 +85,16 @@ function expandAndGroup(
 type Props = {
   events: DanceEvent[];
   selectedDays: DayOfWeek[];
-  onSelectEvent: (event: DanceEvent) => void;
+  fromMs: number;
+  toMs: number;
+  onSelectEvent: (event: DanceEvent, displayDate?: string) => void;
 };
 
-export default function FeedView({ events, selectedDays, onSelectEvent }: Props) {
-  const grouped = useMemo(() => expandAndGroup(events, selectedDays), [events, selectedDays]);
+export default function FeedView({ events, selectedDays, fromMs, toMs, onSelectEvent }: Props) {
+  const grouped = useMemo(
+    () => expandAndGroup(events, selectedDays, fromMs, toMs),
+    [events, selectedDays, fromMs, toMs],
+  );
   const totalEntries = useMemo(() => grouped.reduce((n, g) => n + g.entries.length, 0), [grouped]);
 
   return (
@@ -104,7 +112,7 @@ export default function FeedView({ events, selectedDays, onSelectEvent }: Props)
                 key={`${entry.event.id}-${entry.displayDate}`}
                 event={entry.event}
                 displayDate={entry.displayDate}
-                onSelect={() => onSelectEvent(entry.event)}
+                onSelect={() => onSelectEvent(entry.event, entry.displayDate)}
               />
             ))}
           </div>
@@ -144,6 +152,7 @@ function FeedCard({
 
   const shareUrl = event.slug ? `${SITE_URL}/event/${event.slug}` : '';
   const scheduleTime = event.recurrences ? scheduleTimeForDate(event, displayDate) : null;
+  const recurrenceLabel = getRecurrenceLabel(event);
 
   return (
     <div role="button" tabIndex={0} className="feed-card" onClick={onSelect} onKeyDown={e => { if (e.key === 'Enter') onSelect(); }}>
@@ -157,7 +166,7 @@ function FeedCard({
               {STYLE_LABELS[style]}
             </span>
           ))}
-          {event.recurring && (
+          {event.recurring && !recurrenceLabel && (
             <span className="pretty-pill pretty-pill-neutral text-xs">
               Recurring
             </span>
@@ -176,11 +185,17 @@ function FeedCard({
 
       <h3 className="feed-card-title">{event.name}</h3>
 
+      {recurrenceLabel && (
+        <div className="text-sm font-medium text-gray-700">{recurrenceLabel}</div>
+      )}
+
       <div className="feed-card-meta">
         <span className="feed-card-date">
           {scheduleTime
             ? `${formatDate(displayDate)} \u00B7 ${scheduleTime}`
-            : `${formatDate(displayDate)} \u00B7 ${formatTime(event.startDate)} – ${formatTime(event.endDate)}`
+            : isDateOnlyEvent(event.startDate, event.endDate)
+              ? formatDate(displayDate)
+              : `${formatDate(displayDate)} \u00B7 ${formatTime(event.startDate)} – ${formatTime(event.endDate)}`
           }
         </span>
       </div>

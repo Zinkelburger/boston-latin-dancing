@@ -102,7 +102,7 @@ These organizer pages may yield new events or help verify existing ones:
 - Boston Salsa Central: https://bostonsalsacentral.com/dance-socials/
 - Havana Club: https://www.havanaclubsalsa.com/
 - Bachata Room: https://www.bachataroomboston.com/
-- Fiesta Dance Company: https://fiestadancecompany.com/
+- Fiesta Dance Company: https://fiestadancecompany.com/upcoming-socials / https://www.instagram.com/fiestadancecompany/ (source: `fiesta-dance-company`)
 - Lister Events: https://www.listerevents.com/events
 - Mambo Pa Ti: https://www.mambopati.com/
 

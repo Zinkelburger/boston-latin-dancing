@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import allEvents from '@/public/events.json';
-import type { DanceEvent, DanceStyle, DayOfWeek } from '@/types/event';
+import allEvents from '@/data/events-published.json';
+import type { DanceEvent, DanceStyle } from '@/types/event';
 import {
   SITE_URL,
   STYLE_LABELS,
@@ -10,6 +10,8 @@ import {
   STYLE_SLUGS,
   STYLE_COLORS,
 } from '@/lib/constants';
+import { CompactScheduleTable } from '@/app/components/EventTable';
+import { recurringWhenLabel } from '@/lib/recurrences';
 
 const events = allEvents as DanceEvent[];
 
@@ -58,11 +60,6 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
     alternates: { canonical: url },
   };
 }
-
-const DAY_SHORT: Record<DayOfWeek, string> = {
-  Monday: 'Mon', Tuesday: 'Tue', Wednesday: 'Wed',
-  Thursday: 'Thu', Friday: 'Fri', Saturday: 'Sat', Sunday: 'Sun',
-};
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString('en-US', {
@@ -164,6 +161,8 @@ export default async function StylePage({ params }: { params: Promise<Params> })
 }
 
 function EventCard({ event, style }: { event: DanceEvent; style: DanceStyle }) {
+  const whenLabel = recurringWhenLabel(event) ?? formatDate(event.startDate);
+
   return (
     <Link
       href={`/event/${event.slug}`}
@@ -172,13 +171,7 @@ function EventCard({ event, style }: { event: DanceEvent; style: DanceStyle }) {
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
           <h3 className="font-semibold text-gray-900 truncate">{event.name}</h3>
-          <div className="text-sm text-gray-500 mt-0.5">
-            {event.recurring && event.schedule ? (
-              event.schedule.map(s => `${DAY_SHORT[s.dayOfWeek]} ${s.time}`).join(' · ')
-            ) : (
-              formatDate(event.startDate)
-            )}
-          </div>
+          <div className="text-sm text-gray-500 mt-0.5">{whenLabel}</div>
           {event.location && (
             <div className="text-sm text-gray-400 mt-0.5 truncate">
               {event.location.split('\n')[0]}
@@ -197,6 +190,9 @@ function EventCard({ event, style }: { event: DanceEvent; style: DanceStyle }) {
           ))}
         </div>
       </div>
+      {event.schedule && event.schedule.length > 0 && (
+        <CompactScheduleTable schedule={event.schedule} className="event-table-compact mt-2" />
+      )}
       {event.cost && (
         <div className="text-xs font-medium text-rose-600 mt-2">{event.cost}</div>
       )}

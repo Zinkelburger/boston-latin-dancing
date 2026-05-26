@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import allEvents from '@/public/events.json';
+import allEvents from '@/data/events-published.json';
 import type { DanceEvent } from '@/types/event';
 import { SITE_URL, STYLE_SLUGS } from '@/lib/constants';
 

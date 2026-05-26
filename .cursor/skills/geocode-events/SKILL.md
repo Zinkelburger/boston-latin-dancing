@@ -73,4 +73,4 @@ If geocoding fails for an event:
 
 ## After Fixing
 
-Re-run `python3 scripts/merge_events.py` to regenerate `public/events.json`.
+Re-run `npm run publish-events` to regenerate `public/events.json`.

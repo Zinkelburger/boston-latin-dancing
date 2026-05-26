@@ -19,15 +19,16 @@ Provides:
 import json
 import math
 import re
-import fcntl
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Optional
 from unicodedata import normalize as unicode_normalize
+from zoneinfo import ZoneInfo
 
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from scraper_utils import ROOT, SCRAPED_DIR, geocode, detect_styles, extract_cost
+from scraper_utils import ROOT, SCRAPED_DIR, VENUE_COORDS, clean_location, geocode, detect_styles, extract_cost, _eventbrite_address, _normalize
+from recurrence_utils import recurrence_label
 
 # ── Paths ─────────────────────────────────────────────────────────────
 
@@ -37,11 +38,16 @@ ARCHIVE_JSON = EVENTS_DIR / "archive.json"
 PENDING_JSON = EVENTS_DIR / "pending.json"
 CHANGELOG = EVENTS_DIR / "changelog.jsonl"
 VENUES_JSON = ROOT / "data" / "venues.json"
-PUBLIC_EVENTS_JSON = ROOT / "public" / "events.json"
+PUBLIC_EVENTS_JSON = ROOT / "data" / "events-published.json"
 
 DEDUP_LOG = EVENTS_DIR / "dedup-log.jsonl"
+KNOWN_DUPLICATES_JSON = ROOT / "data" / "known_duplicates.json"
+
+NY_TZ = ZoneInfo("America/New_York")
 
 EVENTS_DIR.mkdir(parents=True, exist_ok=True)
+
+_known_duplicates_cache: Optional[list[dict]] = None
 
 # ── Source priority ───────────────────────────────────────────────────
 # Lower rank = higher precedence. Venue schedule hubs always win (see source_rank).
@@ -54,6 +60,7 @@ SOURCE_PRIORITY = {
     "sensualeros-boston": 10,
     "eventbrite-boston-latin": 11,
     "lister-events": 12,
+    "fiesta-dance-company": 12,
     "bobas": 13,
     "dantes-salsa": 13,
     "": 20,
@@ -165,7 +172,24 @@ def _locations_same(a: dict, b: dict) -> bool:
         return canon_a == canon_b
     if _coords_close(a, b):
         return True
+    loc_a = (a.get("location") or "").lower().strip()
+    loc_b = (b.get("location") or "").lower().strip()
+    if loc_a and loc_b:
+        return loc_a == loc_b
     return False
+
+
+def _same_calendar_day(a: dict, b: dict) -> Optional[bool]:
+    """True if start dates fall on the same calendar day in America/New_York."""
+    date_a = parse_date(a.get("startDate", ""))
+    date_b = parse_date(b.get("startDate", ""))
+    if not date_a or not date_b:
+        return None
+    if date_a.tzinfo is None:
+        date_a = date_a.replace(tzinfo=timezone.utc)
+    if date_b.tzinfo is None:
+        date_b = date_b.replace(tzinfo=timezone.utc)
+    return date_a.astimezone(NY_TZ).date() == date_b.astimezone(NY_TZ).date()
 
 
 def _dates_within(a: dict, b: dict, hours: float) -> Optional[bool]:
@@ -174,6 +198,12 @@ def _dates_within(a: dict, b: dict, hours: float) -> Optional[bool]:
     date_b = parse_date(b.get("startDate", ""))
     if not date_a or not date_b:
         return None
+    if date_a.tzinfo is None:
+        date_a = date_a.replace(tzinfo=timezone.utc)
+    if date_b.tzinfo is None:
+        date_b = date_b.replace(tzinfo=timezone.utc)
+    date_a = date_a.astimezone(NY_TZ)
+    date_b = date_b.astimezone(NY_TZ)
     return abs((date_a - date_b).total_seconds()) < hours * 3600
 
 
@@ -184,70 +214,110 @@ def _url_match(a: dict, b: dict) -> bool:
     return bool(url_a) and url_a == url_b
 
 
-# ── Tiered dedup confidence ──────────────────────────────────────────
-#
-# Returns one of:
-#   "certain"   – auto-merge, no review needed
-#   "likely"    – auto-merge, log for audit
-#   "uncertain" – route to pending for human/agent review
-#   None        – not a duplicate
+def _load_known_duplicates() -> list[dict]:
+    global _known_duplicates_cache
+    if _known_duplicates_cache is not None:
+        return _known_duplicates_cache
+    if not KNOWN_DUPLICATES_JSON.exists():
+        _known_duplicates_cache = []
+    else:
+        try:
+            _known_duplicates_cache = json.loads(KNOWN_DUPLICATES_JSON.read_text())
+        except (json.JSONDecodeError, ValueError):
+            _known_duplicates_cache = []
+    return _known_duplicates_cache
+
+
+def _known_duplicate_verdict(a: dict, b: dict) -> Optional[str]:
+    """Return 'certain' if confirmed same, 'skip' if confirmed different, else None."""
+    id_a, id_b = a.get("id"), b.get("id")
+    if not id_a or not id_b:
+        return None
+    for entry in _load_known_duplicates():
+        if {entry["id_a"], entry["id_b"]} == {id_a, id_b}:
+            if entry["verdict"] == "same":
+                return "certain"
+            if entry["verdict"] == "different":
+                return "skip"
+    return None
+
+
+def _persist_known_duplicate(id_a: str, id_b: str, verdict: str) -> None:
+    """Save a human-reviewed duplicate pair to known_duplicates.json."""
+    global _known_duplicates_cache
+    pair = sorted([id_a, id_b])
+    id_a, id_b = pair[0], pair[1]
+
+    entries = _load_known_duplicates()
+    for entry in entries:
+        if entry["id_a"] == id_a and entry["id_b"] == id_b:
+            entry["verdict"] = verdict
+            entry["reviewed_at"] = datetime.now(timezone.utc).isoformat()
+            break
+    else:
+        entries.append({
+            "id_a": id_a,
+            "id_b": id_b,
+            "verdict": verdict,
+            "reviewed_at": datetime.now(timezone.utc).isoformat(),
+        })
+
+    _known_duplicates_cache = entries
+    KNOWN_DUPLICATES_JSON.parent.mkdir(parents=True, exist_ok=True)
+    KNOWN_DUPLICATES_JSON.write_text(json.dumps(entries, indent=2, ensure_ascii=False))
+
 
 def dedup_confidence(a: dict, b: dict) -> Optional[str]:
     """Determine dedup confidence between two events.
 
-    Tier 1 – CERTAIN (auto-merge silently):
-      - Same ID
-      - Same URL
-      - Exact normalized name + same date (within 4 hours)
-
-    Tier 2 – LIKELY (auto-merge, log):
-      - Exact normalized name + same date (within 24 hours)
-      - Substring name match + same location (alias/coords) + within 24h
-      - Normalized name match + same location + within 24h
-
-    Tier 3 – UNCERTAIN (route to pending for review):
-      - Substring name match + within 24h but different/unknown locations
-      - High word overlap (>=50%) + same location + within 24h
-      - Same name + no parseable dates
-
-    Returns None if no match detected.
+    Returns:
+      "certain" – same ID or URL; auto-merge
+      "review"  – suspicious match; route to pending
+      None      – not a duplicate
     """
-    # Venue schedule hubs are distinct map entries from scraped night-specific series.
+    id_a, id_b = a.get("id"), b.get("id")
+    if not id_a or not id_b:
+        return None
+
     if _is_venue_schedule_record(a) != _is_venue_schedule_record(b):
         return None
 
-    name_a = normalize_name(a["name"])
-    name_b = normalize_name(b["name"])
-    if not name_a or not name_b:
+    known = _known_duplicate_verdict(a, b)
+    if known == "certain":
+        return "certain"
+    if known == "skip":
         return None
 
-    # ── Tier 1: CERTAIN ──
-    if a["id"] == b["id"]:
+    if id_a == id_b:
         return "certain"
 
     if _url_match(a, b):
         return "certain"
 
+    name_a_raw = a.get("name")
+    name_b_raw = b.get("name")
+    if not name_a_raw or not name_b_raw:
+        return None
+
+    name_a = normalize_name(name_a_raw)
+    name_b = normalize_name(name_b_raw)
+    if not name_a or not name_b:
+        return None
+
+    within_24h = _dates_within(a, b, 24)
+    same_day = _same_calendar_day(a, b)
+    same_loc = _locations_same(a, b)
     names_exact = (name_a == name_b)
     names_substring = (name_a in name_b or name_b in name_a) and not names_exact
-    within_4h = _dates_within(a, b, 4)
-    within_24h = _dates_within(a, b, 24)
-
-    if names_exact and within_4h is True:
-        return "certain"
-
-    # ── Tier 2: LIKELY ──
-    same_loc = _locations_same(a, b)
 
     if names_exact and within_24h is True:
-        return "likely"
+        return "review"
 
-    if names_substring and same_loc and within_24h is True:
-        return "likely"
+    if same_loc and same_day is True:
+        return "review"
 
-    # ── Tier 3: UNCERTAIN ──
     if names_substring and within_24h is True:
-        return "uncertain"
+        return "review"
 
     words_a = _content_words(name_a)
     words_b = _content_words(name_b)
@@ -255,11 +325,11 @@ def dedup_confidence(a: dict, b: dict) -> Optional[str]:
         overlap = words_a & words_b
         smaller = min(len(words_a), len(words_b))
         if smaller > 0 and len(overlap) >= max(2, smaller * 0.5):
-            if same_loc and within_24h is True:
-                return "uncertain"
+            if within_24h is True:
+                return "review"
 
     if names_exact and within_24h is None:
-        return "uncertain"
+        return "review"
 
     return None
 
@@ -267,10 +337,10 @@ def dedup_confidence(a: dict, b: dict) -> Optional[str]:
 def _dedup_reason(a: dict, b: dict, confidence: str) -> str:
     """Build a human-readable reason string for the audit log."""
     parts = []
-    name_a = normalize_name(a["name"])
-    name_b = normalize_name(b["name"])
+    name_a = normalize_name(a.get("name", ""))
+    name_b = normalize_name(b.get("name", ""))
 
-    if a["id"] == b["id"]:
+    if a.get("id") == b.get("id"):
         parts.append("same_id")
     elif _url_match(a, b):
         parts.append("same_url")
@@ -278,7 +348,7 @@ def _dedup_reason(a: dict, b: dict, confidence: str) -> str:
         parts.append("exact_name")
     elif name_a in name_b or name_b in name_a:
         parts.append("substring_name")
-    else:
+    elif name_a and name_b:
         words_a = _content_words(name_a)
         words_b = _content_words(name_b)
         overlap = words_a & words_b
@@ -292,6 +362,9 @@ def _dedup_reason(a: dict, b: dict, confidence: str) -> str:
 
     if _locations_same(a, b):
         parts.append("same_location")
+
+    if _same_calendar_day(a, b) is True:
+        parts.append("same_day")
 
     return "+".join(parts)
 
@@ -356,18 +429,20 @@ def merge_event(a: dict, b: dict) -> dict:
     if not merged.get("recurrences") and loser.get("recurrences"):
         merged["recurrences"] = loser["recurrences"]
 
+    # Re-scrape of the same event id: refresh date/time from incoming data.
+    if winner.get("id") == loser.get("id"):
+        for key in ("startDate", "endDate", "dayOfWeek"):
+            if loser.get(key):
+                merged[key] = loser[key]
+
     return merged
 
 
 def find_duplicate_in(event: dict, pool: list[dict]) -> Optional[tuple[int, str]]:
-    """Return (index, confidence) of best duplicate in pool, or None.
-
-    Scans for certain first, then likely, then uncertain. Returns the
-    highest-confidence match found.
-    """
+    """Return (index, confidence) of best duplicate in pool, or None."""
     best_idx: Optional[int] = None
     best_conf: Optional[str] = None
-    conf_rank = {"certain": 0, "likely": 1, "uncertain": 2}
+    conf_rank = {"certain": 0, "review": 1}
 
     for i, existing in enumerate(pool):
         conf = dedup_confidence(existing, event)
@@ -385,16 +460,16 @@ def find_duplicate_in(event: dict, pool: list[dict]) -> Optional[tuple[int, str]
 
 
 def deduplicate(events: list[dict]) -> list[dict]:
-    """Deduplicate for publish. Only merges certain+likely; uncertain kept separate."""
+    """Deduplicate for publish. Only merges certain (same ID or URL)."""
     events.sort(key=source_rank)
     result: list[dict] = []
     for ev in events:
         match = find_duplicate_in(ev, result)
         if match is not None:
             idx, conf = match
-            if conf in ("certain", "likely"):
+            if conf == "certain":
                 reason = _dedup_reason(result[idx], ev, conf)
-                _log_dedup("merge", result[idx], ev, conf, reason)
+                _log_dedup("certain", result[idx], ev, conf, reason)
                 result[idx] = merge_event(result[idx], ev)
             else:
                 result.append(ev)
@@ -437,6 +512,91 @@ def _names_are_same_series(a: str, b: str) -> bool:
     return len(overlap) >= max(2, smaller * 0.6)
 
 
+def _event_day_of_week(event: dict) -> Optional[str]:
+    """Return dayOfWeek from the field or infer from startDate."""
+    dow = event.get("dayOfWeek")
+    if dow:
+        return dow
+    dt = parse_date(event.get("startDate", ""))
+    if not dt:
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return DAYS_LIST[dt.astimezone(NY_TZ).isoweekday() % 7]
+
+
+def _venue_schedule_covers_day(venue_event: dict, day: str) -> bool:
+    schedule = venue_event.get("schedule") or []
+    return any(entry.get("dayOfWeek") == day for entry in schedule)
+
+
+def _scraped_at_venue_hub(hub: dict, scraped: dict) -> bool:
+    """True when scraped event is at the same venue as a schedule hub.
+
+    Uses _locations_same() but rejects coords-only matches unless the scraped
+    event also names the venue or shares its street address (avoids nearby venues).
+    """
+    if not _locations_same(hub, scraped):
+        return False
+
+    hub_loc = (hub.get("location") or "").lower().strip()
+    scraped_loc = (scraped.get("location") or "").lower().strip()
+    if _canonical_location(hub.get("location", "")) and _canonical_location(scraped.get("location", "")):
+        return True
+    if hub_loc and scraped_loc and hub_loc == scraped_loc:
+        return True
+
+    hub_name = (hub.get("name") or "").lower()
+    scraped_name = (scraped.get("name") or "").lower()
+    if hub_name and (hub_name in scraped_name or hub_name in scraped_loc):
+        return True
+
+    hub_key = _location_key(hub_loc)
+    scraped_key = _location_key(scraped_loc)
+    if hub_key and scraped_key and (hub_key == scraped_key or hub_key in scraped_key or scraped_key in hub_key):
+        return True
+
+    return False
+
+
+def _suppress_venue_covered_events(venue_events: list[dict], active_events: list[dict]) -> list[dict]:
+    """Drop scraped events whose night is already on a venue hub schedule at the same location."""
+    venue_hubs = [v for v in venue_events if _is_venue_schedule_record(v)]
+    if not venue_hubs:
+        return active_events
+
+    kept: list[dict] = []
+    for ev in active_events:
+        if _is_venue_schedule_record(ev):
+            kept.append(ev)
+            continue
+
+        day = _event_day_of_week(ev)
+        if not day:
+            kept.append(ev)
+            continue
+
+        if not ev.get("location"):
+            _infer_location(ev)
+        if ev.get("lat") is None and ev.get("location"):
+            coords = geocode(ev["location"])
+            if coords:
+                ev["lat"], ev["lng"] = coords
+
+        suppressed = False
+        for hub in venue_hubs:
+            if not _venue_schedule_covers_day(hub, day):
+                continue
+            if _scraped_at_venue_hub(hub, ev):
+                suppressed = True
+                break
+
+        if not suppressed:
+            kept.append(ev)
+
+    return kept
+
+
 def collapse_recurring_series(events: list[dict]) -> list[dict]:
     groups: list[list[int]] = []
     assigned: set[int] = set()
@@ -448,16 +608,21 @@ def collapse_recurring_series(events: list[dict]) -> list[dict]:
         assigned.add(i)
         name_i = normalize_name(ev_i["name"])
         loc_i = _location_key(ev_i.get("location", ""))
+        dow_i = _event_day_of_week(ev_i)
 
         for j, ev_j in enumerate(events):
             if j in assigned:
                 continue
             name_j = normalize_name(ev_j["name"])
             loc_j = _location_key(ev_j.get("location", ""))
+            dow_j = _event_day_of_week(ev_j)
 
             # Venue schedule hubs (e.g. Havana Club) share a location/name with
             # scraped night-specific series but are distinct map entries.
             if _is_venue_schedule_record(ev_i) != _is_venue_schedule_record(ev_j):
+                continue
+
+            if dow_i != dow_j:
                 continue
 
             if not _names_are_same_series(name_i, name_j):
@@ -482,7 +647,10 @@ def collapse_recurring_series(events: list[dict]) -> list[dict]:
 
         group_events.sort(key=source_rank)
         best = dict(group_events[0])
-        dates: list[str] = sorted({ev["startDate"] for ev in group_events})
+        dates: list[str] = sorted({ev["startDate"] for ev in group_events if ev.get("startDate")})
+        if not dates:
+            result.extend(group_events)
+            continue
 
         now = datetime.now().astimezone()
         future_dates = [d for d in dates if parse_date(d) and parse_date(d) >= now]
@@ -736,8 +904,39 @@ def validate_event(event: dict) -> list[str]:
     return issues
 
 
+def _infer_location(event: dict) -> None:
+    """Fill missing location from description, known venues, or Eventbrite URL."""
+    if event.get("location"):
+        event["location"] = clean_location(event["location"])
+        return
+
+    text = f"{event.get('name', '')}\n{event.get('description', '')}"
+    pin = re.search(r"📍\s*(?:Location:?\s*)?([^\n]+)", text)
+    if pin:
+        event["location"] = clean_location(pin.group(1).strip())
+        return
+
+    lower = _normalize(text).lower()
+    for venue in sorted(VENUE_COORDS, key=len, reverse=True):
+        if venue in lower:
+            event["location"] = venue
+            return
+
+    url = event.get("url") or ""
+    if not url and "eventbrite.com" in text:
+        m = re.search(r"https://[^\s]*eventbrite\.com[^\s)\"']+", text)
+        if m:
+            url = m.group(0).rstrip(".,)")
+    if url:
+        addr = _eventbrite_address(url)
+        if addr:
+            event["location"] = addr
+
+
 def _enrich_event(event: dict) -> None:
     """Geocode, detect styles, extract cost if missing. Mutates in place."""
+    _infer_location(event)
+
     if event.get("lat") is None and event.get("location"):
         coords = geocode(event["location"])
         if coords:
@@ -757,31 +956,37 @@ def add_event(event: dict, force: bool = False) -> dict:
     """Add an event to the active store. Returns result dict with status.
 
     Dedup tiers:
-      certain  -> auto-merge silently
-      likely   -> auto-merge, logged to dedup-log.jsonl
-      uncertain -> route to pending.json for review (unless force=True)
+      certain -> auto-merge (same ID or URL)
+      review  -> route to pending.json for review (unless force=True)
     """
+    if _is_venue_schedule_record(event):
+        return {"status": "rejected", "message": "Venue schedules belong in venues.json"}
+
+    if not event.get("id") or not event.get("startDate"):
+        return {"status": "rejected", "message": "event missing id or startDate"}
+
+    _infer_location(event)
+
     active = load_active()
     archive = load_archive()
 
-    # Check archive for reactivation
     archive_match = find_duplicate_in(event, archive)
     if archive_match is not None and not force:
         archive_idx, conf = archive_match
-        if conf in ("certain", "likely"):
+        if conf == "certain":
             archived = archive[archive_idx]
             reason = _dedup_reason(archived, event, conf)
             _log_dedup("reactivate", archived, event, conf, reason)
             merged = merge_event(archived, event)
+            _enrich_event(merged)
             merged["reactivatedAt"] = datetime.now(timezone.utc).isoformat()
             archive.pop(archive_idx)
             save_archive(archive)
             active.append(merged)
             save_active(active)
-            _append_changelog("reactivate", merged["id"], f"from archive ({conf})")
+            _append_changelog("reactivate", merged["id"], "from archive (certain)")
             return {"status": "reactivated", "confidence": conf, "event": merged}
 
-    # Check active for duplicate
     active_match = find_duplicate_in(event, active)
     if active_match is not None:
         active_idx, conf = active_match
@@ -789,34 +994,38 @@ def add_event(event: dict, force: bool = False) -> dict:
         reason = _dedup_reason(existing, event, conf)
 
         if conf == "certain":
-            _log_dedup("skip_certain", existing, event, conf, reason)
+            _log_dedup("certain", existing, event, conf, reason)
             active[active_idx] = merge_event(existing, event)
+            _enrich_event(active[active_idx])
             save_active(active)
             return {"status": "duplicate", "confidence": conf, "existing": active[active_idx]}
 
-        if conf == "likely":
-            _log_dedup("auto_merge", existing, event, conf, reason)
-            active[active_idx] = merge_event(existing, event)
-            save_active(active)
-            _append_changelog("merge", event["id"], f"likely duplicate of {existing['id']}")
-            return {"status": "merged", "confidence": conf, "event": active[active_idx]}
-
-        if conf == "uncertain":
+        if conf == "review":
             if force:
-                _log_dedup("force_merge", existing, event, conf, reason)
+                _log_dedup("force", existing, event, conf, reason)
                 active[active_idx] = merge_event(existing, event)
+                _enrich_event(active[active_idx])
                 save_active(active)
-                _append_changelog("merge", event["id"], f"force-merged uncertain dup of {existing['id']}")
+                _append_changelog("merge", event["id"], f"force-merged review dup of {existing['id']}")
                 return {"status": "merged", "confidence": conf, "event": active[active_idx]}
 
-            _log_dedup("pending_review", existing, event, conf, reason)
+            _log_dedup("review", existing, event, conf, reason)
             event["_dedup_candidate_of"] = existing["id"]
             event["_dedup_confidence"] = conf
             event["_dedup_reason"] = reason
             pending = load_pending()
+            if any(p.get("id") == event["id"] for p in pending):
+                return {
+                    "status": "pending_review",
+                    "confidence": conf,
+                    "reason": reason,
+                    "new_event": event,
+                    "existing_event": existing,
+                    "already_pending": True,
+                }
             pending.append(event)
             save_pending(pending)
-            _append_changelog("pending_review", event["id"], f"uncertain dup of {existing['id']}: {reason}")
+            _append_changelog("pending_review", event["id"], f"review dup of {existing['id']}: {reason}")
             return {
                 "status": "pending_review",
                 "confidence": conf,
@@ -886,8 +1095,15 @@ def approve_pending(event_id: str) -> dict:
     event = pending.pop(idx)
     save_pending(pending)
 
+    candidate_id = event.get("_dedup_candidate_of")
+    if candidate_id:
+        _persist_known_duplicate(event_id, candidate_id, "same")
+
+    for key in ("_dedup_candidate_of", "_dedup_confidence", "_dedup_reason"):
+        event.pop(key, None)
+
     issues = validate_event(event)
-    result = add_event(event)
+    result = add_event(event, force=True)
     if issues:
         result["warnings"] = issues
     _append_changelog("approve", event_id)
@@ -908,6 +1124,13 @@ def reject_pending(event_id: str, reason: str = "") -> dict:
 
     event = pending.pop(idx)
     save_pending(pending)
+
+    candidate_id = event.pop("_dedup_candidate_of", None)
+    event.pop("_dedup_confidence", None)
+    event.pop("_dedup_reason", None)
+    if candidate_id:
+        _persist_known_duplicate(event_id, candidate_id, "different")
+
     _append_changelog("reject", event_id, reason)
     return {"status": "rejected", "event": event, "reason": reason}
 
@@ -944,6 +1167,7 @@ def publish() -> dict:
     active = load_active()
     venue_events = expand_venues()
 
+    active = _suppress_venue_covered_events(venue_events, active)
     all_events = venue_events + active
     deduped = deduplicate(all_events)
     deduped = collapse_recurring_series(deduped)
@@ -951,9 +1175,18 @@ def publish() -> dict:
     # Sort by start date
     deduped.sort(key=lambda e: e.get("startDate", ""))
 
-    # Add slugs, strip internal fields
+    # Re-geocode any events still missing coordinates
+    for ev in deduped:
+        if ev.get("lat") is None or ev.get("lng") is None:
+            _enrich_event(ev)
+
+    # Add slugs, recurrence labels, strip internal fields
     for ev in deduped:
         ev["slug"] = slugify(ev["name"], ev["id"])
+        if ev.get("recurring"):
+            label = recurrence_label(ev)
+            if label:
+                ev["recurrenceLabel"] = label
         ev.pop("source", None)
         ev.pop("archivedAt", None)
         ev.pop("reactivatedAt", None)
@@ -962,6 +1195,8 @@ def publish() -> dict:
                 ev.pop(key)
 
     _write_json(PUBLIC_EVENTS_JSON, deduped)
+    # Legacy path for scripts still referencing public/events.json
+    _write_json(ROOT / "public" / "events.json", deduped)
     return {
         "status": "published",
         "count": len(deduped),
@@ -973,12 +1208,15 @@ def ingest_scraped(source_id: Optional[str] = None) -> dict:
     """Ingest events from data/scraped/ into the active store.
 
     Handles dedup against both active and archive (reactivation).
-    Uncertain duplicates are routed to pending.json for review.
+    Review-tier duplicates are routed to pending.json for review.
     """
     if source_id:
         files = [SCRAPED_DIR / f"{source_id}.json"]
     else:
-        files = sorted(SCRAPED_DIR.glob("*.json"))
+        files = sorted(
+            p for p in SCRAPED_DIR.glob("*.json")
+            if not p.name.endswith("-raw.json")
+        )
 
     added = 0
     merged = 0
@@ -996,6 +1234,8 @@ def ingest_scraped(source_id: Optional[str] = None) -> dict:
             continue
 
         for ev in events:
+            if not ev.get("id"):
+                continue
             result = add_event(ev)
             status = result["status"]
             if status == "added":
