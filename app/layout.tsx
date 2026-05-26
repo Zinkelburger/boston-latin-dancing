@@ -20,6 +20,13 @@ export const metadata: Metadata = {
     'bachata Boston',
     'Latin dance socials Boston',
   ],
+  openGraph: {
+    title: 'Boston Latin Dance Map',
+    description:
+      'A map of Latin dance events happening around Boston this week.',
+    type: 'website',
+    images: [{ url: '/icon.png', width: 512, height: 512 }],
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
