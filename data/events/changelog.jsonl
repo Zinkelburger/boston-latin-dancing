@@ -74,3 +74,4 @@
 {"ts": "2026-05-26T19:38:25.593413+00:00", "action": "pending_review", "event_id": "10225066-4ADF-4765-BE8C-C5A006A3C700", "details": "review dup of 62ekr0aga5340rgd7nmh6cvj3m@google.com: word_overlap(2/2)+within_24h+same_location+same_day"}
 {"ts": "2026-05-27T00:54:16.092388+00:00", "action": "merge", "event_id": "eb-1990316528314", "details": "manual merge: combined with Sensualeros duplicate 25E9FCB5"}
 {"ts": "2026-05-27T01:15:11.613390+00:00", "action": "merge", "event_id": "B5E9158E6D115D857243E9512E0DDC3BE88670DF_0", "details": "merged into 4F3C0539-FB64-445B-A388-4DE2C5402E59 via audit"}
+{"ts": "2026-05-27T01:30:44.536738+00:00", "action": "remove", "event_id": "F75203DD-C2C0-40BB-BE0E-A67013E17125", "details": "not Latin dance (West Coast Swing)"}

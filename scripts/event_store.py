@@ -972,6 +972,27 @@ def _enrich_event(event: dict) -> None:
         event["cost"] = extract_cost(combined)
 
 
+_LATIN_PATTERN = re.compile(
+    r'\b(salsa|bachata|kizomba|zouk|merengue|latin|cumbia|reggaeton'
+    r'|timba|son(?:go)?|cha\s*cha|mambo|rumba|guaguanco|cubana?|tropical)\b',
+    re.I,
+)
+
+
+def _is_latin_relevant(event: dict) -> bool:
+    """Return True if the event is relevant to Latin dance.
+
+    Events with a recognized style (bachata, salsa, etc.) always pass.
+    Events tagged only as 'other' must mention a Latin dance term in
+    their name or description.
+    """
+    styles = event.get("styles", [])
+    if styles != ["other"]:
+        return True
+    text = (event.get("name", "") + " " + event.get("description", ""))
+    return bool(_LATIN_PATTERN.search(text))
+
+
 def add_event(event: dict, force: bool = False) -> dict:
     """Add an event to the active store. Returns result dict with status.
 
@@ -984,6 +1005,9 @@ def add_event(event: dict, force: bool = False) -> dict:
 
     if not event.get("id") or not event.get("startDate"):
         return {"status": "rejected", "message": "event missing id or startDate"}
+
+    if not _is_latin_relevant(event):
+        return {"status": "rejected", "message": "not Latin dance relevant (styles=['other'], no Latin terms)"}
 
     _infer_location(event)
 
