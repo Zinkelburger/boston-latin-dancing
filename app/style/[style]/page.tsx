@@ -161,7 +161,8 @@ export default async function StylePage({ params }: { params: Promise<Params> })
 }
 
 function EventCard({ event, style }: { event: DanceEvent; style: DanceStyle }) {
-  const whenLabel = recurringWhenLabel(event) ?? formatDate(event.startDate);
+  const whenLabel = recurringWhenLabel(event);
+  const dateLabel = !whenLabel ? formatDate(event.startDate) : null;
 
   return (
     <Link
@@ -171,7 +172,12 @@ function EventCard({ event, style }: { event: DanceEvent; style: DanceStyle }) {
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
           <h3 className="font-semibold text-gray-900 truncate">{event.name}</h3>
-          <div className="text-sm text-gray-500 mt-0.5">{whenLabel}</div>
+          {whenLabel && !(event.schedule && event.schedule.length > 0) && (
+            <span className="pretty-pill pretty-pill-sky text-xs mt-1 inline-block">{whenLabel}</span>
+          )}
+          {dateLabel && (
+            <div className="text-sm text-gray-500 mt-0.5">{dateLabel}</div>
+          )}
           {event.location && (
             <div className="text-sm text-gray-400 mt-0.5 truncate">
               {event.location.split('\n')[0]}

@@ -16,11 +16,11 @@ export default function SearchBar({ events, onSelectEvent }: Props) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const eventResults = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (q.length < 2) return [];
+  const q = query.trim().toLowerCase();
+  const tokens = useMemo(() => q.split(/\s+/).filter(Boolean), [q]);
 
-    const tokens = q.split(/\s+/).filter(Boolean);
+  const eventResults = useMemo(() => {
+    if (q.length < 2) return [];
 
     type Scored = { event: DanceEvent; score: number };
     const scored: Scored[] = [];
@@ -59,7 +59,7 @@ export default function SearchBar({ events, onSelectEvent }: Props) {
       .sort((a, b) => b.score - a.score)
       .slice(0, 8)
       .map(s => s.event);
-  }, [query, events]);
+  }, [q, tokens, events]);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -86,10 +86,10 @@ export default function SearchBar({ events, onSelectEvent }: Props) {
     inputRef.current?.blur();
   };
 
-  const showDropdown = open && query.trim().length >= 2;
+  const showDropdown = open && q.length >= 2;
 
   return (
-    <div ref={wrapperRef} className="absolute z-10 w-[16rem] max-w-[calc(100%-2rem)]" style={{ top: '1rem', left: '1rem' }}>
+    <div ref={wrapperRef} className="absolute z-10 w-[25rem] max-w-[calc(100%-2rem)]" style={{ top: '1rem', left: '1rem' }}>
       <div className="relative">
         <input
           ref={inputRef}
@@ -100,7 +100,7 @@ export default function SearchBar({ events, onSelectEvent }: Props) {
             setOpen(true);
           }}
           onFocus={() => setOpen(true)}
-          placeholder="Search events & descriptions..."
+          placeholder="Search..."
           className="w-full rounded-full border border-gray-300 bg-white/95 text-sm text-gray-800 shadow-lg backdrop-blur-sm placeholder:text-gray-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-rose-400"
           style={{ padding: '0.75rem 1rem' }}
         />
@@ -111,7 +111,7 @@ export default function SearchBar({ events, onSelectEvent }: Props) {
           {eventResults.length === 0 ? (
             <div className="px-4 py-3 text-sm text-gray-400">No results</div>
           ) : (
-            <SearchResultsTable events={eventResults} onSelect={handleSelect} />
+            <SearchResultsTable events={eventResults} onSelect={handleSelect} searchTokens={tokens} />
           )}
         </div>
       )}

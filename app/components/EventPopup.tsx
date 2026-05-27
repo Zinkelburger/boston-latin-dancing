@@ -164,14 +164,17 @@ export default function EventPopup({ event, onClose, displayDate, fromMs, toMs }
           )}
         </div>
 
-        {recurrenceLabel && (
-          <div className="text-sm font-medium text-gray-800">{recurrenceLabel}</div>
+        {recurrenceLabel && !(event.schedule && event.schedule.length > 0) && (
+          <span className="pretty-pill pretty-pill-sky text-xs self-start">
+            {recurrenceLabel}
+          </span>
         )}
 
-        {/* Time */}
-        <div className="text-sm text-gray-600">
-          {formatEventTimeRange(displayStart, displayEnd)}
-        </div>
+        {!(event.schedule && event.schedule.length > 0) && (
+          <div className="text-sm text-gray-600">
+            {formatEventTimeRange(displayStart, displayEnd)}
+          </div>
+        )}
 
         <UpcomingDatesTable event={event} className="mt-1" />
 

@@ -131,14 +131,17 @@ export default async function EventPage({ params }: { params: Promise<Params> })
             )}
           </div>
 
-          {recurrenceLabel && (
-            <div className="text-sm font-medium text-gray-800">{recurrenceLabel}</div>
+          {recurrenceLabel && !(event.schedule && event.schedule.length > 0) && (
+            <span className="pretty-pill pretty-pill-sky text-xs" style={{ alignSelf: 'flex-start' }}>
+              {recurrenceLabel}
+            </span>
           )}
 
-          {/* Time */}
-          <div className="text-sm text-gray-600">
-            {formatEventTimeRange(event.startDate, event.endDate)}
-          </div>
+          {!(event.schedule && event.schedule.length > 0) && (
+            <div className="text-sm text-gray-600">
+              {formatEventTimeRange(event.startDate, event.endDate)}
+            </div>
+          )}
 
           <UpcomingDatesTable event={event} className="mt-1" />
 
