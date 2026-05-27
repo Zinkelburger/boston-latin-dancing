@@ -73,7 +73,10 @@ function staggerCoordinates(items: { id: string; lat: number; lng: number }[]): 
 
 export default function MapView() {
   const mapRef = useRef<MapRef>(null);
-  const events = allEvents as DanceEvent[];
+  const events = useMemo(
+    () => (allEvents as DanceEvent[]).filter(e => !e.archived),
+    [],
+  );
 
   const WINDOW_DAYS = 45;
 

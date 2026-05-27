@@ -19,6 +19,11 @@ export const metadata: Metadata = {
     'salsa dancing near me',
     'bachata Boston',
     'Latin dance socials Boston',
+    'BOBAS Boston',
+    'Boston Outdoor Bachata And Salsa',
+    'Havana Club Boston',
+    'Fiesta Dance Company',
+    'Sensualeros Boston',
   ],
   openGraph: {
     title: 'Boston Latin Dance Map',

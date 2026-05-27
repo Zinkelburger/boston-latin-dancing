@@ -7,6 +7,7 @@ import { stripHtml } from '@/lib/strip-html';
 import EventDetailClient from './EventDetailClient';
 import CollapsibleText from '@/app/components/CollapsibleText';
 import { UpcomingDatesTable, WeeklyScheduleTable } from '@/app/components/EventTable';
+import EventJsonLd from './EventJsonLd';
 
 const events = allEvents as DanceEvent[];
 
@@ -43,7 +44,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
     description,
     openGraph: {
       title: event.name,
-      description,
+      description: event.organizer ? `${description} — ${event.organizer}` : description,
       url,
       siteName: 'Boston Latin Dance Map',
       type: 'website',
@@ -51,7 +52,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
     twitter: {
       card: 'summary',
       title: event.name,
-      description,
+      description: event.organizer ? `${description} — ${event.organizer}` : description,
     },
     alternates: {
       canonical: url,
@@ -92,6 +93,15 @@ export default async function EventPage({ params }: { params: Promise<Params> })
           </svg>
           View on Map
         </a>
+
+        <EventJsonLd event={event} url={shareUrl} />
+
+        {event.archived && (
+          <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+            <strong>This event has passed.</strong>{' '}
+            <a href="/" className="underline hover:text-amber-900">Browse upcoming events</a>
+          </div>
+        )}
 
         <div style={{
           background: '#ffffff',

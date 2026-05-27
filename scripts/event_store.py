@@ -1162,8 +1162,39 @@ def edit_event(event_id: str, updates: dict) -> dict:
     return {"status": "updated", "event": active[idx]}
 
 
+def _load_source_names() -> dict[str, str]:
+    """Map source IDs to human-readable organizer names from data/sources.json."""
+    sources_path = ROOT / "data" / "sources.json"
+    if not sources_path.exists():
+        return {}
+    with open(sources_path) as f:
+        sources = json.load(f)
+    return {s["id"]: s["name"] for s in sources if "id" in s and "name" in s}
+
+
+def _strip_internal_fields(ev: dict, source_names: dict[str, str]) -> None:
+    """Add slug/organizer, remove internal fields from an event dict."""
+    ev["slug"] = slugify(ev["name"], ev["id"])
+    if ev.get("recurring"):
+        label = recurrence_label(ev)
+        if label:
+            ev["recurrenceLabel"] = label
+    # Map source ID to human-readable organizer name
+    source_id = ev.get("source", "")
+    if source_id and source_id in source_names:
+        ev["organizer"] = source_names[source_id]
+    ev.pop("source", None)
+    ev.pop("archivedAt", None)
+    ev.pop("reactivatedAt", None)
+    for key in list(ev.keys()):
+        if key.startswith("_"):
+            ev.pop(key)
+
+
 def publish() -> dict:
-    """Generate public/events.json from active events + expanded venues."""
+    """Generate events-published.json from active + archived events + expanded venues."""
+    source_names = _load_source_names()
+
     active = load_active()
     venue_events = expand_venues()
 
@@ -1180,26 +1211,29 @@ def publish() -> dict:
         if ev.get("lat") is None or ev.get("lng") is None:
             _enrich_event(ev)
 
-    # Add slugs, recurrence labels, strip internal fields
+    # Strip internal fields from active events
     for ev in deduped:
-        ev["slug"] = slugify(ev["name"], ev["id"])
-        if ev.get("recurring"):
-            label = recurrence_label(ev)
-            if label:
-                ev["recurrenceLabel"] = label
-        ev.pop("source", None)
-        ev.pop("archivedAt", None)
-        ev.pop("reactivatedAt", None)
-        for key in list(ev.keys()):
-            if key.startswith("_"):
-                ev.pop(key)
+        _strip_internal_fields(ev, source_names)
 
-    _write_json(PUBLIC_EVENTS_JSON, deduped)
+    # Include archived events so their pages persist for SEO
+    archive = load_archive()
+    archived_out = []
+    for ev in archive:
+        if ev.get("lat") is None or ev.get("lng") is None:
+            _enrich_event(ev)
+        _strip_internal_fields(ev, source_names)
+        ev["archived"] = True
+        archived_out.append(ev)
+
+    published = deduped + archived_out
+
+    _write_json(PUBLIC_EVENTS_JSON, published)
     # Legacy path for scripts still referencing public/events.json
-    _write_json(ROOT / "public" / "events.json", deduped)
+    _write_json(ROOT / "public" / "events.json", published)
     return {
         "status": "published",
         "count": len(deduped),
+        "archived_count": len(archived_out),
         "path": str(PUBLIC_EVENTS_JSON),
     }
 

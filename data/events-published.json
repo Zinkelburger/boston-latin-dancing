@@ -31,7 +31,8 @@
       "2026-08-10T18:00:00-04:00"
     ],
     "slug": "saborcito-the-anchor-salsa-bachata-dancing-d3953ee7",
-    "recurrenceLabel": "Every Monday"
+    "recurrenceLabel": "Every Monday",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "bobas-20260526-0",
@@ -51,7 +52,8 @@
     "cost": "Free",
     "recurring": true,
     "slug": "sunset-salsa-bachata-on-the-docks-bobas-20",
-    "recurrenceLabel": "Every Tuesday"
+    "recurrenceLabel": "Every Tuesday",
+    "organizer": "Boston Outdoor Bachata And Salsa (BOBAS)"
   },
   {
     "id": "16m8bm77eru8te9pak73f904qn@google.com",
@@ -84,7 +86,8 @@
       "2026-08-11T19:00:00-04:00"
     ],
     "slug": "timba-y-descontrol-cuban-salsa-lessons-social-16m8bm77",
-    "recurrenceLabel": "Every Tuesday"
+    "recurrenceLabel": "Every Tuesday",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "havana-club",
@@ -205,7 +208,8 @@
     ],
     "cost": "Cost\n$15",
     "recurring": false,
-    "slug": "boston-senior-zouk-social-5-26-2026-fb32cae0"
+    "slug": "boston-senior-zouk-social-5-26-2026-fb32cae0",
+    "organizer": "Sensualeros Boston Events"
   },
   {
     "id": "eb-1990291472371",
@@ -224,7 +228,8 @@
     ],
     "cost": "$23.18",
     "recurring": false,
-    "slug": "spin-into-confidence-workshop-with-nina-eb-19902"
+    "slug": "spin-into-confidence-workshop-with-nina-eb-19902",
+    "organizer": "Eventbrite Boston Latin Dance"
   },
   {
     "id": "F75203DD-C2C0-40BB-BE0E-A67013E17125",
@@ -257,7 +262,8 @@
       "2026-08-12T20:15:00-04:00"
     ],
     "slug": "west-coast-swing-dancing-fools-f75203dd",
-    "recurrenceLabel": "Every Wednesday"
+    "recurrenceLabel": "Every Wednesday",
+    "organizer": "Sensualeros Boston Events"
   },
   {
     "id": "bachata-room",
@@ -313,7 +319,8 @@
     ],
     "cost": "$5",
     "recurring": false,
-    "slug": "boston-zouk-pratica-5-27-26-f441f1ea"
+    "slug": "boston-zouk-pratica-5-27-26-f441f1ea",
+    "organizer": "Sensualeros Boston Events"
   },
   {
     "id": "61B50538-D7A5-466E-9039-7663B3F54F9D",
@@ -346,7 +353,8 @@
       "2026-08-06T21:30:00-04:00"
     ],
     "slug": "kizz-thursday-61b50538",
-    "recurrenceLabel": "Every Thursday"
+    "recurrenceLabel": "Every Thursday",
+    "organizer": "Sensualeros Boston Events"
   },
   {
     "id": "A64F337F-8D93-447F-B415-FB206398143D",
@@ -364,7 +372,8 @@
     ],
     "cost": "Free",
     "recurring": false,
-    "slug": "los-mambiseros-free-night-of-traditional-cuban-music-a64f337f"
+    "slug": "los-mambiseros-free-night-of-traditional-cuban-music-a64f337f",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "F6898D37-DCE1-4134-A09B-19B63FC311FF",
@@ -382,7 +391,8 @@
     ],
     "cost": null,
     "recurring": false,
-    "slug": "salsa-in-the-park-at-blackstone-f6898d37"
+    "slug": "salsa-in-the-park-at-blackstone-f6898d37",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "F6FB3684-154F-457E-98FD-79D3FBC4E41C",
@@ -400,7 +410,8 @@
     ],
     "cost": null,
     "recurring": false,
-    "slug": "bachata-brunch-club-f6fb3684"
+    "slug": "bachata-brunch-club-f6fb3684",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "eb-1988910876973",
@@ -418,7 +429,8 @@
     ],
     "cost": "$22.50",
     "recurring": false,
-    "slug": "all-about-that-bass-and-segunda-a-bachata-musicality-worksho-eb-19889"
+    "slug": "all-about-that-bass-and-segunda-a-bachata-musicality-worksho-eb-19889",
+    "organizer": "Eventbrite Boston Latin Dance"
   },
   {
     "id": "DF158B3C-08AD-47D6-87A4-BBB5AE2865C5",
@@ -436,7 +448,8 @@
     ],
     "cost": "$20",
     "recurring": false,
-    "slug": "booze-bachata-featuring-nicole-from-atl-df158b3c"
+    "slug": "booze-bachata-featuring-nicole-from-atl-df158b3c",
+    "organizer": "Sensualeros Boston Events"
   },
   {
     "id": "dantes-tambo",
@@ -488,7 +501,8 @@
     ],
     "cost": null,
     "recurring": false,
-    "slug": "leandro-nayara-brazilian-zouk-weekender-in-boston-1530cbc9"
+    "slug": "leandro-nayara-brazilian-zouk-weekender-in-boston-1530cbc9",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "jl-underground",
@@ -540,7 +554,8 @@
     ],
     "cost": "$15",
     "recurring": false,
-    "slug": "sabado-social-donde-la-gente-fina-vienen-a-fiestar-510d3fb7"
+    "slug": "sabado-social-donde-la-gente-fina-vienen-a-fiestar-510d3fb7",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "eb-1990397458378",
@@ -558,7 +573,8 @@
     ],
     "cost": "$17.85",
     "recurring": false,
-    "slug": "sabroso-vol-011-eb-19903"
+    "slug": "sabroso-vol-011-eb-19903",
+    "organizer": "Eventbrite Boston Latin Dance"
   },
   {
     "id": "1A9BD0CB-2D71-4558-AE37-1B79262F7C05",
@@ -577,7 +593,8 @@
     ],
     "cost": "Free",
     "recurring": false,
-    "slug": "pride-social-at-the-anchor-hosted-by-next-level-fusion-1a9bd0cb"
+    "slug": "pride-social-at-the-anchor-hosted-by-next-level-fusion-1a9bd0cb",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "b5ae8d205710c7ead86852247d6a5b789ec16a29@dance-calendar",
@@ -597,7 +614,8 @@
     ],
     "cost": "Cover: $15",
     "recurring": false,
-    "slug": "salsa-brunch-peka-b5ae8d20"
+    "slug": "salsa-brunch-peka-b5ae8d20",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "62ekr0aga5340rgd7nmh6cvj3m@google.com",
@@ -621,7 +639,8 @@
       "2026-07-05T18:00:00-04:00"
     ],
     "slug": "bachata-by-the-river-62ekr0ag",
-    "recurrenceLabel": "First Sunday of each month"
+    "recurrenceLabel": "First Sunday of each month",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "mambo-city",
@@ -671,7 +690,8 @@
     ],
     "cost": "$12.51",
     "recurring": false,
-    "slug": "salsa-night-pop-up-sabor-latino-101aa0a8"
+    "slug": "salsa-night-pop-up-sabor-latino-101aa0a8",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "C95CABAD-64FB-4EC0-A6B2-ED6FE16F0A97",
@@ -689,7 +709,8 @@
     ],
     "cost": null,
     "recurring": false,
-    "slug": "singles-salsa-night-at-juliet-dance-class-cocktail-mixer-c95cabad"
+    "slug": "singles-salsa-night-at-juliet-dance-class-cocktail-mixer-c95cabad",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "fiesta-20260613-sol-de-mexico-milford",
@@ -708,7 +729,8 @@
     ],
     "cost": null,
     "recurring": false,
-    "slug": "salsa-bachata-social-w-fiesta-dance-co-fiesta-2"
+    "slug": "salsa-bachata-social-w-fiesta-dance-co-fiesta-2",
+    "organizer": "Fiesta Dance Company"
   },
   {
     "id": "fuego-y-candela",
@@ -756,7 +778,8 @@
     ],
     "cost": "Free",
     "recurring": false,
-    "slug": "free-concert-and-performances-parkway-methodist-church-conce-0811e949"
+    "slug": "free-concert-and-performances-parkway-methodist-church-conce-0811e949",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "3f6947b81983396f49634c5f4deb6ea17f025b12@dance-calendar",
@@ -774,7 +797,8 @@
     ],
     "cost": null,
     "recurring": false,
-    "slug": "centro-cultural-cubano-havana-night-salsa-party-3f6947b8"
+    "slug": "centro-cultural-cubano-havana-night-salsa-party-3f6947b8",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "e67f55d566f3f3f0283acd652ecd424fedb8948e@occurrence-2@dance-calendar",
@@ -797,7 +821,8 @@
       "2026-05-24T20:00:00+00:00",
       "2026-06-14T20:00:00+00:00"
     ],
-    "slug": "the-boston-flow-salsa-bachata-dance-competition-e67f55d5"
+    "slug": "the-boston-flow-salsa-bachata-dance-competition-e67f55d5",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "FEDCE609-3D05-480B-98DA-84EEF66EA4E3",
@@ -815,7 +840,8 @@
     ],
     "cost": "$139",
     "recurring": false,
-    "slug": "roots-connection-konpa-x-kizomba-fedce609"
+    "slug": "roots-connection-konpa-x-kizomba-fedce609",
+    "organizer": "Sensualeros Boston Events"
   },
   {
     "id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar",
@@ -837,7 +863,8 @@
       "2026-06-16T18:30:00-04:00",
       "2026-07-14T18:00:00-04:00"
     ],
-    "slug": "sushi-con-salsa-dance-sessions-vol-1-3790430d"
+    "slug": "sushi-con-salsa-dance-sessions-vol-1-3790430d",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "11367EEA-739B-4693-971D-B95D90968D5E",
@@ -855,7 +882,8 @@
     ],
     "cost": "Admission: $20",
     "recurring": false,
-    "slug": "run-salsa-hosted-by-run-this-city-run-club-11367eea"
+    "slug": "run-salsa-hosted-by-run-this-city-run-club-11367eea",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "CB5572F4-BE51-4A3C-BC1E-21EE078058F8",
@@ -873,7 +901,8 @@
     ],
     "cost": "Free",
     "recurring": false,
-    "slug": "salsa-at-the-shell-cb5572f4"
+    "slug": "salsa-at-the-shell-cb5572f4",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "481FAC51-0AA9-4AC7-81A2-DBE1423A4800",
@@ -893,7 +922,8 @@
     ],
     "cost": "Cover: $25",
     "recurring": false,
-    "slug": "noise-live-salsa-bachata-and-merengue-in-boston-481fac51"
+    "slug": "noise-live-salsa-bachata-and-merengue-in-boston-481fac51",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "eb-1990048459513",
@@ -911,7 +941,8 @@
     ],
     "cost": "$12.51",
     "recurring": false,
-    "slug": "traditional-bachata-night-in-lynn-ma-la-casa-de-la-bachata-b-eb-19900"
+    "slug": "traditional-bachata-night-in-lynn-ma-la-casa-de-la-bachata-b-eb-19900",
+    "organizer": "Eventbrite Boston Latin Dance"
   },
   {
     "id": "lister-bachata-dance-workout-morse-library",
@@ -929,7 +960,8 @@
     ],
     "cost": null,
     "recurring": false,
-    "slug": "bachata-dance-workout-morse-library-lister-b"
+    "slug": "bachata-dance-workout-morse-library-lister-b",
+    "organizer": "Lister Events (Liz)"
   },
   {
     "id": "E9A91D20-6E5C-4827-8E37-DDB5697B3C7D",
@@ -948,7 +980,8 @@
     ],
     "cost": "$20",
     "recurring": false,
-    "slug": "sonidos-2026-e9a91d20"
+    "slug": "sonidos-2026-e9a91d20",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "884C05C0-ED6E-4A85-A6E0-59FC70D45E57",
@@ -966,7 +999,8 @@
     ],
     "cost": "$25 at door",
     "recurring": false,
-    "slug": "zouk-weekender-bubble-with-iago-ninna-2026-884c05c0"
+    "slug": "zouk-weekender-bubble-with-iago-ninna-2026-884c05c0",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "eb-1990316528314",
@@ -985,7 +1019,8 @@
     ],
     "cost": "$55.20",
     "recurring": false,
-    "slug": "bostons-all-white-salsa-bachata-sunset-cruise-eb-19903"
+    "slug": "bostons-all-white-salsa-bachata-sunset-cruise-eb-19903",
+    "organizer": "Eventbrite Boston Latin Dance"
   },
   {
     "id": "25E9FCB5-66BC-4D33-8FBE-836081750F65",
@@ -1004,7 +1039,8 @@
     ],
     "cost": "Free",
     "recurring": false,
-    "slug": "salsa-and-bachata-sunset-cruise-pre-july-4th-celebration-25e9fcb5"
+    "slug": "salsa-and-bachata-sunset-cruise-pre-july-4th-celebration-25e9fcb5",
+    "organizer": "Sensualeros Boston Events"
   },
   {
     "id": "4F3C0539-FB64-445B-A388-4DE2C5402E59",
@@ -1023,7 +1059,8 @@
     ],
     "cost": null,
     "recurring": false,
-    "slug": "picante-salsa-bachata-weekender-2026-4f3c0539"
+    "slug": "picante-salsa-bachata-weekender-2026-4f3c0539",
+    "organizer": "Sensualeros Boston Events"
   },
   {
     "id": "B5E9158E6D115D857243E9512E0DDC3BE88670DF_0",
@@ -1042,7 +1079,8 @@
     ],
     "cost": null,
     "recurring": false,
-    "slug": "picante-salsa-bachata-weekender-26-b5e9158e"
+    "slug": "picante-salsa-bachata-weekender-26-b5e9158e",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "lister-bachata-dance-workout-morse-library-2",
@@ -1060,7 +1098,8 @@
     ],
     "cost": null,
     "recurring": false,
-    "slug": "bachata-dance-workout-morse-library-lister-b"
+    "slug": "bachata-dance-workout-morse-library-lister-b",
+    "organizer": "Lister Events (Liz)"
   },
   {
     "id": "A5C119D4-B458-4ED2-A5C5-7808ACF4EFC2",
@@ -1079,7 +1118,8 @@
     ],
     "cost": "Free",
     "recurring": false,
-    "slug": "summer-salsa-blast-2026-a5c119d4"
+    "slug": "summer-salsa-blast-2026-a5c119d4",
+    "organizer": "Sensualeros Boston Events"
   },
   {
     "id": "3AD71742-433C-4DA2-B7E1-4FC9E9DDAF76",
@@ -1098,7 +1138,8 @@
     ],
     "cost": null,
     "recurring": false,
-    "slug": "latin-night-party-ship-3ad71742"
+    "slug": "latin-night-party-ship-3ad71742",
+    "organizer": "Sensualeros Boston Events"
   },
   {
     "id": "eb-1989841148440",
@@ -1116,7 +1157,8 @@
     ],
     "cost": "Free",
     "recurring": false,
-    "slug": "salsa-party-eb-19898"
+    "slug": "salsa-party-eb-19898",
+    "organizer": "Eventbrite Boston Latin Dance"
   },
   {
     "id": "1ee53ea9f8c2c3000235ffc8c5b0bc0abbf19b2d@dance-calendar",
@@ -1134,7 +1176,8 @@
     ],
     "cost": null,
     "recurring": false,
-    "slug": "boston-salsa-festival-2026-1ee53ea9"
+    "slug": "boston-salsa-festival-2026-1ee53ea9",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "a37202a6a3b3ec4c12d49d8e184bab76048a3b2e@dance-calendar",
@@ -1152,6 +1195,243 @@
     ],
     "cost": null,
     "recurring": false,
-    "slug": "arts-at-the-armory-spotlight-series-presents-tito-puente-jr-a37202a6"
+    "slug": "arts-at-the-armory-spotlight-series-presents-tito-puente-jr-a37202a6",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
+  },
+  {
+    "id": "9F653959-9317-45E3-B870-C2E6C976776B",
+    "name": "Cuban Salsa on the Patio",
+    "startDate": "2026-05-22T23:00:00+00:00",
+    "endDate": "2026-05-23T01:00:00+00:00",
+    "dayOfWeek": "Friday",
+    "location": "Naco Taco - Cambridge\n297 Mass Ave, Cambridge, MA 02139, United States",
+    "lat": 42.3623342,
+    "lng": -71.0981162,
+    "description": "Join Los Mambiseros for a night of live Cuban music outdoors in the middle of Central Square! Be ready to dance Salsa, Son, and Guaguancó with our friends at @nacocentral\n\nFriday May 22nd\n7 to 9pm\nNaco Taco Cambridge, free for diners!",
+    "url": "https://www.instagram.com/p/DYM5FjUDkmD",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": false,
+    "slug": "cuban-salsa-on-the-patio-9f653959",
+    "archived": true
+  },
+  {
+    "id": "7A4FC8EF-3225-4A1B-B609-9D1ACE9BFFE6",
+    "name": "Rumba Land",
+    "startDate": "2026-05-23T01:00:00+00:00",
+    "endDate": "2026-05-23T06:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "West End Johnnies\n138 Portland St, Boston, MA 02115, United States",
+    "lat": 42.3632,
+    "lng": -71.0618,
+    "description": "Dance contest\n$25 at door, 21+\nShow instagram page follow for $5 off",
+    "url": "https://www.instagram.com/p/DYAzxqWmP3u",
+    "styles": [
+      "other"
+    ],
+    "cost": "$25 at door",
+    "recurring": false,
+    "slug": "rumba-land-7a4fc8ef",
+    "archived": true
+  },
+  {
+    "id": "4bfa06bee079409dd54d0a78632f3808b658e575@dance-calendar",
+    "name": "EL BONCHE 5 Year Anniversary Weekend  | Live Concert + Workshops!",
+    "startDate": "2026-05-23T14:00:00+00:00",
+    "endDate": "2026-05-23T19:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "916 Commonwealth Avenue, Boston, MA 02215, Boston, MA",
+    "lat": 42.3508289,
+    "lng": -71.1165142,
+    "description": "El Bonche 5-Year Anniversary Boston debut of Nic N’Taya! Full weekend of dance workshops! Live concert & dance on Saturday May 23rd 9PM-2AM!\n\nSource: https://www.eventbrite.com/e/el-bonche-5-year-anniversary-weekend-live-concert-workshops-tickets-1985561510929",
+    "url": "https://www.eventbrite.com/e/el-bonche-5-year-anniversary-weekend-live-concert-workshops-tickets-1985561510929",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$39",
+    "recurring": false,
+    "slug": "el-bonche-5-year-anniversary-weekend-live-concert-workshops-4bfa06be",
+    "archived": true
+  },
+  {
+    "id": "523d05d4fce4a101262182e648c9fac4635326c1@dance-calendar",
+    "name": "SALSA SOCIAL DAY PARTY",
+    "startDate": "2026-05-23T19:00:00+00:00",
+    "endDate": "2026-05-23T23:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "474 Moody Street, Waltham, MA 02453, Waltham, MA",
+    "lat": 42.3680507,
+    "lng": -71.2373282,
+    "description": "SALSA & VIBES DAY PARTY💃🏽\nSalsa lovers…this one’s for you!\n\nWhether you’ve been dancing Salsa for years, a Salsa  rookie or just love the music, this is your space to move, connect and enjoy latin vibes.\n\nNew to salsa? No worries…we’ve got you.\nWe’ll kick things off with a quick lesson to get you comfortable with the basics before we get into the party.\n\nEXTRA VIBRA:\n•Salsa instruments you can jump on just for fun, mics open to sing along the classics (Yes, even if you only know the chorus,tranquilo)\n\n•Domino's corner for that laid-back, real-life latin vibe energy. If you’ve got your own dominoes set… bring it\n\nThis is perfect for the seasoned Salsomano and for the Salsa newbie…this is your invite to step in, feel it out, and catch the rhythm your own way.\n\nEl que sabe, sabe!\n\n🗓:Saturday, May 23\n📍: @tempobakbar\n⏰ 3PM – 7PM\n💃🏽 Open dance floor • All levels welcome\n🎧 Live DJ spinning your favorite salsa classics + sing-alongs\n\nComment VIBRA for ticket info 🎟\n\nCome for the music, stay for the vibra!\n",
+    "url": "https://www.eventbrite.com/e/salsa-social-day-party-tickets-1987364492696",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$23.18",
+    "recurring": false,
+    "slug": "salsa-social-day-party-523d05d4",
+    "archived": true
+  },
+  {
+    "id": "7C4607A0-24FE-45DE-B74C-671B89B0D81D",
+    "name": "BOSTON SALSA CRUISE RECORDAMOS A LA LEYENDA WILLIE COLON",
+    "startDate": "2026-05-23T22:00:00+00:00",
+    "endDate": "2026-05-24T01:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "BOSTON 60 Rowes Wharf, Boston, MA, 02110",
+    "lat": 42.3562,
+    "lng": -71.0502,
+    "description": "🗓: Saturday, May 23, 2026 6:00pm \n📍: BOSTON, 60 Rowes Wharf, Boston, MA, 02110 \n🎟: https://www.boletosexpress.com/boston-salsa-cruise-may-23/87270/ \n📞: +1 800-530-4202 ",
+    "url": "https://facebook.com/events/s/boston-salsa-cruise-recordamos/1582926930506442/",
+    "styles": [
+      "salsa"
+    ],
+    "cost": null,
+    "recurring": false,
+    "slug": "boston-salsa-cruise-recordamos-a-la-leyenda-willie-colon-7c4607a0",
+    "archived": true
+  },
+  {
+    "id": "33E31D27-4646-4010-95B2-010B847151AA",
+    "name": "Boston Zouk Flow Social (5/23/26)",
+    "startDate": "2026-05-23T23:00:00+00:00",
+    "endDate": "2026-05-24T02:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "Arts at the Armory",
+    "lat": 42.3996,
+    "lng": -71.0989,
+    "description": "Hello Everyone!\nJoin us for a May edition of the Flow Zouk Social. We will be featuring sets with chill, flowy music. The social is open to dancers of all levels and styles. \n\n\n📍Location:\nSomArt at the Armory, 3rd Floor \n191 Highland Ave, Somerville, MA\n(please bring clean shoes or socks for dancing)\n\n⏲️ Time:\nSaturday, May 23rd\n7:00pm-10:00pm\n\n🎶 Music \nPrerecorded mixsets by:\n✨ TBA\n\n✨ TBA\n\n\n💸 Cost\n- $10 (Venmo @Mir-Hussain303)\n\nOur Covid & health policy: if you have any flu like symptoms or test positive for Covid please stay home. Testing for Covid before the event is encouraged, but not required. Anyone is welcome to wear a mask during the dance. Thank you for your cooperation.\n\nZouk Flow Dance requests:\n~keep conversations off the dance floor\n~respect boundaries of others / seek consent\n~dance barefoot, in Socks or in dancing shoes. Keep boots and street shoes in the outside area. \n\nInvite your friends and see you on the dance floor. ",
+    "url": "https://facebook.com/events/s/boston-zouk-flow-social-52326/1127380893783555/",
+    "styles": [
+      "zouk"
+    ],
+    "cost": "$10",
+    "recurring": false,
+    "slug": "boston-zouk-flow-social-5-23-26-33e31d27",
+    "archived": true
+  },
+  {
+    "id": "E139A7FD-4E10-4F4B-91AB-95416EE8113C",
+    "name": "Bacaneria Pop Up Social - CyA Debut",
+    "startDate": "2026-05-24T00:00:00+00:00",
+    "endDate": "2026-05-24T04:00:00+00:00",
+    "dayOfWeek": "Sunday",
+    "location": "Lili Latin Dance",
+    "lat": 42.336527,
+    "lng": -71.047731,
+    "description": "Bacaneria Pop Up Social\nDJ Black Mamba\nDJ Locura\nDJ AlRiv\nSalsa - Bachata - Merengue Tipico\n8pm - 12am\nClara y Al - Salsa Debut Performance\nLili Latin Dance \n423 W Broadway Suite 202 South Boston\nSalsa/Merengue Lesson\n$15 Social /$20 Lesson + Social",
+    "url": "https://facebook.com/events/s/bacaneria-pop-up-social-cya-de/925224613663609/",
+    "styles": [
+      "bachata",
+      "salsa",
+      "merengue"
+    ],
+    "cost": "$15",
+    "recurring": false,
+    "slug": "bacaneria-pop-up-social-cya-debut-e139a7fd",
+    "archived": true
+  },
+  {
+    "id": "4A575AB7-80D9-458D-98CB-F92EC84BDA1D",
+    "name": "LOTP - Lamba on the Pier ☀️ ",
+    "startDate": "2026-05-24T18:00:00+00:00",
+    "endDate": "2026-05-24T21:00:00+00:00",
+    "dayOfWeek": "Sunday",
+    "location": "10 Waterside Ave, Boston, MA 02210",
+    "lat": 42.3485,
+    "lng": -71.044,
+    "description": "\n✨ Join us for our first LOTP of the season!! ✨ \nLet’s kick off the season (weather permitting) with afternoon dancing and connection by the water at the beautiful Fan Pier Marina docks, with the most beautiful views in Boston! 🌆 \n\nWe’ll be dancing to a delicious mix of Lambada, Brazilian Zouk and Kizomba, by the harbor breeze. 💃🏽🌊\n\n🗓 Sunday, May 24\n🕑 2:00 PM – 5:00 PM\n📍 Seaport, Fan Pier Marina Docks\n\nCome dance, connect, and enjoy our waterfront social together. ✨ \n\nSee you on the Marina Docks! 🛳️ 🌆 ",
+    "url": null,
+    "styles": [
+      "kizomba",
+      "zouk"
+    ],
+    "cost": null,
+    "recurring": false,
+    "slug": "lotp-lamba-on-the-pier-4a575ab7",
+    "archived": true
+  },
+  {
+    "id": "C2AACCF3-329B-460A-9962-619E4F6EE579",
+    "name": "MAINE Battle Of The Beats",
+    "startDate": "2026-05-23T17:30:00+00:00",
+    "endDate": "2026-05-23T20:30:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "Body Positive Dance Fitness",
+    "lat": null,
+    "lng": null,
+    "description": "🚗WE'RE HEADING TO MAINE!\n\nThe floor is open. The battle is on. In this electrifying 2026 showdown, Latin and Hip Hop dancers trade steps in a celebration of culture, competition, and connection. Enter Solo, with a Partner, or bring your Crew.\n\nℹ️For More Information: https://www.listerevents.com/mainebattleofthebeats\n\n🔥SIGN UP TO COMPETE:\nhttps://docs.google.com/forms/d/e/1FAIpQLSdiBUJtngFHKOuhM6QEeutFQ46qL0cB8-MbOfS0YV_PyXGDgg/viewform\n_________\n\nMEET YOUR TEAM\n\n 💃🏻LIZ: Owner and Founder of Lister Events, Co-Creator of Battle Of The Beats\n\n🕺🏾SEAN: Boston Dancer And Competitor in Latin and Hip Hop. Co-Creator of Battle Of The Beats\n\n💃🏻OLENKA: Owner and Founder of \"OLE Beats In Motion\"\nOur newest collaborator, helping us bring Battle Of The Beats to Maine for the FIRST TIME to Maine!!!\n🎶Find Out More Here: https://olebeatsinmotion.com/\n\n🎧 DJ AVELL: @djavell_off\nYour DJ for this event! Known in the Maine dance community. We're so excited to have him join us!\n_________\n\nWHAT TO EXPECT:\n📍Location: Body Positive Dance Fitness​, Portland, Maine\n\n🚾Bathrooms on site\n\n🅿️Parking Lot available\n\n🎟️Ticket Prices\n$10 For The First 10\n$12 Early Bird Tickets Before May 1st\n$15 At The Door | Cash Only\n\n*If you are facing financial barriers, please reach out to: office@listerevents.com\n\n**If you want to pay it forward and purchase a ticket for another attendee, reach out to: \noffice@listerevents.com\n​_________\n\n1:30-2:30 PM: Beginner-Friendly Workshop!\nGroovy Theory: Salsa Hip Hop Fusion​\n​\n2:30-4:00 PM: \nCompetition with a panel of judges from both communities\nA break for social dancing (salsa/bachata/hip hop)\n\n4:30 PM: The winners are crowned and we dance until the end\n_________\n​",
+    "url": "https://facebook.com/events/s/maine-battle-of-the-beats/1619913609561716/",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "$15 At The Door",
+    "recurring": false,
+    "slug": "maine-battle-of-the-beats-c2aaccf3",
+    "organizer": "Sensualeros Boston Events",
+    "archived": true
+  },
+  {
+    "id": "61E6D366-0999-414D-981A-752F5465DB99",
+    "name": "KizKonpa: Gouyad Edition — Round 2",
+    "startDate": "2026-05-24T00:00:00+00:00",
+    "endDate": "2026-05-24T06:00:00+00:00",
+    "dayOfWeek": "Sunday",
+    "location": "Tamboo Nightclub",
+    "lat": null,
+    "lng": null,
+    "description": "Because one KizKonpa night clearly wasn’t enough… you asked, so we listened 😏🔥\n\n**KizKonpa: Gouyad Edition — Round 2**\nBack by Popular Demand\n\nIf you were there last time, you already know… If you missed it, this is your second chance to understand why people didn’t want to leave the dance floor 👀\n\n⚠️ Warning: side effects may include nonstop smiling, extra close dancing, and ignoring your “I’m leaving after this song” promise.\n\nWe’re bringing back that perfect blend of smooth kizomba, soulful konpa, and that addictive gouyad flavor that keeps the connection tight and the energy just right. The kind of night where every song hits… and every dance turns into “wait… one more?”\n\nWe start with a 🔥 special class at 8 PM to get your body moving and your connection right… then it’s straight into a social where the vibe builds, the lights get low, and the dance floor stays BUSY all night.\n\nExpect:\n✨ Strong connections\n✨ Playful, feel-good energy\n✨ A room full of dancers who came to dance for real\n🎧 Music by DJ EJ Mix + DJ Ceijay keeping it smooth, sexy, and nonstop.\n\nSchedule:\n🔥 8:00 PM – Special Class\n💃 Social Dancing / Party Immediately After\n📍 Location - Tamboo - 252 Main St, Brockton MA\n\nPricing:\n\n🐥 Early Bird:\n$30 – Class & Party\n$20 – Party Only\n\n🐓 Day of/At the Door:\n$35 – Class & Party\n$25 – Party Only\n\n🎟️ Tickets - 0523KizKonpa.eventbrite.com\n\nPull up solo or with your people… either way, you’re leaving with new connections, new favorite songs, and that “yeah… I’m glad I came” feeling.\n\nDon’t overthink it. Just come catch the vibe.\nBecause once clearly… wasn’t enough 😌🔥",
+    "url": "https://facebook.com/events/s/kizkonpa-gouyad-edition-round-/819202317480600/",
+    "styles": [
+      "kizomba"
+    ],
+    "cost": "$30",
+    "recurring": false,
+    "slug": "kizkonpa-gouyad-edition-round-2-61e6d366",
+    "organizer": "Sensualeros Boston Events",
+    "archived": true
+  },
+  {
+    "id": "4A38D91F-E41D-4132-9750-D4AADBE2E81A",
+    "name": "Salsa & Bachata Social w/ Fiesta Dance Co",
+    "startDate": "2026-05-23T00:30:00+00:00",
+    "endDate": "2026-05-23T03:30:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "Sol de Mexico, Milford, MA",
+    "lat": 42.1530123,
+    "lng": -71.4913262,
+    "description": "​We’re bringing the heat with DJ Black Mamba on the decks, spinning the best Salsa and Bachata tracks all night long.\n\n​🎟️ Tickets\n​Grab yours early and save!\n​$10 Advance Online (Scan the QR code on the flyer or visit the link below!)\n​$15 At the door\n\n​✨ What to Expect\n​No Partner? No Problem! Our intro class is the perfect way to meet new people and learn the basics.\n​Great Food & Drinks: Hosted at Sol de Mexico, so you can fuel up with amazing food and cocktails between dances.\n​Community: A welcoming, vibrant atmosphere for dancers of all levels.\n\n​👉 Get your tickets now at: www.fiestadancecompany.com",
+    "url": "https://facebook.com/events/s/salsa-bachata-social-w-fiesta-/1460349465060315/",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "$10 Advance",
+    "recurring": false,
+    "slug": "salsa-bachata-social-w-fiesta-dance-co-4a38d91f",
+    "organizer": "Sensualeros Boston Events",
+    "archived": true
+  },
+  {
+    "id": "4c1ade683923ef2455dc3274fed14db83899e908@dance-calendar",
+    "name": "Kizomba Meets Konpa + DJ Eloi",
+    "startDate": "2026-05-25T00:00:00+00:00",
+    "endDate": "2026-05-25T01:00:00+00:00",
+    "dayOfWeek": "Monday",
+    "location": "735 William T Morrissey Boulevard, Boston, MA 02122, Boston, MA",
+    "lat": 42.2953653,
+    "lng": -71.0488803,
+    "description": "Get ready to dance Kizomba & Konpa with Noche Latina + DJ Eloi. Workshops with Bev Flowers & Edson Kiz  !\n\nSource: https://www.eventbrite.com/e/kizomba-meets-konpa-dj-eloi-tickets-1989028851839",
+    "url": "https://www.eventbrite.com/e/kizomba-meets-konpa-dj-eloi-tickets-1989028851839",
+    "styles": [
+      "kizomba"
+    ],
+    "cost": null,
+    "recurring": false,
+    "slug": "kizomba-meets-konpa-dj-eloi-4c1ade68",
+    "archived": true
   }
 ]

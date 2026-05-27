@@ -31,6 +31,10 @@ export interface DanceEvent {
   recurrences?: string[];
   /** Weekly schedule for venue-style recurring events (e.g. Havana Club) */
   schedule?: RecurringSchedule[];
+  /** True for past events kept for SEO (not shown on map/feed) */
+  archived?: boolean;
+  /** Human-readable organizer name (e.g. "BOBAS", "Fiesta Dance Company") */
+  organizer?: string;
 }
 
 export interface RecurringSchedule {

@@ -22,8 +22,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     .map(e => ({
       url: `${SITE_URL}/event/${e.slug}`,
       lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
+      changeFrequency: e.archived ? 'monthly' as const : 'weekly' as const,
+      priority: e.archived ? 0.4 : 0.8,
     }));
 
   return [
