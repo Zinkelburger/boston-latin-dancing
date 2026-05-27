@@ -3,7 +3,8 @@ name: scrape-events
 description: >-
   Scrape dance events from all sources and update the map. Use when asked to
   refresh events, scrape Facebook pages (BOBAS, etc.), run the pipeline,
-  check for new events, update public/events.json, or "update the map".
+  check for new events, update public/events.json, review rejected non-Latin
+  events, or "update the map".
 ---
 
 # Update the Map
@@ -30,7 +31,13 @@ event_scrape()
 
 This runs all enabled automated scrapers, ingests new events into
 `data/events/active.json` (with dedup), and auto-archives past events.
-It does **not** publish — call `event_publish()` separately (Step 4).
+It does **not** publish — call `event_publish()` separately (Step 7).
+
+The ingest result includes:
+- `added` — new events in active
+- `skipped_duplicates` — existing events refreshed (same ID/URL merge)
+- `rejected_non_latin` — events queued in `rejected.json` (see Step 3)
+- `pending_review` — uncertain dedup pairs (see Step 4)
 
 To scrape a single source:
 
@@ -46,6 +53,7 @@ event_scrape(source_id="beatrice-calendar")
 | `sensualeros-boston` | `scrape_ics.py` | Sensualeros Boston Events (Google Calendar ICS) |
 | `lister-events` | `scrape_lister.py` | Lister Events (Wix/JSON-LD) |
 | `eventbrite-boston-latin` | `scrape_eventbrite.py` | Eventbrite search (salsa/bachata/latin) |
+| `fiesta-dance-company` | `scrape_fiesta_dance.py` | Fiesta Dance Company socials |
 | `submissions` | `fetch_submissions.py` | User-submitted events from API |
 
 Facebook sources are **not** auto-runnable — they require browser MCP (Step 2).
@@ -131,7 +139,67 @@ After the scraper writes `data/scraped/<source-id>.json`, ingest it:
 event_ingest(source_id="<source-id>")
 ```
 
-## Step 3: Review pending dedup pairs
+## Step 3: Review rejected (non-Latin) events
+
+During ingest, events with `styles=["other"]` and **no Latin dance keywords**
+in name/description are **not added to active**. They are queued in
+`data/events/rejected.json` for agent review.
+
+This catches events like "West Coast Swing @ Dancing Fools" that appear on
+shared calendars (e.g. Sensualeros ICS) but are not salsa/bachata/latin.
+
+### Latin relevance rule (`scripts/event_store.py`)
+
+An event passes automatically if:
+- It has a recognized style other than `other` (salsa, bachata, kizomba, zouk, merengue)
+
+Otherwise it must match Latin keywords in name + description:
+`salsa`, `bachata`, `kizomba`, `zouk`, `merengue`, `latin`, `cumbia`, `reggaeton`,
+`timba`, `son/songo`, `cha cha`, `mambo`, `rumba`, `guaguanco`, `cubana`, `tropical`
+
+### View the rejected queue
+
+```
+event_list(status="rejected")
+```
+
+Each item has:
+- `_rejected_reason` — why it was flagged (e.g. `not Latin dance relevant...`)
+- `_rejected_at` — when it was queued
+- `_review_type` — always `non_latin` for now
+
+Get full details:
+
+```
+event_get(event_id="<rejected-id>")
+```
+
+Or inspect the file directly:
+
+```bash
+python3 -c "
+import json
+for e in json.load(open('data/events/rejected.json')):
+    print(f\"{e['name'][:50]}\")
+    print(f\"  id: {e['id']}\")
+    print(f\"  reason: {e.get('_rejected_reason')}\")
+    print(f\"  styles: {e.get('styles')}\")
+"
+```
+
+### Resolve rejected events
+
+| Situation | Action |
+|-----------|--------|
+| Actually Latin-relevant (keywords missed, wrong style tag) | Fix styles/description if needed, then `event_approve_rejected(event_id)` |
+| Not Latin dance — keep off map | `event_dismiss_rejected(event_id, reason="not Latin dance")` |
+| Already on map by mistake | `event_remove(event_id, reason="not Latin dance")` — removes from active and queues in rejected |
+
+**Do not** manually edit `rejected.json`. Use MCP tools.
+
+Re-scraping updates an existing rejected entry (same ID) instead of duplicating it.
+
+## Step 4: Review pending dedup pairs
 
 After ingest, check for uncertain duplicate matches routed to the pending queue.
 
@@ -188,7 +256,7 @@ like duplicates but weren't merged. This is read-only analysis, not the pending
 review queue. Use `--active` to scan the active store instead, `--log` for recent
 audit entries.
 
-## Step 4: Verify events against sources
+## Step 5: Verify events against sources
 
 Run verification **before** publishing so flagged items can be fixed first:
 
@@ -208,11 +276,12 @@ This produces a report categorizing each event. Handle by status:
 | `needs_review` | Check the flagged text and present to user. |
 | `unverifiable` | Flag for user to manually check (Instagram links, etc.) |
 
-Present all flagged items to the user before publishing. Never auto-remove events.
+Present all flagged items to the user before publishing. Use `event_remove` for
+non-Latin events that slipped into active — it queues them in rejected.json for review.
 
 Report is written to `data/events/verification-report.json`.
 
-## Step 5: Review flagged events
+## Step 6: Review flagged events
 
 Check active events for data quality issues:
 
@@ -226,7 +295,7 @@ For events with `styles=["other"]`, `cost=null`, or missing coords:
 
 Ask the user if unsure about any classification.
 
-## Step 6: Publish
+## Step 7: Publish
 
 Call the MCP tool:
 
@@ -234,7 +303,8 @@ Call the MCP tool:
 event_publish()
 ```
 
-This regenerates `public/events.json` from the active event store + expanded venues.
+This regenerates `data/events-published.json` and `public/events.json` from the
+active event store + expanded venues. The Next.js app reads `events-published.json`.
 
 ### Active count vs published count
 
@@ -259,7 +329,7 @@ Typical math: 55 active + 6 venue-expanded = 61 combined → ~56 after dedup →
 Venue hub records (those with a `schedule` field) are kept separate from
 scraped night-specific series during collapse — they won't merge into each other.
 
-## Step 7: Clear processed submissions
+## Step 8: Clear processed submissions
 
 ```bash
 curl -s -X POST \
@@ -267,21 +337,68 @@ curl -s -X POST \
   https://api.bostonsalsa.org/api/submissions/clear
 ```
 
-## Step 8: Verify build
+## Step 9: Verify build
 
 ```bash
 npx next build
 ```
 
-## Step 9: Commit and push
+## Step 10: Commit and push
 
 Ask the user to confirm, then:
 
 ```bash
-git add public/events.json data/events/ data/venues.json scripts/ data/sources.json
+git add public/events.json data/events-published.json data/events/ data/venues.json scripts/ mcp-server/ data/sources.json
 git commit -m "Update events $(date +%Y-%m-%d)"
 git push
 ```
+
+---
+
+## Dates, timezones, and day-of-week
+
+Boston events must show the correct **local day and time**, not the UTC calendar day.
+
+### How ICS timestamps work
+
+ICS feeds (Beatrice, Sensualeros) often store times as UTC (`20260611T000000Z`).
+That is the same instant as **Wed Jun 10, 8:00 PM** in Boston — Google Calendar
+displays the local time correctly. Do not rewrite timestamps to Boston offset;
+store the ISO instant as-is.
+
+### Scraper: `dayOfWeek` in Boston time
+
+`scripts/scraper_utils.py` → `make_event()` sets:
+
+```python
+"dayOfWeek": DAYS[start.astimezone(NY_TZ).isoweekday() % 7]
+```
+
+Re-scraping refreshes `dayOfWeek` on duplicate merges (same ID). If you see a
+day mismatch after code changes, run `event_scrape()` then `event_publish()`.
+
+### Frontend: filter uses startDate, not stored dayOfWeek
+
+Map and feed day filters derive the day from `startDate` in local time
+(`dayOfWeekFromIso` in `lib/recurrences.ts`), not the stored `dayOfWeek` field.
+Popup/card dates also format `startDate` in local time.
+
+If popup says Wednesday but Thursday filter matched, the stored `dayOfWeek` was
+stale — re-scrape fixes it; the filter fix prevents the mismatch either way.
+
+---
+
+## Latin relevance filter (before dedup)
+
+During ingest, `add_event()` checks Latin relevance **before** dedup:
+
+| Check | Result |
+|-------|--------|
+| Has recognized style (not just `other`) | Pass → continue to dedup |
+| `styles=["other"]` + Latin keywords in name/description | Pass → continue to dedup |
+| `styles=["other"]` + no Latin keywords | **Reject** → queue in `rejected.json` |
+
+Rejected events never reach active. Use `event_approve_rejected` to override.
 
 ---
 
@@ -291,11 +408,11 @@ Dedup runs at **two stages** with different behavior.
 
 ### Ingest dedup (`add_event()` during `event_ingest` / `event_scrape`)
 
-When a scraped event arrives, it is compared against active + archive:
+When a scraped event passes Latin relevance, it is compared against active + archive:
 
 | Confidence | Criteria (simplified) | Action |
 |------------|----------------------|--------|
-| **certain** | Same ID or same URL; or a human-approved pair in `known_duplicates.json` | Auto-merge into active |
+| **certain** | Same ID or same URL; or a human-approved pair in `known_duplicates.json` | Auto-merge into active (refreshes dates/dayOfWeek) |
 | **review** | Exact name + within 24h; same location + same calendar day; substring name + within 24h; word overlap ≥50% (min 2 words) + within 24h; exact name with no parseable dates | Routed to `pending.json` with `_dedup_candidate_of` for human review |
 | **none** | No match | Added as new active event |
 
@@ -345,6 +462,7 @@ No config change needed — just don't expect a Facebook scrape for Havana.
 data/events/active.json     Source of truth for live events
 data/events/archive.json    Past events (dedup history + reactivation)
 data/events/pending.json    Unreviewed submissions + uncertain dedup pairs
+data/events/rejected.json   Non-Latin events flagged for agent review
 data/events/changelog.jsonl Audit log of all mutations
 data/events/dedup-log.jsonl Dedup decision audit trail
 data/events/verification-report.json Last verification run output
@@ -352,10 +470,11 @@ data/venues.json            Permanent weekly venues (Havana Club, Dante's, etc.)
 data/sources.json           Config: URLs, source IDs, defaults, enabled flags
 data/scraped/*.json         Intermediate scraped data
 data/geocode-cache.json     Nominatim results cache
-public/events.json          BUILD ARTIFACT (generated by event_publish)
-scripts/event_store.py      Core lifecycle logic (dedup, archive, publish)
+data/events-published.json  BUILD ARTIFACT (imported by Next.js app)
+public/events.json          Legacy copy of events-published.json
+scripts/event_store.py      Core lifecycle logic (dedup, archive, publish, rejected queue)
 scripts/verify_events.py   Event verification engine
-scripts/scraper_utils.py    Geocoding, style detection, VENUE_COORDS
+scripts/scraper_utils.py    Geocoding, style detection, VENUE_COORDS, dayOfWeek (America/New_York)
 scripts/dedup_report.py     Read-only scan for suspicious pairs in published/active
 mcp-server/server.py        MCP tool definitions
 ```
@@ -364,19 +483,34 @@ mcp-server/server.py        MCP tool definitions
 
 | Tool | Purpose |
 |------|---------|
-| `event_list` | Query active/pending/archive events |
-| `event_get` | Full details of one event by ID |
-| `event_add` | Add event (auto dedup + geocode + style detect) |
+| `event_list` | Query active/pending/rejected/archive events |
+| `event_get` | Full details of one event by ID (searches all pools) |
+| `event_add` | Add event (auto dedup + geocode + style detect + Latin filter) |
 | `event_edit` | Update fields on an active event |
 | `event_archive` | Move past events to archive |
 | `event_approve` | Approve pending submission or merge uncertain dedup pair |
-| `event_reject` | Remove pending with reason |
+| `event_reject` | Remove pending submission with reason |
+| `event_remove` | Remove active event → queue in rejected.json for review |
+| `event_approve_rejected` | Promote rejected event to active (bypasses Latin filter) |
+| `event_dismiss_rejected` | Permanently drop a rejected event |
 | `event_scrape` | Run scrapers + ingest + archive |
 | `event_ingest` | Ingest from data/scraped/ without re-scraping |
-| `event_publish` | Regenerate public/events.json |
+| `event_publish` | Regenerate events-published.json + public/events.json |
 | `venue_list` | List permanent venues |
 | `venue_add` | Add a new permanent venue |
 | `source_list` | List registered sources |
 | `source_add` | Register a new source |
 | `event_verify` | Verify events against source URLs |
 | `event_set_location_override` | Fix wrong location permanently (survives re-scrape) |
+
+## Full pipeline checklist
+
+```
+1. event_scrape()                          → scrape + ingest + archive
+2. event_list(status="rejected")           → review non-Latin flagged events
+3. event_list(status="pending")            → review uncertain dedup pairs
+4. event_verify(stale_days=7)              → verify against sources
+5. event_publish()                         → regenerate map data
+6. npx next build                          → verify build
+7. git commit + push (if user confirms)
+```

@@ -66,11 +66,13 @@ When an event's source has the wrong location (e.g., ICS feed is outdated):
 ## Workflow after scraping
 
 After running scrapers (`event_scrape`), always:
-1. Run `event_verify(stale_days=7)` to check events not verified recently
-2. Review the flagged events report
-3. For `needs_browser` items, use browser MCP to check each one
-4. Present all flagged items to the user before publishing
-5. Never auto-remove events — always ask the user
+
+1. `event_list(status="rejected")` — review non-Latin events flagged during ingest
+2. Run `event_verify(stale_days=7)` to check events not verified recently
+3. Review the flagged events report
+4. For `needs_browser` items, use browser MCP to check each one
+5. Present all flagged items to the user before publishing
+6. Never auto-remove active events — use `event_remove` and queue in rejected for review
 
 ## Always save the source
 

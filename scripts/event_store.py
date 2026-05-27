@@ -5,6 +5,7 @@ Manages three JSON files:
   data/events/active.json   – current/upcoming events (published to map)
   data/events/archive.json  – past events (for dedup + history)
   data/events/pending.json  – unreviewed user submissions
+  data/events/rejected.json – non-Latin events flagged for agent review
 
 Also reads:
   data/venues.json          – permanent weekly venue schedules
@@ -36,6 +37,7 @@ EVENTS_DIR = ROOT / "data" / "events"
 ACTIVE_JSON = EVENTS_DIR / "active.json"
 ARCHIVE_JSON = EVENTS_DIR / "archive.json"
 PENDING_JSON = EVENTS_DIR / "pending.json"
+REJECTED_JSON = EVENTS_DIR / "rejected.json"
 CHANGELOG = EVENTS_DIR / "changelog.jsonl"
 VENUES_JSON = ROOT / "data" / "venues.json"
 PUBLIC_EVENTS_JSON = ROOT / "data" / "events-published.json"
@@ -688,8 +690,9 @@ def collapse_recurring_series(events: list[dict]) -> list[dict]:
 
         dt = parse_date(best["startDate"])
         if dt:
-            days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-            best["dayOfWeek"] = days[dt.isoweekday() % 7]
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
+            best["dayOfWeek"] = DAYS_LIST[dt.astimezone(NY_TZ).isoweekday() % 7]
 
         for ev in group_events[1:]:
             if (best.get("lat") is None or best.get("lng") is None) and ev.get("lat") and ev.get("lng"):
@@ -880,6 +883,10 @@ def load_pending() -> list[dict]:
     return _read_json(PENDING_JSON)
 
 
+def load_rejected() -> list[dict]:
+    return _read_json(REJECTED_JSON)
+
+
 def save_active(events: list[dict]) -> None:
     _write_json(ACTIVE_JSON, events)
 
@@ -890,6 +897,31 @@ def save_archive(events: list[dict]) -> None:
 
 def save_pending(events: list[dict]) -> None:
     _write_json(PENDING_JSON, events)
+
+
+def save_rejected(events: list[dict]) -> None:
+    _write_json(REJECTED_JSON, events)
+
+
+def _queue_rejected(event: dict, reason: str, review_type: str = "non_latin") -> dict:
+    """Append or update an event in the rejected review queue."""
+    rejected = load_rejected()
+    now = datetime.now(timezone.utc).isoformat()
+    record = dict(event)
+    record["_rejected_reason"] = reason
+    record["_review_type"] = review_type
+
+    for i, existing in enumerate(rejected):
+        if existing.get("id") == event.get("id"):
+            record["_rejected_at"] = existing.get("_rejected_at", now)
+            rejected[i] = record
+            save_rejected(rejected)
+            return record
+
+    record["_rejected_at"] = now
+    rejected.append(record)
+    save_rejected(rejected)
+    return record
 
 
 def slugify(name: str, event_id: str) -> str:
@@ -993,7 +1025,7 @@ def _is_latin_relevant(event: dict) -> bool:
     return bool(_LATIN_PATTERN.search(text))
 
 
-def add_event(event: dict, force: bool = False) -> dict:
+def add_event(event: dict, force: bool = False, skip_latin_check: bool = False) -> dict:
     """Add an event to the active store. Returns result dict with status.
 
     Dedup tiers:
@@ -1006,8 +1038,11 @@ def add_event(event: dict, force: bool = False) -> dict:
     if not event.get("id") or not event.get("startDate"):
         return {"status": "rejected", "message": "event missing id or startDate"}
 
-    if not _is_latin_relevant(event):
-        return {"status": "rejected", "message": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+    if not skip_latin_check and not _is_latin_relevant(event):
+        reason = "not Latin dance relevant (styles=['other'], no Latin terms)"
+        queued = _queue_rejected(event, reason)
+        _append_changelog("reject_non_latin", event["id"], reason)
+        return {"status": "rejected_non_latin", "message": reason, "event": queued}
 
     _infer_location(event)
 
@@ -1152,6 +1187,50 @@ def approve_pending(event_id: str) -> dict:
         result["warnings"] = issues
     _append_changelog("approve", event_id)
     return result
+
+
+def remove_active_event(event_id: str, reason: str = "removed from active") -> dict:
+    """Remove an active event and queue it for rejected review."""
+    active = load_active()
+    idx = next((i for i, ev in enumerate(active) if ev["id"] == event_id), None)
+    if idx is None:
+        return {"status": "not_found", "message": f"No active event with id '{event_id}'"}
+
+    event = active.pop(idx)
+    save_active(active)
+    queued = _queue_rejected(event, reason)
+    _append_changelog("remove", event_id, reason)
+    return {"status": "removed", "event": queued}
+
+
+def approve_rejected(event_id: str) -> dict:
+    """Promote a rejected event to active (bypasses Latin relevance check)."""
+    rejected = load_rejected()
+    idx = next((i for i, ev in enumerate(rejected) if ev["id"] == event_id), None)
+    if idx is None:
+        return {"status": "not_found", "message": f"No rejected event with id '{event_id}'"}
+
+    event = rejected.pop(idx)
+    save_rejected(rejected)
+    for key in ("_rejected_at", "_rejected_reason", "_review_type"):
+        event.pop(key, None)
+
+    result = add_event(event, force=True, skip_latin_check=True)
+    _append_changelog("approve_rejected", event_id, "promoted from rejected queue")
+    return result
+
+
+def dismiss_rejected(event_id: str, reason: str = "") -> dict:
+    """Permanently dismiss a rejected event without adding to active."""
+    rejected = load_rejected()
+    idx = next((i for i, ev in enumerate(rejected) if ev["id"] == event_id), None)
+    if idx is None:
+        return {"status": "not_found", "message": f"No rejected event with id '{event_id}'"}
+
+    event = rejected.pop(idx)
+    save_rejected(rejected)
+    _append_changelog("dismiss_rejected", event_id, reason)
+    return {"status": "dismissed", "event": event, "reason": reason}
 
 
 def reject_pending(event_id: str, reason: str = "") -> dict:
@@ -1300,6 +1379,7 @@ def ingest_scraped(source_id: Optional[str] = None) -> dict:
     merged = 0
     reactivated = 0
     skipped = 0
+    rejected_non_latin = 0
     pending_review = 0
     review_items: list[dict] = []
 
@@ -1324,6 +1404,8 @@ def ingest_scraped(source_id: Optional[str] = None) -> dict:
                 reactivated += 1
             elif status == "duplicate":
                 skipped += 1
+            elif status == "rejected_non_latin":
+                rejected_non_latin += 1
             elif status == "pending_review":
                 pending_review += 1
                 review_items.append({
@@ -1338,6 +1420,7 @@ def ingest_scraped(source_id: Optional[str] = None) -> dict:
         "merged": merged,
         "reactivated": reactivated,
         "skipped_duplicates": skipped,
+        "rejected_non_latin": rejected_non_latin,
         "pending_review": pending_review,
         "files_processed": len(files),
     }

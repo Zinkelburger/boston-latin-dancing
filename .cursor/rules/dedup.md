@@ -23,11 +23,15 @@ Fuzzy name matching never auto-merges. Only hard identity (ID, URL) merges autom
 ## Ingest flow (`add_event`)
 
 1. Reject venue schedule records — those belong in `data/venues.json` only
-2. Infer location before dedup checks
-3. Compare against archive (certain match → reactivate) then active
-4. **certain** → merge silently, log to `dedup-log.jsonl`
-5. **review** → append to `data/events/pending.json` with `_dedup_candidate_of`
-6. No match → add to active
+2. **Latin relevance check** — `styles=["other"]` with no Latin keywords → `rejected.json`
+3. Infer location before dedup checks
+4. Compare against archive (certain match → reactivate) then active
+5. **certain** → merge silently, log to `dedup-log.jsonl`
+6. **review** → append to `data/events/pending.json` with `_dedup_candidate_of`
+7. No match → add to active
+
+Latin relevance runs **before** dedup. Rejected events never enter active unless
+`event_approve_rejected` is called explicitly.
 
 ## Publish flow (`publish`)
 
@@ -67,10 +71,12 @@ sources.
 
 After running scrapers or ingesting events:
 
-1. Run `npm run review-dedup` (or `python3 scripts/dedup_report.py --pending --json`)
-2. For each item, compare the pending event against its `_dedup_candidate_of` match
-3. Same event → `event_approve(event_id)` or `approve_pending(event_id)`
-4. Different events → `event_reject(event_id, reason="distinct event")` or `reject_pending(event_id)`
+1. **Rejected queue** — `event_list(status="rejected")` for non-Latin flagged events
+   - Dismiss or approve before publishing if any are borderline
+2. **Pending dedup** — `npm run review-dedup` (or `python3 scripts/dedup_report.py --pending --json`)
+3. For each pending item, compare against its `_dedup_candidate_of` match
+4. Same event → `event_approve(event_id)` or `approve_pending(event_id)`
+5. Different events → `event_reject(event_id, reason="distinct event")` or `reject_pending(event_id)`
 
 ## Quick scan
 

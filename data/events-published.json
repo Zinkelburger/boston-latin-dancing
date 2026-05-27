@@ -1,40 +1,5 @@
 [
   {
-    "id": "d3953ee79b4effa6b332abf32cb4e01ba180f56e@occurrence-1@dance-calendar",
-    "name": "Saborcito @ The Anchor: Salsa & Bachata Dancing",
-    "startDate": "2026-05-25T18:00:00-04:00",
-    "endDate": "2026-05-25T21:00:00-04:00",
-    "dayOfWeek": "Monday",
-    "location": "1 Shipyard Park, charlestown, MA 02129, charlestown, MA",
-    "lat": 42.3731772,
-    "lng": -71.0526574,
-    "description": "Free Outdoor Salsa+Bachata Class and Social Dancing By the Waterfront\n\nSource: https://www.eventbrite.com/e/saborcito-the-anchor-salsa-bachata-dancing-tickets-1989160742327",
-    "url": "https://www.eventbrite.com/e/saborcito-the-anchor-salsa-bachata-dancing-tickets-1989160742327",
-    "styles": [
-      "bachata",
-      "salsa"
-    ],
-    "cost": "Free",
-    "recurring": true,
-    "recurrences": [
-      "2026-05-25T18:00:00-04:00",
-      "2026-06-01T18:00:00-04:00",
-      "2026-06-08T18:00:00-04:00",
-      "2026-06-15T18:00:00-04:00",
-      "2026-06-22T18:00:00-04:00",
-      "2026-06-29T18:00:00-04:00",
-      "2026-07-06T18:00:00-04:00",
-      "2026-07-13T18:00:00-04:00",
-      "2026-07-20T18:00:00-04:00",
-      "2026-07-27T18:00:00-04:00",
-      "2026-08-03T18:00:00-04:00",
-      "2026-08-10T18:00:00-04:00"
-    ],
-    "slug": "saborcito-the-anchor-salsa-bachata-dancing-d3953ee7",
-    "recurrenceLabel": "Every Monday",
-    "organizer": "Greater Boston Dance Socials (Beatrice)"
-  },
-  {
     "id": "bobas-20260526-0",
     "name": "Sunset Salsa Bachata on the Docks",
     "startDate": "2026-05-26T18:00:00-04:00",
@@ -197,7 +162,7 @@
     "name": "Boston Senior Zouk Social (5/26/2026)",
     "startDate": "2026-05-27T00:00:00+00:00",
     "endDate": "2026-05-27T03:00:00+00:00",
-    "dayOfWeek": "Wednesday",
+    "dayOfWeek": "Tuesday",
     "location": "Multicultural Arts Center",
     "lat": 42.3699327,
     "lng": -71.0796219,
@@ -327,7 +292,7 @@
     "name": "Los Mambiseros: free night of traditional Cuban music",
     "startDate": "2026-05-29T00:00:00+00:00",
     "endDate": "2026-05-29T03:00:00+00:00",
-    "dayOfWeek": "Friday",
+    "dayOfWeek": "Thursday",
     "location": "Long Live Roxbury, 152 Hampden St",
     "lat": 42.3277529,
     "lng": -71.0748973,
@@ -416,6 +381,41 @@
     "recurring": false,
     "slug": "booze-bachata-featuring-nicole-from-atl-df158b3c",
     "organizer": "Sensualeros Boston Events"
+  },
+  {
+    "id": "d3953ee79b4effa6b332abf32cb4e01ba180f56e@occurrence-1@dance-calendar",
+    "name": "Saborcito @ The Anchor: Salsa & Bachata Dancing",
+    "startDate": "2026-06-01T18:00:00-04:00",
+    "endDate": "2026-06-01T21:00:00-04:00",
+    "dayOfWeek": "Monday",
+    "location": "1 Shipyard Park, charlestown, MA 02129, charlestown, MA",
+    "lat": 42.3731772,
+    "lng": -71.0526574,
+    "description": "Free Outdoor Salsa+Bachata Class and Social Dancing By the Waterfront\n\nSource: https://www.eventbrite.com/e/saborcito-the-anchor-salsa-bachata-dancing-tickets-1989160742327",
+    "url": "https://www.eventbrite.com/e/saborcito-the-anchor-salsa-bachata-dancing-tickets-1989160742327",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": true,
+    "recurrences": [
+      "2026-05-25T18:00:00-04:00",
+      "2026-06-01T18:00:00-04:00",
+      "2026-06-08T18:00:00-04:00",
+      "2026-06-15T18:00:00-04:00",
+      "2026-06-22T18:00:00-04:00",
+      "2026-06-29T18:00:00-04:00",
+      "2026-07-06T18:00:00-04:00",
+      "2026-07-13T18:00:00-04:00",
+      "2026-07-20T18:00:00-04:00",
+      "2026-07-27T18:00:00-04:00",
+      "2026-08-03T18:00:00-04:00",
+      "2026-08-10T18:00:00-04:00"
+    ],
+    "slug": "saborcito-the-anchor-salsa-bachata-dancing-d3953ee7",
+    "recurrenceLabel": "Every Monday",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "dantes-tambo",
@@ -584,31 +584,6 @@
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
-    "id": "62ekr0aga5340rgd7nmh6cvj3m@google.com",
-    "name": "Bachata by the River",
-    "startDate": "2026-06-07T18:00:00-04:00",
-    "endDate": "2026-06-07T20:30:00-04:00",
-    "dayOfWeek": "Sunday",
-    "location": "Mass Audubon Magazine Beach Park Nature Center, 668 Memorial Dr, Cambridge, MA 02139, USA",
-    "lat": 42.3584,
-    "lng": -71.1147,
-    "description": "<p dir=\"auto\"><strong><b>WHERE:</b></strong> Magazine Beach Park (by the Nature Center)</p><p dir=\"auto\"><strong><b>COST:</b></strong> FREE!</p><p dir=\"auto\"><strong><b>MUSIC:</b></strong></p><p dir=\"auto\">100% Bachata</p><p dir=\"auto\">100% Salsa</p><p dir=\"auto\"><br></p><p dir=\"auto\">EVERYONE IS WELCOME, whether you’ve been dancing for years or want to try it out. We’ll start with a beginner-friendly lesson to get you moving with confidence before dancing until sunset.</p><p dir=\"auto\"><strong><b>SCHEDULE</b></strong></p><p dir=\"auto\">6-7 PM: Beginner-Friendly Bachata Lesson (No experience needed!)</p><p dir=\"auto\">7 PM-Sunset: Social Dancing! (Salsa AND Bachata)</p><p dir=\"auto\"><strong><b>AMENITIES</b></strong></p><p dir=\"auto\">*UNTIL 8PM! On-Site Bathrooms and Free Water Station</p><div dir=\"auto\"><p dir=\"auto\">No partner? No problem! Just bring your fun-loving self.</p><p dir=\"auto\"><strong><b>DRESS CODE:</b></strong></p><p dir=\"auto\">Wear something comfy + spin-friendly shoes!</p><div dir=\"auto\"><p dir=\"auto\">No cost, no stress—just great music, and the perfect way to fall into autumn. Who’s in?</p><p dir=\"auto\">*Thank you, as always, to our team at Magazine Beach Park</p>",
-    "url": "https://www.listerevents.com/event-details/bachata-salsa-by-the-river-2",
-    "styles": [
-      "bachata",
-      "salsa"
-    ],
-    "cost": "Free",
-    "recurring": true,
-    "recurrences": [
-      "2026-06-07T18:00:00-04:00",
-      "2026-07-05T18:00:00-04:00"
-    ],
-    "slug": "bachata-by-the-river-62ekr0ag",
-    "recurrenceLabel": "First Sunday of each month",
-    "organizer": "Greater Boston Dance Socials (Beatrice)"
-  },
-  {
     "id": "mambo-city",
     "name": "Mambo City Salsa Social",
     "startDate": "2026-06-07T19:00:00-04:00",
@@ -645,7 +620,7 @@
     "name": "Salsa Night Pop Up - Sabor Latino!",
     "startDate": "2026-06-11T00:00:00+00:00",
     "endDate": "2026-06-11T03:00:00+00:00",
-    "dayOfWeek": "Thursday",
+    "dayOfWeek": "Wednesday",
     "location": "50 Dalton Street, Boston, MA 02115, Boston, MA",
     "lat": 42.3472132,
     "lng": -71.0854097,
@@ -812,8 +787,8 @@
   {
     "id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar",
     "name": "SUSHI CON SALSA - DANCE SESSIONS VOL.1",
-    "startDate": "2026-06-16T18:30:00-04:00",
-    "endDate": "2026-06-16T22:30:00-04:00",
+    "startDate": "2026-06-16T18:00:00-04:00",
+    "endDate": "2026-06-16T21:00:00-04:00",
     "dayOfWeek": "Tuesday",
     "location": "11 William E Mullins Way, Boston, MA 02118",
     "lat": 42.345422,
@@ -826,10 +801,11 @@
     "cost": "$28.52",
     "recurring": true,
     "recurrences": [
-      "2026-06-16T18:30:00-04:00",
-      "2026-07-14T18:00:00-04:00"
+      "2026-06-16T18:00:00-04:00",
+      "2026-07-21T18:00:00-04:00"
     ],
     "slug": "sushi-con-salsa-dance-sessions-vol-1-3790430d",
+    "recurrenceLabel": "Third Tuesday of each month",
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
@@ -875,7 +851,7 @@
     "name": "NOISE 🕺 LIVE Salsa, Bachata, and Merengue in Boston! 💃",
     "startDate": "2026-06-21T02:00:00+00:00",
     "endDate": "2026-06-21T05:00:00+00:00",
-    "dayOfWeek": "Sunday",
+    "dayOfWeek": "Saturday",
     "location": "PKL",
     "lat": 42.3352,
     "lng": -71.0464,
@@ -969,24 +945,48 @@
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
-    "id": "eb-1990316528314",
-    "name": "Boston’s \"All White\" Salsa & Bachata Sunset Cruise",
-    "startDate": "2026-07-03T18:30:00-04:00",
-    "endDate": "2026-07-03T22:00:00-04:00",
+    "id": "25E9FCB5-66BC-4D33-8FBE-836081750F65",
+    "name": "Salsa and Bachata Sunset Cruise \"Pre-July 4th Celebration\"",
+    "startDate": "2026-07-03T22:00:00+00:00",
+    "endDate": "2026-07-04T01:00:00+00:00",
     "dayOfWeek": "Friday",
-    "location": "Marina Bay Ferry, 552 Victory Road, Quincy, MA 02171, Quincy, MA",
-    "lat": 42.299906,
-    "lng": -71.0312343,
+    "location": "Marina Bay Quincy",
+    "lat": 42.2985665,
+    "lng": -71.0293661,
     "description": "Don’t miss the Salsa & Bachata Sunset Cruise! 21+ Event\n\nDJ Black Mamba\n\nCASH ONLY FOR THE BAR! SO BRING CASH!\n\nJoin us for 3 unforgettable hours of dancing aboard a two-level boat with stunning waterfront views, a full bar, and free appetizers to keep you fueled all evening.\n\n🛥️ Boarding begins at 6:40 PM\n⏰ Boat departs promptly at 7:00 PM – no exceptions!\n🎶 Two floors of non-stop Salsa & Bachata vibes!\n\nWe highly recommend arriving by 6:15 PM to sign in, grab your wristband, and board stress-free. Let’s dance into the sunset!\n\n",
-    "url": "https://www.eventbrite.com/e/bostons-all-white-salsa-bachata-sunset-cruise-tickets-1990316528314",
+    "url": "https://facebook.com/events/s/salsa-and-bachata-sunset-cruis/977669088380847/",
     "styles": [
       "bachata",
       "salsa"
     ],
-    "cost": "$55.20",
+    "cost": "Free",
     "recurring": false,
-    "slug": "bostons-all-white-salsa-bachata-sunset-cruise-eb-19903",
-    "organizer": "Eventbrite Boston Latin Dance"
+    "slug": "salsa-and-bachata-sunset-cruise-pre-july-4th-celebration-25e9fcb5",
+    "organizer": "Sensualeros Boston Events"
+  },
+  {
+    "id": "62ekr0aga5340rgd7nmh6cvj3m@google.com",
+    "name": "Bachata by the River",
+    "startDate": "2026-07-05T18:00:00-04:00",
+    "endDate": "2026-07-05T20:30:00-04:00",
+    "dayOfWeek": "Sunday",
+    "location": "Mass Audubon Magazine Beach Park Nature Center, 668 Memorial Dr, Cambridge, MA 02139, USA",
+    "lat": 42.3584,
+    "lng": -71.1147,
+    "description": "<p dir=\"auto\"><strong><b>WHERE:</b></strong> Magazine Beach Park (by the Nature Center)</p><p dir=\"auto\"><strong><b>COST:</b></strong> FREE!</p><p dir=\"auto\"><strong><b>MUSIC:</b></strong></p><p dir=\"auto\">100% Bachata</p><p dir=\"auto\">100% Salsa</p><p dir=\"auto\"><br></p><p dir=\"auto\">EVERYONE IS WELCOME, whether you’ve been dancing for years or want to try it out. We’ll start with a beginner-friendly lesson to get you moving with confidence before dancing until sunset.</p><p dir=\"auto\"><strong><b>SCHEDULE</b></strong></p><p dir=\"auto\">6-7 PM: Beginner-Friendly Bachata Lesson (No experience needed!)</p><p dir=\"auto\">7 PM-Sunset: Social Dancing! (Salsa AND Bachata)</p><p dir=\"auto\"><strong><b>AMENITIES</b></strong></p><p dir=\"auto\">*UNTIL 8PM! On-Site Bathrooms and Free Water Station</p><div dir=\"auto\"><p dir=\"auto\">No partner? No problem! Just bring your fun-loving self.</p><p dir=\"auto\"><strong><b>DRESS CODE:</b></strong></p><p dir=\"auto\">Wear something comfy + spin-friendly shoes!</p><div dir=\"auto\"><p dir=\"auto\">No cost, no stress—just great music, and the perfect way to fall into autumn. Who’s in?</p><p dir=\"auto\">*Thank you, as always, to our team at Magazine Beach Park</p>",
+    "url": "https://www.listerevents.com/event-details/bachata-salsa-by-the-river-2",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": true,
+    "recurrences": [
+      "2026-07-05T18:00:00-04:00",
+      "2026-09-06T17:00:00-04:00"
+    ],
+    "slug": "bachata-by-the-river-62ekr0ag",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "4F3C0539-FB64-445B-A388-4DE2C5402E59",
@@ -1091,7 +1091,7 @@
     "name": "Boston Salsa Festival, 2026",
     "startDate": "2026-08-21T01:00:00+00:00",
     "endDate": "2026-08-24T07:00:00+00:00",
-    "dayOfWeek": "Friday",
+    "dayOfWeek": "Thursday",
     "location": "70 Third Avenue, Waltham, MA 02451",
     "lat": 42.3947033,
     "lng": -71.2599412,
@@ -1110,7 +1110,7 @@
     "name": "Arts at the Armory Spotlight Series Presents Tito Puente Jr.",
     "startDate": "2026-12-12T00:00:00+00:00",
     "endDate": "2026-12-12T03:00:00+00:00",
-    "dayOfWeek": "Saturday",
+    "dayOfWeek": "Friday",
     "location": "191 Highland Avenue, Somerville, MA 02143, Somerville, MA",
     "lat": 42.3896614,
     "lng": -71.1059977,

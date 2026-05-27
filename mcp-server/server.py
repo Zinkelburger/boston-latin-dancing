@@ -24,15 +24,19 @@ from mcp.server.fastmcp import FastMCP
 from event_store import (
     add_event,
     approve_pending,
+    approve_rejected,
     archive_past_events,
+    dismiss_rejected,
     edit_event,
     expand_venues,
     ingest_scraped,
     load_active,
     load_archive,
     load_pending,
+    load_rejected,
     publish,
     reject_pending,
+    remove_active_event,
     save_pending,
     validate_event,
     VENUES_JSON,
@@ -62,15 +66,17 @@ def event_list(
     search: Optional[str] = None,
     limit: int = 50,
 ) -> str:
-    """List events by status (active/pending/archive). Optionally filter by style or text search."""
+    """List events by status (active/pending/rejected/archive). Optionally filter by style or text search."""
     if status == "active":
         events = load_active()
     elif status == "pending":
         events = load_pending()
+    elif status == "rejected":
+        events = load_rejected()
     elif status == "archive":
         events = load_archive()
     else:
-        return json.dumps({"error": f"Invalid status '{status}'. Use active/pending/archive."})
+        return json.dumps({"error": f"Invalid status '{status}'. Use active/pending/rejected/archive."})
 
     if style:
         events = [e for e in events if style.lower() in [s.lower() for s in e.get("styles", [])]]
@@ -82,7 +88,7 @@ def event_list(
     events = events[:limit]
     summary = []
     for e in events:
-        summary.append({
+        row = {
             "id": e["id"],
             "name": e["name"],
             "startDate": e.get("startDate", ""),
@@ -90,15 +96,24 @@ def event_list(
             "styles": e.get("styles", []),
             "recurring": e.get("recurring", False),
             "has_coords": e.get("lat") is not None,
-        })
+        }
+        if status == "rejected":
+            row["rejected_reason"] = e.get("_rejected_reason", "")
+            row["review_type"] = e.get("_review_type", "")
+        summary.append(row)
 
     return json.dumps({"count": len(summary), "total": len(load_active() if status == "active" else events), "events": summary}, indent=2)
 
 
 @mcp.tool()
 def event_get(event_id: str) -> str:
-    """Get full details of a specific event by ID. Searches active, then pending, then archive."""
-    for pool_name, pool in [("active", load_active()), ("pending", load_pending()), ("archive", load_archive())]:
+    """Get full details of a specific event by ID. Searches active, pending, rejected, then archive."""
+    for pool_name, pool in [
+        ("active", load_active()),
+        ("pending", load_pending()),
+        ("rejected", load_rejected()),
+        ("archive", load_archive()),
+    ]:
         for ev in pool:
             if ev["id"] == event_id:
                 return json.dumps({"status": pool_name, "event": ev}, indent=2)
@@ -166,10 +181,10 @@ def event_add(
     if coords:
         event["lat"], event["lng"] = coords
 
-    from event_store import parse_date, DAYS_LIST
+    from event_store import parse_date, DAYS_LIST, NY_TZ
     dt = parse_date(start_date)
     if dt:
-        event["dayOfWeek"] = DAYS_LIST[dt.isoweekday() % 7]
+        event["dayOfWeek"] = DAYS_LIST[dt.astimezone(NY_TZ).isoweekday() % 7]
 
     result = add_event(event, force=force)
     return json.dumps(result, indent=2, default=str)
@@ -239,6 +254,27 @@ def event_reject(event_id: str, reason: str = "") -> str:
     return json.dumps(result, indent=2, default=str)
 
 
+@mcp.tool()
+def event_remove(event_id: str, reason: str = "removed from active") -> str:
+    """Remove an active event and queue it in rejected.json for agent review."""
+    result = remove_active_event(event_id, reason)
+    return json.dumps(result, indent=2, default=str)
+
+
+@mcp.tool()
+def event_approve_rejected(event_id: str) -> str:
+    """Promote a rejected event to active (bypasses Latin dance keyword check)."""
+    result = approve_rejected(event_id)
+    return json.dumps(result, indent=2, default=str)
+
+
+@mcp.tool()
+def event_dismiss_rejected(event_id: str, reason: str = "") -> str:
+    """Permanently dismiss a rejected event without adding it to the map."""
+    result = dismiss_rejected(event_id, reason)
+    return json.dumps(result, indent=2, default=str)
+
+
 # ── Scraping and ingestion ────────────────────────────────────────────
 
 
@@ -247,7 +283,7 @@ def event_scrape(source_id: Optional[str] = None) -> str:
     """Run scrapers and ingest new events into the active store.
 
     If source_id is given, run only that scraper. Otherwise run all enabled scrapers.
-    After scraping, automatically archives past events and publishes.
+    After scraping, automatically archives past events. Does NOT publish — call event_publish() separately.
 
     Available source_ids: beatrice-calendar, sensualeros-boston, lister-events, eventbrite-boston-latin, fiesta-dance-company, submissions
     (Facebook sources require browser MCP and are not auto-runnable.)

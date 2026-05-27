@@ -12,7 +12,7 @@ import type { Feature, FeatureCollection, Point } from 'geojson';
 
 import allEvents from '@/data/events-published.json';
 import type { DanceEvent, DanceStyle, DayOfWeek } from '@/types/event';
-import { eventMatchesDateRange } from '@/lib/recurrences';
+import { eventMatchesDateRange, dayOfWeekFromIso } from '@/lib/recurrences';
 import { STYLE_COLORS } from '@/lib/constants';
 import FilterBar from './FilterBar';
 import type { DateRangeValue } from './DateRangeSlider';
@@ -152,8 +152,9 @@ export default function MapView() {
       const matchesStyle = selectedStyles.length === 0 ||
         event.styles.some(s => selectedStyles.includes(s));
 
+      const derivedDay = dayOfWeekFromIso(event.startDate);
       const matchesDay = selectedDays.length === 0 ||
-        selectedDays.includes(event.dayOfWeek) ||
+        selectedDays.includes(derivedDay) ||
         (event.schedule?.some(s => selectedDays.includes(s.dayOfWeek)) ?? false);
 
       const matchesDate = eventMatchesDateRange(event, fromMs, toMs);

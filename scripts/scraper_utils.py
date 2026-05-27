@@ -16,6 +16,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Optional
 from urllib.parse import quote
+from zoneinfo import ZoneInfo
 
 import requests
 
@@ -27,6 +28,7 @@ GEOCODE_CACHE_PATH = DATA_DIR / "geocode-cache.json"
 SCRAPED_DIR.mkdir(parents=True, exist_ok=True)
 
 DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+NY_TZ = ZoneInfo("America/New_York")
 
 VALID_STYLES = {"bachata", "salsa", "kizomba", "zouk", "merengue", "other"}
 
@@ -313,7 +315,7 @@ def make_event(
         "name": name,
         "startDate": start.isoformat() if start.tzinfo else start.replace(tzinfo=timezone.utc).isoformat(),
         "endDate": end.isoformat() if end.tzinfo else end.replace(tzinfo=timezone.utc).isoformat(),
-        "dayOfWeek": DAYS[start.isoweekday() % 7],
+        "dayOfWeek": DAYS[start.astimezone(NY_TZ).isoweekday() % 7],
         "location": location,
         "lat": lat,
         "lng": lng,
