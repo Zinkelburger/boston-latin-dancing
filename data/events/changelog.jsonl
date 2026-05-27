@@ -72,3 +72,4 @@
 {"ts": "2026-05-26T19:38:25.564580+00:00", "action": "pending_review", "event_id": "B0E75D91-FDEB-40B1-8DCC-130C4614EBB1", "details": "review dup of d3953ee79b4effa6b332abf32cb4e01ba180f56e@occurrence-1@dance-calendar: exact_name+within_24h+same_location+same_day"}
 {"ts": "2026-05-26T19:38:25.576913+00:00", "action": "pending_review", "event_id": "889D612C-9A01-473C-8F8A-CE9A2220306A", "details": "review dup of 1530CBC9-9873-4E9D-AF8E-805ECBDC1D61: word_overlap(3/5)+within_24h+same_location+same_day"}
 {"ts": "2026-05-26T19:38:25.593413+00:00", "action": "pending_review", "event_id": "10225066-4ADF-4765-BE8C-C5A006A3C700", "details": "review dup of 62ekr0aga5340rgd7nmh6cvj3m@google.com: word_overlap(2/2)+within_24h+same_location+same_day"}
+{"ts": "2026-05-27T00:54:16.092388+00:00", "action": "merge", "event_id": "eb-1990316528314", "details": "manual merge: combined with Sensualeros duplicate 25E9FCB5"}

@@ -1011,7 +1011,7 @@
     "location": "Marina Bay Ferry, 552 Victory Road, Quincy, MA 02171, Quincy, MA",
     "lat": 42.299906,
     "lng": -71.0312343,
-    "description": "Join us for 3 unforgettable hours of dancing aboard a two-level boat with stunning waterfront views, a full bar, and free appetizers.\n\nOrganizer: Black Mamba Dance Company",
+    "description": "Don’t miss the Salsa & Bachata Sunset Cruise! 21+ Event\n\nDJ Black Mamba\n\nCASH ONLY FOR THE BAR! SO BRING CASH!\n\nJoin us for 3 unforgettable hours of dancing aboard a two-level boat with stunning waterfront views, a full bar, and free appetizers to keep you fueled all evening.\n\n🛥️ Boarding begins at 6:40 PM\n⏰ Boat departs promptly at 7:00 PM – no exceptions!\n🎶 Two floors of non-stop Salsa & Bachata vibes!\n\nWe highly recommend arriving by 6:15 PM to sign in, grab your wristband, and board stress-free. Let’s dance into the sunset!\n\n",
     "url": "https://www.eventbrite.com/e/bostons-all-white-salsa-bachata-sunset-cruise-tickets-1990316528314",
     "styles": [
       "bachata",
@@ -1021,26 +1021,6 @@
     "recurring": false,
     "slug": "bostons-all-white-salsa-bachata-sunset-cruise-eb-19903",
     "organizer": "Eventbrite Boston Latin Dance"
-  },
-  {
-    "id": "25E9FCB5-66BC-4D33-8FBE-836081750F65",
-    "name": "Salsa and Bachata Sunset Cruise \"Pre-July 4th Celebration\"",
-    "startDate": "2026-07-03T22:00:00+00:00",
-    "endDate": "2026-07-04T01:00:00+00:00",
-    "dayOfWeek": "Friday",
-    "location": "Marina Bay Quincy",
-    "lat": 42.2985665,
-    "lng": -71.0293661,
-    "description": "Don’t miss the Salsa & Bachata Sunset Cruise! 21+ Event\n\nDJ Black Mamba\n\nCASH ONLY FOR THE BAR! SO BRING CASH!\n\nJoin us for 3 unforgettable hours of dancing aboard a two-level boat with stunning waterfront views, a full bar, and free appetizers to keep you fueled all evening.\n\n🛥️ Boarding begins at 6:40 PM\n⏰ Boat departs promptly at 7:00 PM – no exceptions!\n🎶 Two floors of non-stop Salsa & Bachata vibes!\n\nWe highly recommend arriving by 6:15 PM to sign in, grab your wristband, and board stress-free. Let’s dance into the sunset!\n\n",
-    "url": "https://facebook.com/events/s/salsa-and-bachata-sunset-cruis/977669088380847/",
-    "styles": [
-      "bachata",
-      "salsa"
-    ],
-    "cost": "Free",
-    "recurring": false,
-    "slug": "salsa-and-bachata-sunset-cruise-pre-july-4th-celebration-25e9fcb5",
-    "organizer": "Sensualeros Boston Events"
   },
   {
     "id": "4F3C0539-FB64-445B-A388-4DE2C5402E59",
@@ -1061,26 +1041,6 @@
     "recurring": false,
     "slug": "picante-salsa-bachata-weekender-2026-4f3c0539",
     "organizer": "Sensualeros Boston Events"
-  },
-  {
-    "id": "B5E9158E6D115D857243E9512E0DDC3BE88670DF_0",
-    "name": "Picante Salsa Bachata Weekender 26",
-    "startDate": "2026-07-10T22:00:00+00:00",
-    "endDate": "2026-07-12T06:00:00+00:00",
-    "dayOfWeek": "Friday",
-    "location": "The Event Factory Kitchen & Stage - 144 Metro Center Boulevard - Warwick",
-    "lat": 41.7246794,
-    "lng": -71.456138,
-    "description": "An immersive two-part Dance Arts signature experience where rhythm, artistry, and community collide in Rhode Island.\nPicante Salsa Bachata Weekender 2026 – Summer Edition! 🌟\n🔥 Friday, July 10th (6PM-2AM)\n🔥 Saturday, July 11th, 2026 (11AM-2AM)\nAn immersive two-part Dance Arts signature experience — where rhythm, artistry, and community collide in Rhode Island.\n✨ This sensory experience fuses:🎶 World-class entertainment & live performances💃 Dance education & creative artistry🍷 Culinary artistry & mixology🎵 Musical ambiance that sets the soul on fire\n📍 Hosted at the breathtaking Event Factory Kitchen and Stage – featuring the State-of-the-Art Dance Atrium & Culinary Space at 144 Metro Center Blvd in Warwick Rhode Island.\n💫 Don’t miss this unforgettable weekend of dance, inclusion, community, representation, music, culture, performances and gourmet/mixology experiences.",
-    "url": "https://www.eventbrite.com/e/picante-salsa-bachata-weekender-26-tickets-1612119586079",
-    "styles": [
-      "bachata",
-      "salsa"
-    ],
-    "cost": null,
-    "recurring": false,
-    "slug": "picante-salsa-bachata-weekender-26-b5e9158e",
-    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "lister-bachata-dance-workout-morse-library-2",

@@ -16,5 +16,11 @@
     "id_b": "d3953ee79b4effa6b332abf32cb4e01ba180f56e@occurrence-1@dance-calendar",
     "verdict": "same",
     "reviewed_at": "2026-05-26T20:00:00+00:00"
+  },
+  {
+    "id_a": "25E9FCB5-66BC-4D33-8FBE-836081750F65",
+    "id_b": "eb-1990316528314",
+    "verdict": "same",
+    "reviewed_at": "2026-05-27T00:54:16.092149+00:00"
   }
 ]

@@ -110,6 +110,10 @@ LOCATION_ALIASES: dict[str, str] = {
     "the dante alighieri society of massachusetts": "dante-alighieri",
     "dante alighieri society": "dante-alighieri",
     "41 hampshire st": "dante-alighieri",
+    "marina bay quincy": "marina-bay-quincy",
+    "marina bay ferry": "marina-bay-quincy",
+    "552 victory road": "marina-bay-quincy",
+    "552 victory rd": "marina-bay-quincy",
 }
 
 
@@ -271,7 +275,7 @@ def dedup_confidence(a: dict, b: dict) -> Optional[str]:
     """Determine dedup confidence between two events.
 
     Returns:
-      "certain" – same ID or URL; auto-merge
+      "certain" – same ID, URL, or multi-signal match; auto-merge
       "review"  – suspicious match; route to pending
       None      – not a duplicate
     """
@@ -310,6 +314,24 @@ def dedup_confidence(a: dict, b: dict) -> Optional[str]:
     names_exact = (name_a == name_b)
     names_substring = (name_a in name_b or name_b in name_a) and not names_exact
 
+    words_a = _content_words(name_a)
+    words_b = _content_words(name_b)
+    word_overlap_strong = False
+    if words_a and words_b:
+        overlap = words_a & words_b
+        smaller = min(len(words_a), len(words_b))
+        if smaller > 0 and len(overlap) >= max(2, smaller * 0.5):
+            word_overlap_strong = True
+
+    # "certain" tier: multiple strong signals converge — these are always the
+    # same event from different sources (e.g. Eventbrite + calendar listing)
+    if same_day is True and same_loc and (names_exact or names_substring or word_overlap_strong):
+        return "certain"
+
+    if names_exact and same_loc and within_24h is True:
+        return "certain"
+
+    # "review" tier: single-signal or weaker matches
     if names_exact and within_24h is True:
         return "review"
 
@@ -319,14 +341,8 @@ def dedup_confidence(a: dict, b: dict) -> Optional[str]:
     if names_substring and within_24h is True:
         return "review"
 
-    words_a = _content_words(name_a)
-    words_b = _content_words(name_b)
-    if words_a and words_b:
-        overlap = words_a & words_b
-        smaller = min(len(words_a), len(words_b))
-        if smaller > 0 and len(overlap) >= max(2, smaller * 0.5):
-            if within_24h is True:
-                return "review"
+    if word_overlap_strong and within_24h is True:
+        return "review"
 
     if names_exact and within_24h is None:
         return "review"
@@ -417,6 +433,10 @@ def merge_event(a: dict, b: dict) -> dict:
         merged["url"] = loser["url"]
     if not merged.get("cost") and loser.get("cost"):
         merged["cost"] = loser["cost"]
+    # Prefer a specific price over "Free" when the loser is a ticketing source
+    elif (merged.get("cost") or "").lower() == "free" and loser.get("cost") and loser["cost"].lower() != "free":
+        if loser.get("source") in ("eventbrite-boston-latin",) or "$" in loser.get("cost", ""):
+            merged["cost"] = loser["cost"]
     if (merged.get("lat") is None or merged.get("lng") is None) and loser.get("lat") and loser.get("lng"):
         merged["lat"] = loser["lat"]
         merged["lng"] = loser["lng"]
