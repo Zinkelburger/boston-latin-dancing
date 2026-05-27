@@ -22,5 +22,17 @@
     "id_b": "eb-1990316528314",
     "verdict": "same",
     "reviewed_at": "2026-05-27T00:54:16.092149+00:00"
+  },
+  {
+    "id_a": "4F3C0539-FB64-445B-A388-4DE2C5402E59",
+    "id_b": "B5E9158E6D115D857243E9512E0DDC3BE88670DF_0",
+    "verdict": "same",
+    "reviewed_at": "2026-05-27T01:15:11.613146+00:00"
+  },
+  {
+    "id_a": "F441F1EA-460D-4749-96BE-D5B39FEE7C3F",
+    "id_b": "FB32CAE0-0960-48BE-94DA-95BDD1E2EC35",
+    "verdict": "different",
+    "reviewed_at": "2026-05-27T01:15:18.537433+00:00"
   }
 ]

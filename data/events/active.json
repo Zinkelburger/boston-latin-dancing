@@ -864,29 +864,6 @@
     "_verification_url": "https://www.havanaclubsalsa.com/tuesdays"
   },
   {
-    "id": "B5E9158E6D115D857243E9512E0DDC3BE88670DF_0",
-    "name": "Picante Salsa Bachata Weekender 26",
-    "startDate": "2026-07-10T22:00:00+00:00",
-    "endDate": "2026-07-12T06:00:00+00:00",
-    "dayOfWeek": "Friday",
-    "location": "The Event Factory Kitchen & Stage - 144 Metro Center Boulevard - Warwick",
-    "lat": 41.7246794,
-    "lng": -71.456138,
-    "description": "An immersive two-part Dance Arts signature experience where rhythm, artistry, and community collide in Rhode Island.\nPicante Salsa Bachata Weekender 2026 – Summer Edition! 🌟\n🔥 Friday, July 10th (6PM-2AM)\n🔥 Saturday, July 11th, 2026 (11AM-2AM)\nAn immersive two-part Dance Arts signature experience — where rhythm, artistry, and community collide in Rhode Island.\n✨ This sensory experience fuses:🎶 World-class entertainment & live performances💃 Dance education & creative artistry🍷 Culinary artistry & mixology🎵 Musical ambiance that sets the soul on fire\n📍 Hosted at the breathtaking Event Factory Kitchen and Stage – featuring the State-of-the-Art Dance Atrium & Culinary Space at 144 Metro Center Blvd in Warwick Rhode Island.\n💫 Don’t miss this unforgettable weekend of dance, inclusion, community, representation, music, culture, performances and gourmet/mixology experiences.",
-    "url": "https://www.eventbrite.com/e/picante-salsa-bachata-weekender-26-tickets-1612119586079",
-    "styles": [
-      "bachata",
-      "salsa"
-    ],
-    "cost": null,
-    "recurring": false,
-    "source": "beatrice-calendar",
-    "_verified_at": "2026-05-26T16:45:38.226915+00:00",
-    "_verified_status": "confirmed",
-    "_verified_notes": "Page accessible, no JSON-LD found (text check only)",
-    "_verification_url": "https://www.eventbrite.com/e/picante-salsa-bachata-weekender-26-tickets-1612119586079"
-  },
-  {
     "id": "F6FB3684-154F-457E-98FD-79D3FBC4E41C",
     "name": "Bachata Brunch Club",
     "startDate": "2026-05-30T18:00:00+00:00",

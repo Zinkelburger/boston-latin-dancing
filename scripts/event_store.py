@@ -480,9 +480,7 @@ def find_duplicate_in(event: dict, pool: list[dict]) -> Optional[tuple[int, str]
 
 
 def deduplicate(events: list[dict]) -> list[dict]:
-    """Deduplicate for publish. Merges certain matches always; merges review
-    matches only when locations also match (avoids false-merging different
-    events that just share keywords and are within 24h)."""
+    """Deduplicate for publish. Only merges 'certain' matches."""
     events.sort(key=source_rank)
     result: list[dict] = []
     for ev in events:
@@ -490,10 +488,6 @@ def deduplicate(events: list[dict]) -> list[dict]:
         if match is not None:
             idx, conf = match
             if conf == "certain":
-                reason = _dedup_reason(result[idx], ev, conf)
-                _log_dedup(conf, result[idx], ev, conf, reason)
-                result[idx] = merge_event(result[idx], ev)
-            elif conf == "review" and _locations_same(result[idx], ev):
                 reason = _dedup_reason(result[idx], ev, conf)
                 _log_dedup(conf, result[idx], ev, conf, reason)
                 result[idx] = merge_event(result[idx], ev)
