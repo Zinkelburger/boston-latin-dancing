@@ -82,79 +82,31 @@ function expandAndGroup(
   }));
 }
 
-function editDistance(a: string, b: string): number {
-  const m = a.length, n = b.length;
-  if (m === 0) return n;
-  if (n === 0) return m;
-  let prev = Array.from({ length: n + 1 }, (_, i) => i);
-  for (let i = 1; i <= m; i++) {
-    const curr = [i];
-    for (let j = 1; j <= n; j++) {
-      curr[j] = a[i - 1] === b[j - 1]
-        ? prev[j - 1]
-        : 1 + Math.min(prev[j - 1], prev[j], curr[j - 1]);
-    }
-    prev = curr;
-  }
-  return prev[n];
-}
-
-function substringMatch(tok: string, field: string): boolean {
-  return field.includes(tok);
-}
-
-function fuzzyWordMatch(tok: string, field: string): boolean {
-  if (tok.length < 3) return false;
-  const maxDist = tok.length <= 4 ? 1 : 2;
-  const words = field.split(/[^a-z0-9]+/);
-  for (const word of words) {
-    if (word.length === 0) continue;
-    if (word.startsWith(tok) || tok.startsWith(word)) return true;
-    if (Math.abs(word.length - tok.length) <= maxDist && editDistance(tok, word) <= maxDist) return true;
-  }
-  return false;
-}
-
-type Token = { text: string; exact: boolean };
-
-function parseTokens(raw: string): Token[] {
-  const tokens: Token[] = [];
-  const parts = raw.toLowerCase().split(/(\s+)/);
+function eventMatchesQuery(event: DanceEvent, query: string): boolean {
+  const lower = query.toLowerCase();
+  const parts = lower.split(/(\s+)/);
+  const tokens: { text: string; exact: boolean }[] = [];
   for (let i = 0; i < parts.length; i++) {
     const word = parts[i].trim();
     if (!word) continue;
     const followedBySpace = i + 1 < parts.length && /\s/.test(parts[i + 1]);
     tokens.push({ text: word, exact: followedBySpace });
   }
-  return tokens;
-}
-
-function tokenMatchesField(tok: Token, field: string): boolean {
-  if (tok.exact) {
-    const re = new RegExp(`\\b${tok.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`);
-    return re.test(field);
-  }
-  return substringMatch(tok.text, field) || fuzzyWordMatch(tok.text, field);
-}
-
-function eventMatchesQuery(event: DanceEvent, query: string): boolean {
-  const tokens = parseTokens(query);
   if (tokens.length === 0) return true;
 
   const name = event.name.toLowerCase();
   const loc = (event.location ?? '').toLowerCase();
   const desc = stripHtml(event.description).toLowerCase();
   const styles = event.styles.map(s => STYLE_LABELS[s].toLowerCase()).join(' ');
+  const haystack = `${name} ${loc} ${desc} ${styles}`;
 
-  for (const tok of tokens) {
-    if (
-      !tokenMatchesField(tok, name) &&
-      !tokenMatchesField(tok, loc) &&
-      !tokenMatchesField(tok, desc) &&
-      !tokenMatchesField(tok, styles)
-    ) return false;
-  }
-  return true;
+  return tokens.every(tok => {
+    if (tok.exact) {
+      const re = new RegExp(`(?:^|\\W)${tok.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:\\W|$)`);
+      return re.test(haystack);
+    }
+    return haystack.includes(tok.text);
+  });
 }
 
 function highlightText(text: string, tokens: string[]): ReactNode {
@@ -210,8 +162,8 @@ export default function FeedView({ events, selectedDays, fromMs, toMs, onSelectE
   );
 
   const filtered = useMemo(
-    () => trimmed ? events.filter(e => eventMatchesQuery(e, trimmed)) : events,
-    [events, trimmed],
+    () => trimmed ? events.filter(e => eventMatchesQuery(e, search)) : events,
+    [events, search, trimmed],
   );
 
   const grouped = useMemo(
