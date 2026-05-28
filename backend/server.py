@@ -24,7 +24,7 @@ SUBMISSIONS_PATH = Path(
     os.getenv("BLD_SUBMISSIONS_PATH", Path(__file__).parent / "submissions.json")
 )
 FRONTEND_ORIGIN = os.getenv(
-    "BLD_FRONTEND_ORIGIN", "https://bostonlatindance.com"
+    "BLD_FRONTEND_ORIGIN", "https://bostonsalsa.org"
 )
 ADMIN_TOKEN = os.getenv("BLD_ADMIN_TOKEN", "")
 
