@@ -3,7 +3,14 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import type { DanceEvent } from '@/types/event';
 import { SITE_URL, STYLE_LABELS, STYLE_PILL_CLASS } from '@/lib/constants';
-import { formatEventTimeRange, getRecurrenceLabel, resolveDisplayOccurrence } from '@/lib/recurrences';
+import {
+  formatEventTimeRange,
+  getRecurrenceLabel,
+  nextOccurrenceIso,
+  occurrenceEndDate,
+  resolveDisplayOccurrence,
+  shouldShowNextOccurrence,
+} from '@/lib/recurrences';
 import { stripHtml } from '@/lib/strip-html';
 import ShareButton from './ShareButton';
 import { UpcomingDatesTable, WeeklyScheduleTable } from './EventTable';
@@ -100,6 +107,7 @@ export default function EventPopup({ event, onClose, displayDate, fromMs, toMs }
 
   const link = event.url ? linkLabel(event.url) : null;
   const recurrenceLabel = getRecurrenceLabel(event);
+  const nextIso = shouldShowNextOccurrence(event) ? nextOccurrenceIso(event) : null;
 
   return (
     <div
@@ -170,9 +178,21 @@ export default function EventPopup({ event, onClose, displayDate, fromMs, toMs }
           </span>
         )}
 
+        {event.schedule && event.schedule.length > 0 && recurrenceLabel && (
+          <span className="pretty-pill pretty-pill-sky text-xs self-start">
+            {recurrenceLabel}
+          </span>
+        )}
+
         {!(event.schedule && event.schedule.length > 0) && (
           <div className="text-sm text-gray-600">
             {formatEventTimeRange(displayStart, displayEnd)}
+          </div>
+        )}
+
+        {nextIso && event.schedule && event.schedule.length > 0 && (
+          <div className="text-sm text-gray-600">
+            Next: {formatEventTimeRange(nextIso, occurrenceEndDate(event, nextIso))}
           </div>
         )}
 

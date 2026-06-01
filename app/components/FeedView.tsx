@@ -4,7 +4,13 @@ import { useMemo, useState, type ReactNode } from 'react';
 import type { DanceEvent, DayOfWeek } from '@/types/event';
 import { STYLE_LABELS, STYLE_PILL_CLASS, SITE_URL } from '@/lib/constants';
 import { stripHtml } from '@/lib/strip-html';
-import { getRecurrenceLabel, recurrencesInRange, isDateOnlyEvent } from '@/lib/recurrences';
+import {
+  getRecurrenceLabel,
+  isDateOnlyEvent,
+  recurringWhenLabel,
+  recurrencesInRange,
+  shouldShowNextOccurrence,
+} from '@/lib/recurrences';
 import ShareButton from './ShareButton';
 
 const DAY_NAMES: DayOfWeek[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -309,9 +315,15 @@ function FeedCard({
 
       <h3 className="feed-card-title">{hl(event.name)}</h3>
 
-      {recurrenceLabel && !(event.schedule && event.schedule.length > 0) && (
+      {(recurrenceLabel && !(event.schedule && event.schedule.length > 0)) && (
         <span className="pretty-pill pretty-pill-sky text-xs" style={{ alignSelf: 'flex-start' }}>
           {recurrenceLabel}
+        </span>
+      )}
+
+      {event.schedule && event.schedule.length > 0 && shouldShowNextOccurrence(event) && (
+        <span className="pretty-pill pretty-pill-sky text-xs" style={{ alignSelf: 'flex-start' }}>
+          {recurringWhenLabel(event)}
         </span>
       )}
 

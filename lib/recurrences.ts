@@ -435,6 +435,37 @@ export function getRecurrenceLabel(event: DanceEvent): string | null {
   return computeRecurrenceLabel(event);
 }
 
+/** Multi-day venue hubs (e.g. Havana) — pattern only, no single "next" date. */
+export function isDenseVenueSchedule(event: DanceEvent): boolean {
+  const label = getRecurrenceLabel(event);
+  if (label?.includes('see schedule') || label === 'Every night') return true;
+  return (event.schedule?.length ?? 0) >= 3;
+}
+
+/** Sparse weekly/biweekly/monthly patterns where the next date is useful. */
+export function shouldShowNextOccurrence(event: DanceEvent): boolean {
+  if (!event.recurring || !getRecurrenceLabel(event)) return false;
+  return !isDenseVenueSchedule(event);
+}
+
+const NEXT_SCAN_DAYS = 365;
+
+/** Next occurrence on or after today (from recurrences[] or schedule rules). */
+export function nextOccurrenceIso(event: DanceEvent): string | null {
+  const fromMs = startOfDay(Date.now());
+  const toMs = fromMs + NEXT_SCAN_DAYS * 86400000;
+
+  const fromRec = upcomingRecurrences(event.recurrences ?? [], 1)[0];
+  if (fromRec) return fromRec;
+
+  if (event.schedule?.length) {
+    return firstScheduleOccurrenceInRange(event, fromMs, toMs);
+  }
+
+  if (new Date(event.startDate).getTime() >= fromMs) return event.startDate;
+  return null;
+}
+
 /**
  * Whether the upcoming-dates table adds information beyond a known pattern.
  */
@@ -463,7 +494,13 @@ export function recurringWhenLabel(event: DanceEvent): string | null {
   if (!event.recurring) return null;
 
   const label = getRecurrenceLabel(event);
-  if (label) return label;
+  if (label) {
+    if (shouldShowNextOccurrence(event)) {
+      const next = nextOccurrenceIso(event);
+      if (next) return `${label} · Next: ${formatRecurrenceDate(next)}`;
+    }
+    return label;
+  }
 
   const dates = upcomingRecurrences(event.recurrences ?? []);
   if (dates.length === 0) return null;

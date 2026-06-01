@@ -2,7 +2,13 @@ import type { Metadata } from 'next';
 import allEvents from '@/data/events-published.json';
 import type { DanceEvent } from '@/types/event';
 import { SITE_URL, STYLE_LABELS, STYLE_PILL_CLASS } from '@/lib/constants';
-import { formatEventTimeRange, getRecurrenceLabel } from '@/lib/recurrences';
+import {
+  formatEventTimeRange,
+  getRecurrenceLabel,
+  nextOccurrenceIso,
+  occurrenceEndDate,
+  shouldShowNextOccurrence,
+} from '@/lib/recurrences';
 import { stripHtml } from '@/lib/strip-html';
 import EventDetailClient from './EventDetailClient';
 import CollapsibleText from '@/app/components/CollapsibleText';
@@ -79,6 +85,7 @@ export default async function EventPage({ params }: { params: Promise<Params> })
   const shareUrl = `${SITE_URL}/event/${slug}`;
   const shareText = `${event.name} — ${formatEventTimeRange(event.startDate, event.endDate)}`;
   const recurrenceLabel = getRecurrenceLabel(event);
+  const nextIso = shouldShowNextOccurrence(event) ? nextOccurrenceIso(event) : null;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -137,9 +144,21 @@ export default async function EventPage({ params }: { params: Promise<Params> })
             </span>
           )}
 
+          {event.schedule && event.schedule.length > 0 && recurrenceLabel && (
+            <span className="pretty-pill pretty-pill-sky text-xs" style={{ alignSelf: 'flex-start' }}>
+              {recurrenceLabel}
+            </span>
+          )}
+
           {!(event.schedule && event.schedule.length > 0) && (
             <div className="text-sm text-gray-600">
               {formatEventTimeRange(event.startDate, event.endDate)}
+            </div>
+          )}
+
+          {nextIso && event.schedule && event.schedule.length > 0 && (
+            <div className="text-sm text-gray-600">
+              Next: {formatEventTimeRange(nextIso, occurrenceEndDate(event, nextIso))}
             </div>
           )}
 

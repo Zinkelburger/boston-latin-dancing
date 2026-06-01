@@ -71,16 +71,30 @@ body,
   font-weight: 600;
   text-decoration: none;
   white-space: nowrap;
+}
+
+/* Hover lift only on real controls (links, buttons) — not display-only spans */
+:is(a, button).pretty-pill {
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease,
     border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
 }
-.pretty-pill:hover {
+:is(a, button).pretty-pill:hover {
   transform: translateY(-1px);
   box-shadow: 0 6px 14px rgba(2, 6, 23, 0.12);
 }
-.pretty-pill:active {
+:is(a, button).pretty-pill:active {
   transform: translateY(0);
+}
+button.pretty-pill {
+  font-family: inherit;
+  appearance: none;
+  -webkit-appearance: none;
+}
+button.pretty-pill:disabled:hover {
+  transform: none;
+  box-shadow: none;
+  cursor: not-allowed;
 }
 
 .pretty-pill-rose {
