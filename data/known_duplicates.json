@@ -34,5 +34,35 @@
     "id_b": "FB32CAE0-0960-48BE-94DA-95BDD1E2EC35",
     "verdict": "different",
     "reviewed_at": "2026-05-27T01:15:18.537433+00:00"
+  },
+  {
+    "id_a": "c469c54b1ad056d659054fff82ff65e3fc4e8c90@dance-calendar",
+    "id_b": "eb-1990048459513",
+    "verdict": "same",
+    "reviewed_at": "2026-06-08T18:06:37.217011+00:00"
+  },
+  {
+    "id_a": "09F70C10-4D3F-4E6E-ACD7-8251039BB15D",
+    "id_b": "3f6947b81983396f49634c5f4deb6ea17f025b12@dance-calendar",
+    "verdict": "different",
+    "reviewed_at": "2026-06-08T18:06:39.678174+00:00"
+  },
+  {
+    "id_a": "28k2dbeajtblh931k04g5eisnu@google.com",
+    "id_b": "D0F83D40-A8C4-4EA2-940E-70F326647AFC",
+    "verdict": "same",
+    "reviewed_at": "2026-06-08T18:06:41.722662+00:00"
+  },
+  {
+    "id_a": "CB5572F4-BE51-4A3C-BC1E-21EE078058F8",
+    "id_b": "CC3E3DE1-960C-4AEF-8F6D-43BCF0FE8DEA",
+    "verdict": "same",
+    "reviewed_at": "2026-06-08T18:06:43.261244+00:00"
+  },
+  {
+    "id_a": "3f6947b81983396f49634c5f4deb6ea17f025b12@dance-calendar",
+    "id_b": "dj-clave-cantab-2026-06-14",
+    "verdict": "different",
+    "reviewed_at": "2026-06-08T18:07:38.541424+00:00"
   }
 ]

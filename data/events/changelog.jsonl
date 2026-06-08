@@ -77,3 +77,55 @@
 {"ts": "2026-05-27T01:30:44.536738+00:00", "action": "remove", "event_id": "F75203DD-C2C0-40BB-BE0E-A67013E17125", "details": "not Latin dance (West Coast Swing)"}
 {"ts": "2026-05-27T02:02:49.706287+00:00", "action": "add", "event_id": "F75203DD-C2C0-40BB-BE0E-A67013E17125", "details": ""}
 {"ts": "2026-05-27T02:35:29.464870+00:00", "action": "remove", "event_id": "F75203DD-C2C0-40BB-BE0E-A67013E17125", "details": "not Latin dance (West Coast Swing)"}
+{"ts": "2026-06-08T18:04:38.219249+00:00", "action": "add", "event_id": "15F245C1-03AD-4AC3-ADB5-9CE4CDE011AC", "details": ""}
+{"ts": "2026-06-08T18:04:39.402316+00:00", "action": "add", "event_id": "13A4C423-1BE6-4F4D-A478-ADA83CC22E7E", "details": ""}
+{"ts": "2026-06-08T18:04:39.410047+00:00", "action": "add", "event_id": "D0F83D40-A8C4-4EA2-940E-70F326647AFC", "details": ""}
+{"ts": "2026-06-08T18:04:39.425807+00:00", "action": "pending_review", "event_id": "c469c54b1ad056d659054fff82ff65e3fc4e8c90@dance-calendar", "details": "review dup of eb-1990048459513: word_overlap(10/10)+within_24h+same_day"}
+{"ts": "2026-06-08T18:04:39.433893+00:00", "action": "add", "event_id": "1aeh6u30lk44uthmgff6p4johs@google.com", "details": ""}
+{"ts": "2026-06-08T18:04:39.434239+00:00", "action": "reject_non_latin", "event_id": "5ED3301D-8CE8-45D1-8094-C380C699DA99", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-06-08T18:04:40.606011+00:00", "action": "add", "event_id": "61vvqt0h13uoigcucma9f9prhk@google.com", "details": ""}
+{"ts": "2026-06-08T18:04:40.617250+00:00", "action": "add", "event_id": "2ar83v9imef7dkgkonbfvc5t4q@google.com", "details": ""}
+{"ts": "2026-06-08T18:04:40.625098+00:00", "action": "add", "event_id": "2802F880-DB31-435B-BD8F-37D4DD399D11", "details": ""}
+{"ts": "2026-06-08T18:04:40.629002+00:00", "action": "add", "event_id": "FA4BDE26-3453-4B3F-A8BB-D48278DB0BF4", "details": ""}
+{"ts": "2026-06-08T18:04:40.865474+00:00", "action": "reject_non_latin", "event_id": "6b4c9b37ceef7d692cade530d94d9c68b2496331@dance-calendar", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-06-08T18:04:40.869414+00:00", "action": "reject_non_latin", "event_id": "876946c7362a1b4b7d0927db9c62eccd1bf0c07c@dance-calendar", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-06-08T18:04:40.872325+00:00", "action": "pending_review", "event_id": "09F70C10-4D3F-4E6E-ACD7-8251039BB15D", "details": "review dup of 3f6947b81983396f49634c5f4deb6ea17f025b12@dance-calendar: word_overlap(1/5)+within_24h+same_location+same_day"}
+{"ts": "2026-06-08T18:04:42.034020+00:00", "action": "add", "event_id": "46137863-C388-4190-8479-8B393C0B834D", "details": ""}
+{"ts": "2026-06-08T18:04:43.215040+00:00", "action": "add", "event_id": "4cmo89ojp153bofdf59hghpjfo@google.com", "details": ""}
+{"ts": "2026-06-08T18:04:43.233927+00:00", "action": "add", "event_id": "eb-1991019030517", "details": ""}
+{"ts": "2026-06-08T18:04:44.405401+00:00", "action": "add", "event_id": "eb-1991286859601", "details": ""}
+{"ts": "2026-06-08T18:04:44.429527+00:00", "action": "add", "event_id": "lister-rain-date-bachata-salsa-by-the-river", "details": ""}
+{"ts": "2026-06-08T18:04:44.465952+00:00", "action": "pending_review", "event_id": "28k2dbeajtblh931k04g5eisnu@google.com", "details": "review dup of D0F83D40-A8C4-4EA2-940E-70F326647AFC: word_overlap(0/2)+within_24h+same_location+same_day"}
+{"ts": "2026-06-08T18:04:44.472788+00:00", "action": "reject_non_latin", "event_id": "F75203DD-C2C0-40BB-BE0E-A67013E17125", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-06-08T18:04:46.811307+00:00", "action": "add", "event_id": "96BE1814-7270-4570-9098-D31091685C51", "details": ""}
+{"ts": "2026-06-08T18:04:46.822235+00:00", "action": "pending_review", "event_id": "CC3E3DE1-960C-4AEF-8F6D-43BCF0FE8DEA", "details": "review dup of CB5572F4-BE51-4A3C-BC1E-21EE078058F8: exact_name+within_24h+same_day"}
+{"ts": "2026-06-08T18:04:46.838576+00:00", "action": "archive", "event_id": "eb-1988910876973", "details": ""}
+{"ts": "2026-06-08T18:04:46.838610+00:00", "action": "archive", "event_id": "1530CBC9-9873-4E9D-AF8E-805ECBDC1D61", "details": ""}
+{"ts": "2026-06-08T18:04:46.838633+00:00", "action": "archive", "event_id": "510d3fb7c42027483723f021d4142053f8afaf75@dance-calendar", "details": ""}
+{"ts": "2026-06-08T18:04:46.838656+00:00", "action": "archive", "event_id": "1A9BD0CB-2D71-4558-AE37-1B79262F7C05", "details": ""}
+{"ts": "2026-06-08T18:04:46.838673+00:00", "action": "archive", "event_id": "b5ae8d205710c7ead86852247d6a5b789ec16a29@dance-calendar", "details": ""}
+{"ts": "2026-06-08T18:04:46.838703+00:00", "action": "archive", "event_id": "FB32CAE0-0960-48BE-94DA-95BDD1E2EC35", "details": ""}
+{"ts": "2026-06-08T18:04:46.838721+00:00", "action": "archive", "event_id": "F6FB3684-154F-457E-98FD-79D3FBC4E41C", "details": ""}
+{"ts": "2026-06-08T18:04:46.838737+00:00", "action": "archive", "event_id": "A64F337F-8D93-447F-B415-FB206398143D", "details": ""}
+{"ts": "2026-06-08T18:04:46.838754+00:00", "action": "archive", "event_id": "eb-1990291472371", "details": ""}
+{"ts": "2026-06-08T18:04:46.838771+00:00", "action": "archive", "event_id": "DF158B3C-08AD-47D6-87A4-BBB5AE2865C5", "details": ""}
+{"ts": "2026-06-08T18:04:46.838786+00:00", "action": "archive", "event_id": "F441F1EA-460D-4749-96BE-D5B39FEE7C3F", "details": ""}
+{"ts": "2026-06-08T18:04:46.838802+00:00", "action": "archive", "event_id": "eb-1990397458378", "details": ""}
+{"ts": "2026-06-08T18:04:46.838819+00:00", "action": "archive", "event_id": "bobas-20260526-0", "details": ""}
+{"ts": "2026-06-08T18:06:28.838668+00:00", "action": "dismiss_rejected", "event_id": "F75203DD-C2C0-40BB-BE0E-A67013E17125", "details": "West Coast Swing, not Latin dance"}
+{"ts": "2026-06-08T18:06:31.814406+00:00", "action": "add", "event_id": "5ED3301D-8CE8-45D1-8094-C380C699DA99", "details": ""}
+{"ts": "2026-06-08T18:06:31.814552+00:00", "action": "approve_rejected", "event_id": "5ED3301D-8CE8-45D1-8094-C380C699DA99", "details": "promoted from rejected queue"}
+{"ts": "2026-06-08T18:06:32.968645+00:00", "action": "add", "event_id": "6b4c9b37ceef7d692cade530d94d9c68b2496331@dance-calendar", "details": ""}
+{"ts": "2026-06-08T18:06:32.968784+00:00", "action": "approve_rejected", "event_id": "6b4c9b37ceef7d692cade530d94d9c68b2496331@dance-calendar", "details": "promoted from rejected queue"}
+{"ts": "2026-06-08T18:06:35.480697+00:00", "action": "dismiss_rejected", "event_id": "876946c7362a1b4b7d0927db9c62eccd1bf0c07c@dance-calendar", "details": "Cultural festival/parade, not a dance social event"}
+{"ts": "2026-06-08T18:06:37.222540+00:00", "action": "approve", "event_id": "c469c54b1ad056d659054fff82ff65e3fc4e8c90@dance-calendar", "details": ""}
+{"ts": "2026-06-08T18:06:39.678329+00:00", "action": "reject", "event_id": "09F70C10-4D3F-4E6E-ACD7-8251039BB15D", "details": "Distinct event from Havana Night - different venue (Cantab Lounge vs Centro Cultural Cubano)"}
+{"ts": "2026-06-08T18:06:41.727933+00:00", "action": "approve", "event_id": "28k2dbeajtblh931k04g5eisnu@google.com", "details": ""}
+{"ts": "2026-06-08T18:06:43.268884+00:00", "action": "approve", "event_id": "CC3E3DE1-960C-4AEF-8F6D-43BCF0FE8DEA", "details": ""}
+{"ts": "2026-06-08T18:07:04.680215+00:00", "action": "merge", "event_id": "beatrice-calendar-fe2dcce1f7faac9b", "details": "force-merged review dup of 3f6947b81983396f49634c5f4deb6ea17f025b12@dance-calendar"}
+{"ts": "2026-06-08T18:07:22.051655+00:00", "action": "edit", "event_id": "3f6947b81983396f49634c5f4deb6ea17f025b12@dance-calendar", "details": "{\"cost\": null}"}
+{"ts": "2026-06-08T18:07:24.271550+00:00", "action": "pending_review", "event_id": "dj-clave-cantab-2026-06-14", "details": "review dup of 3f6947b81983396f49634c5f4deb6ea17f025b12@dance-calendar: word_overlap(1/5)+within_24h+same_location+same_day"}
+{"ts": "2026-06-08T18:07:38.541553+00:00", "action": "reject", "event_id": "dj-clave-cantab-2026-06-14", "details": "distinct event from Havana Night, re-adding with force"}
+{"ts": "2026-06-08T18:08:00.001722+00:00", "action": "edit", "event_id": "5ED3301D-8CE8-45D1-8094-C380C699DA99", "details": "{\"styles\": [\"salsa\"]}"}
+{"ts": "2026-06-08T18:08:01.906689+00:00", "action": "edit", "event_id": "6b4c9b37ceef7d692cade530d94d9c68b2496331@dance-calendar", "details": "{\"styles\": [\"salsa\", \"bachata\"]}"}
+{"ts": "2026-06-08T18:08:10.401020+00:00", "action": "edit", "event_id": "5ED3301D-8CE8-45D1-8094-C380C699DA99", "details": "{\"lat\": 42.3653, \"lng\": -71.1034}"}
