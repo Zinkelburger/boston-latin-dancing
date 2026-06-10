@@ -111,14 +111,10 @@ export default function MapView() {
   }, []);
 
   const closePopup = useCallback(() => {
-    const wasArchived = activeEvent?.archived;
     setActiveEvent(null);
     setActiveDisplayDate(null);
-    if (!wasArchived) {
-      setHighlightedEvent(null);
-    }
     window.history.replaceState(null, '', ' ');
-  }, [activeEvent]);
+  }, []);
 
   const eventsById = useMemo(() => {
     const map = new Map<string, DanceEvent>();
