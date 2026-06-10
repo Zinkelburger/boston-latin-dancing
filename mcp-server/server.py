@@ -285,12 +285,13 @@ def event_scrape(source_id: Optional[str] = None) -> str:
     If source_id is given, run only that scraper. Otherwise run all enabled scrapers.
     After scraping, automatically archives past events. Does NOT publish — call event_publish() separately.
 
-    Available source_ids: beatrice-calendar, sensualeros-boston, lister-events, eventbrite-boston-latin, fiesta-dance-company, submissions
+    Available source_ids: beatrice-calendar, sensualeros-boston, unabulla-cuban-boston, lister-events, eventbrite-boston-latin, fiesta-dance-company, submissions
     (Facebook sources require browser MCP and are not auto-runnable.)
     """
     runnable = {
         "beatrice-calendar": ["scrape_ics.py"],
         "sensualeros-boston": ["scrape_ics.py", "sensualeros-boston"],
+        "unabulla-cuban-boston": ["scrape_ics.py", "unabulla-cuban-boston"],
         "lister-events": ["scrape_lister.py"],
         "eventbrite-boston-latin": ["scrape_eventbrite.py"],
         "fiesta-dance-company": ["scrape_fiesta_dance.py"],

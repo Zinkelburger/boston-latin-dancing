@@ -252,11 +252,15 @@ export function formatEventTimeRange(start: string, end: string): string {
   });
   if (isDateOnlyEvent(start, end)) return dateStr;
 
-  const sameDay = s.toDateString() === e.toDateString();
   const startTime = s.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
   const endTime = e.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
 
-  if (sameDay) return `${dateStr}, ${startTime} – ${endTime}`;
+  const sameDay = s.toDateString() === e.toDateString();
+  const sameEvening = !sameDay
+    && (e.getTime() - s.getTime()) < 12 * 60 * 60 * 1000
+    && e.getHours() < 6;
+
+  if (sameDay || sameEvening) return `${dateStr}, ${startTime} – ${endTime}`;
 
   const endDateStr = e.toLocaleDateString('en-US', {
     weekday: 'short', month: 'short', day: 'numeric',

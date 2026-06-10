@@ -58,6 +58,23 @@ def _unescape_ics(text: str) -> str:
     )
 
 
+def _fix_rrule_until(rule_str: str) -> str:
+    """Fix UNTIL values that dateutil rejects when DTSTART is timezone-aware.
+
+    Google Calendar sometimes emits date-only UNTIL (e.g. UNTIL=20260625) or
+    local-time UNTIL without a Z suffix. dateutil requires UTC datetime format.
+    """
+    def _to_utc(m: re.Match) -> str:
+        val = m.group(1)
+        if len(val) == 8:
+            return f"UNTIL={val}T235959Z"
+        if len(val) == 15:
+            return f"UNTIL={val}Z"
+        return m.group(0)
+
+    return re.sub(r"UNTIL=(\d{8}T\d{6}|(\d{8}))(?![\dTZ])", _to_utc, rule_str)
+
+
 def parse_ics_feed(ics_text: str, source_id: str = DEFAULT_SOURCE_ID) -> list[dict]:
     """Parse an ICS feed and return a list of DanceEvent dicts."""
     cal = Calendar.from_ical(ics_text)
@@ -95,6 +112,7 @@ def parse_ics_feed(ics_text: str, source_id: str = DEFAULT_SOURCE_ID) -> list[di
             try:
                 duration = (dtend - dtstart) if dtend else timedelta(hours=2)
                 rule_str = rrule.to_ical().decode("utf-8")
+                rule_str = _fix_rrule_until(rule_str)
                 rule = rrulestr(rule_str, dtstart=dtstart)
                 for occ_start in rule.between(now, horizon, inc=True):
                     if occ_start.tzinfo is None:

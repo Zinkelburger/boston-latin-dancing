@@ -1,1 +1,162 @@
-[]
+[
+  {
+    "id": "rj01qhpqbb1qg00243k5ov129k@google.com",
+    "name": "🤓 🪘 Afro-Cuban Music w/ Sandy Pérez",
+    "startDate": "2026-07-04T13:00:00-04:00",
+    "endDate": "2026-07-04T16:00:00-04:00",
+    "dayOfWeek": "Saturday",
+    "location": "The Neal Rantoul Vault Theatre, 25 Exchange St, Lynn, MA 01901, USA",
+    "lat": null,
+    "lng": null,
+    "description": "NOTE: this is a music class, not a dance class.\n\nCome join us for a fun and interactive beginner's workshop on Afro-Cuban music with the talented Sandy Pérez!\n\nSandy will guide you through the basics of Afro-Cuban rhythms, helping you develop your skills and appreciation for this vibrant musical tradition. Whether you're a seasoned musician or just starting out, this workshop is perfect for anyone looking to explore the rich sounds of Afro-Cuban music.\n\n<b>Schedule</b>\n1pm-2:30pm: Beginner\n2:30pm-4pm: Intermediate\n\n<b>Price</b>\n$5-$20 (Beginner: $5 for Lynn residents, $10 otherwise. Intermediate: $20)\n\n\n---\nManaged by Una Bulla\nhttps://www.unabulla.com/boston",
+    "url": null,
+    "styles": [
+      "other"
+    ],
+    "cost": "$5",
+    "recurring": true,
+    "source": "unabulla-cuban-boston",
+    "recurrences": [
+      "2026-07-04T13:00:00-04:00",
+      "2026-08-01T13:00:00-04:00"
+    ],
+    "_rejected_reason": "class, not social dance",
+    "_review_type": "non_latin",
+    "_rejected_at": "2026-06-08T18:37:16.476873+00:00"
+  },
+  {
+    "id": "185s52resns3tel8g890v0fafg@google.com",
+    "name": "🪘 Cuban Music Workshops",
+    "startDate": "2026-06-14T10:15:00-04:00",
+    "endDate": "2026-06-14T12:15:00-04:00",
+    "dayOfWeek": "Sunday",
+    "location": "JAE Dance Center, 2153 Washington St, Boston, MA 02119",
+    "lat": null,
+    "lng": null,
+    "description": "Cuban music workshops on Sunday mornings, presented by MetaMovements. Bring a conga if you have one!\n\nSchedule:\n\n10:15am: Conga Technique with Paul Constantine\n11:15am: Play & Sing with Paul Constantine & Eli Pabon\n- Rumba (May 17 & 31)\n- Bembe (June 7 & 14)\n\nNote: No class on May 24.\n\nCost per workshop: $25 for one, $40 for two (same day).\n\nFor info & to register: www.metamovements.com/events\n\n<b>Schedule</b>\n10:15am-11:15am: Conga Technique with Paul Constantine\n11:15am-12:15pm: Play & Sing with Paul Constantine & Eli Pabon\n\n<b>Price</b>\n$25-$40 ($25 for one, $40 for two (same day))\n\n<b>Organized by MetaMovements</b>\nWebsite: https://www.metamovements.com/\nFacebook: https://www.facebook.com/metamovements\nInstagram: https://www.instagram.com/metamovements/\n\n\n---\nManaged by Una Bulla\nhttps://www.unabulla.com/boston",
+    "url": null,
+    "styles": [
+      "other"
+    ],
+    "cost": "$25",
+    "recurring": true,
+    "source": "unabulla-cuban-boston",
+    "_rejected_reason": "workshop, not social dance",
+    "_review_type": "non_latin",
+    "_rejected_at": "2026-06-08T18:37:17.431298+00:00"
+  },
+  {
+    "id": "3dlpk3g8kabug9qfkv9e0affdg@google.com",
+    "name": "🤓 Wednesday Workshops with MetaMovements",
+    "startDate": "2026-06-10T19:45:00-04:00",
+    "endDate": "2026-06-10T21:45:00-04:00",
+    "dayOfWeek": "Wednesday",
+    "location": "Cambridge Community Center, 5 Callender St, Cambridge, MA",
+    "lat": 42.3656587,
+    "lng": -71.1112824,
+    "description": "Wednesday evening Cuban dance workshops at Cambridge Community Center, presented by MetaMovements. All non-partner workshops accompanied by live percussion. Partnering workshops (*) are divided into two levels.\n\nSchedule:\n\nMay 13:\n6:45pm: Casino & Son with Anara & Javier*\n7:45pm: Cuban Modern with Anara & Javier\n8:45pm: Orishas with Javier\n\nMay 20:\n7:45pm: Cuban Modern with Maite\n8:45pm: Rumba with Amanda\n\nMay 27 & June 3:\n7:45pm: Casino with Amanda & Eli*\n8:45pm: Cuban Body Movement with Eli\n\nJune 10:\n7:45pm: Cuban Modern with Maite\n8:45pm: Cuban Body Movement with Eli\n\nJune 17:\n7:45pm: Cuban Modern with Anara & Javier\n8:45pm: Orishas with Javier\n\nCost per workshop: $25 for one, $40 for two, $50 for three (same day).\n\nFor info & to register: www.metamovements.com/events\n\n<b>Schedule</b>\n7:45pm-8:45pm: Workshop 1\n8:45pm-9:45pm: Workshop 2\n\n<b>Price</b>\n$25-$50 ($25 for one, $40 for two, $50 for three (same day))\n\n<b>Organized by MetaMovements</b>\nWebsite: https://www.metamovements.com/\nFacebook: https://www.facebook.com/metamovements\nInstagram: https://www.instagram.com/metamovements/\n\n\n---\nManaged by Una Bulla\nhttps://www.unabulla.com/boston",
+    "url": null,
+    "styles": [
+      "other"
+    ],
+    "cost": "$25",
+    "recurring": true,
+    "source": "unabulla-cuban-boston",
+    "recurrences": [
+      "2026-06-10T19:45:00-04:00",
+      "2026-06-17T19:45:00-04:00"
+    ],
+    "_rejected_reason": "workshop, not social dance",
+    "_review_type": "non_latin",
+    "_rejected_at": "2026-06-08T18:37:18.648025+00:00"
+  },
+  {
+    "id": "4s2c9e8buma8kst9n0vl8ac6sb_R20250418T223000@google.com",
+    "name": "🤓 Boston Rueda Classes",
+    "startDate": "2026-06-12T18:30:00-04:00",
+    "endDate": "2026-06-12T21:30:00-04:00",
+    "dayOfWeek": "Friday",
+    "location": "The Foundry, 101 Rogers St, Cambridge, MA 02142, USA",
+    "lat": 42.3666151,
+    "lng": -71.0827636,
+    "description": "Every Friday, Boston Rueda teaches rueda.\n\n<b>Schedule</b>\n6:30pm-7:30pm: Level 1\n7:30pm-8:30pm: Level 2\n8:30pm-9:30pm: Level 3\n\n<b>Price</b>\n$15 drop-in ($65 for 5 classes; $120 for 10 classes)\n\n<b>Organized by Boston Rueda</b>\nWebsite: https://www.bostonrueda.com/\nInstagram: https://www.instagram.com/bostonrueda/\n\n\n---\nManaged by Una Bulla\nhttps://www.unabulla.com/boston",
+    "url": null,
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$15",
+    "recurring": true,
+    "source": "unabulla-cuban-boston",
+    "recurrences": [
+      "2026-06-12T18:30:00-04:00",
+      "2026-06-19T18:30:00-04:00",
+      "2026-06-26T18:30:00-04:00",
+      "2026-07-03T18:30:00-04:00",
+      "2026-07-10T18:30:00-04:00",
+      "2026-07-17T18:30:00-04:00",
+      "2026-07-24T18:30:00-04:00",
+      "2026-07-31T18:30:00-04:00",
+      "2026-08-07T18:30:00-04:00",
+      "2026-08-14T18:30:00-04:00",
+      "2026-08-21T18:30:00-04:00",
+      "2026-08-28T18:30:00-04:00"
+    ],
+    "_rejected_reason": "class, not social dance",
+    "_review_type": "non_latin",
+    "_rejected_at": "2026-06-08T18:37:19.914697+00:00"
+  },
+  {
+    "id": "despelote-summer-2026",
+    "name": "Despelote Summer Classes",
+    "startDate": "2026-06-11T20:00:00-04:00",
+    "endDate": "2026-06-11T21:30:00-04:00",
+    "dayOfWeek": "Thursday",
+    "location": "Dance Complex, 536 Massachusetts Ave, Cambridge, MA 02139",
+    "lat": 42.3655,
+    "lng": -71.1024,
+    "description": "Weekly Cuban dance classes. Organized by Despelote.\n\nSource: https://www.unabulla.com/boston",
+    "url": null,
+    "styles": [
+      "salsa"
+    ],
+    "cost": null,
+    "recurring": true,
+    "source": "unabulla-cuban-boston",
+    "recurrences": [
+      "2026-06-11T20:00:00-04:00",
+      "2026-06-18T20:00:00-04:00",
+      "2026-06-25T20:00:00-04:00",
+      "2026-07-02T20:00:00-04:00",
+      "2026-07-09T20:00:00-04:00",
+      "2026-07-16T20:00:00-04:00",
+      "2026-07-23T20:00:00-04:00",
+      "2026-07-30T20:00:00-04:00",
+      "2026-08-06T20:00:00-04:00",
+      "2026-08-13T20:00:00-04:00"
+    ],
+    "_rejected_reason": "class, not social dance",
+    "_review_type": "non_latin",
+    "_rejected_at": "2026-06-08T18:37:20.729422+00:00"
+  },
+  {
+    "id": "vacd32gq17i2smcs9e3h7ev7p8@google.com",
+    "name": "🤓 Traditional Cuban Mambo & Chachachá ft. Elaine",
+    "startDate": "2026-06-07T20:00:00+00:00",
+    "endDate": "2026-06-07T22:00:00+00:00",
+    "dayOfWeek": "Sunday",
+    "location": "Mango Studio II, 620 Mass Ave, Cambridge, MA 02139",
+    "lat": null,
+    "lng": null,
+    "description": "El Bonche presents traditional Cuban dance workshops featuring Elaine!\n\n4-5pm: Mambo\n5-6pm: Chachachá\n\n$40 early bird (until June 6), $50 regular. $5 off if you joined the workshops at the 5 year anniversary!\n\nPayment options: Venmo, Zelle, PayPal, Eventbrite\nContact: elboncheinboston@gmail.com\n\n<b>Schedule</b>\n4pm-5pm: Mambo\n5pm-6pm: Chachachá\n\n<b>Price</b>\n$40-$50 ($40 early bird (until June 6), $50 regular. $5 off if you joined the 5 year anniversary workshops.)\n\n<b>Organized by El Bonche</b>\nFacebook: https://www.facebook.com/elboncheinboston/\nInstagram: https://www.instagram.com/elboncheinboston/\n\n\n---\nManaged by Una Bulla\nhttps://www.unabulla.com/boston",
+    "url": null,
+    "styles": [
+      "other"
+    ],
+    "cost": "$40",
+    "recurring": false,
+    "source": "unabulla-cuban-boston",
+    "_rejected_reason": "class/workshop, not social dance",
+    "_review_type": "non_latin",
+    "_rejected_at": "2026-06-08T18:37:21.300959+00:00"
+  }
+]

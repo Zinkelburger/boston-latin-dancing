@@ -78,8 +78,19 @@
     "website": "https://fiestadancecompany.com",
     "instagram_handle": "fiestadancecompany",
     "defaults": {
-      "styles": ["salsa", "bachata"]
+      "styles": [
+        "salsa",
+        "bachata"
+      ]
     },
     "enabled": true
+  },
+  {
+    "id": "unabulla-cuban-boston",
+    "type": "ics",
+    "name": "Cuban Dance in Boston (Una Bulla)",
+    "scraper": "scrape_ics.py",
+    "enabled": true,
+    "url": "https://calendar.google.com/calendar/ical/8a87859dbbb9d4a566d0ab0137c136f844424435b0b16585d99c3beb904e0514%40group.calendar.google.com/public/basic.ics"
   }
 ]

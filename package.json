@@ -14,12 +14,14 @@
     "fetch-fiesta": "python3 scripts/scrape_fiesta_dance.py",
     "fetch-bobas": "python3 scripts/scrape_facebook.py bobas",
     "fetch-submissions": "python3 scripts/fetch_submissions.py",
+    "fetch-unabulla": "python3 scripts/scrape_ics.py unabulla-cuban-boston",
     "ingest-publish": "python3 -c \"import sys; sys.path.insert(0,'scripts'); from event_store import ingest_scraped, publish; print(ingest_scraped()); print(publish())\"",
     "publish-events": "python3 -c \"import sys; sys.path.insert(0,'scripts'); from event_store import publish; print(publish())\"",
     "dedup-report": "python3 scripts/dedup_report.py",
     "review-dedup": "python3 scripts/dedup_report.py --pending --json",
     "verify-events": "python3 scripts/verify_events.py",
-    "fetch-all": "npm run fetch-events && npm run fetch-sensualeros && npm run fetch-lister && npm run fetch-eventbrite && npm run fetch-fiesta && npm run fetch-submissions && npm run ingest-publish"
+    "fetch-all": "npm run fetch-events && npm run fetch-sensualeros && npm run fetch-unabulla && npm run fetch-lister && npm run fetch-eventbrite && npm run fetch-fiesta && npm run fetch-submissions && npm run ingest-publish",
+    "build-all": "npm run publish-events && npm run build"
   },
   "dependencies": {
     "clsx": "^2.1.1",

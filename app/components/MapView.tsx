@@ -100,10 +100,12 @@ export default function MapView() {
   const [activeEvent, setActiveEvent] = useState<DanceEvent | null>(null);
   const [activeDisplayDate, setActiveDisplayDate] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'map' | 'feed'>('map');
+  const [highlightedEvent, setHighlightedEvent] = useState<DanceEvent | null>(null);
 
   const openEvent = useCallback((event: DanceEvent | null, displayDate?: string) => {
     setActiveEvent(event);
     setActiveDisplayDate(displayDate ?? null);
+    setHighlightedEvent(event);
     window.history.replaceState(null, '', event?.slug ? `#event=${event.slug}` : ' ');
   }, []);
 
@@ -132,8 +134,11 @@ export default function MapView() {
     const slug = decodeURIComponent(match[1]);
     const ev = eventsBySlug.get(slug);
     if (ev && ev.lat != null && ev.lng != null) {
-      openEvent(ev);
-      mapRef.current?.flyTo({ center: [ev.lng, ev.lat], zoom: 14, duration: 1200 });
+      setHighlightedEvent(ev);
+      window.history.replaceState(null, '', `#event=${ev.slug}`);
+      mapRef.current?.flyTo({ center: [ev.lng, ev.lat], zoom: 15, duration: 1200 });
+      const timer = setTimeout(() => openEvent(ev), 1300);
+      return () => clearTimeout(timer);
     }
   }, [eventsBySlug, openEvent]);
 
@@ -208,6 +213,21 @@ export default function MapView() {
     return { type: 'FeatureCollection', features };
   }, [filteredEvents, coordinateOffsets]);
 
+  const highlightGeojson = useMemo(() => {
+    if (!highlightedEvent || highlightedEvent.lat == null || highlightedEvent.lng == null) return null;
+    const offset = coordinateOffsets.get(highlightedEvent.id);
+    const lng = highlightedEvent.lng + (offset?.[0] ?? 0);
+    const lat = highlightedEvent.lat + (offset?.[1] ?? 0);
+    return {
+      type: 'FeatureCollection' as const,
+      features: [{
+        type: 'Feature' as const,
+        geometry: { type: 'Point' as const, coordinates: [lng, lat] },
+        properties: {},
+      }],
+    };
+  }, [highlightedEvent, coordinateOffsets]);
+
   const handleClick = useCallback(
     (e: MapLayerMouseEvent) => {
       const map = mapRef.current?.getMap();
@@ -230,7 +250,7 @@ export default function MapView() {
   const handleSearchSelectEvent = useCallback(
     (event: DanceEvent) => {
       if (event.lat != null && event.lng != null) {
-        mapRef.current?.flyTo({ center: [event.lng, event.lat], zoom: 14, duration: 1200 });
+        mapRef.current?.flyTo({ center: [event.lng, event.lat], zoom: 15, duration: 1200 });
         openEvent(event);
       }
     },
@@ -243,7 +263,7 @@ export default function MapView() {
       if (event.lat != null && event.lng != null) {
         setViewMode('map');
         setTimeout(() => {
-          mapRef.current?.flyTo({ center: [event.lng!, event.lat!], zoom: 14, duration: 1200 });
+          mapRef.current?.flyTo({ center: [event.lng!, event.lat!], zoom: 15, duration: 1200 });
         }, 100);
       }
     },
@@ -270,6 +290,21 @@ export default function MapView() {
             <Source id="events" type="geojson" data={geojson} cluster={false}>
               <Layer {...unclusteredLayer} />
             </Source>
+            {highlightGeojson && (
+              <Source id="selected-event" type="geojson" data={highlightGeojson}>
+                <Layer
+                  id="selected-ring"
+                  type="circle"
+                  paint={{
+                    'circle-radius': 18,
+                    'circle-color': 'transparent',
+                    'circle-stroke-color': highlightedEvent ? primaryColor(highlightedEvent) : '#888',
+                    'circle-stroke-width': 3,
+                    'circle-stroke-opacity': 0.6,
+                  }}
+                />
+              </Source>
+            )}
           </MapGL>
         </div>
       ) : (
