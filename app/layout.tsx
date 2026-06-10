@@ -3,32 +3,29 @@ import { ReactNode } from 'react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Boston Latin Dance Map',
+  title: {
+    default: 'Boston Salsa Events | bostonsalsa.org',
+    template: '%s | Boston Salsa Events',
+  },
   description:
-    'A map of Latin dance events happening around Boston this week.',
+    'Salsa events in Boston. Find salsa and Latin dance socials and parties happening this week.',
   keywords: [
     'Boston salsa',
+    'Boston salsa events',
+    'salsa Boston',
+    'salsa dancing Boston',
     'Boston bachata',
     'Boston latin dance',
-    'latin dancing Boston',
-    'where to dance in Boston',
-    'Boston salsa map',
+    'where to dance salsa in Boston',
     'Boston dance events',
-    'Boston kizomba',
-    'Boston zouk',
+    'salsa classes Boston',
     'salsa dancing near me',
-    'bachata Boston',
     'Latin dance socials Boston',
-    'BOBAS Boston',
-    'Boston Outdoor Bachata And Salsa',
-    'Havana Club Boston',
-    'Fiesta Dance Company',
-    'Sensualeros Boston',
   ],
   openGraph: {
-    title: 'Boston Latin Dance Map',
+    title: 'Boston Salsa Events',
     description:
-      'A map of Latin dance events happening around Boston this week.',
+      'Find salsa and Latin dance events happening in Boston this week.',
     type: 'website',
     images: [{ url: '/icon.png', width: 512, height: 512 }],
   },

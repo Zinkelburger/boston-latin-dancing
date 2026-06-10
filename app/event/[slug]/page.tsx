@@ -39,17 +39,26 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const { slug } = await params;
   const event = findBySlug(slug);
   if (!event) {
-    return { title: 'Event Not Found | Boston Latin Dance Map' };
+    return { title: 'Event Not Found' };
   }
 
-  const styles = event.styles.map(s => STYLE_LABELS[s]).join(', ');
-  const venue = event.location?.split('\n')[0] || '';
+  const venue = event.location?.split(',')[0] || '';
   const date = new Date(event.startDate).toLocaleDateString('en-US', {
     weekday: 'short', month: 'short', day: 'numeric',
   });
 
-  const parts = [styles, date, venue].filter(Boolean);
-  const description = parts.join(' — ');
+  const snippet = stripHtml(event.description)
+    .replace(/https?:\/\/\S+/gi, '')
+    .replace(/www\.\S+/gi, '')
+    .replace(/Source:\s*/gi, '')
+    .replace(/Website:\s*/gi, '')
+    .replace(/Organized by\s+\S+\s*/gi, '')
+    .replace(/\s+/g, ' ')
+    .slice(0, 120).trim();
+  const when = [date, venue].filter(Boolean).join(' — ');
+  const description = snippet
+    ? `${when}. ${snippet}`
+    : when;
 
   const url = `${SITE_URL}/event/${slug}`;
   const activeInstance = findActiveInstance(event);
@@ -58,14 +67,14 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
     : url;
 
   return {
-    title: `${event.name} | Boston Latin Dance Map`,
+    title: event.name,
     description,
     ...(event.archived ? { robots: { index: false, follow: true } } : {}),
     openGraph: {
       title: event.name,
       description: event.organizer ? `${description} — ${event.organizer}` : description,
       url: canonicalUrl,
-      siteName: 'Boston Latin Dance Map',
+      siteName: 'Boston Salsa Events',
       type: 'website',
     },
     twitter: {
@@ -97,11 +106,28 @@ export default async function EventPage({ params }: { params: Promise<Params> })
 
   const shareUrl = `${SITE_URL}/event/${slug}`;
   const mapUrl = `/#event=${slug}`;
-  const cleanDesc = stripHtml(event.description).slice(0, 300);
+  const cleanDesc = stripHtml(event.description)
+    .replace(/https?:\/\/\S+/gi, '')
+    .replace(/www\.\S+/gi, '')
+    .replace(/\s+/g, ' ')
+    .slice(0, 300).trim();
+
+  const breadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Boston Salsa Events', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: event.name, item: shareUrl },
+    ],
+  };
 
   return (
     <>
       <EventJsonLd event={event} url={shareUrl} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+      />
       <EventRedirect to={mapUrl} />
       {/* Server-rendered content for SEO — visible briefly before redirect */}
       <div className="max-w-lg mx-auto px-4 py-8">
