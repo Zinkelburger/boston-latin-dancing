@@ -12,6 +12,25 @@ description: >-
 Use the **boston-latin-dance MCP tools** for all event operations. Never manually
 edit `public/events.json` — it's a build artifact.
 
+## What belongs on the map
+
+This site is for **social dances** — events where people go to dance socially.
+
+**Include:** socials, parties, live-music dance nights, outdoor dance events,
+festivals with social dancing. Events that start with a short lesson/intro
+before the social are fine (e.g. "lesson at 8 PM, social 9 PM–1 AM").
+
+**Exclude:** pure classes, workshops, technique drills, music lessons, fitness
+classes, and recurring class series with no social component. If an event name
+contains "class", "classes", "workshop", "technique", or "lesson" without also
+mentioning a social/party/dance-night, reject it.
+
+When reviewing ingested events (Steps 3–6), remove or reject anything that is
+a class/workshop rather than a social dance. Use `event_remove(event_id,
+reason="class, not social dance")` for active events or
+`event_dismiss_rejected(event_id, reason="class, not social dance")` for
+rejected ones.
+
 ## Step 0: Check prerequisites
 
 ```bash
@@ -53,6 +72,7 @@ event_scrape(source_id="beatrice-calendar")
 | `sensualeros-boston` | `scrape_ics.py` | Sensualeros Boston Events (Google Calendar ICS) |
 | `lister-events` | `scrape_lister.py` | Lister Events (Wix/JSON-LD) |
 | `eventbrite-boston-latin` | `scrape_eventbrite.py` | Eventbrite search (salsa/bachata/latin) |
+| `unabulla-cuban-boston` | `scrape_ics.py` | Cuban Dance in Boston / Una Bulla (Google Calendar ICS) |
 | `fiesta-dance-company` | `scrape_fiesta_dance.py` | Fiesta Dance Company socials |
 | `submissions` | `fetch_submissions.py` | User-submitted events from API |
 
@@ -155,7 +175,8 @@ An event passes automatically if:
 
 Otherwise it must match Latin keywords in name + description:
 `salsa`, `bachata`, `kizomba`, `zouk`, `merengue`, `latin`, `cumbia`, `reggaeton`,
-`timba`, `son/songo`, `cha cha`, `mambo`, `rumba`, `guaguanco`, `cubana`, `tropical`
+`timba`, `son/songo`, `cha cha`, `mambo`, `rumba`, `guaguanco`, `cubana`, `tropical`,
+`rueda`, `casino`
 
 ### View the rejected queue
 
@@ -191,9 +212,13 @@ for e in json.load(open('data/events/rejected.json')):
 
 | Situation | Action |
 |-----------|--------|
-| Actually Latin-relevant (keywords missed, wrong style tag) | Fix styles/description if needed, then `event_approve_rejected(event_id)` |
+| Actually Latin-relevant **social dance** (keywords missed, wrong style tag) | Fix styles/description if needed, then `event_approve_rejected(event_id)` |
 | Not Latin dance — keep off map | `event_dismiss_rejected(event_id, reason="not Latin dance")` |
+| Class/workshop, not a social dance | `event_dismiss_rejected(event_id, reason="class, not social dance")` |
 | Already on map by mistake | `event_remove(event_id, reason="not Latin dance")` — removes from active and queues in rejected |
+
+Before approving a rejected event, check that it is a **social dance**, not a
+class or workshop. See "What belongs on the map" above.
 
 **Do not** manually edit `rejected.json`. Use MCP tools.
 
@@ -292,6 +317,7 @@ event_list(status="active")
 For events with `styles=["other"]`, `cost=null`, or missing coords:
 - Use `event_edit` to fix styles, cost, or coordinates
 - For missing coords, follow the **geocode-events** skill
+- Remove any classes/workshops that slipped through: `event_remove(event_id, reason="class, not social dance")`
 
 Ask the user if unsure about any classification.
 
@@ -412,8 +438,8 @@ When a scraped event passes Latin relevance, it is compared against active + arc
 
 | Confidence | Criteria (simplified) | Action |
 |------------|----------------------|--------|
-| **certain** | Same ID or same URL; or a human-approved pair in `known_duplicates.json` | Auto-merge into active (refreshes dates/dayOfWeek) |
-| **review** | Exact name + within 24h; same location + same calendar day; substring name + within 24h; word overlap ≥50% (min 2 words) + within 24h; exact name with no parseable dates | Routed to `pending.json` with `_dedup_candidate_of` for human review |
+| **certain** | Same ID; any shared URL across `url` + `urls[]`; same day + same location + strong name match; or a human-approved pair in `known_duplicates.json` | Auto-merge into active (refreshes dates/dayOfWeek, accumulates all URLs into `urls[]`) |
+| **review** | Exact name + within 24h; same location + same calendar day; substring name + within 24h; word overlap >= 50% (min 2 words) + within 24h; exact name with no parseable dates; same location + strong name match within 7 days (cross-source recurring) | Routed to `pending.json` with `_dedup_candidate_of` for human review |
 | **none** | No match | Added as new active event |
 
 Human review outcomes are persisted in `data/known_duplicates.json` (`verdict: "same"` or `"different"`).

@@ -10,6 +10,7 @@ import {
   shouldShowNextOccurrence,
 } from '@/lib/recurrences';
 import { stripHtml } from '@/lib/strip-html';
+import { collectEventLinks } from '@/lib/link-label';
 import EventDetailClient from './EventDetailClient';
 import CollapsibleText from '@/app/components/CollapsibleText';
 import { UpcomingDatesTable, WeeklyScheduleTable } from '@/app/components/EventTable';
@@ -188,11 +189,11 @@ export default async function EventPage({ params }: { params: Promise<Params> })
 
           {/* Action buttons */}
           <div className="flex flex-wrap gap-2 mt-2">
-            {event.url && (
-              <a href={event.url} target="_blank" rel="noopener" className="pretty-pill pretty-pill-rose">
-                Event Page
+            {collectEventLinks(event).map((lnk, i) => (
+              <a key={i} href={lnk.url} target="_blank" rel="noopener" className="pretty-pill pretty-pill-rose">
+                {lnk.icon} {lnk.label}
               </a>
-            )}
+            ))}
             {event.lat && event.lng && (
               <a
                 href={`https://www.google.com/maps/search/?api=1&query=${event.lat},${event.lng}`}

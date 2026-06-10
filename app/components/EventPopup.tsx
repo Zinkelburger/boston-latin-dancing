@@ -12,6 +12,7 @@ import {
   shouldShowNextOccurrence,
 } from '@/lib/recurrences';
 import { stripHtml } from '@/lib/strip-html';
+import { collectEventLinks } from '@/lib/link-label';
 import ShareButton from './ShareButton';
 import { UpcomingDatesTable, WeeklyScheduleTable } from './EventTable';
 
@@ -46,23 +47,6 @@ type Props = {
   toMs?: number;
 };
 
-function linkLabel(url: string): { label: string; icon: string } {
-  try {
-    const host = new URL(url).hostname.replace(/^www\./, '');
-    if (host.includes('eventbrite.com')) return { label: 'Eventbrite', icon: '🎟' };
-    if (host.includes('facebook.com')) return { label: 'Facebook', icon: '📘' };
-    if (host.includes('instagram.com')) return { label: 'Instagram', icon: '📷' };
-    if (host.includes('tickeri.com')) return { label: 'Tickeri', icon: '🎫' };
-    if (host.includes('humanitix.com')) return { label: 'Humanitix', icon: '🎟' };
-    if (host.includes('resy.com')) return { label: 'Resy', icon: '🍽' };
-    if (host.includes('danceplace.com')) return { label: 'DancePlace', icon: '💃' };
-    if (host.includes('metamovements.com')) return { label: 'MetaMovements', icon: '🌀' };
-    const short = host.length > 20 ? host.slice(0, 18) + '...' : host;
-    return { label: short, icon: '🔗' };
-  } catch {
-    return { label: 'Event Link', icon: '🔗' };
-  }
-}
 
 function toGcalDate(iso: string): string {
   return new Date(iso).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
@@ -105,7 +89,7 @@ export default function EventPopup({ event, onClose, displayDate, fromMs, toMs }
     ? cleanDesc
     : cleanDesc.slice(0, cleanDesc.lastIndexOf(' ', CHAR_LIMIT)) + '…';
 
-  const link = event.url ? linkLabel(event.url) : null;
+  const allLinks = collectEventLinks(event);
   const recurrenceLabel = getRecurrenceLabel(event);
   const nextIso = shouldShowNextOccurrence(event) ? nextOccurrenceIso(event) : null;
 
@@ -241,16 +225,17 @@ export default function EventPopup({ event, onClose, displayDate, fromMs, toMs }
 
         {/* Links */}
         <div className="flex flex-wrap gap-2 mt-1">
-          {link && event.url && (
+          {allLinks.map((lnk, i) => (
             <a
-              href={event.url}
+              key={i}
+              href={lnk.url}
               target="_blank"
               rel="noopener"
               className="pretty-pill pretty-pill-rose"
             >
-              {link.icon} {link.label}
+              {lnk.icon} {lnk.label}
             </a>
-          )}
+          ))}
           {event.lat && event.lng && (
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${event.lat},${event.lng}`}

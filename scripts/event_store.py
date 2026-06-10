@@ -65,6 +65,7 @@ SOURCE_PRIORITY = {
     "fiesta-dance-company": 12,
     "bobas": 13,
     "dantes-salsa": 13,
+    "unabulla-cuban-boston": 10,
     "": 20,
 }
 
@@ -116,6 +117,15 @@ LOCATION_ALIASES: dict[str, str] = {
     "marina bay ferry": "marina-bay-quincy",
     "552 victory road": "marina-bay-quincy",
     "552 victory rd": "marina-bay-quincy",
+    "magazine beach": "magazine-beach",
+    "magazine beach park": "magazine-beach",
+    "668 memorial dr": "magazine-beach",
+    "668 memorial drive": "magazine-beach",
+    "nature center @ magazine beach park": "magazine-beach",
+    "mass audubon magazine beach park nature center": "magazine-beach",
+    "the cantab lounge": "cantab-lounge",
+    "cantab lounge": "cantab-lounge",
+    "738 massachusetts ave": "cantab-lounge",
 }
 
 
@@ -214,10 +224,21 @@ def _dates_within(a: dict, b: dict, hours: float) -> Optional[bool]:
 
 
 def _url_match(a: dict, b: dict) -> bool:
-    """Check if both events link to the same URL (strong identity signal)."""
-    url_a = (a.get("url") or "").rstrip("/").lower()
-    url_b = (b.get("url") or "").rstrip("/").lower()
-    return bool(url_a) and url_a == url_b
+    """Check if both events share any URL across url + urls[] fields."""
+    def _all_urls(ev: dict) -> set[str]:
+        result: set[str] = set()
+        u = (ev.get("url") or "").rstrip("/").lower()
+        if u:
+            result.add(u)
+        for extra in ev.get("urls") or []:
+            norm = extra.rstrip("/").lower()
+            if norm:
+                result.add(norm)
+        return result
+
+    urls_a = _all_urls(a)
+    urls_b = _all_urls(b)
+    return bool(urls_a & urls_b)
 
 
 def _load_known_duplicates() -> list[dict]:
@@ -349,6 +370,12 @@ def dedup_confidence(a: dict, b: dict) -> Optional[str]:
     if names_exact and within_24h is None:
         return "review"
 
+    # Cross-source recurring series: same venue + strong name match but different
+    # occurrence dates (>24h apart). Flag for review so they can be merged.
+    within_7d = _dates_within(a, b, 168)
+    if same_loc and (names_exact or names_substring or word_overlap_strong) and within_7d is True:
+        return "review"
+
     return None
 
 
@@ -402,6 +429,33 @@ def _log_dedup(action: str, kept: dict, candidate: dict, confidence: str, reason
         f.write(json.dumps(entry) + "\n")
 
 
+def _url_host(url: str) -> str:
+    m = re.match(r"https?://(?:www\.)?([^/]+)", url.lower())
+    return m.group(1) if m else ""
+
+
+def _collect_urls(a: dict, b: dict) -> list[str]:
+    """Gather unique URLs from both events, keeping one per domain."""
+    seen_hosts: set[str] = set()
+    seen_urls: set[str] = set()
+    result: list[str] = []
+    for ev in (a, b):
+        for u in [ev.get("url")] + (ev.get("urls") or []):
+            if not u:
+                continue
+            normalized = u.rstrip("/").lower()
+            if normalized in seen_urls:
+                continue
+            host = _url_host(u)
+            if host and host in seen_hosts:
+                continue
+            seen_urls.add(normalized)
+            if host:
+                seen_hosts.add(host)
+            result.append(u)
+    return result
+
+
 def merge_event(a: dict, b: dict) -> dict:
     """Merge two events, keeping the higher-precedence record as the base."""
     winner, loser = pick_winner(a, b)
@@ -450,6 +504,13 @@ def merge_event(a: dict, b: dict) -> dict:
         merged["schedule"] = loser["schedule"]
     if not merged.get("recurrences") and loser.get("recurrences"):
         merged["recurrences"] = loser["recurrences"]
+
+    # Accumulate all source URLs into urls[] (primary url stays as-is)
+    all_urls = _collect_urls(winner, loser)
+    primary = merged.get("url") or ""
+    extra = [u for u in all_urls if u and u != primary]
+    if extra:
+        merged["urls"] = extra
 
     # Re-scrape of the same event id: refresh date/time from incoming data.
     if winner.get("id") == loser.get("id"):
@@ -1006,7 +1067,8 @@ def _enrich_event(event: dict) -> None:
 
 _LATIN_PATTERN = re.compile(
     r'\b(salsa|bachata|kizomba|zouk|merengue|latin|cumbia|reggaeton'
-    r'|timba|son(?:go)?|cha\s*cha|mambo|rumba|guaguanco|cubana?|tropical)\b',
+    r'|timba|son(?:go)?|cha\s*cha|mambo|rumba|guaguanco|cubana?|tropical'
+    r'|rueda|casino)\b',
     re.I,
 )
 

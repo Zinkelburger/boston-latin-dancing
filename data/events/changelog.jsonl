@@ -129,3 +129,30 @@
 {"ts": "2026-06-08T18:08:00.001722+00:00", "action": "edit", "event_id": "5ED3301D-8CE8-45D1-8094-C380C699DA99", "details": "{\"styles\": [\"salsa\"]}"}
 {"ts": "2026-06-08T18:08:01.906689+00:00", "action": "edit", "event_id": "6b4c9b37ceef7d692cade530d94d9c68b2496331@dance-calendar", "details": "{\"styles\": [\"salsa\", \"bachata\"]}"}
 {"ts": "2026-06-08T18:08:10.401020+00:00", "action": "edit", "event_id": "5ED3301D-8CE8-45D1-8094-C380C699DA99", "details": "{\"lat\": 42.3653, \"lng\": -71.1034}"}
+{"ts": "2026-06-08T18:34:57.008843+00:00", "action": "reject_non_latin", "event_id": "jtgs3h7rbgmv3d7of0d7v5nt9g@google.com", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-06-08T18:34:58.184533+00:00", "action": "add", "event_id": "rj01qhpqbb1qg00243k5ov129k@google.com", "details": ""}
+{"ts": "2026-06-08T18:34:58.188851+00:00", "action": "add", "event_id": "6p0q976tmk0ub5vt98dhuugd5i_R20240803T233000@google.com", "details": ""}
+{"ts": "2026-06-08T18:34:58.193855+00:00", "action": "add", "event_id": "4scb4cfq1j6t6b7ss6io3jn65n_R20251018T010000@google.com", "details": ""}
+{"ts": "2026-06-08T18:34:58.198436+00:00", "action": "add", "event_id": "3vk8m42q95bjqijuef783qvd1a@google.com", "details": ""}
+{"ts": "2026-06-08T18:34:59.362144+00:00", "action": "add", "event_id": "185s52resns3tel8g890v0fafg@google.com", "details": ""}
+{"ts": "2026-06-08T18:34:59.363094+00:00", "action": "reject_non_latin", "event_id": "4s2c9e8buma8kst9n0vl8ac6sb_R20250418T223000@google.com", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-06-08T18:34:59.380821+00:00", "action": "add", "event_id": "3dlpk3g8kabug9qfkv9e0affdg@google.com", "details": ""}
+{"ts": "2026-06-08T18:35:00.592062+00:00", "action": "add", "event_id": "0du3658tpe2aej0a3e5i2o7nm1@google.com", "details": ""}
+{"ts": "2026-06-08T18:35:01.798737+00:00", "action": "add", "event_id": "vacd32gq17i2smcs9e3h7ev7p8@google.com", "details": ""}
+{"ts": "2026-06-08T18:35:01.799199+00:00", "action": "reject_non_latin", "event_id": "6mlfrfem1rbubuc3gl930v84v4@google.com", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-06-08T18:35:18.809658+00:00", "action": "merge", "event_id": "jtgs3h7rbgmv3d7of0d7v5nt9g@google.com", "details": "force-merged review dup of 5984F5C6-9A2D-454E-AE0B-B201FC78B814"}
+{"ts": "2026-06-08T18:35:18.809804+00:00", "action": "approve_rejected", "event_id": "jtgs3h7rbgmv3d7of0d7v5nt9g@google.com", "details": "promoted from rejected queue"}
+{"ts": "2026-06-08T18:35:19.143395+00:00", "action": "add", "event_id": "4s2c9e8buma8kst9n0vl8ac6sb_R20250418T223000@google.com", "details": ""}
+{"ts": "2026-06-08T18:35:19.143516+00:00", "action": "approve_rejected", "event_id": "4s2c9e8buma8kst9n0vl8ac6sb_R20250418T223000@google.com", "details": "promoted from rejected queue"}
+{"ts": "2026-06-08T18:35:19.802130+00:00", "action": "dismiss_rejected", "event_id": "6mlfrfem1rbubuc3gl930v84v4@google.com", "details": "Duplicate of existing Rueda in the Pahk from Beatrice calendar"}
+{"ts": "2026-06-08T18:35:33.296060+00:00", "action": "edit", "event_id": "4s2c9e8buma8kst9n0vl8ac6sb_R20250418T223000@google.com", "details": "{\"styles\": [\"salsa\"]}"}
+{"ts": "2026-06-08T18:37:16.477013+00:00", "action": "remove", "event_id": "rj01qhpqbb1qg00243k5ov129k@google.com", "details": "class, not social dance"}
+{"ts": "2026-06-08T18:37:17.431472+00:00", "action": "remove", "event_id": "185s52resns3tel8g890v0fafg@google.com", "details": "workshop, not social dance"}
+{"ts": "2026-06-08T18:37:18.648259+00:00", "action": "remove", "event_id": "3dlpk3g8kabug9qfkv9e0affdg@google.com", "details": "workshop, not social dance"}
+{"ts": "2026-06-08T18:37:19.915052+00:00", "action": "remove", "event_id": "4s2c9e8buma8kst9n0vl8ac6sb_R20250418T223000@google.com", "details": "class, not social dance"}
+{"ts": "2026-06-08T18:37:20.729656+00:00", "action": "remove", "event_id": "despelote-summer-2026", "details": "class, not social dance"}
+{"ts": "2026-06-08T18:37:21.301197+00:00", "action": "remove", "event_id": "vacd32gq17i2smcs9e3h7ev7p8@google.com", "details": "class/workshop, not social dance"}
+{"ts": "2026-06-10T18:08:11.974908+00:00", "action": "merge", "event_id": "15F245C1-03AD-4AC3-ADB5-9CE4CDE011AC", "details": "merged 4 river events into one"}
+{"ts": "2026-06-10T18:08:11.975079+00:00", "action": "merge", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": "merged Sushi Con Salsa Vol.1 + Vol.2"}
+{"ts": "2026-06-10T18:08:11.975215+00:00", "action": "merge", "event_id": "lister-bachata-dance-workout-morse-library", "details": "merged Morse Library recurring"}
+{"ts": "2026-06-10T18:08:35.072067+00:00", "action": "edit", "event_id": "5ED3301D-8CE8-45D1-8094-C380C699DA99", "details": "updated URL to Facebook group, dropped expired Instagram link"}

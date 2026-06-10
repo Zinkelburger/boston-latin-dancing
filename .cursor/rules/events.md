@@ -71,7 +71,7 @@ Events with `styles=["other"]` and no Latin dance keywords in name/description a
 queued in `data/events/rejected.json` instead of being added to active.
 
 **Latin keywords:** salsa, bachata, kizomba, zouk, merengue, latin, cumbia, reggaeton,
-timba, son/songo, cha cha, mambo, rumba, guaguanco, cubana, tropical
+timba, son/songo, cha cha, mambo, rumba, guaguanco, cubana, tropical, rueda, casino
 
 Events with a recognized style (salsa, bachata, etc.) always pass — only `other`-only
 events need keyword matching.

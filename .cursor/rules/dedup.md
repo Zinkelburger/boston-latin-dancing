@@ -14,8 +14,8 @@ All dedup logic lives in `scripts/event_store.py`. There are two tiers:
 
 | Tier | Criteria | Action |
 |---|---|---|
-| **certain** | Same ID, same URL, or known duplicate pair (verdict: same) | Auto-merge at ingest |
-| **review** | Same normalized name within 24h; same venue + same calendar day; substring or word-overlap name match within 24h; same name but no parseable dates | Routed to `pending.json` for human/agent review |
+| **certain** | Same ID, any shared URL (across `url` + `urls[]`), or known duplicate pair (verdict: same); also same day + same location + strong name match | Auto-merge at ingest |
+| **review** | Same normalized name within 24h; same venue + same calendar day; substring or word-overlap name match within 24h; same name but no parseable dates; same venue + strong name match within 7 days (cross-source recurring series) | Routed to `pending.json` for human/agent review |
 | **None** | No match signals | Not a duplicate |
 
 Fuzzy name matching never auto-merges. Only hard identity (ID, URL) merges automatically.
@@ -59,6 +59,16 @@ When a human or agent reviews a pending pair:
 - **Reject** (`reject_pending`) → persist pair with verdict `"different"` → pair is never flagged again
 
 Format: `[{"id_a": "...", "id_b": "...", "verdict": "same"|"different", "reviewed_at": "..."}]`
+
+## Multi-source events (`urls[]`)
+
+When the same event is scraped from multiple sources (e.g. Eventbrite + ICS
+calendar + Lister Events), `merge_event()` accumulates all unique URLs into the
+`urls[]` field. The primary `url` stays as the winner's link; extra links are
+stored in `urls[]` for display in the frontend.
+
+The `_url_match()` check compares across both `url` and `urls[]` — if any URL
+appears in both events, they are a **certain** duplicate.
 
 ## Location aliases
 

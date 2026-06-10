@@ -19,6 +19,8 @@ export interface DanceEvent {
   lng: number | null;
   description: string;
   url: string | null;
+  /** Additional source URLs collected when the same event is scraped from multiple sources */
+  urls?: string[];
   /** Detected dance styles from title + description */
   styles: DanceStyle[];
   /** Raw cost string extracted from description */

@@ -64,5 +64,35 @@
     "id_b": "dj-clave-cantab-2026-06-14",
     "verdict": "different",
     "reviewed_at": "2026-06-08T18:07:38.541424+00:00"
+  },
+  {
+    "id_a": "15F245C1-03AD-4AC3-ADB5-9CE4CDE011AC",
+    "id_b": "62ekr0aga5340rgd7nmh6cvj3m@google.com",
+    "verdict": "same",
+    "reviewed_at": "2026-06-10T18:08:11.974536+00:00"
+  },
+  {
+    "id_a": "15F245C1-03AD-4AC3-ADB5-9CE4CDE011AC",
+    "id_b": "lister-bachata-salsa-by-the-river-3",
+    "verdict": "same",
+    "reviewed_at": "2026-06-10T18:08:11.974689+00:00"
+  },
+  {
+    "id_a": "15F245C1-03AD-4AC3-ADB5-9CE4CDE011AC",
+    "id_b": "lister-rain-date-bachata-salsa-by-the-river",
+    "verdict": "same",
+    "reviewed_at": "2026-06-10T18:08:11.974812+00:00"
+  },
+  {
+    "id_a": "25a6d27294d8fc160c5110b43ede3c5179b21e47@dance-calendar",
+    "id_b": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar",
+    "verdict": "same",
+    "reviewed_at": "2026-06-10T18:08:11.975005+00:00"
+  },
+  {
+    "id_a": "lister-bachata-dance-workout-morse-library",
+    "id_b": "lister-bachata-dance-workout-morse-library-2",
+    "verdict": "same",
+    "reviewed_at": "2026-06-10T18:08:11.975146+00:00"
   }
 ]
