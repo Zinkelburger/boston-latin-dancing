@@ -12,16 +12,12 @@ function escapeXml(s: string): string {
 
 export function GET() {
   const eventEntries = events
-    .filter(e => e.slug)
-    .map(e => {
-      const freq = e.archived ? 'monthly' : 'weekly';
-      const priority = e.archived ? '0.4' : '0.8';
-      return `  <url>
+    .filter(e => e.slug && !e.archived)
+    .map(e => `  <url>
     <loc>${escapeXml(`${SITE_URL}/event/${e.slug}`)}</loc>
-    <changefreq>${freq}</changefreq>
-    <priority>${priority}</priority>
-  </url>`;
-    });
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>`);
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

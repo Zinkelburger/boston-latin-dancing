@@ -7,6 +7,8 @@ interface Props {
 }
 
 export default function EventJsonLd({ event, url }: Props) {
+  if (event.archived) return null;
+
   const venueName = event.location?.split('\n')[0]?.split(',')[0] || '';
 
   const jsonLd: Record<string, unknown> = {

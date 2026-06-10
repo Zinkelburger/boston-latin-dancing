@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import allEvents from '@/data/events-published.json';
 import type { DanceEvent } from '@/types/event';
 import { SITE_URL, STYLE_LABELS, STYLE_PILL_CLASS } from '@/lib/constants';
 import {
@@ -40,6 +41,8 @@ function linkifyText(text: string): ReactNode[] {
 type Props = {
   event: DanceEvent;
   onClose: () => void;
+  /** Navigate to a different event (used for "next instance" links). */
+  onNavigate?: (event: DanceEvent) => void;
   /** Specific occurrence clicked in feed view. */
   displayDate?: string | null;
   /** Active filter window — used to pick first in-range occurrence on map. */
@@ -63,7 +66,11 @@ function googleCalendarUrl(event: DanceEvent, startDate: string, endDate: string
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
 
-export default function EventPopup({ event, onClose, displayDate, fromMs, toMs }: Props) {
+function normalizeForMatch(name: string): string {
+  return name.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, ' ').trim();
+}
+
+export default function EventPopup({ event, onClose, onNavigate, displayDate, fromMs, toMs }: Props) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -92,6 +99,48 @@ export default function EventPopup({ event, onClose, displayDate, fromMs, toMs }
   const allLinks = collectEventLinks(event);
   const recurrenceLabel = getRecurrenceLabel(event);
   const nextIso = shouldShowNextOccurrence(event) ? nextOccurrenceIso(event) : null;
+
+  const nextInstance = useMemo(() => {
+    if (!event.archived) return null;
+    const norm = normalizeForMatch(event.name);
+    const active = (allEvents as DanceEvent[]).filter(e => !e.archived);
+
+    // Only match on exact (or near-exact) name, optionally requiring same venue
+    // for fuzzy matches. Common dance words like "salsa", "bachata", "social"
+    // cause too many false positives with loose word-overlap matching.
+    const DANCE_STOPWORDS = new Set([
+      'salsa', 'bachata', 'kizomba', 'zouk', 'merengue', 'latin',
+      'social', 'dance', 'dancing', 'night', 'party', 'boston',
+      'class', 'workshop', 'lesson', 'free',
+    ]);
+    const normWords = new Set(norm.split(' ').filter(w => w.length > 2 && !DANCE_STOPWORDS.has(w)));
+
+    for (const candidate of active) {
+      const cn = normalizeForMatch(candidate.name);
+      if (cn === norm) return candidate;
+      if (cn.includes(norm) || norm.includes(cn)) {
+        const venueA = (event.location || '').split(',')[0].toLowerCase().trim();
+        const venueB = (candidate.location || '').split(',')[0].toLowerCase().trim();
+        if (venueA && venueB && venueA === venueB) return candidate;
+      }
+    }
+
+    // Fuzzy: require same venue + significant non-generic word overlap
+    if (normWords.size >= 2) {
+      for (const candidate of active) {
+        const cn = normalizeForMatch(candidate.name);
+        const cWords = new Set(cn.split(' ').filter(w => w.length > 2 && !DANCE_STOPWORDS.has(w)));
+        const overlap = [...normWords].filter(w => cWords.has(w)).length;
+        const smaller = Math.min(normWords.size, cWords.size);
+        if (smaller >= 2 && overlap >= smaller * 0.7) {
+          const venueA = (event.location || '').split(',')[0].toLowerCase().trim();
+          const venueB = (candidate.location || '').split(',')[0].toLowerCase().trim();
+          if (venueA && venueB && venueA === venueB) return candidate;
+        }
+      }
+    }
+    return null;
+  }, [event]);
 
   return (
     <div
@@ -125,6 +174,27 @@ export default function EventPopup({ event, onClose, displayDate, fromMs, toMs }
         }}
         onClick={e => e.stopPropagation()}
       >
+        {event.archived && (
+          <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800">
+            <strong>This event has passed.</strong>
+            {nextInstance ? (
+              <span>
+                {' '}Next up:{' '}
+                <button
+                  onClick={() => onNavigate?.(nextInstance)}
+                  className="underline font-medium hover:text-amber-900 cursor-pointer"
+                >
+                  {nextInstance.name} — {formatEventTimeRange(nextInstance.startDate, nextInstance.endDate)}
+                </button>
+              </span>
+            ) : (
+              <span>
+                {' '}<a href="/" className="underline hover:text-amber-900">Browse upcoming events</a>
+              </span>
+            )}
+          </div>
+        )}
+
         <div className="flex items-start">
           <h2 className="text-lg font-semibold min-w-0 flex-1" style={{ margin: 0 }}>
             {event.name}

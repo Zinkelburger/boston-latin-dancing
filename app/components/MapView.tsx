@@ -73,9 +73,10 @@ function staggerCoordinates(items: { id: string; lat: number; lng: number }[]): 
 
 export default function MapView() {
   const mapRef = useRef<MapRef>(null);
+  const allEventsTyped = useMemo(() => allEvents as DanceEvent[], []);
   const events = useMemo(
-    () => (allEvents as DanceEvent[]).filter(e => !e.archived),
-    [],
+    () => allEventsTyped.filter(e => !e.archived),
+    [allEventsTyped],
   );
 
   const WINDOW_DAYS = 45;
@@ -110,10 +111,14 @@ export default function MapView() {
   }, []);
 
   const closePopup = useCallback(() => {
+    const wasArchived = activeEvent?.archived;
     setActiveEvent(null);
     setActiveDisplayDate(null);
+    if (!wasArchived) {
+      setHighlightedEvent(null);
+    }
     window.history.replaceState(null, '', ' ');
-  }, []);
+  }, [activeEvent]);
 
   const eventsById = useMemo(() => {
     const map = new Map<string, DanceEvent>();
@@ -123,9 +128,9 @@ export default function MapView() {
 
   const eventsBySlug = useMemo(() => {
     const map = new Map<string, DanceEvent>();
-    for (const e of events) if (e.slug) map.set(e.slug, e);
+    for (const e of allEventsTyped) if (e.slug) map.set(e.slug, e);
     return map;
-  }, [events]);
+  }, [allEventsTyped]);
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -215,15 +220,15 @@ export default function MapView() {
 
   const highlightGeojson = useMemo(() => {
     if (!highlightedEvent || highlightedEvent.lat == null || highlightedEvent.lng == null) return null;
-    const offset = coordinateOffsets.get(highlightedEvent.id);
-    const lng = highlightedEvent.lng + (offset?.[0] ?? 0);
-    const lat = highlightedEvent.lat + (offset?.[1] ?? 0);
+    const offset = coordinateOffsets.get(highlightedEvent.id) ?? [0, 0];
+    const lng = highlightedEvent.lng + offset[0];
+    const lat = highlightedEvent.lat + offset[1];
     return {
       type: 'FeatureCollection' as const,
       features: [{
         type: 'Feature' as const,
         geometry: { type: 'Point' as const, coordinates: [lng, lat] },
-        properties: {},
+        properties: { __color: primaryColor(highlightedEvent) },
       }],
     };
   }, [highlightedEvent, coordinateOffsets]);
@@ -292,6 +297,19 @@ export default function MapView() {
             </Source>
             {highlightGeojson && (
               <Source id="selected-event" type="geojson" data={highlightGeojson}>
+                {highlightedEvent?.archived && (
+                  <Layer
+                    id="selected-dot"
+                    type="circle"
+                    paint={{
+                      'circle-color': ['get', '__color'],
+                      'circle-radius': 7,
+                      'circle-stroke-color': '#ffffff',
+                      'circle-stroke-width': 2,
+                      'circle-opacity': 0.5,
+                    }}
+                  />
+                )}
                 <Layer
                   id="selected-ring"
                   type="circle"
@@ -300,7 +318,7 @@ export default function MapView() {
                     'circle-color': 'transparent',
                     'circle-stroke-color': highlightedEvent ? primaryColor(highlightedEvent) : '#888',
                     'circle-stroke-width': 3,
-                    'circle-stroke-opacity': 0.6,
+                    'circle-stroke-opacity': highlightedEvent?.archived ? 0.4 : 0.6,
                   }}
                 />
               </Source>
@@ -342,6 +360,7 @@ export default function MapView() {
         <EventPopup
           event={activeEvent}
           onClose={closePopup}
+          onNavigate={handleSearchSelectEvent}
           displayDate={activeDisplayDate}
           fromMs={effectiveFromMs}
           toMs={effectiveToMs}

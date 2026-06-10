@@ -1,20 +1,11 @@
 import type { Metadata } from 'next';
 import allEvents from '@/data/events-published.json';
 import type { DanceEvent } from '@/types/event';
-import { SITE_URL, STYLE_LABELS, STYLE_PILL_CLASS } from '@/lib/constants';
-import {
-  formatEventTimeRange,
-  getRecurrenceLabel,
-  nextOccurrenceIso,
-  occurrenceEndDate,
-  shouldShowNextOccurrence,
-} from '@/lib/recurrences';
+import { SITE_URL, STYLE_LABELS } from '@/lib/constants';
+import { formatEventTimeRange } from '@/lib/recurrences';
 import { stripHtml } from '@/lib/strip-html';
-import { collectEventLinks } from '@/lib/link-label';
-import EventDetailClient from './EventDetailClient';
-import CollapsibleText from '@/app/components/CollapsibleText';
-import { UpcomingDatesTable, WeeklyScheduleTable } from '@/app/components/EventTable';
 import EventJsonLd from './EventJsonLd';
+import EventRedirect from './EventRedirect';
 
 const events = allEvents as DanceEvent[];
 
@@ -22,6 +13,22 @@ type Params = { slug: string };
 
 function findBySlug(slug: string): DanceEvent | undefined {
   return events.find(e => e.slug === slug);
+}
+
+function findActiveInstance(event: DanceEvent): DanceEvent | undefined {
+  if (!event.archived) return undefined;
+  const norm = event.name.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, ' ').trim();
+  const venueA = (event.location || '').split(',')[0].toLowerCase().trim();
+  return events.find(e => {
+    if (e.archived || !e.slug) return false;
+    const cn = e.name.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, ' ').trim();
+    if (cn === norm) return true;
+    if (cn.includes(norm) || norm.includes(cn)) {
+      const venueB = (e.location || '').split(',')[0].toLowerCase().trim();
+      return venueA && venueB && venueA === venueB;
+    }
+    return false;
+  });
 }
 
 export function generateStaticParams(): Params[] {
@@ -45,14 +52,19 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const description = parts.join(' — ');
 
   const url = `${SITE_URL}/event/${slug}`;
+  const activeInstance = findActiveInstance(event);
+  const canonicalUrl = activeInstance
+    ? `${SITE_URL}/event/${activeInstance.slug}`
+    : url;
 
   return {
     title: `${event.name} | Boston Latin Dance Map`,
     description,
+    ...(event.archived ? { robots: { index: false, follow: true } } : {}),
     openGraph: {
       title: event.name,
       description: event.organizer ? `${description} — ${event.organizer}` : description,
-      url,
+      url: canonicalUrl,
       siteName: 'Boston Latin Dance Map',
       type: 'website',
     },
@@ -62,7 +74,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
       description: event.organizer ? `${description} — ${event.organizer}` : description,
     },
     alternates: {
-      canonical: url,
+      canonical: canonicalUrl,
     },
   };
 }
@@ -84,129 +96,27 @@ export default async function EventPage({ params }: { params: Promise<Params> })
   }
 
   const shareUrl = `${SITE_URL}/event/${slug}`;
-  const shareText = `${event.name} — ${formatEventTimeRange(event.startDate, event.endDate)}`;
-  const recurrenceLabel = getRecurrenceLabel(event);
-  const nextIso = shouldShowNextOccurrence(event) ? nextOccurrenceIso(event) : null;
+  const mapUrl = `/#event=${slug}`;
+  const cleanDesc = stripHtml(event.description).slice(0, 300);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <>
+      <EventJsonLd event={event} url={shareUrl} />
+      <EventRedirect to={mapUrl} />
+      {/* Server-rendered content for SEO — visible briefly before redirect */}
       <div className="max-w-lg mx-auto px-4 py-8">
-        <a
-          href={`/#event=${slug}`}
-          className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 mb-6"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="19" y1="12" x2="5" y2="12" />
-            <polyline points="12 19 5 12 12 5" />
-          </svg>
-          View on Map
-        </a>
-
-        <EventJsonLd event={event} url={shareUrl} />
-
-        {event.archived && (
-          <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-            <strong>This event has passed.</strong>{' '}
-            <a href="/" className="underline hover:text-amber-900">Browse upcoming events</a>
-          </div>
+        <h1 className="text-xl font-semibold mb-2">{event.name}</h1>
+        <p className="text-sm text-gray-600 mb-1">
+          {formatEventTimeRange(event.startDate, event.endDate)}
+        </p>
+        <p className="text-sm text-gray-500 mb-2">{event.location}</p>
+        {event.cost && (
+          <p className="text-sm font-medium text-rose-600 mb-2">{event.cost}</p>
         )}
-
-        <div style={{
-          background: '#ffffff',
-          borderRadius: '1rem',
-          padding: '1.5rem',
-          boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '0.625rem',
-        }}>
-          <div className="flex items-start gap-2">
-            <h1 className="text-xl font-semibold flex-1" style={{ margin: 0 }}>
-              {event.name}
-            </h1>
-            <EventDetailClient url={shareUrl} title={event.name} text={shareText} />
-          </div>
-
-          {/* Style pills */}
-          <div className="flex flex-wrap gap-1.5">
-            {event.styles.map(style => (
-              <span key={style} className={`pretty-pill ${STYLE_PILL_CLASS[style]} text-xs`}>
-                {STYLE_LABELS[style]}
-              </span>
-            ))}
-            {event.recurring && !recurrenceLabel && (
-              <span className="pretty-pill pretty-pill-neutral text-xs">Recurring</span>
-            )}
-          </div>
-
-          {recurrenceLabel && !(event.schedule && event.schedule.length > 0) && (
-            <span className="pretty-pill pretty-pill-sky text-xs" style={{ alignSelf: 'flex-start' }}>
-              {recurrenceLabel}
-            </span>
-          )}
-
-          {event.schedule && event.schedule.length > 0 && recurrenceLabel && (
-            <span className="pretty-pill pretty-pill-sky text-xs" style={{ alignSelf: 'flex-start' }}>
-              {recurrenceLabel}
-            </span>
-          )}
-
-          {!(event.schedule && event.schedule.length > 0) && (
-            <div className="text-sm text-gray-600">
-              {formatEventTimeRange(event.startDate, event.endDate)}
-            </div>
-          )}
-
-          {nextIso && event.schedule && event.schedule.length > 0 && (
-            <div className="text-sm text-gray-600">
-              Next: {formatEventTimeRange(nextIso, occurrenceEndDate(event, nextIso))}
-            </div>
-          )}
-
-          <UpcomingDatesTable event={event} className="mt-1" />
-
-          {event.schedule && event.schedule.length > 0 && (
-            <WeeklyScheduleTable schedule={event.schedule} className="mt-1" />
-          )}
-
-          {/* Location */}
-          {event.location && (
-            <div className="text-sm text-gray-500">{event.location}</div>
-          )}
-
-          {/* Cost */}
-          {event.cost && (
-            <div className="text-sm font-medium text-rose-600">{event.cost}</div>
-          )}
-
-          {/* Description */}
-          {event.description && (
-            <CollapsibleText
-              text={stripHtml(event.description)}
-              className="text-sm text-gray-600 leading-relaxed whitespace-pre-line border-t border-gray-100 pt-3 mt-1"
-            />
-          )}
-
-          {/* Action buttons */}
-          <div className="flex flex-wrap gap-2 mt-2">
-            {collectEventLinks(event).map((lnk, i) => (
-              <a key={i} href={lnk.url} target="_blank" rel="noopener" className="pretty-pill pretty-pill-rose">
-                {lnk.icon} {lnk.label}
-              </a>
-            ))}
-            {event.lat && event.lng && (
-              <a
-                href={`https://www.google.com/maps/search/?api=1&query=${event.lat},${event.lng}`}
-                target="_blank"
-                rel="noopener"
-                className="pretty-pill pretty-pill-emerald"
-              >
-                Google Maps
-              </a>
-            )}
-          </div>
-        </div>
+        {cleanDesc && (
+          <p className="text-sm text-gray-600">{cleanDesc}</p>
+        )}
       </div>
-    </div>
+    </>
   );
 }
