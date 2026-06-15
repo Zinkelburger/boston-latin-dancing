@@ -53,7 +53,7 @@
     "location": "La Fábrica Central, 450 Massachusetts Ave, Cambridge, MA 02139",
     "lat": 42.3634,
     "lng": -71.1012,
-    "url": null,
+    "url": "https://www.bachataroomboston.com",
     "styles": [
       "bachata",
       "salsa",
@@ -76,7 +76,7 @@
     "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA 02139",
     "lat": 42.3679,
     "lng": -71.0885,
-    "url": null,
+    "url": "https://www.facebook.com/DantesSalsaInferno/events",
     "styles": [
       "salsa",
       "bachata"
@@ -122,17 +122,17 @@
     "location": "Filarmonica Santo Antonio, 575 Cambridge St, Cambridge, MA 02141",
     "lat": 42.372,
     "lng": -71.0858,
-    "url": null,
+    "url": "https://www.facebook.com/profile.php?id=100064636639498",
     "styles": [
       "salsa"
     ],
     "cost": "$15",
-    "description": "The hottest Salsa/Mambo in the heart of Cambridge! Plenty of room for dancing, socializing, and MAMBO!\n\nResident DJ: DJ Rob Suave\n\n7:00pm – 11:00pm Social Dancing\n\nEvery other Sunday.",
+    "description": "The hottest Salsa/Mambo in the heart of Cambridge! Plenty of room for dancing, socializing, and MAMBO!\n\nResident DJ: DJ Rob Suave\n\n7:00pm – 11:00pm Social Dancing\n\n1st Sunday of each month.",
     "schedule": [
       {
         "dayOfWeek": "Sunday",
         "time": "7:00 PM – 11:00 PM",
-        "note": "Every other Sunday"
+        "note": "1st Sunday of each month"
       }
     ],
     "slug": "mambo-city-salsa-social-mambo-ci"
@@ -143,19 +143,42 @@
     "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA 02139",
     "lat": 42.3679,
     "lng": -71.0885,
-    "url": null,
+    "url": "https://www.facebook.com/FuegoyCandelaSalsa/events",
     "styles": [
       "salsa"
     ],
     "cost": "$20",
-    "description": "Non-stop dancing with only the best Salsa/Mambo Boston has to offer. Strengthening our community one social at a time!\n\nResident DJ: DJ Condori\n\n8:30pm – 9:30pm Beginner Salsa Class Workshop\n9:30pm – 1:30am Social Dancing\n\nMonthly (2nd Saturday).",
+    "description": "Non-stop dancing with only the best Salsa/Mambo Boston has to offer. Strengthening our community one social at a time!\n\nResident DJ: DJ Condori\n\n8:30pm – 9:30pm Beginner Salsa Class Workshop\n9:30pm – 1:30am Social Dancing\n\nUsually 1st Friday or 2nd Saturday of each month — dates vary, check FB page for exact schedule.",
     "schedule": [
       {
-        "dayOfWeek": "Saturday",
+        "dayOfWeek": "Friday",
         "time": "8:30 PM – 1:30 AM",
-        "note": "2nd Saturday of each month"
+        "note": "1st Friday of each month"
       }
     ],
     "slug": "fuego-y-candela-salsa-social-fuego-y-"
+  },
+  {
+    "id": "black-mamba-social",
+    "name": "Black Mamba Salsa & Bachata Social",
+    "location": "Todos Dance & Fitness Studio, 677 Worcester St, Natick, MA 01760",
+    "lat": 42.2873,
+    "lng": -71.3674,
+    "url": "https://blackmambasalsa.com/black-mamba-social",
+    "styles": [
+      "salsa",
+      "bachata",
+      "kizomba"
+    ],
+    "cost": "$15",
+    "description": "Black Mamba Dance Company presents an exciting Salsa & Bachata Social in the Metrowest area! Elegant and spacious venue with premium wood floor. Separate Bachata & Kizomba room.\n\nResident DJ: DJ Black Mamba\n\n6:30pm – 7:30pm Class Workshop\n7:30pm – 10:30pm Social Dancing\n\n$15 Social Dancing / $25 Class + Social (All Ages). 2nd Sunday of each month.",
+    "schedule": [
+      {
+        "dayOfWeek": "Sunday",
+        "time": "6:30 PM – 10:30 PM",
+        "note": "2nd Sunday of each month"
+      }
+    ],
+    "slug": "black-mamba-salsa-bachata-social-black-m"
   }
 ]

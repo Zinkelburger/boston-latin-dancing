@@ -12,6 +12,36 @@ globs:
 Correctness is critical. People show up to events based on what we publish.
 Every event should be verified against its source before publishing.
 
+## Source of Truth Philosophy
+
+**Scraped event sources (Facebook pages, Google Calendars, Eventbrite) are the
+source of truth.** Beatrice's calendar, Boston Salsa Central, and other aggregators
+are *pointers* to where the truth lives — they help us find the actual organizer
+page, but they are not authoritative themselves.
+
+**Every event and venue MUST have a verifiable link.** If an event has no URL
+where a human can confirm it's actually happening, flag it immediately. Do not
+publish pattern-generated events without a link to the organizer's page.
+
+### Required for every venue in `data/venues.json`:
+- `url` field pointing to the organizer's Facebook page, website, or event calendar
+- If you cannot find a URL, add `"_needs_url": true` and log a warning
+
+### Required for every active event:
+- `url` field (direct event link) OR `_verification_url` (independent source)
+- If neither exists, the event must be flagged with `_verified_status: "no_source"`
+
+### When adding new venues/events:
+- ALWAYS search for the organizer's Facebook page or website first
+- NEVER assume a recurring pattern is correct without a source to confirm it
+- If a pattern is the only info available, note it in the description: "check [source] for exact dates"
+
+### Pattern-based schedules are fallbacks, not truth:
+- Organizers change dates (e.g., Fuego y Candela moved from 2nd Saturday to 1st Friday)
+- "Every other week" labels are often wrong (e.g., Mambo City is 1st Sunday, not biweekly)
+- When a scraped event contradicts a venue pattern, the scraped event wins
+- Prefer scraping the organizer's actual page over relying on schedule rules
+
 ## Running verification
 
 Use the `event_verify` MCP tool or `npm run verify-events`. This checks each
@@ -107,6 +137,10 @@ These organizer pages may yield new events or help verify existing ones:
 - Fiesta Dance Company: https://fiestadancecompany.com/upcoming-socials / https://www.instagram.com/fiestadancecompany/ (source: `fiesta-dance-company`)
 - Lister Events: https://www.listerevents.com/events
 - Mambo Pa Ti: https://www.mambopati.com/
+- Fuego y Candela: https://www.facebook.com/FuegoyCandelaSalsa/events (source: `dantes-salsa`)
+- Mambo City / Rob Suave: https://www.facebook.com/profile.php?id=100064636639498
+- Black Mamba Dance Co: https://blackmambasalsa.com/events / WhatsApp group for notifications
+- Dante's Salsa Inferno (venue): https://www.facebook.com/DantesSalsaInferno/events
 
 ## Internal fields
 

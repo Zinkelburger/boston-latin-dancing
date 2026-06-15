@@ -50,8 +50,8 @@
     "id": "dantes-salsa",
     "type": "facebook",
     "scraper": "scrape_facebook.py",
-    "name": "Dante's Salsa Inferno",
-    "facebook_events_url": "https://www.facebook.com/DantesSalsaInferno/events",
+    "name": "Fuego y Candela Salsa Socials",
+    "facebook_events_url": "https://www.facebook.com/FuegoyCandelaSalsa/events",
     "defaults": {
       "styles": [
         "bachata",
@@ -59,7 +59,7 @@
       ],
       "location": "The Dante Alighieri Society of Massachusetts"
     },
-    "enabled": false
+    "enabled": true
   },
   {
     "id": "sensualeros-boston",

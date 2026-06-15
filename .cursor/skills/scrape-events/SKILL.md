@@ -90,16 +90,17 @@ Only scrape Facebook sources that are **enabled** in `data/sources.json` with
 | Source ID | Status | Why |
 |-----------|--------|-----|
 | `bobas` | **Scrape** | Publishes one-off outdoor events with specific dates on Facebook |
-| `dantes-salsa` | **Skip (disabled)** | No upcoming Facebook events; weekly schedule is covered by `data/venues.json` (`dantes-tambo`) |
+| `dantes-salsa` | **Scrape** | Now points to Fuego y Candela's FB page — posts monthly socials with exact dates |
 
 ### 2a. Navigate to the Facebook events page
 
 Source URLs are in `data/sources.json` under `facebook_events_url`. Current
-enabled Facebook source:
+enabled Facebook sources:
 
 | Source ID | URL |
 |-----------|-----|
 | bobas | `https://www.facebook.com/profile.php?id=61551665503735&sk=events` |
+| dantes-salsa | `https://www.facebook.com/FuegoyCandelaSalsa/events` |
 
 Use `browser_navigate` to open the URL.
 
@@ -467,12 +468,18 @@ venues in `data/venues.json`, expanded into dated events during publish.
 
 | Venue ID | Name | Schedule | Facebook scrape? |
 |----------|------|----------|------------------|
-| `dantes-tambo` | Dante's Salsa Fridays | Every other Friday at Dante Alighieri Society | **No** — `dantes-salsa` disabled; FB page has no upcoming events |
+| `dantes-tambo` | Dante's Salsa Fridays | Every other Friday at Dante Alighieri Society | **No** — covered by venue schedule |
+| `fuego-y-candela` | Fuego y Candela Salsa Social | ~1st Friday of each month at Dante Alighieri | **Yes** — `dantes-salsa` source points to `facebook.com/FuegoyCandelaSalsa/events` |
 | `havana-club` | Havana Club | Mon–Sun nightly schedule | **No** — no Facebook source; site is `havanaclubsalsa.com` |
 
-**Dante's:** The map shows "Dante's Salsa Fridays" from venue expansion. The
-Facebook page (`dantes-salsa`) is disabled in `data/sources.json` — do not
-scrape it during Step 2.
+**Fuego y Candela:** Has their own FB page (`FuegoyCandelaSalsa`) separate from
+the venue page (`DantesSalsaInferno`). They post events ~2 weeks before. The
+venue pattern ("1st Friday") is approximate — always prefer scraped dates.
+When the FB scraper finds their actual next event, it supersedes the pattern.
+
+**Dante's Salsa Fridays:** The `DantesSalsaInferno` venue page mostly shows
+past events. Beatrice's calendar picks up individual Friday events from other
+sources. The venue schedule in `data/venues.json` generates alternating Fridays.
 
 **Havana Club:** The venue hub covers the full weekly schedule. The Sensualeros
 ICS calendar (`sensualeros-boston`) also lists night-specific entries (e.g.

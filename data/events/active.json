@@ -66,8 +66,8 @@
   {
     "id": "16m8bm77eru8te9pak73f904qn@google.com",
     "name": "Timba y Descontrol Cuban salsa lessons + social",
-    "startDate": "2026-06-09T19:00:00-04:00",
-    "endDate": "2026-06-10T00:00:00-04:00",
+    "startDate": "2026-06-16T19:00:00-04:00",
+    "endDate": "2026-06-17T00:00:00-04:00",
     "dayOfWeek": "Tuesday",
     "location": "Cambridge Common, Waterhouse St & Massachusetts Ave, Cambridge, MA 02138, USA",
     "lat": 42.3763,
@@ -98,94 +98,6 @@
     "_verified_status": "no_source",
     "_verified_notes": "No URL. Search suggestion: \"Timba y Descontrol Cuban salsa lessons + social Cambridge Common, Waterhouse St & Massachusetts Ave, Cambridge, MA 02138, USA boston\"",
     "_verification_url": null
-  },
-  {
-    "id": "F6898D37-DCE1-4134-A09B-19B63FC311FF",
-    "name": "Salsa In The Park at Blackstone",
-    "startDate": "2026-06-13T13:00:00-04:00",
-    "endDate": "2026-06-13T16:00:00-04:00",
-    "dayOfWeek": "Saturday",
-    "location": "Blackstone Community Center Courtyard, 50 W Brookline St, Boston, MA 02118, USA",
-    "lat": 42.3406,
-    "lng": -71.0714,
-    "description": "1:00 pm: Salsa lessons with MetaMovements\n(& Silent Rhythms on 5/30 for those who are deaf/hard of hearing/blind)\n1:30 pm: Social dancing & music corner\n2:30 pm: Presentations & performances\n2:45 pm: More dancing, animaciones, music\ncorner & more",
-    "url": "https://www.metamovements.com/event-details/salsa-in-the-park-at-blackstone-2026-05-30-13-00",
-    "styles": [
-      "salsa"
-    ],
-    "cost": null,
-    "recurring": true,
-    "source": "beatrice-calendar",
-    "_verified_at": "2026-06-08T18:08:14.827738+00:00",
-    "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches",
-    "_verification_url": "https://www.metamovements.com/event-details/salsa-in-the-park-at-blackstone-2026-05-30-13-00"
-  },
-  {
-    "id": "101aa0a81ae5bbff41cdcbd7c74b96f37517bcfe@dance-calendar",
-    "name": "Salsa Night Pop Up - Sabor Latino!",
-    "startDate": "2026-06-11T00:00:00+00:00",
-    "endDate": "2026-06-11T03:00:00+00:00",
-    "dayOfWeek": "Wednesday",
-    "location": "50 Dalton Street, Boston, MA 02115, Boston, MA",
-    "lat": 42.3472132,
-    "lng": -71.0854097,
-    "description": "Get ready to spice up your dance moves with Salsa y Control at our Sabor Latino Pop Up Salsa Night! BeginnerLesson & SocialDancing included\n\nSource: https://www.eventbrite.com/e/salsa-night-pop-up-sabor-latino-tickets-1989674200093",
-    "url": "https://www.eventbrite.com/e/salsa-night-pop-up-sabor-latino-tickets-1989674200093",
-    "styles": [
-      "salsa"
-    ],
-    "cost": "$12.51",
-    "recurring": false,
-    "source": "beatrice-calendar",
-    "_verified_at": "2026-06-08T18:08:17.677601+00:00",
-    "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches",
-    "_verification_url": "https://www.eventbrite.com/e/salsa-night-pop-up-sabor-latino-tickets-1989674200093"
-  },
-  {
-    "id": "C95CABAD-64FB-4EC0-A6B2-ED6FE16F0A97",
-    "name": "Singles salsa night at Juliet / Dance class + cocktail mixer",
-    "startDate": "2026-06-11T22:30:00+00:00",
-    "endDate": "2026-06-12T01:00:00+00:00",
-    "dayOfWeek": "Thursday",
-    "location": "Juliet, 263 Washington St, Somerville, MA  02143, United States",
-    "lat": 42.3804,
-    "lng": -71.0993,
-    "description": "Join us at Juliet for a relaxed, social night designed for meeting new people—no experience required.\n \nWe’ll start with a cocktail hour mixer—complimentary light bites, a drink in hand, and time to connect before the music starts. Then, a beginner-friendly salsa class where you’ll learn the basics in a fun, low-pressure environment (no partner needed).\n \nAfter class, stick around as the room opens up into a casual social dance—practice what you’ve learned, switch partners, and let the night unfold naturally.\n \nWhether you come for the dancing, the conversation, or just something different—this is a night built to be easy, warm, and a little bit electric.\n \nClass is taught by Josh, who will be freshly returned from Cali, Colombia, Salsa capital of the world. We will have some experienced dancers, both leaders and followers, at the social dance, to keep things fresh, and help you practice what you have just learned in class.",
-    "url": "https://resy.com/cities/somerville-ma/venues/juliet/events/beginner-salsa-class-w-snacks-mixer-before-2026-06-11?seats=1&date=2026-05-18",
-    "styles": [
-      "salsa"
-    ],
-    "cost": null,
-    "recurring": false,
-    "source": "beatrice-calendar",
-    "_verified_at": "2026-06-08T18:08:17.777864+00:00",
-    "_verified_status": "confirmed",
-    "_verified_notes": "Page accessible, no JSON-LD found (text check only)",
-    "_verification_url": "https://resy.com/cities/somerville-ma/venues/juliet/events/beginner-salsa-class-w-snacks-mixer-before-2026-06-11?seats=1&date=2026-05-18"
-  },
-  {
-    "id": "0811E949-C7C4-4067-8E6D-5487FE620FDA",
-    "name": "Free concert and performances: Parkway Methodist Church Concert Series",
-    "startDate": "2026-06-13T21:00:00+00:00",
-    "endDate": "2026-06-14T01:00:00+00:00",
-    "dayOfWeek": "Saturday",
-    "location": "Parkway United Methodist Church, 158 Blue Hills Pkwy, Milton, MA  02186, United States",
-    "lat": 42.2615093,
-    "lng": -71.0927735,
-    "description": "PARKWAY METHODIST CHURCH CONCERT SERIES\nFREE\nCONCERT\nSATURDAY, JUNE 13|5 PM TO 9 PM\nRAIN OR SHINE\nPERFORMANCE BY\nEDWIN PABON & ORCHESTRA\nBOMBANTILLANA WITH ELI\nPABON\nDANCE PERFORMANCE BY SALSA Y CONTROL\n158 Blue Hills Pkwy, Milton, MA 02186\nCall: 617-698-8583 or 617-216-1458\nsponsored by\nPARKWAY UNITED METHODIST CHURCH",
-    "url": "https://www.facebook.com/share/p/14XJ6zMt3gB/?mibextid=wwXIfr",
-    "styles": [
-      "salsa"
-    ],
-    "cost": "Free",
-    "recurring": false,
-    "source": "beatrice-calendar",
-    "_verified_at": "2026-06-08T18:08:17.917381+00:00",
-    "_verified_status": "needs_browser",
-    "_verified_notes": "Facebook page — agent should check Events tab for upcoming events",
-    "_verification_url": "https://www.facebook.com/share/p/14XJ6zMt3gB/?mibextid=wwXIfr"
   },
   {
     "id": "3f6947b81983396f49634c5f4deb6ea17f025b12@dance-calendar",
@@ -459,8 +371,8 @@
   {
     "id": "61B50538-D7A5-466E-9039-7663B3F54F9D",
     "name": "Kizz Thursday",
-    "startDate": "2026-06-11T21:30:00-04:00",
-    "endDate": "2026-06-12T00:00:00-04:00",
+    "startDate": "2026-06-18T21:30:00-04:00",
+    "endDate": "2026-06-19T00:00:00-04:00",
     "dayOfWeek": "Thursday",
     "location": "Moves & Vibes Dance Co, 44 5th St, Cambridge, MA",
     "lat": 42.3716703,
@@ -495,8 +407,8 @@
   {
     "id": "5984F5C6-9A2D-454E-AE0B-B201FC78B814",
     "name": "Havana Bachata Thursdays",
-    "startDate": "2026-06-11T20:45:00-04:00",
-    "endDate": "2026-06-12T00:30:00-04:00",
+    "startDate": "2026-06-18T20:45:00-04:00",
+    "endDate": "2026-06-19T00:30:00-04:00",
     "dayOfWeek": "Thursday",
     "location": "288 Green St, Central Sq, Cambridge",
     "lat": 42.3646071,
@@ -532,8 +444,8 @@
   {
     "id": "4BACCA44-811C-4F7E-99D8-7AC8DA46D5CC",
     "name": "Bachata Sensual Mondays @ Havana Club",
-    "startDate": "2026-06-08T20:00:00-04:00",
-    "endDate": "2026-06-09T00:30:00-04:00",
+    "startDate": "2026-06-15T20:00:00-04:00",
+    "endDate": "2026-06-16T00:30:00-04:00",
     "dayOfWeek": "Monday",
     "location": "Havana Club, 288 Green St, Cambridge, MA  02139, United States",
     "lat": 42.3646071,
@@ -587,13 +499,16 @@
     "_verified_at": "2026-06-08T18:08:20.417415+00:00",
     "_verified_status": "needs_browser",
     "_verified_notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
-    "_verification_url": "https://facebook.com/events/s/picante-salsa-bachata-weekende/830011326022912/"
+    "_verification_url": "https://facebook.com/events/s/picante-salsa-bachata-weekende/830011326022912/",
+    "urls": [
+      "https://www.eventbrite.com/e/picante-salsa-bachata-weekender-26-tickets-1612119586079"
+    ]
   },
   {
     "id": "D7362ECA-A6A7-4528-B752-3CBD6141CE81",
     "name": "Salsa/Bachata Tuesdays @ Havana",
-    "startDate": "2026-06-09T20:00:00-04:00",
-    "endDate": "2026-06-09T23:30:00-04:00",
+    "startDate": "2026-06-16T20:00:00-04:00",
+    "endDate": "2026-06-16T23:30:00-04:00",
     "dayOfWeek": "Tuesday",
     "location": "Havana Club, 288 Green St, Cambridge, MA  02139, United States",
     "lat": 42.3646071,
@@ -677,7 +592,10 @@
     "_verified_at": "2026-06-08T18:08:20.539618+00:00",
     "_verified_status": "needs_browser",
     "_verified_notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
-    "_verification_url": "https://facebook.com/events/s/salsa-and-bachata-sunset-cruis/977669088380847/"
+    "_verification_url": "https://facebook.com/events/s/salsa-and-bachata-sunset-cruis/977669088380847/",
+    "urls": [
+      "https://www.eventbrite.com/e/bostons-all-white-salsa-bachata-sunset-cruise-tickets-1990316528314"
+    ]
   },
   {
     "id": "2ohs9hv1k4jvklblu880v1mht1@google.com",
@@ -726,33 +644,10 @@
     "_verification_url": "https://www.eventbrite.com/e/boston-area-traditional-bachata-night-in-lynn-ma-la-casa-de-la-bachata-tickets-1990048459513"
   },
   {
-    "id": "fiesta-20260613-sol-de-mexico-milford",
-    "name": "Salsa & Bachata Social w/ Fiesta Dance Co",
-    "startDate": "2026-06-13T00:00:00-04:00",
-    "endDate": "2026-06-13T00:00:00-04:00",
-    "dayOfWeek": "Saturday",
-    "location": "Sol de Mexico, 350 E Main St, Milford, MA 01757",
-    "lat": 42.1530123,
-    "lng": -71.4913262,
-    "description": "Salsa & Bachata social hosted by Fiesta Dance Company at Sol de Mexico.\n\nOrganized by Fiesta Dance Company\nWebsite: https://fiestadancecompany.com/upcoming-socials\nInstagram: https://www.instagram.com/fiestadancecompany/",
-    "url": "https://fiestadancecompany.com/upcoming-socials",
-    "styles": [
-      "salsa",
-      "bachata"
-    ],
-    "cost": null,
-    "recurring": false,
-    "source": "fiesta-dance-company",
-    "_verified_at": "2026-06-08T18:08:21.024743+00:00",
-    "_verified_status": "confirmed",
-    "_verified_notes": "Page accessible, no JSON-LD found (text check only)",
-    "_verification_url": "https://fiestadancecompany.com/upcoming-socials"
-  },
-  {
     "id": "8EDCCA4B-FCFA-4CD9-ABA3-8074966ACFCB",
     "name": "Bachata Room ",
-    "startDate": "2026-06-10T21:00:00-04:00",
-    "endDate": "2026-06-11T00:00:00-04:00",
+    "startDate": "2026-06-17T21:00:00-04:00",
+    "endDate": "2026-06-18T00:00:00-04:00",
     "dayOfWeek": "Wednesday",
     "location": "La Fabrica , 450 Massachusetts Ave, Cambridge, MA 02139, United States",
     "lat": 42.3636315,
@@ -856,8 +751,8 @@
   {
     "id": "61vvqt0h13uoigcucma9f9prhk@google.com",
     "name": "Kiz Thursday",
-    "startDate": "2026-06-11T21:30:00-04:00",
-    "endDate": "2026-06-12T00:00:00-04:00",
+    "startDate": "2026-06-18T21:30:00-04:00",
+    "endDate": "2026-06-19T00:00:00-04:00",
     "dayOfWeek": "Thursday",
     "location": "Moves & Vibes Dancing Academy, 44 5th St, Cambridge, MA 02141, EE. UU.",
     "lat": null,
@@ -892,8 +787,8 @@
   {
     "id": "2ar83v9imef7dkgkonbfvc5t4q@google.com",
     "name": "Senior Zouk Social",
-    "startDate": "2026-06-09T20:00:00-04:00",
-    "endDate": "2026-06-09T23:00:00-04:00",
+    "startDate": "2026-07-14T20:00:00-04:00",
+    "endDate": "2026-07-14T23:00:00-04:00",
     "dayOfWeek": "Tuesday",
     "location": "Multicultural Arts Center, 41 Second St, Cambridge, MA 02141, USA",
     "lat": 42.3699327,
@@ -915,74 +810,6 @@
     "_verified_status": "no_source",
     "_verified_notes": "No URL. Search suggestion: \"Senior Zouk Social Multicultural Arts Center, 41 Second St, Cambridge, MA 02141, USA boston\"",
     "_verification_url": null
-  },
-  {
-    "id": "2802F880-DB31-435B-BD8F-37D4DD399D11",
-    "name": "BachaTipico Hangout: Dominican Flow Party “Colmadón. Edition”",
-    "startDate": "2026-06-14T01:00:00+00:00",
-    "endDate": "2026-06-14T05:00:00+00:00",
-    "dayOfWeek": "Saturday",
-    "location": "170 Broad St, Lynn, MA, United States",
-    "lat": 42.4627274,
-    "lng": -70.9413679,
-    "description": "*use code SYC for $5 off*\nPull up for an evening of chill Colmadón vibes and nonstop dancing.🌴💃🏽\nWe’re bringing you the best of Bachata and Típico. And of course some Dembow and Dominican Salsa.\nWhether you’re a seasoned dancer or just coming to vibe, this is your space🔥\nARRIVE ON TIME!\nEveryone gets a welcome Mamajuana shot to kick things off right.\nCome solo or bring your crew, either way we got you. We’re here to hype you up and save you a dance!\nTICKETS:\n• Limited amount of $10 early bird tickets (Will sell out soon!)\n• $15 cover per person\nSEATING:\nBachaTipico Hangout will always prioritize dance space.\nGroup seating will be available for this event, with expectation of consumption (individual cocktails and/or bottle service as per the venue). DM for reservation.\nEvent is 21+\nGroup seating reservations will only be honored until 11:00PM, arrive on time.\n**All tickets are Non-refundable**",
-    "url": "https://dancefam.org/event/2430",
-    "styles": [
-      "bachata",
-      "salsa"
-    ],
-    "cost": "$15 cover",
-    "recurring": false,
-    "source": "beatrice-calendar",
-    "_verified_at": "2026-06-08T18:08:21.101875+00:00",
-    "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches",
-    "_verification_url": "https://dancefam.org/event/2430"
-  },
-  {
-    "id": "FA4BDE26-3453-4B3F-A8BB-D48278DB0BF4",
-    "name": "Salsa y Control Teams Debut Social Vol 2",
-    "startDate": "2026-06-13T00:30:00+00:00",
-    "endDate": "2026-06-13T05:00:00+00:00",
-    "dayOfWeek": "Friday",
-    "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA  02139, United States",
-    "lat": 42.3679,
-    "lng": -71.0885,
-    "description": "🚨Salsa y Control Debut Socials🚨 \nVery excited to present what our teams are working on for the 2026 season!! So proud of our dancers for their hard work and commitment. Join us at Tambo Social on the following dates to celebrate, have fun and support our students! \n7 Teams, 1 vision.. “Inspiring others to Dance”\n🔹\n📆May 29th: SyC Picante, SyC Sabor, Syc Sazon \n📆June 12th: SyC Inspiracion\n📆June 26th: SyC Sensación, SyC Veneno, Bachata y Control \n🔹\n8:45-9:30pm Salsa Classs by SyC \n9:30pm - 1am Salsa y Bachata Social with DJ Sonerito & DJ Hernan\n🔹\nCash Entrance $15-$20\nSalsa y Control… Salsa y Control…\n",
-    "url": "https://facebook.com/events/s/salsa-y-control-teams-debut-so/1372368978065436/",
-    "styles": [
-      "bachata",
-      "salsa"
-    ],
-    "cost": "$15",
-    "recurring": false,
-    "source": "beatrice-calendar",
-    "_verified_at": "2026-06-08T18:08:21.245366+00:00",
-    "_verified_status": "needs_browser",
-    "_verified_notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
-    "_verification_url": "https://facebook.com/events/s/salsa-y-control-teams-debut-so/1372368978065436/"
-  },
-  {
-    "id": "46137863-C388-4190-8479-8B393C0B834D",
-    "name": "Mambo City Salsa Social - June 7th 7pm - 575 Cambridge St, Cambridge, MA",
-    "startDate": "2026-06-07T23:00:00+00:00",
-    "endDate": "2026-06-08T03:00:00+00:00",
-    "dayOfWeek": "Sunday",
-    "location": "Filarmonica Santo Antonio Cultural Center",
-    "lat": null,
-    "lng": null,
-    "description": "Mambo City Salsa Social Sunday Night, June 7th .... Join Rob Suave & Special Guest DJ's in the heart of Cambridge at the beautiful Filarmonica Santo Antonio dance space located at 575 Cambridge St, Cambridge, MA. 7pm-11pm. $15 (cash only). Huge dance floor, full bar, great people...Come Dance!!!\n\nSource: https://facebook.com/events/s/mambo-city-salsa-social-june-7/2818849835132939/",
-    "url": "https://facebook.com/events/s/mambo-city-salsa-social-june-7/2818849835132939/",
-    "styles": [
-      "salsa"
-    ],
-    "cost": "$15",
-    "recurring": false,
-    "source": "beatrice-calendar",
-    "_verified_at": "2026-06-08T18:08:21.248477+00:00",
-    "_verified_status": "needs_browser",
-    "_verified_notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
-    "_verification_url": "https://facebook.com/events/s/mambo-city-salsa-social-june-7/2818849835132939/"
   },
   {
     "id": "4cmo89ojp153bofdf59hghpjfo@google.com",
@@ -1012,8 +839,8 @@
   {
     "id": "eb-1991019030517",
     "name": "Bachata w/Louis Casiano and Elvis Lora - DANCE FOR THE DIASPORA BOSTON",
-    "startDate": "2026-07-11T09:00:00-04:00",
-    "endDate": "2026-07-11T20:00:00-04:00",
+    "startDate": "2026-07-11T15:45:00-04:00",
+    "endDate": "2026-07-11T16:45:00-04:00",
     "dayOfWeek": "Saturday",
     "location": "Multicultural Arts Center, 41 Second Street, Cambridge, MA 02141, Cambridge, MA",
     "lat": 42.3699327,
@@ -1032,22 +859,22 @@
     "_verification_url": "https://www.eventbrite.com/e/bachata-wlouis-casiano-and-elvis-lora-dance-for-the-diaspora-boston-tickets-1991019030517"
   },
   {
-    "id": "eb-1991286859601",
+    "id": "13db5f5a4486c83496bb177d5d426cad9a8bed46@dance-calendar",
     "name": "Noche Latina Salsa Workshop and Practica",
-    "startDate": "2026-06-30T19:00:00-04:00",
-    "endDate": "2026-06-30T22:30:00-04:00",
+    "startDate": "2026-06-30T23:00:00+00:00",
+    "endDate": "2026-07-01T02:30:00+00:00",
     "dayOfWeek": "Tuesday",
-    "location": "Luna Fitness Club, 735 William T Morrissey Boulevard, Boston, MA 02122, Boston, MA",
-    "lat": null,
-    "lng": null,
-    "description": "Unleash your rhythm in these dynamic dance workshops. Starting with Body Isolation & Spin techniques. Next Cha-cha Shines & Partnerwork!\n\nOrganizer: Noche Latina Dance Company",
+    "location": "735 William T Morrissey Boulevard, Boston, MA 02122, Boston, MA",
+    "lat": 42.2953653,
+    "lng": -71.0488803,
+    "description": "Unleash your rhythm in these dynamic dance workshops. Starting with Body Isolation & Spin techniques. Next Cha-cha Shines & Partnerwork!\n\nSource: https://www.eventbrite.com/e/noche-latina-salsa-workshop-and-practica-tickets-1991286859601",
     "url": "https://www.eventbrite.com/e/noche-latina-salsa-workshop-and-practica-tickets-1991286859601",
     "styles": [
       "salsa"
     ],
     "cost": "$28.52",
     "recurring": false,
-    "source": "eventbrite-boston-latin",
+    "source": "beatrice-calendar",
     "_verified_at": "2026-06-08T18:08:21.365529+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD event data matches",
@@ -1079,8 +906,8 @@
   {
     "id": "5ED3301D-8CE8-45D1-8094-C380C699DA99",
     "name": "Rueda in the Pahk",
-    "startDate": "2026-06-07T18:00:00-04:00",
-    "endDate": "2026-06-07T22:00:00-04:00",
+    "startDate": "2026-06-14T18:00:00-04:00",
+    "endDate": "2026-06-14T22:00:00-04:00",
     "dayOfWeek": "Sunday",
     "location": "Jill Brown Rhone Park, 900 Main St, Cambridge, MA  02139, United States",
     "lat": 42.3653,
@@ -1110,7 +937,10 @@
     "_verified_at": "2026-06-08T18:08:21.601902+00:00",
     "_verified_status": "unverifiable",
     "_verified_notes": "Instagram link — cannot scrape programmatically. Manual check recommended.",
-    "_verification_url": "https://www.instagram.com/p/DY5afzhhsK7/"
+    "_verification_url": "https://www.instagram.com/p/DY5afzhhsK7/",
+    "urls": [
+      "https://www.instagram.com/p/DY5afzhhsK7/"
+    ]
   },
   {
     "id": "6b4c9b37ceef7d692cade530d94d9c68b2496331@dance-calendar",
@@ -1207,8 +1037,8 @@
   {
     "id": "3vk8m42q95bjqijuef783qvd1a@google.com",
     "name": "🪘 The Timba Messengers",
-    "startDate": "2026-06-11T22:00:00-04:00",
-    "endDate": "2026-06-12T01:00:00-04:00",
+    "startDate": "2026-06-18T22:00:00-04:00",
+    "endDate": "2026-06-19T01:00:00-04:00",
     "dayOfWeek": "Thursday",
     "location": "Wally's Cafe Jazz Club, 427 Massachusetts Ave, Boston, MA 02118, USA",
     "lat": 42.3406735,
@@ -1262,8 +1092,8 @@
   {
     "id": "15F245C1-03AD-4AC3-ADB5-9CE4CDE011AC",
     "name": "Bachata & Salsa By The River",
-    "startDate": "2026-06-14T18:00:00-04:00",
-    "endDate": "2026-06-07T20:30:00-04:00",
+    "startDate": "2026-07-05T18:00:00-04:00",
+    "endDate": "2026-07-05T20:30:00-04:00",
     "dayOfWeek": "Sunday",
     "location": "Magazine Beach Park, 668 Memorial Dr, Cambridge, MA 02139",
     "lat": 42.3584,
@@ -1346,5 +1176,191 @@
       "2026-07-18T19:00:00-04:00"
     ],
     "urls": []
+  },
+  {
+    "id": "371BD021-4B24-49FF-91AA-8208627893C2",
+    "name": "Sunset Salsa Bachata on the Docks",
+    "startDate": "2026-06-16T22:00:00+00:00",
+    "endDate": "2026-06-17T01:00:00+00:00",
+    "dayOfWeek": "Tuesday",
+    "location": "Hatch Shell on the Esplanade",
+    "lat": 42.357256,
+    "lng": -71.073702,
+    "description": "*** BOBAS is Tuesday 6-9pm this week ***\n\nWe are looking for alternative venues for rainy days. Please see the post on our page for more details. \n\n*** The weather looks great but please monitor this event page for updates. ***\n\nBachata playing on one side of the dock and salsa on the other like last time.\n\nBring water. Please don't forget to take your stuff with you, we always see things left behind. Please don’t put your stuff in front of the speakers, it muffles the sound.\n\nThe location is the usual docks behind the Hatch Shell stage:\nhttps://maps.app.goo.gl/ERYQSY3Qy9Pbk5ew6\n\nPlease follow the Boston Outdoor Bachata And Salsa page to get notifications about future events.\n\nCheck out Havana after!\n\n***Weather Permitting. Keep an eye on this event page for updates. ***",
+    "url": "https://facebook.com/events/s/sunset-salsa-bachata-on-the-do/1144218355444560/",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "beatrice-calendar"
+  },
+  {
+    "id": "0D2E7B82-58C2-4CA7-89C1-174364983C04",
+    "name": "East Boston Latin music and dance festival",
+    "startDate": "2026-09-13T17:00:00+00:00",
+    "endDate": "2026-09-13T23:00:00+00:00",
+    "dayOfWeek": "Sunday",
+    "location": "East Boston Memorial Park, 150 Porter St, East Boston, MA 02128, United States",
+    "lat": null,
+    "lng": null,
+    "description": "A day full of dance, music, art, and community. More details coming soon!\n\nSource: https://www.instagram.com/p/DZibxMqJYRR/",
+    "url": "https://www.instagram.com/p/DZibxMqJYRR/",
+    "styles": [
+      "other"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "beatrice-calendar"
+  },
+  {
+    "id": "eb-1991816316220",
+    "name": "Zouk BOOTCAMP for Bachata Dancers (2 Days)",
+    "startDate": "2026-06-23T21:00:00-04:00",
+    "endDate": "2026-06-23T22:30:00-04:00",
+    "dayOfWeek": "Tuesday",
+    "location": "620 Massachusetts Ave, 620 Massachusetts Avenue, Cambridge, MA 02139, Cambridge, MA",
+    "lat": null,
+    "lng": null,
+    "description": "Jump into Zouk vibes while leveling up your bachata foundations, partner moves, and head rolls!\n\nOrganizer: Julie R",
+    "url": "https://www.eventbrite.co.uk/e/zouk-bootcamp-for-bachata-dancers-2-days-tickets-1991816316220",
+    "styles": [
+      "bachata",
+      "zouk"
+    ],
+    "cost": "$32.90",
+    "recurring": false,
+    "source": "eventbrite-boston-latin"
+  },
+  {
+    "id": "eb-1991568778829",
+    "name": "“Parrandazo!” Vol. 4 at Spy Bar: Enjoy the Native Rhythms of the Caribbean",
+    "startDate": "2026-07-17T20:00:00-04:00",
+    "endDate": "2026-07-17T20:00:00-04:00",
+    "dayOfWeek": "Friday",
+    "location": "Spy Bar, 40 Berkeley Street, Boston, MA 02116, Boston, MA",
+    "lat": null,
+    "lng": null,
+    "description": "Expect salsa dura, merengue classics, and bachata del colmado —for the dancers and for those looking share this listening experience!\n\nOrganizer: SPYBAR",
+    "url": "https://www.eventbrite.com/e/parrandazo-vol-4-at-spy-bar-enjoy-the-native-rhythms-of-the-caribbean-tickets-1991568778829",
+    "styles": [
+      "bachata",
+      "salsa",
+      "merengue"
+    ],
+    "cost": "$12.51",
+    "recurring": false,
+    "source": "eventbrite-boston-latin"
+  },
+  {
+    "id": "eb-1991805539988",
+    "name": "Sabor Latino! @ El Barco - Salsa/Bachata Night",
+    "startDate": "2026-07-08T20:00:00-04:00",
+    "endDate": "2026-07-08T23:00:00-04:00",
+    "dayOfWeek": "Wednesday",
+    "location": "El Barco | Tacos x Tequilas, 50 Dalton Street, Boston, MA 02115, Boston, MA",
+    "lat": 42.3474,
+    "lng": -71.0812,
+    "description": "Get ready to spice up your dance moves with Salsa y Control at our Sabor Latino Pop Up Salsa Night! BeginnerLesson & SocialDancing included\n\nOrganizer: Sabor Latino Boston",
+    "url": "https://www.eventbrite.com/e/sabor-latino-el-barco-salsabachata-night-tickets-1991805539988",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "$12.51",
+    "recurring": false,
+    "source": "eventbrite-boston-latin"
+  },
+  {
+    "id": "eb-1991829934954",
+    "name": "Sensual Bachata Social",
+    "startDate": "2026-06-17T21:00:00-04:00",
+    "endDate": "2026-06-18T00:00:00-04:00",
+    "dayOfWeek": "Wednesday",
+    "location": "Moves & Vibes Dance and Entertainment Co, 44 Fifth street, Cambridge, MA 02141, Cambridge, MA",
+    "lat": 42.3697,
+    "lng": -71.0816,
+    "description": "Dance • Connect • Vibe\n\nOrganizer: Moves & Vibes Dance Co.",
+    "url": "https://www.eventbrite.com/e/sensual-bachata-social-tickets-1991829934954",
+    "styles": [
+      "bachata"
+    ],
+    "cost": "$7.18",
+    "recurring": false,
+    "source": "eventbrite-boston-latin"
+  },
+  {
+    "id": "rj01qhpqbb1qg00243k5ov129k@google.com",
+    "name": "🤓 🪘 Afro-Cuban Music w/ Sandy Pérez",
+    "startDate": "2026-07-04T13:00:00-04:00",
+    "endDate": "2026-07-04T16:00:00-04:00",
+    "dayOfWeek": "Saturday",
+    "location": "The Neal Rantoul Vault Theatre, 25 Exchange St, Lynn, MA 01901, USA",
+    "lat": null,
+    "lng": null,
+    "description": "NOTE: this is a music class, not a dance class.\n\nCome join us for a fun and interactive beginner's workshop on Afro-Cuban music with the talented Sandy Pérez!\n\nSandy will guide you through the basics of Afro-Cuban rhythms, helping you develop your skills and appreciation for this vibrant musical tradition. Whether you're a seasoned musician or just starting out, this workshop is perfect for anyone looking to explore the rich sounds of Afro-Cuban music.\n\n<b>Schedule</b>\n1pm-2:30pm: Beginner\n2:30pm-4pm: Intermediate\n\n<b>Price</b>\n$5-$20 (Beginner: $5 for Lynn residents, $10 otherwise. Intermediate: $20)\n\n\n---\nManaged by Una Bulla\nhttps://www.unabulla.com/boston",
+    "url": null,
+    "styles": [
+      "other"
+    ],
+    "cost": "$5",
+    "recurring": true,
+    "source": "unabulla-cuban-boston",
+    "recurrences": [
+      "2026-07-04T13:00:00-04:00",
+      "2026-08-01T13:00:00-04:00",
+      "2026-09-05T13:00:00-04:00"
+    ]
+  },
+  {
+    "id": "4s2c9e8buma8kst9n0vl8ac6sb_R20250418T223000@google.com",
+    "name": "🤓 Boston Rueda Classes",
+    "startDate": "2026-06-19T18:30:00-04:00",
+    "endDate": "2026-06-19T21:30:00-04:00",
+    "dayOfWeek": "Friday",
+    "location": "The Foundry, 101 Rogers St, Cambridge, MA 02142, USA",
+    "lat": 42.3666151,
+    "lng": -71.0827636,
+    "description": "Every Friday, Boston Rueda teaches rueda.\n\n<b>Schedule</b>\n6:30pm-7:30pm: Level 1\n7:30pm-8:30pm: Level 2\n8:30pm-9:30pm: Level 3\n\n<b>Price</b>\n$15 drop-in ($65 for 5 classes; $120 for 10 classes)\n\n<b>Organized by Boston Rueda</b>\nWebsite: https://www.bostonrueda.com/\nInstagram: https://www.instagram.com/bostonrueda/\n\n\n---\nManaged by Una Bulla\nhttps://www.unabulla.com/boston",
+    "url": null,
+    "styles": [
+      "other"
+    ],
+    "cost": "$15",
+    "recurring": true,
+    "source": "unabulla-cuban-boston",
+    "recurrences": [
+      "2026-06-19T18:30:00-04:00",
+      "2026-06-26T18:30:00-04:00",
+      "2026-07-03T18:30:00-04:00",
+      "2026-07-10T18:30:00-04:00",
+      "2026-07-17T18:30:00-04:00",
+      "2026-07-24T18:30:00-04:00",
+      "2026-07-31T18:30:00-04:00",
+      "2026-08-07T18:30:00-04:00",
+      "2026-08-14T18:30:00-04:00",
+      "2026-08-21T18:30:00-04:00",
+      "2026-08-28T18:30:00-04:00",
+      "2026-09-04T18:30:00-04:00"
+    ]
+  },
+  {
+    "id": "3dlpk3g8kabug9qfkv9e0affdg@google.com",
+    "name": "🤓 Wednesday Workshops with MetaMovements",
+    "startDate": "2026-06-17T19:45:00-04:00",
+    "endDate": "2026-06-17T21:45:00-04:00",
+    "dayOfWeek": "Wednesday",
+    "location": "Cambridge Community Center, 5 Callender St, Cambridge, MA",
+    "lat": 42.3656587,
+    "lng": -71.1112824,
+    "description": "Wednesday evening Cuban dance workshops at Cambridge Community Center, presented by MetaMovements. All non-partner workshops accompanied by live percussion. Partnering workshops (*) are divided into two levels.\n\nSchedule:\n\nMay 13:\n6:45pm: Casino & Son with Anara & Javier*\n7:45pm: Cuban Modern with Anara & Javier\n8:45pm: Orishas with Javier\n\nMay 20:\n7:45pm: Cuban Modern with Maite\n8:45pm: Rumba with Amanda\n\nMay 27 & June 3:\n7:45pm: Casino with Amanda & Eli*\n8:45pm: Cuban Body Movement with Eli\n\nJune 10:\n7:45pm: Cuban Modern with Maite\n8:45pm: Cuban Body Movement with Eli\n\nJune 17:\n7:45pm: Cuban Modern with Anara & Javier\n8:45pm: Orishas with Javier\n\nCost per workshop: $25 for one, $40 for two, $50 for three (same day).\n\nFor info & to register: www.metamovements.com/events\n\n<b>Schedule</b>\n7:45pm-8:45pm: Workshop 1\n8:45pm-9:45pm: Workshop 2\n\n<b>Price</b>\n$25-$50 ($25 for one, $40 for two, $50 for three (same day))\n\n<b>Organized by MetaMovements</b>\nWebsite: https://www.metamovements.com/\nFacebook: https://www.facebook.com/metamovements\nInstagram: https://www.instagram.com/metamovements/\n\n\n---\nManaged by Una Bulla\nhttps://www.unabulla.com/boston",
+    "url": null,
+    "styles": [
+      "other"
+    ],
+    "cost": "$25",
+    "recurring": true,
+    "source": "unabulla-cuban-boston"
   }
 ]

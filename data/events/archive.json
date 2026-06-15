@@ -573,6 +573,193 @@
     "archivedAt": "2026-06-08T18:04:46.838555+00:00"
   },
   {
+    "id": "F6898D37-DCE1-4134-A09B-19B63FC311FF",
+    "name": "Salsa In The Park at Blackstone",
+    "startDate": "2026-06-13T13:00:00-04:00",
+    "endDate": "2026-06-13T16:00:00-04:00",
+    "dayOfWeek": "Saturday",
+    "location": "Blackstone Community Center Courtyard, 50 W Brookline St, Boston, MA 02118, USA",
+    "lat": 42.3406,
+    "lng": -71.0714,
+    "description": "1:00 pm: Salsa lessons with MetaMovements\n(& Silent Rhythms on 5/30 for those who are deaf/hard of hearing/blind)\n1:30 pm: Social dancing & music corner\n2:30 pm: Presentations & performances\n2:45 pm: More dancing, animaciones, music\ncorner & more",
+    "url": "https://www.metamovements.com/event-details/salsa-in-the-park-at-blackstone-2026-05-30-13-00",
+    "styles": [
+      "salsa"
+    ],
+    "cost": null,
+    "recurring": true,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-06-08T18:08:14.827738+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD event data matches",
+    "_verification_url": "https://www.metamovements.com/event-details/salsa-in-the-park-at-blackstone-2026-05-30-13-00",
+    "archivedAt": "2026-06-15T16:49:12.504904+00:00"
+  },
+  {
+    "id": "101aa0a81ae5bbff41cdcbd7c74b96f37517bcfe@dance-calendar",
+    "name": "Salsa Night Pop Up - Sabor Latino!",
+    "startDate": "2026-06-11T00:00:00+00:00",
+    "endDate": "2026-06-11T03:00:00+00:00",
+    "dayOfWeek": "Wednesday",
+    "location": "50 Dalton Street, Boston, MA 02115, Boston, MA",
+    "lat": 42.3472132,
+    "lng": -71.0854097,
+    "description": "Get ready to spice up your dance moves with Salsa y Control at our Sabor Latino Pop Up Salsa Night! BeginnerLesson & SocialDancing included\n\nSource: https://www.eventbrite.com/e/salsa-night-pop-up-sabor-latino-tickets-1989674200093",
+    "url": "https://www.eventbrite.com/e/salsa-night-pop-up-sabor-latino-tickets-1989674200093",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$12.51",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-06-08T18:08:17.677601+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD event data matches",
+    "_verification_url": "https://www.eventbrite.com/e/salsa-night-pop-up-sabor-latino-tickets-1989674200093",
+    "archivedAt": "2026-06-15T16:49:12.504904+00:00"
+  },
+  {
+    "id": "C95CABAD-64FB-4EC0-A6B2-ED6FE16F0A97",
+    "name": "Singles salsa night at Juliet / Dance class + cocktail mixer",
+    "startDate": "2026-06-11T22:30:00+00:00",
+    "endDate": "2026-06-12T01:00:00+00:00",
+    "dayOfWeek": "Thursday",
+    "location": "Juliet, 263 Washington St, Somerville, MA  02143, United States",
+    "lat": 42.3804,
+    "lng": -71.0993,
+    "description": "Join us at Juliet for a relaxed, social night designed for meeting new people—no experience required.\n \nWe’ll start with a cocktail hour mixer—complimentary light bites, a drink in hand, and time to connect before the music starts. Then, a beginner-friendly salsa class where you’ll learn the basics in a fun, low-pressure environment (no partner needed).\n \nAfter class, stick around as the room opens up into a casual social dance—practice what you’ve learned, switch partners, and let the night unfold naturally.\n \nWhether you come for the dancing, the conversation, or just something different—this is a night built to be easy, warm, and a little bit electric.\n \nClass is taught by Josh, who will be freshly returned from Cali, Colombia, Salsa capital of the world. We will have some experienced dancers, both leaders and followers, at the social dance, to keep things fresh, and help you practice what you have just learned in class.",
+    "url": "https://resy.com/cities/somerville-ma/venues/juliet/events/beginner-salsa-class-w-snacks-mixer-before-2026-06-11?seats=1&date=2026-05-18",
+    "styles": [
+      "salsa"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-06-08T18:08:17.777864+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Page accessible, no JSON-LD found (text check only)",
+    "_verification_url": "https://resy.com/cities/somerville-ma/venues/juliet/events/beginner-salsa-class-w-snacks-mixer-before-2026-06-11?seats=1&date=2026-05-18",
+    "archivedAt": "2026-06-15T16:49:12.504904+00:00"
+  },
+  {
+    "id": "0811E949-C7C4-4067-8E6D-5487FE620FDA",
+    "name": "Free concert and performances: Parkway Methodist Church Concert Series",
+    "startDate": "2026-06-13T21:00:00+00:00",
+    "endDate": "2026-06-14T01:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "Parkway United Methodist Church, 158 Blue Hills Pkwy, Milton, MA  02186, United States",
+    "lat": 42.2615093,
+    "lng": -71.0927735,
+    "description": "PARKWAY METHODIST CHURCH CONCERT SERIES\nFREE\nCONCERT\nSATURDAY, JUNE 13|5 PM TO 9 PM\nRAIN OR SHINE\nPERFORMANCE BY\nEDWIN PABON & ORCHESTRA\nBOMBANTILLANA WITH ELI\nPABON\nDANCE PERFORMANCE BY SALSA Y CONTROL\n158 Blue Hills Pkwy, Milton, MA 02186\nCall: 617-698-8583 or 617-216-1458\nsponsored by\nPARKWAY UNITED METHODIST CHURCH",
+    "url": "https://www.facebook.com/share/p/14XJ6zMt3gB/?mibextid=wwXIfr",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-06-08T18:08:17.917381+00:00",
+    "_verified_status": "needs_browser",
+    "_verified_notes": "Facebook page — agent should check Events tab for upcoming events",
+    "_verification_url": "https://www.facebook.com/share/p/14XJ6zMt3gB/?mibextid=wwXIfr",
+    "archivedAt": "2026-06-15T16:49:12.504904+00:00"
+  },
+  {
+    "id": "fiesta-20260613-sol-de-mexico-milford",
+    "name": "Salsa & Bachata Social w/ Fiesta Dance Co",
+    "startDate": "2026-06-13T00:00:00-04:00",
+    "endDate": "2026-06-13T00:00:00-04:00",
+    "dayOfWeek": "Saturday",
+    "location": "Sol de Mexico, 350 E Main St, Milford, MA 01757",
+    "lat": 42.1530123,
+    "lng": -71.4913262,
+    "description": "Salsa & Bachata social hosted by Fiesta Dance Company at Sol de Mexico.\n\nOrganized by Fiesta Dance Company\nWebsite: https://fiestadancecompany.com/upcoming-socials\nInstagram: https://www.instagram.com/fiestadancecompany/",
+    "url": "https://fiestadancecompany.com/upcoming-socials",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "fiesta-dance-company",
+    "_verified_at": "2026-06-08T18:08:21.024743+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Page accessible, no JSON-LD found (text check only)",
+    "_verification_url": "https://fiestadancecompany.com/upcoming-socials",
+    "archivedAt": "2026-06-15T16:49:12.504904+00:00"
+  },
+  {
+    "id": "2802F880-DB31-435B-BD8F-37D4DD399D11",
+    "name": "BachaTipico Hangout: Dominican Flow Party “Colmadón. Edition”",
+    "startDate": "2026-06-14T01:00:00+00:00",
+    "endDate": "2026-06-14T05:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "170 Broad St, Lynn, MA, United States",
+    "lat": 42.4627274,
+    "lng": -70.9413679,
+    "description": "*use code SYC for $5 off*\nPull up for an evening of chill Colmadón vibes and nonstop dancing.🌴💃🏽\nWe’re bringing you the best of Bachata and Típico. And of course some Dembow and Dominican Salsa.\nWhether you’re a seasoned dancer or just coming to vibe, this is your space🔥\nARRIVE ON TIME!\nEveryone gets a welcome Mamajuana shot to kick things off right.\nCome solo or bring your crew, either way we got you. We’re here to hype you up and save you a dance!\nTICKETS:\n• Limited amount of $10 early bird tickets (Will sell out soon!)\n• $15 cover per person\nSEATING:\nBachaTipico Hangout will always prioritize dance space.\nGroup seating will be available for this event, with expectation of consumption (individual cocktails and/or bottle service as per the venue). DM for reservation.\nEvent is 21+\nGroup seating reservations will only be honored until 11:00PM, arrive on time.\n**All tickets are Non-refundable**",
+    "url": "https://dancefam.org/event/2430",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "$15 cover",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-06-08T18:08:21.101875+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD event data matches",
+    "_verification_url": "https://dancefam.org/event/2430",
+    "archivedAt": "2026-06-15T16:49:12.504904+00:00"
+  },
+  {
+    "id": "FA4BDE26-3453-4B3F-A8BB-D48278DB0BF4",
+    "name": "Salsa y Control Teams Debut Social Vol 2",
+    "startDate": "2026-06-13T00:30:00+00:00",
+    "endDate": "2026-06-13T05:00:00+00:00",
+    "dayOfWeek": "Friday",
+    "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA  02139, United States",
+    "lat": 42.3679,
+    "lng": -71.0885,
+    "description": "🚨Salsa y Control Debut Socials🚨 \nVery excited to present what our teams are working on for the 2026 season!! So proud of our dancers for their hard work and commitment. Join us at Tambo Social on the following dates to celebrate, have fun and support our students! \n7 Teams, 1 vision.. “Inspiring others to Dance”\n🔹\n📆May 29th: SyC Picante, SyC Sabor, Syc Sazon \n📆June 12th: SyC Inspiracion\n📆June 26th: SyC Sensación, SyC Veneno, Bachata y Control \n🔹\n8:45-9:30pm Salsa Classs by SyC \n9:30pm - 1am Salsa y Bachata Social with DJ Sonerito & DJ Hernan\n🔹\nCash Entrance $15-$20\nSalsa y Control… Salsa y Control…\n",
+    "url": "https://facebook.com/events/s/salsa-y-control-teams-debut-so/1372368978065436/",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "$15",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-06-08T18:08:21.245366+00:00",
+    "_verified_status": "needs_browser",
+    "_verified_notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
+    "_verification_url": "https://facebook.com/events/s/salsa-y-control-teams-debut-so/1372368978065436/",
+    "archivedAt": "2026-06-15T16:49:12.504904+00:00"
+  },
+  {
+    "id": "46137863-C388-4190-8479-8B393C0B834D",
+    "name": "Mambo City Salsa Social - June 7th 7pm - 575 Cambridge St, Cambridge, MA",
+    "startDate": "2026-06-07T23:00:00+00:00",
+    "endDate": "2026-06-08T03:00:00+00:00",
+    "dayOfWeek": "Sunday",
+    "location": "Filarmonica Santo Antonio Cultural Center",
+    "lat": null,
+    "lng": null,
+    "description": "Mambo City Salsa Social Sunday Night, June 7th .... Join Rob Suave & Special Guest DJ's in the heart of Cambridge at the beautiful Filarmonica Santo Antonio dance space located at 575 Cambridge St, Cambridge, MA. 7pm-11pm. $15 (cash only). Huge dance floor, full bar, great people...Come Dance!!!\n\nSource: https://facebook.com/events/s/mambo-city-salsa-social-june-7/2818849835132939/",
+    "url": "https://facebook.com/events/s/mambo-city-salsa-social-june-7/2818849835132939/",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$15",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-06-08T18:08:21.248477+00:00",
+    "_verified_status": "needs_browser",
+    "_verified_notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
+    "_verification_url": "https://facebook.com/events/s/mambo-city-salsa-social-june-7/2818849835132939/",
+    "archivedAt": "2026-06-15T16:49:12.504904+00:00"
+  },
+  {
     "id": "bobas-20260526-0",
     "name": "Sunset Salsa Bachata on the Docks",
     "startDate": "2026-05-26T18:00:00-04:00",
@@ -594,6 +781,7 @@
     "_verified_status": "needs_browser",
     "_verified_notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
     "_verification_url": "https://www.facebook.com/events/1801495350829105",
-    "archivedAt": "2026-06-08T18:04:46.838555+00:00"
+    "archivedAt": "2026-06-15T16:49:12.504904+00:00",
+    "reactivatedAt": "2026-06-15T16:49:08.805682+00:00"
   }
 ]

@@ -71,6 +71,43 @@ function staggerCoordinates(items: { id: string; lat: number; lng: number }[]): 
   return offsets;
 }
 
+export type DatePreset = 'today' | 'tomorrow' | 'weekend' | 'next3' | 'next7' | 'all';
+
+const PRESET_LABELS: Record<DatePreset, string> = {
+  today: 'Today',
+  tomorrow: 'Tomorrow',
+  weekend: 'This Weekend',
+  next3: 'Next 3 Days',
+  next7: 'Next 7 Days',
+  all: 'All',
+};
+
+function computePresetRange(preset: DatePreset, today: number): { fromDay: number; toDay: number } | null {
+  switch (preset) {
+    case 'today':
+      return { fromDay: today, toDay: today };
+    case 'tomorrow':
+      return { fromDay: today + 1, toDay: today + 1 };
+    case 'weekend': {
+      const todayDate = new Date(today * 86400000);
+      const dow = todayDate.getUTCDay();
+      // 0=Sun, 6=Sat
+      if (dow === 0) return { fromDay: today, toDay: today }; // Sunday: just today
+      if (dow === 6) return { fromDay: today, toDay: today + 1 }; // Saturday: Sat+Sun
+      const daysUntilSat = 6 - dow;
+      return { fromDay: today + daysUntilSat, toDay: today + daysUntilSat + 1 };
+    }
+    case 'next3':
+      return { fromDay: today, toDay: today + 2 };
+    case 'next7':
+      return { fromDay: today, toDay: today + 6 };
+    case 'all':
+      return null;
+  }
+}
+
+export { PRESET_LABELS };
+
 export default function MapView() {
   const mapRef = useRef<MapRef>(null);
   const allEventsTyped = useMemo(() => allEvents as DanceEvent[], []);
@@ -98,10 +135,37 @@ export default function MapView() {
     fromDay: defaultFrom,
     toDay: defaultTo,
   });
+  const [datePreset, setDatePreset] = useState<DatePreset | null>(null);
   const [activeEvent, setActiveEvent] = useState<DanceEvent | null>(null);
   const [activeDisplayDate, setActiveDisplayDate] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'map' | 'feed'>('map');
   const [highlightedEvent, setHighlightedEvent] = useState<DanceEvent | null>(null);
+
+  const handlePresetChange = useCallback((preset: DatePreset | null) => {
+    setDatePreset(preset);
+    if (!preset) {
+      setDateMode('any');
+      return;
+    }
+    const today = dateToDay(new Date());
+    const range = computePresetRange(preset, today);
+    if (range) {
+      setDateMode('custom');
+      setDateSlider(range);
+    } else {
+      setDateMode('any');
+    }
+  }, []);
+
+  const handleDateModeChange = useCallback((mode: 'any' | 'custom') => {
+    setDateMode(mode);
+    setDatePreset(null);
+  }, []);
+
+  const handleDateSliderChange = useCallback((v: DateRangeValue) => {
+    setDateSlider(v);
+    setDatePreset(null);
+  }, []);
 
   const openEvent = useCallback((event: DanceEvent | null, displayDate?: string) => {
     setActiveEvent(event);
@@ -329,6 +393,8 @@ export default function MapView() {
             fromMs={effectiveFromMs}
             toMs={effectiveToMs}
             onSelectEvent={handleFeedSelectEvent}
+            datePreset={datePreset}
+            onPresetChange={handlePresetChange}
           />
         </div>
       )}
@@ -340,9 +406,9 @@ export default function MapView() {
           selectedDays={selectedDays}
           onDaysChange={setSelectedDays}
           dateMode={dateMode}
-          onDateModeChange={setDateMode}
+          onDateModeChange={handleDateModeChange}
           dateSlider={dateSlider}
-          onDateSliderChange={setDateSlider}
+          onDateSliderChange={handleDateSliderChange}
           sliderMin={sliderMin}
           sliderMax={sliderMax}
           defaultFrom={defaultFrom}

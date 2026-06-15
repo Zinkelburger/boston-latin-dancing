@@ -95,6 +95,23 @@ After resolving rejected items, run `event_publish()` if you changed active.
 - **Events** (`data/events/active.json`): one-off or scraped events with `startDate`/`endDate`.
   Managed exclusively through MCP tools.
 
+### Venue Requirements
+
+Every venue entry MUST have:
+- A `url` field linking to the organizer's Facebook page or website where dates can be verified
+- A correct `schedule[].note` that the recurrence engine can parse (see patterns below)
+- A description that mentions where to check for exact dates if the pattern is approximate
+
+Recognized schedule note patterns:
+- `"1st Sunday of each month"` → generates 1st Sunday only
+- `"2nd Saturday of each month"` → generates 2nd Saturday only
+- `"Every other Friday"` → alternating weeks from reference date
+- `"Lesson + social (18+)"` → every week (no filter)
+
+If a venue doesn't follow a reliable pattern, prefer scraping their FB page over
+guessing. Add them as a source in `data/sources.json` instead of (or in addition to)
+a venue entry.
+
 ## Event Lifecycle
 
 ```
@@ -127,10 +144,11 @@ Do not confuse them — rejected is about **relevance**, pending is about **dupl
 1. recurring-venues (expanded from data/venues.json)
 2. eventbrite-boston-latin
 3. lister-events
-4. bobas (Facebook — dantes-salsa disabled; Dante's covered by venues.json)
-5. sensualeros-boston (Google Calendar ICS)
-6. submissions
-7. manual
+4. bobas (Facebook)
+5. dantes-salsa (Facebook — Fuego y Candela Salsa Socials)
+6. sensualeros-boston (Google Calendar ICS)
+7. submissions
+8. manual
 
 ## Important Files
 

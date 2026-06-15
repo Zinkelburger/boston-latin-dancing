@@ -156,3 +156,27 @@
 {"ts": "2026-06-10T18:08:11.975079+00:00", "action": "merge", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": "merged Sushi Con Salsa Vol.1 + Vol.2"}
 {"ts": "2026-06-10T18:08:11.975215+00:00", "action": "merge", "event_id": "lister-bachata-dance-workout-morse-library", "details": "merged Morse Library recurring"}
 {"ts": "2026-06-10T18:08:35.072067+00:00", "action": "edit", "event_id": "5ED3301D-8CE8-45D1-8094-C380C699DA99", "details": "updated URL to Facebook group, dropped expired Instagram link"}
+{"ts": "2026-06-15T16:49:07.355001+00:00", "action": "add", "event_id": "371BD021-4B24-49FF-91AA-8208627893C2", "details": ""}
+{"ts": "2026-06-15T16:49:08.622530+00:00", "action": "add", "event_id": "0D2E7B82-58C2-4CA7-89C1-174364983C04", "details": ""}
+{"ts": "2026-06-15T16:49:08.803025+00:00", "action": "pending_review", "event_id": "C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5", "details": "review dup of 481FAC51-0AA9-4AC7-81A2-DBE1423A4800: word_overlap(0/2)+within_24h+same_location+same_day"}
+{"ts": "2026-06-15T16:49:08.803806+00:00", "action": "reject_non_latin", "event_id": "876946c7362a1b4b7d0927db9c62eccd1bf0c07c@dance-calendar", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-06-15T16:49:08.807448+00:00", "action": "reactivate", "event_id": "bobas-20260526-0", "details": "from archive (certain)"}
+{"ts": "2026-06-15T16:49:11.143095+00:00", "action": "add", "event_id": "eb-1991816316220", "details": ""}
+{"ts": "2026-06-15T16:49:12.329000+00:00", "action": "add", "event_id": "eb-1991568778829", "details": ""}
+{"ts": "2026-06-15T16:49:12.334336+00:00", "action": "add", "event_id": "eb-1991805539988", "details": ""}
+{"ts": "2026-06-15T16:49:12.346890+00:00", "action": "add", "event_id": "eb-1991829934954", "details": ""}
+{"ts": "2026-06-15T16:49:12.374600+00:00", "action": "reject_non_latin", "event_id": "F75203DD-C2C0-40BB-BE0E-A67013E17125", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-06-15T16:49:12.467026+00:00", "action": "add", "event_id": "rj01qhpqbb1qg00243k5ov129k@google.com", "details": ""}
+{"ts": "2026-06-15T16:49:12.467612+00:00", "action": "reject_non_latin", "event_id": "jtgs3h7rbgmv3d7of0d7v5nt9g@google.com", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-06-15T16:49:12.472311+00:00", "action": "add", "event_id": "4s2c9e8buma8kst9n0vl8ac6sb_R20250418T223000@google.com", "details": ""}
+{"ts": "2026-06-15T16:49:12.483206+00:00", "action": "add", "event_id": "3dlpk3g8kabug9qfkv9e0affdg@google.com", "details": ""}
+{"ts": "2026-06-15T16:49:12.503256+00:00", "action": "pending_review", "event_id": "6mlfrfem1rbubuc3gl930v84v4@google.com", "details": "review dup of 5ED3301D-8CE8-45D1-8094-C380C699DA99: substring_name+within_24h+same_day"}
+{"ts": "2026-06-15T16:49:12.504934+00:00", "action": "archive", "event_id": "F6898D37-DCE1-4134-A09B-19B63FC311FF", "details": ""}
+{"ts": "2026-06-15T16:49:12.504996+00:00", "action": "archive", "event_id": "101aa0a81ae5bbff41cdcbd7c74b96f37517bcfe@dance-calendar", "details": ""}
+{"ts": "2026-06-15T16:49:12.505031+00:00", "action": "archive", "event_id": "C95CABAD-64FB-4EC0-A6B2-ED6FE16F0A97", "details": ""}
+{"ts": "2026-06-15T16:49:12.505059+00:00", "action": "archive", "event_id": "0811E949-C7C4-4067-8E6D-5487FE620FDA", "details": ""}
+{"ts": "2026-06-15T16:49:12.505109+00:00", "action": "archive", "event_id": "fiesta-20260613-sol-de-mexico-milford", "details": ""}
+{"ts": "2026-06-15T16:49:12.505145+00:00", "action": "archive", "event_id": "2802F880-DB31-435B-BD8F-37D4DD399D11", "details": ""}
+{"ts": "2026-06-15T16:49:12.505173+00:00", "action": "archive", "event_id": "FA4BDE26-3453-4B3F-A8BB-D48278DB0BF4", "details": ""}
+{"ts": "2026-06-15T16:49:12.505200+00:00", "action": "archive", "event_id": "46137863-C388-4190-8479-8B393C0B834D", "details": ""}
+{"ts": "2026-06-15T16:49:12.505251+00:00", "action": "archive", "event_id": "bobas-20260526-0", "details": ""}

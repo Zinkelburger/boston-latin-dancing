@@ -12,6 +12,10 @@ import {
   shouldShowNextOccurrence,
 } from '@/lib/recurrences';
 import ShareButton from './ShareButton';
+import type { DatePreset } from './MapView';
+import { PRESET_LABELS } from './MapView';
+
+const DATE_PRESETS: DatePreset[] = ['today', 'tomorrow', 'weekend', 'next3', 'next7'];
 
 const DAY_NAMES: DayOfWeek[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -156,9 +160,11 @@ type Props = {
   fromMs: number;
   toMs: number;
   onSelectEvent: (event: DanceEvent, displayDate?: string) => void;
+  datePreset: DatePreset | null;
+  onPresetChange: (preset: DatePreset | null) => void;
 };
 
-export default function FeedView({ events, selectedDays, fromMs, toMs, onSelectEvent }: Props) {
+export default function FeedView({ events, selectedDays, fromMs, toMs, onSelectEvent, datePreset, onPresetChange }: Props) {
   const [search, setSearch] = useState('');
   const trimmed = search.trim();
 
@@ -181,26 +187,40 @@ export default function FeedView({ events, selectedDays, fromMs, toMs, onSelectE
   return (
     <div className="feed-view">
       <div className="feed-header">
-        <div className="feed-search-wrap">
-          <svg className="feed-search-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-            <path fillRule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clipRule="evenodd" />
-          </svg>
-          <input
-            type="text"
-            className="feed-search"
-            placeholder="Search..."
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-          />
-          {search && (
+        <div className="feed-header-top">
+          <div className="feed-search-wrap">
+            <svg className="feed-search-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fillRule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clipRule="evenodd" />
+            </svg>
+            <input
+              type="text"
+              className="feed-search"
+              placeholder="Search..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+            {search && (
+              <button
+                className="feed-search-clear"
+                onClick={() => setSearch('')}
+                aria-label="Clear search"
+              >
+                ×
+              </button>
+            )}
+          </div>
+          <span className="feed-count">{totalEntries} event{totalEntries !== 1 ? 's' : ''}</span>
+        </div>
+        <div className="feed-date-chips">
+          {DATE_PRESETS.map(preset => (
             <button
-              className="feed-search-clear"
-              onClick={() => setSearch('')}
-              aria-label="Clear search"
+              key={preset}
+              onClick={() => onPresetChange(datePreset === preset ? null : preset)}
+              className={`pretty-pill text-xs ${datePreset === preset ? 'pretty-pill-rose' : 'pretty-pill-ghost'}`}
             >
-              ×
+              {PRESET_LABELS[preset]}
             </button>
-          )}
+          ))}
         </div>
       </div>
 
