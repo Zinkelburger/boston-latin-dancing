@@ -1,8 +1,10 @@
 import '@/styles/globals.css';
 import { ReactNode } from 'react';
 import type { Metadata } from 'next';
+import { SITE_URL } from '@/lib/constants';
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'Boston Salsa Events | bostonsalsa.org',
     template: '%s | Boston Salsa Events',

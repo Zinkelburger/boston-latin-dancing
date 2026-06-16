@@ -525,6 +525,26 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   display: none;
 }
 
+.feed-filters-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.3rem 0 0.15rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.feed-filter-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.feed-filter-row .filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
 .feed-search-wrap {
   position: relative;
 }
@@ -885,6 +905,19 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
   .feed-date-chips {
     gap: 0.25rem;
+  }
+
+  .feed-header-top {
+    gap: 0.4rem;
+  }
+
+  .feed-filters-panel {
+    gap: 0.25rem;
+    padding: 0.25rem 0 0.1rem;
+  }
+
+  .feed-filter-row {
+    gap: 0.35rem;
   }
 
   .feed-scroll {

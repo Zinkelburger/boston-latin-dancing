@@ -5,7 +5,7 @@ import { SITE_URL, STYLE_LABELS } from '@/lib/constants';
 import { formatEventTimeRange } from '@/lib/recurrences';
 import { stripHtml } from '@/lib/strip-html';
 import EventJsonLd from './EventJsonLd';
-import EventRedirect from './EventRedirect';
+import MapView from '@/app/components/MapView';
 
 const events = allEvents as DanceEvent[];
 
@@ -105,7 +105,7 @@ export default async function EventPage({ params }: { params: Promise<Params> })
   }
 
   const shareUrl = `${SITE_URL}/event/${slug}`;
-  const mapUrl = `/#event=${slug}`;
+  const isMappable = event.lat != null && event.lng != null;
   const cleanDesc = stripHtml(event.description)
     .replace(/https?:\/\/\S+/gi, '')
     .replace(/www\.\S+/gi, '')
@@ -128,21 +128,41 @@ export default async function EventPage({ params }: { params: Promise<Params> })
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
       />
-      <EventRedirect to={mapUrl} />
-      {/* Server-rendered content for SEO — visible briefly before redirect */}
-      <div className="max-w-lg mx-auto px-4 py-8">
-        <h1 className="text-xl font-semibold mb-2">{event.name}</h1>
-        <p className="text-sm text-gray-600 mb-1">
-          {formatEventTimeRange(event.startDate, event.endDate)}
-        </p>
-        <p className="text-sm text-gray-500 mb-2">{event.location}</p>
-        {event.cost && (
-          <p className="text-sm font-medium text-rose-600 mb-2">{event.cost}</p>
-        )}
-        {cleanDesc && (
-          <p className="text-sm text-gray-600">{cleanDesc}</p>
-        )}
-      </div>
+      {isMappable ? (
+        <div className="h-full w-full overflow-hidden">
+          <div className="sr-only">
+            <h1>{event.name}</h1>
+            <p>{formatEventTimeRange(event.startDate, event.endDate)}</p>
+            <p>{event.location}</p>
+            {event.cost && <p>{event.cost}</p>}
+            {cleanDesc && <p>{cleanDesc}</p>}
+          </div>
+          <MapView initialEventSlug={slug} />
+        </div>
+      ) : (
+        <main className="min-h-screen bg-gray-50">
+          <div className="mx-auto max-w-2xl px-4 py-10">
+            <h1 className="text-2xl font-bold text-gray-900">{event.name}</h1>
+            <p className="mt-2 text-sm text-gray-700">
+              {formatEventTimeRange(event.startDate, event.endDate)}
+            </p>
+            {event.location && (
+              <p className="mt-1 text-sm text-gray-600">{event.location}</p>
+            )}
+            {event.cost && (
+              <p className="mt-2 text-sm font-medium text-rose-700">{event.cost}</p>
+            )}
+            {cleanDesc && (
+              <p className="mt-4 text-sm leading-6 text-gray-700">{cleanDesc}</p>
+            )}
+            <div className="mt-6">
+              <a href="/" className="pretty-pill pretty-pill-rose">
+                Back to map
+              </a>
+            </div>
+          </div>
+        </main>
+      )}
     </>
   );
 }

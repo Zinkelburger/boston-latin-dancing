@@ -108,7 +108,7 @@ function computePresetRange(preset: DatePreset, today: number): { fromDay: numbe
 
 export { PRESET_LABELS };
 
-export default function MapView() {
+export default function MapView({ initialEventSlug }: { initialEventSlug?: string } = {}) {
   const mapRef = useRef<MapRef>(null);
   const allEventsTyped = useMemo(() => allEvents as DanceEvent[], []);
   const events = useMemo(
@@ -195,8 +195,8 @@ export default function MapView() {
   useEffect(() => {
     const hash = window.location.hash;
     const match = hash.match(/^#event=(.+)$/);
-    if (!match) return;
-    const slug = decodeURIComponent(match[1]);
+    const slug = match ? decodeURIComponent(match[1]) : initialEventSlug;
+    if (!slug) return;
     const ev = eventsBySlug.get(slug);
     if (ev && ev.lat != null && ev.lng != null) {
       setHighlightedEvent(ev);
@@ -205,7 +205,7 @@ export default function MapView() {
       const timer = setTimeout(() => openEvent(ev), 1300);
       return () => clearTimeout(timer);
     }
-  }, [eventsBySlug, openEvent]);
+  }, [eventsBySlug, openEvent, initialEventSlug]);
 
   const mappableEvents = useMemo(
     () => events.filter(e => e.lat != null && e.lng != null),
@@ -395,28 +395,42 @@ export default function MapView() {
             onSelectEvent={handleFeedSelectEvent}
             datePreset={datePreset}
             onPresetChange={handlePresetChange}
+            selectedStyles={selectedStyles}
+            onStylesChange={setSelectedStyles}
+            onDaysChange={setSelectedDays}
+            onViewModeToggle={() => setViewMode('map')}
+            dateMode={dateMode}
+            onDateModeChange={handleDateModeChange}
+            dateSlider={dateSlider}
+            onDateSliderChange={handleDateSliderChange}
+            sliderMin={sliderMin}
+            sliderMax={sliderMax}
+            defaultFrom={defaultFrom}
+            defaultTo={defaultTo}
           />
         </div>
       )}
 
-      <div className="shrink-0">
-        <FilterBar
-          selectedStyles={selectedStyles}
-          onStylesChange={setSelectedStyles}
-          selectedDays={selectedDays}
-          onDaysChange={setSelectedDays}
-          dateMode={dateMode}
-          onDateModeChange={handleDateModeChange}
-          dateSlider={dateSlider}
-          onDateSliderChange={handleDateSliderChange}
-          sliderMin={sliderMin}
-          sliderMax={sliderMax}
-          defaultFrom={defaultFrom}
-          defaultTo={defaultTo}
-          viewMode={viewMode}
-          onViewModeToggle={() => setViewMode(v => v === 'map' ? 'feed' : 'map')}
-        />
-      </div>
+      {viewMode === 'map' && (
+        <div className="shrink-0">
+          <FilterBar
+            selectedStyles={selectedStyles}
+            onStylesChange={setSelectedStyles}
+            selectedDays={selectedDays}
+            onDaysChange={setSelectedDays}
+            dateMode={dateMode}
+            onDateModeChange={handleDateModeChange}
+            dateSlider={dateSlider}
+            onDateSliderChange={handleDateSliderChange}
+            sliderMin={sliderMin}
+            sliderMax={sliderMax}
+            defaultFrom={defaultFrom}
+            defaultTo={defaultTo}
+            viewMode={viewMode}
+            onViewModeToggle={() => setViewMode(v => v === 'map' ? 'feed' : 'map')}
+          />
+        </div>
+      )}
 
       {activeEvent && (
         <EventPopup
