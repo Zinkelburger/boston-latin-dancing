@@ -94,5 +94,23 @@
     "id_b": "lister-bachata-dance-workout-morse-library-2",
     "verdict": "same",
     "reviewed_at": "2026-06-10T18:08:11.975146+00:00"
+  },
+  {
+    "id_a": "481FAC51-0AA9-4AC7-81A2-DBE1423A4800",
+    "id_b": "C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5",
+    "verdict": "different",
+    "reviewed_at": "2026-06-17T19:42:38.635626+00:00"
+  },
+  {
+    "id_a": "5ED3301D-8CE8-45D1-8094-C380C699DA99",
+    "id_b": "6mlfrfem1rbubuc3gl930v84v4@google.com",
+    "verdict": "same",
+    "reviewed_at": "2026-06-17T19:42:40.145114+00:00"
+  },
+  {
+    "id_a": "6b4c9b37ceef7d692cade530d94d9c68b2496331@dance-calendar",
+    "id_b": "7rf11ktoprrshuuetdos3u4fat@google.com",
+    "verdict": "same",
+    "reviewed_at": "2026-06-17T19:42:41.772921+00:00"
   }
 ]

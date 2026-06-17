@@ -713,30 +713,6 @@
     "archivedAt": "2026-06-15T16:49:12.504904+00:00"
   },
   {
-    "id": "FA4BDE26-3453-4B3F-A8BB-D48278DB0BF4",
-    "name": "Salsa y Control Teams Debut Social Vol 2",
-    "startDate": "2026-06-13T00:30:00+00:00",
-    "endDate": "2026-06-13T05:00:00+00:00",
-    "dayOfWeek": "Friday",
-    "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA  02139, United States",
-    "lat": 42.3679,
-    "lng": -71.0885,
-    "description": "🚨Salsa y Control Debut Socials🚨 \nVery excited to present what our teams are working on for the 2026 season!! So proud of our dancers for their hard work and commitment. Join us at Tambo Social on the following dates to celebrate, have fun and support our students! \n7 Teams, 1 vision.. “Inspiring others to Dance”\n🔹\n📆May 29th: SyC Picante, SyC Sabor, Syc Sazon \n📆June 12th: SyC Inspiracion\n📆June 26th: SyC Sensación, SyC Veneno, Bachata y Control \n🔹\n8:45-9:30pm Salsa Classs by SyC \n9:30pm - 1am Salsa y Bachata Social with DJ Sonerito & DJ Hernan\n🔹\nCash Entrance $15-$20\nSalsa y Control… Salsa y Control…\n",
-    "url": "https://facebook.com/events/s/salsa-y-control-teams-debut-so/1372368978065436/",
-    "styles": [
-      "bachata",
-      "salsa"
-    ],
-    "cost": "$15",
-    "recurring": false,
-    "source": "beatrice-calendar",
-    "_verified_at": "2026-06-08T18:08:21.245366+00:00",
-    "_verified_status": "needs_browser",
-    "_verified_notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
-    "_verification_url": "https://facebook.com/events/s/salsa-y-control-teams-debut-so/1372368978065436/",
-    "archivedAt": "2026-06-15T16:49:12.504904+00:00"
-  },
-  {
     "id": "46137863-C388-4190-8479-8B393C0B834D",
     "name": "Mambo City Salsa Social - June 7th 7pm - 575 Cambridge St, Cambridge, MA",
     "startDate": "2026-06-07T23:00:00+00:00",
@@ -760,6 +736,129 @@
     "archivedAt": "2026-06-15T16:49:12.504904+00:00"
   },
   {
+    "id": "e67f55d566f3f3f0283acd652ecd424fedb8948e@occurrence-2@dance-calendar",
+    "name": "The Boston Flow:  Salsa & Bachata Dance Competition",
+    "startDate": "2026-06-14T20:00:00+00:00",
+    "endDate": "2026-06-14T23:00:00+00:00",
+    "dayOfWeek": "Sunday",
+    "location": "75 Pleasant Street, #125 - 1st Floor, Malden, MA 02148, Malden, MA",
+    "lat": 42.4273124,
+    "lng": -71.0691522,
+    "description": "Get ready to show off your best moves and compete in the ultimate salsa and bachata dance-off at The Boston Flow!\n\nSource: https://www.eventbrite.com/e/the-boston-flow-salsa-bachata-dance-competition-tickets-1985733674876",
+    "url": "https://www.eventbrite.com/e/the-boston-flow-salsa-bachata-dance-competition-tickets-1985733674876",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": null,
+    "recurring": true,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-06-08T18:08:14.579568+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD event data matches",
+    "_verification_url": "https://www.eventbrite.com/e/the-boston-flow-salsa-bachata-dance-competition-tickets-1985733674876",
+    "recurrences": [
+      "2026-05-24T20:00:00+00:00",
+      "2026-06-14T20:00:00+00:00"
+    ],
+    "archivedAt": "2026-06-17T19:39:28.336981+00:00"
+  },
+  {
+    "id": "3f6947b81983396f49634c5f4deb6ea17f025b12@dance-calendar",
+    "name": "Centro Cultural Cubano - Havana Night Salsa Party",
+    "startDate": "2026-06-14T18:00:00+00:00",
+    "endDate": "2026-06-14T22:00:00+00:00",
+    "dayOfWeek": "Sunday",
+    "location": "450 Massachusetts Avenue, Cambridge, MA 02139, Cambridge, MA",
+    "lat": 42.3636635,
+    "lng": -71.1011293,
+    "description": "Join Centro Cultural Cubano for Havana Night! Salsa demos & lessons by Salsa y Control, live DJ, dance, and Havana Nights attire!\n\nSource: https://www.eventbrite.com/e/centro-cultural-cubano-havana-night-salsa-party-tickets-1987021216949",
+    "url": "https://www.eventbrite.com/e/centro-cultural-cubano-havana-night-salsa-party-tickets-1987021216949",
+    "styles": [
+      "salsa"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-06-08T18:08:17.919947+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD event data matches",
+    "_verification_url": "https://www.eventbrite.com/e/centro-cultural-cubano-havana-night-salsa-party-tickets-1987021216949",
+    "archivedAt": "2026-06-17T19:39:28.336981+00:00"
+  },
+  {
+    "id": "FEDCE609-3D05-480B-98DA-84EEF66EA4E3",
+    "name": "ROOTS & CONNECTION: Konpa x Kizomba",
+    "startDate": "2026-06-15T23:00:00+00:00",
+    "endDate": "2026-06-16T02:00:00+00:00",
+    "dayOfWeek": "Monday",
+    "location": "620 Massachusetts Ave, Cambridge, MA 02139-3368, United States",
+    "lat": 42.3648982,
+    "lng": -71.1035623,
+    "description": "🔥 ROOTS & CONNECTION: Konpa x Kizomba🔥\nA 7-Week Progressive Training Series\n\nYou’ve been asking us to bring classes closer to the city… so we’re making it happen 👀🔥\n\nThis summer, we’re bringing the EJ Dance Studio experience straight to the dance hub of Central Square in Cambridge for a special 7-week Konpa x Kizomba training series focused on what truly makes social dancing feel GOOD: connection, flow, musicality, and movement.\n\nWhat if improving your Kizomba wasn’t about learning more “moves”… but about improving the way you connect, lead, follow, transition, and feel the music? 🎶\n\nWelcome to Roots & Connection — a guided training experience where each week builds on the last, using Konpa foundations to elevate your Kizomba and overall partner dancing.\n\nWhether you dance Kizomba, Urban Kiz, Konpa, or simply want to become a smoother, more confident social dancer, this series is designed to help you:\n✨ Build deeper connection\n✨ Develop smoother flow & cleaner transitions\n✨ Improve musicality & movement quality\n✨ Strengthen partnering skills\n✨ Gain confidence on the social dance floor\n\n💃🏽 No partner required\n🕺🏽 All levels welcome\n❤️ Come ready to learn, connect, and grow\n\n📍 Mango Studio - 620 Massachusetts Ave, Cambridge MA\n🗓️ Mondays — June 15 through July 27\n⏰ 7 PM – 9 PM\n\n🎟️ PRICING\n🔥 Early Bird Series Pass: $139 (includes all 7 dates)\n🔥 Regular Series Pass: $159\n✅ Series passes include access to all 7 dates in the program.\n\n⚠️ Capacity is limited to maintain a quality learning experience.\nDrop-ins may open later only if space remains available.\n\n🎫 Series Pass: EJDS-KxK.Eventbrite.com",
+    "url": "https://facebook.com/events/s/roots-connection-konpa-x-kizom/1336045105053981/",
+    "styles": [
+      "kizomba"
+    ],
+    "cost": "$139",
+    "recurring": false,
+    "source": "sensualeros-boston",
+    "_verified_at": "2026-06-08T18:08:20.397924+00:00",
+    "_verified_status": "needs_browser",
+    "_verified_notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
+    "_verification_url": "https://facebook.com/events/s/roots-connection-konpa-x-kizom/1336045105053981/",
+    "archivedAt": "2026-06-17T19:39:28.336981+00:00"
+  },
+  {
+    "id": "dj-clave-cantab-2026-06-14",
+    "name": "Salsa & Bachata Social - DJ CLAVE",
+    "startDate": "2026-06-14T21:00:00-04:00",
+    "endDate": "2026-06-15T00:00:00-04:00",
+    "dayOfWeek": "Sunday",
+    "location": "The Cantab Lounge, 738 Massachusetts Ave, Cambridge, MA 02139",
+    "lat": 42.3653,
+    "lng": -71.1031,
+    "description": "TICKETS + UPDATES: @thedjclave (IG & FB)\n$10.00 tickets online, $15.00 at the door",
+    "url": "https://tunehatch.com/shows/salsa-bachata-social-dj-clave",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": "$10",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-06-08T18:08:21.715333+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Page accessible, no JSON-LD found (text check only)",
+    "_verification_url": "https://tunehatch.com/shows/salsa-bachata-social-dj-clave",
+    "archivedAt": "2026-06-17T19:39:28.336981+00:00"
+  },
+  {
+    "id": "FA4BDE26-3453-4B3F-A8BB-D48278DB0BF4",
+    "name": "Salsa y Control Teams Debut Social Vol 2",
+    "startDate": "2026-06-13T00:30:00+00:00",
+    "endDate": "2026-06-13T05:00:00+00:00",
+    "dayOfWeek": "Friday",
+    "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA  02139, United States",
+    "lat": 42.3679,
+    "lng": -71.0885,
+    "description": "🚨Salsa y Control Debut Socials🚨 \nVery excited to present what our teams are working on for the 2026 season!! So proud of our dancers for their hard work and commitment. Join us at Tambo Social on the following dates to celebrate, have fun and support our students! \n7 Teams, 1 vision.. “Inspiring others to Dance”\n🔹\n📆May 29th: SyC Picante, SyC Sabor, Syc Sazon \n📆June 12th: SyC Inspiracion\n📆June 26th: SyC Sensación, SyC Veneno, Bachata y Control \n🔹\n8:45-9:30pm Salsa Classs by SyC \n9:30pm - 1am Salsa y Bachata Social with DJ Sonerito & DJ Hernan\n🔹\nCash Entrance $15-$20\nSalsa y Control… Salsa y Control…\n",
+    "url": "https://facebook.com/events/s/salsa-y-control-teams-debut-so/1372368978065436/",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "$15",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-06-08T18:08:21.245366+00:00",
+    "_verified_status": "needs_browser",
+    "_verified_notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
+    "_verification_url": "https://facebook.com/events/s/salsa-y-control-teams-debut-so/1372368978065436/",
+    "archivedAt": "2026-06-17T19:39:28.336981+00:00",
+    "reactivatedAt": "2026-06-17T19:39:27.573153+00:00"
+  },
+  {
     "id": "bobas-20260526-0",
     "name": "Sunset Salsa Bachata on the Docks",
     "startDate": "2026-05-26T18:00:00-04:00",
@@ -781,7 +880,7 @@
     "_verified_status": "needs_browser",
     "_verified_notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
     "_verification_url": "https://www.facebook.com/events/1801495350829105",
-    "archivedAt": "2026-06-15T16:49:12.504904+00:00",
-    "reactivatedAt": "2026-06-15T16:49:08.805682+00:00"
+    "archivedAt": "2026-06-17T19:39:28.336981+00:00",
+    "reactivatedAt": "2026-06-17T19:39:27.845615+00:00"
   }
 ]

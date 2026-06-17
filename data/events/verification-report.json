@@ -1,21 +1,10 @@
 [
   {
-    "event_id": "e67f55d566f3f3f0283acd652ecd424fedb8948e@occurrence-2@dance-calendar",
-    "event_name": "The Boston Flow:  Salsa & Bachata Dance Competition",
-    "url_type": "direct",
-    "source_url": "https://www.eventbrite.com/e/the-boston-flow-salsa-bachata-dance-competition-tickets-1985733674876",
-    "verified_at": "2026-06-08T18:08:14.579568+00:00",
-    "source_location": "J&L Dance Studio, 75 Pleasant Street, #125 - 1st Floor, Malden, MA 02148",
-    "our_location": "75 Pleasant Street, #125 - 1st Floor, Malden, MA 02148, Malden, MA",
-    "status": "confirmed",
-    "notes": "JSON-LD event data matches"
-  },
-  {
     "event_id": "d3953ee79b4effa6b332abf32cb4e01ba180f56e@occurrence-1@dance-calendar",
     "event_name": "Saborcito @ The Anchor: Salsa & Bachata Dancing",
     "url_type": "direct",
     "source_url": "https://www.eventbrite.com/e/saborcito-the-anchor-salsa-bachata-dancing-tickets-1989160742327",
-    "verified_at": "2026-06-08T18:08:14.718312+00:00",
+    "verified_at": "2026-06-17T19:43:29.346904+00:00",
     "source_location": "The Anchor, 1 Shipyard Park, charlestown, MA 02129",
     "our_location": "1 Shipyard Park, charlestown, MA 02129, charlestown, MA",
     "status": "confirmed",
@@ -29,86 +18,14 @@
     "status": "no_source",
     "notes": "No URL. Search suggestion: \"Timba y Descontrol Cuban salsa lessons + social Cambridge Common, Waterhouse St & Massachusetts Ave, Cambridge, MA 02138, USA boston\"",
     "our_location": "Cambridge Common, Waterhouse St & Massachusetts Ave, Cambridge, MA 02138, USA",
-    "verified_at": "2026-06-08T18:08:14.826312+00:00"
-  },
-  {
-    "event_id": "F6898D37-DCE1-4134-A09B-19B63FC311FF",
-    "event_name": "Salsa In The Park at Blackstone",
-    "url_type": "direct",
-    "source_url": "https://www.metamovements.com/event-details/salsa-in-the-park-at-blackstone-2026-05-30-13-00",
-    "verified_at": "2026-06-08T18:08:14.827738+00:00",
-    "source_location": "Blackstone Community Center Courtyard, 50 W Brookline St, Boston, MA 02118, USA",
-    "our_location": "Blackstone Community Center Courtyard, 50 W Brookline St, Boston, MA 02118, USA",
-    "status": "confirmed",
-    "notes": "JSON-LD event data matches"
-  },
-  {
-    "event_id": "62ekr0aga5340rgd7nmh6cvj3m@google.com",
-    "event_name": "Bachata by the River",
-    "url_type": "direct",
-    "source_url": "https://www.listerevents.com/event-details/bachata-salsa-by-the-river-2",
-    "verified_at": "2026-06-08T18:08:16.389933+00:00",
-    "source_location": "The Nature Center @ Magazine Beach Park, 668 Memorial Dr, Cambridge, MA 02139, USA",
-    "our_location": "Mass Audubon Magazine Beach Park Nature Center, 668 Memorial Dr, Cambridge, MA 02139, USA",
-    "status": "confirmed",
-    "notes": "JSON-LD event data matches"
-  },
-  {
-    "event_id": "101aa0a81ae5bbff41cdcbd7c74b96f37517bcfe@dance-calendar",
-    "event_name": "Salsa Night Pop Up - Sabor Latino!",
-    "url_type": "direct",
-    "source_url": "https://www.eventbrite.com/e/salsa-night-pop-up-sabor-latino-tickets-1989674200093",
-    "verified_at": "2026-06-08T18:08:17.677601+00:00",
-    "source_location": "El Barco | Tacos x Tequilas, 50 Dalton Street, Boston, MA 02115",
-    "our_location": "50 Dalton Street, Boston, MA 02115, Boston, MA",
-    "status": "confirmed",
-    "notes": "JSON-LD event data matches"
-  },
-  {
-    "event_id": "C95CABAD-64FB-4EC0-A6B2-ED6FE16F0A97",
-    "event_name": "Singles salsa night at Juliet / Dance class + cocktail mixer",
-    "url_type": "direct",
-    "source_url": "https://resy.com/cities/somerville-ma/venues/juliet/events/beginner-salsa-class-w-snacks-mixer-before-2026-06-11?seats=1&date=2026-05-18",
-    "verified_at": "2026-06-08T18:08:17.777864+00:00",
-    "status": "confirmed",
-    "notes": "Page accessible, no JSON-LD found (text check only)"
-  },
-  {
-    "event_id": "0811E949-C7C4-4067-8E6D-5487FE620FDA",
-    "event_name": "Free concert and performances: Parkway Methodist Church Concert Series",
-    "url_type": "facebook_page",
-    "source_url": "https://www.facebook.com/share/p/14XJ6zMt3gB/?mibextid=wwXIfr",
-    "status": "needs_browser",
-    "notes": "Facebook page — agent should check Events tab for upcoming events",
-    "our_location": "Parkway United Methodist Church, 158 Blue Hills Pkwy, Milton, MA  02186, United States",
-    "verified_at": "2026-06-08T18:08:17.917381+00:00"
-  },
-  {
-    "event_id": "3f6947b81983396f49634c5f4deb6ea17f025b12@dance-calendar",
-    "event_name": "Centro Cultural Cubano - Havana Night Salsa Party",
-    "url_type": "direct",
-    "source_url": "https://www.eventbrite.com/e/centro-cultural-cubano-havana-night-salsa-party-tickets-1987021216949",
-    "verified_at": "2026-06-08T18:08:17.919947+00:00",
-    "source_location": "La Fabrica, 450 Massachusetts Avenue, Cambridge, MA 02139",
-    "our_location": "450 Massachusetts Avenue, Cambridge, MA 02139, Cambridge, MA",
-    "status": "confirmed",
-    "notes": "JSON-LD event data matches"
-  },
-  {
-    "event_id": "25a6d27294d8fc160c5110b43ede3c5179b21e47@dance-calendar",
-    "event_name": "SUSHI CON SALSA - DANCE SESSIONS VOL.2",
-    "url_type": "direct",
-    "source_url": "https://www.eventbrite.com/e/sushi-con-salsa-dance-sessions-vol2-tickets-1989800566057",
-    "verified_at": "2026-06-08T18:08:18.026708+00:00",
-    "status": "confirmed",
-    "notes": "Page accessible, no JSON-LD found (text check only)"
+    "verified_at": "2026-06-17T19:43:29.556819+00:00"
   },
   {
     "event_id": "11367EEA-739B-4693-971D-B95D90968D5E",
     "event_name": "Run & Salsa hosted by Run This City Run Club",
     "url_type": "direct",
     "source_url": "https://www.tickeri.com/events/st43bjyvvgbc/run-and-salsa?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleAR5ZkhleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAaePQukteDtD_eJfizysT2wkltUXFmn5i5TOX7BEYNx2l_l3hAyID5ySFFZICQ_aem_AH23mIQZ_9dVyXWUIpC8Pw",
-    "verified_at": "2026-06-08T18:08:18.130080+00:00",
+    "verified_at": "2026-06-17T19:43:29.564697+00:00",
     "source_location": "Provenza Lounge, 130 Union Street",
     "our_location": "Provenza Lounge, 130 Union St, Lynn, MA  01902, United States",
     "status": "confirmed",
@@ -119,7 +36,7 @@
     "event_name": "Salsa at the Shell",
     "url_type": "direct",
     "source_url": "https://events.humanitix.com/groundbeatsalsa?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleARxRJxleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAacrPTeCnyZY3m_Ygi7UrNkggUUeDGBz5EO24tvZWOhRkFRx5G4S1KsD-BxQkA_aem_0h7GrsPKKVyXBq_npch_sQ",
-    "verified_at": "2026-06-08T18:08:18.282937+00:00",
+    "verified_at": "2026-06-17T19:43:29.762225+00:00",
     "source_location": "DCR Hatch Memorial Shell, 47 David G Mugar Way, Boston, MA 02114, USA",
     "our_location": "Hatch Memorial Shell, Charles River Esplanade, 47 David G Mugar Way, Boston, MA 02108, United States",
     "status": "confirmed",
@@ -133,18 +50,7 @@
     "status": "needs_browser",
     "notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
     "our_location": "PKL",
-    "verified_at": "2026-06-08T18:08:19.827101+00:00"
-  },
-  {
-    "event_id": "lister-bachata-dance-workout-morse-library",
-    "event_name": "Bachata Dance Workout @Morse Library",
-    "url_type": "direct",
-    "source_url": "https://www.listerevents.com/event-details/bachata-dance-workout-morse-library",
-    "verified_at": "2026-06-08T18:08:19.828605+00:00",
-    "source_location": "Lebowitz Meeting Hall, Morse Library, 14 E Central St, Natick, MA 01760, USA",
-    "our_location": "Lebowitz Meeting Hall, Morse Library, 14 E Central St, Natick, MA 01760, USA",
-    "status": "confirmed",
-    "notes": "JSON-LD event data matches"
+    "verified_at": "2026-06-17T19:43:31.344240+00:00"
   },
   {
     "event_id": "E9A91D20-6E5C-4827-8E37-DDB5697B3C7D",
@@ -154,7 +60,7 @@
     "status": "no_source",
     "notes": "No URL. Search suggestion: \"Sonidos 2026 Club Cafe Boston boston\"",
     "our_location": "Club Cafe Boston",
-    "verified_at": "2026-06-08T18:08:19.946574+00:00"
+    "verified_at": "2026-06-17T19:43:31.353313+00:00"
   },
   {
     "event_id": "884C05C0-ED6E-4A85-A6E0-59FC70D45E57",
@@ -164,23 +70,14 @@
     "status": "needs_browser",
     "notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
     "our_location": "Distillery Gallery",
-    "verified_at": "2026-06-08T18:08:19.948101+00:00"
-  },
-  {
-    "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar",
-    "event_name": "SUSHI CON SALSA - DANCE SESSIONS VOL.1",
-    "url_type": "direct",
-    "source_url": "https://www.eventbrite.com/e/sushi-con-salsa-dance-sessions-vol1-tickets-1988719477492",
-    "verified_at": "2026-06-08T18:08:19.949549+00:00",
-    "status": "confirmed",
-    "notes": "Page accessible, no JSON-LD found (text check only)"
+    "verified_at": "2026-06-17T19:43:31.363438+00:00"
   },
   {
     "event_id": "636B3236-FC0B-4F3D-AD4B-0904A06F7358",
     "event_name": "Salsa Party at MIT Open Space",
     "url_type": "direct",
     "source_url": "https://www.eventbrite.com/e/salsa-party-tickets-1989841148440?utm_experiment=test_share_listing&aff=ebdsshios&sg=7e443c8e1b59172420d03ea7e5f8f37a6aa906779bdeee8a35331bb05dc314a1b5accf629a5b8c8a83a1c8920bf82a69a18c6e3db2bac81561363553d312ebf56367efb52d38c803d385182891",
-    "verified_at": "2026-06-08T18:08:20.058921+00:00",
+    "verified_at": "2026-06-17T19:43:31.370733+00:00",
     "source_location": "Kendall/MIT Open Space, 292 Main Street, Cambridge, MA 02142",
     "our_location": "292 Main St, Cambridge, MA, United States",
     "status": "confirmed",
@@ -191,7 +88,7 @@
     "event_name": "Boston Salsa Festival, 2026",
     "url_type": "direct",
     "source_url": "https://www.eventbrite.com/e/boston-salsa-festival-2026-registration-1591571175229",
-    "verified_at": "2026-06-08T18:08:20.159369+00:00",
+    "verified_at": "2026-06-17T19:43:31.523925+00:00",
     "status": "confirmed",
     "notes": "Page accessible, no JSON-LD found (text check only)"
   },
@@ -200,21 +97,11 @@
     "event_name": "Arts at the Armory Spotlight Series Presents Tito Puente Jr.",
     "url_type": "direct",
     "source_url": "https://www.eventbrite.com/e/arts-at-the-armory-spotlight-series-presents-tito-puente-jr-tickets-1984583543803",
-    "verified_at": "2026-06-08T18:08:20.279536+00:00",
+    "verified_at": "2026-06-17T19:43:31.688569+00:00",
     "source_location": "Arts at the Armory, 191 Highland Avenue, Somerville, MA 02143",
     "our_location": "191 Highland Avenue, Somerville, MA 02143, Somerville, MA",
     "status": "confirmed",
     "notes": "JSON-LD event data matches"
-  },
-  {
-    "event_id": "FEDCE609-3D05-480B-98DA-84EEF66EA4E3",
-    "event_name": "ROOTS & CONNECTION: Konpa x Kizomba",
-    "url_type": "facebook_event",
-    "source_url": "https://facebook.com/events/s/roots-connection-konpa-x-kizom/1336045105053981/",
-    "status": "needs_browser",
-    "notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
-    "our_location": "620 Massachusetts Ave, Cambridge, MA 02139-3368, United States",
-    "verified_at": "2026-06-08T18:08:20.397924+00:00"
   },
   {
     "event_id": "A5C119D4-B458-4ED2-A5C5-7808ACF4EFC2",
@@ -224,7 +111,7 @@
     "status": "needs_browser",
     "notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
     "our_location": "Providence Rink",
-    "verified_at": "2026-06-08T18:08:20.402425+00:00"
+    "verified_at": "2026-06-17T19:43:31.819527+00:00"
   },
   {
     "event_id": "3AD71742-433C-4DA2-B7E1-4FC9E9DDAF76",
@@ -234,7 +121,7 @@
     "status": "needs_browser",
     "notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
     "our_location": "Isles of Shoals Steamship Company",
-    "verified_at": "2026-06-08T18:08:20.405635+00:00"
+    "verified_at": "2026-06-17T19:43:31.825364+00:00"
   },
   {
     "event_id": "61B50538-D7A5-466E-9039-7663B3F54F9D",
@@ -244,7 +131,7 @@
     "status": "no_source",
     "notes": "No URL. Search suggestion: \"Kizz Thursday Moves & Vibes Dance Co, 44 5th St, Cambridge, MA boston\"",
     "our_location": "Moves & Vibes Dance Co, 44 5th St, Cambridge, MA",
-    "verified_at": "2026-06-08T18:08:20.409084+00:00"
+    "verified_at": "2026-06-17T19:43:31.831123+00:00"
   },
   {
     "event_id": "5984F5C6-9A2D-454E-AE0B-B201FC78B814",
@@ -254,7 +141,7 @@
     "status": "no_source",
     "notes": "No URL. Search suggestion: \"Havana Bachata Thursdays 288 Green St, Central Sq, Cambridge boston\"",
     "our_location": "288 Green St, Central Sq, Cambridge",
-    "verified_at": "2026-06-08T18:08:20.412503+00:00"
+    "verified_at": "2026-06-17T19:43:31.836124+00:00"
   },
   {
     "event_id": "4BACCA44-811C-4F7E-99D8-7AC8DA46D5CC",
@@ -264,7 +151,7 @@
     "status": "no_source",
     "notes": "No URL. Search suggestion: \"Bachata Sensual Mondays @ Havana Club Havana Club, 288 Green St, Cambridge, MA  02139, United States boston\"",
     "our_location": "Havana Club, 288 Green St, Cambridge, MA  02139, United States",
-    "verified_at": "2026-06-08T18:08:20.415048+00:00"
+    "verified_at": "2026-06-17T19:43:31.841199+00:00"
   },
   {
     "event_id": "4F3C0539-FB64-445B-A388-4DE2C5402E59",
@@ -274,7 +161,7 @@
     "status": "needs_browser",
     "notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
     "our_location": "The Event Factory Kitchen & Stage",
-    "verified_at": "2026-06-08T18:08:20.417415+00:00"
+    "verified_at": "2026-06-17T19:43:31.846303+00:00"
   },
   {
     "event_id": "D7362ECA-A6A7-4528-B752-3CBD6141CE81",
@@ -284,14 +171,14 @@
     "status": "no_source",
     "notes": "No URL. Search suggestion: \"Salsa/Bachata Tuesdays @ Havana Havana Club, 288 Green St, Cambridge, MA  02139, United States boston\"",
     "our_location": "Havana Club, 288 Green St, Cambridge, MA  02139, United States",
-    "verified_at": "2026-06-08T18:08:20.419742+00:00"
+    "verified_at": "2026-06-17T19:43:31.852275+00:00"
   },
   {
     "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF",
     "event_name": "J&L Underground Social",
     "url_type": "direct",
     "source_url": "https://jandldancestudio.com/jl-underground-social",
-    "verified_at": "2026-06-08T18:08:20.423264+00:00",
+    "verified_at": "2026-06-17T19:43:31.858834+00:00",
     "status": "confirmed",
     "notes": "Page accessible, no JSON-LD found (text check only)"
   },
@@ -303,38 +190,16 @@
     "status": "needs_browser",
     "notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
     "our_location": "Marina Bay Quincy",
-    "verified_at": "2026-06-08T18:08:20.539618+00:00"
+    "verified_at": "2026-06-17T19:43:32.224401+00:00"
   },
   {
     "event_id": "2ohs9hv1k4jvklblu880v1mht1@google.com",
     "event_name": "Salsa & Bachata Hawaiian Summer party",
     "url_type": "direct",
     "source_url": "https://www.eventbrite.com/e/salsa-bachata-hawaiian-summer-party-tickets-1990335344594",
-    "verified_at": "2026-06-08T18:08:20.544465+00:00",
+    "verified_at": "2026-06-17T19:43:32.231357+00:00",
     "source_location": "Dante Alighieri Society of Massachusetts, 41 Hampshire Street, Cambridge, MA 02139",
     "our_location": "Dante Alighieri Society of Massachusetts, 41 Hampshire St, Cambridge, MA 02139, USA",
-    "status": "confirmed",
-    "notes": "JSON-LD event data matches"
-  },
-  {
-    "event_id": "lister-bachata-salsa-by-the-river-3",
-    "event_name": "Bachata & Salsa By The River",
-    "url_type": "direct",
-    "source_url": "https://www.listerevents.com/event-details/bachata-salsa-by-the-river-3",
-    "verified_at": "2026-06-08T18:08:20.657362+00:00",
-    "source_location": "The Nature Center @ Magazine Beach Park, 668 Memorial Dr, Cambridge, MA 02139, USA",
-    "our_location": "The Nature Center @ Magazine Beach Park, 668 Memorial Dr, Cambridge, MA 02139, USA",
-    "status": "confirmed",
-    "notes": "JSON-LD event data matches"
-  },
-  {
-    "event_id": "lister-bachata-dance-workout-morse-library-2",
-    "event_name": "Bachata Dance Workout @Morse Library",
-    "url_type": "direct",
-    "source_url": "https://www.listerevents.com/event-details/bachata-dance-workout-morse-library-2",
-    "verified_at": "2026-06-08T18:08:20.776937+00:00",
-    "source_location": "Lebowitz Meeting Hall, Morse Library, 14 E Central St, Natick, MA 01760, USA",
-    "our_location": "Lebowitz Meeting Hall, Morse Library, 14 E Central St, Natick, MA 01760, USA",
     "status": "confirmed",
     "notes": "JSON-LD event data matches"
   },
@@ -343,20 +208,11 @@
     "event_name": "BOSTON AREA - Traditional Bachata Night in Lynn, MA | La Casa de la Bachata",
     "url_type": "direct",
     "source_url": "https://www.eventbrite.com/e/boston-area-traditional-bachata-night-in-lynn-ma-la-casa-de-la-bachata-tickets-1990048459513",
-    "verified_at": "2026-06-08T18:08:20.905744+00:00",
+    "verified_at": "2026-06-17T19:43:32.364463+00:00",
     "source_location": "Provenza Lounge and Grill, 130 Union Street, Lynn, MA 01902",
     "our_location": "130 Union Street, Lynn, MA 01902, Lynn, MA",
     "status": "confirmed",
     "notes": "JSON-LD event data matches"
-  },
-  {
-    "event_id": "fiesta-20260613-sol-de-mexico-milford",
-    "event_name": "Salsa & Bachata Social w/ Fiesta Dance Co",
-    "url_type": "direct",
-    "source_url": "https://fiestadancecompany.com/upcoming-socials",
-    "verified_at": "2026-06-08T18:08:21.024743+00:00",
-    "status": "confirmed",
-    "notes": "Page accessible, no JSON-LD found (text check only)"
   },
   {
     "event_id": "8EDCCA4B-FCFA-4CD9-ABA3-8074966ACFCB",
@@ -366,17 +222,7 @@
     "status": "no_source",
     "notes": "No URL. Search suggestion: \"Bachata Room  La Fabrica , 450 Massachusetts Ave, Cambridge, MA 02139, United States boston\"",
     "our_location": "La Fabrica , 450 Massachusetts Ave, Cambridge, MA 02139, United States",
-    "verified_at": "2026-06-08T18:08:21.091736+00:00"
-  },
-  {
-    "event_id": "15F245C1-03AD-4AC3-ADB5-9CE4CDE011AC",
-    "event_name": "BACHATA & SALSA BY THE RIVER",
-    "url_type": "facebook_event",
-    "source_url": "https://facebook.com/events/s/bachata-salsa-by-the-river/1522894889342446/",
-    "status": "needs_browser",
-    "notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
-    "our_location": "Magazine Beach, Cambridge",
-    "verified_at": "2026-06-08T18:08:21.093394+00:00"
+    "verified_at": "2026-06-17T19:43:32.487080+00:00"
   },
   {
     "event_id": "13A4C423-1BE6-4F4D-A478-ADA83CC22E7E",
@@ -386,7 +232,7 @@
     "status": "needs_browser",
     "notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
     "our_location": "Rumba Y Timbal Dance Company",
-    "verified_at": "2026-06-08T18:08:21.094854+00:00"
+    "verified_at": "2026-06-17T19:43:32.490442+00:00"
   },
   {
     "event_id": "D0F83D40-A8C4-4EA2-940E-70F326647AFC",
@@ -396,7 +242,7 @@
     "status": "unverifiable",
     "notes": "Instagram link — cannot scrape programmatically. Manual check recommended.",
     "our_location": "El Barco, 50 Dalton St, Boston, MA  02115, United States",
-    "verified_at": "2026-06-08T18:08:21.096323+00:00"
+    "verified_at": "2026-06-17T19:43:32.493804+00:00"
   },
   {
     "event_id": "1aeh6u30lk44uthmgff6p4johs@google.com",
@@ -406,7 +252,7 @@
     "status": "no_source",
     "notes": "No URL. Search suggestion: \"Kizomba Social: Boogie Nights 320 W Center St, Unit 112, West Bridgewater, MA 02379, EE. UU. boston\"",
     "our_location": "320 W Center St, Unit 112, West Bridgewater, MA 02379, EE. UU.",
-    "verified_at": "2026-06-08T18:08:21.097694+00:00"
+    "verified_at": "2026-06-17T19:43:32.497447+00:00"
   },
   {
     "event_id": "61vvqt0h13uoigcucma9f9prhk@google.com",
@@ -416,7 +262,7 @@
     "status": "no_source",
     "notes": "No URL. Search suggestion: \"Kiz Thursday Moves & Vibes Dancing Academy, 44 5th St, Cambridge, MA 02141, EE. UU. boston\"",
     "our_location": "Moves & Vibes Dancing Academy, 44 5th St, Cambridge, MA 02141, EE. UU.",
-    "verified_at": "2026-06-08T18:08:21.099043+00:00"
+    "verified_at": "2026-06-17T19:43:32.501138+00:00"
   },
   {
     "event_id": "2ar83v9imef7dkgkonbfvc5t4q@google.com",
@@ -426,38 +272,7 @@
     "status": "no_source",
     "notes": "No URL. Search suggestion: \"Senior Zouk Social Multicultural Arts Center, 41 Second St, Cambridge, MA 02141, USA boston\"",
     "our_location": "Multicultural Arts Center, 41 Second St, Cambridge, MA 02141, USA",
-    "verified_at": "2026-06-08T18:08:21.100387+00:00"
-  },
-  {
-    "event_id": "2802F880-DB31-435B-BD8F-37D4DD399D11",
-    "event_name": "BachaTipico Hangout: Dominican Flow Party “Colmadón. Edition”",
-    "url_type": "direct",
-    "source_url": "https://dancefam.org/event/2430",
-    "verified_at": "2026-06-08T18:08:21.101875+00:00",
-    "source_location": "ROMA LOUNGE, 170 Broad Street",
-    "our_location": "170 Broad St, Lynn, MA, United States",
-    "status": "confirmed",
-    "notes": "JSON-LD event data matches"
-  },
-  {
-    "event_id": "FA4BDE26-3453-4B3F-A8BB-D48278DB0BF4",
-    "event_name": "Salsa y Control Teams Debut Social Vol 2",
-    "url_type": "facebook_event",
-    "source_url": "https://facebook.com/events/s/salsa-y-control-teams-debut-so/1372368978065436/",
-    "status": "needs_browser",
-    "notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
-    "our_location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA  02139, United States",
-    "verified_at": "2026-06-08T18:08:21.245366+00:00"
-  },
-  {
-    "event_id": "46137863-C388-4190-8479-8B393C0B834D",
-    "event_name": "Mambo City Salsa Social - June 7th 7pm - 575 Cambridge St, Cambridge, MA",
-    "url_type": "facebook_event",
-    "source_url": "https://facebook.com/events/s/mambo-city-salsa-social-june-7/2818849835132939/",
-    "status": "needs_browser",
-    "notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
-    "our_location": "Filarmonica Santo Antonio Cultural Center",
-    "verified_at": "2026-06-08T18:08:21.248477+00:00"
+    "verified_at": "2026-06-17T19:43:32.505275+00:00"
   },
   {
     "event_id": "4cmo89ojp153bofdf59hghpjfo@google.com",
@@ -467,36 +282,25 @@
     "status": "no_source",
     "notes": "No URL. Search suggestion: \"Pink & White Night Luna Fitness Club, 735 William T Morrissey Blvd, Dorchester, MA 02122, EE. UU. boston\"",
     "our_location": "Luna Fitness Club, 735 William T Morrissey Blvd, Dorchester, MA 02122, EE. UU.",
-    "verified_at": "2026-06-08T18:08:21.251083+00:00"
+    "verified_at": "2026-06-17T19:43:32.508236+00:00"
   },
   {
     "event_id": "eb-1991019030517",
     "event_name": "Bachata w/Louis Casiano and Elvis Lora - DANCE FOR THE DIASPORA BOSTON",
     "url_type": "direct",
     "source_url": "https://www.eventbrite.com/e/bachata-wlouis-casiano-and-elvis-lora-dance-for-the-diaspora-boston-tickets-1991019030517",
-    "verified_at": "2026-06-08T18:08:21.253565+00:00",
+    "verified_at": "2026-06-17T19:43:32.511898+00:00",
     "status": "confirmed",
     "notes": "Page accessible, no JSON-LD found (text check only)"
   },
   {
-    "event_id": "eb-1991286859601",
+    "event_id": "13db5f5a4486c83496bb177d5d426cad9a8bed46@dance-calendar",
     "event_name": "Noche Latina Salsa Workshop and Practica",
     "url_type": "direct",
     "source_url": "https://www.eventbrite.com/e/noche-latina-salsa-workshop-and-practica-tickets-1991286859601",
-    "verified_at": "2026-06-08T18:08:21.365529+00:00",
+    "verified_at": "2026-06-17T19:43:33.084604+00:00",
     "source_location": "Luna Fitness Club, 735 William T Morrissey Boulevard, Boston, MA 02122",
-    "our_location": "Luna Fitness Club, 735 William T Morrissey Boulevard, Boston, MA 02122, Boston, MA",
-    "status": "confirmed",
-    "notes": "JSON-LD event data matches"
-  },
-  {
-    "event_id": "lister-rain-date-bachata-salsa-by-the-river",
-    "event_name": "RAIN DATE: Bachata & Salsa By The River",
-    "url_type": "direct",
-    "source_url": "https://www.listerevents.com/event-details/rain-date-bachata-salsa-by-the-river",
-    "verified_at": "2026-06-08T18:08:21.471560+00:00",
-    "source_location": "The Nature Center @ Magazine Beach Park, 668 Memorial Dr, Cambridge, MA 02139, USA",
-    "our_location": "The Nature Center @ Magazine Beach Park, 668 Memorial Dr, Cambridge, MA 02139, USA",
+    "our_location": "735 William T Morrissey Boulevard, Boston, MA 02122, Boston, MA",
     "status": "confirmed",
     "notes": "JSON-LD event data matches"
   },
@@ -508,36 +312,254 @@
     "status": "needs_browser",
     "notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
     "our_location": "450 Massachusetts Ave, Cambridge, MA, United States, Massachusetts 02139",
-    "verified_at": "2026-06-08T18:08:21.598958+00:00"
+    "verified_at": "2026-06-17T19:43:33.238315+00:00"
   },
   {
     "event_id": "5ED3301D-8CE8-45D1-8094-C380C699DA99",
     "event_name": "Rueda in the Pahk",
-    "url_type": "instagram",
-    "source_url": "https://www.instagram.com/p/DY5afzhhsK7/",
-    "status": "unverifiable",
-    "notes": "Instagram link — cannot scrape programmatically. Manual check recommended.",
+    "url_type": "facebook_page",
+    "source_url": "https://www.facebook.com/groups/1429334677328445/",
+    "status": "needs_browser",
+    "notes": "Facebook page — agent should check Events tab for upcoming events",
     "our_location": "Jill Brown Rhone Park, 900 Main St, Cambridge, MA  02139, United States",
-    "verified_at": "2026-06-08T18:08:21.601902+00:00"
+    "verified_at": "2026-06-17T19:43:33.243180+00:00"
   },
   {
     "event_id": "6b4c9b37ceef7d692cade530d94d9c68b2496331@dance-calendar",
     "event_name": "Noche Latina June Social Party + DJ Eloi",
     "url_type": "direct",
     "source_url": "https://www.eventbrite.com/e/noche-latina-june-social-party-dj-eloi-tickets-1990393602846",
-    "verified_at": "2026-06-08T18:08:21.604946+00:00",
+    "verified_at": "2026-06-17T19:43:33.247837+00:00",
     "source_location": "Luna Fitness Club, 735 William T Morrissey Boulevard, Boston, MA 02122",
     "our_location": "735 William T Morrissey Boulevard, Boston, MA 02122, Boston, MA",
     "status": "confirmed",
     "notes": "JSON-LD event data matches"
   },
   {
-    "event_id": "dj-clave-cantab-2026-06-14",
-    "event_name": "Salsa & Bachata Social - DJ CLAVE",
+    "event_id": "6p0q976tmk0ub5vt98dhuugd5i_R20240803T233000@google.com",
+    "event_name": "💃 Guateque Cubano",
+    "url_type": "no_url",
+    "source_url": null,
+    "status": "no_source",
+    "notes": "No URL. Search suggestion: \"💃 Guateque Cubano George Dilboy VFW Post 529, 351 Summer St, Somerville, MA 02144, USA boston\"",
+    "our_location": "George Dilboy VFW Post 529, 351 Summer St, Somerville, MA 02144, USA",
+    "verified_at": "2026-06-17T19:43:33.363060+00:00"
+  },
+  {
+    "event_id": "4scb4cfq1j6t6b7ss6io3jn65n_R20251018T010000@google.com",
+    "event_name": "🤓 💃 Dante's Salsa Inferno",
+    "url_type": "facebook_event",
+    "source_url": "https://www.facebook.com/events/2104484547169513/",
+    "status": "needs_browser",
+    "notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
+    "our_location": "Dante Alighieri Society of Massachusetts, 41 Hampshire St, Cambridge, MA 02139, USA",
+    "verified_at": "2026-06-17T19:43:33.366730+00:00"
+  },
+  {
+    "event_id": "3vk8m42q95bjqijuef783qvd1a@google.com",
+    "event_name": "🪘 The Timba Messengers",
+    "url_type": "no_url",
+    "source_url": null,
+    "status": "no_source",
+    "notes": "No URL. Search suggestion: \"🪘 The Timba Messengers Wally's Cafe Jazz Club, 427 Massachusetts Ave, Boston, MA 02118, USA boston\"",
+    "our_location": "Wally's Cafe Jazz Club, 427 Massachusetts Ave, Boston, MA 02118, USA",
+    "verified_at": "2026-06-17T19:43:33.370705+00:00"
+  },
+  {
+    "event_id": "0du3658tpe2aej0a3e5i2o7nm1@google.com",
+    "event_name": "💃 El Bonche!",
+    "url_type": "no_url",
+    "source_url": null,
+    "status": "no_source",
+    "notes": "No URL. Search suggestion: \"💃 El Bonche! Rumba Y Timbal Dance Company, 7 Temple St, Cambridge, MA 02139, USA boston\"",
+    "our_location": "Rumba Y Timbal Dance Company, 7 Temple St, Cambridge, MA 02139, USA",
+    "verified_at": "2026-06-17T19:43:33.374979+00:00"
+  },
+  {
+    "event_id": "15F245C1-03AD-4AC3-ADB5-9CE4CDE011AC",
+    "event_name": "Bachata & Salsa By The River",
     "url_type": "direct",
-    "source_url": "https://tunehatch.com/shows/salsa-bachata-social-dj-clave",
-    "verified_at": "2026-06-08T18:08:21.715333+00:00",
+    "source_url": "https://www.listerevents.com/event-details/bachata-salsa-by-the-river-3",
+    "verified_at": "2026-06-17T19:43:33.378649+00:00",
+    "source_location": "The Nature Center @ Magazine Beach Park, 668 Memorial Dr, Cambridge, MA 02139, USA",
+    "our_location": "Magazine Beach Park, 668 Memorial Dr, Cambridge, MA 02139",
+    "status": "confirmed",
+    "notes": "JSON-LD event data matches"
+  },
+  {
+    "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar",
+    "event_name": "Sushi Con Salsa - Dance Sessions",
+    "url_type": "direct",
+    "source_url": "https://www.eventbrite.com/e/sushi-con-salsa-dance-sessions-vol1-tickets-1988719477492",
+    "verified_at": "2026-06-17T19:43:33.557505+00:00",
     "status": "confirmed",
     "notes": "Page accessible, no JSON-LD found (text check only)"
+  },
+  {
+    "event_id": "lister-bachata-dance-workout-morse-library",
+    "event_name": "Bachata Dance Workout @Morse Library",
+    "url_type": "direct",
+    "source_url": "https://www.listerevents.com/event-details/bachata-dance-workout-morse-library",
+    "verified_at": "2026-06-17T19:43:33.662942+00:00",
+    "source_location": "Lebowitz Meeting Hall, Morse Library, 14 E Central St, Natick, MA 01760, USA",
+    "our_location": "Lebowitz Meeting Hall, Morse Library, 14 E Central St, Natick, MA 01760, USA",
+    "status": "confirmed",
+    "notes": "JSON-LD event data matches"
+  },
+  {
+    "event_id": "371BD021-4B24-49FF-91AA-8208627893C2",
+    "event_name": "Sunset Salsa Bachata on the Docks",
+    "url_type": "facebook_event",
+    "source_url": "https://facebook.com/events/s/sunset-salsa-bachata-on-the-do/1144218355444560/",
+    "status": "needs_browser",
+    "notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
+    "our_location": "Hatch Shell on the Esplanade",
+    "verified_at": "2026-06-17T19:43:33.818877+00:00"
+  },
+  {
+    "event_id": "0D2E7B82-58C2-4CA7-89C1-174364983C04",
+    "event_name": "East Boston Latin music and dance festival",
+    "url_type": "instagram",
+    "source_url": "https://www.instagram.com/p/DZibxMqJYRR/",
+    "status": "unverifiable",
+    "notes": "Instagram link — cannot scrape programmatically. Manual check recommended.",
+    "our_location": "East Boston Memorial Park, 150 Porter St, East Boston, MA 02128, United States",
+    "verified_at": "2026-06-17T19:43:33.823030+00:00"
+  },
+  {
+    "event_id": "eb-1991816316220",
+    "event_name": "Zouk BOOTCAMP for Bachata Dancers (2 Days)",
+    "url_type": "direct",
+    "source_url": "https://www.eventbrite.co.uk/e/zouk-bootcamp-for-bachata-dancers-2-days-tickets-1991816316220",
+    "verified_at": "2026-06-17T19:43:33.828926+00:00",
+    "status": "confirmed",
+    "notes": "Page accessible, no JSON-LD found (text check only)"
+  },
+  {
+    "event_id": "3da0d44a82fe3034c582b6b9cc33f734cf3c1314@dance-calendar",
+    "event_name": "“Parrandazo!” Vol. 4 at Spy Bar: Enjoy the Native Rhythms of the Caribbean",
+    "url_type": "direct",
+    "source_url": "https://www.eventbrite.com/e/parrandazo-vol-4-at-spy-bar-enjoy-the-native-rhythms-of-the-caribbean-tickets-1991568778829",
+    "verified_at": "2026-06-17T19:43:33.990227+00:00",
+    "source_location": "Spy Bar, 40 Berkeley Street, Boston, MA 02116",
+    "our_location": "40 Berkeley Street, Boston, MA 02116, Boston, MA",
+    "status": "confirmed",
+    "notes": "JSON-LD event data matches"
+  },
+  {
+    "event_id": "a9ca1c7497b64b241860721ad5d82183bbb84ebe@dance-calendar",
+    "event_name": "Sabor Latino! @ El Barco - Salsa/Bachata Night",
+    "url_type": "direct",
+    "source_url": "https://www.eventbrite.com/e/sabor-latino-el-barco-salsabachata-night-tickets-1991805539988",
+    "verified_at": "2026-06-17T19:43:34.131371+00:00",
+    "source_location": "El Barco | Tacos x Tequilas, 50 Dalton Street, Boston, MA 02115",
+    "our_location": "50 Dalton Street, Boston, MA 02115, Boston, MA",
+    "status": "confirmed",
+    "notes": "JSON-LD event data matches"
+  },
+  {
+    "event_id": "4hd8qncaku89d76g6fdqfmur27@google.com",
+    "event_name": "Sensual Bachata Social",
+    "url_type": "direct",
+    "source_url": "https://www.eventbrite.com/e/sensual-bachata-social-tickets-1991829934954",
+    "verified_at": "2026-06-17T19:43:34.260406+00:00",
+    "source_location": "Moves & Vibes Dance and Entertainment Co, 44 Fifth street, Cambridge, MA 02141",
+    "our_location": "Moves & Vibes Dance and Entertainment Co, 44 Fifth street, Cambridge, MA 02141, Cambridge, MA",
+    "status": "confirmed",
+    "notes": "JSON-LD event data matches"
+  },
+  {
+    "event_id": "rj01qhpqbb1qg00243k5ov129k@google.com",
+    "event_name": "🤓 🪘 Afro-Cuban Music w/ Sandy Pérez",
+    "url_type": "no_url",
+    "source_url": null,
+    "status": "no_source",
+    "notes": "No URL. Search suggestion: \"🤓 🪘 Afro-Cuban Music w/ Sandy Pérez The Neal Rantoul Vault Theatre, 25 Exchange St, Lynn, MA 01901, USA boston\"",
+    "our_location": "The Neal Rantoul Vault Theatre, 25 Exchange St, Lynn, MA 01901, USA",
+    "verified_at": "2026-06-17T19:43:34.402315+00:00"
+  },
+  {
+    "event_id": "4s2c9e8buma8kst9n0vl8ac6sb_R20250418T223000@google.com",
+    "event_name": "🤓 Boston Rueda Classes",
+    "url_type": "no_url",
+    "source_url": null,
+    "status": "no_source",
+    "notes": "No URL. Search suggestion: \"🤓 Boston Rueda Classes The Foundry, 101 Rogers St, Cambridge, MA 02142, USA boston\"",
+    "our_location": "The Foundry, 101 Rogers St, Cambridge, MA 02142, USA",
+    "verified_at": "2026-06-17T19:43:34.415757+00:00"
+  },
+  {
+    "event_id": "3dlpk3g8kabug9qfkv9e0affdg@google.com",
+    "event_name": "🤓 Wednesday Workshops with MetaMovements",
+    "url_type": "no_url",
+    "source_url": null,
+    "status": "no_source",
+    "notes": "No URL. Search suggestion: \"🤓 Wednesday Workshops with MetaMovements Cambridge Community Center, 5 Callender St, Cambridge, MA boston\"",
+    "our_location": "Cambridge Community Center, 5 Callender St, Cambridge, MA",
+    "verified_at": "2026-06-17T19:43:34.426157+00:00"
+  },
+  {
+    "event_id": "m493k99gsroqpbockbf2e5cgi7@google.com",
+    "event_name": "Kiz Thursday",
+    "url_type": "no_url",
+    "source_url": null,
+    "status": "no_source",
+    "notes": "No URL. Search suggestion: \"Kiz Thursday Moves & Vibes Dancing Academy, 44 5th St, Cambridge, MA 02141, EE. UU. boston\"",
+    "our_location": "Moves & Vibes Dancing Academy, 44 5th St, Cambridge, MA 02141, EE. UU.",
+    "verified_at": "2026-06-17T19:43:34.436038+00:00"
+  },
+  {
+    "event_id": "078572ff12be0362690bdbe8105cd514244c3813@dance-calendar",
+    "event_name": "“Parrandazo!” Vol. 5 at Spy Bar: Enjoy the Native Rhythms of the Caribbean",
+    "url_type": "direct",
+    "source_url": "https://www.eventbrite.com/e/parrandazo-vol-5-at-spy-bar-enjoy-the-native-rhythms-of-the-caribbean-tickets-1991570102789",
+    "verified_at": "2026-06-17T19:43:34.445869+00:00",
+    "source_location": "Spy Bar, 40 Berkeley Street, Boston, MA 02116",
+    "our_location": "40 Berkeley Street, Boston, MA 02116, Boston, MA",
+    "status": "confirmed",
+    "notes": "JSON-LD event data matches"
+  },
+  {
+    "event_id": "651706f14abf7a592d56b30399b6ec1a0088577c@dance-calendar",
+    "event_name": "MIAMI'S BIGGEST BACHATA PARTY at La Otra | La Casa de la Bachata",
+    "url_type": "direct",
+    "source_url": "https://www.eventbrite.com/e/miamis-biggest-bachata-party-at-la-otra-la-casa-de-la-bachata-tickets-1991797863026",
+    "verified_at": "2026-06-17T19:43:34.996567+00:00",
+    "source_location": "La Otra at Mad Wynwood, 55 Northeast 24th Street, Miami, FL 33137",
+    "our_location": "55 Northeast 24th Street, Miami, FL 33137, Miami, FL",
+    "status": "confirmed",
+    "notes": "JSON-LD event data matches"
+  },
+  {
+    "event_id": "408adba864c7bcc60677d4a59f172d58a83c5c5a@dance-calendar",
+    "event_name": "Sabor Latino! @ El Barco - Salsa/Bachata Night",
+    "url_type": "direct",
+    "source_url": "https://www.eventbrite.com/e/sabor-latino-el-barco-salsabachata-night-tickets-1991805664360",
+    "verified_at": "2026-06-17T19:43:35.159981+00:00",
+    "source_location": "El Barco | Tacos x Tequilas, 50 Dalton Street, Boston, MA 02115",
+    "our_location": "50 Dalton Street, Boston, MA 02115, Boston, MA",
+    "status": "confirmed",
+    "notes": "JSON-LD event data matches"
+  },
+  {
+    "event_id": "lister-bachata-salsa-by-the-river-4",
+    "event_name": "Bachata & Salsa By The River",
+    "url_type": "direct",
+    "source_url": "https://www.listerevents.com/event-details/bachata-salsa-by-the-river-4",
+    "verified_at": "2026-06-17T19:43:35.292128+00:00",
+    "source_location": "The Nature Center @ Magazine Beach Park, 668 Memorial Dr, Cambridge, MA 02139, USA",
+    "our_location": "The Nature Center @ Magazine Beach Park, 668 Memorial Dr, Cambridge, MA 02139, USA",
+    "status": "confirmed",
+    "notes": "JSON-LD event data matches"
+  },
+  {
+    "event_id": "C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5",
+    "event_name": "Sazón Saturday",
+    "url_type": "instagram",
+    "source_url": "https://www.instagram.com/p/DZF_C5HpIe3/",
+    "status": "unverifiable",
+    "notes": "Instagram link — cannot scrape programmatically. Manual check recommended.",
+    "our_location": "Lili Latin Dance, 423 W Broadway, Ste 202, South Boston, MA 02127",
+    "verified_at": "2026-06-17T19:43:35.439149+00:00"
   }
 ]

@@ -180,3 +180,38 @@
 {"ts": "2026-06-15T16:49:12.505173+00:00", "action": "archive", "event_id": "FA4BDE26-3453-4B3F-A8BB-D48278DB0BF4", "details": ""}
 {"ts": "2026-06-15T16:49:12.505200+00:00", "action": "archive", "event_id": "46137863-C388-4190-8479-8B393C0B834D", "details": ""}
 {"ts": "2026-06-15T16:49:12.505251+00:00", "action": "archive", "event_id": "bobas-20260526-0", "details": ""}
+{"ts": "2026-06-17T19:39:24.647299+00:00", "action": "add", "event_id": "m493k99gsroqpbockbf2e5cgi7@google.com", "details": ""}
+{"ts": "2026-06-17T19:39:24.683836+00:00", "action": "add", "event_id": "078572ff12be0362690bdbe8105cd514244c3813@dance-calendar", "details": ""}
+{"ts": "2026-06-17T19:39:24.699396+00:00", "action": "reject_non_latin", "event_id": "876946c7362a1b4b7d0927db9c62eccd1bf0c07c@dance-calendar", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-06-17T19:39:27.258241+00:00", "action": "add", "event_id": "651706f14abf7a592d56b30399b6ec1a0088577c@dance-calendar", "details": ""}
+{"ts": "2026-06-17T19:39:27.580730+00:00", "action": "reactivate", "event_id": "FA4BDE26-3453-4B3F-A8BB-D48278DB0BF4", "details": "from archive (certain)"}
+{"ts": "2026-06-17T19:39:27.747478+00:00", "action": "add", "event_id": "408adba864c7bcc60677d4a59f172d58a83c5c5a@dance-calendar", "details": ""}
+{"ts": "2026-06-17T19:39:27.822629+00:00", "action": "pending_review", "event_id": "7rf11ktoprrshuuetdos3u4fat@google.com", "details": "review dup of 6b4c9b37ceef7d692cade530d94d9c68b2496331@dance-calendar: exact_name+within_24h+same_day"}
+{"ts": "2026-06-17T19:39:27.849438+00:00", "action": "reactivate", "event_id": "bobas-20260526-0", "details": "from archive (certain)"}
+{"ts": "2026-06-17T19:39:28.056677+00:00", "action": "add", "event_id": "lister-bachata-salsa-by-the-river-4", "details": ""}
+{"ts": "2026-06-17T19:39:28.128681+00:00", "action": "reject_non_latin", "event_id": "F75203DD-C2C0-40BB-BE0E-A67013E17125", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-06-17T19:39:28.333959+00:00", "action": "reject_non_latin", "event_id": "jtgs3h7rbgmv3d7of0d7v5nt9g@google.com", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-06-17T19:39:28.337063+00:00", "action": "archive", "event_id": "e67f55d566f3f3f0283acd652ecd424fedb8948e@occurrence-2@dance-calendar", "details": ""}
+{"ts": "2026-06-17T19:39:28.337215+00:00", "action": "archive", "event_id": "3f6947b81983396f49634c5f4deb6ea17f025b12@dance-calendar", "details": ""}
+{"ts": "2026-06-17T19:39:28.337271+00:00", "action": "archive", "event_id": "FEDCE609-3D05-480B-98DA-84EEF66EA4E3", "details": ""}
+{"ts": "2026-06-17T19:39:28.337386+00:00", "action": "archive", "event_id": "dj-clave-cantab-2026-06-14", "details": ""}
+{"ts": "2026-06-17T19:39:28.337477+00:00", "action": "archive", "event_id": "FA4BDE26-3453-4B3F-A8BB-D48278DB0BF4", "details": ""}
+{"ts": "2026-06-17T19:39:28.337545+00:00", "action": "archive", "event_id": "bobas-20260526-0", "details": ""}
+{"ts": "2026-06-17T19:41:38.347473+00:00", "action": "dismiss_rejected", "event_id": "rj01qhpqbb1qg00243k5ov129k@google.com", "details": "class, not social dance"}
+{"ts": "2026-06-17T19:41:39.095336+00:00", "action": "dismiss_rejected", "event_id": "185s52resns3tel8g890v0fafg@google.com", "details": "workshop, not social dance"}
+{"ts": "2026-06-17T19:41:40.769760+00:00", "action": "dismiss_rejected", "event_id": "3dlpk3g8kabug9qfkv9e0affdg@google.com", "details": "workshop, not social dance"}
+{"ts": "2026-06-17T19:41:42.991654+00:00", "action": "dismiss_rejected", "event_id": "4s2c9e8buma8kst9n0vl8ac6sb_R20250418T223000@google.com", "details": "class, not social dance"}
+{"ts": "2026-06-17T19:41:43.903896+00:00", "action": "dismiss_rejected", "event_id": "despelote-summer-2026", "details": "class, not social dance"}
+{"ts": "2026-06-17T19:41:45.657532+00:00", "action": "dismiss_rejected", "event_id": "vacd32gq17i2smcs9e3h7ev7p8@google.com", "details": "class/workshop, not social dance"}
+{"ts": "2026-06-17T19:41:46.944369+00:00", "action": "dismiss_rejected", "event_id": "876946c7362a1b4b7d0927db9c62eccd1bf0c07c@dance-calendar", "details": "community festival/parade, not social dance"}
+{"ts": "2026-06-17T19:41:47.974516+00:00", "action": "dismiss_rejected", "event_id": "F75203DD-C2C0-40BB-BE0E-A67013E17125", "details": "not Latin dance (West Coast Swing)"}
+{"ts": "2026-06-17T19:41:48.661936+00:00", "action": "dismiss_rejected", "event_id": "jtgs3h7rbgmv3d7of0d7v5nt9g@google.com", "details": "class, not social dance"}
+{"ts": "2026-06-17T19:42:38.636551+00:00", "action": "reject", "event_id": "C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5", "details": "distinct event - Saz\u00f3n Saturday at Lili Latin Dance is different from NOISE at PKL"}
+{"ts": "2026-06-17T19:42:41.383129+00:00", "action": "approve", "event_id": "6mlfrfem1rbubuc3gl930v84v4@google.com", "details": ""}
+{"ts": "2026-06-17T19:42:43.031069+00:00", "action": "approve", "event_id": "7rf11ktoprrshuuetdos3u4fat@google.com", "details": ""}
+{"ts": "2026-06-17T19:43:03.169347+00:00", "action": "merge", "event_id": "beatrice-calendar-ebbb70f574734c0c", "details": "force-merged review dup of 481FAC51-0AA9-4AC7-81A2-DBE1423A4800"}
+{"ts": "2026-06-17T19:43:24.169567+00:00", "action": "add", "event_id": "C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5", "details": ""}
+{"ts": "2026-06-17T19:44:10.245382+00:00", "action": "remove", "event_id": "4s2c9e8buma8kst9n0vl8ac6sb_R20250418T223000@google.com", "details": "class, not social dance"}
+{"ts": "2026-06-17T19:44:12.510264+00:00", "action": "remove", "event_id": "3dlpk3g8kabug9qfkv9e0affdg@google.com", "details": "workshop, not social dance"}
+{"ts": "2026-06-17T19:44:12.589467+00:00", "action": "remove", "event_id": "rj01qhpqbb1qg00243k5ov129k@google.com", "details": "music class, not social dance"}
+{"ts": "2026-06-17T19:57:13.197182+00:00", "action": "remove", "event_id": "651706f14abf7a592d56b30399b6ec1a0088577c@dance-calendar", "details": "not in Boston area - event is in Miami, FL"}
