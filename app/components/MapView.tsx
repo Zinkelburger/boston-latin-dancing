@@ -71,16 +71,17 @@ function staggerCoordinates(items: { id: string; lat: number; lng: number }[]): 
   return offsets;
 }
 
-export type DatePreset = 'today' | 'tomorrow' | 'weekend' | 'next3' | 'next7' | 'all';
+export type DatePreset = 'today' | 'tomorrow' | 'weekend' | 'next7' | 'all';
 
-const PRESET_LABELS: Record<DatePreset, string> = {
+export const PRESET_LABELS: Record<DatePreset, string> = {
   today: 'Today',
   tomorrow: 'Tomorrow',
   weekend: 'This Weekend',
-  next3: 'Next 3 Days',
   next7: 'Next 7 Days',
   all: 'All',
 };
+
+export const DATE_PRESETS: DatePreset[] = ['today', 'tomorrow', 'weekend', 'next7'];
 
 function computePresetRange(preset: DatePreset, today: number): { fromDay: number; toDay: number } | null {
   switch (preset) {
@@ -91,22 +92,17 @@ function computePresetRange(preset: DatePreset, today: number): { fromDay: numbe
     case 'weekend': {
       const todayDate = new Date(today * 86400000);
       const dow = todayDate.getUTCDay();
-      // 0=Sun, 6=Sat
-      if (dow === 0) return { fromDay: today, toDay: today }; // Sunday: just today
-      if (dow === 6) return { fromDay: today, toDay: today + 1 }; // Saturday: Sat+Sun
+      if (dow === 0) return { fromDay: today, toDay: today };
+      if (dow === 6) return { fromDay: today, toDay: today + 1 };
       const daysUntilSat = 6 - dow;
       return { fromDay: today + daysUntilSat, toDay: today + daysUntilSat + 1 };
     }
-    case 'next3':
-      return { fromDay: today, toDay: today + 2 };
     case 'next7':
       return { fromDay: today, toDay: today + 6 };
     case 'all':
       return null;
   }
 }
-
-export { PRESET_LABELS };
 
 export default function MapView({ initialEventSlug }: { initialEventSlug?: string } = {}) {
   const mapRef = useRef<MapRef>(null);
@@ -428,6 +424,8 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
             defaultTo={defaultTo}
             viewMode={viewMode}
             onViewModeToggle={() => setViewMode(v => v === 'map' ? 'feed' : 'map')}
+            datePreset={datePreset}
+            onPresetChange={handlePresetChange}
           />
         </div>
       )}

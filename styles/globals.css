@@ -513,6 +513,26 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   flex-shrink: 0;
 }
 
+.feed-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.65rem;
+  height: 1.65rem;
+  border-radius: 9999px;
+  border: none;
+  background: #f3f4f6;
+  color: #6b7280;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.15s, color 0.15s;
+  margin-left: auto;
+}
+.feed-close-btn:hover {
+  background: #e5e7eb;
+  color: #374151;
+}
+
 .feed-date-chips {
   display: flex;
   gap: 0.3rem;

@@ -6,6 +6,8 @@ import clsx from 'clsx';
 import type { DanceStyle, DayOfWeek } from '@/types/event';
 import { STYLE_LABELS, STYLE_PILL_CLASS } from '@/lib/constants';
 import DateRangeSlider, { type DateRangeValue } from './DateRangeSlider';
+import type { DatePreset } from './MapView';
+import { PRESET_LABELS, DATE_PRESETS } from './MapView';
 
 const ALL_STYLES: DanceStyle[] = ['bachata', 'salsa', 'kizomba', 'zouk', 'merengue', 'other'];
 const DAYS: DayOfWeek[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -47,6 +49,8 @@ type Props = {
   defaultTo: number;
   viewMode: 'map' | 'feed';
   onViewModeToggle: () => void;
+  datePreset: DatePreset | null;
+  onPresetChange: (preset: DatePreset | null) => void;
 };
 
 export default function FilterBar({
@@ -57,6 +61,7 @@ export default function FilterBar({
   sliderMin, sliderMax,
   defaultFrom, defaultTo,
   viewMode, onViewModeToggle,
+  datePreset, onPresetChange,
 }: Props) {
   const [dateDialogOpen, setDateDialogOpen] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -169,19 +174,34 @@ export default function FilterBar({
         </div>
       </div>
 
-      {/* Row 3: Date range + count */}
+      {/* Row 3: When presets + date range */}
       <div className="filter-bar-row filter-bar-date-row">
         <div className="filter-date-section">
           <span className="filter-label">When</span>
           <button
-            onClick={setAnyMode}
+            onClick={() => {
+              onPresetChange(null);
+              setAnyMode();
+            }}
             className={clsx(
               'pretty-pill text-xs',
-              isAny ? 'pretty-pill-rose' : 'pretty-pill-ghost',
+              isAny && !datePreset ? 'pretty-pill-rose' : 'pretty-pill-ghost',
             )}
           >
             Any
           </button>
+          {DATE_PRESETS.map(preset => (
+            <button
+              key={preset}
+              onClick={() => onPresetChange(datePreset === preset ? null : preset)}
+              className={clsx(
+                'pretty-pill text-xs',
+                datePreset === preset ? 'pretty-pill-rose' : 'pretty-pill-ghost',
+              )}
+            >
+              {PRESET_LABELS[preset]}
+            </button>
+          ))}
           <button
             onClick={() => {
               onDateModeChange('custom');
@@ -189,7 +209,7 @@ export default function FilterBar({
             }}
             className={clsx(
               'pretty-pill text-xs',
-              !isAny ? 'pretty-pill-rose' : 'pretty-pill-ghost',
+              !isAny && !datePreset ? 'pretty-pill-rose' : 'pretty-pill-ghost',
             )}
           >
             {dateLabel}

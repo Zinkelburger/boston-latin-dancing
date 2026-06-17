@@ -15,7 +15,7 @@ import {
 } from '@/lib/recurrences';
 import ShareButton from './ShareButton';
 import type { DatePreset } from './MapView';
-import { PRESET_LABELS } from './MapView';
+import { PRESET_LABELS, DATE_PRESETS } from './MapView';
 
 const ALL_STYLES: DanceStyle[] = ['bachata', 'salsa', 'kizomba', 'zouk', 'merengue', 'other'];
 const DAYS: DayOfWeek[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -23,8 +23,6 @@ const DAY_SHORT: Record<DayOfWeek, string> = {
   Monday: 'Mon', Tuesday: 'Tue', Wednesday: 'Wed',
   Thursday: 'Thu', Friday: 'Fri', Saturday: 'Sat', Sunday: 'Sun',
 };
-
-const DATE_PRESETS: DatePreset[] = ['today', 'tomorrow', 'weekend', 'next3', 'next7'];
 
 const DAY_NAMES: DayOfWeek[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -317,6 +315,16 @@ export default function FeedView({
               <line x1="16" y1="6" x2="16" y2="22" />
             </svg>
             Map
+          </button>
+          <button
+            onClick={onViewModeToggle}
+            className="feed-close-btn"
+            aria-label="Close feed"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
           </button>
         </div>
         <div className="feed-date-chips">
