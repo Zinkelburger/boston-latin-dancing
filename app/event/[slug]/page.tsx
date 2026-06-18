@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import allEvents from '@/data/events-published.json';
 import type { DanceEvent } from '@/types/event';
 import { SITE_URL, STYLE_LABELS } from '@/lib/constants';
-import { formatEventTimeRange } from '@/lib/recurrences';
+import { formatEventTimeRange, getRecurrenceLabel } from '@/lib/recurrences';
 import { stripHtml } from '@/lib/strip-html';
 import EventJsonLd from './EventJsonLd';
 import MapView from '@/app/components/MapView';
@@ -66,10 +66,24 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
     ? `${SITE_URL}/event/${activeInstance.slug}`
     : url;
 
+  // Title carries the "when" so our listing reads differently from the
+  // organizer's / ticketing platform's result and gives a reason to click.
+  const whenLabel = event.recurring
+    ? (getRecurrenceLabel(event) || `Every ${event.dayOfWeek}`)
+    : date;
+  const pageTitle = whenLabel
+    ? `${event.name} — ${whenLabel} | Boston Salsa`
+    : `${event.name} | Boston Salsa`;
+
+  // Recurring series keep accumulating SEO authority even after a given run of
+  // dates passes — the event comes back. Only one-off events that are truly
+  // done get noindexed.
+  const noindex = event.archived && !event.recurring;
+
   return {
-    title: event.name,
+    title: { absolute: pageTitle },
     description,
-    ...(event.archived ? { robots: { index: false, follow: true } } : {}),
+    ...(noindex ? { robots: { index: false, follow: true } } : {}),
     openGraph: {
       title: event.name,
       description: event.organizer ? `${description} — ${event.organizer}` : description,

@@ -107,6 +107,11 @@ VENUE_COORDS = {
     "14 e central st": (42.2846114, -71.345821),
     "sol de mexico": (42.1530123, -71.4913262),
     "350 e main st": (42.1530123, -71.4913262),
+    "rumba y timbal dance company": (42.3668113, -71.104309),
+    "rumba y timbal": (42.3668113, -71.104309),
+    "7 temple st": (42.3668113, -71.104309),
+    "luna fitness club": (42.2953653, -71.0488803),
+    "east boston memorial park": (42.3713138, -71.0329399),
 }
 
 BOSTON = (42.36, -71.06)
@@ -160,6 +165,39 @@ def _save_geo_cache(cache: dict) -> None:
 
 _geo_cache = _load_geo_cache()
 
+# How long to trust a "not found" before re-attempting. Negative results are
+# often transient (rate-limit, a venue not yet in OSM); expiring them means the
+# cache self-heals on the next publish instead of staying poisoned forever.
+NEG_CACHE_TTL_DAYS = 14
+
+
+def _cache_coords(entry) -> Optional[tuple[float, float]]:
+    """Coordinates from a cache entry, or None if it isn't a positive hit."""
+    if isinstance(entry, dict) and "lat" in entry and "lng" in entry:
+        return (entry["lat"], entry["lng"])
+    return None
+
+
+def _neg_cache_expired(entry) -> bool:
+    """Whether a negative cache entry should be retried.
+
+    Legacy bare ``null`` entries (no timestamp) always expire, so old poisoned
+    entries get one fresh attempt under the improved query logic.
+    """
+    if not isinstance(entry, dict):
+        return True
+    ts = entry.get("miss")
+    if not ts:
+        return True
+    try:
+        when = datetime.fromisoformat(ts)
+    except (ValueError, TypeError):
+        return True
+    if when.tzinfo is None:
+        when = when.replace(tzinfo=timezone.utc)
+    return datetime.now(timezone.utc) - when > timedelta(days=NEG_CACHE_TTL_DAYS)
+
+
 def _dist_km(lat1: float, lng1: float, lat2: float, lng2: float) -> float:
     dlat = lat1 - lat2
     dlng = (lng1 - lng2) * math.cos(math.radians(lat1))
@@ -168,20 +206,38 @@ def _dist_km(lat1: float, lng1: float, lat2: float, lng2: float) -> float:
 def _is_near_boston(lat: float, lng: float) -> bool:
     return _dist_km(lat, lng, *BOSTON) <= MAX_DISTANCE_KM
 
-def _nominatim_query(query: str) -> Optional[tuple[float, float]]:
-    try:
-        resp = requests.get(
-            "https://nominatim.openstreetmap.org/search",
-            params={"q": query, "format": "json", "limit": 1, "countrycodes": "us"},
-            headers={"User-Agent": "boston-latin-dance-dev/0.1"},
-            timeout=10,
-        )
-        data = resp.json()
-        if data:
-            return (float(data[0]["lat"]), float(data[0]["lon"]))
-    except Exception:
-        pass
-    return None
+# Sentinel: the geocoder was reachable-but-failed (timeout, rate-limit, 5xx).
+# A transient failure must never be cached as a negative result — otherwise one
+# bad network moment poisons a location's coords permanently.
+_GEO_TRANSIENT = object()
+
+
+def _nominatim_query(query: str, retries: int = 2):
+    """Geocode one query string.
+
+    Returns ``(lat, lng)`` on success, ``None`` on a definitive no-result, and
+    ``_GEO_TRANSIENT`` when the service errored (so the caller can avoid caching
+    a false negative). Retries with backoff on rate-limit / server errors.
+    """
+    for attempt in range(retries + 1):
+        try:
+            resp = requests.get(
+                "https://nominatim.openstreetmap.org/search",
+                params={"q": query, "format": "json", "limit": 1, "countrycodes": "us"},
+                headers={"User-Agent": "boston-latin-dance-dev/0.1"},
+                timeout=10,
+            )
+            if resp.status_code == 200:
+                data = resp.json()
+                if data:
+                    return (float(data[0]["lat"]), float(data[0]["lon"]))
+                return None  # reached the service, genuinely nothing found
+            # 429 (rate-limited) or 5xx -> transient, back off and retry
+        except Exception:
+            pass  # network/timeout/JSON error -> transient
+        if attempt < retries:
+            time.sleep(1.5 * (attempt + 1))
+    return _GEO_TRANSIENT
 
 def _normalize(s: str) -> str:
     return s.replace("\u2018", "'").replace("\u2019", "'").replace("\u201c", '"').replace("\u201d", '"')
@@ -220,27 +276,77 @@ def _eventbrite_address(url: str) -> Optional[str]:
         pass
     return None
 
+# Country-name comma parts that confuse freeform geocoding. Includes the
+# Spanish "EE. UU." / "Estados Unidos" that Eventbrite emits for locale=es.
+_COUNTRY_PART_RE = re.compile(
+    r"^(?:ee\.?\s*uu\.?|e\.\s*e\.\s*u\.\s*u\.|usa|u\.s\.a?\.?|"
+    r"united states(?: of america)?|estados unidos)$",
+    re.I,
+)
+
+# Street-type abbreviations, so "620 Massachusetts Ave" and "620 Massachusetts
+# Avenue" collapse to one fragment instead of both being queried.
+_ADDR_ABBREV = [
+    (re.compile(r"\bavenue\b", re.I), "ave"),
+    (re.compile(r"\bstreet\b", re.I), "st"),
+    (re.compile(r"\bboulevard\b", re.I), "blvd"),
+    (re.compile(r"\bdrive\b", re.I), "dr"),
+    (re.compile(r"\broad\b", re.I), "rd"),
+]
+
+
+def _norm_part(part: str) -> str:
+    s = re.sub(r"\d{5}(-\d{4})?", "", part.lower())
+    for pat, repl in _ADDR_ABBREV:
+        s = pat.sub(repl, s)
+    return re.sub(r"\s+", " ", s).strip()
+
+
 def _build_query_variants(location: str) -> list[str]:
     cleaned = re.sub(r"#\w+\s*", "", clean_location(location))
     cleaned = re.sub(r",\s*FL\s+\d+", "", cleaned, flags=re.I)
     cleaned = re.sub(r"\s+-\s+\d+\w*\s+Floor", "", cleaned, flags=re.I)
     cleaned = cleaned.strip()
 
-    parts = [p.strip() for p in cleaned.split(",")]
+    # Split on commas; drop country names; collapse duplicate fragments.
+    parts = [p.strip() for p in cleaned.split(",") if p.strip()]
+    parts = [p for p in parts if not _COUNTRY_PART_RE.match(p)]
     seen: set[str] = set()
     deduped: list[str] = []
     for part in parts:
-        norm = re.sub(r"\d{5}(-\d{4})?", "", part.lower()).strip()
-        if norm not in seen:
+        norm = _norm_part(part)
+        if norm and norm not in seen:
             seen.add(norm)
             deduped.append(part)
-    deduped_str = ", ".join(deduped)
 
-    base = deduped_str if ("MA" in deduped_str or "Boston" in deduped_str) else f"{deduped_str}, Boston, MA"
-    variants = [base]
-    no_number = re.sub(r"^\d+\s+", "", base)
-    if no_number != base:
-        variants.append(no_number)
+    def with_region(s: str) -> str:
+        return s if re.search(r"\b(?:ma|boston)\b", s, re.I) else f"{s}, Boston, MA"
+
+    variants: list[str] = []
+
+    def add(s: str) -> None:
+        s = s.strip().strip(",").strip()
+        if not s:
+            return
+        v = with_region(s)
+        if v not in variants:
+            variants.append(v)
+
+    full = ", ".join(deduped)
+    add(full)
+
+    # Street-anchored variant: start at the first part beginning with a house
+    # number, dropping any leading venue/business/park name that breaks freeform
+    # search ("Rumba Y Timbal Dance Company, 7 Temple St, Cambridge, MA").
+    street_idx = next((i for i, p in enumerate(deduped) if re.match(r"^\d+\s", p)), None)
+    if street_idx is not None and street_idx > 0:
+        add(", ".join(deduped[street_idx:]))
+
+    # Last resort: drop a leading house number entirely.
+    no_number = re.sub(r"^\d+\s+", "", full)
+    if no_number != full:
+        add(no_number)
+
     return variants
 
 
@@ -259,11 +365,20 @@ def geocode(location: str) -> Optional[tuple[float, float]]:
 
     lower = location.lower().strip()
     if lower in _geo_cache:
-        cached = _geo_cache[lower]
-        return tuple(cached.values()) if cached else None
+        entry = _geo_cache[lower]
+        coords = _cache_coords(entry)
+        if coords is not None:
+            return coords
+        if not _neg_cache_expired(entry):
+            return None
+        # expired / legacy negative -> fall through and retry
 
+    had_transient = False
     for query in _build_query_variants(location):
         result = _nominatim_query(query)
+        if result is _GEO_TRANSIENT:
+            had_transient = True
+            continue
         if result and _is_near_boston(*result):
             _geo_cache[lower] = {"lat": result[0], "lng": result[1]}
             _save_geo_cache(_geo_cache)
@@ -272,8 +387,11 @@ def geocode(location: str) -> Optional[tuple[float, float]]:
             print(f"  Rejected (too far): \"{query}\" -> {result[0]}, {result[1]} ({_dist_km(*result, *BOSTON):.1f}km)")
         time.sleep(1.1)
 
-    _geo_cache[lower] = None
-    _save_geo_cache(_geo_cache)
+    # Only record a negative when the service actually answered "not found" for
+    # every variant. A transient failure is left uncached so we retry next time.
+    if not had_transient:
+        _geo_cache[lower] = {"miss": datetime.now(timezone.utc).isoformat()}
+        _save_geo_cache(_geo_cache)
     return None
 
 

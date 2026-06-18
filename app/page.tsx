@@ -3,19 +3,55 @@ import allEvents from '@/data/events-published.json';
 import type { DanceEvent } from '@/types/event';
 import { SITE_URL } from '@/lib/constants';
 import { stripHtml } from '@/lib/strip-html';
-import { formatEventTimeRange } from '@/lib/recurrences';
+import { formatEventTimeRange, firstOccurrenceInRange } from '@/lib/recurrences';
 import MapView from './components/MapView';
 
 const events = (allEvents as DanceEvent[]).filter(e => !e.archived && e.slug);
 
+/**
+ * Names of events with an occurrence in the next `withinDays`, soonest first
+ * and de-duplicated. Computed at build so the homepage description stays fresh
+ * with whatever's actually happening this week.
+ */
+function upcomingEventNames(limit: number, withinDays = 7): string[] {
+  const now = Date.now();
+  const end = now + withinDays * 86400000;
+  const dated = events
+    .map(e => {
+      const occ = firstOccurrenceInRange(e, now, end);
+      return occ ? { name: e.name, ms: new Date(occ).getTime() } : null;
+    })
+    .filter((x): x is { name: string; ms: number } => x !== null)
+    .sort((a, b) => a.ms - b.ms);
+
+  const seen = new Set<string>();
+  const names: string[] = [];
+  for (const { name } of dated) {
+    if (seen.has(name)) continue;
+    seen.add(name);
+    names.push(name);
+    if (names.length >= limit) break;
+  }
+  return names;
+}
+
+const upcomingNames = upcomingEventNames(5);
+const homeDescription = upcomingNames.length
+  ? `Latin dance in Boston this week: ${upcomingNames.join(', ')}, and more. `
+    + 'A live map of salsa and bachata socials, parties, and classes happening '
+    + 'tonight and this weekend near you.'
+  : 'Where to dance salsa and bachata in Boston. A live map of Latin dance '
+    + 'socials, parties, and classes happening this week near you.';
+
 export const metadata: Metadata = {
-  title: { absolute: 'Boston Salsa Events | bostonsalsa.org' },
-  description:
-    'Salsa events in Boston. Find salsa and Latin dance socials and parties happening this week. Join the local dance community!',
+  title: {
+    absolute: 'Salsa & Bachata Events in Boston This Week | bostonsalsa.org',
+  },
+  description: homeDescription,
+  alternates: { canonical: SITE_URL },
   openGraph: {
-    title: 'Boston Salsa Events',
-    description:
-      'Find salsa and Latin dance socials and parties happening in Boston this week.',
+    title: 'Salsa & Bachata Events in Boston This Week',
+    description: homeDescription,
     type: 'website',
     url: SITE_URL,
     images: [{ url: '/icon.png', width: 512, height: 512 }],
@@ -64,10 +100,11 @@ function HomeJsonLd() {
 export default function Home() {
   return (
     <div className="h-full w-full overflow-hidden">
-      <h1 className="sr-only">Boston Salsa Events This Week</h1>
+      <h1 className="sr-only">Salsa &amp; Latin Dance Events in Boston This Week</h1>
       <p className="sr-only">
-        Salsa and Latin dance events in Boston. Find socials and
-        dance parties happening this week. Updated daily.
+        Where to dance salsa and bachata in Boston. Find Latin dance socials,
+        parties, and classes happening tonight, this weekend, and all week.
+        Updated daily.
       </p>
       <HomeJsonLd />
       <MapView />

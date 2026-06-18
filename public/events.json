@@ -133,44 +133,6 @@
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
-    "id": "bachata-room",
-    "name": "Bachata Room",
-    "startDate": "2026-06-17T21:00:00-04:00",
-    "endDate": "2026-06-18T00:00:00-04:00",
-    "dayOfWeek": "Wednesday",
-    "location": "La Fábrica Central, 450 Massachusetts Ave, Cambridge, MA 02139",
-    "lat": 42.3634,
-    "lng": -71.1012,
-    "description": "Your weekly fix for all your dancing needs.\n\n9:00pm – 10:00pm Bachata Lesson (Beginner/Intermediate)\n10:00pm – 12:00am Social Dancing (Bachata, Salsa, Merengue)\n\n$15 Lesson/Social Dancing (18+)",
-    "url": "https://www.bachataroomboston.com",
-    "styles": [
-      "bachata",
-      "salsa",
-      "merengue"
-    ],
-    "cost": "$15",
-    "recurring": true,
-    "recurrences": [
-      "2026-06-17T21:00:00-04:00",
-      "2026-06-24T21:00:00-04:00",
-      "2026-07-01T21:00:00-04:00",
-      "2026-07-08T21:00:00-04:00",
-      "2026-07-15T21:00:00-04:00",
-      "2026-07-22T21:00:00-04:00",
-      "2026-07-29T21:00:00-04:00",
-      "2026-08-05T21:00:00-04:00"
-    ],
-    "schedule": [
-      {
-        "dayOfWeek": "Wednesday",
-        "time": "9:00 PM – 12:00 AM",
-        "note": "Lesson + social (18+)"
-      }
-    ],
-    "slug": "bachata-room-bachata-",
-    "recurrenceLabel": "Every Wednesday · 9:00 PM – 12:00 AM"
-  },
-  {
     "id": "CB5572F4-BE51-4A3C-BC1E-21EE078058F8",
     "name": "Salsa at the Shell",
     "startDate": "2026-06-17T22:00:00+00:00",
@@ -342,35 +304,15 @@
       "2026-07-16T21:30:00-04:00",
       "2026-07-23T21:30:00-04:00",
       "2026-07-30T21:30:00-04:00",
-      "2026-08-06T21:30:00-04:00"
+      "2026-08-06T21:30:00-04:00",
+      "2026-08-13T21:30:00-04:00",
+      "2026-08-20T21:30:00-04:00",
+      "2026-08-27T21:30:00-04:00",
+      "2026-09-03T21:30:00-04:00"
     ],
     "slug": "kizz-thursday-61b50538",
     "recurrenceLabel": "Every Thursday",
     "organizer": "Sensualeros Boston Events"
-  },
-  {
-    "id": "61vvqt0h13uoigcucma9f9prhk@google.com",
-    "name": "Kiz Thursday",
-    "startDate": "2026-06-18T21:30:00-04:00",
-    "endDate": "2026-06-19T00:00:00-04:00",
-    "dayOfWeek": "Thursday",
-    "location": "Moves & Vibes Dancing Academy, 44 5th St, Cambridge, MA 02141, EE. UU.",
-    "lat": null,
-    "lng": null,
-    "description": "930 PM: Kizomba social with DJ Ceijay<br><br>$10 social only<br><br>Contact <a href=\"https://www.facebook.com/Ceijaykiz\" target=\"_blank\"><u>Ceijay &amp; Bruna</u></a> for more info.<br><br>Source: <a href=\"https://kizboston.com/\" target=\"_blank\">KizBoston - Boston Kiz Calendar</a>",
-    "url": null,
-    "styles": [
-      "kizomba"
-    ],
-    "cost": "$10",
-    "recurring": true,
-    "recurrences": [
-      "2026-06-18T21:30:00-04:00",
-      "2026-06-25T21:30:00-04:00"
-    ],
-    "slug": "kiz-thursday-61vvqt0h",
-    "recurrenceLabel": "Every Thursday",
-    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "3vk8m42q95bjqijuef783qvd1a@google.com",
@@ -468,8 +410,8 @@
     "endDate": "2026-06-21T02:00:00+00:00",
     "dayOfWeek": "Saturday",
     "location": "Rumba Y Timbal Dance Company",
-    "lat": null,
-    "lng": null,
+    "lat": 42.3668113,
+    "lng": -71.104309,
     "description": "✨ Rumba y Clave: Salsa & Bachata Social — Debut Event ✨\n\nJoin us for the launch of Rumba y Clave, a night of high-energy, danceable salsa and bachata in Cambridge!\n\nSource: https://facebook.com/events/s/rumba-y-clave-salsa-bachata-so/4426977090880615/\n\nWe’re kicking things off with a special bachata musicality workshop, followed by a social featuring a performance by Rumba y Timbal.\n\nOur goal is simple: great music and nonstop dancing all night.\n\n🎶 Music by DJ CLAVE\n💃 50% salsa | 50% bachata\n\n📅 Schedule:\n6:00–7:00 PM — Bachata Musicality Workshop\n7:00–10:00 PM — Social Dancing + Performances\n\n🎟️ Entry (cash only):\n$20 — Workshop + Social\n$15 — Social only\n$10 — RYT students (Workshop + Social)\n\n📍 Location:\nRumba y Timbal Dance Studio\n7 Temple Street, Cambridge, MA 02139\n\n🚇 Central Square stop (MBTA Red Line)\n🅿️ Parking available nearby\n💃 Partners welcome (not required)\n👟 Dress comfortably for dancing\n✨ Open to all levels\n\nEnjoy a beautiful hardwood dance floor designed for smooth movement, along with a large, open space that gives you plenty of room to dance without feeling crowded.\n\nCome dance, connect, and be part of the very first edition of Rumba y Clave!\n\nNote: Although the map may display 136 Bishop Allen Drive, the correct entrance address is 7 Temple Street. The buildings are very close together, so the map pin can be slightly inaccurate. The studio is located in the corner building at Bishop Allen Drive and Temple Street — please enter from the Temple Street side and use 7 Temple Street in your GPS.",
     "url": "https://facebook.com/events/s/rumba-y-clave-salsa-bachata-so/4426977090880615/",
     "styles": [
@@ -570,8 +512,8 @@
     "endDate": "2026-06-23T22:30:00-04:00",
     "dayOfWeek": "Tuesday",
     "location": "620 Massachusetts Ave, 620 Massachusetts Avenue, Cambridge, MA 02139, Cambridge, MA",
-    "lat": null,
-    "lng": null,
+    "lat": 42.3648982,
+    "lng": -71.1035623,
     "description": "Jump into Zouk vibes while leveling up your bachata foundations, partner moves, and head rolls!\n\nOrganizer: Julie R",
     "url": "https://www.eventbrite.co.uk/e/zouk-bootcamp-for-bachata-dancers-2-days-tickets-1991816316220",
     "styles": [
@@ -584,14 +526,52 @@
     "organizer": "Eventbrite Boston Latin Dance"
   },
   {
+    "id": "bachata-room",
+    "name": "Bachata Room",
+    "startDate": "2026-06-24T21:00:00-04:00",
+    "endDate": "2026-06-25T00:00:00-04:00",
+    "dayOfWeek": "Wednesday",
+    "location": "La Fábrica Central, 450 Massachusetts Ave, Cambridge, MA 02139",
+    "lat": 42.3634,
+    "lng": -71.1012,
+    "description": "Your weekly fix for all your dancing needs.\n\n9:00pm – 10:00pm Bachata Lesson (Beginner/Intermediate)\n10:00pm – 12:00am Social Dancing (Bachata, Salsa, Merengue)\n\n$15 Lesson/Social Dancing (18+)",
+    "url": "https://www.bachataroomboston.com",
+    "styles": [
+      "bachata",
+      "salsa",
+      "merengue"
+    ],
+    "cost": "$15",
+    "recurring": true,
+    "recurrences": [
+      "2026-06-24T21:00:00-04:00",
+      "2026-07-01T21:00:00-04:00",
+      "2026-07-08T21:00:00-04:00",
+      "2026-07-15T21:00:00-04:00",
+      "2026-07-22T21:00:00-04:00",
+      "2026-07-29T21:00:00-04:00",
+      "2026-08-05T21:00:00-04:00",
+      "2026-08-12T21:00:00-04:00"
+    ],
+    "schedule": [
+      {
+        "dayOfWeek": "Wednesday",
+        "time": "9:00 PM – 12:00 AM",
+        "note": "Lesson + social (18+)"
+      }
+    ],
+    "slug": "bachata-room-bachata-",
+    "recurrenceLabel": "Every Wednesday · 9:00 PM – 12:00 AM"
+  },
+  {
     "id": "96BE1814-7270-4570-9098-D31091685C51",
     "name": "BACHATA ROOM 9 Year Anniversary FT: Bachata Star DJ Zacarry",
     "startDate": "2026-06-25T01:00:00+00:00",
     "endDate": "2026-06-25T04:00:00+00:00",
     "dayOfWeek": "Wednesday",
     "location": "450 Massachusetts Ave, Cambridge, MA, United States, Massachusetts 02139",
-    "lat": null,
-    "lng": null,
+    "lat": 42.3636635,
+    "lng": -71.1011293,
     "description": "WE ARE CELEBRATING 9 YEARS OF DANCING & COMMUNITY! \n\nJoin us this upcoming Wednesday, June 24th, as we celebrate 9 incredible years of Bachata Room’s amazing memories, music, community, and history! ❤️\n\nFor this very special anniversary celebration, we are excited to welcome back, for the 2nd time at Bachata Room! all the way from Washington, DC… 🔥 DJ ZACARRY 🔥\n\nLast time he absolutely set the dance floor on fire, and he’s coming back ready to do it again with the BEST Bachata & Salsa tunes all night long! 💃🕺\n\nExpect:\n✨ Amazing music\n✨ Great vibes\n✨ Non-stop dancing\n✨ Incredible energy\n✨ And lots of Happy faces\n\n🕘 Bachata Class: 9:00 PM – 10:00 PM\n💃 Social Dancing: 10:00 PM – 12:30 AM\n\n🎧 Music by DJ Zacarry & DJ Ninrod\n🤩Performances by Megenta Dance Team and Moves & Vibes\n\n📍 18+ Event\n🎟 Cover Includes Class + Social\n\nCome celebrate this huge milestone and dance the night away!🔥\n",
     "url": "https://facebook.com/events/s/bachata-room-9-year-anniversar/1499653191567362/",
     "styles": [
@@ -692,8 +672,8 @@
     "endDate": "2026-06-27T23:00:00-04:00",
     "dayOfWeek": "Saturday",
     "location": "Rumba Y Timbal Dance Company, 7 Temple St, Cambridge, MA 02139, USA",
-    "lat": null,
-    "lng": null,
+    "lat": 42.3668113,
+    "lng": -71.104309,
     "description": "Monthly Cuban party (4th Saturday of each month)\n\n<b>Price</b>\n$15 online, $20 at the door\n\n<b>Organized by El Bonche</b>\nFacebook: https://www.facebook.com/elboncheinboston/\nInstagram: https://www.instagram.com/elboncheinboston/\n\n\n---\nManaged by Una Bulla\nhttps://www.unabulla.com/boston",
     "url": null,
     "styles": [
@@ -735,8 +715,8 @@
     "endDate": "2026-06-28T05:00:00+00:00",
     "dayOfWeek": "Saturday",
     "location": "Luna Fitness Club, 735 William T Morrissey Blvd, Dorchester, MA 02122, EE. UU.",
-    "lat": null,
-    "lng": null,
+    "lat": 42.2953653,
+    "lng": -71.0488803,
     "description": "Join us for our Salsa, Bachata, Kizomba &amp; Konpa Social in Boston<br><br>8 PM: Bachata workshop<br>9 PM: Salsa workshop<br>10 PM: Social with Bachata, Kizomba, Salsa, Cha-Cha, Konpa, Merengue music<br><br>Music by: DJ Eloi<br><br><a href=\"https://www.facebook.com/events/774242631960831\" target=\"_blank\">FB event here</a>.<br><br>Charges:<br>$20 in advance<br>$25 on Venmo, Zelle, Cashapp @ door<br><br>Contact <a href=\"https://www.facebook.com/NocheLatinaDanceCo\" target=\"_blank\"><u><u>Noche Latina</u></u></a> for more info.<br><br>Source: <a href=\"https://kizboston.com/\">KizBoston - Boston Kiz Calendar</a>",
     "url": null,
     "styles": [
@@ -937,14 +917,16 @@
     "cost": "Free",
     "recurring": true,
     "recurrences": [
+      "2026-06-07T18:00:00-04:00",
+      "2026-06-14T18:00:00-04:00",
       "2026-07-05T18:00:00-04:00",
-      "2026-08-02T18:00:00-04:00"
+      "2026-08-02T18:00:00-04:00",
+      "2026-09-06T17:00:00-04:00"
     ],
     "urls": [
       "https://facebook.com/events/s/bachata-salsa-by-the-river/1522894889342446/"
     ],
     "slug": "bachata-salsa-by-the-river-15f245c1",
-    "recurrenceLabel": "First Sunday of each month",
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
@@ -1228,8 +1210,8 @@
     "endDate": "2026-09-13T23:00:00+00:00",
     "dayOfWeek": "Sunday",
     "location": "East Boston Memorial Park, 150 Porter St, East Boston, MA 02128, United States",
-    "lat": null,
-    "lng": null,
+    "lat": 42.3713138,
+    "lng": -71.0329399,
     "description": "A day full of dance, music, art, and community. More details coming soon!\n\nSource: https://www.instagram.com/p/DZibxMqJYRR/",
     "url": "https://www.instagram.com/p/DZibxMqJYRR/",
     "styles": [
@@ -1728,8 +1710,8 @@
     "endDate": "2026-06-07T02:00:00-04:00",
     "dayOfWeek": "Saturday",
     "location": "Chemist Cocktail Bar, 109 High Street, Boston, MA 02110, Boston, MA",
-    "lat": null,
-    "lng": null,
+    "lat": 42.3780076,
+    "lng": -71.0656395,
     "description": "Esta vez nos vamos a modo de golpe duro de campana y cantada a grito herido. SABROSO edición salsa de golpe versus romántica!!!\n\nOrganizer: MORENO",
     "url": "https://www.eventbrite.com/e/sabroso-vol011-tickets-1990397458378",
     "styles": [

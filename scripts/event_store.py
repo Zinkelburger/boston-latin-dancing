@@ -126,6 +126,21 @@ LOCATION_ALIASES: dict[str, str] = {
     "the cantab lounge": "cantab-lounge",
     "cantab lounge": "cantab-lounge",
     "738 massachusetts ave": "cantab-lounge",
+    # Moves & Vibes (Cambridge) — scraped as "Dance Co", "Dancing Academy",
+    # and "Dance and Entertainment Co", with the street as both "5th" and "Fifth".
+    "moves & vibes": "moves-vibes",
+    "44 5th st": "moves-vibes",
+    "44 fifth st": "moves-vibes",
+    "44 fifth street": "moves-vibes",
+    # La Fábrica Central (Cambridge) — appears with/without accent. (Deliberately
+    # not aliasing the bare "450 Massachusetts Ave": special one-off editions are
+    # listed by address only, and we don't want them swallowed into the series.)
+    "la fabrica": "la-fabrica-central",
+    "la fábrica": "la-fabrica-central",
+    # El Barco (Boston) — appears by name and as bare address.
+    "el barco": "el-barco",
+    "50 dalton st": "el-barco",
+    "50 dalton street": "el-barco",
 }
 
 
@@ -160,6 +175,68 @@ def normalize_name(name: str) -> str:
 
 def _content_words(name: str) -> set[str]:
     return set(name.split()) - _STOPWORDS
+
+
+# Minimum token length eligible for fuzzy (1-edit) matching. Shorter tokens
+# match too loosely (e.g. "san"/"sun"), so they require an exact match.
+_FUZZY_MIN_LEN = 3
+
+
+def _edit_distance_le1(a: str, b: str) -> bool:
+    """True if a and b are within one insert/delete/substitute of each other."""
+    if a == b:
+        return True
+    la, lb = len(a), len(b)
+    if abs(la - lb) > 1:
+        return False
+    i = j = edits = 0
+    while i < la and j < lb:
+        if a[i] == b[j]:
+            i += 1
+            j += 1
+            continue
+        edits += 1
+        if edits > 1:
+            return False
+        if la == lb:        # substitution
+            i += 1
+            j += 1
+        elif la > lb:       # deletion from a
+            i += 1
+        else:               # insertion into a
+            j += 1
+    if i < la or j < lb:    # trailing leftover char
+        edits += 1
+    return edits <= 1
+
+
+def _shared_word_count(words_a: set[str], words_b: set[str]) -> int:
+    """Count shared words, allowing one-character typos on longer tokens.
+
+    e.g. {"kizz","thursday"} vs {"kiz","thursday"} -> 2, so spelling variants
+    of the same event name ("Kizz" vs "Kiz") still register as a match.
+    """
+    remaining = set(words_b)
+    unmatched: list[str] = []
+    shared = 0
+    for w in words_a:
+        if w in remaining:
+            remaining.discard(w)
+            shared += 1
+        else:
+            unmatched.append(w)
+    for w in unmatched:
+        if len(w) < _FUZZY_MIN_LEN:
+            continue
+        match = next(
+            (x for x in remaining
+             if len(x) >= _FUZZY_MIN_LEN and _edit_distance_le1(w, x)),
+            None,
+        )
+        if match is not None:
+            remaining.discard(match)
+            shared += 1
+    return shared
 
 
 def parse_date(iso_str: str) -> Optional[datetime]:
@@ -341,9 +418,9 @@ def dedup_confidence(a: dict, b: dict) -> Optional[str]:
     words_b = _content_words(name_b)
     word_overlap_strong = False
     if words_a and words_b:
-        overlap = words_a & words_b
+        shared = _shared_word_count(words_a, words_b)
         smaller = min(len(words_a), len(words_b))
-        if smaller > 0 and len(overlap) >= max(2, smaller * 0.5):
+        if smaller > 0 and shared >= max(2, smaller * 0.5):
             word_overlap_strong = True
 
     # "certain" tier: multiple strong signals converge — these are always the
@@ -581,6 +658,23 @@ def _location_key(location: str) -> str:
     return re.sub(r"\s+", " ", first).strip()
 
 
+# Signals that a name is a distinctly-branded special edition rather than a
+# regular occurrence of a series: anniversaries, festivals, guest artists
+# ("ft"/"featuring"), holiday/themed nights, lineups ("vs"). Such an event keeps
+# its own map pin instead of being folded into the generic series name. Run
+# against normalize_name() output (lowercased, punctuation stripped).
+_SPECIAL_EDITION_RE = re.compile(
+    r"\b(?:anniversary|anniversaries|\d+\s*year|festival|festiva|edition|"
+    r"ft|feat|featuring|special|halloween|nye|new year|christmas|"
+    r"valentine|vs)\b",
+    re.I,
+)
+
+
+def _is_special_edition(name: str) -> bool:
+    return bool(_SPECIAL_EDITION_RE.search(name or ""))
+
+
 def _names_are_same_series(a: str, b: str) -> bool:
     if a == b:
         return True
@@ -590,9 +684,9 @@ def _names_are_same_series(a: str, b: str) -> bool:
     words_b = set(b.split()) - {"the", "at", "in", "and", "of", "by", "a", "an"}
     if not words_a or not words_b:
         return False
-    overlap = words_a & words_b
+    shared = _shared_word_count(words_a, words_b)
     smaller = min(len(words_a), len(words_b))
-    return len(overlap) >= max(2, smaller * 0.6)
+    return shared >= max(2, smaller * 0.6)
 
 
 def _event_day_of_week(event: dict) -> Optional[str]:
@@ -654,6 +748,13 @@ def _suppress_venue_covered_events(venue_events: list[dict], active_events: list
             kept.append(ev)
             continue
 
+        # Special editions (anniversaries, festivals, guest-artist nights) are
+        # distinct happenings — never let a generic venue schedule hide them,
+        # even when they fall on the venue's normal weeknight.
+        if _is_special_edition(normalize_name(ev.get("name", ""))):
+            kept.append(ev)
+            continue
+
         day = _event_day_of_week(ev)
         if not day:
             kept.append(ev)
@@ -710,6 +811,11 @@ def collapse_recurring_series(events: list[dict]) -> list[dict]:
 
             if not _names_are_same_series(name_i, name_j):
                 continue
+            # A distinctly-branded special edition (anniversary, festival, guest
+            # artist, themed night) sharing a series' venue + weeknight should
+            # stay its own pin rather than vanish into the generic series name.
+            if name_i != name_j and _is_special_edition(name_i) != _is_special_edition(name_j):
+                continue
             if loc_i and loc_j:
                 if loc_i != loc_j and loc_i not in loc_j and loc_j not in loc_i:
                     continue
@@ -730,7 +836,16 @@ def collapse_recurring_series(events: list[dict]) -> list[dict]:
 
         group_events.sort(key=source_rank)
         best = dict(group_events[0])
-        dates: list[str] = sorted({ev["startDate"] for ev in group_events if ev.get("startDate")})
+        # Union every member's dates: a member may itself already carry a
+        # recurrences[] (e.g. a previously-collapsed series), not just a single
+        # startDate. Dropping those would lose future occurrences.
+        date_set: set[str] = set()
+        for ev in group_events:
+            if ev.get("startDate"):
+                date_set.add(ev["startDate"])
+            for r in ev.get("recurrences") or []:
+                date_set.add(r)
+        dates: list[str] = sorted(date_set)
         if not dates:
             result.extend(group_events)
             continue
@@ -1411,6 +1526,14 @@ def publish() -> dict:
         archived_out.append(ev)
 
     published = deduped + archived_out
+
+    # Loudly surface anything shipping without coordinates — those events never
+    # render a pin on the map, so they're effectively invisible to visitors.
+    missing = [ev for ev in deduped if ev.get("lat") is None or ev.get("lng") is None]
+    if missing:
+        print(f"  ⚠️  {len(missing)} active event(s) have no coordinates (won't appear on map):")
+        for ev in missing:
+            print(f"       - {ev.get('name', '?')!r}  ({ev.get('location') or 'no location'})")
 
     _write_json(PUBLIC_EVENTS_JSON, published)
     # Legacy path for scripts still referencing public/events.json

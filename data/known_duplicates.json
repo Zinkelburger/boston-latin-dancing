@@ -112,5 +112,11 @@
     "id_b": "7rf11ktoprrshuuetdos3u4fat@google.com",
     "verdict": "same",
     "reviewed_at": "2026-06-17T19:42:41.772921+00:00"
+  },
+  {
+    "id_a": "61B50538-D7A5-466E-9039-7663B3F54F9D",
+    "id_b": "61vvqt0h13uoigcucma9f9prhk@google.com",
+    "verdict": "same",
+    "reviewed_at": "2026-06-18T19:55:51.925450+00:00"
   }
 ]
