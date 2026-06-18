@@ -588,7 +588,11 @@ function FeedCard({
         )}
       </div>
 
-      <h3 className="feed-card-title">{hl(event.name)}</h3>
+      <h3 className="feed-card-title">
+        {shareUrl
+          ? <a href={`/event/${event.slug}`} onClick={e => e.stopPropagation()}>{hl(event.name)}</a>
+          : hl(event.name)}
+      </h3>
 
       {(recurrenceLabel && !(event.schedule && event.schedule.length > 0)) && (
         <span className="pretty-pill pretty-pill-sky text-xs" style={{ alignSelf: 'flex-start' }}>
