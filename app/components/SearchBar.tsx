@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo } from 'react';
 import type { DanceEvent } from '@/types/event';
+import { tokenize, searchAndRank } from '@/lib/search';
 import { SearchResultsTable } from './EventTable';
 
 type Props = {
@@ -17,49 +18,12 @@ export default function SearchBar({ events, onSelectEvent }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const q = query.trim().toLowerCase();
-  const tokens = useMemo(() => q.split(/\s+/).filter(Boolean), [q]);
+  const tokens = useMemo(() => tokenize(q), [q]);
 
-  const eventResults = useMemo(() => {
-    if (q.length < 2) return [];
-
-    type Scored = { event: DanceEvent; score: number };
-    const scored: Scored[] = [];
-
-    for (const e of events) {
-      if (!e.lat || !e.lng) continue;
-      const name = e.name.toLowerCase();
-      const loc = e.location.toLowerCase();
-      const styles = e.styles.join(' ');
-      const desc = e.description.toLowerCase();
-      const dayLower = e.dayOfWeek.toLowerCase();
-
-      let score = 0;
-      let allMatch = true;
-      for (const tok of tokens) {
-        const inName = name.includes(tok);
-        const inLoc = loc.includes(tok);
-        const inStyle = styles.includes(tok);
-        const inDay = dayLower.startsWith(tok);
-        const inDesc = desc.includes(tok);
-
-        if (!inName && !inLoc && !inStyle && !inDay && !inDesc) {
-          allMatch = false;
-          break;
-        }
-        if (inName) score += 10;
-        if (inLoc) score += 5;
-        if (inStyle) score += 3;
-        if (inDay) score += 3;
-        if (inDesc) score += 1;
-      }
-      if (allMatch && score > 0) scored.push({ event: e, score });
-    }
-
-    return scored
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 8)
-      .map(s => s.event);
-  }, [q, tokens, events]);
+  const eventResults = useMemo(
+    () => (q.length < 2 ? [] : searchAndRank(events, q, 8)),
+    [q, events],
+  );
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {

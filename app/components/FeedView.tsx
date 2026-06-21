@@ -1,10 +1,12 @@
 'use client';
 
-import { useMemo, useState, useRef, useEffect, type ReactNode } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import clsx from 'clsx';
-import type { DanceEvent, DanceStyle, DayOfWeek } from '@/types/event';
+import type { DanceEvent, DayOfWeek } from '@/types/event';
 import { STYLE_LABELS, STYLE_PILL_CLASS, SITE_URL } from '@/lib/constants';
-import DateRangeSlider, { type DateRangeValue } from './DateRangeSlider';
+import { DAY_NAMES } from '@/lib/filter-options';
+import { formatShort } from '@/lib/dates';
+import { tokenize, matchEvent } from '@/lib/search';
 import { stripHtml } from '@/lib/strip-html';
 import {
   getRecurrenceLabel,
@@ -14,17 +16,8 @@ import {
   shouldShowNextOccurrence,
 } from '@/lib/recurrences';
 import ShareButton from './ShareButton';
-import type { DatePreset } from './MapView';
-import { PRESET_LABELS, DATE_PRESETS } from './MapView';
-
-const ALL_STYLES: DanceStyle[] = ['bachata', 'salsa', 'kizomba', 'zouk', 'merengue', 'other'];
-const DAYS: DayOfWeek[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-const DAY_SHORT: Record<DayOfWeek, string> = {
-  Monday: 'Mon', Tuesday: 'Tue', Wednesday: 'Wed',
-  Thursday: 'Thu', Friday: 'Fri', Saturday: 'Sat', Sunday: 'Sun',
-};
-
-const DAY_NAMES: DayOfWeek[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+import { StyleFilter, DayFilter, PresetChips, DateRangeDialog } from './FilterControls';
+import type { FilterControlsProps } from './useEventFilters';
 
 type FeedEntry = {
   event: DanceEvent;
@@ -99,33 +92,6 @@ function expandAndGroup(
   }));
 }
 
-function eventMatchesQuery(event: DanceEvent, query: string): boolean {
-  const lower = query.toLowerCase();
-  const parts = lower.split(/(\s+)/);
-  const tokens: { text: string; exact: boolean }[] = [];
-  for (let i = 0; i < parts.length; i++) {
-    const word = parts[i].trim();
-    if (!word) continue;
-    const followedBySpace = i + 1 < parts.length && /\s/.test(parts[i + 1]);
-    tokens.push({ text: word, exact: followedBySpace });
-  }
-  if (tokens.length === 0) return true;
-
-  const name = event.name.toLowerCase();
-  const loc = (event.location ?? '').toLowerCase();
-  const desc = stripHtml(event.description).toLowerCase();
-  const styles = event.styles.map(s => STYLE_LABELS[s].toLowerCase()).join(' ');
-  const haystack = `${name} ${loc} ${desc} ${styles}`;
-
-  return tokens.every(tok => {
-    if (tok.exact) {
-      const re = new RegExp(`(?:^|\\W)${tok.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:\\W|$)`);
-      return re.test(haystack);
-    }
-    return haystack.includes(tok.text);
-  });
-}
-
 function highlightText(text: string, tokens: string[]): ReactNode {
   if (tokens.length === 0) return text;
 
@@ -161,44 +127,12 @@ function highlightText(text: string, tokens: string[]): ReactNode {
   return <>{parts}</>;
 }
 
-function dateToDay(d: Date): number {
-  return Math.floor(d.getTime() / 86400000);
-}
-
-function dayToIso(day: number): string {
-  const d = new Date(day * 86400000);
-  return d.toISOString().slice(0, 10);
-}
-
-function isoToDay(iso: string): number {
-  return dateToDay(new Date(iso + 'T00:00:00Z'));
-}
-
-function formatShort(day: number): string {
-  const d = new Date(day * 86400000);
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-}
-
-type Props = {
+type Props = FilterControlsProps & {
   events: DanceEvent[];
-  selectedDays: DayOfWeek[];
   fromMs: number;
   toMs: number;
   onSelectEvent: (event: DanceEvent, displayDate?: string) => void;
-  datePreset: DatePreset | null;
-  onPresetChange: (preset: DatePreset | null) => void;
-  selectedStyles: DanceStyle[];
-  onStylesChange: (styles: DanceStyle[]) => void;
-  onDaysChange: (days: DayOfWeek[]) => void;
   onViewModeToggle: () => void;
-  dateMode: 'any' | 'custom';
-  onDateModeChange: (mode: 'any' | 'custom') => void;
-  dateSlider: DateRangeValue;
-  onDateSliderChange: (v: DateRangeValue) => void;
-  sliderMin: number;
-  sliderMax: number;
-  defaultFrom: number;
-  defaultTo: number;
 };
 
 export default function FeedView({
@@ -211,34 +145,13 @@ export default function FeedView({
   const [search, setSearch] = useState('');
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [dateDialogOpen, setDateDialogOpen] = useState(false);
-  const dialogRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!dateDialogOpen) return;
-    const handler = (e: MouseEvent) => {
-      if (dialogRef.current && !dialogRef.current.contains(e.target as Node)) {
-        setDateDialogOpen(false);
-      }
-    };
-    const keyHandler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setDateDialogOpen(false);
-    };
-    document.addEventListener('mousedown', handler);
-    document.addEventListener('keydown', keyHandler);
-    return () => {
-      document.removeEventListener('mousedown', handler);
-      document.removeEventListener('keydown', keyHandler);
-    };
-  }, [dateDialogOpen]);
   const trimmed = search.trim();
 
-  const searchTokens = useMemo(
-    () => trimmed.toLowerCase().split(/\s+/).filter(Boolean),
-    [trimmed],
-  );
+  const searchTokens = useMemo(() => tokenize(trimmed), [trimmed]);
 
   const filtered = useMemo(
-    () => trimmed ? events.filter(e => eventMatchesQuery(e, search)) : events,
+    () => trimmed ? events.filter(e => matchEvent(e, search)) : events,
     [events, search, trimmed],
   );
 
@@ -246,27 +159,10 @@ export default function FeedView({
     () => expandAndGroup(filtered, selectedDays, fromMs, toMs),
     [filtered, selectedDays, fromMs, toMs],
   );
-  const totalEntries = useMemo(() => grouped.reduce((n, g) => n + g.entries.length, 0), [grouped]);
 
   const activeFilterCount = selectedStyles.length + selectedDays.length + (dateMode === 'custom' ? 1 : 0);
   const isAny = dateMode === 'any';
   const dateLabel = `${formatShort(dateSlider.fromDay)} – ${formatShort(dateSlider.toDay)}`;
-
-  const toggleStyle = (style: DanceStyle) => {
-    if (selectedStyles.includes(style)) {
-      onStylesChange(selectedStyles.filter(s => s !== style));
-    } else {
-      onStylesChange([...selectedStyles, style]);
-    }
-  };
-
-  const toggleDay = (day: DayOfWeek) => {
-    if (selectedDays.includes(day)) {
-      onDaysChange(selectedDays.filter(d => d !== day));
-    } else {
-      onDaysChange([...selectedDays, day]);
-    }
-  };
 
   return (
     <div className="feed-view">
@@ -328,58 +224,18 @@ export default function FeedView({
           </button>
         </div>
         <div className="feed-date-chips">
-          {DATE_PRESETS.map(preset => (
-            <button
-              key={preset}
-              onClick={() => onPresetChange(datePreset === preset ? null : preset)}
-              className={`pretty-pill text-xs ${datePreset === preset ? 'pretty-pill-rose' : 'pretty-pill-ghost'}`}
-            >
-              {PRESET_LABELS[preset]}
-            </button>
-          ))}
+          <PresetChips datePreset={datePreset} onPresetChange={onPresetChange} />
         </div>
 
         {filtersOpen && (
           <div className="feed-filters-panel">
             <div className="feed-filter-row">
               <span className="filter-label">Style</span>
-              <div className="filter-pills">
-                <button
-                  onClick={() => onStylesChange([])}
-                  className={clsx('pretty-pill text-xs', selectedStyles.length === 0 ? 'pretty-pill-rose' : 'pretty-pill-ghost')}
-                >
-                  Any
-                </button>
-                {ALL_STYLES.map(style => (
-                  <button
-                    key={style}
-                    onClick={() => toggleStyle(style)}
-                    className={clsx('pretty-pill text-xs', selectedStyles.includes(style) ? STYLE_PILL_CLASS[style] : 'pretty-pill-ghost')}
-                  >
-                    {STYLE_LABELS[style]}
-                  </button>
-                ))}
-              </div>
+              <StyleFilter selected={selectedStyles} onChange={onStylesChange} />
             </div>
             <div className="feed-filter-row">
               <span className="filter-label">Day</span>
-              <div className="filter-pills">
-                <button
-                  onClick={() => onDaysChange([])}
-                  className={clsx('pretty-pill text-xs', selectedDays.length === 0 ? 'pretty-pill-rose' : 'pretty-pill-ghost')}
-                >
-                  Any
-                </button>
-                {DAYS.map(day => (
-                  <button
-                    key={day}
-                    onClick={() => toggleDay(day)}
-                    className={clsx('pretty-pill text-xs', selectedDays.includes(day) ? 'pretty-pill-rose' : 'pretty-pill-ghost')}
-                  >
-                    {DAY_SHORT[day]}
-                  </button>
-                ))}
-              </div>
+              <DayFilter selected={selectedDays} onChange={onDaysChange} />
             </div>
             <div className="feed-filter-row">
               <span className="filter-label">When</span>
@@ -405,79 +261,17 @@ export default function FeedView({
         )}
       </div>
 
-      {dateDialogOpen && (
-        <div className="filter-dialog-backdrop">
-          <div ref={dialogRef} className="filter-dialog">
-            <div className="filter-dialog-header">
-              <h3>Date Range</h3>
-              <button
-                onClick={() => setDateDialogOpen(false)}
-                className="pretty-pill pretty-pill-ghost"
-                style={{ padding: '0.15rem 0.45rem', lineHeight: 1 }}
-              >
-                &#x2715;
-              </button>
-            </div>
-            <div className="filter-dialog-body">
-              <DateRangeSlider
-                minDay={sliderMin}
-                maxDay={sliderMax}
-                value={dateSlider}
-                onChange={v => {
-                  onDateModeChange('custom');
-                  onDateSliderChange(v);
-                }}
-              />
-              <div className="filter-dialog-inputs">
-                <div className="filter-dialog-field">
-                  <label>From</label>
-                  <input
-                    type="date"
-                    value={dayToIso(dateSlider.fromDay)}
-                    onChange={e => {
-                      if (!e.target.value) return;
-                      const day = isoToDay(e.target.value);
-                      if (day <= dateSlider.toDay) {
-                        onDateModeChange('custom');
-                        onDateSliderChange({ ...dateSlider, fromDay: day });
-                      }
-                    }}
-                  />
-                </div>
-                <div className="filter-dialog-field">
-                  <label>To</label>
-                  <input
-                    type="date"
-                    value={dayToIso(dateSlider.toDay)}
-                    onChange={e => {
-                      if (!e.target.value) return;
-                      const day = isoToDay(e.target.value);
-                      if (day >= dateSlider.fromDay) {
-                        onDateModeChange('custom');
-                        onDateSliderChange({ ...dateSlider, toDay: day });
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="filter-dialog-actions">
-                <button
-                  onClick={() => onDateSliderChange({ fromDay: defaultFrom, toDay: defaultTo })}
-                  className="pretty-pill pretty-pill-ghost text-sm"
-                >
-                  Reset to default
-                </button>
-                <button
-                  onClick={() => setDateDialogOpen(false)}
-                  className="pretty-pill pretty-pill-rose text-sm"
-                >
-                  Done
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <DateRangeDialog
+        open={dateDialogOpen}
+        onClose={() => setDateDialogOpen(false)}
+        dateSlider={dateSlider}
+        onDateSliderChange={onDateSliderChange}
+        onDateModeChange={onDateModeChange}
+        sliderMin={sliderMin}
+        sliderMax={sliderMax}
+        defaultFrom={defaultFrom}
+        defaultTo={defaultTo}
+      />
 
       <div className="feed-scroll">
         {grouped.map(group => (
@@ -611,10 +405,10 @@ function FeedCard({
           {event.schedule && event.schedule.length > 0
             ? formatDate(displayDate)
             : scheduleTime
-              ? `${formatDate(displayDate)} \u00B7 ${scheduleTime}`
+              ? `${formatDate(displayDate)} · ${scheduleTime}`
               : isDateOnlyEvent(event.startDate, event.endDate)
                 ? formatDate(displayDate)
-                : `${formatDate(displayDate)} \u00B7 ${formatTime(event.startDate)} – ${formatTime(event.endDate)}`
+                : `${formatDate(displayDate)} · ${formatTime(event.startDate)} – ${formatTime(event.endDate)}`
           }
         </span>
       </div>

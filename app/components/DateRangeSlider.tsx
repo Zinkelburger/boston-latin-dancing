@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useCallback, useEffect, useState } from 'react';
+import { formatShort as formatLabel } from '@/lib/dates';
 
 export type DateRangeValue = { fromDay: number; toDay: number };
 
@@ -10,15 +11,6 @@ type Props = {
   value: DateRangeValue;
   onChange: (v: DateRangeValue) => void;
 };
-
-function dayToDate(day: number): Date {
-  return new Date(day * 86400000);
-}
-
-function formatLabel(day: number): string {
-  const d = dayToDate(day);
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-}
 
 const TRACK_H = 6;
 const THUMB_R = 9;

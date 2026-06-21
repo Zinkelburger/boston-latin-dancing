@@ -11,14 +11,13 @@ import type { MapLayerMouseEvent } from 'maplibre-gl';
 import type { Feature, FeatureCollection, Point } from 'geojson';
 
 import allEvents from '@/data/events-published.json';
-import type { DanceEvent, DanceStyle, DayOfWeek } from '@/types/event';
-import { eventMatchesDateRange, dayOfWeekFromIso } from '@/lib/recurrences';
+import type { DanceEvent, DanceStyle } from '@/types/event';
 import { STYLE_COLORS } from '@/lib/constants';
 import FilterBar from './FilterBar';
-import type { DateRangeValue } from './DateRangeSlider';
 import EventPopup from './EventPopup';
 import SearchBar from './SearchBar';
 import FeedView from './FeedView';
+import { useEventFilters } from './useEventFilters';
 
 const unclusteredLayer: LayerProps = {
   id: 'unclustered',
@@ -37,10 +36,6 @@ type MarkerFeature = Feature<Point, MarkerProps>;
 type MarkerCollection = FeatureCollection<Point, MarkerProps>;
 
 const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json';
-
-function dateToDay(d: Date): number {
-  return Math.floor(d.getTime() / 86400000);
-}
 
 function primaryColor(event: { styles: DanceStyle[] }): string {
   const primary = event.styles[0];
@@ -71,39 +66,6 @@ function staggerCoordinates(items: { id: string; lat: number; lng: number }[]): 
   return offsets;
 }
 
-export type DatePreset = 'today' | 'tomorrow' | 'weekend' | 'next7' | 'all';
-
-export const PRESET_LABELS: Record<DatePreset, string> = {
-  today: 'Today',
-  tomorrow: 'Tomorrow',
-  weekend: 'This Weekend',
-  next7: 'Next 7 Days',
-  all: 'All',
-};
-
-export const DATE_PRESETS: DatePreset[] = ['today', 'tomorrow', 'weekend', 'next7'];
-
-function computePresetRange(preset: DatePreset, today: number): { fromDay: number; toDay: number } | null {
-  switch (preset) {
-    case 'today':
-      return { fromDay: today, toDay: today };
-    case 'tomorrow':
-      return { fromDay: today + 1, toDay: today + 1 };
-    case 'weekend': {
-      const todayDate = new Date(today * 86400000);
-      const dow = todayDate.getUTCDay();
-      if (dow === 0) return { fromDay: today, toDay: today };
-      if (dow === 6) return { fromDay: today, toDay: today + 1 };
-      const daysUntilSat = 6 - dow;
-      return { fromDay: today + daysUntilSat, toDay: today + daysUntilSat + 1 };
-    }
-    case 'next7':
-      return { fromDay: today, toDay: today + 6 };
-    case 'all':
-      return null;
-  }
-}
-
 export default function MapView({ initialEventSlug }: { initialEventSlug?: string } = {}) {
   const mapRef = useRef<MapRef>(null);
   const allEventsTyped = useMemo(() => allEvents as DanceEvent[], []);
@@ -112,55 +74,23 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
     [allEventsTyped],
   );
 
-  const WINDOW_DAYS = 45;
+  const { controls, applyFilters, effectiveFromMs, effectiveToMs } = useEventFilters();
 
-  const { sliderMin, sliderMax, defaultFrom, defaultTo } = useMemo(() => {
-    const today = dateToDay(new Date());
-    return {
-      sliderMin: today,
-      sliderMax: today + WINDOW_DAYS,
-      defaultFrom: today,
-      defaultTo: today + 14,
-    };
-  }, []);
-
-  const [selectedStyles, setSelectedStyles] = useState<DanceStyle[]>([]);
-  const [selectedDays, setSelectedDays] = useState<DayOfWeek[]>([]);
-  const [dateMode, setDateMode] = useState<'any' | 'custom'>('any');
-  const [dateSlider, setDateSlider] = useState<DateRangeValue>({
-    fromDay: defaultFrom,
-    toDay: defaultTo,
-  });
-  const [datePreset, setDatePreset] = useState<DatePreset | null>(null);
   const [activeEvent, setActiveEvent] = useState<DanceEvent | null>(null);
   const [activeDisplayDate, setActiveDisplayDate] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'map' | 'feed'>('map');
   const [highlightedEvent, setHighlightedEvent] = useState<DanceEvent | null>(null);
+  /** True once the (re)mounted map has fired its `load` event and is safe to drive. */
+  const [mapReady, setMapReady] = useState(false);
 
-  const handlePresetChange = useCallback((preset: DatePreset | null) => {
-    setDatePreset(preset);
-    if (!preset) {
-      setDateMode('any');
-      return;
-    }
-    const today = dateToDay(new Date());
-    const range = computePresetRange(preset, today);
-    if (range) {
-      setDateMode('custom');
-      setDateSlider(range);
-    } else {
-      setDateMode('any');
-    }
-  }, []);
+  /** Event to fly to once the map is ready (set by deep-links and feed selection). */
+  const pendingFlyToRef = useRef<DanceEvent | null>(null);
+  /** When true, open the event popup after the pending fly-to settles (deep-link UX). */
+  const pendingPopupRef = useRef(false);
 
-  const handleDateModeChange = useCallback((mode: 'any' | 'custom') => {
-    setDateMode(mode);
-    setDatePreset(null);
-  }, []);
-
-  const handleDateSliderChange = useCallback((v: DateRangeValue) => {
-    setDateSlider(v);
-    setDatePreset(null);
+  const flyToEvent = useCallback((event: DanceEvent) => {
+    if (event.lat == null || event.lng == null) return;
+    mapRef.current?.flyTo({ center: [event.lng, event.lat], zoom: 15, duration: 1200 });
   }, []);
 
   const openEvent = useCallback((event: DanceEvent | null, displayDate?: string) => {
@@ -197,37 +127,17 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
     if (ev && ev.lat != null && ev.lng != null) {
       setHighlightedEvent(ev);
       window.history.replaceState(null, '', `#event=${ev.slug}`);
-      mapRef.current?.flyTo({ center: [ev.lng, ev.lat], zoom: 15, duration: 1200 });
-      const timer = setTimeout(() => openEvent(ev), 1300);
-      return () => clearTimeout(timer);
+      // Defer the fly + popup to the map-ready effect below; the map may not be
+      // loaded yet on first paint, and we must not lose the intent if it isn't.
+      pendingFlyToRef.current = ev;
+      pendingPopupRef.current = true;
     }
-  }, [eventsBySlug, openEvent, initialEventSlug]);
+  }, [eventsBySlug, initialEventSlug]);
 
   const mappableEvents = useMemo(
     () => events.filter(e => e.lat != null && e.lng != null),
     [events],
   );
-
-  const applyFilters = useCallback((source: DanceEvent[]) => {
-    const effectiveFrom = dateMode === 'any' ? sliderMin : dateSlider.fromDay;
-    const effectiveTo = dateMode === 'any' ? sliderMax : dateSlider.toDay;
-    const fromMs = effectiveFrom * 86400000;
-    const toMs = (effectiveTo + 1) * 86400000 - 1;
-
-    return source.filter(event => {
-      const matchesStyle = selectedStyles.length === 0 ||
-        event.styles.some(s => selectedStyles.includes(s));
-
-      const derivedDay = dayOfWeekFromIso(event.startDate);
-      const matchesDay = selectedDays.length === 0 ||
-        selectedDays.includes(derivedDay) ||
-        (event.schedule?.some(s => selectedDays.includes(s.dayOfWeek)) ?? false);
-
-      const matchesDate = eventMatchesDateRange(event, fromMs, toMs);
-
-      return matchesStyle && matchesDay && matchesDate;
-    });
-  }, [selectedStyles, selectedDays, dateSlider, dateMode, sliderMin, sliderMax]);
 
   const filteredEvents = useMemo(
     () => applyFilters(mappableEvents),
@@ -238,15 +148,6 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
     () => applyFilters(events),
     [events, applyFilters],
   );
-
-  const { effectiveFromMs, effectiveToMs } = useMemo(() => {
-    const effectiveFrom = dateMode === 'any' ? sliderMin : dateSlider.fromDay;
-    const effectiveTo = dateMode === 'any' ? sliderMax : dateSlider.toDay;
-    return {
-      effectiveFromMs: effectiveFrom * 86400000,
-      effectiveToMs: (effectiveTo + 1) * 86400000 - 1,
-    };
-  }, [dateMode, sliderMin, sliderMax, dateSlider]);
 
   const allMapItems = useMemo(() => {
     return filteredEvents.map(e => ({
@@ -274,8 +175,16 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
     return { type: 'FeatureCollection', features };
   }, [filteredEvents, coordinateOffsets]);
 
+  const filteredIds = useMemo(
+    () => new Set(filteredEvents.map(e => e.id)),
+    [filteredEvents],
+  );
+
   const highlightGeojson = useMemo(() => {
     if (!highlightedEvent || highlightedEvent.lat == null || highlightedEvent.lng == null) return null;
+    // Don't draw an orphan ring: if the highlighted event has been filtered out
+    // (and isn't an archived deep-link), drop the highlight with its pin.
+    if (!highlightedEvent.archived && !filteredIds.has(highlightedEvent.id)) return null;
     const offset = coordinateOffsets.get(highlightedEvent.id) ?? [0, 0];
     const lng = highlightedEvent.lng + offset[0];
     const lat = highlightedEvent.lat + offset[1];
@@ -287,7 +196,7 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
         properties: { __color: primaryColor(highlightedEvent) },
       }],
     };
-  }, [highlightedEvent, coordinateOffsets]);
+  }, [highlightedEvent, coordinateOffsets, filteredIds]);
 
   const handleClick = useCallback(
     (e: MapLayerMouseEvent) => {
@@ -311,25 +220,52 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
   const handleSearchSelectEvent = useCallback(
     (event: DanceEvent) => {
       if (event.lat != null && event.lng != null) {
-        mapRef.current?.flyTo({ center: [event.lng, event.lat], zoom: 15, duration: 1200 });
+        flyToEvent(event);
         openEvent(event);
       }
     },
-    [openEvent],
+    [openEvent, flyToEvent],
   );
 
   const handleFeedSelectEvent = useCallback(
     (event: DanceEvent, displayDate?: string) => {
       openEvent(event, displayDate);
       if (event.lat != null && event.lng != null) {
+        // The map unmounts in feed view; fly once it has remounted and loaded.
+        pendingFlyToRef.current = event;
         setViewMode('map');
-        setTimeout(() => {
-          mapRef.current?.flyTo({ center: [event.lng!, event.lat!], zoom: 15, duration: 1200 });
-        }, 100);
       }
     },
     [openEvent],
   );
+
+  // The map unmounts in feed view, so mark it not-ready; its `onLoad` flips this
+  // back to true after it remounts.
+  useEffect(() => {
+    if (viewMode !== 'map') setMapReady(false);
+  }, [viewMode]);
+
+  // Once the map has loaded, run any pending fly-to (from a deep-link or feed
+  // selection) and, for deep-links, open the popup after the camera settles.
+  useEffect(() => {
+    if (!mapReady) return;
+    const map = mapRef.current?.getMap();
+    if (!map?.loaded()) return;
+    const target = pendingFlyToRef.current;
+    if (!target) return;
+    pendingFlyToRef.current = null;
+    flyToEvent(target);
+    if (pendingPopupRef.current) {
+      pendingPopupRef.current = false;
+      // Fallback: open the popup after a timeout in case flyTo doesn't trigger
+      // moveend (camera already at target, animation cancelled, etc.).
+      const fallback = setTimeout(() => openEvent(target), 1500);
+      map.once('moveend', () => {
+        clearTimeout(fallback);
+        openEvent(target);
+      });
+    }
+  }, [mapReady, flyToEvent, openEvent]);
 
   return (
     <div className="flex flex-col h-full">
@@ -347,6 +283,7 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
             dragRotate={false}
             interactiveLayerIds={['unclustered']}
             onClick={handleClick}
+            onLoad={() => setMapReady(true)}
           >
             <Source id="events" type="geojson" data={geojson} cluster={false}>
               <Layer {...unclusteredLayer} />
@@ -384,25 +321,12 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
       ) : (
         <div className="flex-1 overflow-hidden">
           <FeedView
+            {...controls}
             events={filteredAllEvents}
-            selectedDays={selectedDays}
             fromMs={effectiveFromMs}
             toMs={effectiveToMs}
             onSelectEvent={handleFeedSelectEvent}
-            datePreset={datePreset}
-            onPresetChange={handlePresetChange}
-            selectedStyles={selectedStyles}
-            onStylesChange={setSelectedStyles}
-            onDaysChange={setSelectedDays}
             onViewModeToggle={() => setViewMode('map')}
-            dateMode={dateMode}
-            onDateModeChange={handleDateModeChange}
-            dateSlider={dateSlider}
-            onDateSliderChange={handleDateSliderChange}
-            sliderMin={sliderMin}
-            sliderMax={sliderMax}
-            defaultFrom={defaultFrom}
-            defaultTo={defaultTo}
           />
         </div>
       )}
@@ -410,22 +334,9 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
       {viewMode === 'map' && (
         <div className="shrink-0">
           <FilterBar
-            selectedStyles={selectedStyles}
-            onStylesChange={setSelectedStyles}
-            selectedDays={selectedDays}
-            onDaysChange={setSelectedDays}
-            dateMode={dateMode}
-            onDateModeChange={handleDateModeChange}
-            dateSlider={dateSlider}
-            onDateSliderChange={handleDateSliderChange}
-            sliderMin={sliderMin}
-            sliderMax={sliderMax}
-            defaultFrom={defaultFrom}
-            defaultTo={defaultTo}
+            {...controls}
             viewMode={viewMode}
             onViewModeToggle={() => setViewMode(v => v === 'map' ? 'feed' : 'map')}
-            datePreset={datePreset}
-            onPresetChange={handlePresetChange}
           />
         </div>
       )}
