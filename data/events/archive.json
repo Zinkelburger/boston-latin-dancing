@@ -832,55 +832,5 @@
     "_verified_notes": "Page accessible, no JSON-LD found (text check only)",
     "_verification_url": "https://tunehatch.com/shows/salsa-bachata-social-dj-clave",
     "archivedAt": "2026-06-17T19:39:28.336981+00:00"
-  },
-  {
-    "id": "FA4BDE26-3453-4B3F-A8BB-D48278DB0BF4",
-    "name": "Salsa y Control Teams Debut Social Vol 2",
-    "startDate": "2026-06-13T00:30:00+00:00",
-    "endDate": "2026-06-13T05:00:00+00:00",
-    "dayOfWeek": "Friday",
-    "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA  02139, United States",
-    "lat": 42.3679,
-    "lng": -71.0885,
-    "description": "🚨Salsa y Control Debut Socials🚨 \nVery excited to present what our teams are working on for the 2026 season!! So proud of our dancers for their hard work and commitment. Join us at Tambo Social on the following dates to celebrate, have fun and support our students! \n7 Teams, 1 vision.. “Inspiring others to Dance”\n🔹\n📆May 29th: SyC Picante, SyC Sabor, Syc Sazon \n📆June 12th: SyC Inspiracion\n📆June 26th: SyC Sensación, SyC Veneno, Bachata y Control \n🔹\n8:45-9:30pm Salsa Classs by SyC \n9:30pm - 1am Salsa y Bachata Social with DJ Sonerito & DJ Hernan\n🔹\nCash Entrance $15-$20\nSalsa y Control… Salsa y Control…\n",
-    "url": "https://facebook.com/events/s/salsa-y-control-teams-debut-so/1372368978065436/",
-    "styles": [
-      "bachata",
-      "salsa"
-    ],
-    "cost": "$15",
-    "recurring": false,
-    "source": "beatrice-calendar",
-    "_verified_at": "2026-06-08T18:08:21.245366+00:00",
-    "_verified_status": "needs_browser",
-    "_verified_notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
-    "_verification_url": "https://facebook.com/events/s/salsa-y-control-teams-debut-so/1372368978065436/",
-    "archivedAt": "2026-06-17T19:39:28.336981+00:00",
-    "reactivatedAt": "2026-06-17T19:39:27.573153+00:00"
-  },
-  {
-    "id": "bobas-20260526-0",
-    "name": "Sunset Salsa Bachata on the Docks",
-    "startDate": "2026-05-26T18:00:00-04:00",
-    "endDate": "2026-05-26T21:00:00-04:00",
-    "dayOfWeek": "Tuesday",
-    "location": "Hatch Shell on the Esplanade",
-    "lat": 42.357256,
-    "lng": -71.073702,
-    "description": "Outdoor salsa and bachata social on the docks behind the Hatch Shell. Bachata on one side, salsa on the other. Free, weather permitting.",
-    "url": "https://www.facebook.com/events/1801495350829105",
-    "styles": [
-      "bachata",
-      "salsa"
-    ],
-    "cost": "Free",
-    "recurring": true,
-    "source": "bobas",
-    "_verified_at": "2026-05-26T16:45:39.835095+00:00",
-    "_verified_status": "needs_browser",
-    "_verified_notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
-    "_verification_url": "https://www.facebook.com/events/1801495350829105",
-    "archivedAt": "2026-06-17T19:39:28.336981+00:00",
-    "reactivatedAt": "2026-06-17T19:39:27.845615+00:00"
   }
 ]

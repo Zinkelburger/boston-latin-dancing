@@ -215,3 +215,13 @@
 {"ts": "2026-06-17T19:44:12.510264+00:00", "action": "remove", "event_id": "3dlpk3g8kabug9qfkv9e0affdg@google.com", "details": "workshop, not social dance"}
 {"ts": "2026-06-17T19:44:12.589467+00:00", "action": "remove", "event_id": "rj01qhpqbb1qg00243k5ov129k@google.com", "details": "music class, not social dance"}
 {"ts": "2026-06-17T19:57:13.197182+00:00", "action": "remove", "event_id": "651706f14abf7a592d56b30399b6ec1a0088577c@dance-calendar", "details": "not in Boston area - event is in Miami, FL"}
+{"ts": "2026-06-23T16:55:50.194208+00:00", "action": "reject_non_latin", "event_id": "876946c7362a1b4b7d0927db9c62eccd1bf0c07c@dance-calendar", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-06-23T16:55:54.418702+00:00", "action": "add", "event_id": "651706f14abf7a592d56b30399b6ec1a0088577c@dance-calendar", "details": ""}
+{"ts": "2026-06-23T16:55:54.569968+00:00", "action": "reactivate", "event_id": "FA4BDE26-3453-4B3F-A8BB-D48278DB0BF4", "details": "from archive (certain)"}
+{"ts": "2026-06-23T16:55:54.674653+00:00", "action": "reactivate", "event_id": "bobas-20260526-0", "details": "from archive (certain)"}
+{"ts": "2026-06-23T16:55:54.782598+00:00", "action": "reject_non_latin", "event_id": "F75203DD-C2C0-40BB-BE0E-A67013E17125", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-06-23T16:55:54.816613+00:00", "action": "add", "event_id": "phfsfa6ctj6jq4nikphf3mql0l@google.com", "details": ""}
+{"ts": "2026-06-23T16:55:54.831868+00:00", "action": "add", "event_id": "4s2c9e8buma8kst9n0vl8ac6sb_R20250418T223000@google.com", "details": ""}
+{"ts": "2026-06-23T16:55:56.904283+00:00", "action": "add", "event_id": "rj01qhpqbb1qg00243k5ov129k@google.com", "details": ""}
+{"ts": "2026-06-23T16:55:56.928551+00:00", "action": "add", "event_id": "3dlpk3g8kabug9qfkv9e0affdg@google.com", "details": ""}
+{"ts": "2026-06-23T16:55:56.929013+00:00", "action": "reject_non_latin", "event_id": "jtgs3h7rbgmv3d7of0d7v5nt9g@google.com", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}

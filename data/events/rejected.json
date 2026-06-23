@@ -117,5 +117,82 @@
     "_rejected_reason": "not in Boston area - event is in Miami, FL",
     "_review_type": "non_latin",
     "_rejected_at": "2026-06-17T19:57:13.196447+00:00"
+  },
+  {
+    "id": "876946c7362a1b4b7d0927db9c62eccd1bf0c07c@dance-calendar",
+    "name": "Festival Betances 2026 - Boricua Legacy: Shaping America’s Story",
+    "startDate": "2026-07-18T20:30:00+00:00",
+    "endDate": "2026-07-19T05:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "A community parade through Villa Victoria, Art",
+    "lat": null,
+    "lng": null,
+    "description": "Join Inquilinos Boricuas en Acción for Festival Betances, one of Boston’s longest-running and most beloved Puerto Rican cultural festivals.\n\nSource: https://www.eventbrite.com/e/festival-betances-2026-boricua-legacy-shaping-americas-story-tickets-1990510467391",
+    "url": "https://www.eventbrite.com/e/festival-betances-2026-boricua-legacy-shaping-americas-story-tickets-1990510467391",
+    "styles": [
+      "other"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_rejected_reason": "not Latin dance relevant (styles=['other'], no Latin terms)",
+    "_review_type": "non_latin",
+    "_rejected_at": "2026-06-23T16:55:50.193857+00:00"
+  },
+  {
+    "id": "F75203DD-C2C0-40BB-BE0E-A67013E17125",
+    "name": "West Coast Swing @ Dancing Fools",
+    "startDate": "2026-06-17T20:15:00-04:00",
+    "endDate": "2026-06-17T23:00:00-04:00",
+    "dayOfWeek": "Wednesday",
+    "location": "",
+    "lat": null,
+    "lng": null,
+    "description": "⏰ Time:\n•Class: 8:25 pm \n•Social Dancing: 9:30 pm\n💵 Cover: $12 (includes class and social ) if student 6$\n💳 Payment: you can buy in advance  https://www.thedancingfools.com/register-to-dance  they accept cards too \n🍹 Extras: Bar upstairs \n💼 Dress Code: comfy clothes \n📍 Location: 351 Summer St, Somerville, MA 02144\n🅿️ Parking: The VFW Post has a dedicated parking lot for approximately 40 cars. There is also a free parking lot after 6pm behind the Henderson Carriage Building, about 0.3 miles from the venue. \nNo partner needed—just bring your energy!",
+    "url": null,
+    "styles": [
+      "other"
+    ],
+    "cost": "Cover: $12",
+    "recurring": true,
+    "source": "sensualeros-boston",
+    "recurrences": [
+      "2026-06-17T20:15:00-04:00",
+      "2026-06-24T20:15:00-04:00",
+      "2026-07-01T20:15:00-04:00",
+      "2026-07-08T20:15:00-04:00",
+      "2026-07-15T20:15:00-04:00",
+      "2026-07-22T20:15:00-04:00",
+      "2026-07-29T20:15:00-04:00",
+      "2026-08-05T20:15:00-04:00",
+      "2026-08-12T20:15:00-04:00",
+      "2026-08-19T20:15:00-04:00",
+      "2026-08-26T20:15:00-04:00",
+      "2026-09-02T20:15:00-04:00"
+    ],
+    "_rejected_reason": "not Latin dance relevant (styles=['other'], no Latin terms)",
+    "_review_type": "non_latin",
+    "_rejected_at": "2026-06-23T16:55:54.782319+00:00"
+  },
+  {
+    "id": "jtgs3h7rbgmv3d7of0d7v5nt9g@google.com",
+    "name": "🤓 Despelote Summer Classes",
+    "startDate": "2026-06-18T20:00:00-04:00",
+    "endDate": "2026-06-18T22:00:00-04:00",
+    "dayOfWeek": "Thursday",
+    "location": "Dance Complex, 536 Massachusetts Ave, Cambridge, MA 02139",
+    "lat": 42.3643035,
+    "lng": -71.102235,
+    "description": "6-week summer session (May 21 – June 25). Two hours of training each Thursday evening, focusing on a different topic each hour.\n\n$100 for the full 6-week session (no drop-ins). If money is a problem, reach out — they're always happy to work something out.\n\nSign up: https://forms.gle/ap9RVJKgewFBXsGn8\n\n<b>Schedule</b>\n8pm-10pm\n\n<b>Price</b>\n$100 (Full 6-week session. No drop-ins.)\n\n<b>Organized by Despelote</b>\nFacebook: https://www.facebook.com/DespeloteBoston/\nInstagram: https://www.instagram.com/despelote.boston/\n\n\n---\nManaged by Una Bulla\nhttps://www.unabulla.com/boston",
+    "url": null,
+    "styles": [
+      "other"
+    ],
+    "cost": "$100",
+    "recurring": true,
+    "source": "unabulla-cuban-boston",
+    "_rejected_reason": "not Latin dance relevant (styles=['other'], no Latin terms)",
+    "_review_type": "non_latin",
+    "_rejected_at": "2026-06-23T16:55:56.928759+00:00"
   }
 ]

@@ -92,5 +92,17 @@
     "scraper": "scrape_ics.py",
     "enabled": true,
     "url": "https://calendar.google.com/calendar/ical/8a87859dbbb9d4a566d0ab0137c136f844424435b0b16585d99c3beb904e0514%40group.calendar.google.com/public/basic.ics"
+  },
+  {
+    "id": "timba-messengers",
+    "type": "ics",
+    "name": "The Timba Messengers",
+    "scraper": "scrape_ics.py",
+    "enabled": true,
+    "url": "https://calendar.google.com/calendar/ical/thetimbamessengers%40gmail.com/public/basic.ics",
+    "website": "https://www.thetimbamessengers.com",
+    "defaults": {
+      "styles": ["salsa", "timba"]
+    }
   }
 ]
