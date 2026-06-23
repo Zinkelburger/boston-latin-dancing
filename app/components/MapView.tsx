@@ -74,7 +74,7 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
     [allEventsTyped],
   );
 
-  const { controls, applyFilters, effectiveFromMs, effectiveToMs } = useEventFilters();
+  const { controls, applyFilters, effectiveFromMs, effectiveToMs, ensureEventVisible } = useEventFilters();
 
   const [activeEvent, setActiveEvent] = useState<DanceEvent | null>(null);
   const [activeDisplayDate, setActiveDisplayDate] = useState<string | null>(null);
@@ -219,12 +219,13 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
 
   const handleSearchSelectEvent = useCallback(
     (event: DanceEvent) => {
+      ensureEventVisible(event);
       if (event.lat != null && event.lng != null) {
         flyToEvent(event);
         openEvent(event);
       }
     },
-    [openEvent, flyToEvent],
+    [openEvent, flyToEvent, ensureEventVisible],
   );
 
   const handleFeedSelectEvent = useCallback(

@@ -12,5 +12,5 @@ export const DAY_SHORT: Record<DayOfWeek, string> = {
   Thursday: 'Thu', Friday: 'Fri', Saturday: 'Sat', Sunday: 'Sun',
 };
 
-/** Day name indexed by JS `Date.getDay()` (0 = Sunday). */
+/** Day name indexed by weekday number (0 = Sunday). Used with bostonWeekday(). */
 export const DAY_NAMES: DayOfWeek[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

@@ -1,4 +1,5 @@
 import type { DanceEvent, DayOfWeek } from '@/types/event';
+import { bostonWeekday, bostonStartOfDay } from '@/lib/dates';
 
 /** Max occurrences shown in upcoming-dates UI (popup, detail page). */
 export const UPCOMING_MAX = 3;
@@ -11,11 +12,9 @@ const DAY_NAMES: DayOfWeek[] = [
   'Thursday', 'Friday', 'Saturday',
 ];
 
-/** Start of local calendar day for a timestamp. */
+/** Start of Boston calendar day for a timestamp. */
 function startOfDay(ms: number): number {
-  const d = new Date(ms);
-  d.setHours(0, 0, 0, 0);
-  return d.getTime();
+  return bostonStartOfDay(ms);
 }
 
 /** Next `maxCount` recurrence ISO strings on or after today. */
@@ -78,22 +77,22 @@ function nthWeekdayOfMonth(
   month: number,
   dayOfWeek: DayOfWeek,
   nth: number,
-): Date | null {
+): number | null {
   const targetDow = DAY_NAMES.indexOf(dayOfWeek);
   let count = 0;
-  const lastDay = new Date(year, month + 1, 0).getDate();
+  const lastDay = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
   for (let day = 1; day <= lastDay; day++) {
-    const d = new Date(year, month, day);
-    if (d.getDay() === targetDow) {
+    const ms = Date.UTC(year, month, day, 12);
+    if (bostonWeekday(ms) === targetDow) {
       count++;
-      if (count === nth) return d;
+      if (count === nth) return day;
     }
   }
   return null;
 }
 
 function matchesScheduleNote(
-  date: Date,
+  dayMs: number,
   note: string | undefined,
   dayOfWeek: DayOfWeek,
 ): boolean {
@@ -102,22 +101,19 @@ function matchesScheduleNote(
   const nthMatch = noteLower.match(/(\d)(?:st|nd|rd|th)\s+\w+day/);
   if (nthMatch) {
     const nth = parseInt(nthMatch[1], 10);
+    const d = new Date(dayMs);
     const target = nthWeekdayOfMonth(
-      date.getFullYear(),
-      date.getMonth(),
+      d.getUTCFullYear(),
+      d.getUTCMonth(),
       dayOfWeek,
       nth,
     );
-    return (
-      target !== null
-      && target.getDate() === date.getDate()
-      && target.getMonth() === date.getMonth()
-    );
+    return target !== null && target === d.getUTCDate();
   }
 
   if (noteLower.includes('every other') || noteLower.includes('alternating')) {
-    const dayMs = startOfDay(date.getTime());
-    const weekNum = Math.floor((dayMs - EVERY_OTHER_REF_MS) / (7 * 86400000));
+    const dayStart = startOfDay(dayMs);
+    const weekNum = Math.floor((dayStart - EVERY_OTHER_REF_MS) / (7 * 86400000));
     return weekNum % 2 === 0;
   }
 
@@ -146,11 +142,10 @@ function firstScheduleOccurrenceInRange(
   const toDay = startOfDay(toMs);
 
   for (let day = fromDay; day <= toDay; day += 86400000) {
-    const d = new Date(day);
-    const dayName = DAY_NAMES[d.getDay()];
+    const dayName = DAY_NAMES[bostonWeekday(day)];
     for (const entry of schedule) {
       if (entry.dayOfWeek !== dayName) continue;
-      if (!matchesScheduleNote(d, entry.note, entry.dayOfWeek)) continue;
+      if (!matchesScheduleNote(day, entry.note, entry.dayOfWeek)) continue;
       return occurrenceOnDay(event.startDate, day);
     }
   }
@@ -215,7 +210,7 @@ export function resolveDisplayOccurrence(
 }
 
 export function dayOfWeekFromIso(iso: string): DayOfWeek {
-  return DAY_NAMES[new Date(iso).getDay()];
+  return DAY_NAMES[bostonWeekday(new Date(iso).getTime())];
 }
 
 export function formatRecurrenceDate(iso: string): string {
@@ -223,6 +218,7 @@ export function formatRecurrenceDate(iso: string): string {
     weekday: 'short',
     month: 'short',
     day: 'numeric',
+    timeZone: 'America/New_York',
   });
 }
 
@@ -230,17 +226,25 @@ export function formatRecurrenceTime(iso: string): string {
   return new Date(iso).toLocaleTimeString('en-US', {
     hour: 'numeric',
     minute: '2-digit',
+    timeZone: 'America/New_York',
   });
 }
+
+const TZ_OPTS = { timeZone: 'America/New_York' } as const;
 
 /** True when start/end are midnight on the same day (date-only, no time on source). */
 export function isDateOnlyEvent(start: string, end: string): boolean {
   const s = new Date(start);
   const e = new Date(end);
+  const fmt = new Intl.DateTimeFormat('en-US', { ...TZ_OPTS, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+  const sp: Record<string, string> = {};
+  for (const part of fmt.formatToParts(s)) sp[part.type] = part.value;
+  const ep: Record<string, string> = {};
+  for (const part of fmt.formatToParts(e)) ep[part.type] = part.value;
   return (
-    s.toDateString() === e.toDateString()
-    && s.getHours() === 0 && s.getMinutes() === 0
-    && e.getHours() === 0 && e.getMinutes() === 0
+    sp.year === ep.year && sp.month === ep.month && sp.day === ep.day
+    && sp.hour === '00' && sp.minute === '00'
+    && ep.hour === '00' && ep.minute === '00'
   );
 }
 
@@ -248,22 +252,29 @@ export function formatEventTimeRange(start: string, end: string): string {
   const s = new Date(start);
   const e = new Date(end);
   const dateStr = s.toLocaleDateString('en-US', {
-    weekday: 'short', month: 'short', day: 'numeric',
+    weekday: 'short', month: 'short', day: 'numeric', timeZone: 'America/New_York',
   });
   if (isDateOnlyEvent(start, end)) return dateStr;
 
-  const startTime = s.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-  const endTime = e.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  const startTime = s.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' });
+  const endTime = e.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' });
 
-  const sameDay = s.toDateString() === e.toDateString();
+  const sDateStr = s.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'America/New_York' });
+  const eDateStr = e.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'America/New_York' });
+  const sameDay = sDateStr === eDateStr;
+
   const sameEvening = !sameDay
     && (e.getTime() - s.getTime()) < 12 * 60 * 60 * 1000
-    && e.getHours() < 6;
+    && (() => {
+      const p: Record<string, string> = {};
+      for (const part of new Intl.DateTimeFormat('en-US', { ...TZ_OPTS, hourCycle: 'h23', hour: '2-digit' }).formatToParts(e)) p[part.type] = part.value;
+      return +p.hour < 6;
+    })();
 
   if (sameDay || sameEvening) return `${dateStr}, ${startTime} – ${endTime}`;
 
   const endDateStr = e.toLocaleDateString('en-US', {
-    weekday: 'short', month: 'short', day: 'numeric',
+    weekday: 'short', month: 'short', day: 'numeric', timeZone: 'America/New_York',
   });
   return `${dateStr} ${startTime} – ${endDateStr} ${endTime}`;
 }
@@ -297,23 +308,35 @@ const ORDINAL_WORDS: Record<number, string> = {
 };
 
 function weekdayIndex(iso: string): number {
-  return new Date(iso).getDay();
+  return bostonWeekday(new Date(iso).getTime());
 }
 
 function nthWeekdayOrdinalInMonth(iso: string): number {
-  const d = new Date(iso);
+  const ms = new Date(iso).getTime();
+  const dow = bostonWeekday(ms);
+  const d = new Date(ms);
+  const fmt = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' });
+  const p: Record<string, string> = {};
+  for (const part of fmt.formatToParts(d)) p[part.type] = part.value;
+  const dateOfMonth = +p.day;
+  const year = +p.year;
+  const month = +p.month - 1;
+
   let count = 0;
-  for (let day = 1; day <= d.getDate(); day++) {
-    const probe = new Date(d.getFullYear(), d.getMonth(), day);
-    if (probe.getDay() === d.getDay()) count++;
+  for (let day = 1; day <= dateOfMonth; day++) {
+    if (bostonWeekday(Date.UTC(year, month, day, 12)) === dow) count++;
   }
   return count;
 }
 
 function isLastWeekdayOccurrenceInMonth(iso: string): boolean {
-  const d = new Date(iso);
-  const lastDay = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
-  return d.getDate() + 7 > lastDay;
+  const ms = new Date(iso).getTime();
+  const fmt = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' });
+  const p: Record<string, string> = {};
+  for (const part of fmt.formatToParts(ms)) p[part.type] = part.value;
+  const dateOfMonth = +p.day;
+  const lastDay = new Date(Date.UTC(+p.year, +p.month, 0)).getUTCDate();
+  return dateOfMonth + 7 > lastDay;
 }
 
 function ordinalPhrase(nth: number, isLast: boolean): string {

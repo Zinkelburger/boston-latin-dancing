@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import type { DanceEvent, DayOfWeek } from '@/types/event';
 import { STYLE_LABELS, STYLE_PILL_CLASS, SITE_URL } from '@/lib/constants';
 import { DAY_NAMES } from '@/lib/filter-options';
-import { formatShort } from '@/lib/dates';
+import { formatShort, bostonWeekday } from '@/lib/dates';
 import { tokenize, matchEvent } from '@/lib/search';
 import { stripHtml } from '@/lib/strip-html';
 import {
@@ -61,14 +61,12 @@ function expandAndGroup(
   for (const event of events) {
     if (event.recurrences && event.recurrences.length > 0) {
       for (const recDate of recurrencesInRange(event.recurrences, fromMs, toMs)) {
-        const d = new Date(recDate);
-        const day = DAY_NAMES[d.getDay()];
+        const day = DAY_NAMES[bostonWeekday(new Date(recDate).getTime())];
         if (selectedDays.length > 0 && !selectedDays.includes(day)) continue;
         entries.push({ event, displayDate: recDate });
       }
     } else {
-      const d = new Date(event.startDate);
-      const day = DAY_NAMES[d.getDay()];
+      const day = DAY_NAMES[bostonWeekday(new Date(event.startDate).getTime())];
       if (selectedDays.length > 0 && !selectedDays.includes(day)) continue;
       entries.push({ event, displayDate: event.startDate });
     }
@@ -300,8 +298,7 @@ export default function FeedView({
 }
 
 function scheduleTimeForDate(event: DanceEvent, displayDate: string): string | null {
-  const d = new Date(displayDate);
-  const day = DAY_NAMES[d.getDay()];
+  const day = DAY_NAMES[bostonWeekday(new Date(displayDate).getTime())];
   const entry = event.schedule?.find(s => s.dayOfWeek === day);
   return entry?.time ?? null;
 }

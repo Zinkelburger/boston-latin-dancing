@@ -3,9 +3,26 @@
 import { useState, useMemo, useCallback } from 'react';
 import type { DanceEvent, DanceStyle, DayOfWeek } from '@/types/event';
 import { eventMatchesDateRange, dayOfWeekFromIso } from '@/lib/recurrences';
-import { dateToDay } from '@/lib/dates';
+import { dateToDay, dayStartMs } from '@/lib/dates';
 import { computePresetRange, type DatePreset } from '@/lib/date-presets';
 import type { DateRangeValue } from './DateRangeSlider';
+
+/**
+ * For a non-schedule event that falls outside the current date window,
+ * return the epoch-day we need to include in the range so the event
+ * becomes visible on the map.
+ */
+function eventTargetDay(event: DanceEvent): number {
+  if (event.recurrences?.length) {
+    const now = Date.now();
+    const nearest = event.recurrences
+      .map(iso => new Date(iso).getTime())
+      .filter(ms => ms >= now)
+      .sort((a, b) => a - b)[0];
+    return dateToDay(new Date(nearest ?? new Date(event.startDate).getTime()));
+  }
+  return dateToDay(new Date(event.startDate));
+}
 
 /** How many days ahead the date slider can reach. */
 const WINDOW_DAYS = 45;
@@ -82,8 +99,8 @@ export function useEventFilters() {
     const effectiveFrom = dateMode === 'any' ? sliderMin : dateSlider.fromDay;
     const effectiveTo = dateMode === 'any' ? sliderMax : dateSlider.toDay;
     return {
-      effectiveFromMs: effectiveFrom * 86400000,
-      effectiveToMs: (effectiveTo + 1) * 86400000 - 1,
+      effectiveFromMs: dayStartMs(effectiveFrom),
+      effectiveToMs: dayStartMs(effectiveTo + 1) - 1,
     };
   }, [dateMode, sliderMin, sliderMax, dateSlider]);
 
@@ -103,6 +120,32 @@ export function useEventFilters() {
     });
   }, [selectedStyles, selectedDays, effectiveFromMs, effectiveToMs]);
 
+  /** Clear any filters that would hide `event`, so it appears on the map. */
+  const ensureEventVisible = useCallback((event: DanceEvent) => {
+    const matchesStyle = selectedStyles.length === 0 ||
+      event.styles.some(s => selectedStyles.includes(s));
+    if (!matchesStyle) setSelectedStyles([]);
+
+    const derivedDay = dayOfWeekFromIso(event.startDate);
+    const matchesDay = selectedDays.length === 0 ||
+      selectedDays.includes(derivedDay) ||
+      (event.schedule?.some(s => selectedDays.includes(s.dayOfWeek)) ?? false);
+    if (!matchesDay) setSelectedDays([]);
+
+    if (eventMatchesDateRange(event, effectiveFromMs, effectiveToMs)) return;
+
+    const targetDay = eventTargetDay(event);
+    const currentFrom = dateMode === 'any' ? sliderMin : dateSlider.fromDay;
+    const currentTo = dateMode === 'any' ? sliderMax : dateSlider.toDay;
+
+    setDateMode('custom');
+    setDateSlider({
+      fromDay: Math.max(sliderMin, Math.min(currentFrom, targetDay)),
+      toDay: Math.min(sliderMax, Math.max(currentTo, targetDay)),
+    });
+    setDatePreset(null);
+  }, [effectiveFromMs, effectiveToMs, dateMode, sliderMin, sliderMax, dateSlider, selectedStyles, selectedDays]);
+
   const controls: FilterControlsProps = {
     selectedStyles, onStylesChange: setSelectedStyles,
     selectedDays, onDaysChange: setSelectedDays,
@@ -112,5 +155,5 @@ export function useEventFilters() {
     datePreset, onPresetChange: handlePresetChange,
   };
 
-  return { controls, applyFilters, effectiveFromMs, effectiveToMs };
+  return { controls, applyFilters, effectiveFromMs, effectiveToMs, ensureEventVisible };
 }
