@@ -384,14 +384,27 @@ git push
 
 ## Dates, timezones, and day-of-week
 
-Boston events must show the correct **local day and time**, not the UTC calendar day.
+Boston events must show the correct **Boston day and time**, never the UTC
+calendar day. There is exactly **one rule** — follow it everywhere:
+
+> **A stored `startDate` is an absolute instant.** Pass through any source time
+> that already carries an offset or `Z` untouched. For a *naive* (floating)
+> wall-clock time from a Boston source, localize it with
+> `ZoneInfo("America/New_York")` — **never** assume UTC, and **never** hardcode
+> `-04:00` (that breaks in winter, when Boston is `-05:00`/EST).
+
+`recurrence_utils.py` is the reference implementation. All scrapers now follow
+it: `scrape_ics.py`, `scrape_facebook.py`, `scrape_fiesta_dance.py`,
+`fetch_submissions.py`, `make_event()`, and venue expansion in
+`event_store.py` (`expand_venues`) all localize naive times as `NY_TZ`.
 
 ### How ICS timestamps work
 
 ICS feeds (Beatrice, Sensualeros) often store times as UTC (`20260611T000000Z`).
-That is the same instant as **Wed Jun 10, 8:00 PM** in Boston — Google Calendar
-displays the local time correctly. Do not rewrite timestamps to Boston offset;
-store the ISO instant as-is.
+That is the same instant as **Wed Jun 10, 8:00 PM** in Boston — store it as-is.
+A feed that emits a TZID (e.g. `TZID=America/New_York`) is also already correct.
+Only a truly *floating* time (no `Z`, no TZID) is naive — `scrape_ics.py` tags
+those as `NY_TZ`, and forces all-day dates to `NY_TZ` midnight (not UTC).
 
 ### Scraper: `dayOfWeek` in Boston time
 
@@ -404,14 +417,17 @@ store the ISO instant as-is.
 Re-scraping refreshes `dayOfWeek` on duplicate merges (same ID). If you see a
 day mismatch after code changes, run `event_scrape()` then `event_publish()`.
 
-### Frontend: filter uses startDate, not stored dayOfWeek
+### Frontend: day-bucketing is pinned to Boston, not runtime-local
 
-Map and feed day filters derive the day from `startDate` in local time
-(`dayOfWeekFromIso` in `lib/recurrences.ts`), not the stored `dayOfWeek` field.
-Popup/card dates also format `startDate` in local time.
+`lib/dates.ts` pins **all** date math to `America/New_York` via `Intl` — both the
+filter window bounds (`dayStartMs`) and the chip/feed labels (`formatShort`).
+Do **not** rely on the runtime's "local time": Next.js on Vercel runs in **UTC**,
+so unpinned local-time math silently shifts evening events to the wrong day (the
+old Havana "Monday-only" bug). The day filter derives the day from `startDate`
+through this Boston-pinned path, not the stored `dayOfWeek`.
 
 If popup says Wednesday but Thursday filter matched, the stored `dayOfWeek` was
-stale — re-scrape fixes it; the filter fix prevents the mismatch either way.
+stale — re-scrape fixes it; the Boston-pinned filter prevents the mismatch.
 
 ---
 

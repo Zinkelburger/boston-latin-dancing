@@ -13,10 +13,15 @@ import re
 import sys
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import requests
 from icalendar import Calendar
 from dateutil.rrule import rrulestr
+
+# Boston-area events. A naive (floating) ICS time is local wall-clock, so
+# interpret it as Eastern — never UTC. ZoneInfo handles EDT/EST automatically.
+NY_TZ = ZoneInfo("America/New_York")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from scraper_utils import (
@@ -41,10 +46,10 @@ def _ical_dt_to_datetime(dt_val) -> datetime | None:
     d = dt_val.dt if hasattr(dt_val, "dt") else dt_val
     if isinstance(d, datetime):
         if d.tzinfo is None:
-            d = d.replace(tzinfo=timezone.utc)
+            d = d.replace(tzinfo=NY_TZ)
         return d
     if isinstance(d, date):
-        return datetime(d.year, d.month, d.day, tzinfo=timezone.utc)
+        return datetime(d.year, d.month, d.day, tzinfo=NY_TZ)
     return None
 
 
@@ -116,7 +121,7 @@ def parse_ics_feed(ics_text: str, source_id: str = DEFAULT_SOURCE_ID) -> list[di
                 rule = rrulestr(rule_str, dtstart=dtstart)
                 for occ_start in rule.between(now, horizon, inc=True):
                     if occ_start.tzinfo is None:
-                        occ_start = occ_start.replace(tzinfo=dtstart.tzinfo or timezone.utc)
+                        occ_start = occ_start.replace(tzinfo=dtstart.tzinfo or NY_TZ)
                     occurrences.append((occ_start, occ_start + duration))
             except Exception as e:
                 print(f"  RRULE error for '{summary}': {e}")

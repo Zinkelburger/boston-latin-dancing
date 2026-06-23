@@ -66,6 +66,7 @@ SOURCE_PRIORITY = {
     "bobas": 13,
     "dantes-salsa": 13,
     "unabulla-cuban-boston": 10,
+    "timba-messengers": 11,
     "": 20,
 }
 
@@ -279,9 +280,9 @@ def _same_calendar_day(a: dict, b: dict) -> Optional[bool]:
     if not date_a or not date_b:
         return None
     if date_a.tzinfo is None:
-        date_a = date_a.replace(tzinfo=timezone.utc)
+        date_a = date_a.replace(tzinfo=NY_TZ)
     if date_b.tzinfo is None:
-        date_b = date_b.replace(tzinfo=timezone.utc)
+        date_b = date_b.replace(tzinfo=NY_TZ)
     return date_a.astimezone(NY_TZ).date() == date_b.astimezone(NY_TZ).date()
 
 
@@ -292,9 +293,9 @@ def _dates_within(a: dict, b: dict, hours: float) -> Optional[bool]:
     if not date_a or not date_b:
         return None
     if date_a.tzinfo is None:
-        date_a = date_a.replace(tzinfo=timezone.utc)
+        date_a = date_a.replace(tzinfo=NY_TZ)
     if date_b.tzinfo is None:
-        date_b = date_b.replace(tzinfo=timezone.utc)
+        date_b = date_b.replace(tzinfo=NY_TZ)
     date_a = date_a.astimezone(NY_TZ)
     date_b = date_b.astimezone(NY_TZ)
     return abs((date_a - date_b).total_seconds()) < hours * 3600
@@ -698,7 +699,7 @@ def _event_day_of_week(event: dict) -> Optional[str]:
     if not dt:
         return None
     if dt.tzinfo is None:
-        dt = dt.replace(tzinfo=timezone.utc)
+        dt = dt.replace(tzinfo=NY_TZ)
     return DAYS_LIST[dt.astimezone(NY_TZ).isoweekday() % 7]
 
 
@@ -867,7 +868,7 @@ def collapse_recurring_series(events: list[dict]) -> list[dict]:
         dt = parse_date(best["startDate"])
         if dt:
             if dt.tzinfo is None:
-                dt = dt.replace(tzinfo=timezone.utc)
+                dt = dt.replace(tzinfo=NY_TZ)
             best["dayOfWeek"] = DAYS_LIST[dt.astimezone(NY_TZ).isoweekday() % 7]
 
         for ev in group_events[1:]:
@@ -948,10 +949,11 @@ def expand_venues(weeks_ahead: int = 8) -> list[dict]:
         return []
 
     venues = json.loads(VENUES_JSON.read_text())
-    today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    # Anchor the weekly grid to Boston's current date, and stamp generated
+    # occurrences as America/New_York so EDT/EST is correct across DST.
+    today = datetime.now(NY_TZ).replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=None)
     end_window = today + timedelta(weeks=weeks_ahead)
     events: list[dict] = []
-    est = timezone(timedelta(hours=-4))
 
     for venue in venues:
         schedule = venue.get("schedule", [])
@@ -982,7 +984,7 @@ def expand_venues(weeks_ahead: int = 8) -> list[dict]:
             continue
         all_dates.sort()
 
-        recurrences = [dt.replace(tzinfo=est).isoformat() for dt in all_dates]
+        recurrences = [dt.replace(tzinfo=NY_TZ).isoformat() for dt in all_dates]
         next_dt = all_dates[0]
         time_range = _parse_time_range(schedule[0].get("time", ""))
         if time_range:
@@ -996,8 +998,8 @@ def expand_venues(weeks_ahead: int = 8) -> list[dict]:
         ev = {
             "id": venue["id"],
             "name": venue["name"],
-            "startDate": next_dt.replace(tzinfo=est).isoformat(),
-            "endDate": end_dt.replace(tzinfo=est).isoformat(),
+            "startDate": next_dt.replace(tzinfo=NY_TZ).isoformat(),
+            "endDate": end_dt.replace(tzinfo=NY_TZ).isoformat(),
             "dayOfWeek": DAYS_LIST[next_dt.isoweekday() % 7],
             "location": venue.get("location", ""),
             "lat": venue.get("lat"),
@@ -1319,7 +1321,7 @@ def archive_past_events() -> list[dict]:
             continue
 
         if dt.tzinfo is None:
-            dt = dt.replace(tzinfo=timezone.utc)
+            dt = dt.replace(tzinfo=NY_TZ)
 
         if dt < cutoff:
             ev["archivedAt"] = now.isoformat()

@@ -6,6 +6,7 @@ import re
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import requests
 from bs4 import BeautifulSoup
@@ -15,7 +16,8 @@ from scraper_utils import filter_future_events, get_source, make_event, write_sc
 
 SOURCE_ID = "fiesta-dance-company"
 UA = {"User-Agent": "boston-latin-dance-dev/0.1"}
-EDT = timezone(timedelta(hours=-4))
+# Wall-clock Eastern times; ZoneInfo keeps EDT/EST correct across DST.
+NY_TZ = ZoneInfo("America/New_York")
 
 WEBSITE = "https://fiestadancecompany.com"
 SOCIALS_URL = f"{WEBSITE}/upcoming-socials"
@@ -67,7 +69,7 @@ def parse_social_line(text: str, year: int) -> dict | None:
 
     try:
         # Page lists date only — no time; use midnight as date anchor (start === end).
-        start = datetime(year, month, int(day_num), 0, 0, tzinfo=EDT)
+        start = datetime(year, month, int(day_num), 0, 0, tzinfo=NY_TZ)
     except ValueError:
         return None
 
@@ -114,7 +116,7 @@ def fetch_events(listing_url: str) -> list[dict]:
         for node in soup.find_all(string=LINE_RE):
             lines.append(node.strip())
 
-    year = datetime.now(EDT).year
+    year = datetime.now(NY_TZ).year
     events: list[dict] = []
     seen: set[str] = set()
     for line in lines:
@@ -123,7 +125,7 @@ def fetch_events(listing_url: str) -> list[dict]:
             continue
         # If the parsed date is far in the past, try next year.
         start_dt = datetime.fromisoformat(ev["startDate"])
-        if start_dt < datetime.now(EDT) - timedelta(days=7):
+        if start_dt < datetime.now(NY_TZ) - timedelta(days=7):
             ev = parse_social_line(line, year + 1)
             if not ev:
                 continue

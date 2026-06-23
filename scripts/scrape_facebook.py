@@ -28,6 +28,11 @@ import re
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
+
+# Facebook lists wall-clock Eastern times. Localize as America/New_York so the
+# stored instant is correct year-round (EDT in summer, EST in winter).
+NY_TZ = ZoneInfo("America/New_York")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from scraper_utils import (
@@ -104,9 +109,8 @@ def parse_raw_event(raw: dict, idx: int, source_id: str, defaults: dict | None =
         print(f"  Could not parse date for event #{idx}: date='{date_str}' time='{time_str}'")
         return None
 
-    edt = timezone(timedelta(hours=-4))
     if start.tzinfo is None:
-        start = start.replace(tzinfo=edt)
+        start = start.replace(tzinfo=NY_TZ)
 
     end_time_str = raw.get("end_time", "")
     duration_hours = raw.get("duration_hours", 3)
@@ -114,7 +118,7 @@ def parse_raw_event(raw: dict, idx: int, source_id: str, defaults: dict | None =
         end_dt = _parse_fb_datetime(date_str, end_time_str)
         if end_dt:
             if end_dt.tzinfo is None:
-                end_dt = end_dt.replace(tzinfo=edt)
+                end_dt = end_dt.replace(tzinfo=NY_TZ)
             if end_dt <= start:
                 end_dt += timedelta(days=1)
             end = end_dt

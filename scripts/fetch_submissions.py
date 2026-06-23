@@ -12,11 +12,15 @@ import os
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import requests
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from scraper_utils import make_event, write_scraped, detect_styles
+
+# Submitted times are Eastern wall-clock; localize DST-aware, never fixed -04.
+NY_TZ = ZoneInfo("America/New_York")
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -107,8 +111,7 @@ def _parse_datetime(date_str: str, time_str: str) -> datetime | None:
             except ValueError:
                 continue
 
-    from datetime import timezone as tz
-    return dt.replace(tzinfo=tz(timedelta(hours=-4)))
+    return dt.replace(tzinfo=NY_TZ)
 
 
 def main():

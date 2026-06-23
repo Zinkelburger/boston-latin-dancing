@@ -34,7 +34,7 @@ VALID_STYLES = {"bachata", "salsa", "kizomba", "zouk", "merengue", "other"}
 
 STYLE_PATTERNS = [
     ("bachata", re.compile(r"bachata", re.I)),
-    ("salsa", re.compile(r"salsa", re.I)),
+    ("salsa", re.compile(r"salsa|timba", re.I)),
     ("kizomba", re.compile(r"kizomba", re.I)),
     ("zouk", re.compile(r"zouk", re.I)),
     ("merengue", re.compile(r"merengue", re.I)),
@@ -431,8 +431,8 @@ def make_event(
     return {
         "id": id,
         "name": name,
-        "startDate": start.isoformat() if start.tzinfo else start.replace(tzinfo=timezone.utc).isoformat(),
-        "endDate": end.isoformat() if end.tzinfo else end.replace(tzinfo=timezone.utc).isoformat(),
+        "startDate": start.isoformat() if start.tzinfo else start.replace(tzinfo=NY_TZ).isoformat(),
+        "endDate": end.isoformat() if end.tzinfo else end.replace(tzinfo=NY_TZ).isoformat(),
         "dayOfWeek": DAYS[start.astimezone(NY_TZ).isoweekday() % 7],
         "location": location,
         "lat": lat,
@@ -454,7 +454,7 @@ def filter_future_events(events: list[dict], grace_days: int = 1) -> list[dict]:
         try:
             dt = datetime.fromisoformat(ev["startDate"])
             if dt.tzinfo is None:
-                dt = dt.replace(tzinfo=timezone.utc)
+                dt = dt.replace(tzinfo=NY_TZ)
             if dt >= cutoff:
                 kept.append(ev)
         except (ValueError, KeyError):
