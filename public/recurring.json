@@ -152,8 +152,11 @@
     "schedule": [
       {
         "dayOfWeek": "Friday",
-        "time": "8:30 PM – 1:30 AM",
-        "note": "1st Friday of each month"
+        "time": "8:30 PM – 1:30 AM"
+      },
+      {
+        "dayOfWeek": "Saturday",
+        "time": "8:30 PM – 1:30 AM"
       }
     ],
     "slug": "fuego-y-candela-salsa-social-fuego-y-"

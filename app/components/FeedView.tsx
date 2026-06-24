@@ -385,16 +385,17 @@ function FeedCard({
           : hl(event.name)}
       </h3>
 
-      {(recurrenceLabel && !(event.schedule && event.schedule.length > 0)) && (
-        <span className="pretty-pill pretty-pill-sky text-xs" style={{ alignSelf: 'flex-start' }}>
-          {recurrenceLabel}
-        </span>
-      )}
-
-      {event.schedule && event.schedule.length > 0 && shouldShowNextOccurrence(event) && (
-        <span className="pretty-pill pretty-pill-sky text-xs" style={{ alignSelf: 'flex-start' }}>
-          {recurringWhenLabel(event)}
-        </span>
+      {recurrenceLabel && (
+        <div className="flex flex-wrap gap-1.5 items-center" style={{ alignSelf: 'flex-start' }}>
+          <span className="pretty-pill pretty-pill-sky text-xs">
+            {shouldShowNextOccurrence(event) ? recurringWhenLabel(event) : recurrenceLabel}
+          </span>
+          {event.nextDateApproximate && (
+            <span className="pretty-pill pretty-pill-amber text-xs">
+              Irregular schedule
+            </span>
+          )}
+        </div>
       )}
 
       <div className="feed-card-meta">

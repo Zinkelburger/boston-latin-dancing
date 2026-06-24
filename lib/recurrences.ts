@@ -60,10 +60,12 @@ export function eventMatchesDateRange(
   fromMs: number,
   toMs: number,
 ): boolean {
-  if (event.schedule?.length) return true;
-
   if (event.recurrences?.length) {
     return recurrencesInRange(event.recurrences, fromMs, toMs).length > 0;
+  }
+
+  if (event.schedule?.length) {
+    return firstScheduleOccurrenceInRange(event, fromMs, toMs) !== null;
   }
 
   const eventMs = new Date(event.startDate).getTime();
@@ -472,6 +474,7 @@ export function isDenseVenueSchedule(event: DanceEvent): boolean {
 /** Sparse weekly/biweekly/monthly patterns where the next date is useful. */
 export function shouldShowNextOccurrence(event: DanceEvent): boolean {
   if (!event.recurring || !getRecurrenceLabel(event)) return false;
+  if (event.nextDateApproximate) return false;
   return !isDenseVenueSchedule(event);
 }
 

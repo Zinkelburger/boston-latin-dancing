@@ -226,16 +226,17 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
           )}
         </div>
 
-        {recurrenceLabel && !(event.schedule && event.schedule.length > 0) && (
-          <span className="pretty-pill pretty-pill-sky text-xs self-start">
-            {recurrenceLabel}
-          </span>
-        )}
-
-        {event.schedule && event.schedule.length > 0 && recurrenceLabel && (
-          <span className="pretty-pill pretty-pill-sky text-xs self-start">
-            {recurrenceLabel}
-          </span>
+        {recurrenceLabel && (
+          <div className="flex flex-wrap gap-1.5 items-center">
+            <span className="pretty-pill pretty-pill-sky text-xs">
+              {recurrenceLabel}
+            </span>
+            {event.nextDateApproximate && (
+              <span className="pretty-pill pretty-pill-amber text-xs">
+                Irregular schedule
+              </span>
+            )}
+          </div>
         )}
 
         {!(event.schedule && event.schedule.length > 0) && (

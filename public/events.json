@@ -198,6 +198,40 @@
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
+    "id": "61B50538-D7A5-466E-9039-7663B3F54F9D",
+    "name": "Kizz Thursday",
+    "startDate": "2026-06-18T21:30:00-04:00",
+    "endDate": "2026-06-19T00:00:00-04:00",
+    "dayOfWeek": "Thursday",
+    "location": "Moves & Vibes Dance Co, 44 5th St, Cambridge, MA",
+    "lat": 42.3716703,
+    "lng": -71.0829052,
+    "description": "🎶 Music:\n•⁠  ⁠100% Kizomba\n🎧 DJ:\n•⁠  ⁠CejayKizMusic\n💵 Cover:\n•⁠  ⁠$10\n📍 Location:\n44 5th St, Cambridge, MA\nNo partner needed—just bring your energy and love for Kizomba! See you on the dance floor! 💫",
+    "url": null,
+    "styles": [
+      "kizomba"
+    ],
+    "cost": "$10",
+    "recurring": true,
+    "recurrences": [
+      "2026-05-21T21:30:00-04:00",
+      "2026-05-28T21:30:00-04:00",
+      "2026-06-04T21:30:00-04:00",
+      "2026-06-11T21:30:00-04:00",
+      "2026-06-18T21:30:00-04:00",
+      "2026-06-25T21:30:00-04:00",
+      "2026-07-02T21:30:00-04:00",
+      "2026-07-09T21:30:00-04:00",
+      "2026-07-16T21:30:00-04:00",
+      "2026-07-23T21:30:00-04:00",
+      "2026-07-30T21:30:00-04:00",
+      "2026-08-06T21:30:00-04:00"
+    ],
+    "slug": "kizz-thursday-61b50538",
+    "recurrenceLabel": "Every Thursday",
+    "organizer": "Sensualeros Boston Events"
+  },
+  {
     "id": "4s2c9e8buma8kst9n0vl8ac6sb_R20250418T223000@google.com",
     "name": "🤓 Boston Rueda Classes",
     "startDate": "2026-06-19T18:30:00-04:00",
@@ -361,109 +395,6 @@
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
-    "id": "havana-club",
-    "name": "Havana Club",
-    "startDate": "2026-06-23T20:00:00-04:00",
-    "endDate": "2026-06-24T00:30:00-04:00",
-    "dayOfWeek": "Tuesday",
-    "location": "288 Green St, Cambridge, MA 02139",
-    "lat": 42.3646,
-    "lng": -71.1044,
-    "description": "Boston's hot spot for Bachata and Salsa dancing in Cambridge. Lessons + social dancing every night. Amazing venue, inexpensive parking garage next door, public transportation one block away on Mass Ave.",
-    "url": "https://havanaclubsalsa.com",
-    "styles": [
-      "bachata",
-      "salsa",
-      "merengue"
-    ],
-    "cost": "$15",
-    "recurring": true,
-    "recurrences": [
-      "2026-06-23T20:00:00-04:00",
-      "2026-06-25T21:00:00-04:00",
-      "2026-06-26T21:00:00-04:00",
-      "2026-06-27T21:00:00-04:00",
-      "2026-06-28T19:00:00-04:00",
-      "2026-06-29T20:00:00-04:00",
-      "2026-06-30T20:00:00-04:00",
-      "2026-07-02T21:00:00-04:00",
-      "2026-07-03T21:00:00-04:00",
-      "2026-07-04T21:00:00-04:00",
-      "2026-07-05T19:00:00-04:00",
-      "2026-07-06T20:00:00-04:00",
-      "2026-07-07T20:00:00-04:00",
-      "2026-07-09T21:00:00-04:00",
-      "2026-07-10T21:00:00-04:00",
-      "2026-07-11T21:00:00-04:00",
-      "2026-07-12T19:00:00-04:00",
-      "2026-07-13T20:00:00-04:00",
-      "2026-07-14T20:00:00-04:00",
-      "2026-07-16T21:00:00-04:00",
-      "2026-07-17T21:00:00-04:00",
-      "2026-07-18T21:00:00-04:00",
-      "2026-07-19T19:00:00-04:00",
-      "2026-07-20T20:00:00-04:00",
-      "2026-07-21T20:00:00-04:00",
-      "2026-07-23T21:00:00-04:00",
-      "2026-07-24T21:00:00-04:00",
-      "2026-07-25T21:00:00-04:00",
-      "2026-07-26T19:00:00-04:00",
-      "2026-07-27T20:00:00-04:00",
-      "2026-07-28T20:00:00-04:00",
-      "2026-07-30T21:00:00-04:00",
-      "2026-07-31T21:00:00-04:00",
-      "2026-08-01T21:00:00-04:00",
-      "2026-08-02T19:00:00-04:00",
-      "2026-08-03T20:00:00-04:00",
-      "2026-08-04T20:00:00-04:00",
-      "2026-08-06T21:00:00-04:00",
-      "2026-08-07T21:00:00-04:00",
-      "2026-08-08T21:00:00-04:00",
-      "2026-08-09T19:00:00-04:00",
-      "2026-08-10T20:00:00-04:00",
-      "2026-08-11T20:00:00-04:00",
-      "2026-08-13T21:00:00-04:00",
-      "2026-08-14T21:00:00-04:00",
-      "2026-08-15T21:00:00-04:00",
-      "2026-08-16T19:00:00-04:00",
-      "2026-08-17T20:00:00-04:00"
-    ],
-    "schedule": [
-      {
-        "dayOfWeek": "Monday",
-        "time": "8:00 PM – 12:30 AM",
-        "note": "90% Bachata, 10% Salsa (21+)"
-      },
-      {
-        "dayOfWeek": "Tuesday",
-        "time": "8:00 PM – 11:30 PM",
-        "note": "60% Bachata, 40% Salsa"
-      },
-      {
-        "dayOfWeek": "Thursday",
-        "time": "9:00 PM – 12:00 AM",
-        "note": "80% Bachata, 20% Salsa (21+)"
-      },
-      {
-        "dayOfWeek": "Friday",
-        "time": "9:00 PM – 2:00 AM",
-        "note": "70% Bachata, 25% Salsa, 5% Merengue (21+)"
-      },
-      {
-        "dayOfWeek": "Saturday",
-        "time": "9:00 PM – 2:00 AM",
-        "note": "70% Bachata, 25% Salsa, 5% Merengue (21+)"
-      },
-      {
-        "dayOfWeek": "Sunday",
-        "time": "7:00 PM – 10:00 PM",
-        "note": "90% Bachata, 10% Salsa"
-      }
-    ],
-    "slug": "havana-club-havana-c",
-    "recurrenceLabel": "Sun–Tue, Thu–Sat · see schedule"
-  },
-  {
     "id": "eb-1991816316220",
     "name": "Zouk BOOTCAMP for Bachata Dancers (2 Days)",
     "startDate": "2026-06-23T21:00:00-04:00",
@@ -566,48 +497,113 @@
     "organizer": "Lister Events (Liz)"
   },
   {
-    "id": "61B50538-D7A5-466E-9039-7663B3F54F9D",
-    "name": "Kizz Thursday",
-    "startDate": "2026-06-25T21:30:00-04:00",
-    "endDate": "2026-06-26T00:00:00-04:00",
+    "id": "havana-club",
+    "name": "Havana Club",
+    "startDate": "2026-06-25T21:00:00-04:00",
+    "endDate": "2026-06-26T00:30:00-04:00",
     "dayOfWeek": "Thursday",
-    "location": "Moves & Vibes Dance Co, 44 5th St, Cambridge, MA",
-    "lat": 42.3716703,
-    "lng": -71.0829052,
-    "description": "🎶 Music:\n•⁠  ⁠100% Kizomba\n🎧 DJ:\n•⁠  ⁠CejayKizMusic\n💵 Cover:\n•⁠  ⁠$10\n📍 Location:\n44 5th St, Cambridge, MA\nNo partner needed—just bring your energy and love for Kizomba! See you on the dance floor! 💫",
-    "url": null,
+    "location": "288 Green St, Cambridge, MA 02139",
+    "lat": 42.3646,
+    "lng": -71.1044,
+    "description": "Boston's hot spot for Bachata and Salsa dancing in Cambridge. Lessons + social dancing every night. Amazing venue, inexpensive parking garage next door, public transportation one block away on Mass Ave.",
+    "url": "https://havanaclubsalsa.com",
     "styles": [
-      "kizomba"
+      "bachata",
+      "salsa",
+      "merengue"
     ],
-    "cost": "$10",
+    "cost": "$15",
     "recurring": true,
     "recurrences": [
-      "2026-05-21T21:30:00-04:00",
-      "2026-05-28T21:30:00-04:00",
-      "2026-06-04T21:30:00-04:00",
-      "2026-06-11T21:30:00-04:00",
-      "2026-06-18T21:30:00-04:00",
-      "2026-06-25T21:30:00-04:00",
-      "2026-07-02T21:30:00-04:00",
-      "2026-07-09T21:30:00-04:00",
-      "2026-07-16T21:30:00-04:00",
-      "2026-07-23T21:30:00-04:00",
-      "2026-07-30T21:30:00-04:00",
-      "2026-08-06T21:30:00-04:00",
-      "2026-08-13T21:30:00-04:00",
-      "2026-08-20T21:30:00-04:00",
-      "2026-08-27T21:30:00-04:00",
-      "2026-09-03T21:30:00-04:00"
+      "2026-06-25T21:00:00-04:00",
+      "2026-06-26T21:00:00-04:00",
+      "2026-06-27T21:00:00-04:00",
+      "2026-06-28T19:00:00-04:00",
+      "2026-06-29T20:00:00-04:00",
+      "2026-06-30T20:00:00-04:00",
+      "2026-07-02T21:00:00-04:00",
+      "2026-07-03T21:00:00-04:00",
+      "2026-07-04T21:00:00-04:00",
+      "2026-07-05T19:00:00-04:00",
+      "2026-07-06T20:00:00-04:00",
+      "2026-07-07T20:00:00-04:00",
+      "2026-07-09T21:00:00-04:00",
+      "2026-07-10T21:00:00-04:00",
+      "2026-07-11T21:00:00-04:00",
+      "2026-07-12T19:00:00-04:00",
+      "2026-07-13T20:00:00-04:00",
+      "2026-07-14T20:00:00-04:00",
+      "2026-07-16T21:00:00-04:00",
+      "2026-07-17T21:00:00-04:00",
+      "2026-07-18T21:00:00-04:00",
+      "2026-07-19T19:00:00-04:00",
+      "2026-07-20T20:00:00-04:00",
+      "2026-07-21T20:00:00-04:00",
+      "2026-07-23T21:00:00-04:00",
+      "2026-07-24T21:00:00-04:00",
+      "2026-07-25T21:00:00-04:00",
+      "2026-07-26T19:00:00-04:00",
+      "2026-07-27T20:00:00-04:00",
+      "2026-07-28T20:00:00-04:00",
+      "2026-07-30T21:00:00-04:00",
+      "2026-07-31T21:00:00-04:00",
+      "2026-08-01T21:00:00-04:00",
+      "2026-08-02T19:00:00-04:00",
+      "2026-08-03T20:00:00-04:00",
+      "2026-08-04T20:00:00-04:00",
+      "2026-08-06T21:00:00-04:00",
+      "2026-08-07T21:00:00-04:00",
+      "2026-08-08T21:00:00-04:00",
+      "2026-08-09T19:00:00-04:00",
+      "2026-08-10T20:00:00-04:00",
+      "2026-08-11T20:00:00-04:00",
+      "2026-08-13T21:00:00-04:00",
+      "2026-08-14T21:00:00-04:00",
+      "2026-08-15T21:00:00-04:00",
+      "2026-08-16T19:00:00-04:00",
+      "2026-08-17T20:00:00-04:00",
+      "2026-08-18T20:00:00-04:00"
     ],
-    "slug": "kizz-thursday-61b50538",
-    "recurrenceLabel": "Every Thursday",
-    "organizer": "Sensualeros Boston Events"
+    "schedule": [
+      {
+        "dayOfWeek": "Monday",
+        "time": "8:00 PM – 12:30 AM",
+        "note": "90% Bachata, 10% Salsa (21+)"
+      },
+      {
+        "dayOfWeek": "Tuesday",
+        "time": "8:00 PM – 11:30 PM",
+        "note": "60% Bachata, 40% Salsa"
+      },
+      {
+        "dayOfWeek": "Thursday",
+        "time": "9:00 PM – 12:00 AM",
+        "note": "80% Bachata, 20% Salsa (21+)"
+      },
+      {
+        "dayOfWeek": "Friday",
+        "time": "9:00 PM – 2:00 AM",
+        "note": "70% Bachata, 25% Salsa, 5% Merengue (21+)"
+      },
+      {
+        "dayOfWeek": "Saturday",
+        "time": "9:00 PM – 2:00 AM",
+        "note": "70% Bachata, 25% Salsa, 5% Merengue (21+)"
+      },
+      {
+        "dayOfWeek": "Sunday",
+        "time": "7:00 PM – 10:00 PM",
+        "note": "90% Bachata, 10% Salsa"
+      }
+    ],
+    "slug": "havana-club-havana-c",
+    "recurrenceLabel": "Sun–Tue, Thu–Sat · see schedule"
   },
   {
     "id": "3vk8m42q95bjqijuef783qvd1a@google.com",
     "name": "🪘 The Timba Messengers",
     "startDate": "2026-06-25T22:00:00-04:00",
-    "endDate": "2026-06-26T00:00:00-04:00",
+    "endDate": "2026-06-19T01:00:00-04:00",
     "dayOfWeek": "Thursday",
     "location": "Wally's Cafe Jazz Club, 427 Massachusetts Ave, Boston, MA 02118, USA",
     "lat": 42.3406735,
@@ -857,32 +853,35 @@
   {
     "id": "fuego-y-candela",
     "name": "Fuego y Candela Salsa Social",
-    "startDate": "2026-07-03T20:30:00-04:00",
-    "endDate": "2026-07-04T01:30:00-04:00",
+    "startDate": "2026-06-05T20:30:00-04:00",
+    "endDate": "2026-06-06T01:30:00-04:00",
     "dayOfWeek": "Friday",
     "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA 02139",
     "lat": 42.3679,
     "lng": -71.0885,
     "description": "Non-stop dancing with only the best Salsa/Mambo Boston has to offer. Strengthening our community one social at a time!\n\nResident DJ: DJ Condori\n\n8:30pm – 9:30pm Beginner Salsa Class Workshop\n9:30pm – 1:30am Social Dancing\n\nUsually 1st Friday or 2nd Saturday of each month — dates vary, check FB page for exact schedule.",
     "url": "https://www.facebook.com/FuegoyCandelaSalsa/events",
+    "urls": [
+      "https://www.instagram.com/fuegoycandelasalsa/"
+    ],
     "styles": [
       "salsa"
     ],
     "cost": "$20",
     "recurring": true,
-    "recurrences": [
-      "2026-07-03T20:30:00-04:00",
-      "2026-08-07T20:30:00-04:00"
-    ],
+    "nextDateApproximate": true,
     "schedule": [
       {
         "dayOfWeek": "Friday",
-        "time": "8:30 PM – 1:30 AM",
-        "note": "1st Friday of each month"
+        "time": "8:30 PM – 1:30 AM"
+      },
+      {
+        "dayOfWeek": "Saturday",
+        "time": "8:30 PM – 1:30 AM"
       }
     ],
     "slug": "fuego-y-candela-salsa-social-fuego-y-",
-    "recurrenceLabel": "First Friday of each month"
+    "recurrenceLabel": "Monthly — dates vary, check FB/IG"
   },
   {
     "id": "25E9FCB5-66BC-4D33-8FBE-836081750F65",

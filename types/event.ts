@@ -33,6 +33,10 @@ export interface DanceEvent {
   recurrences?: string[];
   /** Weekly schedule for venue-style recurring events (e.g. Havana Club) */
   schedule?: RecurringSchedule[];
+  /** True when the recurring pattern is irregular and the next date can't be
+   *  reliably predicted (e.g. "dates vary, check FB page"). Suppresses the
+   *  "Next: ..." label in cards/popups. */
+  nextDateApproximate?: boolean;
   /** True for past events kept for SEO (not shown on map/feed) */
   archived?: boolean;
   /** Human-readable organizer name (e.g. "BOBAS", "Fiesta Dance Company") */
