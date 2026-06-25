@@ -102,7 +102,25 @@
     "url": "https://calendar.google.com/calendar/ical/thetimbamessengers%40gmail.com/public/basic.ics",
     "website": "https://www.thetimbamessengers.com",
     "defaults": {
-      "styles": ["salsa", "timba"]
+      "styles": [
+        "salsa",
+        "timba"
+      ]
     }
+  },
+  {
+    "id": "sabor-latino",
+    "type": "facebook",
+    "scraper": "scrape_facebook.py",
+    "name": "Sabor Latino Boston",
+    "facebook_events_url": "https://www.facebook.com/SaborLatinoBoston/events",
+    "defaults": {
+      "styles": [
+        "bachata",
+        "salsa"
+      ],
+      "location": "El Barco, 50 Dalton St, Boston, MA 02115"
+    },
+    "enabled": true
   }
 ]

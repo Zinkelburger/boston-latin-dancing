@@ -56,20 +56,11 @@ export function recurrencesInRange(
 
 /** Whether an event has any occurrence in the map/feed date window. */
 export function eventMatchesDateRange(
-  event: Pick<DanceEvent, 'startDate' | 'schedule' | 'recurrences'>,
+  event: Pick<DanceEvent, 'startDate' | 'schedule' | 'recurrences' | 'nextDateApproximate'>,
   fromMs: number,
   toMs: number,
 ): boolean {
-  if (event.recurrences?.length) {
-    return recurrencesInRange(event.recurrences, fromMs, toMs).length > 0;
-  }
-
-  if (event.schedule?.length) {
-    return firstScheduleOccurrenceInRange(event, fromMs, toMs) !== null;
-  }
-
-  const eventMs = new Date(event.startDate).getTime();
-  return eventMs >= fromMs && eventMs <= toMs;
+  return occurrencesInRange(event, fromMs, toMs).length > 0;
 }
 
 const EVERY_OTHER_REF_MS = new Date('2026-01-02T00:00:00').getTime();
@@ -131,48 +122,108 @@ function occurrenceOnDay(referenceIso: string, dayMs: number): string {
   return result.toISOString();
 }
 
-/** First schedule-based occurrence in [fromMs, toMs] when recurrences are absent. */
+/** All schedule-based occurrences in [fromMs, toMs] (up to `limit`). */
+function scheduleOccurrencesInRange(
+  event: Pick<DanceEvent, 'startDate' | 'schedule'>,
+  fromMs: number,
+  toMs: number,
+  limit: number = Infinity,
+): string[] {
+  const schedule = event.schedule;
+  if (!schedule?.length) return [];
+
+  const fromDay = startOfDay(fromMs);
+  const toDay = startOfDay(toMs);
+  const out: string[] = [];
+
+  for (let day = fromDay; day <= toDay && out.length < limit; day += 86400000) {
+    const dayName = DAY_NAMES[bostonWeekday(day)];
+    for (const entry of schedule) {
+      if (entry.dayOfWeek !== dayName) continue;
+      if (!matchesScheduleNote(day, entry.note, entry.dayOfWeek)) continue;
+      // One occurrence per calendar day even if several entries match.
+      out.push(occurrenceOnDay(event.startDate, day));
+      break;
+    }
+  }
+
+  return out;
+}
+
+/** First schedule-based occurrence in [fromMs, toMs], or null. */
 function firstScheduleOccurrenceInRange(
   event: Pick<DanceEvent, 'startDate' | 'schedule'>,
   fromMs: number,
   toMs: number,
 ): string | null {
-  const schedule = event.schedule;
-  if (!schedule?.length) return null;
-
-  const fromDay = startOfDay(fromMs);
-  const toDay = startOfDay(toMs);
-
-  for (let day = fromDay; day <= toDay; day += 86400000) {
-    const dayName = DAY_NAMES[bostonWeekday(day)];
-    for (const entry of schedule) {
-      if (entry.dayOfWeek !== dayName) continue;
-      if (!matchesScheduleNote(day, entry.note, entry.dayOfWeek)) continue;
-      return occurrenceOnDay(event.startDate, day);
-    }
-  }
-
-  return null;
+  return scheduleOccurrencesInRange(event, fromMs, toMs, 1)[0] ?? null;
 }
 
-/** First occurrence start ISO within [fromMs, toMs], or null if none. */
-export function firstOccurrenceInRange(
-  event: Pick<DanceEvent, 'startDate' | 'schedule' | 'recurrences'>,
+type OccurrenceSource = Pick<
+  DanceEvent,
+  'startDate' | 'schedule' | 'recurrences' | 'nextDateApproximate'
+>;
+
+/** Earliest single occurrence in [fromMs, toMs] from recurrences/schedule/startDate. */
+function firstOccurrenceFrom(
+  event: OccurrenceSource,
   fromMs: number,
   toMs: number,
 ): string | null {
   if (event.recurrences?.length) {
-    const inRange = recurrencesInRange(event.recurrences, fromMs, toMs);
-    return inRange[0] ?? null;
+    return recurrencesInRange(event.recurrences, fromMs, toMs)[0] ?? null;
   }
-
   if (event.schedule?.length) {
     return firstScheduleOccurrenceInRange(event, fromMs, toMs);
   }
+  const eventMs = new Date(event.startDate).getTime();
+  return eventMs >= fromMs && eventMs <= toMs ? event.startDate : null;
+}
+
+/**
+ * The single source of truth for "when does this event happen in [fromMs, toMs]?".
+ * Every date-aware consumer (filtering, feed expansion, next-date, display
+ * occurrence) derives from this so they can never disagree.
+ *
+ * Precedence:
+ *  1. Approximate (`nextDateApproximate`) — dates are a pattern guess, not
+ *     confirmed. Never grid-expand; surface at most ONE next occurrence (from
+ *     today onward) so we don't claim it happens on every matching date. The
+ *     placement is computed fresh, never the (possibly stale) `startDate`.
+ *  2. Concrete `recurrences[]` — authoritative list of occurrence datetimes.
+ *  3. `schedule[]` — weekly weekday rule, expanded across the window.
+ *  4. Single `startDate` — non-recurring one-off.
+ */
+export function occurrencesInRange(
+  event: OccurrenceSource,
+  fromMs: number,
+  toMs: number,
+): string[] {
+  if (event.nextDateApproximate) {
+    const start = Math.max(fromMs, startOfDay(Date.now()));
+    const next = firstOccurrenceFrom(event, start, toMs);
+    return next ? [next] : [];
+  }
+
+  if (event.recurrences?.length) {
+    return recurrencesInRange(event.recurrences, fromMs, toMs);
+  }
+
+  if (event.schedule?.length) {
+    return scheduleOccurrencesInRange(event, fromMs, toMs);
+  }
 
   const eventMs = new Date(event.startDate).getTime();
-  if (eventMs >= fromMs && eventMs <= toMs) return event.startDate;
-  return null;
+  return eventMs >= fromMs && eventMs <= toMs ? [event.startDate] : [];
+}
+
+/** First occurrence start ISO within [fromMs, toMs], or null if none. */
+export function firstOccurrenceInRange(
+  event: OccurrenceSource,
+  fromMs: number,
+  toMs: number,
+): string | null {
+  return occurrencesInRange(event, fromMs, toMs)[0] ?? null;
 }
 
 /** End ISO for one occurrence, using the event's original duration. */
@@ -183,7 +234,9 @@ export function occurrenceEndDate(
   const start = new Date(occurrenceStart);
   const eventStart = new Date(event.startDate);
   const eventEnd = new Date(event.endDate);
-  const durationMs = eventEnd.getTime() - eventStart.getTime();
+  // Guard against malformed data where endDate precedes startDate: a negative
+  // duration would put every occurrence's end before its start. Clamp to 0.
+  const durationMs = Math.max(0, eventEnd.getTime() - eventStart.getTime());
   return new Date(start.getTime() + durationMs).toISOString();
 }
 
@@ -195,7 +248,7 @@ type DisplayOccurrenceOpts = {
 
 /** Resolve which occurrence to show in cards/popups for a filtered recurring event. */
 export function resolveDisplayOccurrence(
-  event: Pick<DanceEvent, 'startDate' | 'endDate' | 'schedule' | 'recurrences' | 'recurring'>,
+  event: Pick<DanceEvent, 'startDate' | 'endDate' | 'schedule' | 'recurrences' | 'recurring' | 'nextDateApproximate'>,
   opts: DisplayOccurrenceOpts = {},
 ): { start: string; end: string } {
   const { displayDate, fromMs, toMs } = opts;
@@ -484,16 +537,7 @@ const NEXT_SCAN_DAYS = 365;
 export function nextOccurrenceIso(event: DanceEvent): string | null {
   const fromMs = startOfDay(Date.now());
   const toMs = fromMs + NEXT_SCAN_DAYS * 86400000;
-
-  const fromRec = upcomingRecurrences(event.recurrences ?? [], 1)[0];
-  if (fromRec) return fromRec;
-
-  if (event.schedule?.length) {
-    return firstScheduleOccurrenceInRange(event, fromMs, toMs);
-  }
-
-  if (new Date(event.startDate).getTime() >= fromMs) return event.startDate;
-  return null;
+  return occurrencesInRange(event, fromMs, toMs)[0] ?? null;
 }
 
 /**

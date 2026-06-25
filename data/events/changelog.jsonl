@@ -225,3 +225,4 @@
 {"ts": "2026-06-23T16:55:56.904283+00:00", "action": "add", "event_id": "rj01qhpqbb1qg00243k5ov129k@google.com", "details": ""}
 {"ts": "2026-06-23T16:55:56.928551+00:00", "action": "add", "event_id": "3dlpk3g8kabug9qfkv9e0affdg@google.com", "details": ""}
 {"ts": "2026-06-23T16:55:56.929013+00:00", "action": "reject_non_latin", "event_id": "jtgs3h7rbgmv3d7of0d7v5nt9g@google.com", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-06-24T18:18:42.593792+00:00", "action": "add", "event_id": "bobas-20260624-0", "details": ""}

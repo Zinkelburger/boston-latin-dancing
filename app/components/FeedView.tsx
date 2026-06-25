@@ -12,7 +12,7 @@ import {
   getRecurrenceLabel,
   isDateOnlyEvent,
   recurringWhenLabel,
-  recurrencesInRange,
+  occurrencesInRange,
   shouldShowNextOccurrence,
 } from '@/lib/recurrences';
 import ShareButton from './ShareButton';
@@ -59,16 +59,10 @@ function expandAndGroup(
   const entries: FeedEntry[] = [];
 
   for (const event of events) {
-    if (event.recurrences && event.recurrences.length > 0) {
-      for (const recDate of recurrencesInRange(event.recurrences, fromMs, toMs)) {
-        const day = DAY_NAMES[bostonWeekday(new Date(recDate).getTime())];
-        if (selectedDays.length > 0 && !selectedDays.includes(day)) continue;
-        entries.push({ event, displayDate: recDate });
-      }
-    } else {
-      const day = DAY_NAMES[bostonWeekday(new Date(event.startDate).getTime())];
+    for (const occ of occurrencesInRange(event, fromMs, toMs)) {
+      const day = DAY_NAMES[bostonWeekday(new Date(occ).getTime())];
       if (selectedDays.length > 0 && !selectedDays.includes(day)) continue;
-      entries.push({ event, displayDate: event.startDate });
+      entries.push({ event, displayDate: occ });
     }
   }
 
@@ -392,7 +386,7 @@ function FeedCard({
           </span>
           {event.nextDateApproximate && (
             <span className="pretty-pill pretty-pill-amber text-xs">
-              Irregular schedule
+              Date unconfirmed
             </span>
           )}
         </div>

@@ -14,7 +14,7 @@ All dedup logic lives in `scripts/event_store.py`. There are two tiers:
 
 | Tier | Criteria | Action |
 |---|---|---|
-| **certain** | Same ID, any shared URL (across `url` + `urls[]`), or known duplicate pair (verdict: same); also same day + same location + strong name match | Auto-merge at ingest |
+| **certain** | Same ID, any shared URL (across `url` + `urls[]`), or known duplicate pair (verdict: same); same day + same location + strong name match; **cross-source recurring series** (both recurring + same location + same day-of-week + strong name match) | Auto-merge at ingest |
 | **review** | Same normalized name within 24h; same venue + same calendar day; substring or word-overlap name match within 24h; same name but no parseable dates; same venue + strong name match within 7 days (cross-source recurring series) | Routed to `pending.json` for human/agent review |
 | **None** | No match signals | Not a duplicate |
 
@@ -69,6 +69,21 @@ stored in `urls[]` for display in the frontend.
 
 The `_url_match()` check compares across both `url` and `urls[]` — if any URL
 appears in both events, they are a **certain** duplicate.
+
+## Cross-source recurring series
+
+When the same weekly event is published by multiple calendars (e.g. venue
+calendar + organizer calendar), occurrence start dates differ but the series is
+the same. The dedup system now treats these as **certain** when all four signals
+converge:
+
+1. Same location (via alias, coords, or string match)
+2. Both events marked as recurring
+3. Same day of the week
+4. Strong name match (exact, substring, or word-overlap)
+
+This prevents duplicate map pins for events like "The Timba Messengers" at
+Wally's appearing from both the Una Bulla and Timba Messengers calendars.
 
 ## Location aliases
 

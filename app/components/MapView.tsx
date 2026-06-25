@@ -118,21 +118,29 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
     return map;
   }, [allEventsTyped]);
 
+  // Deep-link handling runs once: resolve the slug from the hash (or the
+  // initial prop) on arrival and open that event. Guarded so later filter/date
+  // changes — which recreate `ensureEventVisible` — can't re-fire this and
+  // reopen a closed popup or undo the user's filters.
+  const didDeepLinkRef = useRef(false);
   useEffect(() => {
+    if (didDeepLinkRef.current) return;
     const hash = window.location.hash;
     const match = hash.match(/^#event=(.+)$/);
     const slug = match ? decodeURIComponent(match[1]) : initialEventSlug;
     if (!slug) return;
     const ev = eventsBySlug.get(slug);
-    if (ev && ev.lat != null && ev.lng != null) {
+    // Wait for events to load before consuming the one-shot guard.
+    if (!ev) return;
+    didDeepLinkRef.current = true;
+    if (ev.lat != null && ev.lng != null) {
+      ensureEventVisible(ev);
       setHighlightedEvent(ev);
       window.history.replaceState(null, '', `#event=${ev.slug}`);
-      // Defer the fly + popup to the map-ready effect below; the map may not be
-      // loaded yet on first paint, and we must not lose the intent if it isn't.
       pendingFlyToRef.current = ev;
       pendingPopupRef.current = true;
     }
-  }, [eventsBySlug, initialEventSlug]);
+  }, [eventsBySlug, initialEventSlug, ensureEventVisible]);
 
   const mappableEvents = useMemo(
     () => events.filter(e => e.lat != null && e.lng != null),
@@ -250,21 +258,22 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
   // selection) and, for deep-links, open the popup after the camera settles.
   useEffect(() => {
     if (!mapReady) return;
-    const map = mapRef.current?.getMap();
-    if (!map?.loaded()) return;
     const target = pendingFlyToRef.current;
     if (!target) return;
     pendingFlyToRef.current = null;
     flyToEvent(target);
     if (pendingPopupRef.current) {
       pendingPopupRef.current = false;
+      const map = mapRef.current?.getMap();
       // Fallback: open the popup after a timeout in case flyTo doesn't trigger
       // moveend (camera already at target, animation cancelled, etc.).
       const fallback = setTimeout(() => openEvent(target), 1500);
-      map.once('moveend', () => {
-        clearTimeout(fallback);
-        openEvent(target);
-      });
+      if (map) {
+        map.once('moveend', () => {
+          clearTimeout(fallback);
+          openEvent(target);
+        });
+      }
     }
   }, [mapReady, flyToEvent, openEvent]);
 

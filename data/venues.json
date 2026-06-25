@@ -139,24 +139,55 @@
   },
   {
     "id": "fuego-y-candela",
+    "sourceId": "dantes-salsa",
     "name": "Fuego y Candela Salsa Social",
     "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA 02139",
     "lat": 42.3679,
     "lng": -71.0885,
     "url": "https://www.facebook.com/FuegoyCandelaSalsa/events",
+    "urls": ["https://www.instagram.com/fuegoycandelasalsa/"],
     "styles": [
       "salsa"
     ],
     "cost": "$20",
     "description": "Non-stop dancing with only the best Salsa/Mambo Boston has to offer. Strengthening our community one social at a time!\n\nResident DJ: DJ Condori\n\n8:30pm – 9:30pm Beginner Salsa Class Workshop\n9:30pm – 1:30am Social Dancing\n\nUsually 1st Friday or 2nd Saturday of each month — dates vary, check FB page for exact schedule.",
+    "nextDateApproximate": true,
+    "recurrenceLabel": "Monthly — dates vary, check FB/IG",
     "schedule": [
       {
         "dayOfWeek": "Friday",
-        "time": "8:30 PM – 1:30 AM",
-        "note": "1st Friday of each month"
+        "time": "8:30 PM – 1:30 AM"
+      },
+      {
+        "dayOfWeek": "Saturday",
+        "time": "8:30 PM – 1:30 AM"
       }
     ],
     "slug": "fuego-y-candela-salsa-social-fuego-y-"
+  },
+  {
+    "id": "bobas",
+    "sourceId": "bobas",
+    "name": "BOBAS: Sunset Salsa & Bachata on the Docks",
+    "location": "Hatch Shell on the Esplanade, Boston, MA",
+    "lat": 42.357256,
+    "lng": -71.073702,
+    "url": "https://www.facebook.com/groups/576206842396498",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "Free",
+    "description": "Boston Outdoor Bachata And Salsa (BOBAS). Outdoor social dancing on the docks behind the Hatch Shell — bachata on one side, salsa on the other. Free, weather permitting. Usually Tuesdays 6–9 PM but dates vary, check the Facebook page.",
+    "nextDateApproximate": true,
+    "recurrenceLabel": "Usually Tuesdays — weather permitting, check FB",
+    "schedule": [
+      {
+        "dayOfWeek": "Tuesday",
+        "time": "6:00 PM – 9:00 PM"
+      }
+    ],
+    "slug": "bobas-sunset-salsa-bachata-on-the-docks-bobas"
   },
   {
     "id": "black-mamba-social",

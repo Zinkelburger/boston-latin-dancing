@@ -233,7 +233,7 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
             </span>
             {event.nextDateApproximate && (
               <span className="pretty-pill pretty-pill-amber text-xs">
-                Irregular schedule
+                Date unconfirmed
               </span>
             )}
           </div>

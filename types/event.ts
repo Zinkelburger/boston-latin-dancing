@@ -52,13 +52,20 @@ export interface RecurringSchedule {
 export interface RecurringVenue {
   id: string;
   slug?: string;
+  /** Links to the scrape source ID — only events from this source can confirm the venue date */
+  sourceId?: string;
   name: string;
   location: string;
   lat: number;
   lng: number;
   description: string;
   url: string | null;
+  urls?: string[];
   styles: DanceStyle[];
   cost: string | null;
   schedule: RecurringSchedule[];
+  /** True when the recurring pattern is irregular (e.g. weather-dependent, dates vary) */
+  nextDateApproximate?: boolean;
+  /** Override the auto-generated recurrence label */
+  recurrenceLabel?: string;
 }

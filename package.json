@@ -13,6 +13,7 @@
     "fetch-eventbrite": "python3 scripts/scrape_eventbrite.py",
     "fetch-fiesta": "python3 scripts/scrape_fiesta_dance.py",
     "fetch-bobas": "python3 scripts/scrape_facebook.py bobas",
+    "fetch-sabor-latino": "python3 scripts/scrape_facebook.py sabor-latino",
     "fetch-submissions": "python3 scripts/fetch_submissions.py",
     "fetch-unabulla": "python3 scripts/scrape_ics.py unabulla-cuban-boston",
     "fetch-timba": "python3 scripts/scrape_ics.py timba-messengers",
@@ -21,7 +22,7 @@
     "dedup-report": "python3 scripts/dedup_report.py",
     "review-dedup": "python3 scripts/dedup_report.py --pending --json",
     "verify-events": "python3 scripts/verify_events.py",
-    "fetch-all": "npm run fetch-events && npm run fetch-sensualeros && npm run fetch-unabulla && npm run fetch-timba && npm run fetch-lister && npm run fetch-eventbrite && npm run fetch-fiesta && npm run fetch-submissions && npm run ingest-publish",
+    "fetch-all": "npm run fetch-events && npm run fetch-sensualeros && npm run fetch-unabulla && npm run fetch-timba && npm run fetch-lister && npm run fetch-eventbrite && npm run fetch-fiesta && npm run fetch-bobas && npm run fetch-sabor-latino && npm run fetch-submissions && npm run ingest-publish",
     "build-all": "npm run publish-events && npm run build"
   },
   "dependencies": {

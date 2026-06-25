@@ -65,6 +65,7 @@ SOURCE_PRIORITY = {
     "fiesta-dance-company": 12,
     "bobas": 13,
     "dantes-salsa": 13,
+    "sabor-latino": 13,
     "unabulla-cuban-boston": 10,
     "timba-messengers": 11,
     "": 20,
@@ -142,6 +143,11 @@ LOCATION_ALIASES: dict[str, str] = {
     "el barco": "el-barco",
     "50 dalton st": "el-barco",
     "50 dalton street": "el-barco",
+    # Wally's Cafe Jazz Club (Boston) — appears with accented apostrophe
+    # and with "EE. UU." vs "USA" country suffix across sources.
+    "wally's cafe jazz club": "wallys-cafe",
+    "wally's cafe": "wallys-cafe",
+    "427 massachusetts ave": "wallys-cafe",
 }
 
 
@@ -372,6 +378,20 @@ def _persist_known_duplicate(id_a: str, id_b: str, verdict: str) -> None:
     KNOWN_DUPLICATES_JSON.write_text(json.dumps(entries, indent=2, ensure_ascii=False))
 
 
+def _get_day_of_week(event: dict) -> Optional[str]:
+    """Return the day of week for an event, from field or parsed startDate."""
+    dow = event.get("dayOfWeek")
+    if dow:
+        return dow
+    dt = parse_date(event.get("startDate", ""))
+    if not dt:
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=NY_TZ)
+    _days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    return _days[dt.astimezone(NY_TZ).isoweekday() % 7]
+
+
 def dedup_confidence(a: dict, b: dict) -> Optional[str]:
     """Determine dedup confidence between two events.
 
@@ -431,6 +451,22 @@ def dedup_confidence(a: dict, b: dict) -> Optional[str]:
 
     if names_exact and same_loc and within_24h is True:
         return "certain"
+
+    # Cross-source recurring series: same weekly event published by different
+    # calendars (e.g. venue calendar + organizer calendar). Occurrence dates
+    # differ (so no date-proximity check applies), but the series is the same.
+    # Substring matches are deliberately excluded here — "salsa" is a substring
+    # of "salsa & bachata social", and two distinct weekly series sharing a
+    # venue + weekday must not be auto-merged. Substring matches fall through to
+    # the within_7d "review" tier below.
+    if same_loc and (names_exact or word_overlap_strong):
+        a_recurring = a.get("recurring") or bool(a.get("recurrences"))
+        b_recurring = b.get("recurring") or bool(b.get("recurrences"))
+        if a_recurring and b_recurring:
+            dow_a = _get_day_of_week(a)
+            dow_b = _get_day_of_week(b)
+            if dow_a and dow_b and dow_a == dow_b:
+                return "certain"
 
     # "review" tier: single-signal or weaker matches
     if names_exact and within_24h is True:
@@ -738,10 +774,32 @@ def _scraped_at_venue_hub(hub: dict, scraped: dict) -> bool:
 
 
 def _suppress_venue_covered_events(venue_events: list[dict], active_events: list[dict]) -> list[dict]:
-    """Drop scraped events whose night is already on a venue hub schedule at the same location."""
-    venue_hubs = [v for v in venue_events if _is_venue_schedule_record(v)]
-    if not venue_hubs:
-        return active_events
+    """Resolve overlap between venue hubs and scraped events.
+
+    Regular venues: scraped events at the same location+day are suppressed (venue wins).
+    Irregular venues (nextDateApproximate): scraped events WIN — the venue entry is
+    suppressed when confirmed scraped events exist. This lets the "Date unconfirmed"
+    venue entry show only when no confirmed scrape is available.
+    """
+    regular_hubs = [v for v in venue_events if _is_venue_schedule_record(v) and not v.get("nextDateApproximate")]
+    irregular_hubs = [v for v in venue_events if _is_venue_schedule_record(v) and v.get("nextDateApproximate")]
+
+    if not regular_hubs and not irregular_hubs:
+        return active_events, set()
+
+    now = datetime.now(NY_TZ)
+
+    def _has_future_date(ev: dict) -> bool:
+        """True if event has a start date today or later."""
+        dt = parse_date(ev.get("startDate", ""))
+        if not dt:
+            return False
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=NY_TZ)
+        return dt.astimezone(NY_TZ).date() >= now.date()
+
+    # Track which irregular venues have confirmed scraped events covering them
+    irregular_hub_covered: set[str] = set()
 
     kept: list[dict] = []
     for ev in active_events:
@@ -749,9 +807,6 @@ def _suppress_venue_covered_events(venue_events: list[dict], active_events: list
             kept.append(ev)
             continue
 
-        # Special editions (anniversaries, festivals, guest-artist nights) are
-        # distinct happenings — never let a generic venue schedule hide them,
-        # even when they fall on the venue's normal weeknight.
         if _is_special_edition(normalize_name(ev.get("name", ""))):
             kept.append(ev)
             continue
@@ -768,18 +823,51 @@ def _suppress_venue_covered_events(venue_events: list[dict], active_events: list
             if coords:
                 ev["lat"], ev["lng"] = coords
 
-        suppressed = False
-        for hub in venue_hubs:
+        # Check regular hubs — suppress scraped event if covered
+        suppressed_by_regular = False
+        for hub in regular_hubs:
             if not _venue_schedule_covers_day(hub, day):
                 continue
             if _scraped_at_venue_hub(hub, ev):
-                suppressed = True
+                suppressed_by_regular = True
                 break
 
-        if not suppressed:
-            kept.append(ev)
+        if suppressed_by_regular:
+            continue
 
-    return kept
+        # Check irregular hubs — only future scraped events from the matching
+        # source can confirm (suppress) the venue entry.
+        if _has_future_date(ev):
+            ev_source = ev.get("source", "")
+            for hub in irregular_hubs:
+                # The scraped event must be at the venue's location to confirm it,
+                # otherwise an unrelated event from the same source (different
+                # venue/series) would wrongly suppress the placeholder.
+                if not _scraped_at_venue_hub(hub, ev):
+                    continue
+                # A configured source link tightens the match further: only that
+                # source's events at this location count as confirmation.
+                hub_source_id = hub.get("_sourceId", "")
+                if hub_source_id and ev_source != hub_source_id:
+                    continue
+                irregular_hub_covered.add(hub["id"])
+                if not ev.get("cost") and hub.get("cost"):
+                    ev["cost"] = hub["cost"]
+                if not ev.get("url") and hub.get("url"):
+                    ev["url"] = hub["url"]
+                if not ev.get("urls") and hub.get("urls"):
+                    ev["urls"] = hub["urls"]
+                break
+
+        kept.append(ev)
+
+    # Suppress irregular venue entries that have confirmed scraped events
+    suppressed_venues = set()
+    for hub in irregular_hubs:
+        if hub["id"] in irregular_hub_covered:
+            suppressed_venues.add(hub["id"])
+
+    return kept, suppressed_venues
 
 
 def collapse_recurring_series(events: list[dict]) -> list[dict]:
@@ -851,16 +939,26 @@ def collapse_recurring_series(events: list[dict]) -> list[dict]:
             result.extend(group_events)
             continue
 
-        now = datetime.now().astimezone()
+        # Preserve the event's duration so endDate never desyncs from startDate
+        # when we roll forward to an occurrence no single member's startDate
+        # matches (the new startDate often comes from a member's recurrences[]).
+        orig_start = parse_date(best.get("startDate", ""))
+        orig_end = parse_date(best.get("endDate", ""))
+        duration = orig_end - orig_start if (orig_start and orig_end and orig_end >= orig_start) else None
+
+        def _roll_end(new_start_iso: str) -> Optional[str]:
+            new_start = parse_date(new_start_iso)
+            if new_start is None or duration is None:
+                return None
+            return (new_start + duration).isoformat()
+
+        now = datetime.now(NY_TZ)
         future_dates = [d for d in dates if parse_date(d) and parse_date(d) >= now]
-        if future_dates:
-            best["startDate"] = future_dates[0]
-            for ev in group_events:
-                if ev["startDate"] == future_dates[0]:
-                    best["endDate"] = ev.get("endDate", ev["startDate"])
-                    break
-        else:
-            best["startDate"] = dates[-1]
+        new_start = future_dates[0] if future_dates else dates[-1]
+        best["startDate"] = new_start
+        rolled_end = _roll_end(new_start)
+        if rolled_end:
+            best["endDate"] = rolled_end
 
         best["recurring"] = True
         best["recurrences"] = dates
@@ -1013,6 +1111,14 @@ def expand_venues(weeks_ahead: int = 8) -> list[dict]:
             "schedule": schedule,
             "source": "recurring-venues",
         }
+        if venue.get("urls"):
+            ev["urls"] = venue["urls"]
+        if venue.get("nextDateApproximate"):
+            ev["nextDateApproximate"] = True
+        if venue.get("recurrenceLabel"):
+            ev["recurrenceLabel"] = venue["recurrenceLabel"]
+        if venue.get("sourceId"):
+            ev["_sourceId"] = venue["sourceId"]
         events.append(ev)
 
     return events
@@ -1477,7 +1583,7 @@ def _load_source_names() -> dict[str, str]:
 def _strip_internal_fields(ev: dict, source_names: dict[str, str]) -> None:
     """Add slug/organizer, remove internal fields from an event dict."""
     ev["slug"] = slugify(ev["name"], ev["id"])
-    if ev.get("recurring"):
+    if ev.get("recurring") and not ev.get("recurrenceLabel"):
         label = recurrence_label(ev)
         if label:
             ev["recurrenceLabel"] = label
@@ -1500,7 +1606,8 @@ def publish() -> dict:
     active = load_active()
     venue_events = expand_venues()
 
-    active = _suppress_venue_covered_events(venue_events, active)
+    active, suppressed_venue_ids = _suppress_venue_covered_events(venue_events, active)
+    venue_events = [v for v in venue_events if v.get("id") not in suppressed_venue_ids]
     all_events = venue_events + active
     deduped = deduplicate(all_events)
     deduped = collapse_recurring_series(deduped)

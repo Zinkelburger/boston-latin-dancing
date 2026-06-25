@@ -70,7 +70,10 @@
     "_verified_at": "2026-06-17T19:43:29.556819+00:00",
     "_verified_status": "no_source",
     "_verified_notes": "No URL. Search suggestion: \"Timba y Descontrol Cuban salsa lessons + social Cambridge Common, Waterhouse St & Massachusetts Ave, Cambridge, MA 02138, USA boston\"",
-    "_verification_url": null
+    "_verification_url": null,
+    "urls": [
+      "https://www.instagram.com/timbadescontrol/"
+    ]
   },
   {
     "id": "11367EEA-739B-4693-971D-B95D90968D5E",
@@ -957,8 +960,8 @@
   {
     "id": "3vk8m42q95bjqijuef783qvd1a@google.com",
     "name": "🪘 The Timba Messengers",
-    "startDate": "2026-06-18T22:00:00-04:00",
-    "endDate": "2026-06-19T01:00:00-04:00",
+    "startDate": "2026-06-25T22:00:00-04:00",
+    "endDate": "2026-06-26T01:00:00-04:00",
     "dayOfWeek": "Thursday",
     "location": "Wally's Cafe Jazz Club, 427 Massachusetts Ave, Boston, MA 02118, USA",
     "lat": 42.3406735,
@@ -968,7 +971,7 @@
     "styles": [
       "salsa"
     ],
-    "cost": null,
+    "cost": "Free",
     "recurring": true,
     "source": "unabulla-cuban-boston",
     "recurrences": [
@@ -983,7 +986,9 @@
       "2026-08-06T22:00:00-04:00",
       "2026-08-13T22:00:00-04:00",
       "2026-08-20T22:00:00-04:00",
-      "2026-08-27T22:00:00-04:00"
+      "2026-08-27T22:00:00-04:00",
+      "2026-09-03T22:00:00-04:00",
+      "2026-09-10T22:00:00-04:00"
     ],
     "_verified_at": "2026-06-17T19:43:33.370705+00:00",
     "_verified_status": "no_source",
@@ -1445,38 +1450,6 @@
     "reactivatedAt": "2026-06-23T16:55:54.673097+00:00"
   },
   {
-    "id": "phfsfa6ctj6jq4nikphf3mql0l@google.com",
-    "name": "The Timba Messenger at Wally's ",
-    "startDate": "2026-06-25T22:00:00-04:00",
-    "endDate": "2026-06-26T00:00:00-04:00",
-    "dayOfWeek": "Thursday",
-    "location": "Wally's Cafe Jazz Club, 427 Massachusetts Ave, Boston, MA 02118, EE. UU.",
-    "lat": 42.3406735,
-    "lng": -71.0822887,
-    "description": "+21\nFree Entrance",
-    "url": null,
-    "styles": [
-      "salsa"
-    ],
-    "cost": "Free",
-    "recurring": true,
-    "source": "timba-messengers",
-    "recurrences": [
-      "2026-06-25T22:00:00-04:00",
-      "2026-07-02T22:00:00-04:00",
-      "2026-07-09T22:00:00-04:00",
-      "2026-07-16T22:00:00-04:00",
-      "2026-07-23T22:00:00-04:00",
-      "2026-07-30T22:00:00-04:00",
-      "2026-08-06T22:00:00-04:00",
-      "2026-08-13T22:00:00-04:00",
-      "2026-08-20T22:00:00-04:00",
-      "2026-08-27T22:00:00-04:00",
-      "2026-09-03T22:00:00-04:00",
-      "2026-09-10T22:00:00-04:00"
-    ]
-  },
-  {
     "id": "4s2c9e8buma8kst9n0vl8ac6sb_R20250418T223000@google.com",
     "name": "🤓 Boston Rueda Classes",
     "startDate": "2026-06-19T18:30:00-04:00",
@@ -1548,5 +1521,24 @@
     "cost": "$25",
     "recurring": true,
     "source": "unabulla-cuban-boston"
+  },
+  {
+    "id": "bobas-20260624-0",
+    "name": "Sunset Salsa Bachata on the Docks",
+    "startDate": "2026-06-24T18:00:00-04:00",
+    "endDate": "2026-06-24T21:00:00-04:00",
+    "dayOfWeek": "Wednesday",
+    "location": "Hatch Shell on the Esplanade",
+    "lat": 42.357256,
+    "lng": -71.073702,
+    "description": "*** BOBAS is Wednesday 6-9pm this week ***\n\nWe are looking for alternative venues for rainy days. Please see the post on our page for more details.\n\n*** The weather looks great but please monitor this event page for updates. ***\n\nBachata playing on one side of the dock and salsa on the other like last time.\n\nBring water. Please don't forget to take your stuff with you, we always see things left behind. Please don't put your stuff in front of the speakers, it muffles the sound.\n\nThe location is the usual docks behind the Hatch Shell stage:\nhttps://maps.app.goo.gl/ERYQSY3Qy9Pbk5ew6\n\nPlease follow the Boston Outdoor Bachata And Salsa page to get notifications about future events.\n\nCheck out Bachata Room after!\n\n***Weather Permitting. Keep an eye on this event page for updates. ***",
+    "url": "https://www.facebook.com/events/1755042935909327",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": true,
+    "source": "bobas"
   }
 ]

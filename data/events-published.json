@@ -89,6 +89,9 @@
       "2026-08-04T19:00:00-04:00",
       "2026-08-11T19:00:00-04:00"
     ],
+    "urls": [
+      "https://www.instagram.com/timbadescontrol/"
+    ],
     "slug": "timba-y-descontrol-cuban-salsa-lessons-social-16m8bm77",
     "recurrenceLabel": "Every Tuesday",
     "organizer": "Greater Boston Dance Socials (Beatrice)"
@@ -415,6 +418,27 @@
     "organizer": "Eventbrite Boston Latin Dance"
   },
   {
+    "id": "bobas-20260624-0",
+    "name": "Sunset Salsa Bachata on the Docks",
+    "startDate": "2026-06-24T18:00:00-04:00",
+    "endDate": "2026-06-24T21:00:00-04:00",
+    "dayOfWeek": "Wednesday",
+    "location": "Hatch Shell on the Esplanade",
+    "lat": 42.357256,
+    "lng": -71.073702,
+    "description": "*** BOBAS is Wednesday 6-9pm this week ***\n\nWe are looking for alternative venues for rainy days. Please see the post on our page for more details.\n\n*** The weather looks great but please monitor this event page for updates. ***\n\nBachata playing on one side of the dock and salsa on the other like last time.\n\nBring water. Please don't forget to take your stuff with you, we always see things left behind. Please don't put your stuff in front of the speakers, it muffles the sound.\n\nThe location is the usual docks behind the Hatch Shell stage:\nhttps://maps.app.goo.gl/ERYQSY3Qy9Pbk5ew6\n\nPlease follow the Boston Outdoor Bachata And Salsa page to get notifications about future events.\n\nCheck out Bachata Room after!\n\n***Weather Permitting. Keep an eye on this event page for updates. ***",
+    "url": "https://www.facebook.com/events/1755042935909327",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": true,
+    "slug": "sunset-salsa-bachata-on-the-docks-bobas-20",
+    "recurrenceLabel": "Every Wednesday",
+    "organizer": "Boston Outdoor Bachata And Salsa (BOBAS)"
+  },
+  {
     "id": "bachata-room",
     "name": "Bachata Room",
     "startDate": "2026-06-24T21:00:00-04:00",
@@ -603,7 +627,7 @@
     "id": "3vk8m42q95bjqijuef783qvd1a@google.com",
     "name": "🪘 The Timba Messengers",
     "startDate": "2026-06-25T22:00:00-04:00",
-    "endDate": "2026-06-19T01:00:00-04:00",
+    "endDate": "2026-06-26T01:00:00-04:00",
     "dayOfWeek": "Thursday",
     "location": "Wally's Cafe Jazz Club, 427 Massachusetts Ave, Boston, MA 02118, USA",
     "lat": 42.3406735,
@@ -653,6 +677,57 @@
     "recurring": false,
     "slug": "boston-area-traditional-bachata-night-in-lynn-ma-la-casa-de--c469c54b",
     "organizer": "Greater Boston Dance Socials (Beatrice)"
+  },
+  {
+    "id": "fuego-y-candela",
+    "name": "Fuego y Candela Salsa Social",
+    "startDate": "2026-06-26T20:30:00-04:00",
+    "endDate": "2026-06-27T01:30:00-04:00",
+    "dayOfWeek": "Friday",
+    "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA 02139",
+    "lat": 42.3679,
+    "lng": -71.0885,
+    "description": "Non-stop dancing with only the best Salsa/Mambo Boston has to offer. Strengthening our community one social at a time!\n\nResident DJ: DJ Condori\n\n8:30pm – 9:30pm Beginner Salsa Class Workshop\n9:30pm – 1:30am Social Dancing\n\nUsually 1st Friday or 2nd Saturday of each month — dates vary, check FB page for exact schedule.",
+    "url": "https://www.facebook.com/FuegoyCandelaSalsa/events",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$20",
+    "recurring": true,
+    "recurrences": [
+      "2026-06-26T20:30:00-04:00",
+      "2026-06-27T20:30:00-04:00",
+      "2026-07-03T20:30:00-04:00",
+      "2026-07-04T20:30:00-04:00",
+      "2026-07-10T20:30:00-04:00",
+      "2026-07-11T20:30:00-04:00",
+      "2026-07-17T20:30:00-04:00",
+      "2026-07-18T20:30:00-04:00",
+      "2026-07-24T20:30:00-04:00",
+      "2026-07-25T20:30:00-04:00",
+      "2026-07-31T20:30:00-04:00",
+      "2026-08-01T20:30:00-04:00",
+      "2026-08-07T20:30:00-04:00",
+      "2026-08-08T20:30:00-04:00",
+      "2026-08-14T20:30:00-04:00",
+      "2026-08-15T20:30:00-04:00"
+    ],
+    "schedule": [
+      {
+        "dayOfWeek": "Friday",
+        "time": "8:30 PM – 1:30 AM"
+      },
+      {
+        "dayOfWeek": "Saturday",
+        "time": "8:30 PM – 1:30 AM"
+      }
+    ],
+    "urls": [
+      "https://www.instagram.com/fuegoycandelasalsa/"
+    ],
+    "nextDateApproximate": true,
+    "recurrenceLabel": "Monthly — dates vary, check FB/IG",
+    "slug": "fuego-y-candela-salsa-social-fuego-y-"
   },
   {
     "id": "E9A91D20-6E5C-4827-8E37-DDB5697B3C7D",
@@ -849,39 +924,6 @@
     ],
     "slug": "dante-s-salsa-fridays-dantes-t",
     "recurrenceLabel": "Every other Friday"
-  },
-  {
-    "id": "fuego-y-candela",
-    "name": "Fuego y Candela Salsa Social",
-    "startDate": "2026-06-05T20:30:00-04:00",
-    "endDate": "2026-06-06T01:30:00-04:00",
-    "dayOfWeek": "Friday",
-    "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA 02139",
-    "lat": 42.3679,
-    "lng": -71.0885,
-    "description": "Non-stop dancing with only the best Salsa/Mambo Boston has to offer. Strengthening our community one social at a time!\n\nResident DJ: DJ Condori\n\n8:30pm – 9:30pm Beginner Salsa Class Workshop\n9:30pm – 1:30am Social Dancing\n\nUsually 1st Friday or 2nd Saturday of each month — dates vary, check FB page for exact schedule.",
-    "url": "https://www.facebook.com/FuegoyCandelaSalsa/events",
-    "urls": [
-      "https://www.instagram.com/fuegoycandelasalsa/"
-    ],
-    "styles": [
-      "salsa"
-    ],
-    "cost": "$20",
-    "recurring": true,
-    "nextDateApproximate": true,
-    "schedule": [
-      {
-        "dayOfWeek": "Friday",
-        "time": "8:30 PM – 1:30 AM"
-      },
-      {
-        "dayOfWeek": "Saturday",
-        "time": "8:30 PM – 1:30 AM"
-      }
-    ],
-    "slug": "fuego-y-candela-salsa-social-fuego-y-",
-    "recurrenceLabel": "Monthly — dates vary, check FB/IG"
   },
   {
     "id": "25E9FCB5-66BC-4D33-8FBE-836081750F65",
