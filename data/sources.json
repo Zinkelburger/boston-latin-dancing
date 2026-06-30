@@ -23,7 +23,10 @@
     "search_queries": [
       "https://www.eventbrite.com/d/ma--boston/salsa/",
       "https://www.eventbrite.com/d/ma--boston/bachata/",
-      "https://www.eventbrite.com/d/ma--boston/latin-dance/"
+      "https://www.eventbrite.com/d/ma--boston/latin-dance/",
+      "https://www.eventbrite.com/d/ma--boston/dance-social/",
+      "https://www.eventbrite.com/d/ma--boston/latin-night/",
+      "https://www.eventbrite.com/d/ma--boston/latin-music/"
     ],
     "enabled": true
   },
@@ -120,6 +123,87 @@
         "salsa"
       ],
       "location": "El Barco, 50 Dalton St, Boston, MA 02115"
+    },
+    "enabled": true
+  },
+  {
+    "id": "mato-lawn-on-d",
+    "type": "custom",
+    "scraper": "scrape_mato.py",
+    "name": "The Grove at Lawn on D (Salsa y Control)",
+    "url": "https://ma.to/venue/lawnond",
+    "website": "https://ma.to/venue/lawnond",
+    "instagram_handle": "sycdancestudio",
+    "defaults": {
+      "styles": [
+        "salsa"
+      ]
+    },
+    "enabled": true
+  },
+  {
+    "id": "nlf-events",
+    "type": "wix-events",
+    "scraper": "scrape_wix.py",
+    "name": "Next Level Fusion Dance (Party with Next Level)",
+    "url": "https://www.nextlevelfusiondance.com/upcoming-events",
+    "listing_urls": [
+      "https://www.nextlevelfusiondance.com/upcoming-events",
+      "https://www.nextlevelfusiondance.com/party-with-next-level"
+    ],
+    "link_pattern": "/event-details/",
+    "website": "https://www.nextlevelfusiondance.com",
+    "instagram_handle": "nextlevelfusion",
+    "defaults": {
+      "styles": [
+        "bachata",
+        "salsa"
+      ]
+    },
+    "enabled": true
+  },
+  {
+    "id": "pr-festival-ma",
+    "type": "wix-events",
+    "scraper": "scrape_wix.py",
+    "name": "Puerto Rican Festival of Massachusetts",
+    "url": "https://www.puertoricanfestivalofma.org",
+    "listing_urls": [
+      "https://www.puertoricanfestivalofma.org",
+      "https://www.puertoricanfestivalofma.org/events-1"
+    ],
+    "link_pattern": "/events-1/",
+    "website": "https://www.puertoricanfestivalofma.org",
+    "defaults": {
+      "styles": [
+        "salsa"
+      ]
+    },
+    "enabled": true
+  },
+  {
+    "id": "lowell-sitp",
+    "type": "facebook",
+    "scraper": "scrape_facebook.py",
+    "name": "Lowell Salsa in the Park",
+    "facebook_events_url": "https://www.facebook.com/LowellSITP/events",
+    "defaults": {
+      "styles": [
+        "salsa"
+      ],
+      "location": "Corner of Fletcher Street and Father John Sarantos Way, Lowell, MA 01854"
+    },
+    "enabled": true
+  },
+  {
+    "id": "eastboston-events",
+    "type": "custom",
+    "scraper": "scrape_eastboston.py",
+    "name": "EastBoston.com Community Events",
+    "url": "https://eastboston.com/events/",
+    "website": "https://eastboston.com",
+    "defaults": {
+      "location": "East Boston, MA"
     },
     "enabled": true
   }

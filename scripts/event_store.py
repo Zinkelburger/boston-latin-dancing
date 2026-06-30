@@ -71,6 +71,11 @@ SOURCE_PRIORITY = {
     "sabor-latino": 13,
     "unabulla-cuban-boston": 10,
     "timba-messengers": 11,
+    "mato-lawn-on-d": 12,
+    "lowell-sitp": 13,
+    "nlf-events": 12,
+    "pr-festival-ma": 14,
+    "eastboston-events": 14,
     "": 20,
 }
 

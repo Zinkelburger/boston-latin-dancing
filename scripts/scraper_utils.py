@@ -112,6 +112,18 @@ VENUE_COORDS = {
     "7 temple st": (42.3668113, -71.104309),
     "luna fitness club": (42.2953653, -71.0488803),
     "east boston memorial park": (42.3713138, -71.0329399),
+    "bremen street park amphitheater": (42.3757, -71.0357),
+    "bremen street park": (42.3757, -71.0357),
+    "carson beach": (42.3262, -71.0396),
+    "carson beach, boston": (42.3262, -71.0396),
+    "mother's beach": (42.3262, -71.0396),
+    "franklin park": (42.3068, -71.0925),
+    "franklin park playstead": (42.3068, -71.0925),
+    "pierpont rd": (42.3068, -71.0925),
+    "the grove at lawn on d": (42.34445, -71.04488),
+    "lawn on d": (42.34445, -71.04488),
+    "420 d street": (42.34445, -71.04488),
+    "420 d st": (42.34445, -71.04488),
 }
 
 BOSTON = (42.36, -71.06)
