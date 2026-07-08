@@ -24,12 +24,16 @@ type FeedEntry = {
   displayDate: string;
 };
 
+// All labels/grouping are pinned to Boston time: these are Boston events, and
+// a visitor (or server) in another timezone must see the same dates as the
+// Boston-pinned day filters, or late-night events land under the wrong day.
 function formatDate(iso: string): string {
   const d = new Date(iso);
   return d.toLocaleDateString('en-US', {
     weekday: 'short',
     month: 'short',
     day: 'numeric',
+    timeZone: 'America/New_York',
   });
 }
 
@@ -37,15 +41,13 @@ function formatTime(iso: string): string {
   return new Date(iso).toLocaleTimeString('en-US', {
     hour: 'numeric',
     minute: '2-digit',
+    timeZone: 'America/New_York',
   });
 }
 
 function dateKey(iso: string): string {
-  const d = new Date(iso);
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}-${m}-${day}`;
+  // en-CA yields YYYY-MM-DD directly.
+  return new Date(iso).toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
 }
 
 type DateGroup = { key: string; label: string; entries: FeedEntry[] };

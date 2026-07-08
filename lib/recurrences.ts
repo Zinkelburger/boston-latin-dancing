@@ -347,7 +347,7 @@ export function recurrenceTimeRange(event: DanceEvent, recurrenceIso: string): s
   const end = new Date(start.getTime() + durationMs);
 
   const startTime = formatRecurrenceTime(recurrenceIso);
-  const endTime = end.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  const endTime = end.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' });
   return `${startTime} – ${endTime}`;
 }
 

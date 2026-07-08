@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 
   const venue = event.location?.split(',')[0] || '';
   const date = new Date(event.startDate).toLocaleDateString('en-US', {
-    weekday: 'short', month: 'short', day: 'numeric',
+    weekday: 'short', month: 'short', day: 'numeric', timeZone: 'America/New_York',
   });
 
   const snippet = stripHtml(event.description)

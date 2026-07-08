@@ -21,8 +21,11 @@ const URL_RE = /(https?:\/\/[^\s,)]+)/g;
 
 function linkifyText(text: string): ReactNode[] {
   const parts = text.split(URL_RE);
+  // split() with a capture group puts matches at odd indices. Don't re-test
+  // with URL_RE here: its /g flag makes test() stateful (lastIndex carries
+  // over between calls), so alternating calls misclassify URLs.
   return parts.map((part, i) =>
-    URL_RE.test(part) ? (
+    i % 2 === 1 ? (
       <a
         key={i}
         href={part}

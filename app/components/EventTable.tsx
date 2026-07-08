@@ -196,7 +196,7 @@ export function SearchResultsTable({
         <tbody>
           {events.map(event => {
             const d = new Date(event.startDate);
-            const dateLabel = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            const dateLabel = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'America/New_York' });
             const desc = stripHtml(event.description);
             const snippet = searchTokens.length > 0 ? excerptAround(desc, searchTokens) : '';
             return (
