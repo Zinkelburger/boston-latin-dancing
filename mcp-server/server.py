@@ -26,19 +26,23 @@ from event_store import (
     approve_pending,
     approve_rejected,
     archive_past_events,
+    block_event,
     dismiss_rejected,
     edit_event,
     expand_venues,
     ingest_scraped,
     load_active,
     load_archive,
+    load_blocked,
     load_pending,
     load_rejected,
     publish,
     reject_pending,
     remove_active_event,
     save_pending,
+    unblock_event,
     validate_event,
+    VALID_BLOCK_CATEGORIES,
     VENUES_JSON,
     SCRAPED_DIR,
 )
@@ -66,17 +70,19 @@ def event_list(
     search: Optional[str] = None,
     limit: int = 50,
 ) -> str:
-    """List events by status (active/pending/rejected/archive). Optionally filter by style or text search."""
+    """List events by status (active/pending/rejected/blocked/archive). Optionally filter by style or text search."""
     if status == "active":
         events = load_active()
     elif status == "pending":
         events = load_pending()
     elif status == "rejected":
         events = load_rejected()
+    elif status == "blocked":
+        events = load_blocked()
     elif status == "archive":
         events = load_archive()
     else:
-        return json.dumps({"error": f"Invalid status '{status}'. Use active/pending/rejected/archive."})
+        return json.dumps({"error": f"Invalid status '{status}'. Use active/pending/rejected/blocked/archive."})
 
     if style:
         events = [e for e in events if style.lower() in [s.lower() for s in e.get("styles", [])]]
@@ -107,11 +113,12 @@ def event_list(
 
 @mcp.tool()
 def event_get(event_id: str) -> str:
-    """Get full details of a specific event by ID. Searches active, pending, rejected, then archive."""
+    """Get full details of a specific event by ID. Searches active, pending, rejected, blocked, then archive."""
     for pool_name, pool in [
         ("active", load_active()),
         ("pending", load_pending()),
         ("rejected", load_rejected()),
+        ("blocked", load_blocked()),
         ("archive", load_archive()),
     ]:
         for ev in pool:
@@ -255,9 +262,15 @@ def event_reject(event_id: str, reason: str = "") -> str:
 
 
 @mcp.tool()
-def event_remove(event_id: str, reason: str = "removed from active") -> str:
-    """Remove an active event and queue it in rejected.json for agent review."""
-    result = remove_active_event(event_id, reason)
+def event_remove(event_id: str, reason: str = "removed from active", block: bool = False, block_category: str = "other") -> str:
+    """Remove an active event.
+
+    If block=False (default): queues in rejected.json for review.
+    If block=True: permanently blocks the event (prevents re-scraping).
+
+    block_category (when block=True): defunct, class_only, not_latin, not_dance, out_of_area, duplicate_source, other
+    """
+    result = remove_active_event(event_id, reason, block=block, block_category=block_category)
     return json.dumps(result, indent=2, default=str)
 
 
@@ -269,10 +282,63 @@ def event_approve_rejected(event_id: str) -> str:
 
 
 @mcp.tool()
-def event_dismiss_rejected(event_id: str, reason: str = "") -> str:
-    """Permanently dismiss a rejected event without adding it to the map."""
-    result = dismiss_rejected(event_id, reason)
+def event_dismiss_rejected(event_id: str, reason: str = "", block: bool = False, block_category: str = "other") -> str:
+    """Dismiss a rejected event.
+
+    If block=True, permanently blocks the event (prevents re-scraping from adding it back).
+    If block=False (default), just removes from rejected queue.
+
+    block_category (when block=True): defunct, class_only, not_latin, not_dance, out_of_area, duplicate_source, other
+    """
+    result = dismiss_rejected(event_id, reason, block=block, block_category=block_category)
     return json.dumps(result, indent=2, default=str)
+
+
+@mcp.tool()
+def event_block(event_id: str, category: str, notes: str = "") -> str:
+    """Permanently block an event from appearing on the map. Prevents re-scraping from adding it back.
+
+    Searches active, rejected, and archive to find and remove the event, then adds to blocked.json.
+
+    Categories:
+      defunct          - event used to exist but organizer discontinued it
+      class_only       - only classes, no social dancing
+      not_latin        - confirmed not Latin dance relevant
+      not_dance        - music class, fitness, drum circle, etc.
+      out_of_area      - not in Boston metro area
+      duplicate_source - covered by another source or venue entry
+      other            - catch-all
+    """
+    result = block_event(event_id, category, notes)
+    return json.dumps(result, indent=2, default=str)
+
+
+@mcp.tool()
+def event_unblock(event_id: str) -> str:
+    """Remove an event from the blocklist. It will be re-added on the next scrape if still in the source."""
+    result = unblock_event(event_id)
+    return json.dumps(result, indent=2, default=str)
+
+
+@mcp.tool()
+def event_list_blocked(category: Optional[str] = None) -> str:
+    """List all permanently blocked events. Optionally filter by category.
+
+    Categories: defunct, class_only, not_latin, not_dance, out_of_area, duplicate_source, other
+    """
+    blocked = load_blocked()
+    if category:
+        if category not in VALID_BLOCK_CATEGORIES:
+            return json.dumps({"error": f"Invalid category '{category}'. Use one of: {list(VALID_BLOCK_CATEGORIES)}"})
+        blocked = [b for b in blocked if b.get("blocked_category") == category]
+    summary = [{
+        "id": b["id"],
+        "name": b.get("name", ""),
+        "blocked_category": b.get("blocked_category", ""),
+        "blocked_reason": b.get("blocked_reason", ""),
+        "blocked_at": b.get("blocked_at", ""),
+    } for b in blocked]
+    return json.dumps({"count": len(summary), "blocked": summary}, indent=2)
 
 
 # ── Scraping and ingestion ────────────────────────────────────────────

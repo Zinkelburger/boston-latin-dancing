@@ -1,11 +1,12 @@
 """
 Event store: the canonical lifecycle layer for boston-latin-dance events.
 
-Manages three JSON files:
+Manages JSON files:
   data/events/active.json   – current/upcoming events (published to map)
   data/events/archive.json  – past events (for dedup + history)
   data/events/pending.json  – unreviewed user submissions
   data/events/rejected.json – non-Latin events flagged for agent review
+  data/events/blocked.json  – permanently excluded events (checked at ingest)
 
 Also reads:
   data/venues.json          – permanent weekly venue schedules
@@ -14,6 +15,7 @@ Provides:
   - CRUD operations with dedup, geocode, validation
   - Archive lifecycle (active -> archive when past)
   - Reactivation (archive -> active when event recurs)
+  - Block lifecycle (permanent exclusion with categories)
   - Publish step (generate public/events.json)
 """
 
@@ -28,7 +30,7 @@ from zoneinfo import ZoneInfo
 
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from scraper_utils import ROOT, SCRAPED_DIR, VENUE_COORDS, clean_location, geocode, detect_styles, extract_cost, _eventbrite_address, _normalize
+from scraper_utils import ROOT, SCRAPED_DIR, VENUE_COORDS, clean_location, geocode, detect_styles, extract_cost, _eventbrite_address, _normalize, _is_near_boston
 from recurrence_utils import recurrence_label
 
 # ── Paths ─────────────────────────────────────────────────────────────
@@ -38,6 +40,7 @@ ACTIVE_JSON = EVENTS_DIR / "active.json"
 ARCHIVE_JSON = EVENTS_DIR / "archive.json"
 PENDING_JSON = EVENTS_DIR / "pending.json"
 REJECTED_JSON = EVENTS_DIR / "rejected.json"
+BLOCKED_JSON = EVENTS_DIR / "blocked.json"
 CHANGELOG = EVENTS_DIR / "changelog.jsonl"
 VENUES_JSON = ROOT / "data" / "venues.json"
 PUBLIC_EVENTS_JSON = ROOT / "data" / "events-published.json"
@@ -1171,6 +1174,10 @@ def load_rejected() -> list[dict]:
     return _read_json(REJECTED_JSON)
 
 
+def load_blocked() -> list[dict]:
+    return _read_json(BLOCKED_JSON)
+
+
 def save_active(events: list[dict]) -> None:
     _write_json(ACTIVE_JSON, events)
 
@@ -1185,6 +1192,10 @@ def save_pending(events: list[dict]) -> None:
 
 def save_rejected(events: list[dict]) -> None:
     _write_json(REJECTED_JSON, events)
+
+
+def save_blocked(events: list[dict]) -> None:
+    _write_json(BLOCKED_JSON, events)
 
 
 def _queue_rejected(event: dict, reason: str, review_type: str = "non_latin") -> dict:
@@ -1296,6 +1307,20 @@ _LATIN_PATTERN = re.compile(
 )
 
 
+def _is_out_of_area(event: dict) -> bool:
+    """True if the event's coordinates are clearly outside the Boston metro area.
+
+    Feed sources (beatrice-calendar, eventbrite, etc.) supply explicit lat/lng,
+    which bypass the geocoder's own distance rejection. This rule catches the
+    whole class of out-of-area events at ingest, so they never need per-event
+    blocking. Events without coordinates can't be judged here and pass through.
+    """
+    lat, lng = event.get("lat"), event.get("lng")
+    if lat is None or lng is None:
+        return False
+    return not _is_near_boston(lat, lng)
+
+
 def _is_latin_relevant(event: dict) -> bool:
     """Return True if the event is relevant to Latin dance.
 
@@ -1310,18 +1335,60 @@ def _is_latin_relevant(event: dict) -> bool:
     return bool(_LATIN_PATTERN.search(text))
 
 
-def add_event(event: dict, force: bool = False, skip_latin_check: bool = False) -> dict:
+def _clear_stale_rejected(event_id: str) -> None:
+    """Remove an event from rejected.json if it exists (prevents dual-store state)."""
+    rejected = load_rejected()
+    idx = next((i for i, ev in enumerate(rejected) if ev["id"] == event_id), None)
+    if idx is not None:
+        rejected.pop(idx)
+        save_rejected(rejected)
+
+
+def _remove_from_active(event_id: str) -> None:
+    """Drop an event from active.json if present (no-op otherwise)."""
+    active = load_active()
+    idx = next((i for i, ev in enumerate(active) if ev["id"] == event_id), None)
+    if idx is not None:
+        active.pop(idx)
+        save_active(active)
+
+
+def add_event(
+    event: dict,
+    force: bool = False,
+    skip_latin_check: bool = False,
+    blocked_ids: Optional[set] = None,
+) -> dict:
     """Add an event to the active store. Returns result dict with status.
 
     Dedup tiers:
       certain -> auto-merge (same ID or URL)
       review  -> route to pending.json for review (unless force=True)
+
+    force=True (admin approval) bypasses the ingest-time exclusion guards
+    (blocklist + out-of-area geo-fence). Pass blocked_ids to avoid re-reading
+    blocked.json on every call during a batch ingest.
     """
     if _is_venue_schedule_record(event):
         return {"status": "rejected", "message": "Venue schedules belong in venues.json"}
 
     if not event.get("id") or not event.get("startDate"):
         return {"status": "rejected", "message": "event missing id or startDate"}
+
+    if not force:
+        if blocked_ids is None:
+            blocked_ids = {b["id"] for b in load_blocked()}
+        if event.get("id") in blocked_ids:
+            return {"status": "blocked", "message": "event is permanently blocked"}
+
+        if _is_out_of_area(event):
+            # A previously-added event whose coords now fall out of bounds must
+            # not linger on the map: drop any stale active copy before rejecting.
+            _remove_from_active(event["id"])
+            return {
+                "status": "rejected_out_of_area",
+                "message": f"event outside Boston metro area: {event.get('location', '')}",
+            }
 
     if not skip_latin_check and not _is_latin_relevant(event):
         reason = "not Latin dance relevant (styles=['other'], no Latin terms)"
@@ -1348,6 +1415,7 @@ def add_event(event: dict, force: bool = False, skip_latin_check: bool = False) 
             save_archive(archive)
             active.append(merged)
             save_active(active)
+            _clear_stale_rejected(merged["id"])
             _append_changelog("reactivate", merged["id"], "from archive (certain)")
             return {"status": "reactivated", "confidence": conf, "event": merged}
 
@@ -1362,6 +1430,7 @@ def add_event(event: dict, force: bool = False, skip_latin_check: bool = False) 
             active[active_idx] = merge_event(existing, event)
             _enrich_event(active[active_idx])
             save_active(active)
+            _clear_stale_rejected(event["id"])
             return {"status": "duplicate", "confidence": conf, "existing": active[active_idx]}
 
         if conf == "review":
@@ -1401,6 +1470,7 @@ def add_event(event: dict, force: bool = False, skip_latin_check: bool = False) 
     _enrich_event(event)
     active.append(event)
     save_active(active)
+    _clear_stale_rejected(event["id"])
     _append_changelog("add", event["id"])
     return {"status": "added", "event": event}
 
@@ -1474,8 +1544,12 @@ def approve_pending(event_id: str) -> dict:
     return result
 
 
-def remove_active_event(event_id: str, reason: str = "removed from active") -> dict:
-    """Remove an active event and queue it for rejected review."""
+def remove_active_event(event_id: str, reason: str = "removed from active", block: bool = False, block_category: str = "other") -> dict:
+    """Remove an active event.
+
+    If block=True, moves to blocked.json (permanent, prevents re-scraping).
+    If block=False, moves to rejected.json for review (as before).
+    """
     active = load_active()
     idx = next((i for i, ev in enumerate(active) if ev["id"] == event_id), None)
     if idx is None:
@@ -1483,6 +1557,10 @@ def remove_active_event(event_id: str, reason: str = "removed from active") -> d
 
     event = active.pop(idx)
     save_active(active)
+
+    if block:
+        return _add_to_blocked(event, block_category, reason)
+
     queued = _queue_rejected(event, reason)
     _append_changelog("remove", event_id, reason)
     return {"status": "removed", "event": queued}
@@ -1505,8 +1583,12 @@ def approve_rejected(event_id: str) -> dict:
     return result
 
 
-def dismiss_rejected(event_id: str, reason: str = "") -> dict:
-    """Permanently dismiss a rejected event without adding to active."""
+def dismiss_rejected(event_id: str, reason: str = "", block: bool = False, block_category: str = "other") -> dict:
+    """Dismiss a rejected event.
+
+    If block=True, moves to blocked.json (permanent, prevents re-scraping).
+    If block=False, just removes from rejected (for one-off events that won't reappear).
+    """
     rejected = load_rejected()
     idx = next((i for i, ev in enumerate(rejected) if ev["id"] == event_id), None)
     if idx is None:
@@ -1514,8 +1596,100 @@ def dismiss_rejected(event_id: str, reason: str = "") -> dict:
 
     event = rejected.pop(idx)
     save_rejected(rejected)
+
+    if block:
+        return _add_to_blocked(event, block_category, reason)
+
     _append_changelog("dismiss_rejected", event_id, reason)
     return {"status": "dismissed", "event": event, "reason": reason}
+
+
+VALID_BLOCK_CATEGORIES = ("defunct", "class_only", "not_latin", "not_dance", "out_of_area", "duplicate_source", "other")
+
+
+def _add_to_blocked(event: dict, category: str, notes: str = "") -> dict:
+    """Internal helper to add an event to the blocklist."""
+    if category not in VALID_BLOCK_CATEGORIES:
+        return {"status": "error", "message": f"Invalid category '{category}'. Use one of: {VALID_BLOCK_CATEGORIES}"}
+
+    blocked = load_blocked()
+    now = datetime.now(timezone.utc).isoformat()
+
+    for key in ("_rejected_at", "_rejected_reason", "_review_type"):
+        event.pop(key, None)
+
+    record = {
+        "id": event["id"],
+        "name": event.get("name", ""),
+        "source": event.get("source", ""),
+        "blocked_reason": notes or category,
+        "blocked_category": category,
+        "blocked_at": now,
+        "blocked_notes": notes,
+        "location": event.get("location", ""),
+    }
+
+    for i, existing in enumerate(blocked):
+        if existing["id"] == event["id"]:
+            blocked[i] = record
+            save_blocked(blocked)
+            _append_changelog("block", event["id"], f"{category}: {notes}")
+            return {"status": "blocked", "event": record}
+
+    blocked.append(record)
+    save_blocked(blocked)
+    _append_changelog("block", event["id"], f"{category}: {notes}")
+    return {"status": "blocked", "event": record}
+
+
+def block_event(event_id: str, category: str, notes: str = "") -> dict:
+    """Block an event permanently. Removes from active or rejected and adds to blocked.json.
+
+    Categories: defunct, class_only, not_latin, not_dance, out_of_area, duplicate_source, other
+    """
+    if category not in VALID_BLOCK_CATEGORIES:
+        return {"status": "error", "message": f"Invalid category '{category}'. Use one of: {VALID_BLOCK_CATEGORIES}"}
+
+    event = None
+
+    active = load_active()
+    idx = next((i for i, ev in enumerate(active) if ev["id"] == event_id), None)
+    if idx is not None:
+        event = active.pop(idx)
+        save_active(active)
+
+    rejected = load_rejected()
+    r_idx = next((i for i, ev in enumerate(rejected) if ev["id"] == event_id), None)
+    if r_idx is not None:
+        r_event = rejected.pop(r_idx)
+        save_rejected(rejected)
+        if event is None:
+            event = r_event
+
+    if event is None:
+        archive = load_archive()
+        a_idx = next((i for i, ev in enumerate(archive) if ev["id"] == event_id), None)
+        if a_idx is not None:
+            event = archive.pop(a_idx)
+            save_archive(archive)
+
+    if event is None:
+        return {"status": "not_found", "message": f"Event '{event_id}' not found in active, rejected, or archive."}
+
+    return _add_to_blocked(event, category, notes)
+
+
+def unblock_event(event_id: str) -> dict:
+    """Remove an event from the blocklist. It will be re-added on the next scrape if still in the source."""
+    blocked = load_blocked()
+    idx = next((i for i, ev in enumerate(blocked) if ev["id"] == event_id), None)
+    if idx is None:
+        return {"status": "not_found", "message": f"Event '{event_id}' not found in blocked.json."}
+
+    record = blocked.pop(idx)
+    save_blocked(blocked)
+    _append_changelog("unblock", event_id, f"was: {record.get('blocked_category', '')}")
+    return {"status": "unblocked", "event": record}
 
 
 def reject_pending(event_id: str, reason: str = "") -> dict:
@@ -1674,8 +1848,12 @@ def ingest_scraped(source_id: Optional[str] = None) -> dict:
     reactivated = 0
     skipped = 0
     rejected_non_latin = 0
+    rejected_out_of_area = 0
+    blocked = 0
     pending_review = 0
     review_items: list[dict] = []
+
+    blocked_ids = {b["id"] for b in load_blocked()}
 
     for path in files:
         if not path.exists():
@@ -1688,7 +1866,7 @@ def ingest_scraped(source_id: Optional[str] = None) -> dict:
         for ev in events:
             if not ev.get("id"):
                 continue
-            result = add_event(ev)
+            result = add_event(ev, blocked_ids=blocked_ids)
             status = result["status"]
             if status == "added":
                 added += 1
@@ -1700,6 +1878,10 @@ def ingest_scraped(source_id: Optional[str] = None) -> dict:
                 skipped += 1
             elif status == "rejected_non_latin":
                 rejected_non_latin += 1
+            elif status == "rejected_out_of_area":
+                rejected_out_of_area += 1
+            elif status == "blocked":
+                blocked += 1
             elif status == "pending_review":
                 pending_review += 1
                 review_items.append({
@@ -1715,6 +1897,8 @@ def ingest_scraped(source_id: Optional[str] = None) -> dict:
         "reactivated": reactivated,
         "skipped_duplicates": skipped,
         "rejected_non_latin": rejected_non_latin,
+        "rejected_out_of_area": rejected_out_of_area,
+        "blocked": blocked,
         "pending_review": pending_review,
         "files_processed": len(files),
     }

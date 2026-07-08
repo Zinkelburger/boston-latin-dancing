@@ -1,0 +1,32 @@
+[
+  {
+    "id": "4s2c9e8buma8kst9n0vl8ac6sb_R20250418T223000@google.com",
+    "name": "🤓 Boston Rueda Classes",
+    "source": "unabulla-cuban-boston",
+    "blocked_reason": "Boston Rueda Classes no longer running per community report",
+    "blocked_category": "defunct",
+    "blocked_at": "2026-06-29T17:23:13.161461+00:00",
+    "blocked_notes": "Boston Rueda Classes no longer running per community report",
+    "location": "The Foundry, 101 Rogers St, Cambridge, MA 02142, USA"
+  },
+  {
+    "id": "3dlpk3g8kabug9qfkv9e0affdg@google.com",
+    "name": "🤓 Wednesday Workshops with MetaMovements",
+    "source": "unabulla-cuban-boston",
+    "blocked_reason": "MetaMovements workshops, not social dance",
+    "blocked_category": "class_only",
+    "blocked_at": "2026-06-29T17:23:13.163677+00:00",
+    "blocked_notes": "MetaMovements workshops, not social dance",
+    "location": "Cambridge Community Center, 5 Callender St, Cambridge, MA"
+  },
+  {
+    "id": "rj01qhpqbb1qg00243k5ov129k@google.com",
+    "name": "🤓 🪘 Afro-Cuban Music w/ Sandy Pérez",
+    "source": "unabulla-cuban-boston",
+    "blocked_reason": "Afro-Cuban music class, not dance",
+    "blocked_category": "not_dance",
+    "blocked_at": "2026-06-29T17:23:13.165641+00:00",
+    "blocked_notes": "Afro-Cuban music class, not dance",
+    "location": "The Neal Rantoul Vault Theatre, 25 Exchange St, Lynn, MA 01901, USA"
+  }
+]
