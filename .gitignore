@@ -10,3 +10,5 @@ data/geocode-cache.json
 data/scraped/
 __pycache__/
 icon-preview.html
+automation/logs/
+.venv/

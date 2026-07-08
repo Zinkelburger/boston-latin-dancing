@@ -2,8 +2,7 @@
   "mcpServers": {
     "boston-latin-dance": {
       "command": "python3",
-      "args": ["mcp-server/server.py"],
-      "cwd": "/home/anbernal/boston-latin-dance"
+      "args": ["mcp-server/server.py"]
     }
   }
 }

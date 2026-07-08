@@ -1358,6 +1358,7 @@ def add_event(
     force: bool = False,
     skip_latin_check: bool = False,
     blocked_ids: Optional[set] = None,
+    quarantine_new: bool = False,
 ) -> dict:
     """Add an event to the active store. Returns result dict with status.
 
@@ -1368,6 +1369,11 @@ def add_event(
     force=True (admin approval) bypasses the ingest-time exclusion guards
     (blocklist + out-of-area geo-fence). Pass blocked_ids to avoid re-reading
     blocked.json on every call during a batch ingest.
+
+    quarantine_new=True routes brand-new events (no duplicate anywhere) to
+    pending.json instead of active, so unattended runs can refresh existing
+    events without putting unreviewed ones on the map. Re-scrapes update the
+    queued copy in place rather than duplicating it.
     """
     if _is_venue_schedule_record(event):
         return {"status": "rejected", "message": "Venue schedules belong in venues.json"}
@@ -1468,6 +1474,24 @@ def add_event(
             }
 
     _enrich_event(event)
+
+    if quarantine_new:
+        pending = load_pending()
+        idx = next((i for i, p in enumerate(pending) if p.get("id") == event["id"]), None)
+        event["_quarantined_new"] = True
+        if idx is not None:
+            # Keep the first-seen timestamp so queue age reflects reality.
+            event["_quarantined_at"] = pending[idx].get(
+                "_quarantined_at", datetime.now(timezone.utc).isoformat()
+            )
+            pending[idx] = event
+        else:
+            event["_quarantined_at"] = datetime.now(timezone.utc).isoformat()
+            pending.append(event)
+            _append_changelog("quarantine_new", event["id"])
+        save_pending(pending)
+        return {"status": "quarantined_new", "event": event}
+
     active.append(event)
     save_active(active)
     _clear_stale_rejected(event["id"])
@@ -1533,7 +1557,8 @@ def approve_pending(event_id: str) -> dict:
     if candidate_id:
         _persist_known_duplicate(event_id, candidate_id, "same")
 
-    for key in ("_dedup_candidate_of", "_dedup_confidence", "_dedup_reason"):
+    for key in ("_dedup_candidate_of", "_dedup_confidence", "_dedup_reason",
+                "_quarantined_new", "_quarantined_at"):
         event.pop(key, None)
 
     issues = validate_event(event)
@@ -1666,6 +1691,14 @@ def block_event(event_id: str, category: str, notes: str = "") -> dict:
         if event is None:
             event = r_event
 
+    pending = load_pending()
+    p_idx = next((i for i, ev in enumerate(pending) if ev["id"] == event_id), None)
+    if p_idx is not None:
+        p_event = pending.pop(p_idx)
+        save_pending(pending)
+        if event is None:
+            event = p_event
+
     if event is None:
         archive = load_archive()
         a_idx = next((i for i, ev in enumerate(archive) if ev["id"] == event_id), None)
@@ -1674,7 +1707,7 @@ def block_event(event_id: str, category: str, notes: str = "") -> dict:
             save_archive(archive)
 
     if event is None:
-        return {"status": "not_found", "message": f"Event '{event_id}' not found in active, rejected, or archive."}
+        return {"status": "not_found", "message": f"Event '{event_id}' not found in active, rejected, pending, or archive."}
 
     return _add_to_blocked(event, category, notes)
 
@@ -1710,6 +1743,8 @@ def reject_pending(event_id: str, reason: str = "") -> dict:
     candidate_id = event.pop("_dedup_candidate_of", None)
     event.pop("_dedup_confidence", None)
     event.pop("_dedup_reason", None)
+    event.pop("_quarantined_new", None)
+    event.pop("_quarantined_at", None)
     if candidate_id:
         _persist_known_duplicate(event_id, candidate_id, "different")
 
@@ -1829,11 +1864,14 @@ def publish() -> dict:
     }
 
 
-def ingest_scraped(source_id: Optional[str] = None) -> dict:
+def ingest_scraped(source_id: Optional[str] = None, quarantine_new: bool = False) -> dict:
     """Ingest events from data/scraped/ into the active store.
 
     Handles dedup against both active and archive (reactivation).
     Review-tier duplicates are routed to pending.json for review.
+
+    quarantine_new=True additionally routes brand-new events to pending.json
+    instead of active (for unattended runs — see add_event).
     """
     if source_id:
         files = [SCRAPED_DIR / f"{source_id}.json"]
@@ -1851,6 +1889,7 @@ def ingest_scraped(source_id: Optional[str] = None) -> dict:
     rejected_out_of_area = 0
     blocked = 0
     pending_review = 0
+    quarantined_new = 0
     review_items: list[dict] = []
 
     blocked_ids = {b["id"] for b in load_blocked()}
@@ -1866,10 +1905,12 @@ def ingest_scraped(source_id: Optional[str] = None) -> dict:
         for ev in events:
             if not ev.get("id"):
                 continue
-            result = add_event(ev, blocked_ids=blocked_ids)
+            result = add_event(ev, blocked_ids=blocked_ids, quarantine_new=quarantine_new)
             status = result["status"]
             if status == "added":
                 added += 1
+            elif status == "quarantined_new":
+                quarantined_new += 1
             elif status == "merged":
                 merged += 1
             elif status == "reactivated":
@@ -1900,6 +1941,7 @@ def ingest_scraped(source_id: Optional[str] = None) -> dict:
         "rejected_out_of_area": rejected_out_of_area,
         "blocked": blocked,
         "pending_review": pending_review,
+        "quarantined_new": quarantined_new,
         "files_processed": len(files),
     }
     if review_items:

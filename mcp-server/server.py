@@ -106,6 +106,11 @@ def event_list(
         if status == "rejected":
             row["rejected_reason"] = e.get("_rejected_reason", "")
             row["review_type"] = e.get("_review_type", "")
+        if status == "pending":
+            if e.get("_quarantined_new"):
+                row["quarantined_new"] = True
+            if e.get("_dedup_candidate_of"):
+                row["dedup_candidate_of"] = e["_dedup_candidate_of"]
         summary.append(row)
 
     return json.dumps({"count": len(summary), "total": len(load_active() if status == "active" else events), "events": summary}, indent=2)
@@ -345,11 +350,12 @@ def event_list_blocked(category: Optional[str] = None) -> str:
 
 
 @mcp.tool()
-def event_scrape(source_id: Optional[str] = None) -> str:
+def event_scrape(source_id: Optional[str] = None, quarantine_new: bool = False) -> str:
     """Run scrapers and ingest new events into the active store.
 
     If source_id is given, run only that scraper. Otherwise run all enabled scrapers.
     After scraping, automatically archives past events. Does NOT publish — call event_publish() separately.
+    quarantine_new=True routes brand-new events to pending.json for review instead of active.
 
     Available source_ids: beatrice-calendar, sensualeros-boston, unabulla-cuban-boston, lister-events, eventbrite-boston-latin, fiesta-dance-company, submissions
     (Facebook sources require browser MCP and are not auto-runnable.)
@@ -390,7 +396,7 @@ def event_scrape(source_id: Optional[str] = None) -> str:
             scrape_results[sid] = {"exit_code": -1, "error": str(e)}
 
     # Ingest all scraped files
-    ingest_result = ingest_scraped(source_id)
+    ingest_result = ingest_scraped(source_id, quarantine_new=quarantine_new)
 
     # Auto-archive past events
     archived = archive_past_events()
@@ -403,12 +409,13 @@ def event_scrape(source_id: Optional[str] = None) -> str:
 
 
 @mcp.tool()
-def event_ingest(source_id: Optional[str] = None) -> str:
+def event_ingest(source_id: Optional[str] = None, quarantine_new: bool = False) -> str:
     """Ingest events from data/scraped/ into active store WITHOUT re-running scrapers.
 
     Useful after manually placing a JSON file in data/scraped/ or after browser-based scraping.
+    quarantine_new=True routes brand-new events to pending.json for review instead of active.
     """
-    result = ingest_scraped(source_id)
+    result = ingest_scraped(source_id, quarantine_new=quarantine_new)
     return json.dumps(result, indent=2)
 
 

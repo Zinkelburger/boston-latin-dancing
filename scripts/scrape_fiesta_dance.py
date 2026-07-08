@@ -30,13 +30,26 @@ VENUE_ADDRESSES = {
     "westborough": "Westborough Community Center, 1500 Union St, 2nd Floor, Westborough, MA 01581",
 }
 
+_DAY = r"(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)"
+_MONTH = (
+    r"(?:January|February|March|April|May|June|July|August|September|October|November|December|"
+    r"Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)"
+)
+
 LINE_RE = re.compile(
-    r"^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s+"
-    r"(January|February|March|April|May|June|July|August|September|October|November|December|"
-    r"Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\.?\s+"
-    r"(\d{1,2})\s+-\s+(.+?)\s+-\s+(.+)$",
+    rf"^({_DAY})\s+({_MONTH})\.?\s+(\d{{1,2}})\s+-\s+(.+?)\s+-\s+(.+)$",
     re.I,
 )
+
+# Squarespace collapses the whole listing into one text block, so several
+# "Friday July 17 - Venue - City" entries arrive concatenated. Split at each
+# new day+month+date boundary before line-parsing, or the first entry's
+# city group swallows every entry after it.
+ENTRY_BOUNDARY_RE = re.compile(rf"(?={_DAY}\s+{_MONTH}\.?\s+\d{{1,2}}\s+-)", re.I)
+
+
+def split_entries(text: str) -> list[str]:
+    return [seg.strip() for seg in ENTRY_BOUNDARY_RE.split(text) if seg.strip()]
 
 
 def resolve_location(venue: str, city_hint: str) -> str:
@@ -46,7 +59,7 @@ def resolve_location(venue: str, city_hint: str) -> str:
     for name, address in VENUE_ADDRESSES.items():
         if name in key or key in name:
             return address
-    city = city_hint.strip()
+    city = re.sub(r",?\s*MA\.?$", "", city_hint.strip(), flags=re.I).strip()
     if city and city.lower() not in venue.lower():
         return f"{venue.strip()}, {city}, MA"
     return f"{venue.strip()}, MA"
@@ -109,12 +122,13 @@ def fetch_events(listing_url: str) -> list[dict]:
     lines: list[str] = []
     for block in soup.select("[data-block-type='1337'], .sqs-block-content"):
         text = block.get_text(" ", strip=True)
-        if LINE_RE.match(text):
-            lines.append(text)
+        for segment in split_entries(text):
+            if LINE_RE.match(segment):
+                lines.append(segment)
 
     if not lines:
         for node in soup.find_all(string=LINE_RE):
-            lines.append(node.strip())
+            lines.extend(s for s in split_entries(node.strip()) if LINE_RE.match(s))
 
     year = datetime.now(NY_TZ).year
     events: list[dict] = []
@@ -123,11 +137,17 @@ def fetch_events(listing_url: str) -> list[dict]:
         ev = parse_social_line(line, year)
         if not ev or ev["id"] in seen:
             continue
-        # If the parsed date is far in the past, try next year.
+        # If the parsed date is far in the past, try next year — but a rollover
+        # that lands most of a year out means the page entry is stale (an old
+        # date left on the listing), not a genuine upcoming social. Skip those.
         start_dt = datetime.fromisoformat(ev["startDate"])
-        if start_dt < datetime.now(NY_TZ) - timedelta(days=7):
+        now = datetime.now(NY_TZ)
+        if start_dt < now - timedelta(days=7):
             ev = parse_social_line(line, year + 1)
             if not ev:
+                continue
+            rolled = datetime.fromisoformat(ev["startDate"])
+            if rolled > now + timedelta(days=180):
                 continue
         seen.add(ev["id"])
         events.append(ev)
