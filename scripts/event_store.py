@@ -420,7 +420,13 @@ def dedup_confidence(a: dict, b: dict) -> Optional[str]:
         return "certain"
 
     if _url_match(a, b):
-        return "certain"
+        # A shared URL is conclusive only when the dates agree (or can't be
+        # compared). Series whose occurrences all share one organizer URL
+        # (e.g. Fiesta's /upcoming-socials page) must not merge distinct
+        # dates into one record — each occurrence stays its own event and
+        # collapse_recurring_series groups them at publish.
+        if _dates_within(a, b, 24) is not False:
+            return "certain"
 
     name_a_raw = a.get("name")
     name_b_raw = b.get("name")
@@ -1397,10 +1403,18 @@ def add_event(
             }
 
     if not skip_latin_check and not _is_latin_relevant(event):
-        reason = "not Latin dance relevant (styles=['other'], no Latin terms)"
-        queued = _queue_rejected(event, reason)
-        _append_changelog("reject_non_latin", event["id"], reason)
-        return {"status": "rejected_non_latin", "message": reason, "event": queued}
+        # If this exact event is already active or archived, a human approved
+        # it despite the missing keywords — fall through to dedup (which will
+        # merge it) instead of re-flagging it on every re-scrape.
+        already_approved = (
+            any(e.get("id") == event["id"] for e in load_active())
+            or any(e.get("id") == event["id"] for e in load_archive())
+        )
+        if not already_approved:
+            reason = "not Latin dance relevant (styles=['other'], no Latin terms)"
+            queued = _queue_rejected(event, reason)
+            _append_changelog("reject_non_latin", event["id"], reason)
+            return {"status": "rejected_non_latin", "message": reason, "event": queued}
 
     _infer_location(event)
 
@@ -1411,6 +1425,22 @@ def add_event(
     if archive_match is not None and not force:
         archive_idx, conf = archive_match
         if conf == "certain":
+            # Only pull an event back out of the archive when the incoming
+            # copy is actually upcoming. Stale scraped files re-listing past
+            # dates must not ping-pong events between archive and active
+            # (reactivate here, re-archive in archive_past_events) every run.
+            last_date_str = event.get("startDate", "")
+            if event.get("recurrences"):
+                last_date_str = event["recurrences"][-1]
+            incoming_dt = parse_date(last_date_str)
+            if incoming_dt is not None and incoming_dt.tzinfo is None:
+                incoming_dt = incoming_dt.replace(tzinfo=NY_TZ)
+            if incoming_dt is None or incoming_dt < datetime.now(timezone.utc) - timedelta(hours=24):
+                return {
+                    "status": "duplicate",
+                    "confidence": conf,
+                    "message": "already archived; incoming copy is not upcoming",
+                }
             archived = archive[archive_idx]
             reason = _dedup_reason(archived, event, conf)
             _log_dedup("reactivate", archived, event, conf, reason)
@@ -1472,6 +1502,17 @@ def add_event(
                 "new_event": event,
                 "existing_event": existing,
             }
+
+    # A brand-new event that already ended is pure churn (stale scraped file):
+    # it would only be archived on the next pass. Skip it outright.
+    if not force:
+        new_last = event["recurrences"][-1] if event.get("recurrences") else event.get("startDate", "")
+        new_dt = parse_date(new_last)
+        if new_dt is not None:
+            if new_dt.tzinfo is None:
+                new_dt = new_dt.replace(tzinfo=NY_TZ)
+            if new_dt < datetime.now(timezone.utc) - timedelta(hours=24):
+                return {"status": "skipped_past", "message": "new event is already past"}
 
     _enrich_event(event)
 
@@ -1916,6 +1957,8 @@ def ingest_scraped(source_id: Optional[str] = None, quarantine_new: bool = False
             elif status == "reactivated":
                 reactivated += 1
             elif status == "duplicate":
+                skipped += 1
+            elif status == "skipped_past":
                 skipped += 1
             elif status == "rejected_non_latin":
                 rejected_non_latin += 1
