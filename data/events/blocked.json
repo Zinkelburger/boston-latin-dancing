@@ -28,5 +28,65 @@
     "blocked_at": "2026-06-29T17:23:13.165641+00:00",
     "blocked_notes": "Afro-Cuban music class, not dance",
     "location": "The Neal Rantoul Vault Theatre, 25 Exchange St, Lynn, MA 01901, USA"
+  },
+  {
+    "id": "8B7CDACA-7946-4BD7-84D7-E9DD832E9CFA",
+    "name": "Midday Music: Angel Subero & Latin Logic",
+    "source": "beatrice-calendar",
+    "blocked_reason": "lunchtime concert, no social dancing",
+    "blocked_category": "not_dance",
+    "blocked_at": "2026-07-08T19:49:33.760527+00:00",
+    "blocked_notes": "lunchtime concert, no social dancing",
+    "location": "Kendall/MIT Open Space, 292 Main Street, Cambridge, MA 02142"
+  },
+  {
+    "id": "F6F9A01E-3508-4FAE-9D3D-5F8085D1EC46",
+    "name": "Las Guaracheras: Concerts in the Courtyard",
+    "source": "beatrice-calendar",
+    "blocked_reason": "ticketed seated MFA courtyard concert",
+    "blocked_category": "not_dance",
+    "blocked_at": "2026-07-08T19:49:33.761481+00:00",
+    "blocked_notes": "ticketed seated MFA courtyard concert",
+    "location": "MFA Boston, 465 Huntington Ave, Boston, MA  02115, United States"
+  },
+  {
+    "id": "eb-1992790211166",
+    "name": "MIAMI BACHATA ESSENCE WEEKENDER: INTERNATIONAL ARTIST MAGDA LIUZZA & GIOIA",
+    "source": "eventbrite-boston-latin",
+    "blocked_reason": "Hallandale Beach FL event in Boston eventbrite search",
+    "blocked_category": "out_of_area",
+    "blocked_at": "2026-07-08T19:49:33.762314+00:00",
+    "blocked_notes": "Hallandale Beach FL event in Boston eventbrite search",
+    "location": "VK Dance ARENA, 3129 West Hallandale Beach Boulevard, Hallandale Beach, FL 33009, Hallandale Beach, FL"
+  },
+  {
+    "id": "eb-1993330109015",
+    "name": "Newton Adult Latin Dance Class — Beginner Rumba",
+    "source": "eventbrite-boston-latin",
+    "blocked_reason": "beginner rumba class, no social",
+    "blocked_category": "class_only",
+    "blocked_at": "2026-07-08T19:49:33.763124+00:00",
+    "blocked_notes": "beginner rumba class, no social",
+    "location": "101 Union St, 101 Union Street, Newton, MA 02459, Newton, MA"
+  },
+  {
+    "id": "F75203DD-C2C0-40BB-BE0E-A67013E17125",
+    "name": "West Coast Swing @ Dancing Fools",
+    "source": "sensualeros-boston",
+    "blocked_reason": "per site rules",
+    "blocked_category": "not_latin",
+    "blocked_at": "2026-07-08T19:49:33.778409+00:00",
+    "blocked_notes": "per site rules",
+    "location": ""
+  },
+  {
+    "id": "jtgs3h7rbgmv3d7of0d7v5nt9g@google.com",
+    "name": "🤓 Despelote Summer Classes",
+    "source": "unabulla-cuban-boston",
+    "blocked_reason": "per site rules",
+    "blocked_category": "class_only",
+    "blocked_at": "2026-07-08T19:49:33.778689+00:00",
+    "blocked_notes": "per site rules",
+    "location": "Dance Complex, 536 Massachusetts Ave, Cambridge, MA 02139"
   }
 ]

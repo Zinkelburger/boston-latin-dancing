@@ -226,3 +226,156 @@
 {"ts": "2026-06-23T16:55:56.928551+00:00", "action": "add", "event_id": "3dlpk3g8kabug9qfkv9e0affdg@google.com", "details": ""}
 {"ts": "2026-06-23T16:55:56.929013+00:00", "action": "reject_non_latin", "event_id": "jtgs3h7rbgmv3d7of0d7v5nt9g@google.com", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
 {"ts": "2026-06-24T18:18:42.593792+00:00", "action": "add", "event_id": "bobas-20260624-0", "details": ""}
+{"ts": "2026-06-29T17:23:13.161552+00:00", "action": "block", "event_id": "4s2c9e8buma8kst9n0vl8ac6sb_R20250418T223000@google.com", "details": "defunct: Boston Rueda Classes no longer running per community report"}
+{"ts": "2026-06-29T17:23:13.163797+00:00", "action": "block", "event_id": "3dlpk3g8kabug9qfkv9e0affdg@google.com", "details": "class_only: MetaMovements workshops, not social dance"}
+{"ts": "2026-06-29T17:23:13.165736+00:00", "action": "block", "event_id": "rj01qhpqbb1qg00243k5ov129k@google.com", "details": "not_dance: Afro-Cuban music class, not dance"}
+{"ts": "2026-06-29T17:23:13.167665+00:00", "action": "block", "event_id": "651706f14abf7a592d56b30399b6ec1a0088577c@dance-calendar", "details": "out_of_area: Event is in Miami, FL - not Boston area"}
+{"ts": "2026-06-29T19:37:53.095119+00:00", "action": "unblock", "event_id": "651706f14abf7a592d56b30399b6ec1a0088577c@dance-calendar", "details": "was: out_of_area"}
+{"ts": "2026-07-08T19:47:26.060746+00:00", "action": "quarantine_new", "event_id": "7tluk0btr6kqmb6llhv56dcb1t@google.com", "details": ""}
+{"ts": "2026-07-08T19:47:26.066847+00:00", "action": "quarantine_new", "event_id": "E62D8A1F-6769-4DA3-9F62-0FA76C842B17", "details": ""}
+{"ts": "2026-07-08T19:47:26.077349+00:00", "action": "quarantine_new", "event_id": "61BD2CD0-8D61-4FB5-9B00-83D32168C036", "details": ""}
+{"ts": "2026-07-08T19:47:26.082713+00:00", "action": "quarantine_new", "event_id": "8B7CDACA-7946-4BD7-84D7-E9DD832E9CFA", "details": ""}
+{"ts": "2026-07-08T19:47:26.106634+00:00", "action": "quarantine_new", "event_id": "5842D45A-DEC5-4D59-9A8E-8F123AFE1D30", "details": ""}
+{"ts": "2026-07-08T19:47:26.116268+00:00", "action": "reject_non_latin", "event_id": "7CDDA334-3852-4BB4-9CA9-422DBCA33E30", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-07-08T19:47:26.121508+00:00", "action": "quarantine_new", "event_id": "00E9F069-7BE1-4C6D-BA6E-69B8A2E7FDA3", "details": ""}
+{"ts": "2026-07-08T19:47:26.136970+00:00", "action": "quarantine_new", "event_id": "A128633E-A6BC-4697-9A67-2C13CFBAE4C2", "details": ""}
+{"ts": "2026-07-08T19:47:26.146583+00:00", "action": "quarantine_new", "event_id": "6fo246sl11793v7m8reu28jk7s@google.com", "details": ""}
+{"ts": "2026-07-08T19:47:26.151647+00:00", "action": "quarantine_new", "event_id": "E4BB2A41-9CD3-43BC-B9F7-123EF0848A9F", "details": ""}
+{"ts": "2026-07-08T19:47:26.152371+00:00", "action": "reject_non_latin", "event_id": "876946c7362a1b4b7d0927db9c62eccd1bf0c07c@dance-calendar", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-07-08T19:47:26.157079+00:00", "action": "quarantine_new", "event_id": "F6F9A01E-3508-4FAE-9D3D-5F8085D1EC46", "details": ""}
+{"ts": "2026-07-08T19:47:26.162565+00:00", "action": "quarantine_new", "event_id": "9802609C-4946-4E9E-8E83-D491FE8F00A5", "details": ""}
+{"ts": "2026-07-08T19:47:26.167916+00:00", "action": "quarantine_new", "event_id": "EABF8ED1-2055-465D-B54F-CFE5F36488F3", "details": ""}
+{"ts": "2026-07-08T19:47:26.173005+00:00", "action": "quarantine_new", "event_id": "36B7A638-F23E-402C-99D2-502DAE85C79D", "details": ""}
+{"ts": "2026-07-08T19:47:26.179041+00:00", "action": "quarantine_new", "event_id": "5687EE6E-EC0E-46C7-86FA-83258D83CD13", "details": ""}
+{"ts": "2026-07-08T19:47:26.195727+00:00", "action": "quarantine_new", "event_id": "374F6A9E-8016-4466-9441-0793EA0E0EA6", "details": ""}
+{"ts": "2026-07-08T19:47:26.201979+00:00", "action": "quarantine_new", "event_id": "3vv69eu4dohgr059ur06cr5s8s@google.com", "details": ""}
+{"ts": "2026-07-08T19:47:26.891352+00:00", "action": "quarantine_new", "event_id": "C3B5A69B-39FC-4AED-B009-FBF49C8D3164", "details": ""}
+{"ts": "2026-07-08T19:47:26.897244+00:00", "action": "quarantine_new", "event_id": "0l34o4j80g6mdgvunl2i2d4d2u@google.com", "details": ""}
+{"ts": "2026-07-08T19:47:27.028957+00:00", "action": "quarantine_new", "event_id": "3kse9dejo6rkcv3bqe34toagda@google.com", "details": ""}
+{"ts": "2026-07-08T19:47:27.056594+00:00", "action": "quarantine_new", "event_id": "57frd5rrp7kfq7lm82cbdqhjn7@google.com", "details": ""}
+{"ts": "2026-07-08T19:47:27.081698+00:00", "action": "quarantine_new", "event_id": "eb-1993426549471", "details": ""}
+{"ts": "2026-07-08T19:47:27.088444+00:00", "action": "quarantine_new", "event_id": "eb-1992850905705", "details": ""}
+{"ts": "2026-07-08T19:47:27.095127+00:00", "action": "quarantine_new", "event_id": "eb-1992790211166", "details": ""}
+{"ts": "2026-07-08T19:47:27.101486+00:00", "action": "quarantine_new", "event_id": "eb-1993330109015", "details": ""}
+{"ts": "2026-07-08T19:47:27.128787+00:00", "action": "quarantine_new", "event_id": "eb-1992856599736", "details": ""}
+{"ts": "2026-07-08T19:47:27.138157+00:00", "action": "reactivate", "event_id": "fiesta-20260613-sol-de-mexico-milford", "details": "from archive (certain)"}
+{"ts": "2026-07-08T19:47:27.168744+00:00", "action": "quarantine_new", "event_id": "lister-earlier-time-bachata-salsa-by-the-river", "details": ""}
+{"ts": "2026-07-08T19:47:27.175243+00:00", "action": "quarantine_new", "event_id": "lister-earlier-time-bachata-salsa-by-the-river-2", "details": ""}
+{"ts": "2026-07-08T19:47:27.200514+00:00", "action": "reject_non_latin", "event_id": "F75203DD-C2C0-40BB-BE0E-A67013E17125", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-07-08T19:47:27.241965+00:00", "action": "archive", "event_id": "11367EEA-739B-4693-971D-B95D90968D5E", "details": ""}
+{"ts": "2026-07-08T19:47:27.242015+00:00", "action": "archive", "event_id": "CB5572F4-BE51-4A3C-BC1E-21EE078058F8", "details": ""}
+{"ts": "2026-07-08T19:47:27.242045+00:00", "action": "archive", "event_id": "481FAC51-0AA9-4AC7-81A2-DBE1423A4800", "details": ""}
+{"ts": "2026-07-08T19:47:27.242069+00:00", "action": "archive", "event_id": "E9A91D20-6E5C-4827-8E37-DDB5697B3C7D", "details": ""}
+{"ts": "2026-07-08T19:47:27.242090+00:00", "action": "archive", "event_id": "884C05C0-ED6E-4A85-A6E0-59FC70D45E57", "details": ""}
+{"ts": "2026-07-08T19:47:27.242123+00:00", "action": "archive", "event_id": "25E9FCB5-66BC-4D33-8FBE-836081750F65", "details": ""}
+{"ts": "2026-07-08T19:47:27.242152+00:00", "action": "archive", "event_id": "2ohs9hv1k4jvklblu880v1mht1@google.com", "details": ""}
+{"ts": "2026-07-08T19:47:27.242176+00:00", "action": "archive", "event_id": "c469c54b1ad056d659054fff82ff65e3fc4e8c90@dance-calendar", "details": ""}
+{"ts": "2026-07-08T19:47:27.242201+00:00", "action": "archive", "event_id": "13A4C423-1BE6-4F4D-A478-ADA83CC22E7E", "details": ""}
+{"ts": "2026-07-08T19:47:27.242223+00:00", "action": "archive", "event_id": "D0F83D40-A8C4-4EA2-940E-70F326647AFC", "details": ""}
+{"ts": "2026-07-08T19:47:27.242247+00:00", "action": "archive", "event_id": "1aeh6u30lk44uthmgff6p4johs@google.com", "details": ""}
+{"ts": "2026-07-08T19:47:27.242275+00:00", "action": "archive", "event_id": "4cmo89ojp153bofdf59hghpjfo@google.com", "details": ""}
+{"ts": "2026-07-08T19:47:27.242298+00:00", "action": "archive", "event_id": "13db5f5a4486c83496bb177d5d426cad9a8bed46@dance-calendar", "details": ""}
+{"ts": "2026-07-08T19:47:27.242316+00:00", "action": "archive", "event_id": "96BE1814-7270-4570-9098-D31091685C51", "details": ""}
+{"ts": "2026-07-08T19:47:27.242336+00:00", "action": "archive", "event_id": "6b4c9b37ceef7d692cade530d94d9c68b2496331@dance-calendar", "details": ""}
+{"ts": "2026-07-08T19:47:27.242362+00:00", "action": "archive", "event_id": "371BD021-4B24-49FF-91AA-8208627893C2", "details": ""}
+{"ts": "2026-07-08T19:47:27.242377+00:00", "action": "archive", "event_id": "eb-1991816316220", "details": ""}
+{"ts": "2026-07-08T19:47:27.242392+00:00", "action": "archive", "event_id": "4hd8qncaku89d76g6fdqfmur27@google.com", "details": ""}
+{"ts": "2026-07-08T19:47:27.242410+00:00", "action": "archive", "event_id": "FA4BDE26-3453-4B3F-A8BB-D48278DB0BF4", "details": ""}
+{"ts": "2026-07-08T19:47:27.242425+00:00", "action": "archive", "event_id": "bobas-20260526-0", "details": ""}
+{"ts": "2026-07-08T19:47:27.242440+00:00", "action": "archive", "event_id": "bobas-20260624-0", "details": ""}
+{"ts": "2026-07-08T19:47:27.242454+00:00", "action": "archive", "event_id": "fiesta-20260613-sol-de-mexico-milford", "details": ""}
+{"ts": "2026-07-08T19:49:33.603427+00:00", "action": "add", "event_id": "E62D8A1F-6769-4DA3-9F62-0FA76C842B17", "details": ""}
+{"ts": "2026-07-08T19:49:33.603514+00:00", "action": "approve", "event_id": "E62D8A1F-6769-4DA3-9F62-0FA76C842B17", "details": ""}
+{"ts": "2026-07-08T19:49:33.611089+00:00", "action": "add", "event_id": "61BD2CD0-8D61-4FB5-9B00-83D32168C036", "details": ""}
+{"ts": "2026-07-08T19:49:33.611217+00:00", "action": "approve", "event_id": "61BD2CD0-8D61-4FB5-9B00-83D32168C036", "details": ""}
+{"ts": "2026-07-08T19:49:33.618553+00:00", "action": "add", "event_id": "5842D45A-DEC5-4D59-9A8E-8F123AFE1D30", "details": ""}
+{"ts": "2026-07-08T19:49:33.618634+00:00", "action": "approve", "event_id": "5842D45A-DEC5-4D59-9A8E-8F123AFE1D30", "details": ""}
+{"ts": "2026-07-08T19:49:33.625216+00:00", "action": "add", "event_id": "00E9F069-7BE1-4C6D-BA6E-69B8A2E7FDA3", "details": ""}
+{"ts": "2026-07-08T19:49:33.625303+00:00", "action": "approve", "event_id": "00E9F069-7BE1-4C6D-BA6E-69B8A2E7FDA3", "details": ""}
+{"ts": "2026-07-08T19:49:33.631460+00:00", "action": "add", "event_id": "A128633E-A6BC-4697-9A67-2C13CFBAE4C2", "details": ""}
+{"ts": "2026-07-08T19:49:33.631521+00:00", "action": "approve", "event_id": "A128633E-A6BC-4697-9A67-2C13CFBAE4C2", "details": ""}
+{"ts": "2026-07-08T19:49:33.637652+00:00", "action": "add", "event_id": "E4BB2A41-9CD3-43BC-B9F7-123EF0848A9F", "details": ""}
+{"ts": "2026-07-08T19:49:33.637728+00:00", "action": "approve", "event_id": "E4BB2A41-9CD3-43BC-B9F7-123EF0848A9F", "details": ""}
+{"ts": "2026-07-08T19:49:33.645306+00:00", "action": "add", "event_id": "9802609C-4946-4E9E-8E83-D491FE8F00A5", "details": ""}
+{"ts": "2026-07-08T19:49:33.645383+00:00", "action": "approve", "event_id": "9802609C-4946-4E9E-8E83-D491FE8F00A5", "details": ""}
+{"ts": "2026-07-08T19:49:33.652656+00:00", "action": "add", "event_id": "EABF8ED1-2055-465D-B54F-CFE5F36488F3", "details": ""}
+{"ts": "2026-07-08T19:49:33.652726+00:00", "action": "approve", "event_id": "EABF8ED1-2055-465D-B54F-CFE5F36488F3", "details": ""}
+{"ts": "2026-07-08T19:49:33.660600+00:00", "action": "add", "event_id": "5687EE6E-EC0E-46C7-86FA-83258D83CD13", "details": ""}
+{"ts": "2026-07-08T19:49:33.660676+00:00", "action": "approve", "event_id": "5687EE6E-EC0E-46C7-86FA-83258D83CD13", "details": ""}
+{"ts": "2026-07-08T19:49:33.669289+00:00", "action": "add", "event_id": "374F6A9E-8016-4466-9441-0793EA0E0EA6", "details": ""}
+{"ts": "2026-07-08T19:49:33.669371+00:00", "action": "approve", "event_id": "374F6A9E-8016-4466-9441-0793EA0E0EA6", "details": ""}
+{"ts": "2026-07-08T19:49:33.676182+00:00", "action": "add", "event_id": "eb-1993426549471", "details": ""}
+{"ts": "2026-07-08T19:49:33.676261+00:00", "action": "approve", "event_id": "eb-1993426549471", "details": ""}
+{"ts": "2026-07-08T19:49:33.683824+00:00", "action": "add", "event_id": "eb-1992850905705", "details": ""}
+{"ts": "2026-07-08T19:49:33.683891+00:00", "action": "approve", "event_id": "eb-1992850905705", "details": ""}
+{"ts": "2026-07-08T19:49:33.690590+00:00", "action": "add", "event_id": "eb-1992856599736", "details": ""}
+{"ts": "2026-07-08T19:49:33.690650+00:00", "action": "approve", "event_id": "eb-1992856599736", "details": ""}
+{"ts": "2026-07-08T19:49:33.697386+00:00", "action": "approve", "event_id": "36B7A638-F23E-402C-99D2-502DAE85C79D", "details": ""}
+{"ts": "2026-07-08T19:49:33.704862+00:00", "action": "add", "event_id": "lister-earlier-time-bachata-salsa-by-the-river", "details": ""}
+{"ts": "2026-07-08T19:49:33.704927+00:00", "action": "approve", "event_id": "lister-earlier-time-bachata-salsa-by-the-river", "details": ""}
+{"ts": "2026-07-08T19:49:33.711633+00:00", "action": "add", "event_id": "lister-earlier-time-bachata-salsa-by-the-river-2", "details": ""}
+{"ts": "2026-07-08T19:49:33.711695+00:00", "action": "approve", "event_id": "lister-earlier-time-bachata-salsa-by-the-river-2", "details": ""}
+{"ts": "2026-07-08T19:49:33.720381+00:00", "action": "add", "event_id": "7tluk0btr6kqmb6llhv56dcb1t@google.com", "details": ""}
+{"ts": "2026-07-08T19:49:33.720448+00:00", "action": "approve", "event_id": "7tluk0btr6kqmb6llhv56dcb1t@google.com", "details": ""}
+{"ts": "2026-07-08T19:49:33.727598+00:00", "action": "add", "event_id": "6fo246sl11793v7m8reu28jk7s@google.com", "details": ""}
+{"ts": "2026-07-08T19:49:33.727661+00:00", "action": "approve", "event_id": "6fo246sl11793v7m8reu28jk7s@google.com", "details": ""}
+{"ts": "2026-07-08T19:49:33.736621+00:00", "action": "add", "event_id": "3vv69eu4dohgr059ur06cr5s8s@google.com", "details": ""}
+{"ts": "2026-07-08T19:49:33.736730+00:00", "action": "approve", "event_id": "3vv69eu4dohgr059ur06cr5s8s@google.com", "details": ""}
+{"ts": "2026-07-08T19:49:33.744970+00:00", "action": "add", "event_id": "0l34o4j80g6mdgvunl2i2d4d2u@google.com", "details": ""}
+{"ts": "2026-07-08T19:49:33.745040+00:00", "action": "approve", "event_id": "0l34o4j80g6mdgvunl2i2d4d2u@google.com", "details": ""}
+{"ts": "2026-07-08T19:49:33.752308+00:00", "action": "add", "event_id": "3kse9dejo6rkcv3bqe34toagda@google.com", "details": ""}
+{"ts": "2026-07-08T19:49:33.752374+00:00", "action": "approve", "event_id": "3kse9dejo6rkcv3bqe34toagda@google.com", "details": ""}
+{"ts": "2026-07-08T19:49:33.759624+00:00", "action": "add", "event_id": "57frd5rrp7kfq7lm82cbdqhjn7@google.com", "details": ""}
+{"ts": "2026-07-08T19:49:33.759686+00:00", "action": "approve", "event_id": "57frd5rrp7kfq7lm82cbdqhjn7@google.com", "details": ""}
+{"ts": "2026-07-08T19:49:33.760659+00:00", "action": "block", "event_id": "8B7CDACA-7946-4BD7-84D7-E9DD832E9CFA", "details": "not_dance: lunchtime concert, no social dancing"}
+{"ts": "2026-07-08T19:49:33.761580+00:00", "action": "block", "event_id": "F6F9A01E-3508-4FAE-9D3D-5F8085D1EC46", "details": "not_dance: ticketed seated MFA courtyard concert"}
+{"ts": "2026-07-08T19:49:33.762414+00:00", "action": "block", "event_id": "eb-1992790211166", "details": "out_of_area: Hallandale Beach FL event in Boston eventbrite search"}
+{"ts": "2026-07-08T19:49:33.763241+00:00", "action": "block", "event_id": "eb-1993330109015", "details": "class_only: beginner rumba class, no social"}
+{"ts": "2026-07-08T19:49:33.770706+00:00", "action": "add", "event_id": "876946c7362a1b4b7d0927db9c62eccd1bf0c07c@dance-calendar", "details": ""}
+{"ts": "2026-07-08T19:49:33.770770+00:00", "action": "approve_rejected", "event_id": "876946c7362a1b4b7d0927db9c62eccd1bf0c07c@dance-calendar", "details": "promoted from rejected queue"}
+{"ts": "2026-07-08T19:49:33.778119+00:00", "action": "add", "event_id": "7CDDA334-3852-4BB4-9CA9-422DBCA33E30", "details": ""}
+{"ts": "2026-07-08T19:49:33.778195+00:00", "action": "approve_rejected", "event_id": "7CDDA334-3852-4BB4-9CA9-422DBCA33E30", "details": "promoted from rejected queue"}
+{"ts": "2026-07-08T19:49:33.778512+00:00", "action": "block", "event_id": "F75203DD-C2C0-40BB-BE0E-A67013E17125", "details": "not_latin: per site rules"}
+{"ts": "2026-07-08T19:49:33.778790+00:00", "action": "block", "event_id": "jtgs3h7rbgmv3d7of0d7v5nt9g@google.com", "details": "class_only: per site rules"}
+{"ts": "2026-07-08T19:49:43.729016+00:00", "action": "reject_non_latin", "event_id": "7CDDA334-3852-4BB4-9CA9-422DBCA33E30", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-07-08T19:49:43.768752+00:00", "action": "reject_non_latin", "event_id": "876946c7362a1b4b7d0927db9c62eccd1bf0c07c@dance-calendar", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-07-08T19:49:44.280627+00:00", "action": "reactivate", "event_id": "bobas-20260624-0", "details": "from archive (certain)"}
+{"ts": "2026-07-08T19:49:44.341604+00:00", "action": "reactivate", "event_id": "fiesta-20260613-sol-de-mexico-milford", "details": "from archive (certain)"}
+{"ts": "2026-07-08T19:49:44.447787+00:00", "action": "archive", "event_id": "bobas-20260624-0", "details": ""}
+{"ts": "2026-07-08T19:49:44.447825+00:00", "action": "archive", "event_id": "fiesta-20260613-sol-de-mexico-milford", "details": ""}
+{"ts": "2026-07-08T19:50:58.865497+00:00", "action": "add", "event_id": "C3B5A69B-39FC-4AED-B009-FBF49C8D3164", "details": ""}
+{"ts": "2026-07-08T19:50:58.865580+00:00", "action": "approve", "event_id": "C3B5A69B-39FC-4AED-B009-FBF49C8D3164", "details": ""}
+{"ts": "2026-07-08T19:50:58.865758+00:00", "action": "dismiss_rejected", "event_id": "7CDDA334-3852-4BB4-9CA9-422DBCA33E30", "details": "already approved into active; stale re-queue"}
+{"ts": "2026-07-08T19:50:58.865896+00:00", "action": "dismiss_rejected", "event_id": "876946c7362a1b4b7d0927db9c62eccd1bf0c07c@dance-calendar", "details": "already approved into active; stale re-queue"}
+{"ts": "2026-07-08T19:51:17.440366+00:00", "action": "edit", "event_id": "7tluk0btr6kqmb6llhv56dcb1t@google.com", "details": "geocoded via cleaned query (nominatim): (42.3688125, -71.0390833)"}
+{"ts": "2026-07-08T19:51:19.098909+00:00", "action": "edit", "event_id": "6fo246sl11793v7m8reu28jk7s@google.com", "details": "geocoded via cleaned query (fallback): (42.3544, -71.0645)"}
+{"ts": "2026-07-08T19:51:21.411007+00:00", "action": "edit", "event_id": "3vv69eu4dohgr059ur06cr5s8s@google.com", "details": "geocoded via cleaned query (nominatim): (42.3219596, -71.1046734)"}
+{"ts": "2026-07-08T19:51:23.168031+00:00", "action": "edit", "event_id": "0l34o4j80g6mdgvunl2i2d4d2u@google.com", "details": "geocoded via cleaned query (nominatim): (42.3341356, -71.0994919)"}
+{"ts": "2026-07-08T19:51:26.037339+00:00", "action": "edit", "event_id": "3kse9dejo6rkcv3bqe34toagda@google.com", "details": "geocoded via cleaned query (nominatim): (42.340484, -71.0754678)"}
+{"ts": "2026-07-08T19:51:26.037439+00:00", "action": "edit", "event_id": "57frd5rrp7kfq7lm82cbdqhjn7@google.com", "details": "geocoded via cleaned query (nominatim): (42.340484, -71.0754678)"}
+{"ts": "2026-07-08T19:51:27.942356+00:00", "action": "edit", "event_id": "876946c7362a1b4b7d0927db9c62eccd1bf0c07c@dance-calendar", "details": "geocoded via cleaned query (nominatim): (42.342185, -71.0736383)"}
+{"ts": "2026-07-08T19:51:33.720420+00:00", "action": "reactivate", "event_id": "bobas-20260624-0", "details": "from archive (certain)"}
+{"ts": "2026-07-08T19:51:33.780069+00:00", "action": "reactivate", "event_id": "fiesta-20260613-sol-de-mexico-milford", "details": "from archive (certain)"}
+{"ts": "2026-07-08T19:51:33.881604+00:00", "action": "archive", "event_id": "bobas-20260624-0", "details": ""}
+{"ts": "2026-07-08T19:51:33.881640+00:00", "action": "archive", "event_id": "fiesta-20260613-sol-de-mexico-milford", "details": ""}
+{"ts": "2026-07-08T19:52:18.452674+00:00", "action": "reactivate", "event_id": "fiesta-20260613-sol-de-mexico-milford", "details": "from archive (certain)"}
+{"ts": "2026-07-08T19:52:18.555722+00:00", "action": "archive", "event_id": "fiesta-20260613-sol-de-mexico-milford", "details": ""}
+{"ts": "2026-07-08T19:54:30.096085+00:00", "action": "quarantine_new", "event_id": "_6crjic1k6co68e1o71h30opp6dhj4d36ccsj4p1i6krm2php74oj8eb175hm2c9m81i62rj3ckmm6obccln68obi_R20260616T220000@google.com", "details": ""}
+{"ts": "2026-07-08T19:54:30.242157+00:00", "action": "quarantine_new", "event_id": "FB894180-B298-4F21-B5A2-E916571B31EE", "details": ""}
+{"ts": "2026-07-08T19:54:30.280771+00:00", "action": "quarantine_new", "event_id": "dantes-salsa-20260619-0", "details": ""}
+{"ts": "2026-07-08T19:54:30.340677+00:00", "action": "quarantine_new", "event_id": "fiesta-20260717-agave-mexican-grill-cantina-marlborough", "details": ""}
+{"ts": "2026-07-08T19:54:30.347706+00:00", "action": "quarantine_new", "event_id": "fiesta-20260731-sol-de-mexico-milford", "details": ""}
+{"ts": "2026-07-08T19:54:30.354677+00:00", "action": "quarantine_new", "event_id": "fiesta-20260807-agave-mexican-grill-cantina-marlborough", "details": ""}
+{"ts": "2026-07-08T19:55:15.778331+00:00", "action": "add", "event_id": "FB894180-B298-4F21-B5A2-E916571B31EE", "details": ""}
+{"ts": "2026-07-08T19:55:15.778423+00:00", "action": "approve", "event_id": "FB894180-B298-4F21-B5A2-E916571B31EE", "details": ""}
+{"ts": "2026-07-08T19:55:15.786508+00:00", "action": "add", "event_id": "fiesta-20260717-agave-mexican-grill-cantina-marlborough", "details": ""}
+{"ts": "2026-07-08T19:55:15.786621+00:00", "action": "approve", "event_id": "fiesta-20260717-agave-mexican-grill-cantina-marlborough", "details": ""}
+{"ts": "2026-07-08T19:55:15.794600+00:00", "action": "add", "event_id": "fiesta-20260731-sol-de-mexico-milford", "details": ""}
+{"ts": "2026-07-08T19:55:15.794674+00:00", "action": "approve", "event_id": "fiesta-20260731-sol-de-mexico-milford", "details": ""}
+{"ts": "2026-07-08T19:55:15.802539+00:00", "action": "add", "event_id": "fiesta-20260807-agave-mexican-grill-cantina-marlborough", "details": ""}
+{"ts": "2026-07-08T19:55:15.802653+00:00", "action": "approve", "event_id": "fiesta-20260807-agave-mexican-grill-cantina-marlborough", "details": ""}
+{"ts": "2026-07-08T19:55:15.802892+00:00", "action": "reject", "event_id": "dantes-salsa-20260619-0", "details": "past event from stale scraped file"}
+{"ts": "2026-07-08T19:55:28.837418+00:00", "action": "add", "event_id": "_6crjic1k6co68e1o71h30opp6dhj4d36ccsj4p1i6krm2php74oj8eb175hm2c9m81i62rj3ckmm6obccln68obi_R20260616T220000@google.com", "details": ""}
+{"ts": "2026-07-08T19:55:28.837506+00:00", "action": "approve", "event_id": "_6crjic1k6co68e1o71h30opp6dhj4d36ccsj4p1i6krm2php74oj8eb175hm2c9m81i62rj3ckmm6obccln68obi_R20260616T220000@google.com", "details": ""}
+{"ts": "2026-07-08T19:57:15.825031+00:00", "action": "location_override", "event_id": "fiesta-20260717-agave-mexican-grill-cantina-marlborough", "details": "Agave Mexican Grill & Cantina, 197A Boston Post Rd W, Marlborough, MA 01752"}
+{"ts": "2026-07-08T19:57:15.825230+00:00", "action": "location_override", "event_id": "fiesta-20260807-agave-mexican-grill-cantina-marlborough", "details": "Agave Mexican Grill & Cantina, 197A Boston Post Rd W, Marlborough, MA 01752"}
