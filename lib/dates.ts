@@ -60,6 +60,20 @@ export function dayStartMs(day: number): number {
   return utcMidnight - bostonOffsetMs(utcMidnight);
 }
 
+/** Boston wall-clock milliseconds since local midnight for an instant. */
+export function bostonTimeOfDayMs(ms: number): number {
+  const wall = ms + bostonOffsetMs(ms);
+  return ((wall % 86400000) + 86400000) % 86400000;
+}
+
+/** Absolute ms for a Boston wall-clock time-of-day on an epoch-day. Unlike
+ *  `dayStartMs(day) + timeOfDay`, this stays correct on 23/25-hour DST days. */
+export function dayTimeToMs(day: number, timeOfDayMs: number): number {
+  const wallAsUTC = day * 86400000 + timeOfDayMs;
+  const guess = wallAsUTC - bostonOffsetMs(wallAsUTC);
+  return wallAsUTC - bostonOffsetMs(guess);
+}
+
 /** ISO date string (YYYY-MM-DD) for an epoch-day. */
 export function dayToIso(day: number): string {
   return dayToDate(day).toISOString().slice(0, 10);

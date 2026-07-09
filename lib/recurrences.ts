@@ -1,5 +1,14 @@
 import type { DanceEvent, DayOfWeek } from '@/types/event';
-import { bostonWeekday, bostonStartOfDay } from '@/lib/dates';
+import {
+  bostonWeekday,
+  bostonStartOfDay,
+  bostonTimeOfDayMs,
+  dateToDay,
+  dayStartMs,
+  dayTimeToMs,
+  dayToDate,
+  isoToDay,
+} from '@/lib/dates';
 
 /** Max occurrences shown in upcoming-dates UI (popup, detail page). */
 export const UPCOMING_MAX = 3;
@@ -35,8 +44,9 @@ export function recurrencesWithinDays(
   dates: string[],
   withinDays: number = FEED_RECURRENCE_DAYS,
 ): string[] {
-  const today = startOfDay(Date.now());
-  const end = today + withinDays * 86400000;
+  const todayDay = dateToDay(new Date());
+  const today = dayStartMs(todayDay);
+  const end = dayStartMs(todayDay + withinDays);
   return recurrencesInRange(dates, today, end - 1);
 }
 
@@ -63,7 +73,9 @@ export function eventMatchesDateRange(
   return occurrencesInRange(event, fromMs, toMs).length > 0;
 }
 
-const EVERY_OTHER_REF_MS = new Date('2026-01-02T00:00:00').getTime();
+// Boston epoch-day anchoring "every other week" parity. Must match the naive
+// Boston reference in scripts/event_store.py::_matches_schedule_note.
+const EVERY_OTHER_REF_DAY = isoToDay('2026-01-02');
 
 function nthWeekdayOfMonth(
   year: number,
@@ -85,7 +97,7 @@ function nthWeekdayOfMonth(
 }
 
 function matchesScheduleNote(
-  dayMs: number,
+  day: number,
   note: string | undefined,
   dayOfWeek: DayOfWeek,
 ): boolean {
@@ -94,7 +106,7 @@ function matchesScheduleNote(
   const nthMatch = noteLower.match(/(\d)(?:st|nd|rd|th)\s+\w+day/);
   if (nthMatch) {
     const nth = parseInt(nthMatch[1], 10);
-    const d = new Date(dayMs);
+    const d = dayToDate(day);
     const target = nthWeekdayOfMonth(
       d.getUTCFullYear(),
       d.getUTCMonth(),
@@ -105,21 +117,19 @@ function matchesScheduleNote(
   }
 
   if (noteLower.includes('every other') || noteLower.includes('alternating')) {
-    const dayStart = startOfDay(dayMs);
-    const weekNum = Math.floor((dayStart - EVERY_OTHER_REF_MS) / (7 * 86400000));
+    const weekNum = Math.floor((day - EVERY_OTHER_REF_DAY) / 7);
     return weekNum % 2 === 0;
   }
 
   return true;
 }
 
-/** Build occurrence ISO on a calendar day, preserving time from a reference ISO. */
-function occurrenceOnDay(referenceIso: string, dayMs: number): string {
-  const ref = new Date(referenceIso);
-  const day = new Date(dayMs);
-  const result = new Date(ref);
-  result.setFullYear(day.getFullYear(), day.getMonth(), day.getDate());
-  return result.toISOString();
+/** Build occurrence ISO on a Boston calendar day, preserving the reference
+ *  ISO's Boston wall-clock time. Pinned to Boston: viewer-local Date fields
+ *  would shift the day/time for anyone outside Eastern time. */
+function occurrenceOnDay(referenceIso: string, day: number): string {
+  const timeOfDay = bostonTimeOfDayMs(new Date(referenceIso).getTime());
+  return new Date(dayTimeToMs(day, timeOfDay)).toISOString();
 }
 
 /** All schedule-based occurrences in [fromMs, toMs] (up to `limit`). */
@@ -132,12 +142,15 @@ function scheduleOccurrencesInRange(
   const schedule = event.schedule;
   if (!schedule?.length) return [];
 
-  const fromDay = startOfDay(fromMs);
-  const toDay = startOfDay(toMs);
+  // Iterate whole Boston epoch-days, not instant + 24h: DST transitions make
+  // Boston days 23/25 hours long, so fixed-step instants drift off midnight
+  // (duplicating the fall-back day and dropping the window's last day).
+  const fromDay = dateToDay(new Date(fromMs));
+  const toDay = dateToDay(new Date(toMs));
   const out: string[] = [];
 
-  for (let day = fromDay; day <= toDay && out.length < limit; day += 86400000) {
-    const dayName = DAY_NAMES[bostonWeekday(day)];
+  for (let day = fromDay; day <= toDay && out.length < limit; day++) {
+    const dayName = DAY_NAMES[dayToDate(day).getUTCDay()];
     for (const entry of schedule) {
       if (entry.dayOfWeek !== dayName) continue;
       if (!matchesScheduleNote(day, entry.note, entry.dayOfWeek)) continue;
