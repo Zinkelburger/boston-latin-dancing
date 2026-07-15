@@ -74,6 +74,23 @@ _CANCELLED_PATTERNS = [
     re.compile(r"\b(cancel+ed|postponed|rescheduled)\b", re.I),
 ]
 
+# Policy boilerplate like "all concerts will be canceled in the event of
+# inclement weather" (boston.gov) is not a cancellation notice.
+_CONDITIONAL_CONTEXT = re.compile(
+    r"(in the event of|in case of|\bif\b|will be|may be|weather|rain)", re.I
+)
+
+
+def _cancellation_mention(html: str) -> Optional[re.Match]:
+    """Find a cancellation mention that isn't conditional/policy phrasing."""
+    for pat in _CANCELLED_PATTERNS:
+        for m in pat.finditer(html[:5000]):
+            prefix = html[max(0, m.start() - 80):m.start()]
+            if _CONDITIONAL_CONTEXT.search(prefix):
+                continue
+            return m
+    return None
+
 
 def _extract_jsonld_events(html: str) -> list[dict]:
     events = []
@@ -131,14 +148,22 @@ def verify_direct(event: dict, url: str) -> dict:
 
     html = resp.text
 
-    for pat in _CANCELLED_PATTERNS:
-        m = pat.search(html[:5000])
+    ld_events = _extract_jsonld_events(html)
+    ld_status = ld_events[0].get("eventStatus", "") if ld_events else ""
+
+    # JSON-LD eventStatus is authoritative; only fall back to scanning the
+    # page text when the structured data doesn't declare a status.
+    if ld_status == "https://schema.org/EventCancelled":
+        result["status"] = "cancelled"
+        result["notes"] = "JSON-LD eventStatus = EventCancelled"
+        return result
+    if ld_status != "https://schema.org/EventScheduled":
+        m = _cancellation_mention(html)
         if m:
             result["status"] = "needs_review"
             result["notes"] = f"Page contains '{m.group(0)}' — may be cancelled or rescheduled"
             return result
 
-    ld_events = _extract_jsonld_events(html)
     if ld_events:
         ld = ld_events[0]
         source_loc = _location_from_jsonld(ld)
@@ -158,11 +183,6 @@ def verify_direct(event: dict, url: str) -> dict:
                         overlap = our_words & src_words
                         if len(overlap) < max(1, min(len(our_words), len(src_words)) * 0.3):
                             issues.append("location_mismatch")
-
-        if ld.get("eventStatus") == "https://schema.org/EventCancelled":
-            result["status"] = "cancelled"
-            result["notes"] = "JSON-LD eventStatus = EventCancelled"
-            return result
 
         if issues:
             result["status"] = issues[0]

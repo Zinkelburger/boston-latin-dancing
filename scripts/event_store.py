@@ -646,6 +646,16 @@ def merge_event(a: dict, b: dict) -> dict:
 
 def find_duplicate_in(event: dict, pool: list[dict]) -> Optional[tuple[int, str]]:
     """Return (index, confidence) of best duplicate in pool, or None."""
+    # An exact ID match is the same record re-scraped — it must win over any
+    # other certain-tier match, or a refresh merges into a lookalike from a
+    # different source and the true record never gets updated.
+    for i, existing in enumerate(pool):
+        if existing.get("id") == event.get("id"):
+            conf = dedup_confidence(existing, event)
+            if conf is not None:
+                return (i, conf)
+            break
+
     best_idx: Optional[int] = None
     best_conf: Optional[str] = None
     conf_rank = {"certain": 0, "review": 1}
