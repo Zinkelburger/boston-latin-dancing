@@ -100,8 +100,18 @@ def parse_ics_feed(ics_text: str, source_id: str = DEFAULT_SOURCE_ID) -> list[di
 
         url_val = component.get("url")
         url = str(url_val) if url_val else None
+        fb_url = None
         if url and url.startswith("fb://"):
+            # fb:// deep links don't open in a browser; keep the web event
+            # page as a fallback but prefer a link written in the description.
+            m = re.search(r"id=(\d+)", url)
+            fb_url = f"https://www.facebook.com/events/{m.group(1)}/" if m else None
             url = None
+        if not url:
+            m = re.search(r"https?://[^\s<>\"'\)\]]+", description)
+            url = m.group(0).rstrip(".,;!") if m else fb_url
+        if url:
+            url = re.sub(r"fbclid=[^&]+&?", "", url).rstrip("?&")
 
         dtstart = _ical_dt_to_datetime(component.get("dtstart"))
         dtend = _ical_dt_to_datetime(component.get("dtend"))
