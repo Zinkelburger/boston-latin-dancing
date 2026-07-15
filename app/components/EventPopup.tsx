@@ -176,45 +176,25 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
         style={{
           width: 'min(92vw, 420px)',
           maxHeight: '84vh',
-          overflowY: 'auto',
           background: '#ffffff',
           borderRadius: '1rem',
-          padding: '1.25rem',
           boxShadow: '0 18px 50px rgba(0,0,0,0.28)',
           display: 'flex',
           flexDirection: 'column',
-          gap: '0.5rem',
+          overflow: 'hidden',
         }}
         onClick={e => e.stopPropagation()}
       >
-        {event.searchOnly && !event.archived && (
-          <div className="rounded-lg border border-sky-200 bg-sky-50 px-3 py-2 text-sm text-sky-800">
-            <strong>No confirmed upcoming date.</strong> This one runs on an
-            irregular schedule — check its links below for the next date.
-          </div>
-        )}
-
-        {event.archived && (
-          <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800">
-            <strong>This event has passed.</strong>
-            {nextInstance ? (
-              <span>
-                {' '}Next up:{' '}
-                <button
-                  onClick={() => onNavigate?.(nextInstance)}
-                  className="underline font-medium hover:text-amber-900 cursor-pointer"
-                >
-                  {nextInstance.name} — {formatEventTimeRange(nextInstance.startDate, nextInstance.endDate)}
-                </button>
-              </span>
-            ) : (
-              <span>
-                {' '}<a href="/" className="underline hover:text-amber-900">Browse upcoming events</a>
-              </span>
-            )}
-          </div>
-        )}
-
+        {/* Scrollable body — the links footer below stays pinned */}
+        <div
+          style={{
+            overflowY: 'auto',
+            padding: '1.25rem 1.25rem 0.75rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.5rem',
+          }}
+        >
         <div className="flex items-start">
           <h2 className="text-lg font-semibold min-w-0 flex-1" style={{ margin: 0 }}>
             {event.name}
@@ -251,7 +231,8 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
             <span className="pretty-pill pretty-pill-sky text-xs">
               {recurrenceLabel}
             </span>
-            {event.nextDateApproximate && (
+            {/* The search-only date line already says the date is unconfirmed */}
+            {event.nextDateApproximate && !(event.searchOnly && !event.archived) && (
               <span className="pretty-pill pretty-pill-amber text-xs">
                 Date unconfirmed
               </span>
@@ -261,13 +242,33 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
 
         {hasDates && !(event.schedule && event.schedule.length > 0) && (
           <div className="text-sm text-gray-600">
-            {formatEventTimeRange(displayStart, displayEnd)}
+            📅 {formatEventTimeRange(displayStart, displayEnd)}
+            {event.archived && ' — this event has passed'}
+          </div>
+        )}
+
+        {/* Search-only records have no date — plain note in the date's place */}
+        {!hasDates && (
+          <div className="text-sm text-gray-600">
+            📅 No confirmed next date — irregular schedule, check the links below.
+          </div>
+        )}
+
+        {event.archived && nextInstance && (
+          <div className="text-sm text-gray-600">
+            Next up:{' '}
+            <button
+              onClick={() => onNavigate?.(nextInstance)}
+              className="underline font-medium hover:text-gray-900 cursor-pointer"
+            >
+              {nextInstance.name} — {formatEventTimeRange(nextInstance.startDate, nextInstance.endDate)}
+            </button>
           </div>
         )}
 
         {nextIso && event.schedule && event.schedule.length > 0 && (
           <div className="text-sm text-gray-600">
-            Next: {formatEventTimeRange(nextIso, occurrenceEndDate(event, nextIso))}
+            📅 Next: {formatEventTimeRange(nextIso, occurrenceEndDate(event, nextIso))}
           </div>
         )}
 
@@ -277,21 +278,17 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
           <WeeklyScheduleTable schedule={event.schedule} className="mt-1" />
         )}
 
-        {pastInstances.length > 0 && (
-          <PastDatesTable current={event} pastInstances={pastInstances} className="mt-1" />
-        )}
-
         {/* Location */}
         {event.location && (
-          <div className="text-sm text-gray-500">
-            {event.location}
+          <div className="text-sm text-gray-600">
+            📍 {event.location}
           </div>
         )}
 
         {/* Cost */}
         {event.cost && (
           <div className="text-sm font-medium text-rose-600">
-            {event.cost}
+            💵 {event.cost}
           </div>
         )}
 
@@ -318,8 +315,16 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
           </div>
         )}
 
-        {/* Links */}
-        <div className="flex flex-wrap gap-2 mt-1">
+        {pastInstances.length > 0 && (
+          <PastDatesTable current={event} pastInstances={pastInstances} className="mt-1" />
+        )}
+        </div>
+
+        {/* Links — pinned footer, always visible */}
+        <div
+          className="flex flex-wrap gap-2"
+          style={{ padding: '0.75rem 1.25rem', borderTop: '1px solid #f3f4f6', flexShrink: 0 }}
+        >
           {allLinks.map((lnk, i) => (
             <a
               key={i}
