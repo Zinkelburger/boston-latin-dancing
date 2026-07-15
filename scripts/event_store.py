@@ -1857,7 +1857,13 @@ def publish() -> dict:
     venue_events = expand_venues()
 
     active, suppressed_venue_ids = _suppress_venue_covered_events(venue_events, active)
-    venue_events = [v for v in venue_events if v.get("id") not in suppressed_venue_ids]
+    # Irregular-schedule venues (nextDateApproximate) stay pipeline-only: their
+    # expanded dates are pattern guesses, so users only ever see the venue via
+    # a confirmed scraped event, never the placeholder pin.
+    venue_events = [
+        v for v in venue_events
+        if v.get("id") not in suppressed_venue_ids and not v.get("nextDateApproximate")
+    ]
     all_events = venue_events + active
     deduped = deduplicate(all_events)
     deduped = collapse_recurring_series(deduped)
