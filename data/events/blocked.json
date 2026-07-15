@@ -88,5 +88,15 @@
     "blocked_at": "2026-07-08T19:49:33.778689+00:00",
     "blocked_notes": "per site rules",
     "location": "Dance Complex, 536 Massachusetts Ave, Cambridge, MA 02139"
+  },
+  {
+    "id": "8176af5fb57e85668676eae55803a2a268c2e86a@dance-calendar",
+    "name": "NEW HAVEN WATERFRONT BACHATA DAY PARTY @ Q Bar | La Casa de la Bachata™",
+    "source": "beatrice-calendar",
+    "blocked_reason": "New Haven CT, ~2.5h from Boston; distinct from the Lynn MA Malecon party it dedup-matched",
+    "blocked_category": "out_of_area",
+    "blocked_at": "2026-07-15T03:32:23.829426+00:00",
+    "blocked_notes": "New Haven CT, ~2.5h from Boston; distinct from the Lynn MA Malecon party it dedup-matched",
+    "location": "3 Clifton Street, New Haven, CT 06513, New Haven, CT"
   }
 ]

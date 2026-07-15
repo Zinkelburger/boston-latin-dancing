@@ -391,3 +391,21 @@
 {"ts": "2026-07-15T03:12:11.821499+00:00", "action": "archive", "event_id": "57frd5rrp7kfq7lm82cbdqhjn7@google.com", "details": ""}
 {"ts": "2026-07-15T03:12:11.821551+00:00", "action": "archive", "event_id": "7CDDA334-3852-4BB4-9CA9-422DBCA33E30", "details": ""}
 {"ts": "2026-07-15T03:12:11.821603+00:00", "action": "archive", "event_id": "FB894180-B298-4F21-B5A2-E916571B31EE", "details": ""}
+{"ts": "2026-07-15T03:25:20.766722+00:00", "action": "reject_non_latin", "event_id": "4qc656kur2gocnolf5ns78ag18@google.com", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-07-15T03:31:51.778324+00:00", "action": "add", "event_id": "4qc656kur2gocnolf5ns78ag18@google.com", "details": ""}
+{"ts": "2026-07-15T03:31:51.778814+00:00", "action": "approve_rejected", "event_id": "4qc656kur2gocnolf5ns78ag18@google.com", "details": "promoted from rejected queue"}
+{"ts": "2026-07-15T03:31:51.784825+00:00", "action": "edit", "event_id": "4qc656kur2gocnolf5ns78ag18@google.com", "details": "{\"styles\": [\"bachata\", \"salsa\"]}"}
+{"ts": "2026-07-15T03:31:51.813190+00:00", "action": "add", "event_id": "03DD0807-376C-42B5-9C9C-7C523C78DFC4", "details": ""}
+{"ts": "2026-07-15T03:31:51.813476+00:00", "action": "approve", "event_id": "03DD0807-376C-42B5-9C9C-7C523C78DFC4", "details": ""}
+{"ts": "2026-07-15T03:31:51.843260+00:00", "action": "add", "event_id": "e27615176894807797@facebook.com", "details": ""}
+{"ts": "2026-07-15T03:31:51.843580+00:00", "action": "approve", "event_id": "e27615176894807797@facebook.com", "details": ""}
+{"ts": "2026-07-15T03:31:51.875882+00:00", "action": "add", "event_id": "EEBA5D64-CBA2-445F-AEEB-42DE9047A3FF", "details": ""}
+{"ts": "2026-07-15T03:31:51.876197+00:00", "action": "approve", "event_id": "EEBA5D64-CBA2-445F-AEEB-42DE9047A3FF", "details": ""}
+{"ts": "2026-07-15T03:31:51.877462+00:00", "action": "reject", "event_id": "8176af5fb57e85668676eae55803a2a268c2e86a@dance-calendar", "details": "distinct event from Lynn MA party; New Haven CT is out of area"}
+{"ts": "2026-07-15T03:32:23.830732+00:00", "action": "block", "event_id": "8176af5fb57e85668676eae55803a2a268c2e86a@dance-calendar", "details": "out_of_area: New Haven CT, ~2.5h from Boston; distinct from the Lynn MA Malecon party it dedup-matched"}
+{"ts": "2026-07-15T03:34:23.498389+00:00", "action": "edit", "event_id": "5984F5C6-9A2D-454E-AE0B-B201FC78B814", "details": "{\"url\": \"https://havanaclubsalsa.com\"}"}
+{"ts": "2026-07-15T03:34:23.505463+00:00", "action": "edit", "event_id": "4BACCA44-811C-4F7E-99D8-7AC8DA46D5CC", "details": "{\"url\": \"https://havanaclubsalsa.com\"}"}
+{"ts": "2026-07-15T03:34:23.512101+00:00", "action": "edit", "event_id": "D7362ECA-A6A7-4528-B752-3CBD6141CE81", "details": "{\"url\": \"https://havanaclubsalsa.com\"}"}
+{"ts": "2026-07-15T03:34:23.519795+00:00", "action": "edit", "event_id": "8EDCCA4B-FCFA-4CD9-ABA3-8074966ACFCB", "details": "{\"url\": \"https://www.bachataroomboston.com\"}"}
+{"ts": "2026-07-15T03:34:23.529335+00:00", "action": "edit", "event_id": "61vvqt0h13uoigcucma9f9prhk@google.com", "details": "{\"url\": \"https://www.facebook.com/Ceijaykiz\"}"}
+{"ts": "2026-07-15T03:34:23.538498+00:00", "action": "edit", "event_id": "m493k99gsroqpbockbf2e5cgi7@google.com", "details": "{\"url\": \"https://www.facebook.com/Ceijaykiz\"}"}
