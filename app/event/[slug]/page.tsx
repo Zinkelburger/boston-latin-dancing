@@ -35,6 +35,38 @@ export function generateStaticParams(): Params[] {
   return events.filter(e => e.slug).map(e => ({ slug: e.slug! }));
 }
 
+/**
+ * First ~150 chars of the scraped description, cleaned up for use as a search
+ * snippet / link preview. Cuts at a sentence or word boundary rather than
+ * mid-word, and returns '' for text that would read as spam (emoji walls,
+ * ALL-CAPS promo copy) — in that case the "date — venue" line stands alone.
+ */
+function descriptionSnippet(raw: string | undefined, max = 150): string {
+  const text = stripHtml(raw || '')
+    .replace(/https?:\/\/\S+/gi, '')
+    .replace(/www\.\S+/gi, '')
+    .replace(/Source:\s*/gi, '')
+    .replace(/Website:\s*/gi, '')
+    .replace(/Organized by\s+\S+\s*/gi, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  if (text.length < 25) return '';
+  const emoji = (text.match(/\p{Extended_Pictographic}/gu) || []).length;
+  if (emoji > 2) return '';
+  const letters = (text.match(/[a-zA-Z]/g) || []).length;
+  const upper = (text.match(/[A-Z]/g) || []).length;
+  if (letters >= 20 && upper / letters > 0.5) return '';
+
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max + 1);
+  const lastSentence = Math.max(
+    cut.lastIndexOf('. '), cut.lastIndexOf('! '), cut.lastIndexOf('? '));
+  if (lastSentence > max * 0.5) return cut.slice(0, lastSentence + 1);
+  const lastSpace = cut.lastIndexOf(' ');
+  return (lastSpace > 0 ? cut.slice(0, lastSpace) : cut.slice(0, max)).trimEnd() + '…';
+}
+
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { slug } = await params;
   const event = findBySlug(slug);
@@ -47,14 +79,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
     weekday: 'short', month: 'short', day: 'numeric', timeZone: 'America/New_York',
   });
 
-  const snippet = stripHtml(event.description)
-    .replace(/https?:\/\/\S+/gi, '')
-    .replace(/www\.\S+/gi, '')
-    .replace(/Source:\s*/gi, '')
-    .replace(/Website:\s*/gi, '')
-    .replace(/Organized by\s+\S+\s*/gi, '')
-    .replace(/\s+/g, ' ')
-    .slice(0, 120).trim();
+  const snippet = descriptionSnippet(event.description);
   const when = [date, venue].filter(Boolean).join(' — ');
   const description = snippet
     ? `${when}. ${snippet}`
@@ -86,7 +111,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
     ...(noindex ? { robots: { index: false, follow: true } } : {}),
     openGraph: {
       title: event.name,
-      description: event.organizer ? `${description} — ${event.organizer}` : description,
+      description,
       url: canonicalUrl,
       siteName: 'Boston Salsa Events',
       type: 'website',
@@ -94,7 +119,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
     twitter: {
       card: 'summary',
       title: event.name,
-      description: event.organizer ? `${description} — ${event.organizer}` : description,
+      description,
     },
     alternates: {
       canonical: canonicalUrl,

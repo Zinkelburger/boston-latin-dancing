@@ -10,26 +10,14 @@ export const metadata: Metadata = {
     template: '%s | Boston Salsa Events',
   },
   description:
-    'Salsa events in Boston. Find salsa and Latin dance socials and parties happening this week.',
-  keywords: [
-    'Boston salsa',
-    'Boston salsa events',
-    'salsa Boston',
-    'salsa dancing Boston',
-    'Boston bachata',
-    'Boston latin dance',
-    'where to dance salsa in Boston',
-    'Boston dance events',
-    'salsa classes Boston',
-    'salsa dancing near me',
-    'Latin dance socials Boston',
-  ],
+    'Where to dance salsa and bachata in Boston — socials, classes, and parties on one live map.',
+  // No og:image on purpose: without one, WhatsApp/iMessage render a compact
+  // text-only preview instead of a big embed card.
   openGraph: {
     title: 'Boston Salsa Events',
     description:
-      'Find salsa and Latin dance events happening in Boston this week.',
+      'Where to dance salsa and bachata in Boston — socials, classes, and parties on one live map.',
     type: 'website',
-    images: [{ url: '/icon.png', width: 512, height: 512 }],
   },
 };
 

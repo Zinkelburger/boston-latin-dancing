@@ -9,37 +9,21 @@ import MapView from './components/MapView';
 const events = (allEvents as DanceEvent[]).filter(e => !e.archived && e.slug);
 
 /**
- * Names of events with an occurrence in the next `withinDays`, soonest first
- * and de-duplicated. Computed at build so the homepage description stays fresh
- * with whatever's actually happening this week.
+ * Count of events with an occurrence in the next `withinDays`. Computed at
+ * build so the homepage description stays fresh without embedding raw scraped
+ * event names, which read as machine-generated in search snippets and
+ * WhatsApp previews.
  */
-function upcomingEventNames(limit: number, withinDays = 7): string[] {
+function upcomingEventCount(withinDays = 7): number {
   const now = Date.now();
   const end = now + withinDays * 86400000;
-  const dated = events
-    .map(e => {
-      const occ = firstOccurrenceInRange(e, now, end);
-      return occ ? { name: e.name, ms: new Date(occ).getTime() } : null;
-    })
-    .filter((x): x is { name: string; ms: number } => x !== null)
-    .sort((a, b) => a.ms - b.ms);
-
-  const seen = new Set<string>();
-  const names: string[] = [];
-  for (const { name } of dated) {
-    if (seen.has(name)) continue;
-    seen.add(name);
-    names.push(name);
-    if (names.length >= limit) break;
-  }
-  return names;
+  return events.filter(e => firstOccurrenceInRange(e, now, end)).length;
 }
 
-const upcomingNames = upcomingEventNames(5);
-const homeDescription = upcomingNames.length
-  ? `Latin dance in Boston this week: ${upcomingNames.join(', ')}, and more. `
-    + 'A live map of salsa and bachata socials, parties, and classes happening '
-    + 'tonight and this weekend near you.'
+const upcomingCount = upcomingEventCount();
+const homeDescription = upcomingCount >= 5
+  ? `Every salsa and bachata night in Boston on one live map — `
+    + `${upcomingCount} socials, classes, and parties this week.`
   : 'Where to dance salsa and bachata in Boston. A live map of Latin dance '
     + 'socials, parties, and classes happening this week near you.';
 
@@ -54,7 +38,6 @@ export const metadata: Metadata = {
     description: homeDescription,
     type: 'website',
     url: SITE_URL,
-    images: [{ url: '/icon.png', width: 512, height: 512 }],
   },
 };
 
