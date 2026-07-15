@@ -69,6 +69,9 @@ export interface RecurringVenue {
   schedule: RecurringSchedule[];
   /** True when the recurring pattern is irregular (e.g. weather-dependent, dates vary) */
   nextDateApproximate?: boolean;
+  /** Specific YYYY-MM-DD dates to skip when expanding the weekly schedule
+   *  (e.g. a Friday taken over by a special-edition event, or a cancellation). */
+  excludeDates?: string[];
   /** Override the auto-generated recurrence label */
   recurrenceLabel?: string;
 }

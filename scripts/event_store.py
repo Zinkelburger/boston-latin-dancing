@@ -716,12 +716,13 @@ def _location_key(location: str) -> str:
 
 # Signals that a name is a distinctly-branded special edition rather than a
 # regular occurrence of a series: anniversaries, festivals, guest artists
-# ("ft"/"featuring"), holiday/themed nights, lineups ("vs"). Such an event keeps
-# its own map pin instead of being folded into the generic series name. Run
-# against normalize_name() output (lowercased, punctuation stripped).
+# ("ft"/"featuring"), guest-promoter takeovers, holiday/themed nights, lineups
+# ("vs"). Such an event keeps its own map pin instead of being folded into the
+# generic series name (or a venue hub). Run against normalize_name() output
+# (lowercased, punctuation stripped).
 _SPECIAL_EDITION_RE = re.compile(
     r"\b(?:anniversary|anniversaries|\d+\s*year|festival|festiva|edition|"
-    r"ft|feat|featuring|special|halloween|nye|new year|christmas|"
+    r"ft|feat|featuring|takeover|special|halloween|nye|new year|christmas|"
     r"valentine|vs)\b",
     re.I,
 )
@@ -1077,6 +1078,11 @@ def expand_venues(weeks_ahead: int = 8) -> list[dict]:
         if not schedule:
             continue
 
+        # Specific YYYY-MM-DD dates to skip (e.g. a night taken over by a
+        # special-edition event, or a one-off cancellation). Keeps the weekly
+        # hub from claiming a date that a distinct pin already owns.
+        exclude_dates = set(venue.get("excludeDates") or [])
+
         all_dates: list[datetime] = []
         for sched in schedule:
             day_name = sched["dayOfWeek"]
@@ -1087,7 +1093,7 @@ def expand_venues(weeks_ahead: int = 8) -> list[dict]:
             note = sched.get("note", "")
             d = today
             while d < end_window:
-                if d.isoweekday() % 7 == target_wday:
+                if d.isoweekday() % 7 == target_wday and d.strftime("%Y-%m-%d") not in exclude_dates:
                     if _matches_schedule_note(d, note, day_name):
                         if time_range:
                             start_h, start_m = time_range[0]
