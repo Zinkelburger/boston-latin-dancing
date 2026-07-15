@@ -7,6 +7,40 @@ export function tokenize(query: string): string[] {
   return query.trim().toLowerCase().split(/\s+/).filter(Boolean);
 }
 
+/** Lowercase, strip punctuation, collapse whitespace — for name-equality matching. */
+export function normalizeEventName(name: string): string {
+  return name.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, ' ').trim();
+}
+
+function venueKey(location: string | null | undefined): string {
+  return (location || '').split(',')[0].toLowerCase().trim();
+}
+
+/**
+ * Whether `e` is an instance of a search-only venue record's series. A venue
+ * record's source IS the organizer's own feed, so a shared organizer ties
+ * special-edition names ("Fuego y Candela 15-Year Anniversary…") back to the
+ * series even when the name diverges. Falls back to name matching, so it's
+ * safe to call with any event as `record`.
+ */
+export function isSeriesInstance(record: DanceEvent, e: DanceEvent): boolean {
+  if (isSameSeries(record, e)) return true;
+  return Boolean(record.searchOnly && record.organizer && record.organizer === e.organizer);
+}
+
+/** Same-series test: exact normalized name, or name containment at the same venue. */
+export function isSameSeries(a: DanceEvent, b: DanceEvent): boolean {
+  const na = normalizeEventName(a.name);
+  const nb = normalizeEventName(b.name);
+  if (na === nb) return true;
+  if (na.includes(nb) || nb.includes(na)) {
+    const va = venueKey(a.location);
+    const vb = venueKey(b.location);
+    return Boolean(va && vb && va === vb);
+  }
+  return false;
+}
+
 type Fields = { name: string; loc: string; desc: string; styles: string; day: string };
 
 /** Lowercased searchable fields for an event. `styles` includes both the raw

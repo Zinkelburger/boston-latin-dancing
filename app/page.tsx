@@ -6,7 +6,7 @@ import { stripHtml } from '@/lib/strip-html';
 import { formatEventTimeRange, firstOccurrenceInRange } from '@/lib/recurrences';
 import MapView from './components/MapView';
 
-const events = (allEvents as DanceEvent[]).filter(e => !e.archived && e.slug);
+const events = (allEvents as DanceEvent[]).filter(e => !e.archived && !e.searchOnly && e.slug);
 
 /**
  * Count of events with an occurrence in the next `withinDays`. Computed at

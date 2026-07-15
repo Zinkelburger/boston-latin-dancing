@@ -12,10 +12,11 @@ import {
   resolveDisplayOccurrence,
   shouldShowNextOccurrence,
 } from '@/lib/recurrences';
+import { isSeriesInstance, normalizeEventName } from '@/lib/search';
 import { stripHtml } from '@/lib/strip-html';
 import { collectEventLinks } from '@/lib/link-label';
 import ShareButton from './ShareButton';
-import { UpcomingDatesTable, WeeklyScheduleTable } from './EventTable';
+import { PastDatesTable, UpcomingDatesTable, WeeklyScheduleTable } from './EventTable';
 
 const URL_RE = /(https?:\/\/[^\s,)]+)/g;
 
@@ -69,9 +70,6 @@ function googleCalendarUrl(event: DanceEvent, startDate: string, endDate: string
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
 
-function normalizeForMatch(name: string): string {
-  return name.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, ' ').trim();
-}
 
 export default function EventPopup({ event, onClose, onNavigate, displayDate, fromMs, toMs }: Props) {
   useEffect(() => {
@@ -82,12 +80,13 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
     return () => document.removeEventListener('keydown', onKey);
   }, [onClose]);
 
-  const { start: displayStart, end: displayEnd } = resolveDisplayOccurrence(event, {
-    displayDate,
-    fromMs,
-    toMs,
-  });
-  const calendarUrl = googleCalendarUrl(event, displayStart, displayEnd);
+  // Search-only venue records ship without dates on purpose (irregular
+  // schedule) — skip everything date-derived for them.
+  const hasDates = Boolean(event.startDate);
+  const { start: displayStart, end: displayEnd } = hasDates
+    ? resolveDisplayOccurrence(event, { displayDate, fromMs, toMs })
+    : { start: '', end: '' };
+  const calendarUrl = hasDates ? googleCalendarUrl(event, displayStart, displayEnd) : null;
   const shareUrl = event.slug ? `${SITE_URL}/event/${event.slug}` : '';
 
   const [descExpanded, setDescExpanded] = useState(false);
@@ -105,7 +104,7 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
 
   const nextInstance = useMemo(() => {
     if (!event.archived) return null;
-    const norm = normalizeForMatch(event.name);
+    const norm = normalizeEventName(event.name);
     const active = (allEvents as DanceEvent[]).filter(e => !e.archived);
 
     // Only match on exact (or near-exact) name, optionally requiring same venue
@@ -119,7 +118,7 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
     const normWords = new Set(norm.split(' ').filter(w => w.length > 2 && !DANCE_STOPWORDS.has(w)));
 
     for (const candidate of active) {
-      const cn = normalizeForMatch(candidate.name);
+      const cn = normalizeEventName(candidate.name);
       if (cn === norm) return candidate;
       if (cn.includes(norm) || norm.includes(cn)) {
         const venueA = (event.location || '').split(',')[0].toLowerCase().trim();
@@ -131,7 +130,7 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
     // Fuzzy: require same venue + significant non-generic word overlap
     if (normWords.size >= 2) {
       for (const candidate of active) {
-        const cn = normalizeForMatch(candidate.name);
+        const cn = normalizeEventName(candidate.name);
         const cWords = new Set(cn.split(' ').filter(w => w.length > 2 && !DANCE_STOPWORDS.has(w)));
         const overlap = [...normWords].filter(w => cWords.has(w)).length;
         const smaller = Math.min(normWords.size, cWords.size);
@@ -143,6 +142,17 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
       }
     }
     return null;
+  }, [event]);
+
+  // Past instances of this series (archived events with matching names) —
+  // the history record shown on archived and search-only events.
+  const pastInstances = useMemo(() => {
+    if (!event.archived && !event.searchOnly) return [];
+    return (allEvents as DanceEvent[])
+      .filter(e => e.archived && e.id !== event.id && e.startDate)
+      .filter(e => isSeriesInstance(event, e))
+      .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime())
+      .slice(0, 8);
   }, [event]);
 
   return (
@@ -177,6 +187,13 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
         }}
         onClick={e => e.stopPropagation()}
       >
+        {event.searchOnly && !event.archived && (
+          <div className="rounded-lg border border-sky-200 bg-sky-50 px-3 py-2 text-sm text-sky-800">
+            <strong>No confirmed upcoming date.</strong> This one runs on an
+            irregular schedule — check its links below for the next date.
+          </div>
+        )}
+
         {event.archived && (
           <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800">
             <strong>This event has passed.</strong>
@@ -242,7 +259,7 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
           </div>
         )}
 
-        {!(event.schedule && event.schedule.length > 0) && (
+        {hasDates && !(event.schedule && event.schedule.length > 0) && (
           <div className="text-sm text-gray-600">
             {formatEventTimeRange(displayStart, displayEnd)}
           </div>
@@ -258,6 +275,10 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
 
         {event.schedule && event.schedule.length > 0 && (
           <WeeklyScheduleTable schedule={event.schedule} className="mt-1" />
+        )}
+
+        {pastInstances.length > 0 && (
+          <PastDatesTable current={event} pastInstances={pastInstances} className="mt-1" />
         )}
 
         {/* Location */}
@@ -320,14 +341,16 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
               Google Maps
             </a>
           )}
-          <a
-            href={calendarUrl}
-            target="_blank"
-            rel="noopener"
-            className="pretty-pill pretty-pill-blue"
-          >
-            Add to Calendar
-          </a>
+          {calendarUrl && (
+            <a
+              href={calendarUrl}
+              target="_blank"
+              rel="noopener"
+              className="pretty-pill pretty-pill-blue"
+            >
+              Add to Calendar
+            </a>
+          )}
         </div>
       </div>
     </div>

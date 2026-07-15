@@ -18,6 +18,13 @@ import EventPopup from './EventPopup';
 import SearchBar from './SearchBar';
 import FeedView from './FeedView';
 import { useEventFilters } from './useEventFilters';
+import { isSeriesInstance, normalizeEventName } from '@/lib/search';
+
+/** Archived events and search-only venue records: shown as a translucent dot
+ *  when opened, never a normal pin, and exempt from filters. */
+function isGhostEvent(event: DanceEvent | null | undefined): boolean {
+  return Boolean(event && (event.archived || event.searchOnly));
+}
 
 const unclusteredLayer: LayerProps = {
   id: 'unclustered',
@@ -70,7 +77,7 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
   const mapRef = useRef<MapRef>(null);
   const allEventsTyped = useMemo(() => allEvents as DanceEvent[], []);
   const events = useMemo(
-    () => allEventsTyped.filter(e => !e.archived),
+    () => allEventsTyped.filter(e => !e.archived && !e.searchOnly),
     [allEventsTyped],
   );
 
@@ -134,7 +141,9 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
     if (!ev) return;
     didDeepLinkRef.current = true;
     if (ev.lat != null && ev.lng != null) {
-      ensureEventVisible(ev);
+      // Ghosts render regardless of filters (and may have no dates), so
+      // there's nothing for ensureEventVisible to unhide.
+      if (!isGhostEvent(ev)) ensureEventVisible(ev);
       setHighlightedEvent(ev);
       window.history.replaceState(null, '', `#event=${ev.slug}`);
       pendingFlyToRef.current = ev;
@@ -146,6 +155,28 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
     () => events.filter(e => e.lat != null && e.lng != null),
     [events],
   );
+
+  // Search also covers ghosts — archived events and dateless search-only venue
+  // records. They open as a translucent dot, never a pin. Archived instances
+  // collapse to the most recent per name, and drop out entirely when an active
+  // event with the same name (or a search-only venue record for the same
+  // series) already holds the search slot.
+  const searchableEvents = useMemo(() => {
+    const activeNames = new Set(events.map(e => normalizeEventName(e.name)));
+    const searchOnly = allEventsTyped.filter(
+      e => e.searchOnly && e.lat != null && e.lng != null,
+    );
+    const archivedByName = new Map<string, DanceEvent>();
+    for (const e of allEventsTyped) {
+      if (!e.archived || e.lat == null || e.lng == null) continue;
+      const key = normalizeEventName(e.name);
+      if (activeNames.has(key)) continue;
+      if (searchOnly.some(s => isSeriesInstance(s, e))) continue;
+      const prev = archivedByName.get(key);
+      if (!prev || e.startDate > prev.startDate) archivedByName.set(key, e);
+    }
+    return [...mappableEvents, ...searchOnly, ...archivedByName.values()];
+  }, [allEventsTyped, events, mappableEvents]);
 
   const filteredEvents = useMemo(
     () => applyFilters(mappableEvents),
@@ -191,8 +222,8 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
   const highlightGeojson = useMemo(() => {
     if (!highlightedEvent || highlightedEvent.lat == null || highlightedEvent.lng == null) return null;
     // Don't draw an orphan ring: if the highlighted event has been filtered out
-    // (and isn't an archived deep-link), drop the highlight with its pin.
-    if (!highlightedEvent.archived && !filteredIds.has(highlightedEvent.id)) return null;
+    // (and isn't a ghost, which has no pin to orphan), drop the highlight.
+    if (!isGhostEvent(highlightedEvent) && !filteredIds.has(highlightedEvent.id)) return null;
     const offset = coordinateOffsets.get(highlightedEvent.id) ?? [0, 0];
     const lng = highlightedEvent.lng + offset[0];
     const lat = highlightedEvent.lat + offset[1];
@@ -227,7 +258,7 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
 
   const handleSearchSelectEvent = useCallback(
     (event: DanceEvent) => {
-      ensureEventVisible(event);
+      if (!isGhostEvent(event)) ensureEventVisible(event);
       if (event.lat != null && event.lng != null) {
         flyToEvent(event);
         openEvent(event);
@@ -282,7 +313,7 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
       {viewMode === 'map' ? (
         <div className="relative flex-1 overflow-hidden min-h-[40vh]">
           <SearchBar
-            events={mappableEvents}
+            events={searchableEvents}
             onSelectEvent={handleSearchSelectEvent}
           />
           <MapGL
@@ -300,7 +331,7 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
             </Source>
             {highlightGeojson && (
               <Source id="selected-event" type="geojson" data={highlightGeojson}>
-                {highlightedEvent?.archived && (
+                {isGhostEvent(highlightedEvent) && (
                   <Layer
                     id="selected-dot"
                     type="circle"
@@ -321,7 +352,7 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
                     'circle-color': 'transparent',
                     'circle-stroke-color': highlightedEvent ? primaryColor(highlightedEvent) : '#888',
                     'circle-stroke-width': 3,
-                    'circle-stroke-opacity': highlightedEvent?.archived ? 0.4 : 0.6,
+                    'circle-stroke-opacity': isGhostEvent(highlightedEvent) ? 0.4 : 0.6,
                   }}
                 />
               </Source>

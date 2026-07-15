@@ -151,4 +151,14 @@ def test_publish_excludes_irregular_venue_placeholders(store, tmp_path, monkeypa
     published = json.loads((tmp_path / "events-published.json").read_text())
     names = {e["name"] for e in published}
     assert "Weekly Social" in names
-    assert "Irregular Social" not in names
+
+    # Irregular venues publish only as dateless search-only records: findable
+    # via search / detail page, but never a pin (no dates, no schedule).
+    irregular = [e for e in published if e["name"] == "Irregular Social"]
+    assert len(irregular) == 1
+    rec = irregular[0]
+    assert rec["searchOnly"] is True
+    assert rec["startDate"] == ""
+    assert rec["endDate"] == ""
+    assert "recurrences" not in rec
+    assert "schedule" not in rec

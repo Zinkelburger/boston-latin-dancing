@@ -7,7 +7,9 @@ interface Props {
 }
 
 export default function EventJsonLd({ event, url }: Props) {
-  if (event.archived) return null;
+  // No structured data for past events, or for dateless search-only venue
+  // records (schema.org Event requires a startDate).
+  if (event.archived || !event.startDate) return null;
 
   const venueName = event.location?.split('\n')[0]?.split(',')[0] || '';
 

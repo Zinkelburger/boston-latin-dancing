@@ -102,6 +102,43 @@ export function UpcomingDatesTable({
   );
 }
 
+export function PastDatesTable({
+  current,
+  pastInstances,
+  title = 'Past dates',
+  className,
+}: {
+  current: DanceEvent;
+  pastInstances: DanceEvent[];
+  title?: string;
+  className?: string;
+}) {
+  if (pastInstances.length === 0) return null;
+
+  // Only show a name column when the instances aren't all the same series name
+  // (e.g. themed editions under one venue record).
+  const showNames = pastInstances.some(e => e.name !== current.name);
+
+  return (
+    <EventTable title={title} className={className}>
+      <thead>
+        <tr>
+          <th>Date</th>
+          {showNames && <th>Event</th>}
+        </tr>
+      </thead>
+      <tbody>
+        {pastInstances.map(e => (
+          <tr key={e.id}>
+            <td className="event-table-date">{formatRecurrenceDate(e.startDate)}</td>
+            {showNames && <td className="event-table-note">{e.name}</td>}
+          </tr>
+        ))}
+      </tbody>
+    </EventTable>
+  );
+}
+
 export function CompactScheduleTable({
   schedule,
   className,
@@ -195,8 +232,11 @@ export function SearchResultsTable({
         </thead>
         <tbody>
           {events.map(event => {
-            const d = new Date(event.startDate);
-            const dateLabel = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'America/New_York' });
+            // Search-only venue records have no confirmed date; archived
+            // results are labeled as past so they don't read as upcoming.
+            const dateLabel = !event.startDate
+              ? 'Varies'
+              : new Date(event.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'America/New_York' });
             const desc = stripHtml(event.description);
             const snippet = searchTokens.length > 0 ? excerptAround(desc, searchTokens) : '';
             return (
@@ -222,7 +262,12 @@ export function SearchResultsTable({
                     </div>
                   )}
                 </td>
-                <td className="search-results-when">{dateLabel}</td>
+                <td className="search-results-when">
+                  {dateLabel}
+                  {event.archived && (
+                    <span className="block text-[10px] uppercase tracking-wide text-gray-400">past</span>
+                  )}
+                </td>
               </tr>
             );
           })}

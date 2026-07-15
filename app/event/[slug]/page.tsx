@@ -75,9 +75,12 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   }
 
   const venue = event.location?.split(',')[0] || '';
-  const date = new Date(event.startDate).toLocaleDateString('en-US', {
-    weekday: 'short', month: 'short', day: 'numeric', timeZone: 'America/New_York',
-  });
+  // Search-only venue records are dateless; the recurrence label stands in.
+  const date = event.startDate
+    ? new Date(event.startDate).toLocaleDateString('en-US', {
+        weekday: 'short', month: 'short', day: 'numeric', timeZone: 'America/New_York',
+      })
+    : '';
 
   const snippet = descriptionSnippet(event.description);
   const when = [date, venue].filter(Boolean).join(' — ');
@@ -171,7 +174,7 @@ export default async function EventPage({ params }: { params: Promise<Params> })
         <div className="h-full w-full overflow-hidden">
           <div className="sr-only">
             <h1>{event.name}</h1>
-            <p>{formatEventTimeRange(event.startDate, event.endDate)}</p>
+            {event.startDate && <p>{formatEventTimeRange(event.startDate, event.endDate)}</p>}
             <p>{event.location}</p>
             {event.cost && <p>{event.cost}</p>}
             {cleanDesc && <p>{cleanDesc}</p>}
@@ -182,9 +185,11 @@ export default async function EventPage({ params }: { params: Promise<Params> })
         <main className="min-h-screen bg-gray-50">
           <div className="mx-auto max-w-2xl px-4 py-10">
             <h1 className="text-2xl font-bold text-gray-900">{event.name}</h1>
-            <p className="mt-2 text-sm text-gray-700">
-              {formatEventTimeRange(event.startDate, event.endDate)}
-            </p>
+            {event.startDate && (
+              <p className="mt-2 text-sm text-gray-700">
+                {formatEventTimeRange(event.startDate, event.endDate)}
+              </p>
+            )}
             {event.location && (
               <p className="mt-1 text-sm text-gray-600">{event.location}</p>
             )}

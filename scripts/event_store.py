@@ -1867,9 +1867,14 @@ def publish() -> dict:
     venue_events = expand_venues()
 
     active, suppressed_venue_ids = _suppress_venue_covered_events(venue_events, active)
-    # Irregular-schedule venues (nextDateApproximate) stay pipeline-only: their
+    # Irregular-schedule venues (nextDateApproximate) never get a pin: their
     # expanded dates are pattern guesses, so users only ever see the venue via
-    # a confirmed scraped event, never the placeholder pin.
+    # a confirmed scraped event. But the venue itself stays findable — when no
+    # scraped event covers it, we publish a dateless search-only record below.
+    irregular_venues = [
+        v for v in venue_events
+        if v.get("nextDateApproximate") and v.get("id") not in suppressed_venue_ids
+    ]
     venue_events = [
         v for v in venue_events
         if v.get("id") not in suppressed_venue_ids and not v.get("nextDateApproximate")
@@ -1900,7 +1905,30 @@ def publish() -> dict:
         ev["archived"] = True
         archived_out.append(ev)
 
-    published = deduped + archived_out
+    # Dateless search-only records for irregular venues: searchable, with a
+    # detail page and a ghost dot when opened — never a pin, feed row, or
+    # filter hit. Guessed dates are stripped so no uncertain date ever ships.
+    searchonly_out = []
+    for ev in irregular_venues:
+        rec = dict(ev)
+        rec["startDate"] = ""
+        rec["endDate"] = ""
+        rec.pop("recurrences", None)
+        # Weekly-schedule rows would read as "happens every week"; the
+        # recurrenceLabel + description carry the real cadence.
+        rec.pop("schedule", None)
+        rec["searchOnly"] = True
+        if rec.get("_sourceId"):
+            rec["source"] = rec["_sourceId"]
+        if rec.get("lat") is None or rec.get("lng") is None:
+            _enrich_event(rec)
+        _strip_internal_fields(rec, source_names)
+        searchonly_out.append(rec)
+    if searchonly_out:
+        names = ", ".join(repr(e.get("name", "?")) for e in searchonly_out)
+        print(f"  ℹ️  {len(searchonly_out)} irregular venue(s) published as search-only records: {names}")
+
+    published = deduped + archived_out + searchonly_out
 
     # Loudly surface anything shipping without coordinates — those events never
     # render a pin on the map, so they're effectively invisible to visitors.
@@ -1917,6 +1945,7 @@ def publish() -> dict:
         "status": "published",
         "count": len(deduped),
         "archived_count": len(archived_out),
+        "search_only_count": len(searchonly_out),
         "path": str(PUBLIC_EVENTS_JSON),
     }
 

@@ -39,6 +39,9 @@ export interface DanceEvent {
   nextDateApproximate?: boolean;
   /** True for past events kept for SEO (not shown on map/feed) */
   archived?: boolean;
+  /** True for dateless venue records (irregular schedules): findable via
+   *  search and detail pages, but never a map pin, feed row, or filter hit. */
+  searchOnly?: boolean;
   /** Human-readable organizer name (e.g. "BOBAS", "Fiesta Dance Company") */
   organizer?: string;
 }
