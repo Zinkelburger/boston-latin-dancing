@@ -32,10 +32,27 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from event_store import (
     ACTIVE_JSON,
     EVENTS_DIR,
+    NY_TZ,
     load_active,
+    parse_date,
     save_active,
     _append_changelog,
 )
+
+
+def _ny_calendar_day(iso_str: str) -> Optional[str]:
+    """Return the Boston calendar day (YYYY-MM-DD) for an ISO datetime/date string."""
+    if not iso_str:
+        return None
+    dt = parse_date(iso_str)
+    if dt is None:
+        try:
+            dt = datetime.fromisoformat(iso_str[:10])
+        except (ValueError, TypeError):
+            return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=NY_TZ)
+    return dt.astimezone(NY_TZ).date().isoformat()
 
 REPORT_PATH = EVENTS_DIR / "verification-report.json"
 UA = {"User-Agent": "boston-latin-dance-dev/0.1 (event verification)"}
@@ -167,9 +184,24 @@ def verify_direct(event: dict, url: str) -> dict:
     if ld_events:
         ld = ld_events[0]
         source_loc = _location_from_jsonld(ld)
-        source_name = ld.get("name", "")
+        source_start = ld.get("startDate", "")
 
         issues = []
+        notes = []
+
+        # Date check — highest-stakes field: a wrong day sends people to an empty
+        # room. Skip recurring series (JSON-LD carries one occurrence; our stored
+        # startDate is the first of many, so a diff there is expected, not wrong).
+        our_start = event.get("startDate", "")
+        if source_start and our_start and not event.get("recurrences") and not event.get("recurring"):
+            src_day = _ny_calendar_day(source_start)
+            our_day = _ny_calendar_day(our_start)
+            if src_day and our_day and src_day != our_day:
+                result["source_date"] = source_start
+                result["our_date"] = our_start
+                issues.append("date_mismatch")
+                notes.append(f"date: source {src_day} vs our {our_day}")
+
         if source_loc:
             result["source_location"] = source_loc
             result["our_location"] = event.get("location", "")
@@ -183,17 +215,22 @@ def verify_direct(event: dict, url: str) -> dict:
                         overlap = our_words & src_words
                         if len(overlap) < max(1, min(len(our_words), len(src_words)) * 0.3):
                             issues.append("location_mismatch")
+                            notes.append(f"location: source '{source_loc}' vs our '{event.get('location', '')}'")
 
         if issues:
+            # date_mismatch is the higher-stakes signal — surface it first.
+            issues.sort(key=lambda s: 0 if s == "date_mismatch" else 1)
             result["status"] = issues[0]
-            result["notes"] = f"JSON-LD location: '{source_loc}' vs our: '{event.get('location', '')}'"
+            result["notes"] = "; ".join(notes)
         else:
             result["status"] = "confirmed"
-            result["notes"] = "JSON-LD event data matches"
+            result["notes"] = "JSON-LD event data matches (date + location checked)"
         return result
 
-    result["status"] = "confirmed"
-    result["notes"] = "Page accessible, no JSON-LD found (text check only)"
+    # A reachable page with no structured data proves the URL is live but confirms
+    # nothing about date or location — do not call that "confirmed".
+    result["status"] = "reachable_only"
+    result["notes"] = "Page accessible, no JSON-LD found — date/location NOT verified"
     return result
 
 
@@ -364,12 +401,14 @@ def print_report(report: list[dict]) -> None:
         status_groups.setdefault(status, []).append(entry)
 
     status_order = [
-        "cancelled", "page_gone", "location_mismatch", "date_mismatch",
-        "needs_review", "needs_browser", "no_source", "unverifiable", "confirmed",
+        "cancelled", "page_gone", "date_mismatch", "location_mismatch",
+        "needs_review", "needs_browser", "no_source", "unverifiable",
+        "reachable_only", "confirmed",
     ]
 
     labels = {
-        "confirmed": "CONFIRMED",
+        "confirmed": "CONFIRMED (date + location)",
+        "reachable_only": "REACHABLE ONLY (URL live, details unverified)",
         "location_mismatch": "LOCATION MISMATCH",
         "date_mismatch": "DATE MISMATCH",
         "cancelled": "CANCELLED",

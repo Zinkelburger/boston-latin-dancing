@@ -30,10 +30,8 @@ from event_store import (  # noqa: E402
     ingest_scraped,
     load_pending,
     load_rejected,
-    publish,
+    publish_guarded,
 )
-
-LEGACY_PUBLIC_JSON = ROOT / "public" / "events.json"
 
 # Mirrors the runnable map in mcp-server/server.py. Facebook sources need a
 # browser and are agent-only, so they are deliberately absent here.
@@ -46,11 +44,6 @@ SCRAPERS = {
     "fiesta-dance-company": ["scrape_fiesta_dance.py"],
     "submissions": ["fetch_submissions.py"],
 }
-
-# Refuse to ship a published file whose live-event count collapsed relative
-# to the previous run — a broken scrape must never wipe the site.
-TRIPWIRE_MIN_PREVIOUS = 20
-TRIPWIRE_MIN_RATIO = 0.7
 
 
 def run_scrapers() -> dict:
@@ -73,37 +66,24 @@ def run_scrapers() -> dict:
     return results
 
 
-def live_count(text: str | None) -> int:
-    if not text:
-        return 0
-    try:
-        return sum(1 for e in json.loads(text) if not e.get("archived"))
-    except (json.JSONDecodeError, AttributeError, TypeError):
-        return 0
-
-
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--skip-scrape", action="store_true",
                         help="ingest/archive/publish only, without re-running scrapers")
     args = parser.parse_args()
 
+    # Baseline snapshot taken before scrape/ingest/archive: a broken scrape that
+    # empties the store must be measured against the last good published file.
     snapshot = PUBLIC_EVENTS_JSON.read_text() if PUBLIC_EVENTS_JSON.exists() else None
-    previous_live = live_count(snapshot)
 
     scrape_results = {} if args.skip_scrape else run_scrapers()
     ingest_result = ingest_scraped(quarantine_new=True)
     archived = archive_past_events()
-    publish_result = publish()
 
-    new_live = live_count(PUBLIC_EVENTS_JSON.read_text())
-    tripped = (
-        previous_live >= TRIPWIRE_MIN_PREVIOUS
-        and new_live < previous_live * TRIPWIRE_MIN_RATIO
-    )
-    if tripped and snapshot is not None:
-        PUBLIC_EVENTS_JSON.write_text(snapshot)
-        LEGACY_PUBLIC_JSON.write_text(snapshot)
+    publish_result = publish_guarded(previous_snapshot=snapshot)
+    tripped = publish_result["tripped"]
+    previous_live = publish_result["previous_live_events"]
+    new_live = publish_result["published_live_events"]
 
     summary = {
         "status": "TRIPWIRE" if tripped else "ok",

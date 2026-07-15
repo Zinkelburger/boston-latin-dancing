@@ -61,9 +61,10 @@ metadata is stored on each event in `active.json` as `_verified_at`,
 
 | Status | Meaning | Agent action |
 |--------|---------|-------------|
-| `confirmed` | Source matches our data | None |
+| `confirmed` | Source JSON-LD matches our date **and** location | None |
+| `reachable_only` | URL is live but had no JSON-LD — date/location unverified | None required; not fully confirmed |
 | `location_mismatch` | Source shows different location | Investigate; use `event_set_location_override` or `event_edit` to fix |
-| `date_mismatch` | Source shows different date | Use `event_edit` to fix |
+| `date_mismatch` | Source JSON-LD `startDate` is a different Boston day (`our_date`/`source_date`) | Source wins — use `event_edit` to fix. Highest-stakes flag. |
 | `cancelled` | Source says event cancelled | Present to user; they decide whether to archive |
 | `page_gone` | URL returns 404 or error | Present to user; may need new URL or removal |
 | `needs_review` | Page has "cancelled"/"postponed" text | Present to user with the flagged text |

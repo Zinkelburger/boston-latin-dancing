@@ -28,6 +28,11 @@ your main job, along with the other judgment calls it can't make.
 3. **Clear the pending queue.** `event_list(status="pending")`. Items come in
    two kinds — check the flags on each row:
 
+   The row flags tell you what to look at: `looks_like_class: true` means it
+   reads like a class/workshop (scrutinize before approving); on dedup pairs,
+   `dedup_reason` explains the match and `special_edition_mismatch: true` warns
+   that approving would fold a special edition into its recurring series.
+
    **Quarantined new events** (`quarantined_new: true`): brand-new events the
    refresh found. Get full details with `event_get` and decide whether each
    belongs on the map (see "What belongs on the map" in the skill):
@@ -41,13 +46,21 @@ your main job, along with the other judgment calls it can't make.
 
    **Dedup pairs** (`dedup_candidate_of` set): compare against the candidate
    with `event_get`:
-   - Same event → `event_approve` (merges)
+   - Same event → `event_approve` (merges, and records the pair as "same" so
+     future occurrences auto-merge silently)
    - Genuinely different → `event_reject(reason="distinct event")` and re-add
      with `event_add` if it belongs on the map
-   - Remember: special editions (anniversaries, festivals, guest-DJ nights)
-     stay separate from their recurring series — never merge those.
+   - Special editions (anniversaries, festivals, guest-DJ nights) stay separate
+     from their recurring series — never merge those. `event_approve` now
+     **refuses** such a merge (`status: blocked_special_edition`); only override
+     with `event_approve(event_id, force=True)` if they are genuinely the same
+     event. If you ever discover a past wrong merge, audit with
+     `known_duplicate_list` and undo the verdict with `known_duplicate_forget`.
 
 4. **Verify.** `event_verify(stale_days=7)`. For flagged items:
+   - `date_mismatch` → the source shows a different day than we do (fields
+     `our_date` / `source_date`). The source wins — fix via `event_edit`. This
+     is the highest-stakes flag; never leave it unresolved.
    - `location_mismatch` → determine the correct location; if the source is
      right, fix via `event_set_location_override`
    - `no_source` → web-search for a source URL and add it via `event_edit`
@@ -55,11 +68,15 @@ your main job, along with the other judgment calls it can't make.
      `event_archive(event_id)`; for recurring series, leave active and note
      it in the summary
    - `needs_browser` / `unverifiable` → skip; list them in the summary
+   - `reachable_only` is NOT flagged (the URL is live but had no structured data
+     to check) — no action needed, but don't treat it as fully confirmed.
    - When in doubt, change nothing and note it in the summary.
 
-5. **Publish.** `event_publish()`. Sanity-check the reported count against
-   the previous published count — if it dropped more than ~25%, do NOT
-   commit; investigate and report instead.
+5. **Publish.** `event_publish()`. It is guarded: if the live-event count
+   collapses below 70% of the previous published file it auto-restores the old
+   files and returns `status: "tripwire"` / `tripped: true` — if you see that,
+   do NOT commit; investigate and report. Even when it publishes normally,
+   sanity-check the reported count against the previous one.
 
 6. **Commit and push.** Only the pipeline-owned files:
    `git add public/events.json data/events-published.json data/events/ data/venues.json data/sources.json data/known_duplicates.json`

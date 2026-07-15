@@ -30,18 +30,22 @@ from event_store import (
     dismiss_rejected,
     edit_event,
     expand_venues,
+    forget_known_duplicate,
     ingest_scraped,
+    list_known_duplicates,
     load_active,
     load_archive,
     load_blocked,
     load_pending,
     load_rejected,
-    publish,
+    publish_guarded,
     reject_pending,
     remove_active_event,
     save_pending,
     unblock_event,
     validate_event,
+    _looks_like_class,
+    _special_edition_mismatch,
     VALID_BLOCK_CATEGORIES,
     VENUES_JSON,
     SCRAPED_DIR,
@@ -92,6 +96,8 @@ def event_list(
         events = [e for e in events if q in e.get("name", "").lower() or q in e.get("location", "").lower() or q in e.get("description", "").lower()]
 
     events = events[:limit]
+    # Cache active once for pending dedup-candidate comparisons below.
+    active_by_id = {a["id"]: a for a in load_active()} if status == "pending" else {}
     summary = []
     for e in events:
         row = {
@@ -111,6 +117,15 @@ def event_list(
                 row["quarantined_new"] = True
             if e.get("_dedup_candidate_of"):
                 row["dedup_candidate_of"] = e["_dedup_candidate_of"]
+                row["dedup_reason"] = e.get("_dedup_reason", "")
+                candidate = active_by_id.get(e["_dedup_candidate_of"])
+                # Approving across this line would fold a special edition into
+                # its recurring series (blocked without force) — surface it.
+                if candidate is not None and _special_edition_mismatch(e, candidate):
+                    row["special_edition_mismatch"] = True
+            # Advisory: reads like a class/workshop rather than a social dance.
+            if _looks_like_class(e):
+                row["looks_like_class"] = True
         summary.append(row)
 
     return json.dumps({"count": len(summary), "total": len(load_active() if status == "active" else events), "events": summary}, indent=2)
@@ -253,9 +268,16 @@ def event_archive(event_id: Optional[str] = None) -> str:
 
 
 @mcp.tool()
-def event_approve(event_id: str) -> str:
-    """Approve a pending submission, moving it to active after validation and geocoding."""
-    result = approve_pending(event_id)
+def event_approve(event_id: str, force: bool = False) -> str:
+    """Approve a pending submission, moving it to active after validation and geocoding.
+
+    For a dedup pair this MERGES the two events and permanently records them as
+    the same (future occurrences auto-merge with no review). If the pair straddles
+    a special-edition boundary (an anniversary/festival/takeover/guest night vs its
+    recurring series) the merge is refused — pass force=True only if they truly are
+    the same event; otherwise use event_reject(reason="distinct event").
+    """
+    result = approve_pending(event_id, force=force)
     return json.dumps(result, indent=2, default=str)
 
 
@@ -346,6 +368,34 @@ def event_list_blocked(category: Optional[str] = None) -> str:
     return json.dumps({"count": len(summary), "blocked": summary}, indent=2)
 
 
+# ── Known-duplicate verdicts ──────────────────────────────────────────
+
+
+@mcp.tool()
+def known_duplicate_list() -> str:
+    """List human-reviewed duplicate verdicts from data/known_duplicates.json.
+
+    Each entry is a pair of event IDs with a verdict: "same" (future occurrences
+    auto-merge silently) or "different" (the pair is never flagged for review
+    again). Use this to audit what past approvals committed the pipeline to.
+    """
+    entries = list_known_duplicates()
+    return json.dumps({"count": len(entries), "known_duplicates": entries}, indent=2)
+
+
+@mcp.tool()
+def known_duplicate_forget(id_a: str, id_b: str) -> str:
+    """Delete a stored duplicate verdict so the pair is re-evaluated on next scrape.
+
+    Undoes a wrong "same" verdict (which otherwise auto-merges the pair forever)
+    or a wrong "different" verdict (which suppresses it from review forever).
+    Removing the record does NOT un-merge events that were already merged — fix
+    those with event_edit / event_add if needed.
+    """
+    result = forget_known_duplicate(id_a, id_b)
+    return json.dumps(result, indent=2)
+
+
 # ── Scraping and ingestion ────────────────────────────────────────────
 
 
@@ -428,8 +478,12 @@ def event_publish() -> str:
 
     This is the build step that produces the file the frontend reads.
     Always run this after making changes to see them on the map.
+
+    Guarded: if the live-event count collapses below 70% of the previously
+    published file, the published files are restored and the result reports
+    "status": "tripwire" with "tripped": true — do NOT commit; investigate first.
     """
-    result = publish()
+    result = publish_guarded()
     return json.dumps(result, indent=2)
 
 
@@ -607,6 +661,8 @@ def event_verify(
         s = entry["status"]
         summary[s] = summary.get(s, 0) + 1
 
+    # "confirmed" and "reachable_only" both need no action — a reachable page with
+    # no structured data just couldn't be checked, it isn't a problem to fix.
     flagged = [
         {
             "event_id": e["event_id"],
@@ -616,9 +672,11 @@ def event_verify(
             "source_url": e.get("source_url"),
             "our_location": e.get("our_location", ""),
             "source_location": e.get("source_location", ""),
+            "our_date": e.get("our_date", ""),
+            "source_date": e.get("source_date", ""),
         }
         for e in report
-        if e["status"] != "confirmed"
+        if e["status"] not in ("confirmed", "reachable_only")
     ]
 
     return json.dumps({

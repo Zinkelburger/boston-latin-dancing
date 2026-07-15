@@ -381,6 +381,33 @@ def _persist_known_duplicate(id_a: str, id_b: str, verdict: str) -> None:
     KNOWN_DUPLICATES_JSON.write_text(json.dumps(entries, indent=2, ensure_ascii=False))
 
 
+def list_known_duplicates() -> list[dict]:
+    """Return all human-reviewed duplicate verdicts (a copy, newest first)."""
+    entries = list(_load_known_duplicates())
+    entries.sort(key=lambda e: e.get("reviewed_at", ""), reverse=True)
+    return entries
+
+
+def forget_known_duplicate(id_a: str, id_b: str) -> dict:
+    """Delete a stored duplicate verdict so the pair is re-evaluated from scratch.
+
+    Undoes a wrong ``verdict:"same"`` (which otherwise auto-merges the pair
+    forever) or a wrong ``verdict:"different"`` (which suppresses the pair from
+    review forever). Removing the record does not un-merge already-merged events.
+    """
+    global _known_duplicates_cache
+    pair = set([id_a, id_b])
+    entries = _load_known_duplicates()
+    kept = [e for e in entries if {e.get("id_a"), e.get("id_b")} != pair]
+    if len(kept) == len(entries):
+        return {"status": "not_found",
+                "message": f"No stored verdict for pair {sorted(pair)}"}
+    _known_duplicates_cache = kept
+    KNOWN_DUPLICATES_JSON.write_text(json.dumps(kept, indent=2, ensure_ascii=False))
+    return {"status": "forgotten", "pair": sorted(pair),
+            "remaining": len(kept)}
+
+
 def _get_day_of_week(event: dict) -> Optional[str]:
     """Return the day of week for an event, from field or parsed startDate."""
     dow = event.get("dayOfWeek")
@@ -730,6 +757,44 @@ _SPECIAL_EDITION_RE = re.compile(
 
 def _is_special_edition(name: str) -> bool:
     return bool(_SPECIAL_EDITION_RE.search(name or ""))
+
+
+# Advisory class/workshop detector. Not a hard filter — an event with a Latin
+# style tag passes the automated relevance gate even when it is really a class,
+# so this only *flags* pending rows to draw the reviewing agent's attention.
+_CLASS_HINT_RE = re.compile(
+    r"\b(class(?:es)?|workshop|boot\s*camp|technique|lesson[s]?|drill[s]?|"
+    r"intensive|course|seminar|fundamentals|footwork|styling)\b",
+    re.I,
+)
+_SOCIAL_HINT_RE = re.compile(
+    r"\b(social|party|parties|night[s]?|fiesta|milonga|practica|pr[aá]ctica|"
+    r"dj|live\s+music|live\s+band|open\s+dancing)\b",
+    re.I,
+)
+
+
+def _looks_like_class(event: dict) -> bool:
+    """Heuristic: reads like a class/workshop with no social component.
+
+    Advisory only. Returns True when class-y words appear and no social/party
+    signal offsets them (an event that runs "lesson at 8, social at 9" has both
+    and is not flagged).
+    """
+    text = f"{event.get('name', '')} {event.get('description', '')}"
+    if not _CLASS_HINT_RE.search(text):
+        return False
+    return not _SOCIAL_HINT_RE.search(text)
+
+
+def _special_edition_mismatch(a: dict, b: dict) -> bool:
+    """True when exactly one of two events is a special edition.
+
+    Merging across this line folds an anniversary/festival/takeover/guest night
+    into its recurring series (or vice-versa), which must never happen.
+    """
+    return _is_special_edition(normalize_name(a.get("name", ""))) != \
+        _is_special_edition(normalize_name(b.get("name", "")))
 
 
 def _names_are_same_series(a: str, b: str) -> bool:
@@ -1595,8 +1660,14 @@ def archive_past_events() -> list[dict]:
     return newly_archived
 
 
-def approve_pending(event_id: str) -> dict:
-    """Approve a pending event, moving it to active."""
+def approve_pending(event_id: str, force: bool = False) -> dict:
+    """Approve a pending event, moving it to active.
+
+    For a dedup pair (``_dedup_candidate_of`` set), approving *merges* the two
+    and persists a permanent ``verdict:"same"`` so future occurrences auto-merge
+    with no review. Because that is silent and compounding, this refuses to merge
+    across a special-edition boundary unless ``force=True``.
+    """
     pending = load_pending()
     idx = None
     for i, ev in enumerate(pending):
@@ -1607,10 +1678,31 @@ def approve_pending(event_id: str) -> dict:
     if idx is None:
         return {"status": "not_found", "message": f"No pending event with id '{event_id}'"}
 
-    event = pending.pop(idx)
+    event = pending[idx]
+    candidate_id = event.get("_dedup_candidate_of")
+
+    if candidate_id and not force:
+        candidate = next((e for e in load_active() if e.get("id") == candidate_id), None)
+        if candidate is None:
+            candidate = next((e for e in load_archive() if e.get("id") == candidate_id), None)
+        if candidate is not None and _special_edition_mismatch(event, candidate):
+            return {
+                "status": "blocked_special_edition",
+                "message": (
+                    "Refusing to merge: one of these is a special edition "
+                    "(anniversary / festival / takeover / guest-DJ night) and the "
+                    "other is the recurring series — special editions stay separate. "
+                    "If they genuinely are the same event, call "
+                    "event_approve(event_id, force=True). Otherwise "
+                    "event_reject(event_id, reason='distinct event')."
+                ),
+                "new_event": {"id": event["id"], "name": event.get("name", "")},
+                "existing_event": {"id": candidate["id"], "name": candidate.get("name", "")},
+            }
+
+    pending.pop(idx)
     save_pending(pending)
 
-    candidate_id = event.get("_dedup_candidate_of")
     if candidate_id:
         _persist_known_duplicate(event_id, candidate_id, "same")
 
@@ -1622,6 +1714,16 @@ def approve_pending(event_id: str) -> dict:
     result = add_event(event, force=True)
     if issues:
         result["warnings"] = issues
+    # An approved event with no coordinates renders no map pin — it is live but
+    # invisible. Flag that loudly so the agent fixes the location before publish
+    # instead of shipping a ghost.
+    added = result.get("event") or result.get("existing") or {}
+    if added.get("lat") is None or added.get("lng") is None:
+        result["published_without_coordinates"] = True
+        result.setdefault("warnings", []).append(
+            "no coordinates — event will NOT appear on the map; fix location via "
+            "event_edit or event_set_location_override before publishing"
+        )
     _append_changelog("approve", event_id)
     return result
 
@@ -1954,6 +2056,64 @@ def publish() -> dict:
         "search_only_count": len(searchonly_out),
         "path": str(PUBLIC_EVENTS_JSON),
     }
+
+
+# Refuse to ship a published file whose live-event count collapsed relative to a
+# baseline — a broken scrape or an over-zealous review pass must never wipe the
+# map. Shared by the deterministic pipeline and the agent's own publish.
+TRIPWIRE_MIN_PREVIOUS = 20
+TRIPWIRE_MIN_RATIO = 0.7
+
+_LEGACY_PUBLIC_JSON = ROOT / "public" / "events.json"
+
+
+def _live_event_count(text: Optional[str]) -> int:
+    if not text:
+        return 0
+    try:
+        return sum(1 for e in json.loads(text) if not e.get("archived"))
+    except (json.JSONDecodeError, AttributeError, TypeError):
+        return 0
+
+
+def publish_guarded(previous_snapshot: Optional[str] = None) -> dict:
+    """publish(), but restore the previous published files and report
+    ``tripped: True`` if the live-event count collapses below
+    ``TRIPWIRE_MIN_RATIO`` of the baseline.
+
+    Baseline defaults to the current published file — the right reference for
+    the agent's own publish, which runs after the deterministic refresh already
+    published. Callers holding an earlier baseline (run_pipeline, which snapshots
+    before scrape/ingest/archive) pass it in explicitly.
+    """
+    if previous_snapshot is None:
+        previous_snapshot = (
+            PUBLIC_EVENTS_JSON.read_text() if PUBLIC_EVENTS_JSON.exists() else None
+        )
+    previous_live = _live_event_count(previous_snapshot)
+
+    result = publish()
+
+    new_live = _live_event_count(PUBLIC_EVENTS_JSON.read_text())
+    tripped = (
+        previous_live >= TRIPWIRE_MIN_PREVIOUS
+        and new_live < previous_live * TRIPWIRE_MIN_RATIO
+    )
+    if tripped and previous_snapshot is not None:
+        PUBLIC_EVENTS_JSON.write_text(previous_snapshot)
+        _LEGACY_PUBLIC_JSON.write_text(previous_snapshot)
+
+    result["tripped"] = tripped
+    result["previous_live_events"] = previous_live
+    result["published_live_events"] = new_live
+    if tripped:
+        result["status"] = "tripwire"
+        result["message"] = (
+            f"live events fell {previous_live} → {new_live} "
+            f"(below {int(TRIPWIRE_MIN_RATIO * 100)}% of baseline); published files "
+            "restored to the pre-publish snapshot — do NOT commit. Investigate first."
+        )
+    return result
 
 
 def ingest_scraped(source_id: Optional[str] = None, quarantine_new: bool = False) -> dict:

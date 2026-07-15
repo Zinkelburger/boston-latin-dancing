@@ -294,7 +294,9 @@ This produces a report categorizing each event. Handle by status:
 
 | Status | Action |
 |--------|--------|
-| `confirmed` | No action needed |
+| `confirmed` | Date + location checked against the source's JSON-LD. No action. |
+| `reachable_only` | URL is live but had no structured data — date/location unverified. Not flagged; no action, but don't treat as fully confirmed. |
+| `date_mismatch` | Source shows a different day (`our_date`/`source_date`). Source wins — fix via `event_edit`. Highest-stakes flag. |
 | `needs_browser` | Visit the Facebook URL via browser MCP. Navigate, close login dialog, snapshot, and check date/location/status against our data. |
 | `no_source` | Web search `"{event name} {location} boston"` to find a source URL. If found, use `event_edit` to add it. |
 | `location_mismatch` | Investigate which location is correct. Use `event_set_location_override` to fix. |
@@ -537,8 +539,10 @@ mcp-server/server.py        MCP tool definitions
 | `event_add` | Add event (auto dedup + geocode + style detect + Latin filter) |
 | `event_edit` | Update fields on an active event |
 | `event_archive` | Move past events to archive |
-| `event_approve` | Approve pending submission or merge uncertain dedup pair |
+| `event_approve` | Approve pending submission or merge uncertain dedup pair (refuses special-edition merges unless `force=True`) |
 | `event_reject` | Remove pending submission with reason |
+| `known_duplicate_list` | Audit stored "same"/"different" dedup verdicts |
+| `known_duplicate_forget` | Undo a wrong dedup verdict so the pair is re-evaluated |
 | `event_remove` | Remove active event → queue in rejected.json for review |
 | `event_approve_rejected` | Promote rejected event to active (bypasses Latin filter) |
 | `event_dismiss_rejected` | Permanently drop a rejected event |

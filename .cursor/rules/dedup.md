@@ -60,6 +60,15 @@ When a human or agent reviews a pending pair:
 
 Format: `[{"id_a": "...", "id_b": "...", "verdict": "same"|"different", "reviewed_at": "..."}]`
 
+A `"same"` verdict is permanent and silent — future occurrences of the pair
+auto-merge with no review. Because of that, `approve_pending` **refuses** to merge
+a pair that straddles a special-edition boundary (one side anniversary / festival
+/ takeover / guest-DJ night, the other the recurring series), returning
+`status: blocked_special_edition`. Override with `force=True` only if they truly
+are the same event. Audit verdicts with `known_duplicate_list`; undo a wrong one
+with `known_duplicate_forget(id_a, id_b)` (this does not un-merge already-merged
+events).
+
 ## Multi-source events (`urls[]`)
 
 When the same event is scraped from multiple sources (e.g. Eventbrite + ICS
