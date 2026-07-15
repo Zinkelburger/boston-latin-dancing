@@ -245,7 +245,13 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
       const feats = map.queryRenderedFeatures(e.point, {
         layers: ['unclustered'],
       });
-      if (!feats.length) return;
+      // Clicking empty map space deselects: drop the highlight ring and any
+      // open popup.
+      if (!feats.length) {
+        setHighlightedEvent(null);
+        closePopup();
+        return;
+      }
 
       const props = feats[0].properties;
       if (!props) return;
@@ -253,7 +259,7 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
       const event = eventsById.get(props.id);
       if (event) openEvent(event);
     },
-    [eventsById, openEvent],
+    [eventsById, openEvent, closePopup],
   );
 
   const handleSearchSelectEvent = useCallback(
