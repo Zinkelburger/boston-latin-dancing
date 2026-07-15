@@ -1,1 +1,84 @@
-[]
+[
+  {
+    "id": "03DD0807-376C-42B5-9C9C-7C523C78DFC4",
+    "name": "Rumba Land Vol 4",
+    "startDate": "2026-07-18T01:00:00+00:00",
+    "endDate": "2026-07-18T05:00:00+00:00",
+    "dayOfWeek": "Friday",
+    "location": "El Barco, 50 Dalton St, Boston, MA  02115, United States",
+    "lat": 42.3474,
+    "lng": -71.0812,
+    "description": "🔥 Boston, are you ready? The party is back! 💃🕺\n\nRumba Land Vol. 4 is bringing another unforgettable night of live salsa, dancing, and nonstop energy!\n\n📅 July 17, 2026\n🕘 9:00 PM – 1:00 AM\n📍 El Barco Restaurant @elbarcobb\n50 Dalton St, Boston, MA\n\n🎺 Live performance by Orquesta Cafesón\n🎧 Music by DJ Jhei\n🐼 Special guest: Pandín\n\n🎟️ Cover: $25\n📲 Follow us on Instagram and get $5 OFF your admission!\n\nBring your friends, hit the dance floor, and experience one of the hottest Latin nights in Boston. Don’t miss it! 🔥\n\nSource: https://www.instagram.com/p/DaHxXKGMnQ5",
+    "url": "https://www.instagram.com/p/DaHxXKGMnQ5",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "Cover: $25",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_quarantined_new": true,
+    "_quarantined_at": "2026-07-15T03:12:09.355035+00:00"
+  },
+  {
+    "id": "e27615176894807797@facebook.com",
+    "name": "Sunset Salsa Bachata on the Docks 7-10pm",
+    "startDate": "2026-07-16T23:00:00+00:00",
+    "endDate": "2026-07-17T02:00:00+00:00",
+    "dayOfWeek": "Thursday",
+    "location": "Hatch Shell on the Esplanade",
+    "lat": 42.357256,
+    "lng": -71.073702,
+    "description": "*** BOBAS is Thursday 7-10pm this week ***\n\nWe are looking for alternative venues for rainy days. Please see the post on our page for more details. \n\n*** The weather looks great but please monitor this event page for updates. ***\n\nBachata playing on one side of the dock and salsa on the other like last time.\n\nBring water. Please don't forget to take your stuff with you, we always see things left behind. Please don’t put your stuff in front of the speakers, it muffles the sound.\n\nThe location is the usual docks behind the Hatch Shell stage:\nhttps://maps.app.goo.gl/ERYQSY3Qy9Pbk5ew6\n\nPlease follow the Boston Outdoor Bachata And Salsa page to get notifications about future events.\n\nCheck out Havana Thursday after!\n\n***Weather Permitting. Keep an eye on this event page for updates. ***\n\nhttps://www.facebook.com/events/27615176894807797/",
+    "url": "https://www.facebook.com/events/27615176894807797/",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_quarantined_new": true,
+    "_quarantined_at": "2026-07-15T03:12:10.378347+00:00"
+  },
+  {
+    "id": "EEBA5D64-CBA2-445F-AEEB-42DE9047A3FF",
+    "name": "La Calma presenta Salsa de PR",
+    "startDate": "2026-07-24T00:00:00+00:00",
+    "endDate": "2026-07-24T04:00:00+00:00",
+    "dayOfWeek": "Thursday",
+    "location": "El Barco, 50 Dalton St, Boston, MA  02115, United States",
+    "lat": 42.3474,
+    "lng": -71.0812,
+    "description": "If you want to hear 90% Puerto Rican salsa 🇵🇷, come to our first event  at El barco . Admission is $15, but if you follow the “La Calma 787” account, you automatically get a $5 discount. We hope to see you there!\n\nSource: https://www.instagram.com/p/Dalkcbqirj2",
+    "url": "https://www.instagram.com/p/Dalkcbqirj2",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$15",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_quarantined_new": true,
+    "_quarantined_at": "2026-07-15T03:12:10.428615+00:00"
+  },
+  {
+    "id": "8176af5fb57e85668676eae55803a2a268c2e86a@dance-calendar",
+    "name": "NEW HAVEN WATERFRONT BACHATA DAY PARTY @ Q Bar | La Casa de la Bachata™",
+    "startDate": "2026-08-08T16:00:00+00:00",
+    "endDate": "2026-08-08T22:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "3 Clifton Street, New Haven, CT 06513, New Haven, CT",
+    "lat": null,
+    "lng": null,
+    "description": "Waterfront Bachata Day Party @ Q Bar & Kitchen in New Haven, CT • Dance inside, on the Sand, & on the Deck • DJ Bently LMP\n\nSource: https://www.eventbrite.com/e/new-haven-waterfront-bachata-day-party-q-bar-la-casa-de-la-bachatatm-tickets-1993209560451",
+    "url": "https://www.eventbrite.com/e/new-haven-waterfront-bachata-day-party-q-bar-la-casa-de-la-bachatatm-tickets-1993209560451",
+    "styles": [
+      "bachata"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_dedup_candidate_of": "d3c3821c604c59d369b5a9d85718aaa3162e67dd@dance-calendar",
+    "_dedup_confidence": "review",
+    "_dedup_reason": "word_overlap(5/10)+within_24h"
+  }
+]

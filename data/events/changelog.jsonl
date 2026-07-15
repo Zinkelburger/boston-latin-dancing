@@ -379,3 +379,15 @@
 {"ts": "2026-07-08T19:55:28.837506+00:00", "action": "approve", "event_id": "_6crjic1k6co68e1o71h30opp6dhj4d36ccsj4p1i6krm2php74oj8eb175hm2c9m81i62rj3ckmm6obccln68obi_R20260616T220000@google.com", "details": ""}
 {"ts": "2026-07-08T19:57:15.825031+00:00", "action": "location_override", "event_id": "fiesta-20260717-agave-mexican-grill-cantina-marlborough", "details": "Agave Mexican Grill & Cantina, 197A Boston Post Rd W, Marlborough, MA 01752"}
 {"ts": "2026-07-08T19:57:15.825230+00:00", "action": "location_override", "event_id": "fiesta-20260807-agave-mexican-grill-cantina-marlborough", "details": "Agave Mexican Grill & Cantina, 197A Boston Post Rd W, Marlborough, MA 01752"}
+{"ts": "2026-07-15T03:12:09.355066+00:00", "action": "quarantine_new", "event_id": "03DD0807-376C-42B5-9C9C-7C523C78DFC4", "details": ""}
+{"ts": "2026-07-15T03:12:09.364195+00:00", "action": "reject_non_latin", "event_id": "4qc656kur2gocnolf5ns78ag18@google.com", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-07-15T03:12:10.378370+00:00", "action": "quarantine_new", "event_id": "e27615176894807797@facebook.com", "details": ""}
+{"ts": "2026-07-15T03:12:10.428635+00:00", "action": "quarantine_new", "event_id": "EEBA5D64-CBA2-445F-AEEB-42DE9047A3FF", "details": ""}
+{"ts": "2026-07-15T03:12:10.861192+00:00", "action": "pending_review", "event_id": "8176af5fb57e85668676eae55803a2a268c2e86a@dance-calendar", "details": "review dup of d3c3821c604c59d369b5a9d85718aaa3162e67dd@dance-calendar: word_overlap(5/10)+within_24h"}
+{"ts": "2026-07-15T03:12:11.821090+00:00", "action": "archive", "event_id": "eb-1991019030517", "details": ""}
+{"ts": "2026-07-15T03:12:11.821274+00:00", "action": "archive", "event_id": "a9ca1c7497b64b241860721ad5d82183bbb84ebe@dance-calendar", "details": ""}
+{"ts": "2026-07-15T03:12:11.821361+00:00", "action": "archive", "event_id": "E62D8A1F-6769-4DA3-9F62-0FA76C842B17", "details": ""}
+{"ts": "2026-07-15T03:12:11.821421+00:00", "action": "archive", "event_id": "A128633E-A6BC-4697-9A67-2C13CFBAE4C2", "details": ""}
+{"ts": "2026-07-15T03:12:11.821499+00:00", "action": "archive", "event_id": "57frd5rrp7kfq7lm82cbdqhjn7@google.com", "details": ""}
+{"ts": "2026-07-15T03:12:11.821551+00:00", "action": "archive", "event_id": "7CDDA334-3852-4BB4-9CA9-422DBCA33E30", "details": ""}
+{"ts": "2026-07-15T03:12:11.821603+00:00", "action": "archive", "event_id": "FB894180-B298-4F21-B5A2-E916571B31EE", "details": ""}
