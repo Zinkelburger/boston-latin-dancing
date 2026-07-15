@@ -90,7 +90,10 @@
         "note": "Tambó Salsa Social / Salsa Inferno (alternating Fridays)"
       }
     ],
-    "slug": "dante-s-salsa-fridays-dantes-t"
+    "slug": "dante-s-salsa-fridays-dantes-t",
+    "excludeDates": [
+      "2026-07-17"
+    ]
   },
   {
     "id": "jl-underground",
@@ -145,7 +148,9 @@
     "lat": 42.3679,
     "lng": -71.0885,
     "url": "https://www.facebook.com/FuegoyCandelaSalsa/events",
-    "urls": ["https://www.instagram.com/fuegoycandelasalsa/"],
+    "urls": [
+      "https://www.instagram.com/fuegoycandelasalsa/"
+    ],
     "styles": [
       "salsa"
     ],

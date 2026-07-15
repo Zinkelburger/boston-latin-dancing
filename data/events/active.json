@@ -1454,5 +1454,24 @@
     "_verified_status": "unverifiable",
     "_verified_notes": "Instagram link — cannot scrape programmatically. Manual check recommended.",
     "_verification_url": "https://www.instagram.com/p/Dalkcbqirj2"
+  },
+  {
+    "id": "manual-fuego-querencia-20260717-0",
+    "name": "Fuego y Candela Salsa Social — Querencia Takeover",
+    "startDate": "2026-07-17T20:30:00-04:00",
+    "endDate": "2026-07-18T01:30:00-04:00",
+    "dayOfWeek": "Friday",
+    "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA 02139",
+    "lat": 42.3679,
+    "lng": -71.0885,
+    "description": "A Querencia takeover of Fuego y Candela's salsa social at the Dante Alighieri Society. Beginner salsa class at 8:30 PM, then social dancing into the night. Salsa/mambo all night.",
+    "url": "https://www.facebook.com/events/953350091067889/",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$20",
+    "recurring": false,
+    "organizer": "Fuego y Candela",
+    "source": "manual"
   }
 ]

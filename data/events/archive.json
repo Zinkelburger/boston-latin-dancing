@@ -1551,5 +1551,29 @@
     "recurring": false,
     "source": "beatrice-calendar",
     "archivedAt": "2026-07-15T03:12:11.820971+00:00"
+  },
+  {
+    "id": "manual-chelsea-sitp-20250802-0",
+    "name": "Chelsea Salsa In The Park",
+    "startDate": "2025-08-02T15:00:00-04:00",
+    "endDate": "2025-08-02T19:00:00-04:00",
+    "dayOfWeek": "Saturday",
+    "location": "Williams School Courtyard, 180 Walnut St, Chelsea, MA 02150",
+    "lat": 42.3940007,
+    "lng": -71.0366304,
+    "description": "Chelsea Salsa In The Park — a free, all-ages, family-friendly outdoor salsa afternoon in the Williams School Courtyard, presented by MetaMovements with the Chelsea Cultural Council. Salsa lesson, social dancing, live music and performances.",
+    "url": "https://www.metamovements.com/events-2/chelsea-salsa-in-the-park!",
+    "urls": [
+      "https://www.facebook.com/ChelseaSITP"
+    ],
+    "styles": [
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": false,
+    "organizer": "MetaMovements",
+    "source": "manual",
+    "archivedAt": "2026-07-15T20:55:03.964267+00:00",
+    "_backfill_note": "Backfilled 2026-07-15 from a MetaMovements/Chelsea Salsa In The Park FB group post (facebook.com/groups/salsainboston). Confirmed occurrence: Sat Aug 2, 2025, 3–7 PM. Seasonal outdoor series; future dates unconfirmed."
   }
 ]
