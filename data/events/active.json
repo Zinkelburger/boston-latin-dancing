@@ -357,42 +357,6 @@
     "_verification_url": null
   },
   {
-    "id": "61vvqt0h13uoigcucma9f9prhk@google.com",
-    "name": "Kiz Thursday",
-    "startDate": "2026-06-18T21:30:00-04:00",
-    "endDate": "2026-06-19T00:00:00-04:00",
-    "dayOfWeek": "Thursday",
-    "location": "Moves & Vibes Dancing Academy, 44 5th St, Cambridge, MA 02141, EE. UU.",
-    "lat": null,
-    "lng": null,
-    "description": "930 PM: Kizomba social with DJ Ceijay<br><br>$10 social only<br><br>Contact <a href=\"https://www.facebook.com/Ceijaykiz\" target=\"_blank\"><u>Ceijay &amp; Bruna</u></a> for more info.<br><br>Source: <a href=\"https://kizboston.com/\" target=\"_blank\">KizBoston - Boston Kiz Calendar</a>",
-    "url": "https://www.facebook.com/Ceijaykiz",
-    "styles": [
-      "kizomba"
-    ],
-    "cost": "$10",
-    "recurring": true,
-    "source": "beatrice-calendar",
-    "recurrences": [
-      "2026-06-11T21:30:00-04:00",
-      "2026-06-18T21:30:00-04:00",
-      "2026-06-25T21:30:00-04:00",
-      "2026-07-02T21:30:00-04:00",
-      "2026-07-09T21:30:00-04:00",
-      "2026-07-16T21:30:00-04:00",
-      "2026-07-23T21:30:00-04:00",
-      "2026-07-30T21:30:00-04:00",
-      "2026-08-06T21:30:00-04:00",
-      "2026-08-13T21:30:00-04:00",
-      "2026-08-20T21:30:00-04:00",
-      "2026-08-27T21:30:00-04:00"
-    ],
-    "_verified_at": "2026-07-15T03:32:42.093495+00:00",
-    "_verified_status": "no_source",
-    "_verified_notes": "No URL. Search suggestion: \"Kiz Thursday Moves & Vibes Dancing Academy, 44 5th St, Cambridge, MA 02141, EE. UU. boston\"",
-    "_verification_url": null
-  },
-  {
     "id": "2ar83v9imef7dkgkonbfvc5t4q@google.com",
     "name": "Senior Zouk Social",
     "startDate": "2026-07-14T20:00:00-04:00",
@@ -1185,9 +1149,9 @@
     "cost": null,
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-07-15T03:32:55.471911+00:00",
-    "_verified_status": "needs_review",
-    "_verified_notes": "Page contains 'canceled' — may be cancelled or rescheduled",
+    "_verified_at": "2026-07-15T04:00:41.269639+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Page accessible, no JSON-LD found (text check only)",
     "_verification_url": "https://www.boston.gov/calendar/tito-puente-latin-music-series-ehshawnee"
   },
   {

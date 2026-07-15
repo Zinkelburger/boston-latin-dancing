@@ -409,3 +409,5 @@
 {"ts": "2026-07-15T03:34:23.519795+00:00", "action": "edit", "event_id": "8EDCCA4B-FCFA-4CD9-ABA3-8074966ACFCB", "details": "{\"url\": \"https://www.bachataroomboston.com\"}"}
 {"ts": "2026-07-15T03:34:23.529335+00:00", "action": "edit", "event_id": "61vvqt0h13uoigcucma9f9prhk@google.com", "details": "{\"url\": \"https://www.facebook.com/Ceijaykiz\"}"}
 {"ts": "2026-07-15T03:34:23.538498+00:00", "action": "edit", "event_id": "m493k99gsroqpbockbf2e5cgi7@google.com", "details": "{\"url\": \"https://www.facebook.com/Ceijaykiz\"}"}
+{"ts": "2026-07-15T03:59:07.327619+00:00", "action": "remove", "event_id": "61vvqt0h13uoigcucma9f9prhk@google.com", "details": "stale duplicate calendar UID; series continues as m493k99gsroqpbockbf2e5cgi7@google.com"}
+{"ts": "2026-07-15T03:59:07.328479+00:00", "action": "dismiss_rejected", "event_id": "61vvqt0h13uoigcucma9f9prhk@google.com", "details": "stale duplicate calendar UID of Kiz Thursday series"}
