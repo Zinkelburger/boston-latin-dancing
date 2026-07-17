@@ -1473,5 +1473,25 @@
     "recurring": false,
     "organizer": "Fuego y Candela",
     "source": "manual"
+  },
+  {
+    "id": "manual-3b34eb0c35f4a44e",
+    "name": "ArtBeat Salsa Dance Party at Seven Hills Stage",
+    "startDate": "2026-07-18T18:30:00-04:00",
+    "endDate": "2026-07-18T20:50:00-04:00",
+    "location": "Seven Hills Stage, Seven Hills Park, Somerville, MA 02144",
+    "lat": 42.397751,
+    "lng": -71.124514,
+    "description": "Free salsa dance lesson (6:30 PM) with Johnny Giraldo from Salsa y Control Dance Studio, followed by a salsa dance party with La Diáspora Combo (6:40 PM). La Diaspora Combo performs Rhythms of Resistance at 7:00 PM featuring salsa, merengue, and bachata. Part of ArtBeat 2026 at Somerville's Seven Hills Stage.",
+    "url": "https://somervilleartscouncil.org/events/seven-hills-stage/",
+    "styles": [
+      "salsa",
+      "bachata",
+      "merengue"
+    ],
+    "cost": "Free",
+    "recurring": false,
+    "source": "manual",
+    "dayOfWeek": "Saturday"
   }
 ]

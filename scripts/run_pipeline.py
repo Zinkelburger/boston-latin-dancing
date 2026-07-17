@@ -42,6 +42,8 @@ SCRAPERS = {
     "lister-events": ["scrape_lister.py"],
     "eventbrite-boston-latin": ["scrape_eventbrite.py"],
     "fiesta-dance-company": ["scrape_fiesta_dance.py"],
+    "somerville-arts": ["scrape_somerville_arts.py"],
+    "hatch-shell": ["scrape_hatch_shell.py"],
     "submissions": ["fetch_submissions.py"],
 }
 
@@ -90,7 +92,7 @@ def main() -> int:
         "scrapers_failed": {k: v["error"] for k, v in scrape_results.items() if not v["ok"]},
         "ingest": {k: ingest_result.get(k) for k in
                    ("quarantined_new", "skipped_duplicates", "reactivated",
-                    "rejected_non_latin", "pending_review")},
+                    "dropped_non_latin", "pending_review")},
         "archived": len(archived),
         "published_live_events": new_live,
         "previous_live_events": previous_live,

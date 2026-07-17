@@ -407,7 +407,7 @@ def event_scrape(source_id: Optional[str] = None, quarantine_new: bool = False) 
     After scraping, automatically archives past events. Does NOT publish — call event_publish() separately.
     quarantine_new=True routes brand-new events to pending.json for review instead of active.
 
-    Available source_ids: beatrice-calendar, sensualeros-boston, unabulla-cuban-boston, lister-events, eventbrite-boston-latin, fiesta-dance-company, submissions
+    Available source_ids: beatrice-calendar, sensualeros-boston, unabulla-cuban-boston, lister-events, eventbrite-boston-latin, fiesta-dance-company, somerville-arts, hatch-shell, submissions
     (Facebook sources require browser MCP and are not auto-runnable.)
     """
     runnable = {
@@ -417,6 +417,8 @@ def event_scrape(source_id: Optional[str] = None, quarantine_new: bool = False) 
         "lister-events": ["scrape_lister.py"],
         "eventbrite-boston-latin": ["scrape_eventbrite.py"],
         "fiesta-dance-company": ["scrape_fiesta_dance.py"],
+        "somerville-arts": ["scrape_somerville_arts.py"],
+        "hatch-shell": ["scrape_hatch_shell.py"],
         "submissions": ["fetch_submissions.py"],
     }
 

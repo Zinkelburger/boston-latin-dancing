@@ -3,8 +3,8 @@ name: scrape-events
 description: >-
   Scrape dance events from all sources and update the map. Use when asked to
   refresh events, scrape Facebook pages (BOBAS, etc.), run the pipeline,
-  check for new events, update public/events.json, review rejected non-Latin
-  events, or "update the map".
+  check for new events, update public/events.json, review the quarantine/pending
+  queue, or "update the map".
 ---
 
 # Update the Map
@@ -55,7 +55,7 @@ It does **not** publish — call `event_publish()` separately (Step 7).
 The ingest result includes:
 - `added` — new events in active
 - `skipped_duplicates` — existing events refreshed (same ID/URL merge)
-- `rejected_non_latin` — events queued in `rejected.json` (see Step 3)
+- `dropped_non_latin` — non-Latin events dropped at ingest (not recorded; see Step 3)
 - `pending_review` — uncertain dedup pairs (see Step 4)
 
 To scrape a single source:
@@ -74,7 +74,16 @@ event_scrape(source_id="beatrice-calendar")
 | `eventbrite-boston-latin` | `scrape_eventbrite.py` | Eventbrite search (salsa/bachata/latin) |
 | `unabulla-cuban-boston` | `scrape_ics.py` | Cuban Dance in Boston / Una Bulla (Google Calendar ICS) |
 | `fiesta-dance-company` | `scrape_fiesta_dance.py` | Fiesta Dance Company socials |
+| `somerville-arts` | `scrape_somerville_arts.py` | Somerville Arts Council — general municipal calendar; keyword-filtered to Latin events at scrape time |
+| `hatch-shell` | `scrape_hatch_shell.py` | Hatch Shell / Esplanade season page — HTML parse, keyword-filtered; mostly walks/concerts, occasional salsa |
 | `submissions` | `fetch_submissions.py` | User-submitted events from API |
+
+**Source trust.** Curated single-purpose Latin calendars carry `"latin_by_default": true`
+in `data/sources.json`; their events skip the keyword check entirely (everything
+they publish is Latin dance). General/high-noise calendars (type `keyword-calendar`,
+e.g. `somerville-arts`) do **not** — their scraper keyword-filters the whole page
+and only emits events mentioning Latin dance, so the municipal noise never enters
+the pipeline. Adding a new big calendar? Copy that pattern (see `scrape_somerville_arts.py`).
 
 Facebook sources are **not** auto-runnable — they require browser MCP (Step 2).
 
@@ -160,70 +169,45 @@ After the scraper writes `data/scraped/<source-id>.json`, ingest it:
 event_ingest(source_id="<source-id>")
 ```
 
-## Step 3: Review rejected (non-Latin) events
+## Step 3: Non-Latin events are dropped (no review queue)
 
 During ingest, events with `styles=["other"]` and **no Latin dance keywords**
-in name/description are **not added to active**. They are queued in
-`data/events/rejected.json` for agent review.
+in name/description are **dropped outright** — not added to active, not queued
+anywhere. A keyword scan decides this; no LLM/agent pass is needed to reject a
+craft fair or a blues show. Each drop leaves a `drop_non_latin` breadcrumb in
+`changelog.jsonl` but nothing is persisted.
 
-This catches events like "West Coast Swing @ Dancing Fools" that appear on
-shared calendars (e.g. Sensualeros ICS) but are not salsa/bachata/latin.
+This is why general municipal calendars are safe to scrape: their scraper
+keyword-filters at scrape time (see `filter_latin_events` / type
+`keyword-calendar`), and anything that slips through is dropped at ingest.
 
-### Latin relevance rule (`scripts/event_store.py`)
+### Latin relevance rule (`scripts/event_store.py` → `scraper_utils.py`)
 
-An event passes automatically if:
+An event passes automatically if **any** of:
+- It comes from a curated source with `"latin_by_default": true` (trusted — never keyword-checked)
 - It has a recognized style other than `other` (salsa, bachata, kizomba, zouk, merengue)
+- Its name + description match a Latin keyword (`LATIN_KEYWORD_RE` in `scraper_utils.py`):
+  `salsa`, `bachata`, `kizomba`, `zouk`, `merengue`, `latin`, `cumbia`, `reggaeton`,
+  `timba`, `son/songo`, `cha cha`, `mambo`, `rumba`, `guaguanco`, `cubana`, `tropical`,
+  `rueda`, `casino`, `afro-latin`, `afro-cuban`, `dominican`
 
-Otherwise it must match Latin keywords in name + description:
-`salsa`, `bachata`, `kizomba`, `zouk`, `merengue`, `latin`, `cumbia`, `reggaeton`,
-`timba`, `son/songo`, `cha cha`, `mambo`, `rumba`, `guaguanco`, `cubana`, `tropical`,
-`rueda`, `casino`
+### Rescuing a genuine false negative
 
-### View the rejected queue
-
-```
-event_list(status="rejected")
-```
-
-Each item has:
-- `_rejected_reason` — why it was flagged (e.g. `not Latin dance relevant...`)
-- `_rejected_at` — when it was queued
-- `_review_type` — always `non_latin` for now
-
-Get full details:
+If a real social was dropped because its scraped text happened to omit a keyword
+(rare — trusted sources bypass the check), re-add it with the correct style:
 
 ```
-event_get(event_id="<rejected-id>")
+event_add(name="…", start_date="…", location="…", styles="salsa", …)
 ```
 
-Or inspect the file directly:
+Once it is in active, later re-scrapes merge into it instead of re-dropping it.
 
-```bash
-python3 -c "
-import json
-for e in json.load(open('data/events/rejected.json')):
-    print(f\"{e['name'][:50]}\")
-    print(f\"  id: {e['id']}\")
-    print(f\"  reason: {e.get('_rejected_reason')}\")
-    print(f\"  styles: {e.get('styles')}\")
-"
-```
+### The rejected queue (`rejected.json`) still exists but is no longer auto-filled
 
-### Resolve rejected events
-
-| Situation | Action |
-|-----------|--------|
-| Actually Latin-relevant **social dance** (keywords missed, wrong style tag) | Fix styles/description if needed, then `event_approve_rejected(event_id)` |
-| Not Latin dance — keep off map | `event_dismiss_rejected(event_id, reason="not Latin dance")` |
-| Class/workshop, not a social dance | `event_dismiss_rejected(event_id, reason="class, not social dance")` |
-| Already on map by mistake | `event_remove(event_id, reason="not Latin dance")` — removes from active and queues in rejected |
-
-Before approving a rejected event, check that it is a **social dance**, not a
-class or workshop. See "What belongs on the map" above.
-
-**Do not** manually edit `rejected.json`. Use MCP tools.
-
-Re-scraping updates an existing rejected entry (same ID) instead of duplicating it.
+`event_remove(event_id, reason=…)` (a human pulling an event off the map to
+re-examine) is now the only thing that queues to `rejected.json`; scrapes never
+do. `event_list(status="rejected")`, `event_approve_rejected`, and
+`event_dismiss_rejected` continue to work for those manual cases.
 
 ## Step 4: Review pending dedup pairs
 

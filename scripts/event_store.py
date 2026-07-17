@@ -30,7 +30,7 @@ from zoneinfo import ZoneInfo
 
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from scraper_utils import ROOT, SCRAPED_DIR, VENUE_COORDS, clean_location, geocode, detect_styles, extract_cost, _eventbrite_address, _normalize, _is_near_boston
+from scraper_utils import ROOT, SCRAPED_DIR, VENUE_COORDS, clean_location, geocode, detect_styles, extract_cost, load_sources, mentions_latin, _eventbrite_address, _normalize, _is_near_boston
 from recurrence_utils import recurrence_label
 
 # ── Paths ─────────────────────────────────────────────────────────────
@@ -1386,12 +1386,23 @@ def _enrich_event(event: dict) -> None:
         event["cost"] = extract_cost(combined)
 
 
-_LATIN_PATTERN = re.compile(
-    r'\b(salsa|bachata|kizomba|zouk|merengue|latin|cumbia|reggaeton'
-    r'|timba|son(?:go)?|cha\s*cha|mambo|rumba|guaguanco|cubana?|tropical'
-    r'|rueda|casino)\b',
-    re.I,
-)
+def _trusted_latin_sources() -> set:
+    """Source ids that are curated Latin-dance calendars.
+
+    Marked with ``"latin_by_default": true`` in sources.json. Every event from
+    one is Latin dance by construction, so we never keyword-check them — that
+    check exists only to screen general/high-noise calendars. Trusting these
+    sources is what stops a real social with an unusual title (e.g. "Thursday
+    Night Social @ Havana") from being dropped just because the scraped text
+    happens not to contain a style word.
+    """
+    try:
+        return {
+            s["id"] for s in load_sources()
+            if s.get("latin_by_default") and s.get("id")
+        }
+    except Exception:
+        return set()
 
 
 def _is_out_of_area(event: dict) -> bool:
@@ -1411,15 +1422,18 @@ def _is_out_of_area(event: dict) -> bool:
 def _is_latin_relevant(event: dict) -> bool:
     """Return True if the event is relevant to Latin dance.
 
+    Events from a curated Latin source (``latin_by_default``) always pass.
     Events with a recognized style (bachata, salsa, etc.) always pass.
     Events tagged only as 'other' must mention a Latin dance term in
     their name or description.
     """
+    if event.get("source") in _trusted_latin_sources():
+        return True
     styles = event.get("styles", [])
     if styles != ["other"]:
         return True
     text = (event.get("name", "") + " " + event.get("description", ""))
-    return bool(_LATIN_PATTERN.search(text))
+    return mentions_latin(text)
 
 
 def _clear_stale_rejected(event_id: str) -> None:
@@ -1484,18 +1498,20 @@ def add_event(
             }
 
     if not skip_latin_check and not _is_latin_relevant(event):
-        # If this exact event is already active or archived, a human approved
-        # it despite the missing keywords — fall through to dedup (which will
-        # merge it) instead of re-flagging it on every re-scrape.
+        # Not a Latin-dance event — drop it, don't record it. General calendars
+        # are full of unrelated events; keeping them in a review queue was busywork
+        # (a keyword scan decides this fine, no LLM needed). A human can still
+        # rescue a genuine false negative by adding it with force=True, which
+        # lands it in active — and the check below then lets re-scrapes merge it
+        # instead of dropping it forever.
         already_approved = (
             any(e.get("id") == event["id"] for e in load_active())
             or any(e.get("id") == event["id"] for e in load_archive())
         )
         if not already_approved:
             reason = "not Latin dance relevant (styles=['other'], no Latin terms)"
-            queued = _queue_rejected(event, reason)
-            _append_changelog("reject_non_latin", event["id"], reason)
-            return {"status": "rejected_non_latin", "message": reason, "event": queued}
+            _append_changelog("drop_non_latin", event["id"], reason)
+            return {"status": "dropped_non_latin", "message": reason}
 
     _infer_location(event)
 
@@ -2137,7 +2153,7 @@ def ingest_scraped(source_id: Optional[str] = None, quarantine_new: bool = False
     merged = 0
     reactivated = 0
     skipped = 0
-    rejected_non_latin = 0
+    dropped_non_latin = 0
     rejected_out_of_area = 0
     blocked = 0
     pending_review = 0
@@ -2171,8 +2187,8 @@ def ingest_scraped(source_id: Optional[str] = None, quarantine_new: bool = False
                 skipped += 1
             elif status == "skipped_past":
                 skipped += 1
-            elif status == "rejected_non_latin":
-                rejected_non_latin += 1
+            elif status == "dropped_non_latin":
+                dropped_non_latin += 1
             elif status == "rejected_out_of_area":
                 rejected_out_of_area += 1
             elif status == "blocked":
@@ -2191,7 +2207,7 @@ def ingest_scraped(source_id: Optional[str] = None, quarantine_new: bool = False
         "merged": merged,
         "reactivated": reactivated,
         "skipped_duplicates": skipped,
-        "rejected_non_latin": rejected_non_latin,
+        "dropped_non_latin": dropped_non_latin,
         "rejected_out_of_area": rejected_out_of_area,
         "blocked": blocked,
         "pending_review": pending_review,

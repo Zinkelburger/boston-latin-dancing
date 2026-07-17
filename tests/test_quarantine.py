@@ -88,16 +88,44 @@ def test_approve_quarantined_moves_to_active_and_strips_markers(store):
     assert "_quarantined_at" not in active[0]
 
 
-def test_rescrape_of_approved_non_latin_event_merges_instead_of_requeueing(store):
-    # An event with no Latin keywords gets queued to rejected...
+def test_non_latin_event_is_dropped_not_recorded(store):
+    # An event with no Latin keywords is dropped outright — not queued anywhere.
     ev = _event(name="Community Festival", description="a parade", styles=["other"])
-    assert store.add_event(dict(ev))["status"] == "rejected_non_latin"
-    # ...a human approves it into active...
-    assert store.approve_rejected(ev["id"])["status"] == "added"
-    # ...and the next re-scrape must merge, not re-flag it forever.
-    again = store.add_event(dict(ev), quarantine_new=True)
-    assert again["status"] == "duplicate"
+    result = store.add_event(dict(ev))
+    assert result["status"] == "dropped_non_latin"
+    assert "event" not in result  # nothing persisted
+    assert store.load_active() == []
     assert store.load_rejected() == []
+    assert store.load_pending() == []
+
+
+def test_latin_keyword_event_still_passes(store):
+    # 'other'-tagged but the text mentions a Latin term -> kept.
+    ev = _event(name="Cumbia Night", description="live cumbia band", styles=["other"])
+    assert store.add_event(dict(ev))["status"] == "added"
+    assert len(store.load_active()) == 1
+
+
+def test_rescrape_of_approved_event_merges_instead_of_redropping(store):
+    # A real Latin event lands in active (it has a style)...
+    ev = _event(id="evt-x", name="Salsa Social")
+    assert store.add_event(dict(ev))["status"] == "added"
+    # ...and a later keyword-less re-scrape of the same id must merge, not
+    # re-drop it (the "already approved" fallback keeps it on the map).
+    stripped = _event(id="evt-x", name="Community Festival",
+                      description="a parade", styles=["other"])
+    again = store.add_event(dict(stripped), quarantine_new=True)
+    assert again["status"] == "duplicate"
+    assert len(store.load_active()) == 1
+
+
+def test_trusted_source_bypasses_keyword_check(store, monkeypatch):
+    # Curated Latin sources are trusted: a keyword-less event still gets in.
+    monkeypatch.setattr(es, "_trusted_latin_sources", lambda: {"beatrice-calendar"})
+    ev = _event(name="Thursday Night Social", description="weekly social",
+                styles=["other"], source="beatrice-calendar")
+    assert store.add_event(dict(ev))["status"] == "added"
+    assert len(store.load_active()) == 1
 
 
 def test_stale_scrape_does_not_reactivate_archived_past_event(store):

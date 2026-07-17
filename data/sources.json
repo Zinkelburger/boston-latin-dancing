@@ -5,7 +5,8 @@
     "scraper": "scrape_ics.py",
     "name": "Greater Boston Dance Socials (Beatrice)",
     "url": "https://calendar.google.com/calendar/ical/31d111cd5f84b2c5cde57a9a175e4769da698d758828fb8de8b47158eefb819c%40group.calendar.google.com/public/basic.ics",
-    "enabled": true
+    "enabled": true,
+    "latin_by_default": true
   },
   {
     "id": "lister-events",
@@ -13,7 +14,8 @@
     "scraper": "scrape_lister.py",
     "name": "Lister Events (Liz)",
     "url": "https://www.listerevents.com/events",
-    "enabled": true
+    "enabled": true,
+    "latin_by_default": true
   },
   {
     "id": "eventbrite-boston-latin",
@@ -44,7 +46,8 @@
       "location": "Hatch Shell on the Esplanade",
       "description": "Outdoor salsa and bachata social on the docks behind the Hatch Shell. Bachata on one side, salsa on the other. Free, weather permitting."
     },
-    "enabled": true
+    "enabled": true,
+    "latin_by_default": true
   },
   {
     "id": "dantes-salsa",
@@ -59,7 +62,8 @@
       ],
       "location": "The Dante Alighieri Society of Massachusetts"
     },
-    "enabled": true
+    "enabled": true,
+    "latin_by_default": true
   },
   {
     "id": "sensualeros-boston",
@@ -67,7 +71,8 @@
     "name": "Sensualeros Boston Events",
     "scraper": "scrape_ics.py",
     "enabled": true,
-    "url": "https://calendar.google.com/calendar/ical/76db9d79f4cf645f26e28373c575d9fcb865a264521c8f0880044b4e7283ead7%40group.calendar.google.com/public/basic.ics"
+    "url": "https://calendar.google.com/calendar/ical/76db9d79f4cf645f26e28373c575d9fcb865a264521c8f0880044b4e7283ead7%40group.calendar.google.com/public/basic.ics",
+    "latin_by_default": true
   },
   {
     "id": "fiesta-dance-company",
@@ -83,7 +88,8 @@
         "bachata"
       ]
     },
-    "enabled": true
+    "enabled": true,
+    "latin_by_default": true
   },
   {
     "id": "unabulla-cuban-boston",
@@ -91,7 +97,8 @@
     "name": "Cuban Dance in Boston (Una Bulla)",
     "scraper": "scrape_ics.py",
     "enabled": true,
-    "url": "https://calendar.google.com/calendar/ical/8a87859dbbb9d4a566d0ab0137c136f844424435b0b16585d99c3beb904e0514%40group.calendar.google.com/public/basic.ics"
+    "url": "https://calendar.google.com/calendar/ical/8a87859dbbb9d4a566d0ab0137c136f844424435b0b16585d99c3beb904e0514%40group.calendar.google.com/public/basic.ics",
+    "latin_by_default": true
   },
   {
     "id": "timba-messengers",
@@ -106,7 +113,8 @@
         "salsa",
         "timba"
       ]
-    }
+    },
+    "latin_by_default": true
   },
   {
     "id": "sabor-latino",
@@ -121,6 +129,26 @@
       ],
       "location": "El Barco, 50 Dalton St, Boston, MA 02115"
     },
+    "enabled": true,
+    "latin_by_default": true
+  },
+  {
+    "id": "somerville-arts",
+    "type": "keyword-calendar",
+    "scraper": "scrape_somerville_arts.py",
+    "name": "Somerville Arts Council",
+    "url": "https://somervilleartscouncil.org/events/",
+    "website": "https://somervilleartscouncil.org",
+    "event_path_prefix": "https://somervilleartscouncil.org/events/",
+    "enabled": true
+  },
+  {
+    "id": "hatch-shell",
+    "type": "keyword-calendar",
+    "scraper": "scrape_hatch_shell.py",
+    "name": "Hatch Shell / Esplanade",
+    "url": "https://www.hatchshell.com/events.php",
+    "website": "https://www.hatchshell.com",
     "enabled": true
   }
 ]

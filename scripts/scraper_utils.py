@@ -112,6 +112,9 @@ VENUE_COORDS = {
     "7 temple st": (42.3668113, -71.104309),
     "luna fitness club": (42.2953653, -71.0488803),
     "east boston memorial park": (42.3713138, -71.0329399),
+    "seven hills park": (42.397751, -71.124514),
+    "seven hills park, somerville": (42.397751, -71.124514),
+    "seven hills stage": (42.397751, -71.124514),
 }
 
 BOSTON = (42.36, -71.06)
@@ -122,6 +125,57 @@ MAX_DISTANCE_KM = 50
 def detect_styles(text: str) -> list[str]:
     found = [style for style, pat in STYLE_PATTERNS if pat.search(text)]
     return found if found else ["other"]
+
+
+# ── Latin-dance keyword filter ───────────────────────────────────────
+#
+# The single source of truth for "does this text mention Latin social dance".
+# Broader than STYLE_PATTERNS (which only names the five map styles): it also
+# catches the umbrella terms and rhythm/venue words that reliably mark a Latin
+# event even when the headline style isn't spelled out. Used two ways:
+#   • high-noise general calendars (Somerville Arts Council, etc.) filter their
+#     scrape with filter_latin_events() so unrelated events never enter the
+#     pipeline in the first place — no LLM pass needed to reject a craft fair.
+#   • event_store imports mentions_latin() so ingest and scrapers agree on the
+#     exact same rule.
+LATIN_KEYWORD_RE = re.compile(
+    r"\b(salsa|bachata|kizomba|zouk|merengue|latin|cumbia|reggaeton"
+    r"|timba|son(?:go)?|cha\s*cha|mambo|rumba|guaguanco|cubana?|tropical"
+    r"|rueda|casino|afro[-\s]?latin|afro[-\s]?cuban|dominican)\b",
+    re.I,
+)
+
+
+def mentions_latin(text: str) -> bool:
+    """True if free text mentions any Latin social-dance term."""
+    return bool(LATIN_KEYWORD_RE.search(text or ""))
+
+
+def is_latin_event(event: dict) -> bool:
+    """True if an event dict looks like Latin social dance.
+
+    Passes when a concrete style was detected (bachata/salsa/…), otherwise
+    falls back to a keyword scan of the name + description. This is the gate
+    general-calendar scrapers apply before emitting an event.
+    """
+    styles = [s for s in event.get("styles", []) if s and s != "other"]
+    if styles:
+        return True
+    return mentions_latin(f"{event.get('name', '')} {event.get('description', '')}")
+
+
+def filter_latin_events(events: list[dict]) -> list[dict]:
+    """Keep only the Latin-relevant events from a scrape of a general calendar.
+
+    Returns the kept list and prints how many were dropped, so a scraper over a
+    noisy municipal calendar can safely emit the whole page and let this drop
+    the craft fairs and blues shows without ever recording them.
+    """
+    kept = [e for e in events if is_latin_event(e)]
+    dropped = len(events) - len(kept)
+    if dropped:
+        print(f"  Keyword filter: kept {len(kept)} Latin events, dropped {dropped}")
+    return kept
 
 
 # ── Cost extraction ──────────────────────────────────────────────────

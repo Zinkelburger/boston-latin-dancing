@@ -18,8 +18,10 @@ your main job, along with the other judgment calls it can't make.
    confidently, stop, leave the tree uncommitted, and record what you found
    in the summary file.
 
-2. **Clear the rejected queue.** `event_list(status="rejected")`, then for
-   each item follow the skill's decision table:
+2. **Check the rejected queue (usually empty).** `event_list(status="rejected")`.
+   Non-Latin scraped events are now **dropped at ingest**, not queued — this
+   queue only fills when a human pulls an event off the map with `event_remove`.
+   If anything is here, follow the skill's decision table:
    - Latin-relevant **social dance** wrongly flagged → `event_approve_rejected`
    - Not Latin / not a social dance → `event_dismiss_rejected` with a reason;
      add `block=True` with the right category when re-scraping would just
@@ -35,7 +37,11 @@ your main job, along with the other judgment calls it can't make.
 
    **Quarantined new events** (`quarantined_new: true`): brand-new events the
    refresh found. Get full details with `event_get` and decide whether each
-   belongs on the map (see "What belongs on the map" in the skill):
+   belongs on the map (see "What belongs on the map" in the skill). Note:
+   general municipal calendars (e.g. `somerville-arts`) are keyword-filtered at
+   scrape time, so a survivor may still be a non-dance event that merely
+   *mentions* salsa in a mixed lineup (e.g. a literary reading / concert) —
+   `event_block(category="not_dance")` those.
    - Social dance (social, party, live-music dance night, outdoor dancing,
      festival with social dancing) → `event_approve(event_id)`
    - Concert/show with no social dancing, class, workshop, fitness →

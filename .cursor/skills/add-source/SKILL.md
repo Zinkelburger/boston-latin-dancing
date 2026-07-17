@@ -246,13 +246,14 @@ Then ingest and publish:
 
 ```
 event_ingest(source_id="<source-id>")
-event_list(status="rejected")   # check non-Latin flagged events
 event_publish()
 ```
 
 Check:
 - Scraper wrote events to `data/scraped/<source-id>.json`
-- Ingest reports added/merged/`rejected_non_latin` counts
+- Ingest reports added/merged/`dropped_non_latin` counts (non-Latin events are
+  dropped at ingest, not queued — for a noisy general calendar, keyword-filter
+  at scrape time with `filter_latin_events`, as `scrape_somerville_arts.py` does)
 - `public/events.json` includes the new events
 
 ### 4B.6: Done
