@@ -85,6 +85,17 @@ e.g. `somerville-arts`) do **not** — their scraper keyword-filters the whole p
 and only emits events mentioning Latin dance, so the municipal noise never enters
 the pipeline. Adding a new big calendar? Copy that pattern (see `scrape_somerville_arts.py`).
 
+**Scraper health (silent-failure detection).** A scraper writing `[]` is
+ambiguous: no Latin events this week (fine) vs. its parser matched nothing
+because the page markup changed (broken — we'd miss real events). Scrapers call
+`record_scrape_health(source_id, raw_found, kept, …)` where `raw_found` is the
+count parsed **before** the keyword filter. `raw_found > 0` → `ok`; `raw_found == 0`
+on a reachable page → `structure_missing` (**redesign the scraper**); unreachable
+→ `fetch_error` (usually transient). Check it with the `scraper_health()` MCP
+tool or the refresh summary's `scrapers_need_redesign`; the weekly agent flags
+any `structure_missing` source at the top of its summary. State lives in the
+gitignored `data/scraper-health.json`, rewritten every run.
+
 Facebook sources are **not** auto-runnable — they require browser MCP (Step 2).
 
 All registered sources (including disabled ones) are in `data/sources.json`.

@@ -56,6 +56,7 @@ from scraper_utils import (
     geocode,
     detect_styles,
     extract_cost,
+    load_scrape_health,
     load_sources,
 )
 
@@ -469,6 +470,33 @@ def event_ingest(source_id: Optional[str] = None, quarantine_new: bool = False) 
     """
     result = ingest_scraped(source_id, quarantine_new=quarantine_new)
     return json.dumps(result, indent=2)
+
+
+@mcp.tool()
+def scraper_health() -> str:
+    """Report each scraper's last-run health, flagging ones that need a redesign.
+
+    A scraper writes [] both when a page has no Latin events (fine) and when its
+    parser matched nothing because the page markup changed (broken). This tells
+    them apart via `raw_found` — events parsed BEFORE the keyword filter:
+
+      status "ok"                – found the page structure (raw_found > 0)
+      status "structure_missing" – page loaded but parser matched nothing → the
+                                   scraper needs a redesign; we may be silently
+                                   missing events. ALERT the user.
+      status "fetch_error"       – page unreachable last run (usually transient)
+
+    Returns the full health map plus a `needs_redesign` list of source ids to
+    call out. Run this during the weekly review and flag any redesign-needed
+    scrapers prominently in the summary.
+    """
+    health = load_scrape_health()
+    needs_redesign = [sid for sid, h in health.items()
+                      if h.get("status") == "structure_missing"]
+    return json.dumps({
+        "needs_redesign": needs_redesign,
+        "health": health,
+    }, indent=2)
 
 
 # ── Publishing ────────────────────────────────────────────────────────

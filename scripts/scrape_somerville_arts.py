@@ -44,6 +44,7 @@ from scraper_utils import (
     filter_latin_events,
     geocode,
     get_source,
+    record_scrape_health,
     write_scraped,
 )
 
@@ -59,14 +60,20 @@ def _fetch(url: str, timeout: int = 30) -> str:
     return resp.text
 
 
-def collect_event_urls(listing_urls: list[str], prefix: str) -> list[str]:
-    """Return the distinct event permalinks linked from the listing pages."""
+def collect_event_urls(listing_urls: list[str], prefix: str) -> tuple[list[str], bool]:
+    """Return (distinct event permalinks, any_listing_fetched).
+
+    ``any_listing_fetched`` lets the caller tell a genuine structure change
+    (page loaded but no permalinks) from the site simply being unreachable.
+    """
     esc = re.escape(prefix)
     pat = re.compile(rf'href="({esc}[a-z0-9][a-z0-9-]+/)"', re.I)
     seen: dict[str, None] = {}
+    any_fetched = False
     for url in listing_urls:
         try:
             html_text = _fetch(url)
+            any_fetched = True
         except Exception as exc:
             print(f"  Listing fetch failed for {url}: {exc}")
             continue
@@ -74,7 +81,7 @@ def collect_event_urls(listing_urls: list[str], prefix: str) -> list[str]:
             slug = link[len(prefix):].strip("/").split("/")[0]
             if slug and slug not in _NON_EVENT_SLUGS:
                 seen.setdefault(link, None)
-    return list(seen)
+    return list(seen), any_fetched
 
 
 def _geo_by_uid(ics_text: str) -> dict[str, tuple[float, float]]:
@@ -146,7 +153,7 @@ def scrape_source(source_id: str) -> list[dict]:
     listing_urls = source.get("listing_urls") or [source["url"]]
 
     print(f"[{source_id}] Collecting event links from {len(listing_urls)} listing page(s)...")
-    event_urls = collect_event_urls(listing_urls, prefix)
+    event_urls, listing_fetched = collect_event_urls(listing_urls, prefix)
     print(f"[{source_id}] Found {len(event_urls)} event pages")
 
     all_events: list[dict] = []
@@ -159,6 +166,15 @@ def scrape_source(source_id: str) -> list[dict]:
 
     print(f"[{source_id}] Parsed {len(all_events)} events; applying Latin keyword filter")
     latin = filter_latin_events(all_events)
+
+    # Health: raw_found is events parsed BEFORE the keyword filter. Zero on a
+    # reachable listing means the permalink markup changed and the scraper needs
+    # a redesign; the weekly agent surfaces this so we don't silently miss events.
+    note = ""
+    if listing_fetched and not event_urls:
+        note = "listing page loaded but no event permalinks matched — page markup may have changed; redesign the scraper"
+    record_scrape_health(source_id, len(all_events), len(latin),
+                         fetched=listing_fetched, note=note)
 
     write_scraped(source_id, latin)
     return latin

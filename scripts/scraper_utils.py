@@ -527,6 +527,65 @@ def write_scraped(source_id: str, events: list[dict]) -> Path:
     return out
 
 
+# ── Scraper health / silent-failure detection ────────────────────────
+#
+# A scraper that writes [] is ambiguous: it could mean "the page is fine, there
+# just aren't any Latin events right now" (normal) or "the markup we parse is
+# gone, so we'd miss events even if they existed" (needs a redesign). We tell
+# them apart by the RAW count — how many events the parser pulled out *before*
+# the Latin keyword filter. Raw > 0 with kept 0 is normal; raw == 0 on a page
+# that reached us means our selectors matched nothing → alert.
+SCRAPER_HEALTH_PATH = DATA_DIR / "scraper-health.json"
+
+
+def load_scrape_health() -> dict:
+    if SCRAPER_HEALTH_PATH.exists():
+        try:
+            return json.loads(SCRAPER_HEALTH_PATH.read_text())
+        except (json.JSONDecodeError, ValueError):
+            pass
+    return {}
+
+
+def record_scrape_health(
+    source_id: str,
+    raw_found: int,
+    kept: int,
+    *,
+    fetched: bool = True,
+    note: str = "",
+) -> str:
+    """Record whether a scrape looks healthy and return the status.
+
+    status:
+      "ok"                – found the page structure (raw_found > 0)
+      "structure_missing" – page reached us but our parser matched nothing;
+                            the scraper likely needs a redesign (ALERT)
+      "fetch_error"       – couldn't even fetch the page (transient/site down)
+    """
+    if not fetched:
+        status = "fetch_error"
+    elif raw_found == 0:
+        status = "structure_missing"
+        if not note:
+            note = "page fetched but no events matched our parser — markup may have changed; redesign the scraper"
+    else:
+        status = "ok"
+
+    health = load_scrape_health()
+    health[source_id] = {
+        "last_run": datetime.now(timezone.utc).isoformat(),
+        "raw_found": raw_found,
+        "kept": kept,
+        "status": status,
+        "note": note,
+    }
+    SCRAPER_HEALTH_PATH.write_text(json.dumps(health, indent=2, ensure_ascii=False))
+    if status != "ok":
+        print(f"  ⚠️  scraper health: {source_id} → {status}. {note}")
+    return status
+
+
 def load_sources() -> list[dict]:
     """Load data/sources.json."""
     return json.loads((DATA_DIR / "sources.json").read_text())

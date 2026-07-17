@@ -48,6 +48,7 @@ from scraper_utils import (
     geocode,
     get_source,
     make_event,
+    record_scrape_health,
     write_scraped,
 )
 
@@ -184,16 +185,27 @@ def scrape_source(source_id: str) -> list[dict]:
         resp.raise_for_status()
     except Exception as exc:
         print(f"[{source_id}] Fetch failed: {exc} — emitting nothing")
+        record_scrape_health(source_id, 0, 0, fetched=False,
+                             note=f"fetch failed: {exc}")
         write_scraped(source_id, [])
         return []
 
     events = parse_events(resp.text, source_id)
     print(f"[{source_id}] Parsed {len(events)} events; applying Latin keyword filter")
     latin = filter_latin_events(events)
-    latin = filter_future_events(latin)
+    upcoming = filter_future_events(latin)
 
-    write_scraped(source_id, latin)
-    return latin
+    # Health: raw_found is events parsed BEFORE keyword/future filters. Zero on a
+    # page that loaded means the <b>Event:</b>… markup changed and the parser
+    # needs a redesign. (kept==0 with raw_found>0 is normal — just no upcoming
+    # Latin events, e.g. between seasons.)
+    note = ""
+    if not events:
+        note = "page loaded but no event blocks matched — HTML structure may have changed; redesign the scraper"
+    record_scrape_health(source_id, len(events), len(upcoming), note=note)
+
+    write_scraped(source_id, upcoming)
+    return upcoming
 
 
 def main():

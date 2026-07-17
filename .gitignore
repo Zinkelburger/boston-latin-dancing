@@ -8,6 +8,7 @@ next-env.d.ts
 favicon_io/
 data/geocode-cache.json
 data/scraped/
+data/scraper-health.json
 __pycache__/
 icon-preview.html
 automation/logs/

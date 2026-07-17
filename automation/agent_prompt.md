@@ -18,6 +18,14 @@ your main job, along with the other judgment calls it can't make.
    confidently, stop, leave the tree uncommitted, and record what you found
    in the summary file.
 
+   Also check **scraper health**: call `scraper_health()` (or read the refresh
+   summary's `scrapers_need_redesign` field). Any source with status
+   `structure_missing` reached its page but parsed **nothing** — the page markup
+   changed and that scraper is silently missing events. You can't fix the parser
+   headlessly, so **flag it loudly at the TOP of the summary file** ("⚠️ SCRAPER
+   NEEDS REDESIGN: <source>") so the human knows to rebuild it. `fetch_error` is
+   usually just the site being down — note it but don't alarm.
+
 2. **Check the rejected queue (usually empty).** `event_list(status="rejected")`.
    Non-Latin scraped events are now **dropped at ingest**, not queued — this
    queue only fills when a human pulls an event off the map with `event_remove`.

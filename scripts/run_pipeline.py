@@ -32,6 +32,7 @@ from event_store import (  # noqa: E402
     load_rejected,
     publish_guarded,
 )
+from scraper_utils import load_scrape_health  # noqa: E402
 
 # Mirrors the runnable map in mcp-server/server.py. Facebook sources need a
 # browser and are agent-only, so they are deliberately absent here.
@@ -87,9 +88,21 @@ def main() -> int:
     previous_live = publish_result["previous_live_events"]
     new_live = publish_result["published_live_events"]
 
+    # Scrapers that reached their page but parsed nothing structurally: the page
+    # markup likely changed and the scraper needs a redesign. Only meaningful
+    # when scrapers actually ran this invocation.
+    scrapers_suspect = {}
+    if not args.skip_scrape:
+        health = load_scrape_health()
+        for sid in SCRAPERS:
+            h = health.get(sid, {})
+            if h.get("status") == "structure_missing":
+                scrapers_suspect[sid] = h.get("note", "parser matched nothing — redesign needed")
+
     summary = {
         "status": "TRIPWIRE" if tripped else "ok",
         "scrapers_failed": {k: v["error"] for k, v in scrape_results.items() if not v["ok"]},
+        "scrapers_need_redesign": scrapers_suspect,
         "ingest": {k: ingest_result.get(k) for k in
                    ("quarantined_new", "skipped_duplicates", "reactivated",
                     "dropped_non_latin", "pending_review")},
@@ -102,6 +115,13 @@ def main() -> int:
         },
     }
     print(json.dumps(summary, indent=2, default=str))
+
+    if scrapers_suspect:
+        print(
+            "SCRAPER ALERT: parsed nothing structurally (page markup likely "
+            f"changed, redesign needed): {', '.join(scrapers_suspect)}",
+            file=sys.stderr,
+        )
 
     if tripped:
         print(
