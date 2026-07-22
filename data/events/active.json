@@ -606,6 +606,33 @@
     "urls": []
   },
   {
+    "id": "lister-bachata-dance-workout-morse-library",
+    "name": "Bachata Dance Workout @Morse Library",
+    "startDate": "2026-06-25T19:00:00-04:00",
+    "endDate": "2026-06-25T20:00:00-04:00",
+    "dayOfWeek": "Thursday",
+    "location": "Lebowitz Meeting Hall, Morse Library, 14 E Central St, Natick, MA 01760, USA",
+    "lat": 42.2846114,
+    "lng": -71.345821,
+    "description": "REGISTRATION REQUIRED AT MORSE LIBRARY WEBSITE\nhttps://morseinstitute.assabetinteractive.com/calendar/for-adults-bachata-dance-workout-2/\nGet ready to move to the infectious rhythms of Bachata, a dance from the Dominican Republic! This class is all about having fun and moving your body. The class will focus on high-energy follow-alongs that get your heart pumping with bachata footwork. If there is interest towards the end of the class,  we'll learn some fundamental partner work moves and get to connect with classmates.\nThe focus is on joy, not perfection! Liz's goal is for you to feel energized, move your body, and get a taste of social dancing.\nThis class is designed for EVERYBODY and EVERY BODY. We enthusiastically welcome students of all abilities, and can provide physical modifications and adaptations to ensure everyone can fully participate and enjoy the movement. No prior dance experiences is needed, and you do not need to bring a partner.\nPlease wear shoes you can…\nShow More",
+    "url": "https://www.listerevents.com/event-details/bachata-dance-workout-morse-library",
+    "styles": [
+      "bachata"
+    ],
+    "cost": null,
+    "recurring": true,
+    "source": "lister-events",
+    "_verified_at": "2026-07-15T03:32:45.321020+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD event data matches",
+    "_verification_url": "https://www.listerevents.com/event-details/bachata-dance-workout-morse-library",
+    "recurrences": [
+      "2026-06-25T19:00:00-04:00",
+      "2026-07-18T19:00:00-04:00"
+    ],
+    "urls": []
+  },
+  {
     "id": "0D2E7B82-58C2-4CA7-89C1-174364983C04",
     "name": "East Boston Latin music and dance festival",
     "startDate": "2026-09-13T17:00:00+00:00",
@@ -626,6 +653,30 @@
     "_verified_status": "unverifiable",
     "_verified_notes": "Instagram link — cannot scrape programmatically. Manual check recommended.",
     "_verification_url": "https://www.instagram.com/p/DZibxMqJYRR/"
+  },
+  {
+    "id": "3da0d44a82fe3034c582b6b9cc33f734cf3c1314@dance-calendar",
+    "name": "“Parrandazo!” Vol. 4 at Spy Bar: Enjoy the Native Rhythms of the Caribbean",
+    "startDate": "2026-07-18T00:00:00+00:00",
+    "endDate": "2026-07-18T05:00:00+00:00",
+    "dayOfWeek": "Friday",
+    "location": "40 Berkeley Street, Boston, MA 02116, Boston, MA",
+    "lat": 42.3458854,
+    "lng": -71.070854,
+    "description": "Expect salsa dura, merengue classics, and bachata del colmado —for the dancers and for those looking share this listening experience!\n\nSource: https://www.eventbrite.com/e/parrandazo-vol-4-at-spy-bar-enjoy-the-native-rhythms-of-the-caribbean-tickets-1991568778829",
+    "url": "https://www.eventbrite.com/e/parrandazo-vol-4-at-spy-bar-enjoy-the-native-rhythms-of-the-caribbean-tickets-1991568778829",
+    "styles": [
+      "bachata",
+      "salsa",
+      "merengue"
+    ],
+    "cost": "$12.51",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-07-15T03:32:45.600213+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD event data matches",
+    "_verification_url": "https://www.eventbrite.com/e/parrandazo-vol-4-at-spy-bar-enjoy-the-native-rhythms-of-the-caribbean-tickets-1991568778829"
   },
   {
     "id": "m493k99gsroqpbockbf2e5cgi7@google.com",
@@ -830,6 +881,29 @@
     "_verification_url": "https://www.eventbrite.com/e/2nd-annual-del-barrio-afro-latino-festival-tickets-1992695483834?utm_experiment=test_share_listing&aff=ebdsshios&sg=56077d3869924c5777eebd2f6fdf20c0930e20783c5987e1d0b6863e0d4aa6195a9c0f85478960de5dd04535fd6f830d47692d0429f1b7f91e4099817b1a34af2dfc3147d414da37cb5e175250"
   },
   {
+    "id": "E4BB2A41-9CD3-43BC-B9F7-123EF0848A9F",
+    "name": "El Patio del Tipico - BachaTipico ",
+    "startDate": "2026-07-19T00:00:00+00:00",
+    "endDate": "2026-07-19T05:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "649 Lynnway, Lynn, MA, United States",
+    "lat": 42.4533404,
+    "lng": -70.9626153,
+    "description": "EL PATIO DEL TÍPICO 🇩🇴🔥\nWhere culture, music, and good energy come together… and you feel it 💃🏽🕺🏽\nGet ready for sunset summer vibes that turn into a lit night under the stars 🌇\n🎶 The sounds of accordion, tambora & güira setting the mood all night\n🎧 Típico • Bachata • Dembow • Salsa\n📍 Taco Rock Corona -Lynn,MA\n📅 Saturday July 18th\n⏰ 8PM-1AM\nDespués no digas que no te dije 😎\nEvent is 21+\n\nSource: https://dancefam.org/event/2473",
+    "url": "https://dancefam.org/event/2473",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-07-15T03:32:49.755635+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD event data matches",
+    "_verification_url": "https://dancefam.org/event/2473"
+  },
+  {
     "id": "9802609C-4946-4E9E-8E83-D491FE8F00A5",
     "name": "Timba y Descontrol Cuban salsa lessons + social",
     "startDate": "2026-07-22T18:00:00-04:00",
@@ -864,6 +938,50 @@
       "2026-09-29T18:00:00-04:00",
       "2026-10-06T18:00:00-04:00"
     ]
+  },
+  {
+    "id": "EABF8ED1-2055-465D-B54F-CFE5F36488F3",
+    "name": "Salsa Night at the Mary Ellen Welch Greenway",
+    "startDate": "2026-07-15T22:00:00+00:00",
+    "endDate": "2026-07-16T00:00:00+00:00",
+    "dayOfWeek": "Wednesday",
+    "location": "Bremen Street Park",
+    "lat": 42.3750712,
+    "lng": -71.0307851,
+    "description": "Join Gruppo Chevre for the best in Latin sounds! Bring your dancing shows and Salsa with us with this fantastic band.\n\nSource: fb://event/?id=1701258681125486",
+    "url": "https://www.facebook.com/events/1701258681125486/",
+    "styles": [
+      "salsa"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-07-15T03:32:50.683014+00:00",
+    "_verified_status": "needs_browser",
+    "_verified_notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
+    "_verification_url": "https://www.facebook.com/events/1701258681125486/"
+  },
+  {
+    "id": "5687EE6E-EC0E-46C7-86FA-83258D83CD13",
+    "name": " Ágora Cultural Architects Present: ¡Baila Boston! Salsa Night",
+    "startDate": "2026-07-17T22:00:00+00:00",
+    "endDate": "2026-07-18T02:00:00+00:00",
+    "dayOfWeek": "Friday",
+    "location": "Boylston St & Tremont St, Boston, MA, United States, Massachusetts 02116",
+    "lat": 42.3530978,
+    "lng": -71.0644266,
+    "description": "In partnership with our community curator Ágora Cultural Architects, one of the premiere cultural presenting organizations in Greater Boston, and Hernan Choque of beloved Salsa studio Salsa y Control, UnCommon’s Salsa Nights feature a live Salsa band, DJ Hernan Choque, free community Salsa dance lessons from Salsa y Control, professional performances, and open dance.  The Common comes to life with Salsa beats, and UnCommon provides an unforgettable opportunity for shared, cultural experiences.\n\nTo make the evening even more delicious, El Jefe’s Taqueria will be featuring a salsa tasting!\n\nLearn more: https://uncommoncorner.org/event/baila-boston-salsa-night-7/",
+    "url": "https://uncommoncorner.org/event/baila-boston-salsa-night-7/",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-07-15T03:32:50.687849+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Page accessible, no JSON-LD found (text check only)",
+    "_verification_url": "https://uncommoncorner.org/event/baila-boston-salsa-night-7/"
   },
   {
     "id": "374F6A9E-8016-4466-9441-0793EA0E0EA6",
@@ -1095,6 +1213,50 @@
     "_verification_url": "https://www.boston.gov/calendar/tito-puente-latin-music-series-cesar-orozco-and-sonahead"
   },
   {
+    "id": "3kse9dejo6rkcv3bqe34toagda@google.com",
+    "name": "Tito Puente Latin Music Series - Sbm",
+    "startDate": "2026-07-16T23:00:00+00:00",
+    "endDate": "2026-07-17T00:30:00+00:00",
+    "dayOfWeek": "Thursday",
+    "location": "ODay Playground 75 W Newton Street Boston 02118",
+    "lat": 42.340484,
+    "lng": -71.0754678,
+    "description": "The six-concert Tito Puente Latin Music Series returns to Boston parks on in July and August. Performers include Berklee College of Music faculty, students, alumni, and world-renowned artists.\n\n\nODay Playground\n75 W Newton Street\n\nDetails on how to join this event:\nhttps://www.boston.gov/calendar/tito-puente-latin-music-series-sbm",
+    "url": "https://www.boston.gov/calendar/tito-puente-latin-music-series-sbm",
+    "styles": [
+      "other"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-07-15T03:32:57.964995+00:00",
+    "_verified_status": "needs_review",
+    "_verified_notes": "Page contains 'canceled' — may be cancelled or rescheduled",
+    "_verification_url": "https://www.boston.gov/calendar/tito-puente-latin-music-series-sbm"
+  },
+  {
+    "id": "876946c7362a1b4b7d0927db9c62eccd1bf0c07c@dance-calendar",
+    "name": "Festival Betances 2026 - Boricua Legacy: Shaping America’s Story",
+    "startDate": "2026-07-18T20:30:00+00:00",
+    "endDate": "2026-07-19T05:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "A community parade through Villa Victoria, Art",
+    "lat": 42.342185,
+    "lng": -71.0736383,
+    "description": "Join Inquilinos Boricuas en Acción for Festival Betances, one of Boston’s longest-running and most beloved Puerto Rican cultural festivals.\n\nSource: https://www.eventbrite.com/e/festival-betances-2026-boricua-legacy-shaping-americas-story-tickets-1990510467391",
+    "url": "https://www.eventbrite.com/e/festival-betances-2026-boricua-legacy-shaping-americas-story-tickets-1990510467391",
+    "styles": [
+      "other"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-07-15T03:32:58.802353+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Page accessible, no JSON-LD found (text check only)",
+    "_verification_url": "https://www.eventbrite.com/e/festival-betances-2026-boricua-legacy-shaping-americas-story-tickets-1990510467391"
+  },
+  {
     "id": "C3B5A69B-39FC-4AED-B009-FBF49C8D3164",
     "name": "Noise 1st Anniversary",
     "startDate": "2026-07-26T01:00:00+00:00",
@@ -1117,6 +1279,30 @@
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD event data matches",
     "_verification_url": "https://www.eventbrite.com/e/noise-1st-anniversary-tickets-1992309697938?utm_experiment=test_share_listing&aff=ebdsshios&sg=9f84233c3cda0245ea6dc3675042d14d411286d7aea050e0365096563ad86d76052ab6a1cdb7dc490bafa2b2ff95a4a352ce0a61f4ec262807fa73d3c0bd991d0ec3f843e0fbe5ef4cf5b5f220"
+  },
+  {
+    "id": "fiesta-20260717-agave-mexican-grill-cantina-marlborough",
+    "name": "Salsa & Bachata Social w/ Fiesta Dance Co",
+    "startDate": "2026-07-17T00:00:00-04:00",
+    "endDate": "2026-07-17T00:00:00-04:00",
+    "dayOfWeek": "Friday",
+    "location": "Agave Mexican Grill & Cantina, 197A Boston Post Rd W, Marlborough, MA 01752",
+    "lat": 42.3404499,
+    "lng": -71.5909618,
+    "description": "Salsa & Bachata social hosted by Fiesta Dance Company at Agave Mexican Grill & Cantina.\n\nOrganized by Fiesta Dance Company\nWebsite: https://fiestadancecompany.com/upcoming-socials\nInstagram: https://www.instagram.com/fiestadancecompany/",
+    "url": "https://fiestadancecompany.com/upcoming-socials",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "fiesta-dance-company",
+    "_location_override": "Agave Mexican Grill & Cantina, 197A Boston Post Rd W, Marlborough, MA 01752",
+    "_verified_at": "2026-07-15T03:32:59.205350+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Page accessible, no JSON-LD found (text check only)",
+    "_verification_url": "https://fiestadancecompany.com/upcoming-socials"
   },
   {
     "id": "fiesta-20260731-sol-de-mexico-milford",
@@ -1222,6 +1408,51 @@
     "_verification_url": "https://www.nextlevelfusiondance.com/event-details/egleston-park-summer-socials-2026-07-19-14-00"
   },
   {
+    "id": "03DD0807-376C-42B5-9C9C-7C523C78DFC4",
+    "name": "Rumba Land Vol 4",
+    "startDate": "2026-07-18T01:00:00+00:00",
+    "endDate": "2026-07-18T05:00:00+00:00",
+    "dayOfWeek": "Friday",
+    "location": "El Barco, 50 Dalton St, Boston, MA  02115, United States",
+    "lat": 42.3474,
+    "lng": -71.0812,
+    "description": "🔥 Boston, are you ready? The party is back! 💃🕺\n\nRumba Land Vol. 4 is bringing another unforgettable night of live salsa, dancing, and nonstop energy!\n\n📅 July 17, 2026\n🕘 9:00 PM – 1:00 AM\n📍 El Barco Restaurant @elbarcobb\n50 Dalton St, Boston, MA\n\n🎺 Live performance by Orquesta Cafesón\n🎧 Music by DJ Jhei\n🐼 Special guest: Pandín\n\n🎟️ Cover: $25\n📲 Follow us on Instagram and get $5 OFF your admission!\n\nBring your friends, hit the dance floor, and experience one of the hottest Latin nights in Boston. Don’t miss it! 🔥\n\nSource: https://www.instagram.com/p/DaHxXKGMnQ5",
+    "url": "https://www.instagram.com/p/DaHxXKGMnQ5",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "Cover: $25",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-07-15T03:33:00.451834+00:00",
+    "_verified_status": "unverifiable",
+    "_verified_notes": "Instagram link — cannot scrape programmatically. Manual check recommended.",
+    "_verification_url": "https://www.instagram.com/p/DaHxXKGMnQ5"
+  },
+  {
+    "id": "e27615176894807797@facebook.com",
+    "name": "Sunset Salsa Bachata on the Docks 7-10pm",
+    "startDate": "2026-07-16T23:00:00+00:00",
+    "endDate": "2026-07-17T02:00:00+00:00",
+    "dayOfWeek": "Thursday",
+    "location": "Hatch Shell on the Esplanade",
+    "lat": 42.357256,
+    "lng": -71.073702,
+    "description": "*** BOBAS is Thursday 7-10pm this week ***\n\nWe are looking for alternative venues for rainy days. Please see the post on our page for more details. \n\n*** The weather looks great but please monitor this event page for updates. ***\n\nBachata playing on one side of the dock and salsa on the other like last time.\n\nBring water. Please don't forget to take your stuff with you, we always see things left behind. Please don’t put your stuff in front of the speakers, it muffles the sound.\n\nThe location is the usual docks behind the Hatch Shell stage:\nhttps://maps.app.goo.gl/ERYQSY3Qy9Pbk5ew6\n\nPlease follow the Boston Outdoor Bachata And Salsa page to get notifications about future events.\n\nCheck out Havana Thursday after!\n\n***Weather Permitting. Keep an eye on this event page for updates. ***\n\nhttps://www.facebook.com/events/27615176894807797/",
+    "url": "https://www.facebook.com/events/27615176894807797/",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-07-15T03:33:00.458005+00:00",
+    "_verified_status": "needs_browser",
+    "_verified_notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
+    "_verification_url": "https://www.facebook.com/events/27615176894807797/"
+  },
+  {
     "id": "EEBA5D64-CBA2-445F-AEEB-42DE9047A3FF",
     "name": "La Calma presenta Salsa de PR",
     "startDate": "2026-07-24T00:00:00+00:00",
@@ -1244,6 +1475,48 @@
     "_verification_url": "https://www.instagram.com/p/Dalkcbqirj2"
   },
   {
+    "id": "manual-fuego-querencia-20260717-0",
+    "name": "Fuego y Candela Salsa Social — Querencia Takeover",
+    "startDate": "2026-07-17T20:30:00-04:00",
+    "endDate": "2026-07-18T01:30:00-04:00",
+    "dayOfWeek": "Friday",
+    "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA 02139",
+    "lat": 42.3679,
+    "lng": -71.0885,
+    "description": "A Querencia takeover of Fuego y Candela's salsa social at the Dante Alighieri Society. Beginner salsa class at 8:30 PM, then social dancing into the night. Salsa/mambo all night.",
+    "url": "https://www.facebook.com/events/953350091067889/",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$20",
+    "recurring": false,
+    "organizer": "Fuego y Candela",
+    "source": "manual"
+  },
+  {
+    "id": "harvardsquare-12th-annual-salsa",
+    "name": "12th Annual Salsa Squared",
+    "startDate": "2026-07-24T19:00:00-04:00",
+    "endDate": "2026-07-24T22:00:00-04:00",
+    "location": "Brattle Plaza, 22 Brattle Street, Cambridge, MA 02138",
+    "lat": 42.3740355,
+    "lng": -71.1216821,
+    "description": "Harvard Square's annual outdoor Latin dance party in Brattle Plaza (across from Cava). Free salsa and bachata dance lessons, Latin music from DJ D. Martinez, dancing under decorative lighting, with complimentary salsa and chips. Dance instruction by Salsa y Control Dance Company; food samples from El Jefe's Taqueria. Presented by the Harvard Square Business Association. Free and open to the public.",
+    "url": "https://harvardsquare.com/event/12th-annual-salsa/",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": "Free",
+    "recurring": false,
+    "source": "harvardsquare",
+    "dayOfWeek": "Friday",
+    "urls": [
+      "https://harvardsquare.com/12th-annual-salsa-squared-in-harvard-square/",
+      "https://harvardsquare.com/event/12th-annual-salsa/"
+    ]
+  },
+  {
     "id": "548F5048-49C0-4DB4-9299-79E38B708BEF",
     "name": "\"Zouk Weekender Bubble\" with Iago + Ninna 2026",
     "startDate": "2026-09-26T00:00:00-04:00",
@@ -1258,25 +1531,6 @@
       "zouk"
     ],
     "cost": "$200",
-    "recurring": false,
-    "source": "beatrice-calendar"
-  },
-  {
-    "id": "65827-1784876400-1784930400@harvardsquare.com",
-    "name": "12th Annual Salsa Squared",
-    "startDate": "2026-07-24T23:00:00+00:00",
-    "endDate": "2026-07-25T02:00:00+00:00",
-    "dayOfWeek": "Friday",
-    "location": "22 Brattle St, Cambridge, MA, United States",
-    "lat": 42.3740355,
-    "lng": -71.1216821,
-    "description": "The time has come to dance the night away in the heart of Harvard Square!\n\nFree dance lessons, music from one of Boston’s most sought-after DJs and complimentary salsa and chips!\n\nFeel the beat and the heat!\n\nJoin the Harvard Square Business Association on Brattle Plaza, located across from Cava at 22 Brattle Street, on Friday, July 24th from 7pm – 10pm and experience the sights, sounds and tastes of the 12th Annual Salsa Squared Dance Party. Take Salsa and Bachata lessons and sway to infectious Latin beats under twinkling lights. Satisfy your salsa and chip cravings with free samples from El Jefe’s Taqueria and the Harvard Square Business Association.\n\nSource: https://harvardsquare.com/12th-annual-salsa-squared-in-harvard-square/",
-    "url": "https://harvardsquare.com/12th-annual-salsa-squared-in-harvard-square/",
-    "styles": [
-      "bachata",
-      "salsa"
-    ],
-    "cost": "Free",
     "recurring": false,
     "source": "beatrice-calendar"
   },

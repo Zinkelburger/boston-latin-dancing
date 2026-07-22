@@ -115,6 +115,18 @@ VENUE_COORDS = {
     "seven hills park": (42.397751, -71.124514),
     "seven hills park, somerville": (42.397751, -71.124514),
     "seven hills stage": (42.397751, -71.124514),
+    "bremen street park amphitheater": (42.3757, -71.0357),
+    "bremen street park": (42.3757, -71.0357),
+    "carson beach": (42.3262, -71.0396),
+    "carson beach, boston": (42.3262, -71.0396),
+    "mother's beach": (42.3262, -71.0396),
+    "franklin park": (42.3068, -71.0925),
+    "franklin park playstead": (42.3068, -71.0925),
+    "pierpont rd": (42.3068, -71.0925),
+    "the grove at lawn on d": (42.34445, -71.04488),
+    "lawn on d": (42.34445, -71.04488),
+    "420 d street": (42.34445, -71.04488),
+    "420 d st": (42.34445, -71.04488),
 }
 
 BOSTON = (42.36, -71.06)

@@ -4,6 +4,10 @@
     "type": "ics",
     "scraper": "scrape_ics.py",
     "name": "Greater Boston Dance Socials (Beatrice)",
+    "noise": {
+      "score": 8,
+      "note": "Curated Greater Boston dance-socials calendar; nearly every entry is a real social."
+    },
     "url": "https://calendar.google.com/calendar/ical/31d111cd5f84b2c5cde57a9a175e4769da698d758828fb8de8b47158eefb819c%40group.calendar.google.com/public/basic.ics",
     "enabled": true,
     "latin_by_default": true
@@ -13,6 +17,10 @@
     "type": "wix-events",
     "scraper": "scrape_lister.py",
     "name": "Lister Events (Liz)",
+    "noise": {
+      "score": 10,
+      "note": "Dedicated dance-event organizer (Liz); output stays on-topic."
+    },
     "url": "https://www.listerevents.com/events",
     "enabled": true,
     "latin_by_default": true
@@ -22,10 +30,17 @@
     "type": "eventbrite",
     "scraper": "scrape_eventbrite.py",
     "name": "Eventbrite Boston Latin Dance",
+    "noise": {
+      "score": 50,
+      "note": "Keyword search across all of Eventbrite; drags in classes, fitness, and out-of-scene events."
+    },
     "search_queries": [
       "https://www.eventbrite.com/d/ma--boston/salsa/",
       "https://www.eventbrite.com/d/ma--boston/bachata/",
-      "https://www.eventbrite.com/d/ma--boston/latin-dance/"
+      "https://www.eventbrite.com/d/ma--boston/latin-dance/",
+      "https://www.eventbrite.com/d/ma--boston/dance-social/",
+      "https://www.eventbrite.com/d/ma--boston/latin-night/",
+      "https://www.eventbrite.com/d/ma--boston/latin-music/"
     ],
     "enabled": true
   },
@@ -34,6 +49,10 @@
     "type": "facebook",
     "scraper": "scrape_facebook.py",
     "name": "Boston Outdoor Bachata And Salsa (BOBAS)",
+    "noise": {
+      "score": 12,
+      "note": "Single-purpose outdoor bachata/salsa page; rarely off-topic."
+    },
     "facebook_events_url": "https://www.facebook.com/profile.php?id=61551665503735&sk=events",
     "instagram_handle": "bobas.dance",
     "defaults": {
@@ -54,6 +73,10 @@
     "type": "facebook",
     "scraper": "scrape_facebook.py",
     "name": "Fuego y Candela Salsa Socials",
+    "noise": {
+      "score": 12,
+      "note": "Fuego y Candela salsa socials; on-topic, only risk is Facebook date drift."
+    },
     "facebook_events_url": "https://www.facebook.com/FuegoyCandelaSalsa/events",
     "defaults": {
       "styles": [
@@ -69,6 +92,10 @@
     "id": "sensualeros-boston",
     "type": "ics",
     "name": "Sensualeros Boston Events",
+    "noise": {
+      "score": 35,
+      "note": "Shared community calendar; mixes in non-Latin (WCS, etc.) that the Latin filter drops."
+    },
     "scraper": "scrape_ics.py",
     "enabled": true,
     "url": "https://calendar.google.com/calendar/ical/76db9d79f4cf645f26e28373c575d9fcb865a264521c8f0880044b4e7283ead7%40group.calendar.google.com/public/basic.ics",
@@ -79,6 +106,10 @@
     "type": "custom",
     "scraper": "scrape_fiesta_dance.py",
     "name": "Fiesta Dance Company",
+    "noise": {
+      "score": 12,
+      "note": "One company's own socials page; on-topic."
+    },
     "url": "https://fiestadancecompany.com/upcoming-socials",
     "website": "https://fiestadancecompany.com",
     "instagram_handle": "fiestadancecompany",
@@ -95,6 +126,10 @@
     "id": "unabulla-cuban-boston",
     "type": "ics",
     "name": "Cuban Dance in Boston (Una Bulla)",
+    "noise": {
+      "score": 10,
+      "note": "Dedicated Cuban / casino dance calendar; on-topic."
+    },
     "scraper": "scrape_ics.py",
     "enabled": true,
     "url": "https://calendar.google.com/calendar/ical/8a87859dbbb9d4a566d0ab0137c136f844424435b0b16585d99c3beb904e0514%40group.calendar.google.com/public/basic.ics",
@@ -104,6 +139,10 @@
     "id": "timba-messengers",
     "type": "ics",
     "name": "The Timba Messengers",
+    "noise": {
+      "score": 10,
+      "note": "Dedicated salsa/timba band calendar; on-topic."
+    },
     "scraper": "scrape_ics.py",
     "enabled": true,
     "url": "https://calendar.google.com/calendar/ical/thetimbamessengers%40gmail.com/public/basic.ics",
@@ -121,6 +160,10 @@
     "type": "facebook",
     "scraper": "scrape_facebook.py",
     "name": "Sabor Latino Boston",
+    "noise": {
+      "score": 15,
+      "note": "Dedicated Latin social page; main risk is Facebook parsing."
+    },
     "facebook_events_url": "https://www.facebook.com/SaborLatinoBoston/events",
     "defaults": {
       "styles": [
@@ -140,6 +183,131 @@
     "url": "https://somervilleartscouncil.org/events/",
     "website": "https://somervilleartscouncil.org",
     "event_path_prefix": "https://somervilleartscouncil.org/events/",
+    "enabled": true
+  },
+  {
+    "id": "mato-lawn-on-d",
+    "type": "custom",
+    "scraper": "scrape_mato.py",
+    "name": "The Grove at Lawn on D (Salsa y Control)",
+    "noise": {
+      "score": 45,
+      "note": "Venue calendar; Lawn on D hosts many non-dance events, only some are Latin socials."
+    },
+    "url": "https://ma.to/venue/lawnond",
+    "website": "https://ma.to/venue/lawnond",
+    "instagram_handle": "sycdancestudio",
+    "defaults": {
+      "styles": [
+        "salsa"
+      ]
+    },
+    "enabled": true
+  },
+  {
+    "id": "nlf-events",
+    "type": "wix-events",
+    "scraper": "scrape_wix.py",
+    "name": "Next Level Fusion Dance (Party with Next Level)",
+    "noise": {
+      "score": 25,
+      "note": "Latin-festival org site; mostly on-topic but includes non-social programming."
+    },
+    "url": "https://www.nextlevelfusiondance.com/upcoming-events",
+    "listing_urls": [
+      "https://www.nextlevelfusiondance.com/upcoming-events",
+      "https://www.nextlevelfusiondance.com/party-with-next-level"
+    ],
+    "link_pattern": "/event-details/",
+    "website": "https://www.nextlevelfusiondance.com",
+    "instagram_handle": "nextlevelfusion",
+    "defaults": {
+      "styles": [
+        "bachata",
+        "salsa"
+      ]
+    },
+    "enabled": true
+  },
+  {
+    "id": "pr-festival-ma",
+    "type": "wix-events",
+    "scraper": "scrape_wix.py",
+    "name": "Puerto Rican Festival of Massachusetts",
+    "noise": {
+      "score": 28,
+      "note": "Puerto Rican festival calendar; Latin but seasonal, includes non-dance events."
+    },
+    "url": "https://www.puertoricanfestivalofma.org",
+    "listing_urls": [
+      "https://www.puertoricanfestivalofma.org",
+      "https://www.puertoricanfestivalofma.org/events-1"
+    ],
+    "link_pattern": "/events-1/",
+    "website": "https://www.puertoricanfestivalofma.org",
+    "defaults": {
+      "styles": [
+        "salsa"
+      ]
+    },
+    "enabled": true
+  },
+  {
+    "id": "lowell-sitp",
+    "type": "facebook",
+    "scraper": "scrape_facebook.py",
+    "name": "Lowell Salsa in the Park",
+    "noise": {
+      "score": 12,
+      "note": "Salsa In The Park Lowell; single-purpose, on-topic."
+    },
+    "facebook_events_url": "https://www.facebook.com/LowellSITP/events",
+    "defaults": {
+      "styles": [
+        "salsa"
+      ],
+      "location": "Corner of Fletcher Street and Father John Sarantos Way, Lowell, MA 01854"
+    },
+    "enabled": true
+  },
+  {
+    "id": "eastboston-events",
+    "type": "custom",
+    "scraper": "scrape_eastboston.py",
+    "name": "EastBoston.com Community Events",
+    "noise": {
+      "score": 85,
+      "note": "General community calendar; keyword-filtered, but the raw feed is overwhelmingly non-dance."
+    },
+    "url": "https://eastboston.com/events/",
+    "website": "https://eastboston.com",
+    "defaults": {
+      "location": "East Boston, MA"
+    },
+    "enabled": true
+  },
+  {
+    "id": "harvardsquare",
+    "type": "custom",
+    "scraper": "scrape_harvardsquare.py",
+    "name": "Harvard Square Happenings (seasonal Latin socials)",
+    "noise": {
+      "score": 95,
+      "note": "Giant civic happenings calendar; ~1 of ~194 listings is a dance social (annual Salsa Squared)."
+    },
+    "url": "https://harvardsquare.com/happenings/",
+    "website": "https://harvardsquare.com",
+    "listing_urls": [
+      "https://harvardsquare.com/happenings/"
+    ],
+    "active_months": [
+      6,
+      7,
+      8
+    ],
+    "defaults": {
+      "location": "Harvard Square, Cambridge, MA"
+    },
     "enabled": true
   }
 ]

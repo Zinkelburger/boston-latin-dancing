@@ -468,3 +468,7 @@
 {"ts": "2026-07-22T17:05:34.135249+00:00", "action": "edit", "event_id": "eb-1994624708196", "details": "{\"name\": \"Noche Latina July Salsa Workshop and Practica\"}"}
 {"ts": "2026-07-22T17:05:35.588180+00:00", "action": "edit", "event_id": "23FEA93F-DAA4-40B3-9036-92B11292E207", "details": "{\"location\": \"Todos Dance & Fitness Studio, Natick, MA\"}"}
 {"ts": "2026-07-22T17:06:25.266591+00:00", "action": "edit", "event_id": "23FEA93F-DAA4-40B3-9036-92B11292E207", "details": "{\"location\": \"Todos Dance & Fitness Studio, 677 Worcester St, Natick, MA 01760\"}"}
+{"ts": "2026-07-19T19:46:59.503275+00:00", "action": "add", "event_id": "harvardsquare-12th-annual-salsa", "details": ""}
+{"ts": "2026-07-20T00:01:38.615044+00:00", "action": "pending_review", "event_id": "harvardsquare-test-newfind-0001", "details": "review dup of 374F6A9E-8016-4466-9441-0793EA0E0EA6: word_overlap(2/4)+within_24h+same_day"}
+{"ts": "2026-07-20T00:02:30.697057+00:00", "action": "quarantine_new", "event_id": "harvardsquare-zzqtest-NOISY", "details": ""}
+{"ts": "2026-07-20T00:02:30.712469+00:00", "action": "add", "event_id": "beatrice-calendar-zzqtest-TRUST", "details": ""}
