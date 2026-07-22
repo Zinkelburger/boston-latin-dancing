@@ -98,5 +98,15 @@
     "blocked_at": "2026-07-15T03:32:23.829426+00:00",
     "blocked_notes": "New Haven CT, ~2.5h from Boston; distinct from the Lynn MA Malecon party it dedup-matched",
     "location": "3 Clifton Street, New Haven, CT 06513, New Haven, CT"
+  },
+  {
+    "id": "E208F389-80D3-4F31-9214-04906943E673",
+    "name": "Paranormal Cirque",
+    "source": "beatrice-calendar",
+    "blocked_reason": "circus show, not Latin social dance",
+    "blocked_category": "not_dance",
+    "blocked_at": "2026-07-22T20:33:27.474462+00:00",
+    "blocked_notes": "circus show, not Latin social dance",
+    "location": "Suffolk Downs, 525 McClellan Hwy, East Boston, MA 02128, United States"
   }
 ]

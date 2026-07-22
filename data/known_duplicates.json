@@ -136,5 +136,11 @@
     "id_b": "manual-fuego-querencia-20260717-0",
     "verdict": "different",
     "reviewed_at": "2026-07-15T21:03:08.130837+00:00"
+  },
+  {
+    "id_a": "5984F5C6-9A2D-454E-AE0B-B201FC78B814",
+    "id_b": "nlf-events-intermediate-bachata-w-tina-2026-07-23-20-45",
+    "verdict": "same",
+    "reviewed_at": "2026-07-22T20:33:27.599158+00:00"
   }
 ]

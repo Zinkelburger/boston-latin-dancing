@@ -472,3 +472,30 @@
 {"ts": "2026-07-20T00:01:38.615044+00:00", "action": "pending_review", "event_id": "harvardsquare-test-newfind-0001", "details": "review dup of 374F6A9E-8016-4466-9441-0793EA0E0EA6: word_overlap(2/4)+within_24h+same_day"}
 {"ts": "2026-07-20T00:02:30.697057+00:00", "action": "quarantine_new", "event_id": "harvardsquare-zzqtest-NOISY", "details": ""}
 {"ts": "2026-07-20T00:02:30.712469+00:00", "action": "add", "event_id": "beatrice-calendar-zzqtest-TRUST", "details": ""}
+{"ts": "2026-07-22T20:31:29.185498+00:00", "action": "quarantine_new", "event_id": "E208F389-80D3-4F31-9214-04906943E673", "details": ""}
+{"ts": "2026-07-22T20:31:30.954014+00:00", "action": "quarantine_new", "event_id": "mato-salsa-night-at-the-grove-27-aug-2026", "details": ""}
+{"ts": "2026-07-22T20:31:30.986097+00:00", "action": "quarantine_new", "event_id": "mato-salsa-night-at-the-grove-24-sep-2026", "details": ""}
+{"ts": "2026-07-22T20:31:31.024095+00:00", "action": "quarantine_new", "event_id": "mato-salsa-night-at-the-grove-29-oct-2026", "details": ""}
+{"ts": "2026-07-22T20:31:31.063171+00:00", "action": "pending_review", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-07-23-20-45", "details": "review dup of 5984F5C6-9A2D-454E-AE0B-B201FC78B814: word_overlap(1/3)+within_24h+same_location+same_day"}
+{"ts": "2026-07-22T20:31:31.072680+00:00", "action": "drop_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-08-16-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-07-22T20:31:31.082516+00:00", "action": "drop_non_latin", "event_id": "pr-festival-ma-boston-puerto-rican-festival", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-07-22T20:31:31.089037+00:00", "action": "drop_non_latin", "event_id": "pr-festival-ma-puerto-rican-parade", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-07-22T20:31:31.421466+00:00", "action": "archive", "event_id": "lister-bachata-dance-workout-morse-library", "details": ""}
+{"ts": "2026-07-22T20:31:31.421639+00:00", "action": "archive", "event_id": "3da0d44a82fe3034c582b6b9cc33f734cf3c1314@dance-calendar", "details": ""}
+{"ts": "2026-07-22T20:31:31.421738+00:00", "action": "archive", "event_id": "E4BB2A41-9CD3-43BC-B9F7-123EF0848A9F", "details": ""}
+{"ts": "2026-07-22T20:31:31.421797+00:00", "action": "archive", "event_id": "EABF8ED1-2055-465D-B54F-CFE5F36488F3", "details": ""}
+{"ts": "2026-07-22T20:31:31.421847+00:00", "action": "archive", "event_id": "5687EE6E-EC0E-46C7-86FA-83258D83CD13", "details": ""}
+{"ts": "2026-07-22T20:31:31.421910+00:00", "action": "archive", "event_id": "3kse9dejo6rkcv3bqe34toagda@google.com", "details": ""}
+{"ts": "2026-07-22T20:31:31.421960+00:00", "action": "archive", "event_id": "876946c7362a1b4b7d0927db9c62eccd1bf0c07c@dance-calendar", "details": ""}
+{"ts": "2026-07-22T20:31:31.422010+00:00", "action": "archive", "event_id": "fiesta-20260717-agave-mexican-grill-cantina-marlborough", "details": ""}
+{"ts": "2026-07-22T20:31:31.422070+00:00", "action": "archive", "event_id": "03DD0807-376C-42B5-9C9C-7C523C78DFC4", "details": ""}
+{"ts": "2026-07-22T20:31:31.422116+00:00", "action": "archive", "event_id": "e27615176894807797@facebook.com", "details": ""}
+{"ts": "2026-07-22T20:31:31.422170+00:00", "action": "archive", "event_id": "manual-fuego-querencia-20260717-0", "details": ""}
+{"ts": "2026-07-22T20:33:27.475572+00:00", "action": "block", "event_id": "E208F389-80D3-4F31-9214-04906943E673", "details": "not_dance: circus show, not Latin social dance"}
+{"ts": "2026-07-22T20:33:27.518328+00:00", "action": "add", "event_id": "mato-salsa-night-at-the-grove-27-aug-2026", "details": ""}
+{"ts": "2026-07-22T20:33:27.518661+00:00", "action": "approve", "event_id": "mato-salsa-night-at-the-grove-27-aug-2026", "details": ""}
+{"ts": "2026-07-22T20:33:27.556176+00:00", "action": "add", "event_id": "mato-salsa-night-at-the-grove-24-sep-2026", "details": ""}
+{"ts": "2026-07-22T20:33:27.556665+00:00", "action": "approve", "event_id": "mato-salsa-night-at-the-grove-24-sep-2026", "details": ""}
+{"ts": "2026-07-22T20:33:27.595283+00:00", "action": "add", "event_id": "mato-salsa-night-at-the-grove-29-oct-2026", "details": ""}
+{"ts": "2026-07-22T20:33:27.595619+00:00", "action": "approve", "event_id": "mato-salsa-night-at-the-grove-29-oct-2026", "details": ""}
+{"ts": "2026-07-22T20:33:27.633512+00:00", "action": "approve", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-07-23-20-45", "details": ""}
