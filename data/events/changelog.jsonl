@@ -418,3 +418,53 @@
 {"ts": "2026-07-15T21:03:08.126458+00:00", "action": "edit", "event_id": "4scb4cfq1j6t6b7ss6io3jn65n_R20251018T010000@google.com", "details": "dropped 2026-07-17T21:00:00-04:00 occurrence (Querencia takeover replaces it); rolled to 2026-08-21T21:00:00-04:00"}
 {"ts": "2026-07-15T21:06:52.051873+00:00", "action": "edit", "event_id": "4scb4cfq1j6t6b7ss6io3jn65n_R20251018T010000@google.com", "details": "reverted July-17 occurrence removal (wrong layer: dantes-tambo hub already governs the pin)"}
 {"ts": "2026-07-17T18:04:52.717677+00:00", "action": "add", "event_id": "manual-3b34eb0c35f4a44e", "details": ""}
+{"ts": "2026-07-22T16:52:42.337903+00:00", "action": "quarantine_new", "event_id": "548F5048-49C0-4DB4-9299-79E38B708BEF", "details": ""}
+{"ts": "2026-07-22T16:52:43.305717+00:00", "action": "quarantine_new", "event_id": "65827-1784876400-1784930400@harvardsquare.com", "details": ""}
+{"ts": "2026-07-22T16:52:43.384820+00:00", "action": "quarantine_new", "event_id": "DDA824C0-1D90-43DD-8494-ABAD044CB5CF", "details": ""}
+{"ts": "2026-07-22T16:52:43.613838+00:00", "action": "quarantine_new", "event_id": "event-9479-0@www.icaboston.org", "details": ""}
+{"ts": "2026-07-22T16:52:43.639086+00:00", "action": "quarantine_new", "event_id": "event-9479-1@www.icaboston.org", "details": ""}
+{"ts": "2026-07-22T16:52:44.884988+00:00", "action": "quarantine_new", "event_id": "23FEA93F-DAA4-40B3-9036-92B11292E207", "details": ""}
+{"ts": "2026-07-22T16:52:44.919387+00:00", "action": "quarantine_new", "event_id": "39DAFAF6-883F-4EB7-AE58-4FDF2F82857A", "details": ""}
+{"ts": "2026-07-22T16:52:45.859604+00:00", "action": "quarantine_new", "event_id": "E208F389-80D3-4F31-9214-04906943E673", "details": ""}
+{"ts": "2026-07-22T16:52:46.015141+00:00", "action": "quarantine_new", "event_id": "eb-1993623354119", "details": ""}
+{"ts": "2026-07-22T16:52:46.050048+00:00", "action": "quarantine_new", "event_id": "eb-1993914028534", "details": ""}
+{"ts": "2026-07-22T16:52:46.114293+00:00", "action": "quarantine_new", "event_id": "eb-1994624708196", "details": ""}
+{"ts": "2026-07-22T16:52:46.383742+00:00", "action": "quarantine_new", "event_id": "lister-battle-of-the-beats-2026-latin-vs-hip-hop", "details": ""}
+{"ts": "2026-07-22T16:52:46.717429+00:00", "action": "archive", "event_id": "lister-bachata-dance-workout-morse-library", "details": ""}
+{"ts": "2026-07-22T16:52:46.717578+00:00", "action": "archive", "event_id": "3da0d44a82fe3034c582b6b9cc33f734cf3c1314@dance-calendar", "details": ""}
+{"ts": "2026-07-22T16:52:46.717668+00:00", "action": "archive", "event_id": "E4BB2A41-9CD3-43BC-B9F7-123EF0848A9F", "details": ""}
+{"ts": "2026-07-22T16:52:46.717730+00:00", "action": "archive", "event_id": "EABF8ED1-2055-465D-B54F-CFE5F36488F3", "details": ""}
+{"ts": "2026-07-22T16:52:46.717783+00:00", "action": "archive", "event_id": "5687EE6E-EC0E-46C7-86FA-83258D83CD13", "details": ""}
+{"ts": "2026-07-22T16:52:46.717886+00:00", "action": "archive", "event_id": "3kse9dejo6rkcv3bqe34toagda@google.com", "details": ""}
+{"ts": "2026-07-22T16:52:46.717976+00:00", "action": "archive", "event_id": "876946c7362a1b4b7d0927db9c62eccd1bf0c07c@dance-calendar", "details": ""}
+{"ts": "2026-07-22T16:52:46.718048+00:00", "action": "archive", "event_id": "fiesta-20260717-agave-mexican-grill-cantina-marlborough", "details": ""}
+{"ts": "2026-07-22T16:52:46.718126+00:00", "action": "archive", "event_id": "03DD0807-376C-42B5-9C9C-7C523C78DFC4", "details": ""}
+{"ts": "2026-07-22T16:52:46.718186+00:00", "action": "archive", "event_id": "e27615176894807797@facebook.com", "details": ""}
+{"ts": "2026-07-22T16:52:46.718253+00:00", "action": "archive", "event_id": "manual-fuego-querencia-20260717-0", "details": ""}
+{"ts": "2026-07-22T16:52:46.718317+00:00", "action": "archive", "event_id": "manual-3b34eb0c35f4a44e", "details": ""}
+{"ts": "2026-07-22T17:05:33.683936+00:00", "action": "reject", "event_id": "E208F389-80D3-4F31-9214-04906943E673", "details": "circus show (Paranormal Cirque), not Latin social dance"}
+{"ts": "2026-07-22T17:05:33.685761+00:00", "action": "reject", "event_id": "event-9479-1@www.icaboston.org", "details": "empty/broken duplicate of ICA Vinyl Nights (no location/url/description)"}
+{"ts": "2026-07-22T17:05:33.736711+00:00", "action": "add", "event_id": "548F5048-49C0-4DB4-9299-79E38B708BEF", "details": ""}
+{"ts": "2026-07-22T17:05:33.737166+00:00", "action": "approve", "event_id": "548F5048-49C0-4DB4-9299-79E38B708BEF", "details": ""}
+{"ts": "2026-07-22T17:05:33.775796+00:00", "action": "add", "event_id": "65827-1784876400-1784930400@harvardsquare.com", "details": ""}
+{"ts": "2026-07-22T17:05:33.776084+00:00", "action": "approve", "event_id": "65827-1784876400-1784930400@harvardsquare.com", "details": ""}
+{"ts": "2026-07-22T17:05:33.826722+00:00", "action": "add", "event_id": "DDA824C0-1D90-43DD-8494-ABAD044CB5CF", "details": ""}
+{"ts": "2026-07-22T17:05:33.827164+00:00", "action": "approve", "event_id": "DDA824C0-1D90-43DD-8494-ABAD044CB5CF", "details": ""}
+{"ts": "2026-07-22T17:05:33.870126+00:00", "action": "add", "event_id": "event-9479-0@www.icaboston.org", "details": ""}
+{"ts": "2026-07-22T17:05:33.870481+00:00", "action": "approve", "event_id": "event-9479-0@www.icaboston.org", "details": ""}
+{"ts": "2026-07-22T17:05:33.908722+00:00", "action": "add", "event_id": "23FEA93F-DAA4-40B3-9036-92B11292E207", "details": ""}
+{"ts": "2026-07-22T17:05:33.909075+00:00", "action": "approve", "event_id": "23FEA93F-DAA4-40B3-9036-92B11292E207", "details": ""}
+{"ts": "2026-07-22T17:05:33.939905+00:00", "action": "add", "event_id": "39DAFAF6-883F-4EB7-AE58-4FDF2F82857A", "details": ""}
+{"ts": "2026-07-22T17:05:33.940389+00:00", "action": "approve", "event_id": "39DAFAF6-883F-4EB7-AE58-4FDF2F82857A", "details": ""}
+{"ts": "2026-07-22T17:05:33.986723+00:00", "action": "add", "event_id": "eb-1993623354119", "details": ""}
+{"ts": "2026-07-22T17:05:33.987034+00:00", "action": "approve", "event_id": "eb-1993623354119", "details": ""}
+{"ts": "2026-07-22T17:05:34.025315+00:00", "action": "add", "event_id": "eb-1993914028534", "details": ""}
+{"ts": "2026-07-22T17:05:34.025645+00:00", "action": "approve", "event_id": "eb-1993914028534", "details": ""}
+{"ts": "2026-07-22T17:05:34.073190+00:00", "action": "add", "event_id": "eb-1994624708196", "details": ""}
+{"ts": "2026-07-22T17:05:34.073700+00:00", "action": "approve", "event_id": "eb-1994624708196", "details": ""}
+{"ts": "2026-07-22T17:05:34.118423+00:00", "action": "add", "event_id": "lister-battle-of-the-beats-2026-latin-vs-hip-hop", "details": ""}
+{"ts": "2026-07-22T17:05:34.118877+00:00", "action": "approve", "event_id": "lister-battle-of-the-beats-2026-latin-vs-hip-hop", "details": ""}
+{"ts": "2026-07-22T17:05:34.125141+00:00", "action": "edit", "event_id": "eb-1993623354119", "details": "{\"name\": \"Caribbean Konpa and Bachata Dance Event\"}"}
+{"ts": "2026-07-22T17:05:34.135249+00:00", "action": "edit", "event_id": "eb-1994624708196", "details": "{\"name\": \"Noche Latina July Salsa Workshop and Practica\"}"}
+{"ts": "2026-07-22T17:05:35.588180+00:00", "action": "edit", "event_id": "23FEA93F-DAA4-40B3-9036-92B11292E207", "details": "{\"location\": \"Todos Dance & Fitness Studio, Natick, MA\"}"}
+{"ts": "2026-07-22T17:06:25.266591+00:00", "action": "edit", "event_id": "23FEA93F-DAA4-40B3-9036-92B11292E207", "details": "{\"location\": \"Todos Dance & Fitness Studio, 677 Worcester St, Natick, MA 01760\"}"}
