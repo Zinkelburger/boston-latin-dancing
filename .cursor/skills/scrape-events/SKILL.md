@@ -70,11 +70,16 @@ event_scrape(source_id="beatrice-calendar")
 |-----------|---------|-------|
 | `beatrice-calendar` | `scrape_ics.py` | Greater Boston Dance Socials (Google Calendar ICS) |
 | `sensualeros-boston` | `scrape_ics.py` | Sensualeros Boston Events (Google Calendar ICS) |
-| `lister-events` | `scrape_lister.py` | Lister Events (Wix/JSON-LD) |
-| `eventbrite-boston-latin` | `scrape_eventbrite.py` | Eventbrite search (salsa/bachata/latin) |
 | `unabulla-cuban-boston` | `scrape_ics.py` | Cuban Dance in Boston / Una Bulla (Google Calendar ICS) |
+| `lister-events` | `scrape_jsonld.py` | Lister Events (Wix schema.org JSON-LD) |
+| `nlf-events` | `scrape_jsonld.py` | Next Level Fusion (Wix JSON-LD) |
+| `pr-festival-ma` | `scrape_jsonld.py` | Puerto Rican Festival of MA (Wix JSON-LD) |
+| `mato-lawn-on-d` | `scrape_jsonld.py` | The Grove at Lawn on D via ma.to (JSON-LD; keyword-filtered) |
+| `harvardsquare` | `scrape_jsonld.py` | Harvard Square happenings (Tribe JSON-LD-in-listing; seasonal, style-filtered) |
+| `eventbrite-boston-latin` | `scrape_eventbrite.py` | Eventbrite search (salsa/bachata/latin) |
 | `fiesta-dance-company` | `scrape_fiesta_dance.py` | Fiesta Dance Company socials |
-| `somerville-arts` | `scrape_tribe_calendar.py` | Somerville Arts Council — general municipal calendar; keyword-filtered to Latin events at scrape time |
+| `somerville-arts` | `scrape_tribe_calendar.py` | Somerville Arts Council — general municipal calendar; keyword-filtered at scrape time |
+| `eastboston-events` | `scrape_eastboston.py` | EastBoston.com Sugar Calendar (HTML `<time>`; the one non-JSON-LD site) |
 | `submissions` | `fetch_submissions.py` | User-submitted events from API |
 
 **Source trust.** Curated single-purpose Latin calendars carry `"latin_by_default": true`
@@ -84,19 +89,27 @@ e.g. `somerville-arts`) do **not** — their scraper keyword-filters the whole p
 and only emits events mentioning Latin dance, so the municipal noise never enters
 the pipeline.
 
-**Adding a new big/noisy calendar is CONFIG-ONLY — no new Python.** Pick the
-generic keyword-calendar scraper that matches the feed shape and add a
-`data/sources.json` entry (`type: "keyword-calendar"`):
+**Adding a new source is CONFIG-ONLY — do NOT write a new scraper.** There are only
+a few real "feed shapes", each with one generic, config-driven scraper. Match the
+site to a shape and add a `data/sources.json` entry — no new Python:
 
-| Feed shape | Scraper | Config |
-|-----------|---------|--------|
-| Runs "The Events Calendar" (WordPress/Tribe) — town arts councils, libraries, cultural orgs | `scrape_tribe_calendar.py` | `url` = the `/events/` listing page; optional `event_path_prefix`, `listing_urls`. Uses HTML listing → per-event iCal (robust even when the site's bulk `?ical=1` export is stuck on ancient events, as Somerville's is). |
-| Exposes a clean full iCal feed (public Google/Outlook calendar, healthy Tribe `?ical=1`) | `scrape_keyword_calendar.py` | `feed_url` = the iCal URL, **or** `url` + `"tribe_ical": true` to append `?ical=1`. Parses the whole feed and keyword-filters. |
+| Feed shape (how to tell) | Scraper | Key config |
+|--------------------------|---------|------------|
+| **Any modern event site** — check the page source for `<script type="application/ld+json">` with an `Event`. Wix, ma.to, "The Events Calendar", most others. **Try this first.** | `scrape_jsonld.py` | `url` (+ `listing_urls`); `link_pattern` for detail-page sites (Wix `/event-details/`, ma.to `/event/`) **or** `jsonld_in_listing: true` when the listing embeds the array (Tribe). Optional: `scrape_filter` (`keyword`/`style`), `active_months` (seasonal), `date_fix`, `detail_description` (`wix`/`tribe`), `browser_ua`, `id_prefix`. |
+| Runs "The Events Calendar" (Tribe) and you want the **iCal** path instead of JSON-LD | `scrape_tribe_calendar.py` | `url` = the `/events/` listing; optional `event_path_prefix`. HTML listing → per-event iCal (robust even when the bulk `?ical=1` export is stuck on ancient events, as Somerville's is). |
+| Publishes a clean full **iCal** feed (public Google/Outlook, healthy Tribe `?ical=1`) | `scrape_keyword_calendar.py` | `feed_url`, **or** `url` + `"tribe_ical": true`. |
 
-Both reuse `parse_ics_feed` + `filter_latin_events` + `record_scrape_health`, so
-the noise never enters the pipeline and a page that goes structurally dark is
-flagged for redesign. Only hand-roll a bespoke scraper when a site has **no**
-iCal feed at all.
+All three reuse `make_event` + `filter_latin_events`/style detection +
+`record_scrape_health`, so noise never enters the pipeline and a page that goes
+structurally dark is flagged for redesign. **Only hand-roll a bespoke scraper when
+a site has neither JSON-LD nor an iCal feed** — the sole current example is
+`scrape_eastboston.py` (Sugar Calendar, HTML `<time>` elements).
+
+> **Preserving event IDs on migration.** `scrape_jsonld.py` mints ids as
+> `<id_prefix>-<url-slug>` (default prefix = source id). If a source previously ran
+> a bespoke scraper that used a *different* prefix (e.g. `lister-`, `mato-`), set
+> `"id_prefix"` to that value so the switch merges into existing events instead of
+> re-duplicating the whole feed.
 
 **Scraper health (silent-failure detection).** A scraper writing `[]` is
 ambiguous: no Latin events this week (fine) vs. its parser matched nothing

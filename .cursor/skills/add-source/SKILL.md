@@ -133,9 +133,9 @@ Done. Tell the user the event was added.
 | **Facebook page** | Register with `source_add` MCP tool, type `facebook`. Existing `scripts/scrape_facebook.py` handles it. |
 | **Google Calendar / ICS feed** | Register with `source_add`, type `ics`. Existing `scripts/scrape_ics.py` handles it. |
 | **Eventbrite organizer** | Add search queries to the existing `eventbrite-boston-latin` entry in `data/sources.json`. |
-| **Wix site with JSON-LD** | Model a new scraper after `scripts/scrape_lister.py`. |
-| **Other site with JSON-LD** | Same pattern as Wix. |
-| **Custom HTML (no JSON-LD)** | Generate a scraper with `requests` + `BeautifulSoup`. |
+| **Any site with schema.org JSON-LD** (Wix, ma.to, Tribe, most modern event sites) | CONFIG-ONLY: register with `scrape_jsonld.py`. Set `link_pattern` (detail-page sites) or `jsonld_in_listing: true` (listing embeds the array). No new code. See the scrape-events skill's feed-shape table. |
+| **iCal / "The Events Calendar" site** | CONFIG-ONLY: `scrape_keyword_calendar.py` (clean feed) or `scrape_tribe_calendar.py` (Tribe HTML→per-event iCal). |
+| **Custom HTML (no JSON-LD and no iCal)** | Only then hand-roll a scraper with `requests` + `BeautifulSoup` (e.g. `scrape_eastboston.py`). |
 
 If an existing scraper handles it, skip to 4B.3.
 

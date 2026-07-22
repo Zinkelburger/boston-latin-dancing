@@ -40,10 +40,15 @@ SCRAPERS = {
     "beatrice-calendar": ["scrape_ics.py"],
     "sensualeros-boston": ["scrape_ics.py", "sensualeros-boston"],
     "unabulla-cuban-boston": ["scrape_ics.py", "unabulla-cuban-boston"],
-    "lister-events": ["scrape_lister.py"],
+    "lister-events": ["scrape_jsonld.py", "lister-events"],
+    "nlf-events": ["scrape_jsonld.py", "nlf-events"],
+    "pr-festival-ma": ["scrape_jsonld.py", "pr-festival-ma"],
+    "mato-lawn-on-d": ["scrape_jsonld.py", "mato-lawn-on-d"],
+    "harvardsquare": ["scrape_jsonld.py", "harvardsquare"],
     "eventbrite-boston-latin": ["scrape_eventbrite.py"],
     "fiesta-dance-company": ["scrape_fiesta_dance.py"],
     "somerville-arts": ["scrape_tribe_calendar.py", "somerville-arts"],
+    "eastboston-events": ["scrape_eastboston.py"],
     "submissions": ["fetch_submissions.py"],
 }
 
