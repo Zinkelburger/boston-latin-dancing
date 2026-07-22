@@ -84,44 +84,6 @@
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
-    "id": "bachata-room",
-    "name": "Bachata Room",
-    "startDate": "2026-07-15T21:00:00-04:00",
-    "endDate": "2026-07-16T00:00:00-04:00",
-    "dayOfWeek": "Wednesday",
-    "location": "La Fábrica Central, 450 Massachusetts Ave, Cambridge, MA 02139",
-    "lat": 42.3634,
-    "lng": -71.1012,
-    "description": "Your weekly fix for all your dancing needs.\n\n9:00pm – 10:00pm Bachata Lesson (Beginner/Intermediate)\n10:00pm – 12:00am Social Dancing (Bachata, Salsa, Merengue)\n\n$15 Lesson/Social Dancing (18+)",
-    "url": "https://www.bachataroomboston.com",
-    "styles": [
-      "bachata",
-      "salsa",
-      "merengue"
-    ],
-    "cost": "$15",
-    "recurring": true,
-    "recurrences": [
-      "2026-07-15T21:00:00-04:00",
-      "2026-07-22T21:00:00-04:00",
-      "2026-07-29T21:00:00-04:00",
-      "2026-08-05T21:00:00-04:00",
-      "2026-08-12T21:00:00-04:00",
-      "2026-08-19T21:00:00-04:00",
-      "2026-08-26T21:00:00-04:00",
-      "2026-09-02T21:00:00-04:00"
-    ],
-    "schedule": [
-      {
-        "dayOfWeek": "Wednesday",
-        "time": "9:00 PM – 12:00 AM",
-        "note": "Lesson + social (18+)"
-      }
-    ],
-    "slug": "bachata-room-bachata-",
-    "recurrenceLabel": "Every Wednesday · 9:00 PM – 12:00 AM"
-  },
-  {
     "id": "EABF8ED1-2055-465D-B54F-CFE5F36488F3",
     "name": "Salsa Night at the Mary Ellen Welch Greenway",
     "startDate": "2026-07-15T22:00:00+00:00",
@@ -139,109 +101,6 @@
     "recurring": false,
     "slug": "salsa-night-at-the-mary-ellen-welch-greenway-eabf8ed1",
     "organizer": "Greater Boston Dance Socials (Beatrice)"
-  },
-  {
-    "id": "havana-club",
-    "name": "Havana Club",
-    "startDate": "2026-07-16T21:00:00-04:00",
-    "endDate": "2026-07-17T00:30:00-04:00",
-    "dayOfWeek": "Thursday",
-    "location": "288 Green St, Cambridge, MA 02139",
-    "lat": 42.3646,
-    "lng": -71.1044,
-    "description": "Boston's hot spot for Bachata and Salsa dancing in Cambridge. Lessons + social dancing every night. Amazing venue, inexpensive parking garage next door, public transportation one block away on Mass Ave.",
-    "url": "https://havanaclubsalsa.com",
-    "styles": [
-      "bachata",
-      "salsa",
-      "merengue"
-    ],
-    "cost": "$15",
-    "recurring": true,
-    "recurrences": [
-      "2026-07-16T21:00:00-04:00",
-      "2026-07-17T21:00:00-04:00",
-      "2026-07-18T21:00:00-04:00",
-      "2026-07-19T19:00:00-04:00",
-      "2026-07-20T20:00:00-04:00",
-      "2026-07-21T20:00:00-04:00",
-      "2026-07-23T21:00:00-04:00",
-      "2026-07-24T21:00:00-04:00",
-      "2026-07-25T21:00:00-04:00",
-      "2026-07-26T19:00:00-04:00",
-      "2026-07-27T20:00:00-04:00",
-      "2026-07-28T20:00:00-04:00",
-      "2026-07-30T21:00:00-04:00",
-      "2026-07-31T21:00:00-04:00",
-      "2026-08-01T21:00:00-04:00",
-      "2026-08-02T19:00:00-04:00",
-      "2026-08-03T20:00:00-04:00",
-      "2026-08-04T20:00:00-04:00",
-      "2026-08-06T21:00:00-04:00",
-      "2026-08-07T21:00:00-04:00",
-      "2026-08-08T21:00:00-04:00",
-      "2026-08-09T19:00:00-04:00",
-      "2026-08-10T20:00:00-04:00",
-      "2026-08-11T20:00:00-04:00",
-      "2026-08-13T21:00:00-04:00",
-      "2026-08-14T21:00:00-04:00",
-      "2026-08-15T21:00:00-04:00",
-      "2026-08-16T19:00:00-04:00",
-      "2026-08-17T20:00:00-04:00",
-      "2026-08-18T20:00:00-04:00",
-      "2026-08-20T21:00:00-04:00",
-      "2026-08-21T21:00:00-04:00",
-      "2026-08-22T21:00:00-04:00",
-      "2026-08-23T19:00:00-04:00",
-      "2026-08-24T20:00:00-04:00",
-      "2026-08-25T20:00:00-04:00",
-      "2026-08-27T21:00:00-04:00",
-      "2026-08-28T21:00:00-04:00",
-      "2026-08-29T21:00:00-04:00",
-      "2026-08-30T19:00:00-04:00",
-      "2026-08-31T20:00:00-04:00",
-      "2026-09-01T20:00:00-04:00",
-      "2026-09-03T21:00:00-04:00",
-      "2026-09-04T21:00:00-04:00",
-      "2026-09-05T21:00:00-04:00",
-      "2026-09-06T19:00:00-04:00",
-      "2026-09-07T20:00:00-04:00",
-      "2026-09-08T20:00:00-04:00"
-    ],
-    "schedule": [
-      {
-        "dayOfWeek": "Monday",
-        "time": "8:00 PM – 12:30 AM",
-        "note": "90% Bachata, 10% Salsa (21+)"
-      },
-      {
-        "dayOfWeek": "Tuesday",
-        "time": "8:00 PM – 11:30 PM",
-        "note": "60% Bachata, 40% Salsa"
-      },
-      {
-        "dayOfWeek": "Thursday",
-        "time": "9:00 PM – 12:00 AM",
-        "note": "80% Bachata, 20% Salsa (21+)"
-      },
-      {
-        "dayOfWeek": "Friday",
-        "time": "9:00 PM – 2:00 AM",
-        "note": "70% Bachata, 25% Salsa, 5% Merengue (21+)"
-      },
-      {
-        "dayOfWeek": "Saturday",
-        "time": "9:00 PM – 2:00 AM",
-        "note": "70% Bachata, 25% Salsa, 5% Merengue (21+)"
-      },
-      {
-        "dayOfWeek": "Sunday",
-        "time": "7:00 PM – 10:00 PM",
-        "note": "90% Bachata, 10% Salsa"
-      }
-    ],
-    "slug": "havana-club-havana-c",
-    "recurrenceLabel": "Sun–Tue, Thu–Sat · see schedule"
   },
   {
     "id": "61B50538-D7A5-466E-9039-7663B3F54F9D",
@@ -353,30 +212,6 @@
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
-    "id": "fiesta-20260717-agave-mexican-grill-cantina-marlborough",
-    "name": "Salsa & Bachata Social w/ Fiesta Dance Co",
-    "startDate": "2026-07-17T00:00:00-04:00",
-    "endDate": "2026-07-17T00:00:00-04:00",
-    "dayOfWeek": "Friday",
-    "location": "Agave Mexican Grill & Cantina, 197A Boston Post Rd W, Marlborough, MA 01752",
-    "lat": 42.3404499,
-    "lng": -71.5909618,
-    "description": "Salsa & Bachata social hosted by Fiesta Dance Company at Agave Mexican Grill & Cantina.\n\nOrganized by Fiesta Dance Company\nWebsite: https://fiestadancecompany.com/upcoming-socials\nInstagram: https://www.instagram.com/fiestadancecompany/",
-    "url": "https://fiestadancecompany.com/upcoming-socials",
-    "styles": [
-      "salsa",
-      "bachata"
-    ],
-    "cost": null,
-    "recurring": true,
-    "recurrences": [
-      "2026-07-17T00:00:00-04:00",
-      "2026-08-07T00:00:00-04:00"
-    ],
-    "slug": "salsa-bachata-social-w-fiesta-dance-co-fiesta-2",
-    "organizer": "Fiesta Dance Company"
-  },
-  {
     "id": "manual-fuego-querencia-20260717-0",
     "name": "Fuego y Candela Salsa Social — Querencia Takeover",
     "startDate": "2026-07-17T20:30:00-04:00",
@@ -394,29 +229,6 @@
     "recurring": false,
     "organizer": "Fuego y Candela",
     "slug": "fuego-y-candela-salsa-social-querencia-takeover-manual-f"
-  },
-  {
-    "id": "5687EE6E-EC0E-46C7-86FA-83258D83CD13",
-    "name": " Ágora Cultural Architects Present: ¡Baila Boston! Salsa Night",
-    "startDate": "2026-07-17T22:00:00+00:00",
-    "endDate": "2026-07-18T02:00:00+00:00",
-    "dayOfWeek": "Friday",
-    "location": "Boylston St & Tremont St, Boston, MA, United States, Massachusetts 02116",
-    "lat": 42.3530978,
-    "lng": -71.0644266,
-    "description": "In partnership with our community curator Ágora Cultural Architects, one of the premiere cultural presenting organizations in Greater Boston, and Hernan Choque of beloved Salsa studio Salsa y Control, UnCommon’s Salsa Nights feature a live Salsa band, DJ Hernan Choque, free community Salsa dance lessons from Salsa y Control, professional performances, and open dance.  The Common comes to life with Salsa beats, and UnCommon provides an unforgettable opportunity for shared, cultural experiences.\n\nTo make the evening even more delicious, El Jefe’s Taqueria will be featuring a salsa tasting!\n\nLearn more: https://uncommoncorner.org/event/baila-boston-salsa-night-7/",
-    "url": "https://uncommoncorner.org/event/baila-boston-salsa-night-7/",
-    "styles": [
-      "salsa"
-    ],
-    "cost": "Free",
-    "recurring": true,
-    "recurrences": [
-      "2026-07-17T22:00:00+00:00",
-      "2026-08-14T22:00:00+00:00"
-    ],
-    "slug": "agora-cultural-architects-present-baila-boston-salsa-night-5687ee6e",
-    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "3da0d44a82fe3034c582b6b9cc33f734cf3c1314@dance-calendar",
@@ -561,6 +373,109 @@
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
+    "id": "havana-club",
+    "name": "Havana Club",
+    "startDate": "2026-07-19T19:00:00-04:00",
+    "endDate": "2026-07-20T00:30:00-04:00",
+    "dayOfWeek": "Sunday",
+    "location": "288 Green St, Cambridge, MA 02139",
+    "lat": 42.3646,
+    "lng": -71.1044,
+    "description": "Boston's hot spot for Bachata and Salsa dancing in Cambridge. Lessons + social dancing every night. Amazing venue, inexpensive parking garage next door, public transportation one block away on Mass Ave.",
+    "url": "https://havanaclubsalsa.com",
+    "styles": [
+      "bachata",
+      "salsa",
+      "merengue"
+    ],
+    "cost": "$15",
+    "recurring": true,
+    "recurrences": [
+      "2026-07-19T19:00:00-04:00",
+      "2026-07-20T20:00:00-04:00",
+      "2026-07-21T20:00:00-04:00",
+      "2026-07-23T21:00:00-04:00",
+      "2026-07-24T21:00:00-04:00",
+      "2026-07-25T21:00:00-04:00",
+      "2026-07-26T19:00:00-04:00",
+      "2026-07-27T20:00:00-04:00",
+      "2026-07-28T20:00:00-04:00",
+      "2026-07-30T21:00:00-04:00",
+      "2026-07-31T21:00:00-04:00",
+      "2026-08-01T21:00:00-04:00",
+      "2026-08-02T19:00:00-04:00",
+      "2026-08-03T20:00:00-04:00",
+      "2026-08-04T20:00:00-04:00",
+      "2026-08-06T21:00:00-04:00",
+      "2026-08-07T21:00:00-04:00",
+      "2026-08-08T21:00:00-04:00",
+      "2026-08-09T19:00:00-04:00",
+      "2026-08-10T20:00:00-04:00",
+      "2026-08-11T20:00:00-04:00",
+      "2026-08-13T21:00:00-04:00",
+      "2026-08-14T21:00:00-04:00",
+      "2026-08-15T21:00:00-04:00",
+      "2026-08-16T19:00:00-04:00",
+      "2026-08-17T20:00:00-04:00",
+      "2026-08-18T20:00:00-04:00",
+      "2026-08-20T21:00:00-04:00",
+      "2026-08-21T21:00:00-04:00",
+      "2026-08-22T21:00:00-04:00",
+      "2026-08-23T19:00:00-04:00",
+      "2026-08-24T20:00:00-04:00",
+      "2026-08-25T20:00:00-04:00",
+      "2026-08-27T21:00:00-04:00",
+      "2026-08-28T21:00:00-04:00",
+      "2026-08-29T21:00:00-04:00",
+      "2026-08-30T19:00:00-04:00",
+      "2026-08-31T20:00:00-04:00",
+      "2026-09-01T20:00:00-04:00",
+      "2026-09-03T21:00:00-04:00",
+      "2026-09-04T21:00:00-04:00",
+      "2026-09-05T21:00:00-04:00",
+      "2026-09-06T19:00:00-04:00",
+      "2026-09-07T20:00:00-04:00",
+      "2026-09-08T20:00:00-04:00",
+      "2026-09-10T21:00:00-04:00",
+      "2026-09-11T21:00:00-04:00",
+      "2026-09-12T21:00:00-04:00"
+    ],
+    "schedule": [
+      {
+        "dayOfWeek": "Monday",
+        "time": "8:00 PM – 12:30 AM",
+        "note": "90% Bachata, 10% Salsa (21+)"
+      },
+      {
+        "dayOfWeek": "Tuesday",
+        "time": "8:00 PM – 11:30 PM",
+        "note": "60% Bachata, 40% Salsa"
+      },
+      {
+        "dayOfWeek": "Thursday",
+        "time": "9:00 PM – 12:00 AM",
+        "note": "80% Bachata, 20% Salsa (21+)"
+      },
+      {
+        "dayOfWeek": "Friday",
+        "time": "9:00 PM – 2:00 AM",
+        "note": "70% Bachata, 25% Salsa, 5% Merengue (21+)"
+      },
+      {
+        "dayOfWeek": "Saturday",
+        "time": "9:00 PM – 2:00 AM",
+        "note": "70% Bachata, 25% Salsa, 5% Merengue (21+)"
+      },
+      {
+        "dayOfWeek": "Sunday",
+        "time": "7:00 PM – 10:00 PM",
+        "note": "90% Bachata, 10% Salsa"
+      }
+    ],
+    "slug": "havana-club-havana-c",
+    "recurrenceLabel": "Sun–Tue, Thu–Sat · see schedule"
+  },
+  {
     "id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar",
     "name": "Sushi Con Salsa - Dance Sessions",
     "startDate": "2026-07-21T18:00:00-04:00",
@@ -625,6 +540,44 @@
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
+    "id": "bachata-room",
+    "name": "Bachata Room",
+    "startDate": "2026-07-22T21:00:00-04:00",
+    "endDate": "2026-07-23T00:00:00-04:00",
+    "dayOfWeek": "Wednesday",
+    "location": "La Fábrica Central, 450 Massachusetts Ave, Cambridge, MA 02139",
+    "lat": 42.3634,
+    "lng": -71.1012,
+    "description": "Your weekly fix for all your dancing needs.\n\n9:00pm – 10:00pm Bachata Lesson (Beginner/Intermediate)\n10:00pm – 12:00am Social Dancing (Bachata, Salsa, Merengue)\n\n$15 Lesson/Social Dancing (18+)",
+    "url": "https://www.bachataroomboston.com",
+    "styles": [
+      "bachata",
+      "salsa",
+      "merengue"
+    ],
+    "cost": "$15",
+    "recurring": true,
+    "recurrences": [
+      "2026-07-22T21:00:00-04:00",
+      "2026-07-29T21:00:00-04:00",
+      "2026-08-05T21:00:00-04:00",
+      "2026-08-12T21:00:00-04:00",
+      "2026-08-19T21:00:00-04:00",
+      "2026-08-26T21:00:00-04:00",
+      "2026-09-02T21:00:00-04:00",
+      "2026-09-09T21:00:00-04:00"
+    ],
+    "schedule": [
+      {
+        "dayOfWeek": "Wednesday",
+        "time": "9:00 PM – 12:00 AM",
+        "note": "Lesson + social (18+)"
+      }
+    ],
+    "slug": "bachata-room-bachata-",
+    "recurrenceLabel": "Every Wednesday · 9:00 PM – 12:00 AM"
+  },
+  {
     "id": "636B3236-FC0B-4F3D-AD4B-0904A06F7358",
     "name": "Salsa Party at MIT Open Space",
     "startDate": "2026-07-23T21:00:00+00:00",
@@ -680,6 +633,26 @@
     "recurring": false,
     "slug": "la-calma-presenta-salsa-de-pr-eeba5d64",
     "organizer": "Greater Boston Dance Socials (Beatrice)"
+  },
+  {
+    "id": "harvardsquare-12th-annual-salsa",
+    "name": "12th Annual Salsa Squared",
+    "startDate": "2026-07-24T19:00:00-04:00",
+    "endDate": "2026-07-24T22:00:00-04:00",
+    "location": "Brattle Plaza, 22 Brattle Street, Cambridge, MA 02138",
+    "lat": 42.3740355,
+    "lng": -71.1216821,
+    "description": "Harvard Square's annual outdoor Latin dance party in Brattle Plaza (across from Cava). Free salsa and bachata dance lessons, Latin music from DJ D. Martinez, dancing under decorative lighting, with complimentary salsa and chips. Dance instruction by Salsa y Control Dance Company; food samples from El Jefe's Taqueria. Presented by the Harvard Square Business Association. Free and open to the public.",
+    "url": "https://harvardsquare.com/event/12th-annual-salsa/",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": "Free",
+    "recurring": false,
+    "dayOfWeek": "Friday",
+    "slug": "12th-annual-salsa-squared-harvards",
+    "organizer": "Harvard Square Happenings (seasonal Latin socials)"
   },
   {
     "id": "C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5",
@@ -855,7 +828,8 @@
     "recurrences": [
       "2026-07-31T20:30:00-04:00",
       "2026-08-14T20:30:00-04:00",
-      "2026-08-28T20:30:00-04:00"
+      "2026-08-28T20:30:00-04:00",
+      "2026-09-11T20:30:00-04:00"
     ],
     "schedule": [
       {
@@ -1005,6 +979,30 @@
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
+    "id": "fiesta-20260717-agave-mexican-grill-cantina-marlborough",
+    "name": "Salsa & Bachata Social w/ Fiesta Dance Co",
+    "startDate": "2026-08-07T00:00:00-04:00",
+    "endDate": "2026-08-07T00:00:00-04:00",
+    "dayOfWeek": "Friday",
+    "location": "Agave Mexican Grill & Cantina, 197A Boston Post Rd W, Marlborough, MA 01752",
+    "lat": 42.3404499,
+    "lng": -71.5909618,
+    "description": "Salsa & Bachata social hosted by Fiesta Dance Company at Agave Mexican Grill & Cantina.\n\nOrganized by Fiesta Dance Company\nWebsite: https://fiestadancecompany.com/upcoming-socials\nInstagram: https://www.instagram.com/fiestadancecompany/",
+    "url": "https://fiestadancecompany.com/upcoming-socials",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": null,
+    "recurring": true,
+    "recurrences": [
+      "2026-07-17T00:00:00-04:00",
+      "2026-08-07T00:00:00-04:00"
+    ],
+    "slug": "salsa-bachata-social-w-fiesta-dance-co-fiesta-2",
+    "organizer": "Fiesta Dance Company"
+  },
+  {
     "id": "d3c3821c604c59d369b5a9d85718aaa3162e67dd@dance-calendar",
     "name": "Lynn, MA | Boston Area Bachata Party at Malecon | La Casa de la Bachata™",
     "startDate": "2026-08-08T01:00:00+00:00",
@@ -1113,6 +1111,29 @@
     "cost": null,
     "recurring": false,
     "slug": "tito-puente-latin-music-series-ehshawnee-6fo246sl",
+    "organizer": "Greater Boston Dance Socials (Beatrice)"
+  },
+  {
+    "id": "5687EE6E-EC0E-46C7-86FA-83258D83CD13",
+    "name": " Ágora Cultural Architects Present: ¡Baila Boston! Salsa Night",
+    "startDate": "2026-08-14T22:00:00+00:00",
+    "endDate": "2026-08-15T02:00:00+00:00",
+    "dayOfWeek": "Friday",
+    "location": "Boylston St & Tremont St, Boston, MA, United States, Massachusetts 02116",
+    "lat": 42.3530978,
+    "lng": -71.0644266,
+    "description": "In partnership with our community curator Ágora Cultural Architects, one of the premiere cultural presenting organizations in Greater Boston, and Hernan Choque of beloved Salsa studio Salsa y Control, UnCommon’s Salsa Nights feature a live Salsa band, DJ Hernan Choque, free community Salsa dance lessons from Salsa y Control, professional performances, and open dance.  The Common comes to life with Salsa beats, and UnCommon provides an unforgettable opportunity for shared, cultural experiences.\n\nTo make the evening even more delicious, El Jefe’s Taqueria will be featuring a salsa tasting!\n\nLearn more: https://uncommoncorner.org/event/baila-boston-salsa-night-7/",
+    "url": "https://uncommoncorner.org/event/baila-boston-salsa-night-7/",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": true,
+    "recurrences": [
+      "2026-07-17T22:00:00+00:00",
+      "2026-08-14T22:00:00+00:00"
+    ],
+    "slug": "agora-cultural-architects-present-baila-boston-salsa-night-5687ee6e",
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {

@@ -76,6 +76,7 @@ SOURCE_PRIORITY = {
     "nlf-events": 12,
     "pr-festival-ma": 14,
     "eastboston-events": 14,
+    "harvardsquare": 14,
     "": 20,
 }
 
@@ -1991,6 +1992,15 @@ def ingest_scraped(source_id: Optional[str] = None, quarantine_new: bool = False
 
     blocked_ids = {b["id"] for b in load_blocked()}
 
+    # Sources ranked "noisy" (see data/sources.json + source_signal.py) always
+    # route brand-new finds to the pending queue for review, even when the run
+    # otherwise publishes directly -- their raw feeds are mostly non-dance.
+    try:
+        from source_signal import noisy_source_ids
+        noisy_sources = noisy_source_ids()
+    except Exception:
+        noisy_sources = set()
+
     for path in files:
         if not path.exists():
             continue
@@ -2002,7 +2012,8 @@ def ingest_scraped(source_id: Optional[str] = None, quarantine_new: bool = False
         for ev in events:
             if not ev.get("id"):
                 continue
-            result = add_event(ev, blocked_ids=blocked_ids, quarantine_new=quarantine_new)
+            eff_quarantine = quarantine_new or (ev.get("source") in noisy_sources)
+            result = add_event(ev, blocked_ids=blocked_ids, quarantine_new=eff_quarantine)
             status = result["status"]
             if status == "added":
                 added += 1

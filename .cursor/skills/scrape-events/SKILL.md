@@ -160,6 +160,29 @@ After the scraper writes `data/scraped/<source-id>.json`, ingest it:
 event_ingest(source_id="<source-id>")
 ```
 
+## Source noise ranking (how much to trust each source)
+
+Every source in `data/sources.json` has a hand-set `noise` score (0–100). Run:
+
+```bash
+npm run source-signal
+```
+
+to print the ranked table (noisiest first) with each source's tier and what to
+do with its finds:
+
+| Tier | Score | What it means for you |
+|------|-------|-----------------------|
+| 🟢 trusted | 0–33 | Dedicated, on-topic feed — new finds auto-publish; light review. |
+| 🟡 mixed | 34–66 | Half-relevant — **eyeball** new finds before trusting. |
+| 🔴 noisy | 67–100 | Mostly non-dance raw feed — new finds are **auto-quarantined** to `pending.json`; review them in Step 4 before they reach the map. |
+
+The quarantine for 🔴 sources happens automatically at ingest (see
+`noisy_source_ids()` in `scripts/source_signal.py`, applied in `ingest_scraped`).
+So when a noisy source (e.g. `harvardsquare`, `eastboston-events`) surfaces a
+brand-new event, expect it in the **pending** queue, not active — that's by
+design. Adjust a source's `noise.score` if it proves more/less reliable over time.
+
 ## Step 3: Review rejected (non-Latin) events
 
 During ingest, events with `styles=["other"]` and **no Latin dance keywords**

@@ -1473,5 +1473,24 @@
     "recurring": false,
     "organizer": "Fuego y Candela",
     "source": "manual"
+  },
+  {
+    "id": "harvardsquare-12th-annual-salsa",
+    "name": "12th Annual Salsa Squared",
+    "startDate": "2026-07-24T19:00:00-04:00",
+    "endDate": "2026-07-24T22:00:00-04:00",
+    "location": "Brattle Plaza, 22 Brattle Street, Cambridge, MA 02138",
+    "lat": 42.3740355,
+    "lng": -71.1216821,
+    "description": "Harvard Square's annual outdoor Latin dance party in Brattle Plaza (across from Cava). Free salsa and bachata dance lessons, Latin music from DJ D. Martinez, dancing under decorative lighting, with complimentary salsa and chips. Dance instruction by Salsa y Control Dance Company; food samples from El Jefe's Taqueria. Presented by the Harvard Square Business Association. Free and open to the public.",
+    "url": "https://harvardsquare.com/event/12th-annual-salsa/",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": "Free",
+    "recurring": false,
+    "source": "harvardsquare",
+    "dayOfWeek": "Friday"
   }
 ]

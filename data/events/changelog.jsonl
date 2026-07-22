@@ -417,3 +417,7 @@
 {"ts": "2026-07-15T20:58:45.017175+00:00", "action": "pending_review", "event_id": "manual-fuego-querencia-20260717-0", "details": "review dup of 4scb4cfq1j6t6b7ss6io3jn65n_R20251018T010000@google.com: word_overlap(1/3)+within_24h+same_location+same_day"}
 {"ts": "2026-07-15T21:03:08.126458+00:00", "action": "edit", "event_id": "4scb4cfq1j6t6b7ss6io3jn65n_R20251018T010000@google.com", "details": "dropped 2026-07-17T21:00:00-04:00 occurrence (Querencia takeover replaces it); rolled to 2026-08-21T21:00:00-04:00"}
 {"ts": "2026-07-15T21:06:52.051873+00:00", "action": "edit", "event_id": "4scb4cfq1j6t6b7ss6io3jn65n_R20251018T010000@google.com", "details": "reverted July-17 occurrence removal (wrong layer: dantes-tambo hub already governs the pin)"}
+{"ts": "2026-07-19T19:46:59.503275+00:00", "action": "add", "event_id": "harvardsquare-12th-annual-salsa", "details": ""}
+{"ts": "2026-07-20T00:01:38.615044+00:00", "action": "pending_review", "event_id": "harvardsquare-test-newfind-0001", "details": "review dup of 374F6A9E-8016-4466-9441-0793EA0E0EA6: word_overlap(2/4)+within_24h+same_day"}
+{"ts": "2026-07-20T00:02:30.697057+00:00", "action": "quarantine_new", "event_id": "harvardsquare-zzqtest-NOISY", "details": ""}
+{"ts": "2026-07-20T00:02:30.712469+00:00", "action": "add", "event_id": "beatrice-calendar-zzqtest-TRUST", "details": ""}
