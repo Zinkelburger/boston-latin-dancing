@@ -253,7 +253,8 @@ Check:
 - Scraper wrote events to `data/scraped/<source-id>.json`
 - Ingest reports added/merged/`dropped_non_latin` counts (non-Latin events are
   dropped at ingest, not queued — for a noisy general calendar, keyword-filter
-  at scrape time with `filter_latin_events`, as `scrape_somerville_arts.py` does)
+  at scrape time with `filter_latin_events`; adding one is config-only via the
+  generic `scrape_tribe_calendar.py` / `scrape_keyword_calendar.py`, no new code)
 - `public/events.json` includes the new events
 
 ### 4B.6: Done

@@ -43,8 +43,7 @@ SCRAPERS = {
     "lister-events": ["scrape_lister.py"],
     "eventbrite-boston-latin": ["scrape_eventbrite.py"],
     "fiesta-dance-company": ["scrape_fiesta_dance.py"],
-    "somerville-arts": ["scrape_somerville_arts.py"],
-    "hatch-shell": ["scrape_hatch_shell.py"],
+    "somerville-arts": ["scrape_tribe_calendar.py", "somerville-arts"],
     "submissions": ["fetch_submissions.py"],
 }
 

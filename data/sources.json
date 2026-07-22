@@ -135,20 +135,11 @@
   {
     "id": "somerville-arts",
     "type": "keyword-calendar",
-    "scraper": "scrape_somerville_arts.py",
+    "scraper": "scrape_tribe_calendar.py",
     "name": "Somerville Arts Council",
     "url": "https://somervilleartscouncil.org/events/",
     "website": "https://somervilleartscouncil.org",
     "event_path_prefix": "https://somervilleartscouncil.org/events/",
-    "enabled": true
-  },
-  {
-    "id": "hatch-shell",
-    "type": "keyword-calendar",
-    "scraper": "scrape_hatch_shell.py",
-    "name": "Hatch Shell / Esplanade",
-    "url": "https://www.hatchshell.com/events.php",
-    "website": "https://www.hatchshell.com",
     "enabled": true
   }
 ]

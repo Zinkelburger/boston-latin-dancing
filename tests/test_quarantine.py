@@ -152,10 +152,17 @@ def test_brand_new_past_event_is_skipped(store):
 
 def test_shared_url_different_dates_stay_separate_events(store):
     # Two occurrences of a series that share one organizer URL must not merge.
-    jul = _event(id="series-0717", startDate="2026-07-17T20:00:00-04:00",
-                 endDate="2026-07-17T23:00:00-04:00", url="https://org.example/socials")
-    aug = _event(id="series-0807", startDate="2026-08-07T20:00:00-04:00",
-                 endDate="2026-08-07T23:00:00-04:00", url="https://org.example/socials")
+    # Dates are relative to now so the test never rots into the past (an event
+    # in the past is skipped_past, not added).
+    from datetime import datetime, timedelta
+    from zoneinfo import ZoneInfo
+    ny = ZoneInfo("America/New_York")
+    d1 = (datetime.now(ny) + timedelta(days=14)).replace(hour=20, minute=0, second=0, microsecond=0)
+    d2 = d1 + timedelta(days=21)
+    jul = _event(id="series-0717", startDate=d1.isoformat(),
+                 endDate=(d1 + timedelta(hours=3)).isoformat(), url="https://org.example/socials")
+    aug = _event(id="series-0807", startDate=d2.isoformat(),
+                 endDate=(d2 + timedelta(hours=3)).isoformat(), url="https://org.example/socials")
     assert store.add_event(dict(jul))["status"] == "added"
     result = store.add_event(dict(aug))
     assert result["status"] == "added", result

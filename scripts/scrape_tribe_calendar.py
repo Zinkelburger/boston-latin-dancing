@@ -1,33 +1,42 @@
 #!/usr/bin/env python3
-"""
-Scrape Latin-dance events from a general municipal calendar (Somerville Arts
-Council and other "big Boston calendar" sources of the same shape).
+"""Generic keyword-filtered scraper for "The Events Calendar" municipal/arts sites.
 
-These calendars are mostly noise — craft fairs, blues shows, salons — so we do
-NOT want every event in the pipeline. Instead we:
+"The Events Calendar" (a.k.a. Modern Tribe / Tribe Events) is the dominant
+WordPress events plugin — Somerville Arts Council, countless town arts councils,
+libraries, and cultural orgs run it. These calendars are mostly noise for us
+(craft fairs, blues shows, yoga, yard sales), so we do NOT want every event in
+the pipeline. Instead we:
 
   1. read the listing page(s) and collect each event's permalink,
-  2. fetch that event's own iCal export (`<permalink>ical/`), which The Events
-     Calendar serves as clean RFC 5545 with GEO coordinates,
+  2. fetch that event's own iCal export (``<permalink>ical/``), served as clean
+     RFC 5545 with GEO coordinates,
   3. parse it with the shared ICS parser (scrape_ics.parse_ics_feed),
   4. drop everything that doesn't mention Latin social dance (keyword filter),
   5. write only the survivors to data/scraped/<source_id>.json.
 
+Why the per-event iCal and not the bulk ``?ical=1`` export? On many Tribe sites
+the bulk export is stuck/cached and returns ancient events regardless of date
+params (Somerville's returns 2010–2013 forever), while the HTML listing and the
+per-event iCal always reflect the current calendar. If a site's bulk feed *is*
+healthy, use the simpler ``scrape_keyword_calendar.py`` instead.
+
 No LLM is needed to reject the noise: a keyword scan does it. The weekly agent
-still reviews what survives (via the normal quarantine), but it never has to
-wade through a municipal calendar's worth of unrelated events.
+still reviews what survives (via the normal quarantine), but it never has to wade
+through a municipal calendar's worth of unrelated events.
 
-Config (data/sources.json):
-  {
-    "id": "somerville-arts",
-    "type": "keyword-calendar",
-    "scraper": "scrape_somerville_arts.py",
-    "url": "https://somervilleartscouncil.org/events/",
-    "listing_urls": [ ...optional extra listing/category pages... ],
-    "event_path_prefix": "https://somervilleartscouncil.org/events/"
-  }
+Adding a new Tribe calendar is CONFIG-ONLY — no new Python. In data/sources.json:
 
-Usage: python3 scripts/scrape_somerville_arts.py [source_id]
+    {
+      "id": "town-arts",
+      "type": "keyword-calendar",
+      "scraper": "scrape_tribe_calendar.py",
+      "name": "Town Arts Council",
+      "url": "https://townarts.org/events/",
+      "event_path_prefix": "https://townarts.org/events/",   # optional; derived from url
+      "listing_urls": [ ...optional extra listing/category pages... ]
+    }
+
+Usage: python3 scripts/scrape_tribe_calendar.py <source_id>
 """
 
 import html
@@ -41,6 +50,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from scrape_ics import parse_ics_feed
 from scraper_utils import (
     clean_location,
+    filter_future_events,
     filter_latin_events,
     geocode,
     get_source,
@@ -48,7 +58,6 @@ from scraper_utils import (
     write_scraped,
 )
 
-DEFAULT_SOURCE_ID = "somerville-arts"
 UA = {"User-Agent": "boston-latin-dance-dev/0.1"}
 # Slugs under /events/ that are not real events (calendar chrome / taxonomies).
 _NON_EVENT_SLUGS = {"categories", "category", "tag", "list", "month", "day", "week", "photo"}
@@ -166,23 +175,27 @@ def scrape_source(source_id: str) -> list[dict]:
 
     print(f"[{source_id}] Parsed {len(all_events)} events; applying Latin keyword filter")
     latin = filter_latin_events(all_events)
+    upcoming = filter_future_events(latin)
 
     # Health: raw_found is events parsed BEFORE the keyword filter. Zero on a
     # reachable listing means the permalink markup changed and the scraper needs
     # a redesign; the weekly agent surfaces this so we don't silently miss events.
     note = ""
     if listing_fetched and not event_urls:
-        note = "listing page loaded but no event permalinks matched — page markup may have changed; redesign the scraper"
-    record_scrape_health(source_id, len(all_events), len(latin),
+        note = ("listing page loaded but no event permalinks matched — page markup "
+                "may have changed; redesign the scraper")
+    record_scrape_health(source_id, len(all_events), len(upcoming),
                          fetched=listing_fetched, note=note)
 
-    write_scraped(source_id, latin)
-    return latin
+    write_scraped(source_id, upcoming)
+    return upcoming
 
 
 def main():
-    source_id = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_SOURCE_ID
-    scrape_source(source_id)
+    if len(sys.argv) < 2:
+        print("Usage: python3 scripts/scrape_tribe_calendar.py <source_id>")
+        sys.exit(1)
+    scrape_source(sys.argv[1])
 
 
 if __name__ == "__main__":

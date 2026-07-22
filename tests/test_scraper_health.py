@@ -24,9 +24,9 @@ def health_file(tmp_path, monkeypatch):
 
 def test_structure_found_is_ok_even_with_zero_kept(health_file):
     # Found the page structure (raw_found > 0), just no Latin events this week.
-    status = su.record_scrape_health("hatch-shell", raw_found=29, kept=0)
+    status = su.record_scrape_health("town-arts", raw_found=29, kept=0)
     assert status == "ok"
-    assert su.load_scrape_health()["hatch-shell"]["status"] == "ok"
+    assert su.load_scrape_health()["town-arts"]["status"] == "ok"
 
 
 def test_zero_raw_on_reachable_page_flags_redesign(health_file):
@@ -38,15 +38,15 @@ def test_zero_raw_on_reachable_page_flags_redesign(health_file):
 
 
 def test_fetch_failure_is_distinct_from_structure_change(health_file):
-    status = su.record_scrape_health("hatch-shell", raw_found=0, kept=0,
+    status = su.record_scrape_health("town-arts", raw_found=0, kept=0,
                                      fetched=False, note="fetch failed: timeout")
     assert status == "fetch_error"
 
 
 def test_health_records_are_per_source_and_persist(health_file):
-    su.record_scrape_health("hatch-shell", raw_found=29, kept=1)
+    su.record_scrape_health("town-arts", raw_found=29, kept=1)
     su.record_scrape_health("somerville-arts", raw_found=0, kept=0)
     health = su.load_scrape_health()
-    assert set(health) == {"hatch-shell", "somerville-arts"}
-    assert health["hatch-shell"]["kept"] == 1
+    assert set(health) == {"town-arts", "somerville-arts"}
+    assert health["town-arts"]["kept"] == 1
     assert health["somerville-arts"]["status"] == "structure_missing"

@@ -74,8 +74,7 @@ event_scrape(source_id="beatrice-calendar")
 | `eventbrite-boston-latin` | `scrape_eventbrite.py` | Eventbrite search (salsa/bachata/latin) |
 | `unabulla-cuban-boston` | `scrape_ics.py` | Cuban Dance in Boston / Una Bulla (Google Calendar ICS) |
 | `fiesta-dance-company` | `scrape_fiesta_dance.py` | Fiesta Dance Company socials |
-| `somerville-arts` | `scrape_somerville_arts.py` | Somerville Arts Council — general municipal calendar; keyword-filtered to Latin events at scrape time |
-| `hatch-shell` | `scrape_hatch_shell.py` | Hatch Shell / Esplanade season page — HTML parse, keyword-filtered; mostly walks/concerts, occasional salsa |
+| `somerville-arts` | `scrape_tribe_calendar.py` | Somerville Arts Council — general municipal calendar; keyword-filtered to Latin events at scrape time |
 | `submissions` | `fetch_submissions.py` | User-submitted events from API |
 
 **Source trust.** Curated single-purpose Latin calendars carry `"latin_by_default": true`
@@ -83,7 +82,21 @@ in `data/sources.json`; their events skip the keyword check entirely (everything
 they publish is Latin dance). General/high-noise calendars (type `keyword-calendar`,
 e.g. `somerville-arts`) do **not** — their scraper keyword-filters the whole page
 and only emits events mentioning Latin dance, so the municipal noise never enters
-the pipeline. Adding a new big calendar? Copy that pattern (see `scrape_somerville_arts.py`).
+the pipeline.
+
+**Adding a new big/noisy calendar is CONFIG-ONLY — no new Python.** Pick the
+generic keyword-calendar scraper that matches the feed shape and add a
+`data/sources.json` entry (`type: "keyword-calendar"`):
+
+| Feed shape | Scraper | Config |
+|-----------|---------|--------|
+| Runs "The Events Calendar" (WordPress/Tribe) — town arts councils, libraries, cultural orgs | `scrape_tribe_calendar.py` | `url` = the `/events/` listing page; optional `event_path_prefix`, `listing_urls`. Uses HTML listing → per-event iCal (robust even when the site's bulk `?ical=1` export is stuck on ancient events, as Somerville's is). |
+| Exposes a clean full iCal feed (public Google/Outlook calendar, healthy Tribe `?ical=1`) | `scrape_keyword_calendar.py` | `feed_url` = the iCal URL, **or** `url` + `"tribe_ical": true` to append `?ical=1`. Parses the whole feed and keyword-filters. |
+
+Both reuse `parse_ics_feed` + `filter_latin_events` + `record_scrape_health`, so
+the noise never enters the pipeline and a page that goes structurally dark is
+flagged for redesign. Only hand-roll a bespoke scraper when a site has **no**
+iCal feed at all.
 
 **Scraper health (silent-failure detection).** A scraper writing `[]` is
 ambiguous: no Latin events this week (fine) vs. its parser matched nothing
