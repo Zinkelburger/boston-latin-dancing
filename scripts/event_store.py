@@ -859,9 +859,25 @@ def _event_day_of_week(event: dict) -> Optional[str]:
     return DAYS_LIST[dt.astimezone(NY_TZ).isoweekday() % 7]
 
 
-def _venue_schedule_covers_day(venue_event: dict, day: str) -> bool:
-    schedule = venue_event.get("schedule") or []
-    return any(entry.get("dayOfWeek") == day for entry in schedule)
+def _venue_schedule_covers_event(venue_event: dict, ev: dict, day: str) -> bool:
+    """True when the hub's schedule would actually generate this event's date.
+
+    A "1st Friday" hub must not swallow a scraped 5th-Friday event: the hub
+    won't show that date, so suppressing the scrape would hide a real night.
+    Entries whose note has no date pattern cover every such weekday, matching
+    the old day-of-week behavior.
+    """
+    dt = parse_date(ev.get("startDate", ""))
+    if dt is not None:
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=NY_TZ)
+        dt = dt.astimezone(NY_TZ).replace(tzinfo=None)
+    for entry in venue_event.get("schedule") or []:
+        if entry.get("dayOfWeek") != day:
+            continue
+        if dt is None or _matches_schedule_note(dt, entry.get("note", ""), day):
+            return True
+    return False
 
 
 def _scraped_at_venue_hub(hub: dict, scraped: dict) -> bool:
@@ -946,7 +962,7 @@ def _suppress_venue_covered_events(venue_events: list[dict], active_events: list
         # Check regular hubs — suppress scraped event if covered
         suppressed_by_regular = False
         for hub in regular_hubs:
-            if not _venue_schedule_covers_day(hub, day):
+            if not _venue_schedule_covers_event(hub, ev, day):
                 continue
             if _scraped_at_venue_hub(hub, ev):
                 suppressed_by_regular = True

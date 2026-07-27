@@ -425,39 +425,6 @@
     "organizer": "Fiesta Dance Company"
   },
   {
-    "id": "dantes-tambo",
-    "name": "Dante's Salsa Fridays",
-    "startDate": "2026-07-31T20:30:00-04:00",
-    "endDate": "2026-08-01T01:00:00-04:00",
-    "dayOfWeek": "Friday",
-    "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA 02139",
-    "lat": 42.3679,
-    "lng": -71.0885,
-    "description": "Alternating between Tambó Salsa Social and Salsa Inferno. Plenty of dance space, parking lot, powerful A/C, and a full cash bar.\n\n8:30pm – 9:30pm Beginner Salsa Lesson\n9:30pm – 1:00am Social Dancing\n\nEvery other Friday.",
-    "url": "https://www.facebook.com/DantesSalsaInferno/events",
-    "styles": [
-      "salsa",
-      "bachata"
-    ],
-    "cost": "$20",
-    "recurring": true,
-    "recurrences": [
-      "2026-07-31T20:30:00-04:00",
-      "2026-08-14T20:30:00-04:00",
-      "2026-08-28T20:30:00-04:00",
-      "2026-09-11T20:30:00-04:00"
-    ],
-    "schedule": [
-      {
-        "dayOfWeek": "Friday",
-        "time": "8:30 PM – 1:00 AM",
-        "note": "Tambó Salsa Social / Salsa Inferno (alternating Fridays)"
-      }
-    ],
-    "slug": "dante-s-salsa-fridays-dantes-t",
-    "recurrenceLabel": "Every other Friday"
-  },
-  {
     "id": "jl-underground",
     "name": "J&L Underground Bachata Social",
     "startDate": "2026-08-01T19:00:00-04:00",
@@ -613,6 +580,61 @@
     "recurring": false,
     "slug": "salsa-bachata-social-w-fiesta-dance-co-fiesta-2",
     "organizer": "Fiesta Dance Company"
+  },
+  {
+    "id": "dantes-tambo",
+    "name": "Dante's Salsa Fridays",
+    "startDate": "2026-08-07T20:30:00-04:00",
+    "endDate": "2026-08-08T01:00:00-04:00",
+    "dayOfWeek": "Friday",
+    "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA 02139",
+    "lat": 42.3679,
+    "lng": -71.0885,
+    "description": "Two hosts share the hall: Dante's Salsa Inferno on the 1st and 3rd Fridays (bachata lesson on the 1st, casino rueda on the 3rd), and Tambó Salsa Social on the 2nd and 4th Fridays. Plenty of dance space, parking lot, powerful A/C, and a full cash bar.\n\n8:30pm – 9:30pm Beginner Lesson\n9:30pm – 1:00am Social Dancing\n\nMonths with a 5th Friday sometimes get a bonus social — check the Facebook pages.",
+    "url": "https://www.facebook.com/DantesSalsaInferno/events",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": "$20",
+    "recurring": true,
+    "recurrences": [
+      "2026-08-07T20:30:00-04:00",
+      "2026-08-14T20:45:00-04:00",
+      "2026-08-21T20:30:00-04:00",
+      "2026-08-28T20:45:00-04:00",
+      "2026-09-04T20:30:00-04:00",
+      "2026-09-11T20:45:00-04:00",
+      "2026-09-18T20:30:00-04:00"
+    ],
+    "schedule": [
+      {
+        "dayOfWeek": "Friday",
+        "time": "8:30 PM – 1:00 AM",
+        "note": "1st Friday of the month — Dante's Salsa Inferno"
+      },
+      {
+        "dayOfWeek": "Friday",
+        "time": "8:45 PM – 1:00 AM",
+        "note": "2nd Friday of the month — Tambó Salsa Social"
+      },
+      {
+        "dayOfWeek": "Friday",
+        "time": "8:30 PM – 1:00 AM",
+        "note": "3rd Friday of the month — Dante's Salsa Inferno"
+      },
+      {
+        "dayOfWeek": "Friday",
+        "time": "8:45 PM – 1:00 AM",
+        "note": "4th Friday of the month — Tambó Salsa Social"
+      }
+    ],
+    "urls": [
+      "https://www.facebook.com/Tambosalsa/events",
+      "https://www.tambosalsa.com/"
+    ],
+    "recurrenceLabel": "Fridays — Inferno (1st & 3rd), Tambó (2nd & 4th)",
+    "slug": "dante-s-salsa-fridays-dantes-t"
   },
   {
     "id": "d3c3821c604c59d369b5a9d85718aaa3162e67dd@dance-calendar",
@@ -974,7 +996,7 @@
       "bachata",
       "salsa"
     ],
-    "cost": "$28.52",
+    "cost": "Free",
     "recurring": true,
     "recurrences": [
       "2026-07-21T18:00:00-04:00",
@@ -3205,6 +3227,32 @@
     "recurring": false,
     "slug": "caribbean-konpa-and-bachata-dance-event-eb-19936",
     "organizer": "Eventbrite Boston Latin Dance",
+    "archived": true
+  },
+  {
+    "id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar",
+    "name": "Sushi Con Salsa - Dance Sessions",
+    "startDate": "2026-06-16T18:00:00-04:00",
+    "endDate": "2026-06-16T21:00:00-04:00",
+    "dayOfWeek": "Tuesday",
+    "location": "11 William E Mullins Way, Boston, MA 02118",
+    "lat": 42.345422,
+    "lng": -71.064269,
+    "description": "Sushi + salsa dancing! Two sessions:\nVol.1: 6:00 PM - 9:00 PM\nVol.2: 6:30 PM - 10:30 PM\n\nVen a disfrutar de sushi rico y mueve el cuerpo con salsa en nuestras sesiones de baile en vivo.",
+    "url": "https://www.eventbrite.com/e/sushi-con-salsa-dance-sessions-vol1-tickets-1988719477492",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$28.52",
+    "recurring": true,
+    "recurrences": [
+      "2026-06-16T18:00:00-04:00",
+      "2026-06-16T22:30:00+00:00",
+      "2026-07-21T18:00:00-04:00"
+    ],
+    "urls": [],
+    "slug": "sushi-con-salsa-dance-sessions-3790430d",
+    "organizer": "Greater Boston Dance Socials (Beatrice)",
     "archived": true
   },
   {

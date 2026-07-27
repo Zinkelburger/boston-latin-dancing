@@ -77,19 +77,39 @@
     "lat": 42.3679,
     "lng": -71.0885,
     "url": "https://www.facebook.com/DantesSalsaInferno/events",
+    "urls": [
+      "https://www.facebook.com/Tambosalsa/events",
+      "https://www.tambosalsa.com/"
+    ],
     "styles": [
       "salsa",
       "bachata"
     ],
     "cost": "$20",
-    "description": "Alternating between Tambó Salsa Social and Salsa Inferno. Plenty of dance space, parking lot, powerful A/C, and a full cash bar.\n\n8:30pm – 9:30pm Beginner Salsa Lesson\n9:30pm – 1:00am Social Dancing\n\nEvery other Friday.",
+    "description": "Two hosts share the hall: Dante's Salsa Inferno on the 1st and 3rd Fridays (bachata lesson on the 1st, casino rueda on the 3rd), and Tambó Salsa Social on the 2nd and 4th Fridays. Plenty of dance space, parking lot, powerful A/C, and a full cash bar.\n\n8:30pm – 9:30pm Beginner Lesson\n9:30pm – 1:00am Social Dancing\n\nMonths with a 5th Friday sometimes get a bonus social — check the Facebook pages.",
     "schedule": [
       {
         "dayOfWeek": "Friday",
         "time": "8:30 PM – 1:00 AM",
-        "note": "Tambó Salsa Social / Salsa Inferno (alternating Fridays)"
+        "note": "1st Friday of the month — Dante's Salsa Inferno"
+      },
+      {
+        "dayOfWeek": "Friday",
+        "time": "8:45 PM – 1:00 AM",
+        "note": "2nd Friday of the month — Tambó Salsa Social"
+      },
+      {
+        "dayOfWeek": "Friday",
+        "time": "8:30 PM – 1:00 AM",
+        "note": "3rd Friday of the month — Dante's Salsa Inferno"
+      },
+      {
+        "dayOfWeek": "Friday",
+        "time": "8:45 PM – 1:00 AM",
+        "note": "4th Friday of the month — Tambó Salsa Social"
       }
     ],
+    "recurrenceLabel": "Fridays — Inferno (1st & 3rd), Tambó (2nd & 4th)",
     "slug": "dante-s-salsa-fridays-dantes-t",
     "excludeDates": [
       "2026-07-17"

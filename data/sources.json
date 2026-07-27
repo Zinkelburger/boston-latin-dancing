@@ -91,6 +91,48 @@
     "latin_by_default": true
   },
   {
+    "id": "dantes-inferno-fb",
+    "type": "facebook",
+    "scraper": "scrape_facebook.py",
+    "name": "Dante's Salsa Inferno",
+    "noise": {
+      "score": 10,
+      "note": "Organizer page for the 1st/3rd-Friday Dante socials; on-topic, only risk is Facebook date drift."
+    },
+    "facebook_events_url": "https://www.facebook.com/DantesSalsaInferno/events",
+    "defaults": {
+      "styles": [
+        "bachata",
+        "salsa"
+      ],
+      "cost": "$20",
+      "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA 02139"
+    },
+    "enabled": true,
+    "latin_by_default": true
+  },
+  {
+    "id": "tambo-salsa-fb",
+    "type": "facebook",
+    "scraper": "scrape_facebook.py",
+    "name": "Tambó Salsa Social",
+    "noise": {
+      "score": 10,
+      "note": "Organizer page for the 2nd/4th-Friday Dante socials (plus occasional 5th-Friday bonus nights); on-topic."
+    },
+    "facebook_events_url": "https://www.facebook.com/Tambosalsa/events",
+    "defaults": {
+      "styles": [
+        "bachata",
+        "salsa"
+      ],
+      "cost": "$20",
+      "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA 02139"
+    },
+    "enabled": true,
+    "latin_by_default": true
+  },
+  {
     "id": "sensualeros-boston",
     "type": "ics",
     "name": "Sensualeros Boston Events",
