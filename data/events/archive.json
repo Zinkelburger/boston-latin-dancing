@@ -2343,6 +2343,26 @@
     "archivedAt": "2026-07-27T17:44:52.454169+00:00"
   },
   {
+    "id": "dantes-inferno-fb-20260724-0",
+    "name": "Dante's Salsa Inferno July 24th Salsa/Bachata Social!",
+    "startDate": "2026-07-24T20:30:00-04:00",
+    "endDate": "2026-07-25T01:00:00-04:00",
+    "dayOfWeek": "Friday",
+    "location": "The Dante Alighieri Society of Massachusetts, 41 Hampshire St, Cambridge, MA 02139",
+    "lat": 42.3679,
+    "lng": -71.0885,
+    "description": "Dante's Salsa Social is a unique and energetic night of MUSIC, DANCE, and COMMUNITY! Get ready to heat up the dance floor! The Dante Alighieri has plenty of dance space, its own parking lot, powerful A/C, and a full cash bar. 8:30pm-1:00am Social Dancing (Salsa, Bachata).",
+    "url": "https://www.facebook.com/events/892156423940406/",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "$20",
+    "recurring": false,
+    "source": "dantes-inferno-fb",
+    "archivedAt": "2026-07-27T20:37:20.266799+00:00"
+  },
+  {
     "id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar",
     "name": "Sushi Con Salsa - Dance Sessions",
     "startDate": "2026-06-16T18:00:00-04:00",
@@ -2369,7 +2389,7 @@
     "_verified_notes": "Page accessible, no JSON-LD found (text check only)",
     "_verification_url": "https://www.eventbrite.com/e/sushi-con-salsa-dance-sessions-vol1-tickets-1988719477492",
     "urls": [],
-    "archivedAt": "2026-07-27T20:23:36.728356+00:00",
-    "reactivatedAt": "2026-07-27T18:05:50.934380+00:00"
+    "archivedAt": "2026-07-27T20:37:56.222740+00:00",
+    "reactivatedAt": "2026-07-27T20:37:51.517608+00:00"
   }
 ]

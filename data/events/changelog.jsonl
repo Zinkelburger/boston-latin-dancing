@@ -540,3 +540,13 @@
 {"ts": "2026-07-27T18:07:25.291748+00:00", "action": "drop_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-08-16-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
 {"ts": "2026-07-27T20:23:36.283015+00:00", "action": "drop_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-08-16-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
 {"ts": "2026-07-27T20:23:36.728579+00:00", "action": "archive", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": ""}
+{"ts": "2026-07-27T20:34:13.590537+00:00", "action": "merge", "event_id": "manual-bsf-preparty-20260820-0", "details": "force-merged review dup of 1ee53ea9f8c2c3000235ffc8c5b0bc0abbf19b2d@dance-calendar"}
+{"ts": "2026-07-27T20:34:15.500650+00:00", "action": "reactivate", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": "from archive (certain)"}
+{"ts": "2026-07-27T20:34:18.472176+00:00", "action": "drop_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-08-16-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-07-27T20:34:19.111772+00:00", "action": "archive", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": ""}
+{"ts": "2026-07-27T20:37:21.231855+00:00", "action": "reactivate", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": "from archive (certain)"}
+{"ts": "2026-07-27T20:37:23.818564+00:00", "action": "drop_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-08-16-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-07-27T20:37:24.440781+00:00", "action": "archive", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": ""}
+{"ts": "2026-07-27T20:37:51.536250+00:00", "action": "reactivate", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": "from archive (certain)"}
+{"ts": "2026-07-27T20:37:55.477432+00:00", "action": "drop_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-08-16-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-07-27T20:37:56.223286+00:00", "action": "archive", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": ""}

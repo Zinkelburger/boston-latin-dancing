@@ -154,5 +154,11 @@
     "id_b": "nlf-events-intermediate-bachata-w-tina-2026-07-30-20-45",
     "verdict": "different",
     "reviewed_at": "2026-07-27T17:59:43.197204+00:00"
+  },
+  {
+    "id_a": "1ee53ea9f8c2c3000235ffc8c5b0bc0abbf19b2d@dance-calendar",
+    "id_b": "manual-bsf-preparty-20260820-0",
+    "verdict": "different",
+    "reviewed_at": "2026-07-27T20:37:20.265314+00:00"
   }
 ]

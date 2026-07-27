@@ -76,28 +76,6 @@
     ]
   },
   {
-    "id": "1ee53ea9f8c2c3000235ffc8c5b0bc0abbf19b2d@dance-calendar",
-    "name": "Boston Salsa Festival, 2026",
-    "startDate": "2026-08-21T00:00:00-04:00",
-    "endDate": "2026-08-24T00:00:00-04:00",
-    "dayOfWeek": "Friday",
-    "location": "70 Third Avenue, Waltham, MA 02451",
-    "lat": 42.3947033,
-    "lng": -71.2599412,
-    "description": "The Boston Salsa Festival features workshops and performances by world class dancers and instructors, live music and more.\n\nSource: https://www.eventbrite.com/e/boston-salsa-festival-2026-registration-1591571175229",
-    "url": "https://www.eventbrite.com/e/boston-salsa-festival-2026-registration-1591571175229",
-    "styles": [
-      "salsa"
-    ],
-    "cost": null,
-    "recurring": false,
-    "source": "beatrice-calendar",
-    "_verified_at": "2026-07-15T03:32:41.000192+00:00",
-    "_verified_status": "confirmed",
-    "_verified_notes": "Page accessible, no JSON-LD found (text check only)",
-    "_verification_url": "https://www.eventbrite.com/e/boston-salsa-festival-2026-registration-1591571175229"
-  },
-  {
     "id": "a37202a6a3b3ec4c12d49d8e184bab76048a3b2e@dance-calendar",
     "name": "Arts at the Armory Spotlight Series Presents Tito Puente Jr.",
     "startDate": "2026-12-12T00:00:00+00:00",
@@ -1355,5 +1333,47 @@
     "cost": null,
     "recurring": false,
     "source": "beatrice-calendar"
+  },
+  {
+    "id": "1ee53ea9f8c2c3000235ffc8c5b0bc0abbf19b2d@dance-calendar",
+    "name": "Boston Salsa Festival, 2026",
+    "startDate": "2026-08-21T00:00:00-04:00",
+    "endDate": "2026-08-24T00:00:00-04:00",
+    "dayOfWeek": "Friday",
+    "location": "70 Third Avenue, Waltham, MA 02451",
+    "lat": 42.3947033,
+    "lng": -71.2599412,
+    "description": "The Boston Salsa Festival features workshops and performances by world class dancers and instructors, live music and more.\n\nSource: https://www.eventbrite.com/e/boston-salsa-festival-2026-registration-1591571175229",
+    "url": "https://www.eventbrite.com/e/boston-salsa-festival-2026-registration-1591571175229",
+    "styles": [
+      "salsa"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-07-15T03:32:41.000192+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Page accessible, no JSON-LD found (text check only)",
+    "_verification_url": "https://www.eventbrite.com/e/boston-salsa-festival-2026-registration-1591571175229"
+  },
+  {
+    "id": "manual-bsf-preparty-20260820-0",
+    "name": "Pre-Party: Boston Salsa Festival 2026",
+    "startDate": "2026-08-20T20:30:00-04:00",
+    "endDate": "2026-08-21T01:00:00-04:00",
+    "dayOfWeek": "Thursday",
+    "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA 02139",
+    "lat": 42.3679,
+    "lng": -71.0885,
+    "description": "Latin dance social to kick off the 2026 Boston Salsa Festival at the Dante Alighieri Society. No lesson — doors open at 8:30 PM, social dancing until 1 AM. $20 at the door (cash), not included in any festival pass.",
+    "url": "https://www.facebook.com/events/4290241331227148/",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": "$20",
+    "recurring": false,
+    "organizer": "Boston Salsa Festival",
+    "source": "manual"
   }
 ]

@@ -590,7 +590,7 @@
     "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA 02139",
     "lat": 42.3679,
     "lng": -71.0885,
-    "description": "Two hosts share the hall: Dante's Salsa Inferno on the 1st and 3rd Fridays (bachata lesson on the 1st, casino rueda on the 3rd), and Tambó Salsa Social on the 2nd and 4th Fridays. Plenty of dance space, parking lot, powerful A/C, and a full cash bar.\n\n8:30pm – 9:30pm Beginner Lesson\n9:30pm – 1:00am Social Dancing\n\nMonths with a 5th Friday sometimes get a bonus social — check the Facebook pages.",
+    "description": "Two hosts share the hall: Dante's Salsa Inferno on the 1st and 3rd Fridays (bachata lesson on the 1st, casino rueda on the 3rd), and Tambó Salsa Social on the 2nd and 4th Fridays. Some nights are guest takeovers (Fuego y Candela and friends) — those show as their own event. Plenty of dance space, parking lot, powerful A/C, and a full cash bar.\n\n8:30pm – 9:30pm Beginner Lesson\n9:30pm – 1:00am Social Dancing\n\nMonths with a 5th Friday sometimes get a bonus social — check the Facebook pages.",
     "url": "https://www.facebook.com/DantesSalsaInferno/events",
     "styles": [
       "salsa",
@@ -1006,6 +1006,26 @@
     "slug": "sushi-con-salsa-_6crjic1",
     "recurrenceLabel": "Third Tuesday of each month",
     "organizer": "Greater Boston Dance Socials (Beatrice)"
+  },
+  {
+    "id": "manual-bsf-preparty-20260820-0",
+    "name": "Pre-Party: Boston Salsa Festival 2026",
+    "startDate": "2026-08-20T20:30:00-04:00",
+    "endDate": "2026-08-21T01:00:00-04:00",
+    "dayOfWeek": "Thursday",
+    "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA 02139",
+    "lat": 42.3679,
+    "lng": -71.0885,
+    "description": "Latin dance social to kick off the 2026 Boston Salsa Festival at the Dante Alighieri Society. No lesson — doors open at 8:30 PM, social dancing until 1 AM. $20 at the door (cash), not included in any festival pass.",
+    "url": "https://www.facebook.com/events/4290241331227148/",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": "$20",
+    "recurring": false,
+    "organizer": "Boston Salsa Festival",
+    "slug": "pre-party-boston-salsa-festival-2026-manual-b"
   },
   {
     "id": "1ee53ea9f8c2c3000235ffc8c5b0bc0abbf19b2d@dance-calendar",
@@ -3227,6 +3247,27 @@
     "recurring": false,
     "slug": "caribbean-konpa-and-bachata-dance-event-eb-19936",
     "organizer": "Eventbrite Boston Latin Dance",
+    "archived": true
+  },
+  {
+    "id": "dantes-inferno-fb-20260724-0",
+    "name": "Dante's Salsa Inferno July 24th Salsa/Bachata Social!",
+    "startDate": "2026-07-24T20:30:00-04:00",
+    "endDate": "2026-07-25T01:00:00-04:00",
+    "dayOfWeek": "Friday",
+    "location": "The Dante Alighieri Society of Massachusetts, 41 Hampshire St, Cambridge, MA 02139",
+    "lat": 42.3679,
+    "lng": -71.0885,
+    "description": "Dante's Salsa Social is a unique and energetic night of MUSIC, DANCE, and COMMUNITY! Get ready to heat up the dance floor! The Dante Alighieri has plenty of dance space, its own parking lot, powerful A/C, and a full cash bar. 8:30pm-1:00am Social Dancing (Salsa, Bachata).",
+    "url": "https://www.facebook.com/events/892156423940406/",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "$20",
+    "recurring": false,
+    "slug": "dante-s-salsa-inferno-july-24th-salsa-bachata-social-dantes-i",
+    "organizer": "Dante's Salsa Inferno",
     "archived": true
   },
   {
