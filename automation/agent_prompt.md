@@ -50,13 +50,29 @@ your main job, along with the other judgment calls it can't make.
    scrape time, so a survivor may still be a non-dance event that merely
    *mentions* salsa in a mixed lineup (e.g. a literary reading / concert) —
    `event_block(category="not_dance")` those.
-   - Social dance (social, party, live-music dance night, outdoor dancing,
-     festival with social dancing) → `event_approve(event_id)`
-   - Concert/show with no social dancing, class, workshop, fitness →
+   The test is **"could you show up and dance?"** — not "is this a partner-dance
+   social". Err toward approving; see "What belongs on the map" in the skill.
+   - Anywhere you could go and dance — social, party, live-music dance night,
+     DJ night at a bar/restaurant/club (reggaeton, dembow, Latin pop; a style
+     tag of `other` is fine and NOT a reason to reject), outdoor dancing,
+     festival, benefit with dancing → `event_approve(event_id)`
+   - Instruction-only (class, workshop, technique, lesson, fitness) or a
+     sit-down listening show where the audience watches rather than dances →
      `event_reject(event_id, reason=...)`; if it's a recurring series that
      will be re-scraped every week, use `event_block(event_id, category=...)`
      instead so it stays gone (categories: class_only, not_dance, not_latin,
      out_of_area, defunct, duplicate_source, other)
+   - Borderline / thin listing → **approve**. A one-line description is a lazy
+     listing, not proof there's no dancing. Do not reject on the title alone;
+     read the description first.
+
+   ⚠️ **`event_block` matches by exact `id` only.** Sources that mint
+   date-stamped or listing-scoped ids (`nlf-events-<slug>-<date>-<time>`,
+   Eventbrite `eb-<numeric>`) get a FRESH id every week, so blocking one
+   instance does not stop the next — it will reappear in pending. Blocking is
+   durable only for stable-id sources. For a weekly class series from a
+   date-stamped source, expect it back in the queue and just reject it again,
+   and note the recurring noise in the summary.
 
    **Dedup pairs** (`dedup_candidate_of` set): compare against the candidate
    with `event_get`:

@@ -142,5 +142,17 @@
     "id_b": "nlf-events-intermediate-bachata-w-tina-2026-07-23-20-45",
     "verdict": "same",
     "reviewed_at": "2026-07-22T20:33:27.599158+00:00"
+  },
+  {
+    "id_a": "23FEA93F-DAA4-40B3-9036-92B11292E207",
+    "id_b": "EFD7FCB6-73B1-4868-BD63-E48D00664070",
+    "verdict": "different",
+    "reviewed_at": "2026-07-27T17:59:43.149484+00:00"
+  },
+  {
+    "id_a": "fiesta-20260731-sol-de-mexico-milford",
+    "id_b": "nlf-events-intermediate-bachata-w-tina-2026-07-30-20-45",
+    "verdict": "different",
+    "reviewed_at": "2026-07-27T17:59:43.197204+00:00"
   }
 ]

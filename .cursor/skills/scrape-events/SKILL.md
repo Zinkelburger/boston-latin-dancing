@@ -14,16 +14,34 @@ edit `public/events.json` — it's a build artifact.
 
 ## What belongs on the map
 
-This site is for **social dances** — events where people go to dance socially.
+One test: **could you show up and dance?** If yes, it belongs on the map.
 
-**Include:** socials, parties, live-music dance nights, outdoor dance events,
-festivals with social dancing. Events that start with a short lesson/intro
-before the social are fine (e.g. "lesson at 8 PM, social 9 PM–1 AM").
+This is deliberately broader than partner-dance socials. A reggaeton DJ night
+at a bar counts. A Latin music night at a restaurant counts. You can go there
+and dance, so it goes on the map.
 
-**Exclude:** pure classes, workshops, technique drills, music lessons, fitness
-classes, and recurring class series with no social component. If an event name
-contains "class", "classes", "workshop", "technique", or "lesson" without also
-mentioning a social/party/dance-night, reject it.
+**Include:** socials, parties, live-music dance nights, DJ nights at bars,
+restaurants and clubs (reggaeton, dembow, Latin pop — the `other` style tag is
+perfectly fine, not a reason to exclude), outdoor dance events, festivals, and
+benefits or fundraisers with dancing. Events that open with a short
+lesson/intro before the social are fine (e.g. "lesson at 8 PM, social 9 PM–1 AM").
+
+**Judge by whether there's dancing, not by the word in the title.** A listing
+that calls itself a "concert" or a "benefit" is still a dance event if people
+dance there — check the description for DJs, a dance floor, or "come ready to
+dance" before excluding on the strength of one noun.
+
+**Exclude** only two things:
+- **Instruction-only events** — classes, workshops, technique drills, music
+  lessons, fitness classes, and recurring class series with no social
+  component. If an event name contains "class", "workshop", "technique", or
+  "lesson" without also mentioning a social/party/dance-night, reject it.
+- **Sit-down listening shows** where the audience watches rather than dances.
+
+**When it's borderline, include it.** A thin listing — a DJ night whose whole
+description is one line — is not evidence there's no dancing, it's evidence of
+a lazy listing. Missing a real dance night is worse than carrying a marginal
+one.
 
 When reviewing ingested events (Steps 3–6), remove or reject anything that is
 a class/workshop rather than a social dance. Use `event_remove(event_id,

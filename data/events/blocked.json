@@ -108,5 +108,27 @@
     "blocked_at": "2026-07-22T20:33:27.474462+00:00",
     "blocked_notes": "circus show, not Latin social dance",
     "location": "Suffolk Downs, 525 McClellan Hwy, East Boston, MA 02128, United States"
+  },
+  {
+    "id": "eb-1995250022528",
+    "name": "Newton Adult Latin Dance Class — Beginner Rumba",
+    "source": "eventbrite-boston-latin",
+    "blocked_reason": "instruction-only class (Beginner Rumba), not a dance event",
+    "blocked_category": "class_only",
+    "blocked_at": "2026-07-27T18:05:44.023739+00:00",
+    "blocked_notes": "instruction-only class (Beginner Rumba), not a dance event",
+    "location": "101 Union St\n101 Union Street, Newton, MA 02459, Newton, MA",
+    "block_key": "newton adult latin dance class beginner rumba|101 union st\n101 union street, newton, ma 02459, newton, ma"
+  },
+  {
+    "id": "nlf-events-intermediate-bachata-w-tina-2026-07-30-20-45",
+    "name": "Intermediate Bachata w/ Tina",
+    "source": "nlf-events",
+    "blocked_reason": "instruction-only class; the social is on the map as recurring Havana Bachata Thursdays",
+    "blocked_category": "class_only",
+    "blocked_at": "2026-07-27T18:05:44.038288+00:00",
+    "blocked_notes": "instruction-only class; the social is on the map as recurring Havana Bachata Thursdays",
+    "location": "Havana Club, 288 Green St, Cambridge, MA 02139, USA",
+    "block_key": "intermediate bachata w tina|havana club, 288 green st, cambridge, ma 02139, usa"
   }
 ]

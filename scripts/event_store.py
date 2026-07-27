@@ -193,6 +193,29 @@ def _content_words(name: str) -> set[str]:
     return set(name.split()) - _STOPWORDS
 
 
+# Words that appear in a large share of event names on a Latin-dance site and
+# therefore carry almost no identifying signal. Two events sharing only
+# {"salsa", "bachata"} are not evidence of the same event — on this site that
+# describes most of the calendar. Overlap on these alone must not drive a merge.
+_GENERIC_DANCE_WORDS = frozenset({
+    "salsa", "bachata", "kizomba", "zouk", "merengue", "cumbia", "chacha",
+    "timba", "rueda", "reggaeton", "dembow", "mambo",
+    "latin", "latino", "latina", "afrolatin",
+    "dance", "dancing", "dancers", "social", "socials", "party", "parties",
+    "night", "nights", "music", "live", "dj", "event", "events",
+})
+
+# Tokens shorter than this identify nothing on their own ("w" from "w/ Tina",
+# "co" from "Dance Co"), so they cannot serve as the distinguishing word.
+_DISTINCTIVE_MIN_LEN = 3
+
+
+def _distinctive_words(words: set[str]) -> set[str]:
+    """Words specific enough to identify a particular event."""
+    return {w for w in words
+            if len(w) >= _DISTINCTIVE_MIN_LEN and w not in _GENERIC_DANCE_WORDS}
+
+
 # Minimum token length eligible for fuzzy (1-edit) matching. Shorter tokens
 # match too loosely (e.g. "san"/"sun"), so they require an exact match.
 _FUZZY_MIN_LEN = 3
@@ -483,7 +506,13 @@ def dedup_confidence(a: dict, b: dict) -> Optional[str]:
     if words_a and words_b:
         shared = _shared_word_count(words_a, words_b)
         smaller = min(len(words_a), len(words_b))
-        if smaller > 0 and shared >= max(2, smaller * 0.5):
+        # The overlap must include at least one word that actually identifies
+        # this event. Without this, "Salsa and bachata rooftop party" (Allston,
+        # 2 PM) matched "Black Mamba's Salsa and Bachata Social" (Natick, 7 PM)
+        # on {salsa, bachata} alone — two words shared by most of the calendar.
+        shared_distinctive = _shared_word_count(
+            _distinctive_words(words_a), _distinctive_words(words_b))
+        if smaller > 0 and shared >= max(2, smaller * 0.5) and shared_distinctive >= 1:
             word_overlap_strong = True
 
     # "certain" tier: multiple strong signals converge — these are always the
@@ -1271,6 +1300,38 @@ def load_blocked() -> list[dict]:
     return _read_json(BLOCKED_JSON)
 
 
+def _block_key(event: dict) -> Optional[str]:
+    """Stable identity for blocking: normalized name + venue, no date.
+
+    Blocking by raw id only works for sources with stable ids. Weekly listings
+    from Wix/Eventbrite mint a new id per occurrence, so the id changes every
+    week while the name and venue stay put — this key is what survives.
+    """
+    name = normalize_name(event.get("name") or "")
+    if not name:
+        return None
+    raw_loc = (event.get("location") or "").strip()
+    loc = _canonical_location(raw_loc) or raw_loc
+    # The same address reaches us punctuated differently depending on the path
+    # it took ("101 Union St\n101 Union Street, Newton" from the scraper vs
+    # "101 Union St, 101 Union Street, Newton" once stored), so strip all
+    # punctuation and whitespace runs before comparing — otherwise the block
+    # silently fails to match and the event returns as if never blocked.
+    loc = re.sub(r"[^\w\s]", " ", loc.lower())
+    loc = re.sub(r"\s+", " ", loc).strip()
+    return f"{name}|{loc}"
+
+
+def _blocked_keys(blocked: list[dict]) -> set:
+    """Name+venue keys for the blocklist, tolerating pre-existing records."""
+    keys = set()
+    for b in blocked:
+        key = b.get("block_key") or _block_key(b)
+        if key:
+            keys.add(key)
+    return keys
+
+
 def save_active(events: list[dict]) -> None:
     _write_json(ACTIVE_JSON, events)
 
@@ -1466,6 +1527,7 @@ def add_event(
     skip_latin_check: bool = False,
     blocked_ids: Optional[set] = None,
     quarantine_new: bool = False,
+    blocked_keys: Optional[set] = None,
 ) -> dict:
     """Add an event to the active store. Returns result dict with status.
 
@@ -1491,8 +1553,18 @@ def add_event(
     if not force:
         if blocked_ids is None:
             blocked_ids = {b["id"] for b in load_blocked()}
+        if blocked_keys is None:
+            blocked_keys = _blocked_keys(load_blocked())
         if event.get("id") in blocked_ids:
             return {"status": "blocked", "message": "event is permanently blocked"}
+        # Sources that mint a fresh id per occurrence (nlf-events-<slug>-<date>,
+        # Eventbrite eb-<numeric>) would otherwise slip past the id check every
+        # week, so a blocked weekly class reappears in the queue forever.
+        # Matching on name+venue makes the block actually stick.
+        key = _block_key(event)
+        if key and key in blocked_keys:
+            return {"status": "blocked",
+                    "message": "event is permanently blocked (name+venue match)"}
 
         if _is_out_of_area(event):
             # A previously-added event whose coords now fall out of bounds must
@@ -1833,6 +1905,8 @@ def _add_to_blocked(event: dict, category: str, notes: str = "") -> dict:
         "blocked_at": now,
         "blocked_notes": notes,
         "location": event.get("location", ""),
+        # Frozen at block time so the block survives the source re-minting ids.
+        "block_key": _block_key(event),
     }
 
     for i, existing in enumerate(blocked):
@@ -2166,7 +2240,9 @@ def ingest_scraped(source_id: Optional[str] = None, quarantine_new: bool = False
     quarantined_new = 0
     review_items: list[dict] = []
 
-    blocked_ids = {b["id"] for b in load_blocked()}
+    _blocked = load_blocked()
+    blocked_ids = {b["id"] for b in _blocked}
+    blocked_keys = _blocked_keys(_blocked)
 
     # Sources ranked "noisy" (see data/sources.json + source_signal.py) always
     # route brand-new finds to the pending queue for review, even when the run
@@ -2189,7 +2265,8 @@ def ingest_scraped(source_id: Optional[str] = None, quarantine_new: bool = False
             if not ev.get("id"):
                 continue
             eff_quarantine = quarantine_new or (ev.get("source") in noisy_sources)
-            result = add_event(ev, blocked_ids=blocked_ids, quarantine_new=eff_quarantine)
+            result = add_event(ev, blocked_ids=blocked_ids, blocked_keys=blocked_keys,
+                               quarantine_new=eff_quarantine)
             status = result["status"]
             if status == "added":
                 added += 1

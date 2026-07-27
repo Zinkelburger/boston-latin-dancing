@@ -499,3 +499,42 @@
 {"ts": "2026-07-22T20:33:27.595283+00:00", "action": "add", "event_id": "mato-salsa-night-at-the-grove-29-oct-2026", "details": ""}
 {"ts": "2026-07-22T20:33:27.595619+00:00", "action": "approve", "event_id": "mato-salsa-night-at-the-grove-29-oct-2026", "details": ""}
 {"ts": "2026-07-22T20:33:27.633512+00:00", "action": "approve", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-07-23-20-45", "details": ""}
+{"ts": "2026-07-27T17:44:49.196777+00:00", "action": "quarantine_new", "event_id": "CDCAA72E-7512-4641-A838-3FD8DA41BFBE", "details": ""}
+{"ts": "2026-07-27T17:44:50.067694+00:00", "action": "quarantine_new", "event_id": "54594D45-3E71-4472-96F1-5DC3F4060FFA", "details": ""}
+{"ts": "2026-07-27T17:44:51.238794+00:00", "action": "quarantine_new", "event_id": "BED3AFD2-27A6-4F23-99ED-61C336F0212D", "details": ""}
+{"ts": "2026-07-27T17:44:51.420729+00:00", "action": "pending_review", "event_id": "EFD7FCB6-73B1-4868-BD63-E48D00664070", "details": "review dup of 23FEA93F-DAA4-40B3-9036-92B11292E207: word_overlap(2/4)+within_24h+same_day"}
+{"ts": "2026-07-27T17:44:51.654376+00:00", "action": "quarantine_new", "event_id": "eb-1995250022528", "details": ""}
+{"ts": "2026-07-27T17:44:51.752169+00:00", "action": "quarantine_new", "event_id": "eb-1995057904899", "details": ""}
+{"ts": "2026-07-27T17:44:51.793351+00:00", "action": "quarantine_new", "event_id": "eb-1994718686287", "details": ""}
+{"ts": "2026-07-27T17:44:52.122248+00:00", "action": "pending_review", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-07-30-20-45", "details": "review dup of fiesta-20260731-sol-de-mexico-milford: word_overlap(2/4)+within_24h"}
+{"ts": "2026-07-27T17:44:52.128955+00:00", "action": "drop_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-08-16-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-07-27T17:44:52.454245+00:00", "action": "archive", "event_id": "636B3236-FC0B-4F3D-AD4B-0904A06F7358", "details": ""}
+{"ts": "2026-07-27T17:44:52.454450+00:00", "action": "archive", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": ""}
+{"ts": "2026-07-27T17:44:52.454534+00:00", "action": "archive", "event_id": "5842D45A-DEC5-4D59-9A8E-8F123AFE1D30", "details": ""}
+{"ts": "2026-07-27T17:44:52.454596+00:00", "action": "archive", "event_id": "36B7A638-F23E-402C-99D2-502DAE85C79D", "details": ""}
+{"ts": "2026-07-27T17:44:52.454652+00:00", "action": "archive", "event_id": "7tluk0btr6kqmb6llhv56dcb1t@google.com", "details": ""}
+{"ts": "2026-07-27T17:44:52.454703+00:00", "action": "archive", "event_id": "C3B5A69B-39FC-4AED-B009-FBF49C8D3164", "details": ""}
+{"ts": "2026-07-27T17:44:52.454764+00:00", "action": "archive", "event_id": "EEBA5D64-CBA2-445F-AEEB-42DE9047A3FF", "details": ""}
+{"ts": "2026-07-27T17:44:52.454811+00:00", "action": "archive", "event_id": "65827-1784876400-1784930400@harvardsquare.com", "details": ""}
+{"ts": "2026-07-27T17:44:52.454863+00:00", "action": "archive", "event_id": "event-9479-0@www.icaboston.org", "details": ""}
+{"ts": "2026-07-27T17:44:52.454914+00:00", "action": "archive", "event_id": "39DAFAF6-883F-4EB7-AE58-4FDF2F82857A", "details": ""}
+{"ts": "2026-07-27T17:44:52.454965+00:00", "action": "archive", "event_id": "eb-1993623354119", "details": ""}
+{"ts": "2026-07-27T17:59:42.956764+00:00", "action": "add", "event_id": "CDCAA72E-7512-4641-A838-3FD8DA41BFBE", "details": ""}
+{"ts": "2026-07-27T17:59:42.958301+00:00", "action": "approve", "event_id": "CDCAA72E-7512-4641-A838-3FD8DA41BFBE", "details": ""}
+{"ts": "2026-07-27T17:59:43.002165+00:00", "action": "add", "event_id": "54594D45-3E71-4472-96F1-5DC3F4060FFA", "details": ""}
+{"ts": "2026-07-27T17:59:43.002528+00:00", "action": "approve", "event_id": "54594D45-3E71-4472-96F1-5DC3F4060FFA", "details": ""}
+{"ts": "2026-07-27T17:59:43.051581+00:00", "action": "add", "event_id": "BED3AFD2-27A6-4F23-99ED-61C336F0212D", "details": ""}
+{"ts": "2026-07-27T17:59:43.052006+00:00", "action": "approve", "event_id": "BED3AFD2-27A6-4F23-99ED-61C336F0212D", "details": ""}
+{"ts": "2026-07-27T17:59:43.097949+00:00", "action": "add", "event_id": "eb-1995057904899", "details": ""}
+{"ts": "2026-07-27T17:59:43.098307+00:00", "action": "approve", "event_id": "eb-1995057904899", "details": ""}
+{"ts": "2026-07-27T17:59:43.148150+00:00", "action": "add", "event_id": "eb-1994718686287", "details": ""}
+{"ts": "2026-07-27T17:59:43.148554+00:00", "action": "approve", "event_id": "eb-1994718686287", "details": ""}
+{"ts": "2026-07-27T17:59:43.150352+00:00", "action": "reject", "event_id": "EFD7FCB6-73B1-4868-BD63-E48D00664070", "details": "distinct event - Allston 2-7PM vs Black Mamba Natick 7-10PM, different organizer"}
+{"ts": "2026-07-27T17:59:43.194531+00:00", "action": "add", "event_id": "EFD7FCB6-73B1-4868-BD63-E48D00664070", "details": ""}
+{"ts": "2026-07-27T17:59:43.196193+00:00", "action": "reject", "event_id": "eb-1995250022528", "details": "instruction-only class, not a dance event"}
+{"ts": "2026-07-27T17:59:43.197849+00:00", "action": "reject", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-07-30-20-45", "details": "instruction-only class; the social is already on the map as recurring Havana Bachata Thursdays"}
+{"ts": "2026-07-27T18:05:44.035689+00:00", "action": "block", "event_id": "eb-1995250022528", "details": "class_only: instruction-only class (Beginner Rumba), not a dance event"}
+{"ts": "2026-07-27T18:05:44.039772+00:00", "action": "block", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-07-30-20-45", "details": "class_only: instruction-only class; the social is on the map as recurring Havana Bachata Thursdays"}
+{"ts": "2026-07-27T18:05:50.957931+00:00", "action": "reactivate", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": "from archive (certain)"}
+{"ts": "2026-07-27T18:05:54.126414+00:00", "action": "drop_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-08-16-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-07-27T18:07:25.291748+00:00", "action": "drop_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-08-16-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
