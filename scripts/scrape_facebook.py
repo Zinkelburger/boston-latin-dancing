@@ -3,7 +3,19 @@
 Generic Facebook events scraper for any page with an Events tab.
 
 Works for BOBAS, Dante's Salsa Inferno, or any FB page listed in sources.json
-with type "facebook". Designed to be run by a Cursor agent with browser MCP:
+with type "facebook".
+
+No browser MCP? Headless Chrome renders the public events tabs without login:
+
+  google-chrome --headless=new --disable-gpu --no-sandbox \
+    --virtual-time-budget=15000 --dump-dom <facebook_events_url> > page.html
+
+Strip tags and read the event cards ("Upcoming"/"Past" sections, card text like
+"Fri, Jul 10 <name> · Cambridge"); individual event pages give exact date/time
+in og: meta tags and visible text. Build the raw JSON below from that, then run
+this script with --from-file.
+
+Designed to be run by an agent with browser MCP (or the headless fallback):
 
   1. Navigate to the page's facebook_events_url
   2. Close the login dialog (click the X)
