@@ -72,12 +72,14 @@
   },
   {
     "id": "dantes-tambo",
+    "sourceId": "dantes-inferno-fb",
     "name": "Dante's Salsa Fridays",
     "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA 02139",
     "lat": 42.3679,
     "lng": -71.0885,
     "url": "https://www.facebook.com/DantesSalsaInferno/events",
     "urls": [
+      "https://www.facebook.com/FuegoyCandelaSalsa/events",
       "https://www.facebook.com/Tambosalsa/events",
       "https://www.tambosalsa.com/"
     ],
@@ -86,34 +88,16 @@
       "bachata"
     ],
     "cost": "$20",
-    "description": "Two hosts share the hall: Dante's Salsa Inferno on the 1st and 3rd Fridays (bachata lesson on the 1st, casino rueda on the 3rd), and Tambó Salsa Social on the 2nd and 4th Fridays. Some nights are guest takeovers (Fuego y Candela and friends) — those show as their own event. Plenty of dance space, parking lot, powerful A/C, and a full cash bar.\n\n8:30pm – 9:30pm Beginner Lesson\n9:30pm – 1:00am Social Dancing\n\nMonths with a 5th Friday sometimes get a bonus social — check the Facebook pages.",
+    "description": "Friday salsa/bachata socials at the Dante Alighieri Society. Dante's Salsa Inferno is the usual brand; Fuego y Candela and occasional Tambó nights share the hall. Cadence drifts (biweekly earlier in 2026, roughly monthly since May) — never invent dates from the pattern. Map pins come only from scraped Facebook/calendar listings.\n\n8:30pm – 9:30pm Beginner Lesson\n9:30pm – 1:00am Social Dancing\n\nPlenty of dance space, parking lot, powerful A/C, and a full cash bar. Check the Facebook pages for the next confirmed night.",
+    "nextDateApproximate": true,
+    "recurrenceLabel": "Fridays at the Dante — dates vary, check FB",
     "schedule": [
       {
         "dayOfWeek": "Friday",
-        "time": "8:30 PM – 1:00 AM",
-        "note": "1st Friday of the month — Dante's Salsa Inferno"
-      },
-      {
-        "dayOfWeek": "Friday",
-        "time": "8:45 PM – 1:00 AM",
-        "note": "2nd Friday of the month — Tambó Salsa Social"
-      },
-      {
-        "dayOfWeek": "Friday",
-        "time": "8:30 PM – 1:00 AM",
-        "note": "3rd Friday of the month — Dante's Salsa Inferno"
-      },
-      {
-        "dayOfWeek": "Friday",
-        "time": "8:45 PM – 1:00 AM",
-        "note": "4th Friday of the month — Tambó Salsa Social"
+        "time": "8:30 PM – 1:00 AM"
       }
     ],
-    "recurrenceLabel": "Fridays — Inferno (1st & 3rd), Tambó (2nd & 4th)",
-    "slug": "dante-s-salsa-fridays-dantes-t",
-    "excludeDates": [
-      "2026-07-17"
-    ]
+    "slug": "dante-s-salsa-fridays-dantes-t"
   },
   {
     "id": "jl-underground",

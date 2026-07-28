@@ -50,7 +50,7 @@ Do NOT append to JSON files manually.
 Or scrape a single source: `event_scrape` with `source_id` argument.
 
 Automated source_ids: `beatrice-calendar`, `sensualeros-boston`, `lister-events`,
-`eventbrite-boston-latin`, `fiesta-dance-company`, `submissions`. Facebook sources require browser MCP.
+`eventbrite-boston-latin`, `fiesta-dance-company`, `submissions`. Facebook sources require a browser — prefer Cursor's browser MCP; headless Chrome is the fallback.
 
 Active store count ≠ published count because
 publish expands venues, suppresses venue-covered scrapes, and collapses recurring series.

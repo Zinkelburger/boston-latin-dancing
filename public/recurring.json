@@ -82,12 +82,12 @@
       "bachata"
     ],
     "cost": "$20",
-    "description": "Alternating between Tambó Salsa Social and Salsa Inferno. Plenty of dance space, parking lot, powerful A/C, and a full cash bar.\n\n8:30pm – 9:30pm Beginner Salsa Lesson\n9:30pm – 1:00am Social Dancing\n\nEvery other Friday.",
+    "description": "Friday salsa/bachata socials at the Dante Alighieri Society. Dante's Salsa Inferno is the usual brand; Fuego y Candela and occasional Tambó nights share the hall. Cadence drifts — check Facebook for the next confirmed night.\n\n8:30pm – 9:30pm Beginner Salsa Lesson\n9:30pm – 1:00am Social Dancing",
     "schedule": [
       {
         "dayOfWeek": "Friday",
         "time": "8:30 PM – 1:00 AM",
-        "note": "Tambó Salsa Social / Salsa Inferno (alternating Fridays)"
+        "note": "Dates vary — check FB (Inferno / Fuego / Tambó)"
       }
     ],
     "slug": "dante-s-salsa-fridays-dantes-t"

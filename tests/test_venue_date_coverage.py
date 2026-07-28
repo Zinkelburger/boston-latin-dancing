@@ -1,8 +1,9 @@
 """Nth-weekday hubs only suppress scraped events on dates they actually generate.
 
-The Dante hub runs 1st–4th Fridays (Inferno 1st/3rd, Tambó 2nd/4th). A scraped
-5th-Friday bonus social must surface as its own pin instead of being swallowed
-by a hub that won't show that date.
+Fixture uses a Dante-shaped 1st–4th Friday schedule. A scraped 5th-Friday bonus
+social must surface as its own pin instead of being swallowed by a hub that
+won't show that date. (The live `dantes-tambo` venue is now
+`nextDateApproximate` — this tests the coverage helper, not the live config.)
 """
 
 import sys

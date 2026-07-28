@@ -97,7 +97,7 @@
     "name": "Dante's Salsa Inferno",
     "noise": {
       "score": 10,
-      "note": "Organizer page for the 1st/3rd-Friday Dante socials; on-topic, only risk is Facebook date drift."
+      "note": "Organizer page for Dante's Salsa Inferno Fridays at the Dante; cadence drifts — scrape for real dates only. On-topic, only risk is Facebook date drift."
     },
     "facebook_events_url": "https://www.facebook.com/DantesSalsaInferno/events",
     "defaults": {
@@ -118,7 +118,7 @@
     "name": "Tambó Salsa Social",
     "noise": {
       "score": 10,
-      "note": "Organizer page for the 2nd/4th-Friday Dante socials (plus occasional 5th-Friday bonus nights); on-topic."
+      "note": "Organizer page for Tambó nights at the Dante (historically often 2nd/4th Fridays; scrape for real dates only); on-topic."
     },
     "facebook_events_url": "https://www.facebook.com/Tambosalsa/events",
     "defaults": {

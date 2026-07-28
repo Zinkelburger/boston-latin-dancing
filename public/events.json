@@ -109,11 +109,49 @@
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
+    "id": "eb-1994718686287",
+    "name": "Taco Tuesday with DJ Ballack | $4 Tacos, Margaritas & Reggaeton Night",
+    "startDate": "2026-07-28T18:30:00-04:00",
+    "endDate": "2026-07-28T22:00:00-04:00",
+    "dayOfWeek": "Tuesday",
+    "location": "Reunion BBQ, 439 Tremont Street, Boston, MA 02116, Boston, MA",
+    "lat": 42.3468371,
+    "lng": -71.0691398,
+    "description": "Get ready for $4 tacos, margaritas, and non-stop reggaeton vibes with DJ Ballack this Taco Tuesday!\n\nOrganizer: Reunion BBQ",
+    "url": "https://www.eventbrite.com/e/taco-tuesday-with-dj-ballack-4-tacos-margaritas-reggaeton-night-tickets-1994718686287",
+    "styles": [
+      "other"
+    ],
+    "cost": "$4",
+    "recurring": false,
+    "slug": "taco-tuesday-with-dj-ballack-4-tacos-margaritas-reggaeton-ni-eb-19947",
+    "organizer": "Eventbrite Boston Latin Dance"
+  },
+  {
+    "id": "eb-1994624708196",
+    "name": "Noche Latina July Salsa Workshop and Practica",
+    "startDate": "2026-07-28T19:00:00-04:00",
+    "endDate": "2026-07-28T22:30:00-04:00",
+    "dayOfWeek": "Tuesday",
+    "location": "Luna Fitness Club, 735 William T Morrissey Boulevard, Boston, MA 02122, Boston, MA",
+    "lat": 42.2953653,
+    "lng": -71.0488803,
+    "description": "Salsa & Social: Challenging Shines, Partnerwork & 2-Hour Dance Party!\n\nOrganizer: Noche Latina Dance Company",
+    "url": "https://www.eventbrite.com/e/noche-latina-july-salsa-wprkshop-and-practica-tickets-1994624708196",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$12.51",
+    "recurring": false,
+    "slug": "noche-latina-july-salsa-workshop-and-practica-eb-19946",
+    "organizer": "Eventbrite Boston Latin Dance"
+  },
+  {
     "id": "havana-club",
     "name": "Havana Club",
-    "startDate": "2026-07-27T20:00:00-04:00",
-    "endDate": "2026-07-28T00:30:00-04:00",
-    "dayOfWeek": "Monday",
+    "startDate": "2026-07-28T20:00:00-04:00",
+    "endDate": "2026-07-29T00:30:00-04:00",
+    "dayOfWeek": "Tuesday",
     "location": "288 Green St, Cambridge, MA 02139",
     "lat": 42.3646,
     "lng": -71.1044,
@@ -127,7 +165,6 @@
     "cost": "$15",
     "recurring": true,
     "recurrences": [
-      "2026-07-27T20:00:00-04:00",
       "2026-07-28T20:00:00-04:00",
       "2026-07-30T21:00:00-04:00",
       "2026-07-31T21:00:00-04:00",
@@ -174,7 +211,8 @@
       "2026-09-17T21:00:00-04:00",
       "2026-09-18T21:00:00-04:00",
       "2026-09-19T21:00:00-04:00",
-      "2026-09-20T19:00:00-04:00"
+      "2026-09-20T19:00:00-04:00",
+      "2026-09-21T20:00:00-04:00"
     ],
     "schedule": [
       {
@@ -210,44 +248,6 @@
     ],
     "slug": "havana-club-havana-c",
     "recurrenceLabel": "Sun–Tue, Thu–Sat · see schedule"
-  },
-  {
-    "id": "eb-1994718686287",
-    "name": "Taco Tuesday with DJ Ballack | $4 Tacos, Margaritas & Reggaeton Night",
-    "startDate": "2026-07-28T18:30:00-04:00",
-    "endDate": "2026-07-28T22:00:00-04:00",
-    "dayOfWeek": "Tuesday",
-    "location": "Reunion BBQ, 439 Tremont Street, Boston, MA 02116, Boston, MA",
-    "lat": 42.3468371,
-    "lng": -71.0691398,
-    "description": "Get ready for $4 tacos, margaritas, and non-stop reggaeton vibes with DJ Ballack this Taco Tuesday!\n\nOrganizer: Reunion BBQ",
-    "url": "https://www.eventbrite.com/e/taco-tuesday-with-dj-ballack-4-tacos-margaritas-reggaeton-night-tickets-1994718686287",
-    "styles": [
-      "other"
-    ],
-    "cost": "$4",
-    "recurring": false,
-    "slug": "taco-tuesday-with-dj-ballack-4-tacos-margaritas-reggaeton-ni-eb-19947",
-    "organizer": "Eventbrite Boston Latin Dance"
-  },
-  {
-    "id": "eb-1994624708196",
-    "name": "Noche Latina July Salsa Workshop and Practica",
-    "startDate": "2026-07-28T19:00:00-04:00",
-    "endDate": "2026-07-28T22:30:00-04:00",
-    "dayOfWeek": "Tuesday",
-    "location": "Luna Fitness Club, 735 William T Morrissey Boulevard, Boston, MA 02122, Boston, MA",
-    "lat": 42.2953653,
-    "lng": -71.0488803,
-    "description": "Salsa & Social: Challenging Shines, Partnerwork & 2-Hour Dance Party!\n\nOrganizer: Noche Latina Dance Company",
-    "url": "https://www.eventbrite.com/e/noche-latina-july-salsa-wprkshop-and-practica-tickets-1994624708196",
-    "styles": [
-      "salsa"
-    ],
-    "cost": "$12.51",
-    "recurring": false,
-    "slug": "noche-latina-july-salsa-workshop-and-practica-eb-19946",
-    "organizer": "Eventbrite Boston Latin Dance"
   },
   {
     "id": "bachata-room",
@@ -580,61 +580,6 @@
     "recurring": false,
     "slug": "salsa-bachata-social-w-fiesta-dance-co-fiesta-2",
     "organizer": "Fiesta Dance Company"
-  },
-  {
-    "id": "dantes-tambo",
-    "name": "Dante's Salsa Fridays",
-    "startDate": "2026-08-07T20:30:00-04:00",
-    "endDate": "2026-08-08T01:00:00-04:00",
-    "dayOfWeek": "Friday",
-    "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA 02139",
-    "lat": 42.3679,
-    "lng": -71.0885,
-    "description": "Two hosts share the hall: Dante's Salsa Inferno on the 1st and 3rd Fridays (bachata lesson on the 1st, casino rueda on the 3rd), and Tambó Salsa Social on the 2nd and 4th Fridays. Some nights are guest takeovers (Fuego y Candela and friends) — those show as their own event. Plenty of dance space, parking lot, powerful A/C, and a full cash bar.\n\n8:30pm – 9:30pm Beginner Lesson\n9:30pm – 1:00am Social Dancing\n\nMonths with a 5th Friday sometimes get a bonus social — check the Facebook pages.",
-    "url": "https://www.facebook.com/DantesSalsaInferno/events",
-    "styles": [
-      "salsa",
-      "bachata"
-    ],
-    "cost": "$20",
-    "recurring": true,
-    "recurrences": [
-      "2026-08-07T20:30:00-04:00",
-      "2026-08-14T20:45:00-04:00",
-      "2026-08-21T20:30:00-04:00",
-      "2026-08-28T20:45:00-04:00",
-      "2026-09-04T20:30:00-04:00",
-      "2026-09-11T20:45:00-04:00",
-      "2026-09-18T20:30:00-04:00"
-    ],
-    "schedule": [
-      {
-        "dayOfWeek": "Friday",
-        "time": "8:30 PM – 1:00 AM",
-        "note": "1st Friday of the month — Dante's Salsa Inferno"
-      },
-      {
-        "dayOfWeek": "Friday",
-        "time": "8:45 PM – 1:00 AM",
-        "note": "2nd Friday of the month — Tambó Salsa Social"
-      },
-      {
-        "dayOfWeek": "Friday",
-        "time": "8:30 PM – 1:00 AM",
-        "note": "3rd Friday of the month — Dante's Salsa Inferno"
-      },
-      {
-        "dayOfWeek": "Friday",
-        "time": "8:45 PM – 1:00 AM",
-        "note": "4th Friday of the month — Tambó Salsa Social"
-      }
-    ],
-    "urls": [
-      "https://www.facebook.com/Tambosalsa/events",
-      "https://www.tambosalsa.com/"
-    ],
-    "recurrenceLabel": "Fridays — Inferno (1st & 3rd), Tambó (2nd & 4th)",
-    "slug": "dante-s-salsa-fridays-dantes-t"
   },
   {
     "id": "d3c3821c604c59d369b5a9d85718aaa3162e67dd@dance-calendar",
@@ -1045,6 +990,35 @@
     "recurring": false,
     "slug": "boston-salsa-festival-2026-1ee53ea9",
     "organizer": "Greater Boston Dance Socials (Beatrice)"
+  },
+  {
+    "id": "4scb4cfq1j6t6b7ss6io3jn65n_R20251018T010000@google.com",
+    "name": "🤓 💃 Dante's Salsa Inferno",
+    "startDate": "2026-08-21T21:00:00-04:00",
+    "endDate": "2026-08-22T01:00:00-04:00",
+    "dayOfWeek": "Friday",
+    "location": "Dante Alighieri Society of Massachusetts, 41 Hampshire St, Cambridge, MA 02139, USA",
+    "lat": 42.3679,
+    "lng": -71.0885,
+    "description": "Dante's inferno happens on the 1st and 3rd Friday of each month. The event starts with a lesson at 9pm, followed by social dancing from 10pm-1am.\n\nOn the 1st Friday, the lesson is a bachata lesson. On the 3rd Friday, the lesson is casino, given by the Boston Casineros. The social dancing that follows is typically salsa/bachata (not Cuban), but on the 3rd Fridays, it may include a few Cuban timba songs, especially if many Cuban dancers show up.\n\nThis calendar only includes the 3rd Friday events, since the 1st Friday events have no Cuban dance.\n\n$15 for social only ($5 discount for students with ID)\nFREE if it's your birthday week! (from Monday to Sunday)\n\n\n<b>Schedule</b>\n9pm-10pm: Class with Boston Casineros\n10pm-1am: Social dancing!\n\n<b>Price</b>\n$25 for class + social ($5 discount with student ID) ($15 for social only ($5 discount with student ID))\n\n<b>Organized by Boston Casineros</b>\nInstagram: https://www.instagram.com/boston.casineros/\nLinktree: https://linktr.ee/bostoncasineros\n\n\n---\nManaged by Una Bulla\nhttps://www.unabulla.com/boston",
+    "url": "https://www.facebook.com/events/2104484547169513/",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "$15",
+    "recurring": true,
+    "recurrences": [
+      "2026-06-19T21:00:00-04:00",
+      "2026-07-17T21:00:00-04:00",
+      "2026-08-21T21:00:00-04:00"
+    ],
+    "urls": [
+      "https://www.instagram.com/boston.casineros/"
+    ],
+    "slug": "dante-s-salsa-inferno-4scb4cfq",
+    "recurrenceLabel": "Third Friday of each month",
+    "organizer": "Cuban Dance in Boston (Una Bulla)"
   },
   {
     "id": "0du3658tpe2aej0a3e5i2o7nm1@google.com",
@@ -3295,6 +3269,34 @@
     "slug": "sushi-con-salsa-dance-sessions-3790430d",
     "organizer": "Greater Boston Dance Socials (Beatrice)",
     "archived": true
+  },
+  {
+    "id": "dantes-tambo",
+    "name": "Dante's Salsa Fridays",
+    "startDate": "",
+    "endDate": "",
+    "dayOfWeek": "Friday",
+    "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA 02139",
+    "lat": 42.3679,
+    "lng": -71.0885,
+    "description": "Friday salsa/bachata socials at the Dante Alighieri Society. Dante's Salsa Inferno is the usual brand; Fuego y Candela and occasional Tambó nights share the hall. Cadence drifts (biweekly earlier in 2026, roughly monthly since May) — never invent dates from the pattern. Map pins come only from scraped Facebook/calendar listings.\n\n8:30pm – 9:30pm Beginner Lesson\n9:30pm – 1:00am Social Dancing\n\nPlenty of dance space, parking lot, powerful A/C, and a full cash bar. Check the Facebook pages for the next confirmed night.",
+    "url": "https://www.facebook.com/DantesSalsaInferno/events",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": "$20",
+    "recurring": true,
+    "urls": [
+      "https://www.facebook.com/FuegoyCandelaSalsa/events",
+      "https://www.facebook.com/Tambosalsa/events",
+      "https://www.tambosalsa.com/"
+    ],
+    "nextDateApproximate": true,
+    "recurrenceLabel": "Fridays at the Dante — dates vary, check FB",
+    "searchOnly": true,
+    "slug": "dante-s-salsa-fridays-dantes-t",
+    "organizer": "Dante's Salsa Inferno"
   },
   {
     "id": "fuego-y-candela",

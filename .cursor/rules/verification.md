@@ -68,11 +68,14 @@ metadata is stored on each event in `active.json` as `_verified_at`,
 | `cancelled` | Source says event cancelled | Present to user; they decide whether to archive |
 | `page_gone` | URL returns 404 or error | Present to user; may need new URL or removal |
 | `needs_review` | Page has "cancelled"/"postponed" text | Present to user with the flagged text |
-| `needs_browser` | Facebook event/page URL | Visit via browser MCP (navigate, close login, snapshot) |
+| `needs_browser` | Facebook event/page URL | Prefer Cursor browser MCP (navigate, close login, snapshot); headless Chrome is a fallback |
 | `no_source` | Event has no URL | Web search `"{name} {location} boston"` to find source |
 | `unverifiable` | Instagram or social link | Flag for user to manually check |
 
 ## Handling `needs_browser` events
+
+Prefer **Cursor with browser MCP** for Facebook (login walls + Upcoming tab).
+Headless Chrome dump-dom is the fallback when browser MCP is unavailable.
 
 For Facebook event URLs:
 1. `browser_navigate` to the URL
