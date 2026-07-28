@@ -1544,6 +1544,7 @@ def add_event(
     blocked_ids: Optional[set] = None,
     quarantine_new: bool = False,
     blocked_keys: Optional[set] = None,
+    distinct_from: Optional[list] = None,
 ) -> dict:
     """Add an event to the active store. Returns result dict with status.
 
@@ -1556,9 +1557,13 @@ def add_event(
     review-tier dedup match instead of queueing it — i.e. it asserts "any
     fuzzy match IS the same event". Never use it to add an event that merely
     resembles an existing one (a similarly-named distinct event gets swallowed
-    into the existing record). For that, add without force, reject the pending
-    pair (which persists a "different" verdict), and re-add. Pass blocked_ids
-    to avoid re-reading blocked.json on every call during a batch ingest.
+    into the existing record). For that, pass distinct_from=[existing_ids]:
+    it persists a permanent "different" verdict for each pair up front, so
+    the fuzzy match neither queues for review nor force-merges. (The old
+    workaround — add without force, reject the pending pair, re-add — still
+    works, but fails for events the guards drop before dedup ever runs.)
+    Pass blocked_ids to avoid re-reading blocked.json on every call during a
+    batch ingest.
 
     quarantine_new=True routes brand-new events (no duplicate anywhere) to
     pending.json instead of active, so unattended runs can refresh existing
@@ -1613,6 +1618,15 @@ def add_event(
             return {"status": "dropped_non_latin", "message": reason}
 
     _infer_location(event)
+
+    if distinct_from:
+        # A verdict for an event's own id would suppress its certain-tier
+        # self-merge forever, so self-pairs are skipped.
+        for other_id in distinct_from:
+            if other_id and other_id != event["id"]:
+                _persist_known_duplicate(event["id"], other_id, "different")
+                _append_changelog("distinct_from", event["id"],
+                                  f"pre-marked different from {other_id}")
 
     active = load_active()
     archive = load_archive()

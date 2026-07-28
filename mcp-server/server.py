@@ -162,6 +162,7 @@ def event_add(
     source: str = "manual",
     event_id: Optional[str] = None,
     force: bool = False,
+    distinct_from: Optional[str] = None,
 ) -> str:
     """Add a new event to the active store. Handles dedup, geocode, and style detection automatically.
 
@@ -179,9 +180,13 @@ def event_add(
         event_id: Custom event ID (auto-generated if omitted)
         force: If True, merge into an existing duplicate instead of rejecting.
             Only for pairs you have confirmed are the SAME event — a fuzzy
-            name match force-merges too, swallowing a distinct event. For a
-            similar-but-distinct event: add without force, event_reject the
-            pending pair (persists a "different" verdict), then add again.
+            name match force-merges too, swallowing a distinct event. When
+            force-adding an event that resembles an existing DISTINCT event,
+            also pass distinct_from.
+        distinct_from: Comma-separated ids of existing events this one merely
+            resembles but is NOT. Persists permanent "different" verdicts so
+            the fuzzy match neither queues for review nor force-merges (e.g.
+            a festival pre-party vs the festival itself).
     """
     import hashlib
 
@@ -218,7 +223,11 @@ def event_add(
     if dt:
         event["dayOfWeek"] = DAYS_LIST[dt.astimezone(NY_TZ).isoweekday() % 7]
 
-    result = add_event(event, force=force)
+    distinct_ids = None
+    if distinct_from:
+        distinct_ids = [s.strip() for s in distinct_from.split(",") if s.strip()]
+
+    result = add_event(event, force=force, distinct_from=distinct_ids)
     return json.dumps(result, indent=2, default=str)
 
 

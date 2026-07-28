@@ -140,11 +140,17 @@ tool or the refresh summary's `scrapers_need_redesign`; the weekly agent flags
 any `structure_missing` source at the top of its summary. State lives in the
 gitignored `data/scraper-health.json`, rewritten every run.
 
-Facebook sources are **not** auto-runnable — they require browser MCP (Step 2).
+Facebook sources are **not** auto-runnable — they require a browser (Step 2).
 
 All registered sources (including disabled ones) are in `data/sources.json`.
 
 ## Step 2: Run Facebook scrapers via browser
+
+**Prefer Cursor (with browser MCP) for Facebook.** Login dialogs, the Upcoming
+tab, and clicking into event detail pages are far more reliable with Cursor's
+interactive browser tools than in headless-only environments (Claude Code CLI,
+unattended automation). If you're in Cursor, use the browser MCP path below —
+don't skip to headless Chrome just because the fallback exists.
 
 Only scrape Facebook sources that are **enabled** in `data/sources.json` with
 `"type": "facebook"`. Skip disabled sources.
@@ -155,8 +161,8 @@ Only scrape Facebook sources that are **enabled** in `data/sources.json` with
 |-----------|--------|-----|
 | `bobas` | **Scrape** | Publishes one-off outdoor events with specific dates on Facebook |
 | `dantes-salsa` | **Scrape** | Points to Fuego y Candela's FB page — posts monthly socials with exact dates |
-| `dantes-inferno-fb` | **Scrape** | Dante's Salsa Inferno page (1st/3rd-Friday socials + takeovers at the Dante) |
-| `tambo-salsa-fb` | **Scrape** | Tambó Salsa page (2nd/4th-Friday socials; watch for 5th-Friday bonus nights) |
+| `dantes-inferno-fb` | **Scrape** | Dante's Salsa Inferno page (Friday socials at the Dante; cadence drifts) |
+| `tambo-salsa-fb` | **Scrape** | Tambó Salsa page (occasional Dante Fridays; scrape for real dates only) |
 
 ### 2a. Navigate to the Facebook events page
 
@@ -165,8 +171,8 @@ above is a snapshot — treat `sources.json` as the authority).
 
 Use `browser_navigate` to open the URL.
 
-**No browser MCP available?** Headless Chrome renders the public events tabs
-without login:
+**No browser MCP available** (e.g. Claude Code / headless agent)? Headless
+Chrome still renders public events tabs without login:
 
 ```bash
 google-chrome --headless=new --disable-gpu --no-sandbox \
@@ -345,17 +351,32 @@ event_get(event_id="<_dedup_candidate_of value>")
 | Same event (merge) | `event_approve(event_id)` — merges into the active duplicate |
 | Different event | `event_reject(event_id, reason="distinct event")` then re-add with `event_add` if needed |
 | Force merge without review | `add_event(event, force=True)` via Python/MCP internals |
+| Add a lookalike that is distinct | `event_add(..., distinct_from="<existing-id>")` — persists `"different"` up front |
 
 > ⚠️ **`force=True` means "yes, merge them"** — it force-merges a review-tier
 > dedup match *in addition to* bypassing the blocklist/geo-fence guards. Never
-> use it to push through an event that merely *resembles* an existing one: it
-> will silently swallow the existing record (e.g. a "Pre-Party: Boston Salsa
-> Festival" force-add once absorbed the main "Boston Salsa Festival" event).
+> use it alone to push through an event that merely *resembles* an existing
+> one: it will silently swallow the existing record (e.g. a "Pre-Party: Boston
+> Salsa Festival" force-add once absorbed the main "Boston Salsa Festival"
+> event). Pass `distinct_from` alongside it instead — see below.
 
 ### Adding an event that is similar to — but distinct from — an existing one
 
-Do **not** reach for `force=True`. Use the review queue; rejecting the pair
-persists a permanent `verdict:"different"` so the re-add sticks:
+Pass `distinct_from` with the id(s) of the lookalike(s). It persists a
+permanent `verdict:"different"` per pair up front, so the fuzzy match neither
+queues for review nor force-merges:
+
+```
+event_add(..., distinct_from="<existing-id>")            # add as its own event
+event_add(..., force=True, distinct_from="<existing-id>") # same, when force is
+                                                           # needed for a guard
+```
+
+This works even when `force` is required (blocked / out-of-area / non-Latin
+rescue) — cases where the un-forced add is dropped before dedup ever runs.
+
+The review-queue route still works when no `force` is involved and you'd
+rather decide after seeing the pair:
 
 1. `event_add(...)` **without** force → routed to `pending.json` with `_dedup_candidate_of`
 2. `event_reject(pending_id, reason="distinct event")` → records `"different"` in `known_duplicates.json`
@@ -583,7 +604,7 @@ venues in `data/venues.json`, expanded into dated events during publish.
 
 | Venue ID | Name | Schedule | Facebook scrape? |
 |----------|------|----------|------------------|
-| `dantes-tambo` | Dante's Salsa Fridays | 1st–4th Fridays: Inferno (1st & 3rd), Tambó (2nd & 4th) | **Yes** — `dantes-inferno-fb` + `tambo-salsa-fb` catch takeovers and 5th-Friday bonus nights |
+| `dantes-tambo` | Dante's Salsa Fridays | Irregular Fridays (`nextDateApproximate`) — Inferno usual brand; Fuego/Tambó share the hall | **Yes** — `dantes-inferno-fb` + `tambo-salsa-fb` + `dantes-salsa` (Fuego); **only scraped dates become pins** |
 | `fuego-y-candela` | Fuego y Candela Salsa Social | Monthly, dates vary (often 2nd Saturday; sometimes a Friday takeover) | **Yes** — `dantes-salsa` source points to `facebook.com/FuegoyCandelaSalsa/events` |
 | `havana-club` | Havana Club | Mon–Sun nightly schedule | **No** — no Facebook source; site is `havanaclubsalsa.com` |
 
@@ -593,14 +614,14 @@ venue is `nextDateApproximate` — it ships as a dateless search-only record
 until a scrape confirms a date. When the FB scraper finds their actual next
 event, that one-off pin supersedes the pattern.
 
-**Dante's Salsa Fridays:** The hub's nth-Friday schedule (see `data/venues.json`)
-generates the 1st–4th Fridays; hosts nominally split them (Inferno 1st/3rd,
-Tambó 2nd/4th) but swap or hand nights to guest crews sometimes — host drift
-doesn't matter for the hub, only whether the night happens. **5th Fridays are
-NOT generated** — they only ship if a scrape confirms a bonus social (e.g.
-May 29, 2026). A scraped 5th-Friday or takeover event surfaces as its own pin;
-a takeover replacing a regular night also needs the date added to the hub's
-`excludeDates` (see the Jul 17, 2026 Querencia takeover).
+**Dante's Salsa Fridays:** Also `nextDateApproximate` — **do not invent
+upcoming Inferno/Tambó dates from cadence guesses.** Observed history drifted
+(roughly 1st/3rd Fridays earlier in 2026, then roughly monthly / second-to-last
+Friday May–Jul) and hosts rotate (Inferno / Fuego / Tambó), so pattern-expanded
+pins would be wrong. The hub is search-only until a scrape (FB pages or ICS
+like Una Bulla) confirms a real night. Never trust dates parsed from event
+*titles* for this venue (organizers copy-paste old titles; the FB date field
+wins).
 
 **Havana Club:** The venue hub covers the full weekly schedule. The Sensualeros
 ICS calendar (`sensualeros-boston`) also lists night-specific entries (e.g.

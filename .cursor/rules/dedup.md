@@ -57,6 +57,9 @@ When a human or agent reviews a pending pair:
 
 - **Approve** (`approve_pending`) → persist pair with verdict `"same"` → future matches are **certain**
 - **Reject** (`reject_pending`) → persist pair with verdict `"different"` → pair is never flagged again
+- **Pre-verdict** (`add_event(..., distinct_from=[ids])`) → persist `"different"` at add time,
+  before dedup runs — for adding a lookalike that is a genuinely distinct event, including
+  force-adds where the guards would drop an un-forced add before it ever reached the queue
 
 Format: `[{"id_a": "...", "id_b": "...", "verdict": "same"|"different", "reviewed_at": "..."}]`
 
