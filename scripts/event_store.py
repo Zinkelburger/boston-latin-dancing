@@ -1551,9 +1551,14 @@ def add_event(
       certain -> auto-merge (same ID or URL)
       review  -> route to pending.json for review (unless force=True)
 
-    force=True (admin approval) bypasses the ingest-time exclusion guards
-    (blocklist + out-of-area geo-fence). Pass blocked_ids to avoid re-reading
-    blocked.json on every call during a batch ingest.
+    force=True (admin approval) does TWO things: it bypasses the ingest-time
+    exclusion guards (blocklist + out-of-area geo-fence) AND it force-merges a
+    review-tier dedup match instead of queueing it — i.e. it asserts "any
+    fuzzy match IS the same event". Never use it to add an event that merely
+    resembles an existing one (a similarly-named distinct event gets swallowed
+    into the existing record). For that, add without force, reject the pending
+    pair (which persists a "different" verdict), and re-add. Pass blocked_ids
+    to avoid re-reading blocked.json on every call during a batch ingest.
 
     quarantine_new=True routes brand-new events (no duplicate anywhere) to
     pending.json instead of active, so unattended runs can refresh existing

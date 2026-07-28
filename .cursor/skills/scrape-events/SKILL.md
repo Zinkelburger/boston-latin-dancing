@@ -154,19 +154,31 @@ Only scrape Facebook sources that are **enabled** in `data/sources.json` with
 | Source ID | Status | Why |
 |-----------|--------|-----|
 | `bobas` | **Scrape** | Publishes one-off outdoor events with specific dates on Facebook |
-| `dantes-salsa` | **Scrape** | Now points to Fuego y Candela's FB page — posts monthly socials with exact dates |
+| `dantes-salsa` | **Scrape** | Points to Fuego y Candela's FB page — posts monthly socials with exact dates |
+| `dantes-inferno-fb` | **Scrape** | Dante's Salsa Inferno page (1st/3rd-Friday socials + takeovers at the Dante) |
+| `tambo-salsa-fb` | **Scrape** | Tambó Salsa page (2nd/4th-Friday socials; watch for 5th-Friday bonus nights) |
 
 ### 2a. Navigate to the Facebook events page
 
-Source URLs are in `data/sources.json` under `facebook_events_url`. Current
-enabled Facebook sources:
-
-| Source ID | URL |
-|-----------|-----|
-| bobas | `https://www.facebook.com/profile.php?id=61551665503735&sk=events` |
-| dantes-salsa | `https://www.facebook.com/FuegoyCandelaSalsa/events` |
+Source URLs are in `data/sources.json` under `facebook_events_url` (the table
+above is a snapshot — treat `sources.json` as the authority).
 
 Use `browser_navigate` to open the URL.
+
+**No browser MCP available?** Headless Chrome renders the public events tabs
+without login:
+
+```bash
+google-chrome --headless=new --disable-gpu --no-sandbox \
+  --virtual-time-budget=15000 --dump-dom "<facebook_events_url>" > page.html
+```
+
+Strip tags and read the event cards (an `Upcoming`/`Past` header followed by
+cards like "Fri, Jul 10 <name> · Cambridge"). A page showing only **Past** has
+no upcoming events → write `[]`. Individual event pages
+(`facebook.com/events/<id>/`) give the exact date/time in `og:` meta tags and
+visible text ("Friday, July 24, 2026 at 8:30 PM – 1:00 AM EDT"). Continue at
+2d/2e with the extracted data.
 
 ### 2b. Close the login dialog
 
@@ -333,6 +345,29 @@ event_get(event_id="<_dedup_candidate_of value>")
 | Same event (merge) | `event_approve(event_id)` — merges into the active duplicate |
 | Different event | `event_reject(event_id, reason="distinct event")` then re-add with `event_add` if needed |
 | Force merge without review | `add_event(event, force=True)` via Python/MCP internals |
+
+> ⚠️ **`force=True` means "yes, merge them"** — it force-merges a review-tier
+> dedup match *in addition to* bypassing the blocklist/geo-fence guards. Never
+> use it to push through an event that merely *resembles* an existing one: it
+> will silently swallow the existing record (e.g. a "Pre-Party: Boston Salsa
+> Festival" force-add once absorbed the main "Boston Salsa Festival" event).
+
+### Adding an event that is similar to — but distinct from — an existing one
+
+Do **not** reach for `force=True`. Use the review queue; rejecting the pair
+persists a permanent `verdict:"different"` so the re-add sticks:
+
+1. `event_add(...)` **without** force → routed to `pending.json` with `_dedup_candidate_of`
+2. `event_reject(pending_id, reason="distinct event")` → records `"different"` in `known_duplicates.json`
+3. `event_add(...)` again → the stored verdict skips the match; the event is added as new
+
+### Backfilling a past event into the archive
+
+`event_add`/`add_event` refuse events whose date is already past
+(`status: "skipped_past"`). To backfill a confirmed past event (for its
+detail page / SEO), append it directly to `data/events/archive.json` with an
+`archivedAt` timestamp — see the Chelsea SITP and Jul 24 Inferno backfill
+commits for the shape — then `event_publish()`.
 
 The ingest result from `event_scrape` / `event_ingest` also reports
 `pending_review` count and `review_items` when uncertain pairs are found.
@@ -548,18 +583,24 @@ venues in `data/venues.json`, expanded into dated events during publish.
 
 | Venue ID | Name | Schedule | Facebook scrape? |
 |----------|------|----------|------------------|
-| `dantes-tambo` | Dante's Salsa Fridays | Every other Friday at Dante Alighieri Society | **No** — covered by venue schedule |
-| `fuego-y-candela` | Fuego y Candela Salsa Social | ~1st Friday of each month at Dante Alighieri | **Yes** — `dantes-salsa` source points to `facebook.com/FuegoyCandelaSalsa/events` |
+| `dantes-tambo` | Dante's Salsa Fridays | 1st–4th Fridays: Inferno (1st & 3rd), Tambó (2nd & 4th) | **Yes** — `dantes-inferno-fb` + `tambo-salsa-fb` catch takeovers and 5th-Friday bonus nights |
+| `fuego-y-candela` | Fuego y Candela Salsa Social | Monthly, dates vary (often 2nd Saturday; sometimes a Friday takeover) | **Yes** — `dantes-salsa` source points to `facebook.com/FuegoyCandelaSalsa/events` |
 | `havana-club` | Havana Club | Mon–Sun nightly schedule | **No** — no Facebook source; site is `havanaclubsalsa.com` |
 
 **Fuego y Candela:** Has their own FB page (`FuegoyCandelaSalsa`) separate from
 the venue page (`DantesSalsaInferno`). They post events ~2 weeks before. The
-venue pattern ("1st Friday") is approximate — always prefer scraped dates.
-When the FB scraper finds their actual next event, it supersedes the pattern.
+venue is `nextDateApproximate` — it ships as a dateless search-only record
+until a scrape confirms a date. When the FB scraper finds their actual next
+event, that one-off pin supersedes the pattern.
 
-**Dante's Salsa Fridays:** The `DantesSalsaInferno` venue page mostly shows
-past events. Beatrice's calendar picks up individual Friday events from other
-sources. The venue schedule in `data/venues.json` generates alternating Fridays.
+**Dante's Salsa Fridays:** The hub's nth-Friday schedule (see `data/venues.json`)
+generates the 1st–4th Fridays; hosts nominally split them (Inferno 1st/3rd,
+Tambó 2nd/4th) but swap or hand nights to guest crews sometimes — host drift
+doesn't matter for the hub, only whether the night happens. **5th Fridays are
+NOT generated** — they only ship if a scrape confirms a bonus social (e.g.
+May 29, 2026). A scraped 5th-Friday or takeover event surfaces as its own pin;
+a takeover replacing a regular night also needs the date added to the hub's
+`excludeDates` (see the Jul 17, 2026 Querencia takeover).
 
 **Havana Club:** The venue hub covers the full weekly schedule. The Sensualeros
 ICS calendar (`sensualeros-boston`) also lists night-specific entries (e.g.

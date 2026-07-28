@@ -177,7 +177,11 @@ def event_add(
         recurring: Whether this is a recurring event
         source: Source identifier
         event_id: Custom event ID (auto-generated if omitted)
-        force: If True, merge into existing duplicate instead of rejecting
+        force: If True, merge into an existing duplicate instead of rejecting.
+            Only for pairs you have confirmed are the SAME event — a fuzzy
+            name match force-merges too, swallowing a distinct event. For a
+            similar-but-distinct event: add without force, event_reject the
+            pending pair (persists a "different" verdict), then add again.
     """
     import hashlib
 
