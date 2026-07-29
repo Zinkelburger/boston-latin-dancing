@@ -336,6 +336,22 @@
     "enabled": true
   },
   {
+    "id": "lous-live",
+    "type": "custom",
+    "scraper": "scrape_lous.py",
+    "name": "Lou's Live (Cambridge)",
+    "noise": {
+      "score": 55,
+      "note": "Mixed live-music calendar; scrape_lous.py keeps only dance nights (salsa/bachata/Latin brunch, Diáspora Combo) — not Afro-Cuban/bossa dinner concerts."
+    },
+    "url": "https://www.wearelous.com/lous-live",
+    "website": "https://www.wearelous.com",
+    "defaults": {
+      "location": "Lou's, 13 Brattle St, Cambridge, MA 02138"
+    },
+    "enabled": true
+  },
+  {
     "id": "harvardsquare",
     "type": "custom",
     "scraper": "scrape_jsonld.py",

@@ -421,7 +421,7 @@ def event_scrape(source_id: Optional[str] = None, quarantine_new: bool = False) 
     After scraping, automatically archives past events. Does NOT publish — call event_publish() separately.
     quarantine_new=True routes brand-new events to pending.json for review instead of active.
 
-    Available source_ids: beatrice-calendar, sensualeros-boston, unabulla-cuban-boston, lister-events, nlf-events, pr-festival-ma, mato-lawn-on-d, harvardsquare, eventbrite-boston-latin, fiesta-dance-company, somerville-arts, eastboston-events, submissions
+    Available source_ids: beatrice-calendar, sensualeros-boston, unabulla-cuban-boston, lister-events, nlf-events, pr-festival-ma, mato-lawn-on-d, harvardsquare, eventbrite-boston-latin, fiesta-dance-company, somerville-arts, eastboston-events, lous-live, submissions
     (Facebook sources require browser MCP and are not auto-runnable.)
     """
     runnable = {
@@ -437,6 +437,7 @@ def event_scrape(source_id: Optional[str] = None, quarantine_new: bool = False) 
         "fiesta-dance-company": ["scrape_fiesta_dance.py"],
         "somerville-arts": ["scrape_tribe_calendar.py", "somerville-arts"],
         "eastboston-events": ["scrape_eastboston.py"],
+        "lous-live": ["scrape_lous.py"],
         "submissions": ["fetch_submissions.py"],
     }
 

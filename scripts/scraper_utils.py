@@ -54,6 +54,10 @@ VENUE_COORDS = {
     "the dante alighieri society of massachusetts": (42.367900, -71.088500),
     "dante alighieri society": (42.367900, -71.088500),
     "cantab lounge": (42.365300, -71.103100),
+    "lou's": (42.3736, -71.1212),
+    "lous": (42.3736, -71.1212),
+    "13 brattle st": (42.3736, -71.1212),
+    "13 brattle street": (42.3736, -71.1212),
     "pkl": (42.335200, -71.046400),
     "distillery gallery": (42.340000, -71.055000),
     "club cafe boston": (42.345300, -71.072100),
@@ -153,7 +157,8 @@ def detect_styles(text: str) -> list[str]:
 LATIN_KEYWORD_RE = re.compile(
     r"\b(salsa|bachata|kizomba|zouk|merengue|latin|cumbia|reggaeton"
     r"|timba|son(?:go)?|cha\s*cha|mambo|rumba|guaguanco|cubana?|tropical"
-    r"|rueda|casino|afro[-\s]?latin|afro[-\s]?cuban|dominican)\b",
+    r"|rueda|casino|afro[-\s]?latin|afro[-\s]?cuban|afro[-\s]?caribbean"
+    r"|bossa\s*nova|bugal[uú]|dominican)\b",
     re.I,
 )
 

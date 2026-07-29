@@ -130,5 +130,38 @@
     "blocked_notes": "instruction-only class; the social is on the map as recurring Havana Bachata Thursdays",
     "location": "Havana Club, 288 Green St, Cambridge, MA 02139, USA",
     "block_key": "intermediate bachata w tina|havana club, 288 green st, cambridge, ma 02139, usa"
+  },
+  {
+    "id": "lous-aa9bb058",
+    "name": "afro-cuban roots – Los sugar kings",
+    "source": "lous-live",
+    "blocked_reason": "Lou's seated concert — not a dance social",
+    "blocked_category": "not_dance",
+    "blocked_at": "2026-07-28T23:46:52.258448+00:00",
+    "blocked_notes": "Lou's seated concert — not a dance social",
+    "location": "Lou's, 13 Brattle St, Cambridge, MA 02138",
+    "block_key": "afrocuban roots los sugar kings|lou s 13 brattle st cambridge ma 02138"
+  },
+  {
+    "id": "lous-4a3f895f",
+    "name": "Afro-Caribbean Groove –LOOKIE LOOKIE",
+    "source": "lous-live",
+    "blocked_reason": "Lou's seated concert — not a dance social",
+    "blocked_category": "not_dance",
+    "blocked_at": "2026-07-28T23:46:52.278704+00:00",
+    "blocked_notes": "Lou's seated concert — not a dance social",
+    "location": "Lou's, 13 Brattle St, Cambridge, MA 02138",
+    "block_key": "afrocaribbean groove lookie lookie|lou s 13 brattle st cambridge ma 02138"
+  },
+  {
+    "id": "lous-6267b24c",
+    "name": "Bossa Nova & Caribbean Grooves –SWAMPANOVA",
+    "source": "lous-live",
+    "blocked_reason": "Lou's seated concert — not a dance social",
+    "blocked_category": "not_dance",
+    "blocked_at": "2026-07-28T23:46:52.296491+00:00",
+    "blocked_notes": "Lou's seated concert — not a dance social",
+    "location": "Lou's, 13 Brattle St, Cambridge, MA 02138",
+    "block_key": "bossa nova caribbean grooves swampanova|lou s 13 brattle st cambridge ma 02138"
   }
 ]
