@@ -712,7 +712,8 @@
     "_verified_at": "2026-07-15T03:32:49.035436+00:00",
     "_verified_status": "unverifiable",
     "_verified_notes": "Instagram link — cannot scrape programmatically. Manual check recommended.",
-    "_verification_url": "https://www.instagram.com/reel/Dab2OC-h8bt/"
+    "_verification_url": "https://www.instagram.com/reel/Dab2OC-h8bt/",
+    "special": true
   },
   {
     "id": "00E9F069-7BE1-4C6D-BA6E-69B8A2E7FDA3",
@@ -1375,5 +1376,28 @@
     "recurring": false,
     "organizer": "Boston Salsa Festival",
     "source": "manual"
+  },
+  {
+    "id": "lous-f2d17c80",
+    "name": "Latin Brunch – La diaspora combo",
+    "startDate": "2026-08-22T12:00:00.834000-04:00",
+    "endDate": "2026-08-22T14:30:00.834000-04:00",
+    "dayOfWeek": "Saturday",
+    "location": "Lou's, 13 Brattle St, Cambridge, MA 02138",
+    "lat": 42.3736,
+    "lng": -71.1212,
+    "description": "Led by lead vocalist and multi-instrumentalist Angel Javier Camilo, La Diáspora Combo is an intergenerational collective of musicians from Latin America and the United States. Rooted in diasporic identity and community, the ensemble brings high-energy, dance-forward performances of salsa, merengue, and bachata. Honoring the Latin American tradition of musical storytelling, La Diáspora Combo reimagines the works of artists such as Rubén Blades & Willie Colón, Juan Luis Guerra, El Gran Combo, and Oscar D’León, transforming each performance into a celebration of culture, dance, and communal spirit.\nFOLLOW",
+    "url": "https://www.wearelous.com/lous-live/diaspora-latin-brunch",
+    "styles": [
+      "bachata",
+      "salsa",
+      "merengue"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "lous-live",
+    "artist": "La diaspora combo",
+    "artistUrl": "https://www.instagram.com/ladiasporacombo/",
+    "venueId": "lous-live"
   }
 ]

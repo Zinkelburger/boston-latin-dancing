@@ -550,3 +550,19 @@
 {"ts": "2026-07-27T20:37:51.536250+00:00", "action": "reactivate", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": "from archive (certain)"}
 {"ts": "2026-07-27T20:37:55.477432+00:00", "action": "drop_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-08-16-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
 {"ts": "2026-07-27T20:37:56.223286+00:00", "action": "archive", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": ""}
+{"ts": "2026-07-28T23:39:50.596990+00:00", "action": "quarantine_new", "event_id": "lous-aa9bb058", "details": ""}
+{"ts": "2026-07-28T23:39:50.649974+00:00", "action": "quarantine_new", "event_id": "lous-4a3f895f", "details": ""}
+{"ts": "2026-07-28T23:39:50.701905+00:00", "action": "quarantine_new", "event_id": "lous-6267b24c", "details": ""}
+{"ts": "2026-07-28T23:39:50.740103+00:00", "action": "quarantine_new", "event_id": "lous-f2d17c80", "details": ""}
+{"ts": "2026-07-28T23:40:20.076968+00:00", "action": "add", "event_id": "lous-aa9bb058", "details": ""}
+{"ts": "2026-07-28T23:40:20.077406+00:00", "action": "approve", "event_id": "lous-aa9bb058", "details": ""}
+{"ts": "2026-07-28T23:40:20.125657+00:00", "action": "add", "event_id": "lous-4a3f895f", "details": ""}
+{"ts": "2026-07-28T23:40:20.126080+00:00", "action": "approve", "event_id": "lous-4a3f895f", "details": ""}
+{"ts": "2026-07-28T23:40:20.185611+00:00", "action": "add", "event_id": "lous-6267b24c", "details": ""}
+{"ts": "2026-07-28T23:40:20.186154+00:00", "action": "approve", "event_id": "lous-6267b24c", "details": ""}
+{"ts": "2026-07-28T23:40:20.272347+00:00", "action": "add", "event_id": "lous-f2d17c80", "details": ""}
+{"ts": "2026-07-28T23:40:20.272842+00:00", "action": "approve", "event_id": "lous-f2d17c80", "details": ""}
+{"ts": "2026-07-28T23:46:52.263514+00:00", "action": "block", "event_id": "lous-aa9bb058", "details": "not_dance: Lou's seated concert \u2014 not a dance social"}
+{"ts": "2026-07-28T23:46:52.285580+00:00", "action": "block", "event_id": "lous-4a3f895f", "details": "not_dance: Lou's seated concert \u2014 not a dance social"}
+{"ts": "2026-07-28T23:46:52.299992+00:00", "action": "block", "event_id": "lous-6267b24c", "details": "not_dance: Lou's seated concert \u2014 not a dance social"}
+{"ts": "2026-07-29T01:17:18.131317+00:00", "action": "edit", "event_id": "61BD2CD0-8D61-4FB5-9B00-83D32168C036", "details": "{\"special\": true}"}

@@ -620,6 +620,7 @@
     "cost": "Free",
     "recurring": false,
     "slug": "2nd-annual-del-barrio-afro-latino-festival-00e9f069",
+    "special": true,
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
@@ -830,6 +831,7 @@
     ],
     "cost": "Free",
     "recurring": false,
+    "special": true,
     "slug": "salsa-on-the-beach-featuring-los-mambiseros-61bd2cd0",
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
@@ -989,6 +991,7 @@
     "cost": null,
     "recurring": false,
     "slug": "boston-salsa-festival-2026-1ee53ea9",
+    "special": true,
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
@@ -1019,6 +1022,30 @@
     "slug": "dante-s-salsa-inferno-4scb4cfq",
     "recurrenceLabel": "Third Friday of each month",
     "organizer": "Cuban Dance in Boston (Una Bulla)"
+  },
+  {
+    "id": "lous-f2d17c80",
+    "name": "Latin Brunch – La diaspora combo",
+    "startDate": "2026-08-22T12:00:00.834000-04:00",
+    "endDate": "2026-08-22T14:30:00.834000-04:00",
+    "dayOfWeek": "Saturday",
+    "location": "Lou's, 13 Brattle St, Cambridge, MA 02138",
+    "lat": 42.3736,
+    "lng": -71.1212,
+    "description": "Led by lead vocalist and multi-instrumentalist Angel Javier Camilo, La Diáspora Combo is an intergenerational collective of musicians from Latin America and the United States. Rooted in diasporic identity and community, the ensemble brings high-energy, dance-forward performances of salsa, merengue, and bachata. Honoring the Latin American tradition of musical storytelling, La Diáspora Combo reimagines the works of artists such as Rubén Blades & Willie Colón, Juan Luis Guerra, El Gran Combo, and Oscar D’León, transforming each performance into a celebration of culture, dance, and communal spirit.\nFOLLOW",
+    "url": "https://www.wearelous.com/lous-live/diaspora-latin-brunch",
+    "styles": [
+      "bachata",
+      "salsa",
+      "merengue"
+    ],
+    "cost": null,
+    "recurring": false,
+    "artist": "La diaspora combo",
+    "artistUrl": "https://www.instagram.com/ladiasporacombo/",
+    "venueId": "lous-live",
+    "slug": "latin-brunch-la-diaspora-combo-lous-f2d",
+    "organizer": "Lou's Live (Cambridge)"
   },
   {
     "id": "0du3658tpe2aej0a3e5i2o7nm1@google.com",
@@ -1062,6 +1089,7 @@
     "cost": "$55.20",
     "recurring": false,
     "slug": "bostons-salsa-and-bachata-cruise-tropical-sunset-edition-92e81fec",
+    "special": true,
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
@@ -1101,6 +1129,7 @@
     "cost": null,
     "recurring": false,
     "slug": "east-boston-latin-music-and-dance-festival-0d2e7b82",
+    "special": true,
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
@@ -1120,6 +1149,7 @@
     "cost": "$200",
     "recurring": false,
     "slug": "zouk-weekender-bubble-with-iago-ninna-2026-548f5048",
+    "special": true,
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
@@ -1158,6 +1188,7 @@
     "cost": "$20",
     "recurring": false,
     "slug": "fuego-y-candela-15-year-anniversary-salsa-extravaganza-dantes-s",
+    "special": true,
     "organizer": "Fuego y Candela Salsa Socials",
     "archived": true
   },
@@ -1279,6 +1310,7 @@
     "cost": "$39",
     "recurring": false,
     "slug": "el-bonche-5-year-anniversary-weekend-live-concert-workshops-4bfa06be",
+    "special": true,
     "archived": true
   },
   {
@@ -1338,6 +1370,7 @@
     "cost": null,
     "recurring": false,
     "slug": "boston-salsa-cruise-recordamos-a-la-leyenda-willie-colon-7c4607a0",
+    "special": true,
     "archived": true
   },
   {
@@ -1620,6 +1653,7 @@
     "cost": null,
     "recurring": false,
     "slug": "leandro-nayara-brazilian-zouk-weekender-in-boston-1530cbc9",
+    "special": true,
     "organizer": "Greater Boston Dance Socials (Beatrice)",
     "archived": true
   },
@@ -2017,6 +2051,7 @@
     "urls": [
       "https://www.bostonmusicproject.org/events-1/salsa-at-the-shell-1"
     ],
+    "special": true,
     "slug": "salsa-at-the-shell-cb5572f4",
     "organizer": "Greater Boston Dance Socials (Beatrice)",
     "archived": true
@@ -2170,6 +2205,7 @@
     "cost": null,
     "recurring": false,
     "slug": "bachata-room-9-year-anniversary-ft-bachata-star-dj-zacarry-96be1814",
+    "special": true,
     "organizer": "Sensualeros Boston Events",
     "archived": true
   },
@@ -2231,6 +2267,7 @@
     "cost": "$25 at door",
     "recurring": false,
     "slug": "zouk-weekender-bubble-with-iago-ninna-2026-884c05c0",
+    "special": true,
     "organizer": "Greater Boston Dance Socials (Beatrice)",
     "archived": true
   },
@@ -2360,6 +2397,7 @@
       "https://www.eventbrite.com/e/bostons-all-white-salsa-bachata-sunset-cruise-tickets-1990316528314"
     ],
     "slug": "salsa-and-bachata-sunset-cruise-pre-july-4th-celebration-25e9fcb5",
+    "special": true,
     "organizer": "Sensualeros Boston Events",
     "archived": true
   },
@@ -2678,6 +2716,7 @@
     "cost": null,
     "recurring": false,
     "slug": "festival-betances-2026-boricua-legacy-shaping-americas-story-876946c7",
+    "special": true,
     "organizer": "Greater Boston Dance Socials (Beatrice)",
     "archived": true
   },
@@ -2929,6 +2968,7 @@
     "cost": null,
     "recurring": false,
     "slug": "festival-betances-2026-boricua-legacy-shaping-americas-story-876946c7",
+    "special": true,
     "organizer": "Greater Boston Dance Socials (Beatrice)",
     "archived": true
   },
@@ -3051,6 +3091,7 @@
     "cost": null,
     "recurring": false,
     "slug": "boston-salsa-cruise-tributo-a-la-salsa-colombiana-5842d45a",
+    "special": true,
     "organizer": "Greater Boston Dance Socials (Beatrice)",
     "archived": true
   },
@@ -3118,6 +3159,7 @@
     "cost": "$40",
     "recurring": false,
     "slug": "noise-1st-anniversary-c3b5a69b",
+    "special": true,
     "organizer": "Greater Boston Dance Socials (Beatrice)",
     "archived": true
   },
@@ -3159,6 +3201,7 @@
     "cost": "Free",
     "recurring": false,
     "slug": "12th-annual-salsa-squared-65827-17",
+    "special": true,
     "organizer": "Greater Boston Dance Socials (Beatrice)",
     "archived": true
   },
