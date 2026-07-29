@@ -33,6 +33,8 @@ export type FilterControlsProps = {
   onStylesChange: (styles: DanceStyle[]) => void;
   selectedDays: DayOfWeek[];
   onDaysChange: (days: DayOfWeek[]) => void;
+  specialOnly: boolean;
+  onSpecialOnlyChange: (v: boolean) => void;
   dateMode: 'any' | 'custom';
   onDateModeChange: (mode: 'any' | 'custom') => void;
   dateSlider: DateRangeValue;
@@ -63,6 +65,7 @@ export function useEventFilters() {
 
   const [selectedStyles, setSelectedStyles] = useState<DanceStyle[]>([]);
   const [selectedDays, setSelectedDays] = useState<DayOfWeek[]>([]);
+  const [specialOnly, setSpecialOnly] = useState(false);
   const [dateMode, setDateMode] = useState<'any' | 'custom'>('any');
   const [dateSlider, setDateSlider] = useState<DateRangeValue>({
     fromDay: defaultFrom,
@@ -116,9 +119,11 @@ export function useEventFilters() {
 
       const matchesDate = eventMatchesDateRange(event, effectiveFromMs, effectiveToMs);
 
-      return matchesStyle && matchesDay && matchesDate;
+      const matchesSpecial = !specialOnly || Boolean(event.special);
+
+      return matchesStyle && matchesDay && matchesDate && matchesSpecial;
     });
-  }, [selectedStyles, selectedDays, effectiveFromMs, effectiveToMs]);
+  }, [selectedStyles, selectedDays, specialOnly, effectiveFromMs, effectiveToMs]);
 
   /** Clear any filters that would hide `event`, so it appears on the map. */
   const ensureEventVisible = useCallback((event: DanceEvent) => {
@@ -132,6 +137,8 @@ export function useEventFilters() {
       (event.schedule?.some(s => selectedDays.includes(s.dayOfWeek)) ?? false);
     if (!matchesDay) setSelectedDays([]);
 
+    if (specialOnly && !event.special) setSpecialOnly(false);
+
     if (eventMatchesDateRange(event, effectiveFromMs, effectiveToMs)) return;
 
     const targetDay = eventTargetDay(event);
@@ -144,11 +151,12 @@ export function useEventFilters() {
       toDay: Math.min(sliderMax, Math.max(currentTo, targetDay)),
     });
     setDatePreset(null);
-  }, [effectiveFromMs, effectiveToMs, dateMode, sliderMin, sliderMax, dateSlider, selectedStyles, selectedDays]);
+  }, [effectiveFromMs, effectiveToMs, dateMode, sliderMin, sliderMax, dateSlider, selectedStyles, selectedDays, specialOnly]);
 
   const controls: FilterControlsProps = {
     selectedStyles, onStylesChange: setSelectedStyles,
     selectedDays, onDaysChange: setSelectedDays,
+    specialOnly, onSpecialOnlyChange: setSpecialOnly,
     dateMode, onDateModeChange: handleDateModeChange,
     dateSlider, onDateSliderChange: handleDateSliderChange,
     sliderMin, sliderMax, defaultFrom, defaultTo,

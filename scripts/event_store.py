@@ -77,6 +77,7 @@ SOURCE_PRIORITY = {
     "pr-festival-ma": 14,
     "eastboston-events": 14,
     "harvardsquare": 14,
+    "lous-live": 13,
     "": 20,
 }
 
@@ -663,6 +664,11 @@ def merge_event(a: dict, b: dict) -> dict:
         elif loser.get(key):
             merged[key] = loser[key]
 
+    # Preserve a manually-set `special` big-event override when the stored
+    # (flagged) record loses to a fresh scrape of the same event.
+    if merged.get("special") is None and loser.get("special") is not None:
+        merged["special"] = loser["special"]
+
     # Never overwrite winner fields with loser content when winner is a venue hub.
     if _is_venue_schedule_record(winner):
         if not merged.get("description") and loser.get("description"):
@@ -792,6 +798,47 @@ _SPECIAL_EDITION_RE = re.compile(
 
 def _is_special_edition(name: str) -> bool:
     return bool(_SPECIAL_EDITION_RE.search(name or ""))
+
+
+# Big-event detector for the published `special` flag: festivals, annual
+# editions, congresses, weekenders, galas, cruises — the marquee one-offs a
+# visitor plans around, as opposed to a weekly bar social. Narrower than
+# _SPECIAL_EDITION_RE on purpose: guest-DJ/"ft."/holiday-theme nights are
+# special *editions* of a series but not big events. Run against
+# normalize_name() output.
+_BIG_EVENT_RE = re.compile(
+    r"\b(?:festival|congress|weekender|annual|anniversary|anniversaries|"
+    r"gala|cruise|block party)\b",
+    re.I,
+)
+
+# Satellite parties of a big event ("Pre-Party: Boston Salsa Festival") are
+# regular socials that merely carry the festival's name — never auto-flag
+# them. An explicit special:true still wins in _derive_special.
+_SATELLITE_PARTY_RE = re.compile(r"\b(?:pre|after)\s*party\b", re.I)
+
+
+def _derive_special(ev: dict) -> None:
+    """Resolve the published `special` flag (big one-off events).
+
+    An explicit `special: true/false` already on the stored event always wins,
+    so judgment calls the regex can't make ("Salsa at the Shell") are set at
+    review time with edit_event and survive here. An explicit false ships as
+    an absent field, not `special: false`. Otherwise the heuristic flags
+    non-recurring one-offs whose name reads like a big event.
+    """
+    explicit = ev.get("special")
+    if explicit is not None:
+        if not explicit:
+            ev.pop("special", None)
+        return
+    if ev.get("recurring") or ev.get("schedule") or ev.get("searchOnly"):
+        return
+    name = normalize_name(ev.get("name", ""))
+    if _SATELLITE_PARTY_RE.search(name):
+        return
+    if _BIG_EVENT_RE.search(name):
+        ev["special"] = True
 
 
 # Advisory class/workshop detector. Not a hard filter — an event with a Latin
@@ -2080,8 +2127,9 @@ def _load_source_names() -> dict[str, str]:
 
 
 def _strip_internal_fields(ev: dict, source_names: dict[str, str]) -> None:
-    """Add slug/organizer, remove internal fields from an event dict."""
+    """Add slug/organizer/special, remove internal fields from an event dict."""
     ev["slug"] = slugify(ev["name"], ev["id"])
+    _derive_special(ev)
     if ev.get("recurring") and not ev.get("recurrenceLabel"):
         label = recurrence_label(ev)
         if label:

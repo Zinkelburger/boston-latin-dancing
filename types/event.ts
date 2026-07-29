@@ -44,6 +44,10 @@ export interface DanceEvent {
   searchOnly?: boolean;
   /** Human-readable organizer name (e.g. "BOBAS", "Fiesta Dance Company") */
   organizer?: string;
+  /** Big one-off event (festival, annual edition, big outdoor party) —
+   *  distinct map pin, ⭐ badge, and the "Big events" filter. Set at publish
+   *  by heuristic or an explicit override on the stored event. */
+  special?: boolean;
 }
 
 export interface RecurringSchedule {

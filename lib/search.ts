@@ -41,7 +41,7 @@ export function isSameSeries(a: DanceEvent, b: DanceEvent): boolean {
   return false;
 }
 
-type Fields = { name: string; loc: string; desc: string; styles: string; day: string };
+type Fields = { name: string; loc: string; org: string; desc: string; styles: string; day: string };
 
 /** Lowercased searchable fields for an event. `styles` includes both the raw
  *  style ids and their display labels so either spelling matches. */
@@ -49,6 +49,7 @@ function eventFields(event: DanceEvent): Fields {
   return {
     name: event.name.toLowerCase(),
     loc: (event.location ?? '').toLowerCase(),
+    org: (event.organizer ?? '').toLowerCase(),
     desc: stripHtml(event.description).toLowerCase(),
     styles: [...event.styles, ...event.styles.map(s => STYLE_LABELS[s])].join(' ').toLowerCase(),
     day: event.dayOfWeek.toLowerCase(),
@@ -73,7 +74,7 @@ export function matchEvent(event: DanceEvent, query: string): boolean {
   if (tokens.length === 0) return true;
 
   const f = eventFields(event);
-  const haystack = `${f.name} ${f.loc} ${f.desc} ${f.styles}`;
+  const haystack = `${f.name} ${f.loc} ${f.org} ${f.desc} ${f.styles}`;
 
   return tokens.every(tok => {
     if (tok.exact) {
@@ -86,7 +87,7 @@ export function matchEvent(event: DanceEvent, query: string): boolean {
 
 /**
  * Rank events against a query by weighted field matches (name > location >
- * style/day > description), returning the best `limit` matches. Every token must
+ * organizer > style/day > description), returning the best `limit` matches. Every token must
  * match at least one field. Used by the map search dropdown.
  */
 export function searchAndRank(events: DanceEvent[], query: string, limit: number): DanceEvent[] {
@@ -101,15 +102,17 @@ export function searchAndRank(events: DanceEvent[], query: string, limit: number
     for (const tok of tokens) {
       const inName = f.name.includes(tok);
       const inLoc = f.loc.includes(tok);
+      const inOrg = f.org.includes(tok);
       const inStyle = f.styles.includes(tok);
       const inDay = f.day.startsWith(tok);
       const inDesc = f.desc.includes(tok);
-      if (!inName && !inLoc && !inStyle && !inDay && !inDesc) {
+      if (!inName && !inLoc && !inOrg && !inStyle && !inDay && !inDesc) {
         allMatch = false;
         break;
       }
       if (inName) score += 10;
       if (inLoc) score += 5;
+      if (inOrg) score += 4;
       if (inStyle) score += 3;
       if (inDay) score += 3;
       if (inDesc) score += 1;

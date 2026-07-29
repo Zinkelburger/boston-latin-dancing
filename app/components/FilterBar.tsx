@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import clsx from 'clsx';
 import { formatShort } from '@/lib/dates';
-import { StyleFilter, DayFilter, PresetChips, DateRangeDialog } from './FilterControls';
+import { StyleFilter, DayFilter, PresetChips, DateRangeDialog, BigEventsToggle } from './FilterControls';
 import type { FilterControlsProps } from './useEventFilters';
 
 type Props = FilterControlsProps & {
@@ -15,6 +15,7 @@ type Props = FilterControlsProps & {
 export default function FilterBar({
   selectedStyles, onStylesChange,
   selectedDays, onDaysChange,
+  specialOnly, onSpecialOnlyChange,
   dateMode, onDateModeChange,
   dateSlider, onDateSliderChange,
   sliderMin, sliderMax,
@@ -74,6 +75,7 @@ export default function FilterBar({
           >
             {dateLabel}
           </button>
+          <BigEventsToggle active={specialOnly} onChange={onSpecialOnlyChange} />
         </div>
         <div className="filter-right-actions">
           <a

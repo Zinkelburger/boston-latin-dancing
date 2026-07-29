@@ -216,6 +216,9 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
 
         {/* Style pills */}
         <div className="flex flex-wrap gap-1.5">
+          {event.special && (
+            <span className="pretty-pill pretty-pill-amber text-xs">Big Event</span>
+          )}
           {event.styles.map(style => (
             <span key={style} className={`pretty-pill ${STYLE_PILL_CLASS[style]} text-xs`}>
               {STYLE_LABELS[style]}

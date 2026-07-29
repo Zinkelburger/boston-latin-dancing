@@ -66,6 +66,15 @@ your main job, along with the other judgment calls it can't make.
      listing, not proof there's no dancing. Do not reject on the title alone;
      read the description first.
 
+   **Big events:** publish auto-flags one-offs whose name says
+   festival/annual/anniversary/congress/weekender/gala/cruise as
+   `special: true` — that drives the site's "Big Events" filter and the
+   gold map pin. When you approve a marquee one-off the keywords miss (big
+   outdoor party like "Salsa at the Shell", a major event with a plain name),
+   set it yourself: `event_edit(event_id, updates_json='{"special": true}')`.
+   Use `{"special": false}` to suppress a wrong auto-flag. Regular guest-DJ
+   or holiday-theme bar nights are NOT big events.
+
    ⚠️ **`event_block` matches by exact `id` only.** Sources that mint
    date-stamped or listing-scoped ids (`nlf-events-<slug>-<date>-<time>`,
    Eventbrite `eb-<numeric>`) get a FRESH id every week, so blocking one

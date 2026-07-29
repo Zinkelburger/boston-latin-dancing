@@ -26,19 +26,21 @@ function isGhostEvent(event: DanceEvent | null | undefined): boolean {
   return Boolean(event && (event.archived || event.searchOnly));
 }
 
+// Big events (`special`) get a larger pin with a gold ring so festivals stand
+// out from the weekly socials at a glance.
 const unclusteredLayer: LayerProps = {
   id: 'unclustered',
   type: 'circle',
   filter: ['!', ['has', 'point_count']],
   paint: {
     'circle-color': ['get', '__color'],
-    'circle-radius': 7,
-    'circle-stroke-color': '#ffffff',
-    'circle-stroke-width': 2,
+    'circle-radius': ['case', ['get', '__special'], 9, 7],
+    'circle-stroke-color': ['case', ['get', '__special'], '#facc15', '#ffffff'],
+    'circle-stroke-width': ['case', ['get', '__special'], 3, 2],
   },
 };
 
-type MarkerProps = { id: string; __color: string };
+type MarkerProps = { id: string; __color: string; __special: boolean };
 type MarkerFeature = Feature<Point, MarkerProps>;
 type MarkerCollection = FeatureCollection<Point, MarkerProps>;
 
@@ -207,7 +209,7 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
       return {
         type: 'Feature',
         geometry: { type: 'Point', coordinates: [lng, lat] },
-        properties: { id: event.id, __color: primaryColor(event) },
+        properties: { id: event.id, __color: primaryColor(event), __special: Boolean(event.special) },
       };
     });
 

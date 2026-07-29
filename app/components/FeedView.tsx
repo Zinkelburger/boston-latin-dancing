@@ -16,7 +16,7 @@ import {
   shouldShowNextOccurrence,
 } from '@/lib/recurrences';
 import ShareButton from './ShareButton';
-import { StyleFilter, DayFilter, PresetChips, DateRangeDialog } from './FilterControls';
+import { StyleFilter, DayFilter, PresetChips, DateRangeDialog, BigEventsToggle } from './FilterControls';
 import type { FilterControlsProps } from './useEventFilters';
 
 type FeedEntry = {
@@ -132,6 +132,7 @@ type Props = FilterControlsProps & {
 export default function FeedView({
   events, selectedDays, fromMs, toMs, onSelectEvent,
   datePreset, onPresetChange,
+  specialOnly, onSpecialOnlyChange,
   selectedStyles, onStylesChange, onDaysChange, onViewModeToggle,
   dateMode, onDateModeChange, dateSlider, onDateSliderChange,
   sliderMin, sliderMax, defaultFrom, defaultTo,
@@ -154,7 +155,8 @@ export default function FeedView({
     [filtered, selectedDays, fromMs, toMs],
   );
 
-  const activeFilterCount = selectedStyles.length + selectedDays.length + (dateMode === 'custom' ? 1 : 0);
+  const activeFilterCount = selectedStyles.length + selectedDays.length +
+    (dateMode === 'custom' ? 1 : 0) + (specialOnly ? 1 : 0);
   const isAny = dateMode === 'any';
   const dateLabel = `${formatShort(dateSlider.fromDay)} – ${formatShort(dateSlider.toDay)}`;
 
@@ -219,6 +221,7 @@ export default function FeedView({
         </div>
         <div className="feed-date-chips">
           <PresetChips datePreset={datePreset} onPresetChange={onPresetChange} />
+          <BigEventsToggle active={specialOnly} onChange={onSpecialOnlyChange} />
         </div>
 
         {filtersOpen && (
@@ -350,6 +353,11 @@ function FeedCard({
     <div role="button" tabIndex={0} className="feed-card" onClick={onSelect} onKeyDown={e => { if (e.key === 'Enter') onSelect(); }}>
       <div className="feed-card-top">
         <div className="feed-card-pills">
+          {event.special && (
+            <span className="pretty-pill pretty-pill-amber text-xs">
+              Big Event
+            </span>
+          )}
           {event.styles.map(style => (
             <span
               key={style}
