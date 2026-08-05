@@ -2,6 +2,7 @@
 
 import { useState, useCallback, type FormEvent } from 'react';
 import Link from 'next/link';
+import TurnstileWidget from '@/app/components/TurnstileWidget';
 import { API_URL, STYLE_LABELS, STYLE_PILL_CLASS } from '@/lib/constants';
 import type { DanceStyle } from '@/types/event';
 
@@ -44,6 +45,7 @@ export default function SubmitClient() {
   const [submitState, setSubmitState] = useState<SubmitState>('idle');
   const [errorMsg, setErrorMsg] = useState('');
   const [contactError, setContactError] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState('');
 
   const resetForm = useCallback(() => {
     setEmail('');
@@ -63,6 +65,7 @@ export default function SubmitClient() {
     setSubmitState('idle');
     setErrorMsg('');
     setContactError(false);
+    setTurnstileToken('');
   }, []);
 
   const toggleStyle = (s: DanceStyle) => {
@@ -97,6 +100,7 @@ export default function SubmitClient() {
       week_of_month: isRecurring && recurrenceType === 'monthly' ? weekOfMonth : '',
       start_date: isRecurring ? startDate : '',
       notes: notes.trim(),
+      cf_turnstile_token: turnstileToken,
     };
 
     try {
@@ -113,6 +117,9 @@ export default function SubmitClient() {
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : 'Something went wrong');
       setSubmitState('error');
+      // Turnstile tokens are single-use; get a fresh one for the retry.
+      setTurnstileToken('');
+      window.turnstile?.reset();
     }
   };
 
@@ -388,6 +395,7 @@ export default function SubmitClient() {
             </fieldset>
 
             {/* ── Actions ── */}
+            <TurnstileWidget onToken={setTurnstileToken} />
             {submitState === 'error' && (
               <p className="text-xs" style={{ color: '#ef4444' }}>{errorMsg}</p>
             )}

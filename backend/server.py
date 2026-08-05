@@ -8,10 +8,12 @@ Designed to run behind a Cloudflare Tunnel on a VPS (no public ports).
 """
 
 import json
+import logging
 import os
 from datetime import datetime, timezone
 from pathlib import Path
 
+import requests as http_requests
 from fastapi import FastAPI, HTTPException, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
@@ -20,6 +22,8 @@ from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
 
+log = logging.getLogger("uvicorn.error")
+
 SUBMISSIONS_PATH = Path(
     os.getenv("BLD_SUBMISSIONS_PATH", Path(__file__).parent / "submissions.json")
 )
@@ -27,6 +31,10 @@ FRONTEND_ORIGIN = os.getenv(
     "BLD_FRONTEND_ORIGIN", "https://bostonsalsa.org"
 )
 ADMIN_TOKEN = os.getenv("BLD_ADMIN_TOKEN", "")
+TURNSTILE_SECRET = os.getenv("TURNSTILE_SECRET", "")
+
+if not TURNSTILE_SECRET:
+    log.warning("TURNSTILE_SECRET is not set — CAPTCHA verification is disabled")
 
 _cors_origins = [FRONTEND_ORIGIN]
 if os.getenv("BLD_DEBUG"):
@@ -69,6 +77,7 @@ class EventSubmission(BaseModel):
     week_of_month: str = ""
     start_date: str = ""
     notes: str = ""
+    cf_turnstile_token: str = ""
 
     @model_validator(mode="after")
     def require_contact(self):
@@ -91,10 +100,48 @@ def _save_submissions(entries: list[dict]) -> None:
     SUBMISSIONS_PATH.write_text(json.dumps(entries, indent=2, ensure_ascii=False))
 
 
+# ── Turnstile ─────────────────────────────────────────────────────────
+
+
+def _client_ip(request: Request) -> str | None:
+    return (
+        request.headers.get("CF-Connecting-IP")
+        or request.headers.get("X-Forwarded-For", "").split(",")[0].strip()
+        or (request.client.host if request.client else None)
+    ) or None
+
+
+def verify_turnstile(token: str, ip: str | None = None) -> bool:
+    if not TURNSTILE_SECRET:
+        return True
+    if not token:
+        log.warning("Turnstile token missing from request")
+        return False
+    try:
+        payload: dict = {"secret": TURNSTILE_SECRET, "response": token}
+        if ip:
+            payload["remoteip"] = ip
+        resp = http_requests.post(
+            "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+            data=payload,
+            timeout=10,
+        )
+        result = resp.json()
+        if not result.get("success"):
+            log.warning("Turnstile validation failed: %s", result.get("error-codes", []))
+        return result.get("success", False)
+    except Exception as e:
+        log.error("Turnstile siteverify request failed: %s", e)
+        return False
+
+
 @app.post("/api/submit-event")
 @limiter.limit("5/minute")
 def submit_event(body: EventSubmission, request: Request):
-    entry = body.model_dump()
+    if TURNSTILE_SECRET and not verify_turnstile(body.cf_turnstile_token, _client_ip(request)):
+        raise HTTPException(status_code=403, detail="CAPTCHA verification failed")
+
+    entry = body.model_dump(exclude={"cf_turnstile_token"})
     entry["submitted_at"] = datetime.now(timezone.utc).isoformat()
     entry["ip"] = request.client.host if request.client else None
 
