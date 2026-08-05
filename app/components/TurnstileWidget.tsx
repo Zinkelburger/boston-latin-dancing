@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 
-export const TURNSTILE_SITE_KEY = '0x4AAAAAAEGpyLaFBK7uF126';
+export const TURNSTILE_SITE_KEY = '0x4AAAAAAEHE4t36ytfkThN8';
 const SCRIPT_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
 
 declare global {
