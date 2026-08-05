@@ -566,3 +566,38 @@
 {"ts": "2026-07-28T23:46:52.285580+00:00", "action": "block", "event_id": "lous-4a3f895f", "details": "not_dance: Lou's seated concert \u2014 not a dance social"}
 {"ts": "2026-07-28T23:46:52.299992+00:00", "action": "block", "event_id": "lous-6267b24c", "details": "not_dance: Lou's seated concert \u2014 not a dance social"}
 {"ts": "2026-07-29T01:17:18.131317+00:00", "action": "edit", "event_id": "61BD2CD0-8D61-4FB5-9B00-83D32168C036", "details": "{\"special\": true}"}
+{"ts": "2026-08-05T19:38:18.635921+00:00", "action": "add", "event_id": "7EE9F55F-DC66-4E39-B19F-BD3E19C6387B", "details": ""}
+{"ts": "2026-08-05T19:38:19.153394+00:00", "action": "add", "event_id": "F8B6E308-C6BD-49A3-962E-FD78CBC46CDC", "details": ""}
+{"ts": "2026-08-05T19:38:19.507300+00:00", "action": "pending_review", "event_id": "51341C72-563A-4C5D-9236-3398E78ABC3A", "details": "review dup of lister-battle-of-the-beats-2026-latin-vs-hip-hop: word_overlap(0/5)+within_24h+same_location+same_day"}
+{"ts": "2026-08-05T19:38:19.585803+00:00", "action": "add", "event_id": "AB9A3E99-2637-4C54-9B88-3FD589F6CE1C", "details": ""}
+{"ts": "2026-08-05T19:38:20.825667+00:00", "action": "reactivate", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": "from archive (certain)"}
+{"ts": "2026-08-05T19:38:22.178042+00:00", "action": "add", "event_id": "40604F5D-9503-41AB-B87C-8AA21BC364F4", "details": ""}
+{"ts": "2026-08-05T19:38:24.443240+00:00", "action": "add", "event_id": "1D5D663C-16A8-44ED-8F01-28CD53AF9276", "details": ""}
+{"ts": "2026-08-05T19:38:24.680279+00:00", "action": "pending_review", "event_id": "FC29C1F2-096C-48C6-ABC1-038BEC368F24", "details": "review dup of 1D5D663C-16A8-44ED-8F01-28CD53AF9276: same_url+same_location"}
+{"ts": "2026-08-05T19:38:25.386391+00:00", "action": "add", "event_id": "eb-1995790781954", "details": ""}
+{"ts": "2026-08-05T19:38:25.514928+00:00", "action": "add", "event_id": "eb-1996444933539", "details": ""}
+{"ts": "2026-08-05T19:38:25.650075+00:00", "action": "add", "event_id": "eb-1996831355337", "details": ""}
+{"ts": "2026-08-05T19:38:26.543839+00:00", "action": "add", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-08-06-20-45", "details": ""}
+{"ts": "2026-08-05T19:38:26.556154+00:00", "action": "drop_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-08-16-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-08-05T19:38:26.568792+00:00", "action": "drop_non_latin", "event_id": "pr-festival-ma-fiesta-en-la-playa-sabor-boricua", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-08-05T19:38:27.173671+00:00", "action": "archive", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": ""}
+{"ts": "2026-08-05T19:38:27.173859+00:00", "action": "archive", "event_id": "6p0q976tmk0ub5vt98dhuugd5i_R20240803T233000@google.com", "details": ""}
+{"ts": "2026-08-05T19:38:27.173968+00:00", "action": "archive", "event_id": "lister-bachata-salsa-by-the-river-4", "details": ""}
+{"ts": "2026-08-05T19:38:27.174054+00:00", "action": "archive", "event_id": "0l34o4j80g6mdgvunl2i2d4d2u@google.com", "details": ""}
+{"ts": "2026-08-05T19:38:27.174113+00:00", "action": "archive", "event_id": "fiesta-20260731-sol-de-mexico-milford", "details": ""}
+{"ts": "2026-08-05T19:38:27.174183+00:00", "action": "archive", "event_id": "DDA824C0-1D90-43DD-8494-ABAD044CB5CF", "details": ""}
+{"ts": "2026-08-05T19:38:27.174240+00:00", "action": "archive", "event_id": "eb-1993914028534", "details": ""}
+{"ts": "2026-08-05T19:38:27.174297+00:00", "action": "archive", "event_id": "eb-1994624708196", "details": ""}
+{"ts": "2026-08-05T19:38:27.174370+00:00", "action": "archive", "event_id": "eb-1994718686287", "details": ""}
+{"ts": "2026-08-05T19:38:27.174468+00:00", "action": "archive", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": ""}
+{"ts": "2026-08-05T19:39:46.698356+00:00", "action": "add", "event_id": "dantes-inferno-fb-20260807-0", "details": ""}
+{"ts": "2026-08-05T19:40:24.221400+00:00", "action": "reject", "event_id": "51341C72-563A-4C5D-9236-3398E78ABC3A", "details": "distinct event \u2014 Rumba y Clave social at Rumba Y Timbal, not Battle of the Beats"}
+{"ts": "2026-08-05T19:40:24.452748+00:00", "action": "reject", "event_id": "FC29C1F2-096C-48C6-ABC1-038BEC368F24", "details": "distinct event \u2014 Day 2 of multi-day Let's Dance Boston series"}
+{"ts": "2026-08-05T19:40:30.502265+00:00", "action": "distinct_from", "event_id": "51341C72-563A-4C5D-9236-3398E78ABC3A", "details": "pre-marked different from 75AB4ED9-33C0-4242-BF08-8606C7B94665"}
+{"ts": "2026-08-05T19:40:30.644025+00:00", "action": "add", "event_id": "51341C72-563A-4C5D-9236-3398E78ABC3A", "details": ""}
+{"ts": "2026-08-05T19:40:34.883143+00:00", "action": "distinct_from", "event_id": "FC29C1F2-096C-48C6-ABC1-038BEC368F24", "details": "pre-marked different from 1D5D663C-16A8-44ED-8F01-28CD53AF9276"}
+{"ts": "2026-08-05T19:40:34.931519+00:00", "action": "add", "event_id": "FC29C1F2-096C-48C6-ABC1-038BEC368F24", "details": ""}
+{"ts": "2026-08-05T19:40:34.947009+00:00", "action": "block", "event_id": "4scb4cfq1j6t6b7ss6io3jn65n_R20251018T010000@google.com", "details": "duplicate_source: Una Bulla pattern guess (1st/3rd Friday) \u2014 FB URL is old Jun 19 event; only confirmed Inferno is Aug 7"}
+{"ts": "2026-08-05T19:40:56.033933+00:00", "action": "edit", "event_id": "dantes-inferno-fb-20260807-0", "details": "{\"cost\": \"$20\"}"}
+{"ts": "2026-08-05T19:41:07.964243+00:00", "action": "edit", "event_id": "1D5D663C-16A8-44ED-8F01-28CD53AF9276", "details": "{\"lat\": 42.3527443, \"lng\": -71.0553933}"}
+{"ts": "2026-08-05T19:41:08.728636+00:00", "action": "edit", "event_id": "FC29C1F2-096C-48C6-ABC1-038BEC368F24", "details": "{\"lat\": 42.3527443, \"lng\": -71.0553933}"}

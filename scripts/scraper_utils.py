@@ -81,6 +81,8 @@ VENUE_COORDS = {
     "juliet": (42.3804, -71.0993),
     "el barco": (42.3474, -71.0812),
     "blackstone community center": (42.3406, -71.0714),
+    "dewey square park": (42.3527443, -71.0553933),
+    "dewey square": (42.3527443, -71.0553933),
     "60 rowes wharf": (42.3562, -71.0502),
     "cambridge common": (42.3763, -71.1217),
     "10 waterside ave": (42.3485, -71.0440),

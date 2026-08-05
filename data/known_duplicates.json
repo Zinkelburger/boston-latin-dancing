@@ -160,5 +160,23 @@
     "id_b": "manual-bsf-preparty-20260820-0",
     "verdict": "different",
     "reviewed_at": "2026-07-27T20:37:20.265314+00:00"
+  },
+  {
+    "id_a": "51341C72-563A-4C5D-9236-3398E78ABC3A",
+    "id_b": "lister-battle-of-the-beats-2026-latin-vs-hip-hop",
+    "verdict": "different",
+    "reviewed_at": "2026-08-05T19:40:24.218873+00:00"
+  },
+  {
+    "id_a": "1D5D663C-16A8-44ED-8F01-28CD53AF9276",
+    "id_b": "FC29C1F2-096C-48C6-ABC1-038BEC368F24",
+    "verdict": "different",
+    "reviewed_at": "2026-08-05T19:40:34.882444+00:00"
+  },
+  {
+    "id_a": "51341C72-563A-4C5D-9236-3398E78ABC3A",
+    "id_b": "75AB4ED9-33C0-4242-BF08-8606C7B94665",
+    "verdict": "different",
+    "reviewed_at": "2026-08-05T19:40:30.495018+00:00"
   }
 ]

@@ -163,5 +163,16 @@
     "blocked_notes": "Lou's seated concert — not a dance social",
     "location": "Lou's, 13 Brattle St, Cambridge, MA 02138",
     "block_key": "bossa nova caribbean grooves swampanova|lou s 13 brattle st cambridge ma 02138"
+  },
+  {
+    "id": "4scb4cfq1j6t6b7ss6io3jn65n_R20251018T010000@google.com",
+    "name": "🤓 💃 Dante's Salsa Inferno",
+    "source": "unabulla-cuban-boston",
+    "blocked_reason": "Una Bulla pattern guess (1st/3rd Friday) — FB URL is old Jun 19 event; only confirmed Inferno is Aug 7",
+    "blocked_category": "duplicate_source",
+    "blocked_at": "2026-08-05T19:40:34.945512+00:00",
+    "blocked_notes": "Una Bulla pattern guess (1st/3rd Friday) — FB URL is old Jun 19 event; only confirmed Inferno is Aug 7",
+    "location": "Dante Alighieri Society of Massachusetts, 41 Hampshire St, Cambridge, MA 02139, USA",
+    "block_key": "dantes salsa inferno|dante alighieri"
   }
 ]

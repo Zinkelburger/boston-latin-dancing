@@ -2364,6 +2364,215 @@
     "archivedAt": "2026-07-27T20:37:20.266799+00:00"
   },
   {
+    "id": "130F0122-6C01-443F-AD1D-5B40E8F046CF",
+    "name": "J&L Underground Social",
+    "startDate": "2026-07-04T19:00:00-04:00",
+    "endDate": "2026-07-04T23:00:00-04:00",
+    "dayOfWeek": "Saturday",
+    "location": "J&L Dance Studio, 75 Pleasant St, FL 1, Malden, MA  02148, United States",
+    "lat": 42.4271,
+    "lng": -71.0662,
+    "description": "EACH 1ST SATURDAY OF THE MONTH…\n\nJ&L Underground Social will be bringing you a night of energy, fun, and the best mix of Bachata (with some sprinkles of Kizomba, Salsa, and Merengue ) to keep you dancing all night!\n\nLocation: J&L Dance Studio, 75 Pleasant Street #125 - 1st Floor, Malden, MA\n\nClass:\n7pm-8pm\nBachata Footwork Challenge (modified for all levels) with Jenna & Luis OR Bachata for Beginners Crash Course with Jacqueline\n\n8pm-11pm\nSocial Dancing (80% Bachata, 20% Salsa/Kizomba/Merengue)\n\nCost:\n$15 CASH ONLY AT DOOR (includes J&L Footwork Challenge Class/Beginner Course)\n\nMusic: DJ Lui-G\n\nParking: Street Parking and Jackson Street Garage & CBD Garage (entrance on Centre St.)\n\nCan't wait to bring that island feel to Boston! See you on the dancefloor!",
+    "url": "https://jandldancestudio.com/jl-underground-social",
+    "styles": [
+      "bachata",
+      "salsa",
+      "kizomba",
+      "merengue"
+    ],
+    "cost": "Cost:\n$15",
+    "recurring": true,
+    "source": "beatrice-calendar",
+    "recurrences": [
+      "2026-06-06T19:00:00-04:00",
+      "2026-07-04T19:00:00-04:00",
+      "2026-08-01T19:00:00-04:00"
+    ],
+    "_verified_at": "2026-07-15T03:32:41.833363+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Page accessible, no JSON-LD found (text check only)",
+    "_verification_url": "https://jandldancestudio.com/jl-underground-social",
+    "archivedAt": "2026-08-05T19:38:27.173560+00:00"
+  },
+  {
+    "id": "6p0q976tmk0ub5vt98dhuugd5i_R20240803T233000@google.com",
+    "name": "💃 Guateque Cubano",
+    "startDate": "2026-09-05T19:30:00-04:00",
+    "endDate": "2026-09-05T23:30:00-04:00",
+    "dayOfWeek": "Saturday",
+    "location": "George Dilboy VFW Post 529, 351 Summer St, Somerville, MA 02144, USA",
+    "lat": 42.393693,
+    "lng": -71.119445,
+    "description": "Cuban social on the first Saturday of each month. Usually includes a 30-60 min lesson at the start, followed by open dancing.\n\n<b>Price</b>\n$18\n\n<b>Organized by Guateque Cubano</b>\nFacebook: https://www.facebook.com/bostonguateque/\n\n\n---\nManaged by Una Bulla\nhttps://www.unabulla.com/boston",
+    "url": "https://www.facebook.com/bostonguateque/",
+    "styles": [
+      "other"
+    ],
+    "cost": "$18",
+    "recurring": true,
+    "source": "unabulla-cuban-boston",
+    "recurrences": [
+      "2026-07-04T19:30:00-04:00",
+      "2026-08-01T19:30:00-04:00"
+    ],
+    "_verified_at": "2026-07-15T03:32:42.826365+00:00",
+    "_verified_status": "needs_browser",
+    "_verified_notes": "Facebook page — agent should check Events tab for upcoming events",
+    "_verification_url": "https://www.facebook.com/bostonguateque/",
+    "archivedAt": "2026-08-05T19:38:27.173560+00:00"
+  },
+  {
+    "id": "lister-bachata-salsa-by-the-river-4",
+    "name": "Bachata & Salsa By The River",
+    "startDate": "2026-08-02T18:00:00-04:00",
+    "endDate": "2026-08-02T20:30:00-04:00",
+    "dayOfWeek": "Sunday",
+    "location": "The Nature Center @ Magazine Beach Park, 668 Memorial Dr, Cambridge, MA 02139, USA",
+    "lat": 42.3584,
+    "lng": -71.1147,
+    "description": "BACHATA BY THE RIVER: SEASON KICKOFF!\nWHEN:\nAugust 2nd\nWHERE:\nMagazine Beach Park (by the Nature Center)\nCOST:\nFREE!\nMUSIC:\n100% Bachata",
+    "url": "https://www.listerevents.com/event-details/bachata-salsa-by-the-river-4",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": false,
+    "source": "lister-events",
+    "_verified_at": "2026-07-15T03:32:47.762302+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD event data matches",
+    "_verification_url": "https://www.listerevents.com/event-details/bachata-salsa-by-the-river-4",
+    "archivedAt": "2026-08-05T19:38:27.173560+00:00"
+  },
+  {
+    "id": "0l34o4j80g6mdgvunl2i2d4d2u@google.com",
+    "name": "Tito Puente Latin Music Series - César Orozco and SonAhead",
+    "startDate": "2026-07-30T23:00:00+00:00",
+    "endDate": "2026-07-31T00:30:00+00:00",
+    "dayOfWeek": "Thursday",
+    "location": "Mission Hill Playground 60 Smith St Boston 02120",
+    "lat": 42.3341356,
+    "lng": -71.0994919,
+    "description": "The six-concert Tito Puente Latin Music Series returns to Boston parks on in July and August. Performers include Berklee College of Music faculty, students, alumni, and world-renowned artists.\n\n\nMission Hill Playground\n60 Smith St\n\nDetails on how to join this event:\nhttps://www.boston.gov/calendar/tito-puente-latin-music-series-cesar-orozco-and-sonahead",
+    "url": "https://www.boston.gov/calendar/tito-puente-latin-music-series-cesar-orozco-and-sonahead",
+    "styles": [
+      "other"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-07-15T03:32:57.117438+00:00",
+    "_verified_status": "needs_review",
+    "_verified_notes": "Page contains 'canceled' — may be cancelled or rescheduled",
+    "_verification_url": "https://www.boston.gov/calendar/tito-puente-latin-music-series-cesar-orozco-and-sonahead",
+    "archivedAt": "2026-08-05T19:38:27.173560+00:00"
+  },
+  {
+    "id": "fiesta-20260731-sol-de-mexico-milford",
+    "name": "Salsa & Bachata Social w/ Fiesta Dance Co",
+    "startDate": "2026-07-31T00:00:00-04:00",
+    "endDate": "2026-07-31T00:00:00-04:00",
+    "dayOfWeek": "Friday",
+    "location": "Sol de Mexico, 350 E Main St, Milford, MA 01757",
+    "lat": 42.1530123,
+    "lng": -71.4913262,
+    "description": "Salsa & Bachata social hosted by Fiesta Dance Company at Sol de Mexico.\n\nOrganized by Fiesta Dance Company\nWebsite: https://fiestadancecompany.com/upcoming-socials\nInstagram: https://www.instagram.com/fiestadancecompany/",
+    "url": "https://fiestadancecompany.com/upcoming-socials",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "fiesta-dance-company",
+    "_verified_at": "2026-07-15T03:32:59.655984+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Page accessible, no JSON-LD found (text check only)",
+    "_verification_url": "https://fiestadancecompany.com/upcoming-socials",
+    "archivedAt": "2026-08-05T19:38:27.173560+00:00"
+  },
+  {
+    "id": "DDA824C0-1D90-43DD-8494-ABAD044CB5CF",
+    "name": "Salsa Dancing at The Grove at Lawn on D Presented by Salsa y Control",
+    "startDate": "2026-07-30T23:00:00+00:00",
+    "endDate": "2026-07-31T02:00:00+00:00",
+    "dayOfWeek": "Thursday",
+    "location": "Lawn On D, 420 D St, Boston, MA  02210, United States",
+    "lat": 42.343053,
+    "lng": -71.0460097,
+    "description": "💃 Salsa Nights at The Grove 💃\n\n​Join us on the last Thursday of every month for Salsa Nights at The Grove, Boston’s vibrant outdoor gathering space in the Seaport! Whether you’re brand new to salsa or already confident on the dance floor, this is a welcoming, high-energy night designed for all levels.\n\n​Come learn, dance, and connect under the lights in an unforgettable open-air setting.\n\n​🔥 What to Expect\n\n​• 7:00–8:00 PM — Beginner-friendly salsa instruction led by Salsa y Control instructors Andres Giraldo & Kelly Bachovchin\n\n​• 8:00–9:30 PM — Open social dancing with music, movement, and community vibes\n\n​• 9:30 PM onward — Wind down and mingle at The Grove\n\n​• No partner required — come solo, with friends, or a date\n\n​• Food and drinks available for purchase throughout the evening\n\n​🌟 Event Details\n\n​📅 When: Last Thursday of Every Month (June–October)\n⏰ Time: 7:00 PM – 9:30 PM (plus post-dance mingling)\n📍 Location: The Lawn on D Pavilion, 420 D Street, Boston, MA 02210 (Seaport District)\n\n​Upcoming Dates:\n• June 25\n• July 30\n• August 27\n• September 24\n• October 29\n\n​🎟 Admission is FREE\n\n​Important Info:\n\n​• All levels welcome — no experience necessary.\n\n​• Comfortable shoes are recommended for dancing outdoors.\n\n​• No partner required.\n\n​• Events are weather permitting, and updates will be shared via Luma if needed.\n\n​Whether you're learning your first steps or dancing the night away, Salsa Nights at The Grove bring together music, movement, and community all summer long.\n\n​Grab a friend, grab a drink, and hit the dance floor!\n\nSource: https://luma.com/x0o9o1lr",
+    "url": "https://luma.com/x0o9o1lr",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "urls": [
+      "https://ma.to/event/salsa-night-at-the-grove-30-jul-2026"
+    ],
+    "archivedAt": "2026-08-05T19:38:27.173560+00:00"
+  },
+  {
+    "id": "eb-1993914028534",
+    "name": "Latino Professional Network Monthly Mingle: Salsa & Bachata",
+    "startDate": "2026-07-30T20:30:00-04:00",
+    "endDate": "2026-07-30T22:00:00-04:00",
+    "dayOfWeek": "Thursday",
+    "location": "Havana Club, 288 Green Street, Cambridge, MA 02139, Cambridge, MA",
+    "lat": 42.3646071,
+    "lng": -71.1043523,
+    "description": "Free RSVP for the LPN group. Salsa & Bachata admission is paid directly to Havana Club and is not included.\n\nOrganizer: Latino Professional Network® of Metro Boston",
+    "url": "https://www.eventbrite.com/e/latino-professional-network-monthly-mingle-salsa-bachata-tickets-1993914028534",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": false,
+    "source": "eventbrite-boston-latin",
+    "archivedAt": "2026-08-05T19:38:27.173560+00:00"
+  },
+  {
+    "id": "eb-1994624708196",
+    "name": "Noche Latina July Salsa Workshop and Practica",
+    "startDate": "2026-07-28T19:00:00-04:00",
+    "endDate": "2026-07-28T22:30:00-04:00",
+    "dayOfWeek": "Tuesday",
+    "location": "Luna Fitness Club, 735 William T Morrissey Boulevard, Boston, MA 02122, Boston, MA",
+    "lat": 42.2953653,
+    "lng": -71.0488803,
+    "description": "Salsa & Social: Challenging Shines, Partnerwork & 2-Hour Dance Party!\n\nOrganizer: Noche Latina Dance Company",
+    "url": "https://www.eventbrite.com/e/noche-latina-july-salsa-wprkshop-and-practica-tickets-1994624708196",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$12.51",
+    "recurring": false,
+    "source": "eventbrite-boston-latin",
+    "archivedAt": "2026-08-05T19:38:27.173560+00:00"
+  },
+  {
+    "id": "eb-1994718686287",
+    "name": "Taco Tuesday with DJ Ballack | $4 Tacos, Margaritas & Reggaeton Night",
+    "startDate": "2026-07-28T18:30:00-04:00",
+    "endDate": "2026-07-28T22:00:00-04:00",
+    "dayOfWeek": "Tuesday",
+    "location": "Reunion BBQ, 439 Tremont Street, Boston, MA 02116, Boston, MA",
+    "lat": 42.3468371,
+    "lng": -71.0691398,
+    "description": "Get ready for $4 tacos, margaritas, and non-stop reggaeton vibes with DJ Ballack this Taco Tuesday!\n\nOrganizer: Reunion BBQ",
+    "url": "https://www.eventbrite.com/e/taco-tuesday-with-dj-ballack-4-tacos-margaritas-reggaeton-night-tickets-1994718686287",
+    "styles": [
+      "other"
+    ],
+    "cost": "$4",
+    "recurring": false,
+    "source": "eventbrite-boston-latin",
+    "archivedAt": "2026-08-05T19:38:27.173560+00:00"
+  },
+  {
     "id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar",
     "name": "Sushi Con Salsa - Dance Sessions",
     "startDate": "2026-06-16T18:00:00-04:00",
@@ -2390,7 +2599,7 @@
     "_verified_notes": "Page accessible, no JSON-LD found (text check only)",
     "_verification_url": "https://www.eventbrite.com/e/sushi-con-salsa-dance-sessions-vol1-tickets-1988719477492",
     "urls": [],
-    "archivedAt": "2026-07-27T20:37:56.222740+00:00",
-    "reactivatedAt": "2026-07-27T20:37:51.517608+00:00"
+    "archivedAt": "2026-08-05T19:38:27.173560+00:00",
+    "reactivatedAt": "2026-08-05T19:38:20.800642+00:00"
   }
 ]
