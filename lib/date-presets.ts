@@ -24,11 +24,14 @@ export function computePresetRange(
     case 'tomorrow':
       return { fromDay: today + 1, toDay: today + 1 };
     case 'weekend': {
+      // Dance weekend is Fri–Sun. Once the weekend has started, show only
+      // the remaining days (don't pull a past Friday back in on Sat/Sun).
       const dow = new Date(today * 86400000).getUTCDay();
-      if (dow === 0) return { fromDay: today, toDay: today };
-      if (dow === 6) return { fromDay: today, toDay: today + 1 };
-      const daysUntilSat = 6 - dow;
-      return { fromDay: today + daysUntilSat, toDay: today + daysUntilSat + 1 };
+      if (dow === 0) return { fromDay: today, toDay: today }; // Sunday
+      if (dow === 6) return { fromDay: today, toDay: today + 1 }; // Sat–Sun
+      if (dow === 5) return { fromDay: today, toDay: today + 2 }; // Fri–Sun
+      const daysUntilFri = 5 - dow; // Mon–Thu
+      return { fromDay: today + daysUntilFri, toDay: today + daysUntilFri + 2 };
     }
     case 'next7':
       return { fromDay: today, toDay: today + 6 };

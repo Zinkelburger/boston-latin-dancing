@@ -1074,7 +1074,9 @@
     "description": "A benefit concert bringing Boston together through music and dance in support of earthquake relief efforts in Venezuela.\nIn response to the devastating earthquakes that recently struck Venezuela, IBA, Rumba Land, and United for Venezuela invite you to Baila Por Venezuela—an afternoon of music, dancing, community, and solidarity at La CASA.\nAll proceeds benefit humanitarian relief efforts in Venezuela.\nJoin artists and community members from across Boston as we come together to raise support for the people and communities affected by the earthquakes.\nCONFIRMED ARTISTS\nDJ Baby Boricua\nSBM\nBori All Star\nDJ Diego\nLa Rockola Boston\nNico Shaw\nKrystalis y Las Nenas del Swing\nRitmo Caleño\nMastambor\nEVENT DETAILS\nSunday, August 9\n3:00 PM–8:00 PM\nLa CASA\n85 W. Newton Street\nBoston, MA\nCome ready to dance, connect, and stand in solidarity with Venezuela. Get your tickets today and help us spread the word by sharing this event with your friends, family, and community.\nBaila Por Venezuela is presented by IBA and Rumba Land.\n\nSource: https://www.eventbrite.com/e/baila-por-venezuela-tickets-1994854202620?aff=ebdssbdestsearch",
     "url": "https://www.eventbrite.com/e/baila-por-venezuela-tickets-1994854202620?aff=ebdssbdestsearch",
     "styles": [
-      "other"
+      "salsa",
+      "bachata",
+      "merengue"
     ],
     "cost": null,
     "recurring": false,
@@ -1082,7 +1084,8 @@
     "_verified_at": "2026-08-05T19:41:30.978263+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD event data matches (date + location checked)",
-    "_verification_url": "https://www.eventbrite.com/e/baila-por-venezuela-tickets-1994854202620?aff=ebdssbdestsearch"
+    "_verification_url": "https://www.eventbrite.com/e/baila-por-venezuela-tickets-1994854202620?aff=ebdssbdestsearch",
+    "special": true
   },
   {
     "id": "BED3AFD2-27A6-4F23-99ED-61C336F0212D",

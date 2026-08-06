@@ -601,3 +601,4 @@
 {"ts": "2026-08-05T19:40:56.033933+00:00", "action": "edit", "event_id": "dantes-inferno-fb-20260807-0", "details": "{\"cost\": \"$20\"}"}
 {"ts": "2026-08-05T19:41:07.964243+00:00", "action": "edit", "event_id": "1D5D663C-16A8-44ED-8F01-28CD53AF9276", "details": "{\"lat\": 42.3527443, \"lng\": -71.0553933}"}
 {"ts": "2026-08-05T19:41:08.728636+00:00", "action": "edit", "event_id": "FC29C1F2-096C-48C6-ABC1-038BEC368F24", "details": "{\"lat\": 42.3527443, \"lng\": -71.0553933}"}
+{"ts": "2026-08-06T18:14:52.645332+00:00", "action": "edit", "event_id": "54594D45-3E71-4472-96F1-5DC3F4060FFA", "details": "{\"special\": true, \"styles\": [\"salsa\", \"bachata\", \"merengue\"]}"}

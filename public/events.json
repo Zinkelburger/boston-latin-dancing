@@ -72,44 +72,6 @@
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
-    "id": "bachata-room",
-    "name": "Bachata Room",
-    "startDate": "2026-08-05T21:00:00-04:00",
-    "endDate": "2026-08-06T00:00:00-04:00",
-    "dayOfWeek": "Wednesday",
-    "location": "La Fábrica Central, 450 Massachusetts Ave, Cambridge, MA 02139",
-    "lat": 42.3634,
-    "lng": -71.1012,
-    "description": "Your weekly fix for all your dancing needs.\n\n9:00pm – 10:00pm Bachata Lesson (Beginner/Intermediate)\n10:00pm – 12:00am Social Dancing (Bachata, Salsa, Merengue)\n\n$15 Lesson/Social Dancing (18+)",
-    "url": "https://www.bachataroomboston.com",
-    "styles": [
-      "bachata",
-      "salsa",
-      "merengue"
-    ],
-    "cost": "$15",
-    "recurring": true,
-    "recurrences": [
-      "2026-08-05T21:00:00-04:00",
-      "2026-08-12T21:00:00-04:00",
-      "2026-08-19T21:00:00-04:00",
-      "2026-08-26T21:00:00-04:00",
-      "2026-09-02T21:00:00-04:00",
-      "2026-09-09T21:00:00-04:00",
-      "2026-09-16T21:00:00-04:00",
-      "2026-09-23T21:00:00-04:00"
-    ],
-    "schedule": [
-      {
-        "dayOfWeek": "Wednesday",
-        "time": "9:00 PM – 12:00 AM",
-        "note": "Lesson + social (18+)"
-      }
-    ],
-    "slug": "bachata-room-bachata-",
-    "recurrenceLabel": "Every Wednesday · 9:00 PM – 12:00 AM"
-  },
-  {
     "id": "eb-1995790781954",
     "name": "FREE Seaport Dance Series",
     "startDate": "2026-08-06T17:30:00-04:00",
@@ -528,10 +490,13 @@
     "description": "A benefit concert bringing Boston together through music and dance in support of earthquake relief efforts in Venezuela.\nIn response to the devastating earthquakes that recently struck Venezuela, IBA, Rumba Land, and United for Venezuela invite you to Baila Por Venezuela—an afternoon of music, dancing, community, and solidarity at La CASA.\nAll proceeds benefit humanitarian relief efforts in Venezuela.\nJoin artists and community members from across Boston as we come together to raise support for the people and communities affected by the earthquakes.\nCONFIRMED ARTISTS\nDJ Baby Boricua\nSBM\nBori All Star\nDJ Diego\nLa Rockola Boston\nNico Shaw\nKrystalis y Las Nenas del Swing\nRitmo Caleño\nMastambor\nEVENT DETAILS\nSunday, August 9\n3:00 PM–8:00 PM\nLa CASA\n85 W. Newton Street\nBoston, MA\nCome ready to dance, connect, and stand in solidarity with Venezuela. Get your tickets today and help us spread the word by sharing this event with your friends, family, and community.\nBaila Por Venezuela is presented by IBA and Rumba Land.\n\nSource: https://www.eventbrite.com/e/baila-por-venezuela-tickets-1994854202620?aff=ebdssbdestsearch",
     "url": "https://www.eventbrite.com/e/baila-por-venezuela-tickets-1994854202620?aff=ebdssbdestsearch",
     "styles": [
-      "other"
+      "salsa",
+      "bachata",
+      "merengue"
     ],
     "cost": null,
     "recurring": false,
+    "special": true,
     "slug": "baila-por-venezuela-54594d45",
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
@@ -559,6 +524,44 @@
     "slug": "senior-zouk-social-2ar83v9i",
     "recurrenceLabel": "Second Tuesday of each month",
     "organizer": "Greater Boston Dance Socials (Beatrice)"
+  },
+  {
+    "id": "bachata-room",
+    "name": "Bachata Room",
+    "startDate": "2026-08-12T21:00:00-04:00",
+    "endDate": "2026-08-13T00:00:00-04:00",
+    "dayOfWeek": "Wednesday",
+    "location": "La Fábrica Central, 450 Massachusetts Ave, Cambridge, MA 02139",
+    "lat": 42.3634,
+    "lng": -71.1012,
+    "description": "Your weekly fix for all your dancing needs.\n\n9:00pm – 10:00pm Bachata Lesson (Beginner/Intermediate)\n10:00pm – 12:00am Social Dancing (Bachata, Salsa, Merengue)\n\n$15 Lesson/Social Dancing (18+)",
+    "url": "https://www.bachataroomboston.com",
+    "styles": [
+      "bachata",
+      "salsa",
+      "merengue"
+    ],
+    "cost": "$15",
+    "recurring": true,
+    "recurrences": [
+      "2026-08-12T21:00:00-04:00",
+      "2026-08-19T21:00:00-04:00",
+      "2026-08-26T21:00:00-04:00",
+      "2026-09-02T21:00:00-04:00",
+      "2026-09-09T21:00:00-04:00",
+      "2026-09-16T21:00:00-04:00",
+      "2026-09-23T21:00:00-04:00",
+      "2026-09-30T21:00:00-04:00"
+    ],
+    "schedule": [
+      {
+        "dayOfWeek": "Wednesday",
+        "time": "9:00 PM – 12:00 AM",
+        "note": "Lesson + social (18+)"
+      }
+    ],
+    "slug": "bachata-room-bachata-",
+    "recurrenceLabel": "Every Wednesday · 9:00 PM – 12:00 AM"
   },
   {
     "id": "408adba864c7bcc60677d4a59f172d58a83c5c5a@dance-calendar",
