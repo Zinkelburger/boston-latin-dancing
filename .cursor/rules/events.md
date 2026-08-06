@@ -65,6 +65,30 @@ There is no admin web UI. Use MCP tools or read `data/events/pending.json`.
 3. User submissions: verify the event is real (check URL, confirm venue)
 4. `event_approve` (merge dedup pair or approve submission) or `event_reject` with a reason
 
+## Big Events (`special: true`)
+
+`special: true` drives the site's **Big Events** filter and the gold map pin.
+Publish auto-flags some one-offs (name keywords: festival / annual /
+anniversary / congress / weekender / gala / cruise / benefit / fundraiser /
+solidarity / encuentro; or description language like "benefit concert" /
+fundraiser / solidarity). **Plain-named marquees still need a human/agent
+flag** via `event_edit(event_id, updates_json='{"special": true}')`.
+
+**Do flag** (err toward yes on unique one-offs the scene plans around):
+- Unique branded nights that aren't a weekly series ("Baila por Venezuela")
+- Benefit / fundraiser / solidarity / relief dance events
+- Multi-org or stacked multi-artist community lineups (not one guest DJ)
+- Citywide / outdoor / festival-scale parties even with a short title
+  ("Salsa at the Shell")
+
+**Do not flag:** regular guest-DJ nights, holiday-theme bar socials, weekly
+series, or festival pre/after-parties (those stay ordinary pins unless
+explicitly overridden).
+
+When flagging, also fix `styles=["other"]` to real Latin styles if people
+are dancing salsa/bachata/merengue/etc. Suppress a wrong auto-flag with
+`{"special": false}`.
+
 ## How to Review Rejected (Non-Latin) Events
 
 Events with `styles=["other"]` and no Latin dance keywords in name/description are

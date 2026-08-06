@@ -66,14 +66,23 @@ your main job, along with the other judgment calls it can't make.
      listing, not proof there's no dancing. Do not reject on the title alone;
      read the description first.
 
-   **Big events:** publish auto-flags one-offs whose name says
-   festival/annual/anniversary/congress/weekender/gala/cruise as
-   `special: true` — that drives the site's "Big Events" filter and the
-   gold map pin. When you approve a marquee one-off the keywords miss (big
-   outdoor party like "Salsa at the Shell", a major event with a plain name),
-   set it yourself: `event_edit(event_id, updates_json='{"special": true}')`.
-   Use `{"special": false}` to suppress a wrong auto-flag. Regular guest-DJ
-   or holiday-theme bar nights are NOT big events.
+   **Big events (do this when approving, not later):** publish auto-flags
+   some one-offs as `special: true` (gold pin / "Big Events" filter) when
+   the name says festival/annual/anniversary/congress/weekender/gala/cruise/
+   benefit/fundraiser/solidarity/encuentro, or the description clearly says
+   benefit concert / fundraiser / solidarity. **Keywords miss plain-named
+   marquees** — set it yourself on approve:
+   `event_edit(event_id, updates_json='{"special": true}')`.
+   Flag when **any** of these are true (examples: "Baila por Venezuela",
+   "Salsa at the Shell", citywide outdoor parties, multi-org benefits):
+   - Unique branded one-off the scene plans around (not a weekly series name)
+   - Benefit / fundraiser / solidarity / relief dance night
+   - Multi-org or stacked multi-artist community lineup (not one guest DJ)
+   - Citywide / outdoor / festival-scale even if the title is short
+   Also fix `styles=["other"]` on those to real Latin styles when dancing
+   is salsa/bachata/merengue/etc. Use `{"special": false}` only to suppress
+   a wrong auto-flag. Regular guest-DJ or holiday-theme bar nights are NOT
+   big events.
 
    ⚠️ **`event_block` matches by exact `id` only.** Sources that mint
    date-stamped or listing-scoped ids (`nlf-events-<slug>-<date>-<time>`,
@@ -96,7 +105,16 @@ your main job, along with the other judgment calls it can't make.
      event. If you ever discover a past wrong merge, audit with
      `known_duplicate_list` and undo the verdict with `known_duplicate_forget`.
 
-4. **Verify.** `event_verify(stale_days=7)`. For flagged items:
+4. **Sweep active for missed big events.** `event_list(status="active")`.
+   For each non-recurring one-off that lacks `special: true`, apply the Big
+   events criteria above (especially benefits, plain-named marquees, and
+   `styles=["other"]` Latin dance nights). Set
+   `event_edit(..., updates_json='{"special": true, "styles": [...]}')`
+   when it qualifies. Do not skip this pass — pending review only catches
+   brand-new quarantines; already-active misses (like Baila por Venezuela)
+   sit here until someone flags them.
+
+5. **Verify.** `event_verify(stale_days=7)`. For flagged items:
    - `date_mismatch` → the source shows a different day than we do (fields
      `our_date` / `source_date`). The source wins — fix via `event_edit`. This
      is the highest-stakes flag; never leave it unresolved.
@@ -111,20 +129,20 @@ your main job, along with the other judgment calls it can't make.
      to check) — no action needed, but don't treat it as fully confirmed.
    - When in doubt, change nothing and note it in the summary.
 
-5. **Publish.** `event_publish()`. It is guarded: if the live-event count
+6. **Publish.** `event_publish()`. It is guarded: if the live-event count
    collapses below 70% of the previous published file it auto-restores the old
    files and returns `status: "tripwire"` / `tripped: true` — if you see that,
    do NOT commit; investigate and report. Even when it publishes normally,
    sanity-check the reported count against the previous one.
 
-6. **Commit and push.** Only the pipeline-owned files:
+7. **Commit and push.** Only the pipeline-owned files:
    `git add public/events.json data/events-published.json data/events/ data/venues.json data/sources.json data/known_duplicates.json`
    then commit with message `Weekly agent review $(date +%Y-%m-%d)` and push.
 
-7. **Write the summary.** Overwrite `automation/logs/last-agent-summary.md`
+8. **Write the summary.** Overwrite `automation/logs/last-agent-summary.md`
    with: queues cleared (counts + notable decisions), verification outcomes,
-   anything you skipped or that needs a human, and the final published count.
-   Do not commit the summary file.
+   big-event flags you set, anything you skipped or that needs a human, and
+   the final published count. Do not commit the summary file.
 
 ## Hard rules
 

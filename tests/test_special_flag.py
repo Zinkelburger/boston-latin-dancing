@@ -31,6 +31,25 @@ def test_annual_edition_gets_flagged():
     assert ev["special"] is True
 
 
+def test_benefit_in_name_gets_flagged():
+    ev = _event(name="Baila por Venezuela Benefit Dance")
+    es._derive_special(ev)
+    assert ev["special"] is True
+
+
+def test_benefit_concert_in_description_gets_flagged():
+    # Plain-named community marquees bury the signal in the description.
+    ev = _event(
+        name="Baila por Venezuela",
+        description=(
+            "A benefit concert bringing Boston together through music and "
+            "dance. All proceeds benefit humanitarian relief efforts."
+        ),
+    )
+    es._derive_special(ev)
+    assert ev["special"] is True
+
+
 def test_plain_social_not_flagged():
     ev = _event(name="Salsa & Bachata Social w/ Fiesta Dance Co")
     es._derive_special(ev)

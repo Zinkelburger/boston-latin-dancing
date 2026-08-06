@@ -801,14 +801,24 @@ def _is_special_edition(name: str) -> bool:
 
 
 # Big-event detector for the published `special` flag: festivals, annual
-# editions, congresses, weekenders, galas, cruises — the marquee one-offs a
-# visitor plans around, as opposed to a weekly bar social. Narrower than
-# _SPECIAL_EDITION_RE on purpose: guest-DJ/"ft."/holiday-theme nights are
-# special *editions* of a series but not big events. Run against
-# normalize_name() output.
+# editions, congresses, weekenders, galas, cruises, benefits — the marquee
+# one-offs a visitor plans around, as opposed to a weekly bar social.
+# Narrower than _SPECIAL_EDITION_RE on purpose: guest-DJ/"ft."/holiday-theme
+# nights are special *editions* of a series but not big events. Name check
+# runs against normalize_name() output; description check uses raw text.
 _BIG_EVENT_RE = re.compile(
     r"\b(?:festival|congress|weekender|annual|anniversary|anniversaries|"
-    r"gala|cruise|block party)\b",
+    r"gala|cruise|block party|benefit|fundraiser|solidarity|encuentro)\b",
+    re.I,
+)
+
+# Plain-named community marquees ("Baila por Venezuela") often bury the
+# signal in the description. Keep this tighter than the name regex — only
+# clear benefit / multi-org solidarity language, not every artist lineup.
+_BIG_EVENT_DESC_RE = re.compile(
+    r"\b(?:benefit\s+(?:concert|show|dance|night|party|event)|"
+    r"fundraiser|all proceeds|earthquake relief|in solidarity|"
+    r"stand in solidarity)\b",
     re.I,
 )
 
@@ -825,7 +835,7 @@ def _derive_special(ev: dict) -> None:
     so judgment calls the regex can't make ("Salsa at the Shell") are set at
     review time with edit_event and survive here. An explicit false ships as
     an absent field, not `special: false`. Otherwise the heuristic flags
-    non-recurring one-offs whose name reads like a big event.
+    non-recurring one-offs whose name or description reads like a big event.
     """
     explicit = ev.get("special")
     if explicit is not None:
@@ -837,7 +847,7 @@ def _derive_special(ev: dict) -> None:
     name = normalize_name(ev.get("name", ""))
     if _SATELLITE_PARTY_RE.search(name):
         return
-    if _BIG_EVENT_RE.search(name):
+    if _BIG_EVENT_RE.search(name) or _BIG_EVENT_DESC_RE.search(ev.get("description") or ""):
         ev["special"] = True
 
 

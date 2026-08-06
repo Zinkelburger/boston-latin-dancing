@@ -427,7 +427,7 @@ non-Latin events that slipped into active — it queues them in rejected.json fo
 
 Report is written to `data/events/verification-report.json`.
 
-## Step 6: Review flagged events
+## Step 6: Review flagged events + big-event sweep
 
 Check active events for data quality issues:
 
@@ -439,6 +439,27 @@ For events with `styles=["other"]`, `cost=null`, or missing coords:
 - Use `event_edit` to fix styles, cost, or coordinates
 - For missing coords, follow the **geocode-events** skill
 - Remove any classes/workshops that slipped through: `event_remove(event_id, reason="class, not social dance")`
+
+**Big-event sweep (required).** For each non-recurring one-off that lacks
+`special: true`, decide whether it belongs on the Big Events filter / gold
+pin. Publish auto-flags festival/annual/anniversary/congress/weekender/gala/
+cruise/benefit/fundraiser/solidarity/encuentro names (and clear benefit/
+fundraiser language in the description), but **plain-named marquees are
+missed** — set them by hand:
+
+```
+event_edit(event_id, updates_json='{"special": true}')
+```
+
+Flag when any of these apply (example that was missed: "Baila por Venezuela"):
+- Unique branded one-off the scene plans around (not a weekly series name)
+- Benefit / fundraiser / solidarity / relief dance night
+- Multi-org or stacked multi-artist community lineup (not one guest DJ)
+- Citywide / outdoor / festival-scale even with a short title
+
+Also retag `styles=["other"]` → real Latin styles on those nights. Do **not**
+flag regular guest-DJ or holiday-theme bar nights. Use `{"special": false}`
+only to suppress a wrong auto-flag.
 
 Ask the user if unsure about any classification.
 
