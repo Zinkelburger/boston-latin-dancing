@@ -12,6 +12,9 @@ your main job, along with the other judgment calls it can't make.
 ## Tasks, in order
 
 1. **Check pipeline state.** Run `git status` and `git log --oneline -3`.
+   Sources marked `"unreliable": true` in `data/sources.json` (currently
+   `unabulla-cuban-boston`) still scrape but ingest skips them — do **not**
+   force their rows onto the map. Prefer organizer Eventbrite/FB and Beatrice.
    If the last refresh failed or tripwired (working tree dirty, or
    `python3 scripts/run_pipeline.py --skip-scrape` reports a large drop in
    events), investigate before anything else. If you cannot fix it

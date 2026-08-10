@@ -2160,7 +2160,18 @@ def publish() -> dict:
     """Generate events-published.json from active + archived events + expanded venues."""
     source_names = _load_source_names()
 
-    active = load_active()
+    try:
+        from source_signal import unreliable_source_ids
+        unreliable_sources = unreliable_source_ids()
+    except Exception:
+        unreliable_sources = set()
+
+    # Belt-and-suspenders: never ship pins from unreliable sources even if a
+    # stale active row survived (e.g. before the source was demoted).
+    active = [
+        e for e in load_active()
+        if e.get("source") not in unreliable_sources
+    ]
     venue_events = expand_venues()
 
     active, suppressed_venue_ids = _suppress_venue_covered_events(venue_events, active)
@@ -2340,11 +2351,16 @@ def ingest_scraped(source_id: Optional[str] = None, quarantine_new: bool = False
     # Sources ranked "noisy" (see data/sources.json + source_signal.py) always
     # route brand-new finds to the pending queue for review, even when the run
     # otherwise publishes directly -- their raw feeds are mostly non-dance.
+    # Sources marked unreliable scrape for research but never enter the store.
     try:
-        from source_signal import noisy_source_ids
+        from source_signal import noisy_source_ids, unreliable_source_ids
         noisy_sources = noisy_source_ids()
+        unreliable_sources = unreliable_source_ids()
     except Exception:
         noisy_sources = set()
+        unreliable_sources = set()
+
+    skipped_unreliable = 0
 
     for path in files:
         if not path.exists():
@@ -2356,6 +2372,9 @@ def ingest_scraped(source_id: Optional[str] = None, quarantine_new: bool = False
 
         for ev in events:
             if not ev.get("id"):
+                continue
+            if ev.get("source") in unreliable_sources:
+                skipped_unreliable += 1
                 continue
             eff_quarantine = quarantine_new or (ev.get("source") in noisy_sources)
             result = add_event(ev, blocked_ids=blocked_ids, blocked_keys=blocked_keys,
@@ -2393,6 +2412,7 @@ def ingest_scraped(source_id: Optional[str] = None, quarantine_new: bool = False
         "merged": merged,
         "reactivated": reactivated,
         "skipped_duplicates": skipped,
+        "skipped_unreliable": skipped_unreliable,
         "dropped_non_latin": dropped_non_latin,
         "rejected_out_of_area": rejected_out_of_area,
         "blocked": blocked,

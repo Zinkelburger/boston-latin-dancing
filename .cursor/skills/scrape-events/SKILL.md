@@ -107,6 +107,11 @@ e.g. `somerville-arts`) do **not** — their scraper keyword-filters the whole p
 and only emits events mentioning Latin dance, so the municipal noise never enters
 the pipeline.
 
+**Unreliable sources** (`"unreliable": true`, e.g. `unabulla-cuban-boston`) stay
+scraped into `data/scraped/` for research but are **skipped at ingest** and
+filtered at publish — they never become map pins. Prefer organizer Eventbrite/FB
+(and Beatrice) over Una Bulla's cadence claims.
+
 **Adding a new source is CONFIG-ONLY — do NOT write a new scraper.** There are only
 a few real "feed shapes", each with one generic, config-driven scraper. Match the
 site to a shape and add a `data/sources.json` entry — no new Python:

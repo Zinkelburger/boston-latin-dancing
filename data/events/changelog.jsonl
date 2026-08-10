@@ -602,3 +602,8 @@
 {"ts": "2026-08-05T19:41:07.964243+00:00", "action": "edit", "event_id": "1D5D663C-16A8-44ED-8F01-28CD53AF9276", "details": "{\"lat\": 42.3527443, \"lng\": -71.0553933}"}
 {"ts": "2026-08-05T19:41:08.728636+00:00", "action": "edit", "event_id": "FC29C1F2-096C-48C6-ABC1-038BEC368F24", "details": "{\"lat\": 42.3527443, \"lng\": -71.0553933}"}
 {"ts": "2026-08-06T18:14:52.645332+00:00", "action": "edit", "event_id": "54594D45-3E71-4472-96F1-5DC3F4060FFA", "details": "{\"special\": true, \"styles\": [\"salsa\", \"bachata\", \"merengue\"]}"}
+{"ts": "2026-08-06T18:33:31.990821+00:00", "action": "block", "event_id": "0du3658tpe2aej0a3e5i2o7nm1@google.com", "details": "duplicate_source: Una Bulla cadence claims unreliable \u2014 prefer El Bonche Eventbrite/FB"}
+{"ts": "2026-08-06T18:33:32.760841+00:00", "action": "remove", "event_id": "3vk8m42q95bjqijuef783qvd1a@google.com", "details": "Una Bulla demoted unreliable \u2014 use timba-messengers organizer feed"}
+{"ts": "2026-08-06T18:33:45.408697+00:00", "action": "unblock", "event_id": "0du3658tpe2aej0a3e5i2o7nm1@google.com", "details": "was: duplicate_source"}
+{"ts": "2026-08-06T18:33:45.722646+00:00", "action": "dismiss_rejected", "event_id": "3vk8m42q95bjqijuef783qvd1a@google.com", "details": "Una Bulla demoted \u2014 not non-Latin; organizer feed handles Timba Messengers"}
+{"ts": "2026-08-06T18:33:50.224595+00:00", "action": "add", "event_id": "phfsfa6ctj6jq4nikphf3mql0l@google.com", "details": ""}

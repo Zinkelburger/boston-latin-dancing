@@ -171,13 +171,13 @@
     "type": "ics",
     "name": "Cuban Dance in Boston (Una Bulla)",
     "noise": {
-      "score": 10,
-      "note": "Dedicated Cuban / casino dance calendar; on-topic."
+      "score": 90,
+      "note": "Unreliable cadence/claims (e.g. El Bonche '4th Saturday', Dante pattern guesses, Sunday class listings). Keep scraping for research; do not put on the map. Prefer organizer Eventbrite/FB and Beatrice."
     },
     "scraper": "scrape_ics.py",
     "enabled": true,
-    "url": "https://calendar.google.com/calendar/ical/8a87859dbbb9d4a566d0ab0137c136f844424435b0b16585d99c3beb904e0514%40group.calendar.google.com/public/basic.ics",
-    "latin_by_default": true
+    "unreliable": true,
+    "url": "https://calendar.google.com/calendar/ical/8a87859dbbb9d4a566d0ab0137c136f844424435b0b16585d99c3beb904e0514%40group.calendar.google.com/public/basic.ics"
   },
   {
     "id": "timba-messengers",

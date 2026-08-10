@@ -162,6 +162,18 @@ Latin relevance check
 
 Do not confuse them — rejected is about **relevance**, pending is about **duplicates**.
 
+## Unreliable sources (`"unreliable": true`)
+
+Some calendars stay **enabled for scraping** (research / cross-check) but must
+**never ship map pins**. Mark them in `data/sources.json` with
+`"unreliable": true` (and usually a high `noise.score`). Ingest skips their
+scraped events; publish also filters any leftover active rows from that source.
+
+Current: `unabulla-cuban-boston` — cadence/claims drift (El Bonche "4th
+Saturday", Dante pattern guesses, Sunday class listings). Prefer organizer
+Eventbrite/Facebook and Beatrice for Cuban nights. Do not re-approve Una Bulla
+rows onto the map without a human override of the flag.
+
 ## Source Priority (lower = higher priority for dedup conflicts)
 
 0. beatrice-calendar (Google Calendar ICS)

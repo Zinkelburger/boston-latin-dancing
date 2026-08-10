@@ -71,6 +71,19 @@ def noisy_source_ids() -> set:
     return {s["id"] for s in all_signals() if s["action"] == "review_new"}
 
 
+def unreliable_source_ids() -> set:
+    """Source ids scraped for research but never published to the map.
+
+    Marked with ``"unreliable": true`` in sources.json (e.g. Una Bulla —
+    cadence claims drift; prefer organizer Eventbrite/FB). Scraper stays
+    enabled; ingest skips them.
+    """
+    return {
+        s["id"] for s in load_sources()
+        if s.get("unreliable") and s.get("id")
+    }
+
+
 def _bar(score: int, width: int = 10) -> str:
     filled = round(score / 100 * width)
     return "▉" * filled + "▏" * (width - filled)
@@ -79,15 +92,17 @@ def _bar(score: int, width: int = 10) -> str:
 def render_table() -> str:
     """Human/LLM-readable ranked table."""
     rows = all_signals()
+    unreliable = unreliable_source_ids()
     idw = max((len(s["id"]) for s in rows), default=6)
     lines = [
         "SOURCE NOISE RANKING  (higher = more junk; trust accordingly)",
         "",
     ]
     for s in rows:
+        map_note = " ⛔ map-off" if s["id"] in unreliable else ""
         lines.append(
             f"  {s['id']:<{idw}}  {_bar(s['score'])} {s['score']:>3}  "
-            f"{s['emoji']} {s['tier'].upper():<7} → {s['guidance']}"
+            f"{s['emoji']} {s['tier'].upper():<7} → {s['guidance']}{map_note}"
         )
         if s["note"]:
             lines.append(f"  {'':<{idw}}  {s['note']}")

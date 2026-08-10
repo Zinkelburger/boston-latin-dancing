@@ -230,40 +230,38 @@
     "organizer": "Sensualeros Boston Events"
   },
   {
-    "id": "3vk8m42q95bjqijuef783qvd1a@google.com",
-    "name": "🪘 The Timba Messengers",
+    "id": "phfsfa6ctj6jq4nikphf3mql0l@google.com",
+    "name": "The Timba Messenger at Wally's ",
     "startDate": "2026-08-06T22:00:00-04:00",
-    "endDate": "2026-08-07T01:00:00-04:00",
+    "endDate": "2026-08-07T00:00:00-04:00",
     "dayOfWeek": "Thursday",
-    "location": "Wally's Cafe Jazz Club, 427 Massachusetts Ave, Boston, MA 02118, USA",
+    "location": "Wally's Cafe Jazz Club, 427 Massachusetts Ave, Boston, MA 02118, EE. UU.",
     "lat": 42.3406735,
     "lng": -71.0822887,
-    "description": "Every week, live music by the Timba Messengers at Wally's.\n\n<b>Organized by The Timba Messengers</b>\nWebsite: https://www.thetimbamessengers.com/\nInstagram: https://www.instagram.com/thetimbamessengers/\n\n\n---\nManaged by Una Bulla\nhttps://www.unabulla.com/boston",
-    "url": "https://www.thetimbamessengers.com/",
+    "description": "+21\nFree Entrance",
+    "url": null,
     "styles": [
       "salsa"
     ],
     "cost": "Free",
     "recurring": true,
     "recurrences": [
-      "2026-06-11T22:00:00-04:00",
-      "2026-06-18T22:00:00-04:00",
-      "2026-06-25T22:00:00-04:00",
-      "2026-07-02T22:00:00-04:00",
-      "2026-07-09T22:00:00-04:00",
-      "2026-07-16T22:00:00-04:00",
-      "2026-07-23T22:00:00-04:00",
-      "2026-07-30T22:00:00-04:00",
       "2026-08-06T22:00:00-04:00",
       "2026-08-13T22:00:00-04:00",
       "2026-08-20T22:00:00-04:00",
       "2026-08-27T22:00:00-04:00",
       "2026-09-03T22:00:00-04:00",
-      "2026-09-10T22:00:00-04:00"
+      "2026-09-10T22:00:00-04:00",
+      "2026-09-17T22:00:00-04:00",
+      "2026-09-24T22:00:00-04:00",
+      "2026-10-01T22:00:00-04:00",
+      "2026-10-08T22:00:00-04:00",
+      "2026-10-15T22:00:00-04:00",
+      "2026-10-22T22:00:00-04:00"
     ],
-    "slug": "the-timba-messengers-3vk8m42q",
+    "slug": "the-timba-messenger-at-wally-s-phfsfa6c",
     "recurrenceLabel": "Every Thursday",
-    "organizer": "Cuban Dance in Boston (Una Bulla)"
+    "organizer": "The Timba Messengers"
   },
   {
     "id": "3vv69eu4dohgr059ur06cr5s8s@google.com",
@@ -863,30 +861,6 @@
     "venueId": "lous-live",
     "slug": "latin-brunch-la-diaspora-combo-lous-f2d",
     "organizer": "Lou's Live (Cambridge)"
-  },
-  {
-    "id": "0du3658tpe2aej0a3e5i2o7nm1@google.com",
-    "name": "💃 El Bonche!",
-    "startDate": "2026-08-22T20:30:00-04:00",
-    "endDate": "2026-08-22T23:00:00-04:00",
-    "dayOfWeek": "Saturday",
-    "location": "Rumba Y Timbal Dance Company, 7 Temple St, Cambridge, MA 02139, USA",
-    "lat": 42.3668113,
-    "lng": -71.104309,
-    "description": "Monthly Cuban party (4th Saturday of each month)\n\n<b>Price</b>\n$15 online, $20 at the door\n\n<b>Organized by El Bonche</b>\nFacebook: https://www.facebook.com/elboncheinboston/\nInstagram: https://www.instagram.com/elboncheinboston/\n\n\n---\nManaged by Una Bulla\nhttps://www.unabulla.com/boston",
-    "url": "https://www.facebook.com/elboncheinboston/",
-    "styles": [
-      "other"
-    ],
-    "cost": "$15 online",
-    "recurring": true,
-    "recurrences": [
-      "2026-06-27T20:30:00-04:00",
-      "2026-07-25T20:30:00-04:00",
-      "2026-08-22T20:30:00-04:00"
-    ],
-    "slug": "el-bonche-0du3658t",
-    "organizer": "Cuban Dance in Boston (Una Bulla)"
   },
   {
     "id": "eb-1996444933539",
