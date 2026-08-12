@@ -893,7 +893,7 @@
     "lat": 42.3646071,
     "lng": -71.1043523,
     "description": "Come join us for our second year of Battle of the Beats! Whether you're here to compete, cheer on your favorite dancers, take a class, or connect with the community, there's a place for you on the dance floor.\n\nSource: https://facebook.com/events/s/battle-of-the-beats-2026-bosto/1613687936940528/\n\n​Battle of the Beats celebrates the connection between Salsa, Bachata and Hip Hop through friendly competition, learning, and community.\n\n________\n\nMORE INFO HERE: https://www.listerevents.com/battle2026\n\nSIGN UP TO COMPETE: https://docs.google.com/forms/d/e/1FAIpQLSfdn8hcK9RJ1V_g7yQiplOz9uYvjJZdNxaemHkVjD3hYUfHkA/viewform\n\n________\n\n\nThe Flow:\n\n4:30 PM: Choose from one of TWO Workshops\n5:30 PM: The Battle Begins!\n7:00 PM: Social Dance Party Until The End\n\n________\n\n​Full Event (Includes Workshop): $20 \nBattle + Social Only: $15\n*Cash Only\n\nNeed financial assistance or interested in volunteering?\nE-mail office@listerevents.com\n\n________\n\nHow Does It Work?\n\nThe battle features three rounds designed to test creativity, adaptability, musicality, and performance.\n​\nIn each round, competitors dance twice. The first set is focused on solo dancing and footwork. The second set allows dancers to incorporate partnerwork, tricks, lifts, flips, and other performance elements.\n\nRound 1: Rep Your Style\nDance to music from your own genre and showcase what makes your style unique.\n\nRound 2: Flip the Script\nDance to music selected from your opponent's genre while staying true to your own style.​\n\nRound 3: Conversation Battle\nFinalists face off in a back-and-forth exchange where Latin and Hip Hop dancers respond to one another through movement, musicality, and creativity.\n",
-    "url": "https://facebook.com/events/s/battle-of-the-beats-2026-bosto/1613687936940528/",
+    "url": "https://www.listerevents.com/event-details/battle-of-the-beats-2026-latin-vs-hip-hop",
     "styles": [
       "bachata",
       "salsa"
@@ -902,12 +902,19 @@
     "recurring": false,
     "source": "beatrice-calendar",
     "urls": [
-      "https://www.listerevents.com/event-details/battle-of-the-beats-2026-latin-vs-hip-hop"
+      "https://facebook.com/events/s/battle-of-the-beats-2026-bosto/1613687936940528/"
     ],
     "_verified_at": "2026-08-05T19:41:29.945169+00:00",
     "_verified_status": "needs_browser",
     "_verified_notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
-    "_verification_url": "https://facebook.com/events/s/battle-of-the-beats-2026-bosto/1613687936940528/"
+    "_verification_url": "https://facebook.com/events/s/battle-of-the-beats-2026-bosto/1613687936940528/",
+    "_venue_conflict_decision": {
+      "hub": "havana-club",
+      "decision": "distinct",
+      "at": "2026-08-12T18:46:36.244082+00:00",
+      "note": "4:30-8:30 PM battle + workshops; hands off to the regular 9 PM Havana night"
+    },
+    "special": true
   },
   {
     "id": "mato-salsa-night-at-the-grove-27-aug-2026",
