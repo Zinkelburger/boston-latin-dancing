@@ -418,6 +418,10 @@
 {"ts": "2026-07-15T21:03:08.126458+00:00", "action": "edit", "event_id": "4scb4cfq1j6t6b7ss6io3jn65n_R20251018T010000@google.com", "details": "dropped 2026-07-17T21:00:00-04:00 occurrence (Querencia takeover replaces it); rolled to 2026-08-21T21:00:00-04:00"}
 {"ts": "2026-07-15T21:06:52.051873+00:00", "action": "edit", "event_id": "4scb4cfq1j6t6b7ss6io3jn65n_R20251018T010000@google.com", "details": "reverted July-17 occurrence removal (wrong layer: dantes-tambo hub already governs the pin)"}
 {"ts": "2026-07-17T18:04:52.717677+00:00", "action": "add", "event_id": "manual-3b34eb0c35f4a44e", "details": ""}
+{"ts": "2026-07-19T19:46:59.503275+00:00", "action": "add", "event_id": "harvardsquare-12th-annual-salsa", "details": ""}
+{"ts": "2026-07-20T00:01:38.615044+00:00", "action": "pending_review", "event_id": "harvardsquare-test-newfind-0001", "details": "review dup of 374F6A9E-8016-4466-9441-0793EA0E0EA6: word_overlap(2/4)+within_24h+same_day"}
+{"ts": "2026-07-20T00:02:30.697057+00:00", "action": "quarantine_new", "event_id": "harvardsquare-zzqtest-NOISY", "details": ""}
+{"ts": "2026-07-20T00:02:30.712469+00:00", "action": "add", "event_id": "beatrice-calendar-zzqtest-TRUST", "details": ""}
 {"ts": "2026-07-22T16:52:42.337903+00:00", "action": "quarantine_new", "event_id": "548F5048-49C0-4DB4-9299-79E38B708BEF", "details": ""}
 {"ts": "2026-07-22T16:52:43.305717+00:00", "action": "quarantine_new", "event_id": "65827-1784876400-1784930400@harvardsquare.com", "details": ""}
 {"ts": "2026-07-22T16:52:43.384820+00:00", "action": "quarantine_new", "event_id": "DDA824C0-1D90-43DD-8494-ABAD044CB5CF", "details": ""}
@@ -468,10 +472,6 @@
 {"ts": "2026-07-22T17:05:34.135249+00:00", "action": "edit", "event_id": "eb-1994624708196", "details": "{\"name\": \"Noche Latina July Salsa Workshop and Practica\"}"}
 {"ts": "2026-07-22T17:05:35.588180+00:00", "action": "edit", "event_id": "23FEA93F-DAA4-40B3-9036-92B11292E207", "details": "{\"location\": \"Todos Dance & Fitness Studio, Natick, MA\"}"}
 {"ts": "2026-07-22T17:06:25.266591+00:00", "action": "edit", "event_id": "23FEA93F-DAA4-40B3-9036-92B11292E207", "details": "{\"location\": \"Todos Dance & Fitness Studio, 677 Worcester St, Natick, MA 01760\"}"}
-{"ts": "2026-07-19T19:46:59.503275+00:00", "action": "add", "event_id": "harvardsquare-12th-annual-salsa", "details": ""}
-{"ts": "2026-07-20T00:01:38.615044+00:00", "action": "pending_review", "event_id": "harvardsquare-test-newfind-0001", "details": "review dup of 374F6A9E-8016-4466-9441-0793EA0E0EA6: word_overlap(2/4)+within_24h+same_day"}
-{"ts": "2026-07-20T00:02:30.697057+00:00", "action": "quarantine_new", "event_id": "harvardsquare-zzqtest-NOISY", "details": ""}
-{"ts": "2026-07-20T00:02:30.712469+00:00", "action": "add", "event_id": "beatrice-calendar-zzqtest-TRUST", "details": ""}
 {"ts": "2026-07-22T20:31:29.185498+00:00", "action": "quarantine_new", "event_id": "E208F389-80D3-4F31-9214-04906943E673", "details": ""}
 {"ts": "2026-07-22T20:31:30.954014+00:00", "action": "quarantine_new", "event_id": "mato-salsa-night-at-the-grove-27-aug-2026", "details": ""}
 {"ts": "2026-07-22T20:31:30.986097+00:00", "action": "quarantine_new", "event_id": "mato-salsa-night-at-the-grove-24-sep-2026", "details": ""}
@@ -607,3 +607,37 @@
 {"ts": "2026-08-06T18:33:45.408697+00:00", "action": "unblock", "event_id": "0du3658tpe2aej0a3e5i2o7nm1@google.com", "details": "was: duplicate_source"}
 {"ts": "2026-08-06T18:33:45.722646+00:00", "action": "dismiss_rejected", "event_id": "3vk8m42q95bjqijuef783qvd1a@google.com", "details": "Una Bulla demoted \u2014 not non-Latin; organizer feed handles Timba Messengers"}
 {"ts": "2026-08-06T18:33:50.224595+00:00", "action": "add", "event_id": "phfsfa6ctj6jq4nikphf3mql0l@google.com", "details": ""}
+{"ts": "2026-08-11T18:26:27.684973+00:00", "action": "reactivate", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": "from archive (certain)"}
+{"ts": "2026-08-11T18:26:29.461427+00:00", "action": "quarantine_new", "event_id": "837D1E85-F1BF-4DB6-B03D-710CE18620B3", "details": ""}
+{"ts": "2026-08-11T18:26:30.662480+00:00", "action": "reactivate", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": "from archive (certain)"}
+{"ts": "2026-08-11T18:26:30.693196+00:00", "action": "pending_review", "event_id": "eb-com-b4188c9c", "details": "review dup of 0D2E7B82-58C2-4CA7-89C1-174364983C04: substring_name+within_24h+same_day"}
+{"ts": "2026-08-11T18:26:30.709943+00:00", "action": "quarantine_new", "event_id": "eb-1997400920923", "details": ""}
+{"ts": "2026-08-11T18:26:30.747290+00:00", "action": "quarantine_new", "event_id": "fiesta-20260828-sol-de-mexico-milford", "details": ""}
+{"ts": "2026-08-11T18:26:32.330602+00:00", "action": "quarantine_new", "event_id": "fiesta-20260911-agave-mexican-grill-cantina-marlborough", "details": ""}
+{"ts": "2026-08-11T18:26:32.340990+00:00", "action": "quarantine_new", "event_id": "fiesta-20260925-sol-de-mexico-milford", "details": ""}
+{"ts": "2026-08-11T18:26:32.348590+00:00", "action": "quarantine_new", "event_id": "fiesta-18609de322ec", "details": ""}
+{"ts": "2026-08-11T18:26:32.398833+00:00", "action": "quarantine_new", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-08-13-20-45", "details": ""}
+{"ts": "2026-08-11T18:26:32.400698+00:00", "action": "drop_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-08-16-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-08-11T18:26:32.402245+00:00", "action": "drop_non_latin", "event_id": "pr-festival-ma-fiesta-en-la-playa-sabor-boricua", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-08-11T18:26:32.454586+00:00", "action": "quarantine_new", "event_id": "f57gcfqqsmkvvr001ipn901seo@google.com", "details": ""}
+{"ts": "2026-08-11T18:26:32.468170+00:00", "action": "quarantine_new", "event_id": "5dr5gqnfrfbrp0t3kr2c5mc074@google.com", "details": ""}
+{"ts": "2026-08-11T18:26:32.478922+00:00", "action": "reactivate", "event_id": "6p0q976tmk0ub5vt98dhuugd5i_R20240803T233000@google.com", "details": "from archive (certain)"}
+{"ts": "2026-08-11T18:26:32.486625+00:00", "action": "quarantine_new", "event_id": "0bgn7v2scifgs27vukps4frk30@google.com", "details": ""}
+{"ts": "2026-08-11T18:26:32.488338+00:00", "action": "archive", "event_id": "61B50538-D7A5-466E-9039-7663B3F54F9D", "details": ""}
+{"ts": "2026-08-11T18:26:32.488375+00:00", "action": "archive", "event_id": "5984F5C6-9A2D-454E-AE0B-B201FC78B814", "details": ""}
+{"ts": "2026-08-11T18:26:32.488400+00:00", "action": "archive", "event_id": "00E9F069-7BE1-4C6D-BA6E-69B8A2E7FDA3", "details": ""}
+{"ts": "2026-08-11T18:26:32.488415+00:00", "action": "archive", "event_id": "d3c3821c604c59d369b5a9d85718aaa3162e67dd@dance-calendar", "details": ""}
+{"ts": "2026-08-11T18:26:32.488428+00:00", "action": "archive", "event_id": "3vv69eu4dohgr059ur06cr5s8s@google.com", "details": ""}
+{"ts": "2026-08-11T18:26:32.488441+00:00", "action": "archive", "event_id": "fiesta-20260807-agave-mexican-grill-cantina-marlborough", "details": ""}
+{"ts": "2026-08-11T18:26:32.488454+00:00", "action": "archive", "event_id": "23FEA93F-DAA4-40B3-9036-92B11292E207", "details": ""}
+{"ts": "2026-08-11T18:26:32.488467+00:00", "action": "archive", "event_id": "CDCAA72E-7512-4641-A838-3FD8DA41BFBE", "details": ""}
+{"ts": "2026-08-11T18:26:32.488478+00:00", "action": "archive", "event_id": "54594D45-3E71-4472-96F1-5DC3F4060FFA", "details": ""}
+{"ts": "2026-08-11T18:26:32.488487+00:00", "action": "archive", "event_id": "BED3AFD2-27A6-4F23-99ED-61C336F0212D", "details": ""}
+{"ts": "2026-08-11T18:26:32.488502+00:00", "action": "archive", "event_id": "eb-1995790781954", "details": ""}
+{"ts": "2026-08-11T18:26:32.488515+00:00", "action": "archive", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-08-06-20-45", "details": ""}
+{"ts": "2026-08-11T18:26:32.488526+00:00", "action": "archive", "event_id": "dantes-inferno-fb-20260807-0", "details": ""}
+{"ts": "2026-08-11T18:26:32.488539+00:00", "action": "archive", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": ""}
+{"ts": "2026-08-11T18:26:32.488550+00:00", "action": "archive", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": ""}
+{"ts": "2026-08-11T18:26:32.488561+00:00", "action": "archive", "event_id": "6p0q976tmk0ub5vt98dhuugd5i_R20240803T233000@google.com", "details": ""}
+{"ts": "2026-08-11T19:04:59.477211+00:00", "action": "edit", "event_id": "75AB4ED9-33C0-4242-BF08-8606C7B94665", "details": "{\"url\": \"https://www.listerevents.com/event-details/battle-of-the-beats-2026-latin-vs-hip-hop\", \"urls\": [\"https://facebook.com/events/s/battle-of-the-beats-2026-bosto/1613687936940528/\"], \"special\": true}"}
+{"ts": "2026-08-12T18:43:48.319761+00:00", "action": "venue_conflict_resolved", "event_id": "75AB4ED9-33C0-4242-BF08-8606C7B94665", "details": "distinct vs hub havana-club: 4:30-8:30 PM battle + workshops; hands off to the regular 9 PM Havana night"}

@@ -47,6 +47,9 @@ PUBLIC_EVENTS_JSON = ROOT / "data" / "events-published.json"
 
 DEDUP_LOG = EVENTS_DIR / "dedup-log.jsonl"
 KNOWN_DUPLICATES_JSON = ROOT / "data" / "known_duplicates.json"
+# Publish-time review queue: scraped events that collide with a venue hub but
+# are not obviously the hub's regular night. Regenerated every publish.
+VENUE_CONFLICTS_JSON = EVENTS_DIR / "venue-conflicts.json"
 
 NY_TZ = ZoneInfo("America/New_York")
 
@@ -620,6 +623,34 @@ def _url_host(url: str) -> str:
     return m.group(1) if m else ""
 
 
+# Facebook share wrappers (/events/s/<slug>/<share-id>/, /share/<id>) carry a
+# share-story id rather than an event id and do not resolve for logged-out
+# visitors, so they are the worst possible primary link.
+_SHARE_WRAPPER_RE = re.compile(r"facebook\.com/(?:events/s/|share/)|fb\.me/", re.I)
+
+
+def url_rank(url: str) -> int:
+    """Rank a URL's fitness as the primary (clicked) link. Lower wins.
+
+    Deliberately separate from SOURCE_PRIORITY: that ranks how much we trust a
+    source's claim that an event exists, which is unrelated to how good that
+    source's links are. beatrice-calendar outranks lister-events on coverage
+    but ships Facebook share wrappers, so letting one number decide both
+    replaced an organizer's canonical page with a link that 404s for visitors.
+    """
+    if not url:
+        return 100
+    lower = url.lower()
+    host = _url_host(url)
+    if _SHARE_WRAPPER_RE.search(lower):
+        return 40
+    if "facebook.com" in host or "fb.com" in host:
+        return 20 if "/events/" in lower else 30
+    if "instagram.com" in host:
+        return 30
+    return 10
+
+
 def _collect_urls(a: dict, b: dict) -> list[str]:
     """Gather unique URLs from both events, keeping one per domain."""
     seen_hosts: set[str] = set()
@@ -669,6 +700,13 @@ def merge_event(a: dict, b: dict) -> dict:
     if merged.get("special") is None and loser.get("special") is not None:
         merged["special"] = loser["special"]
 
+    # Same for a recorded venue-conflict ruling. Without this a re-scrape wins
+    # on source precedence, arrives with no decision attached, and the pair is
+    # back in the review queue every week — the reviewer re-litigates a call
+    # they already made, which is exactly the failure this queue exists to end.
+    if merged.get("_venue_conflict_decision") is None and loser.get("_venue_conflict_decision"):
+        merged["_venue_conflict_decision"] = loser["_venue_conflict_decision"]
+
     # Never overwrite winner fields with loser content when winner is a venue hub.
     if _is_venue_schedule_record(winner):
         if not merged.get("description") and loser.get("description"):
@@ -696,12 +734,18 @@ def merge_event(a: dict, b: dict) -> dict:
     if not merged.get("recurrences") and loser.get("recurrences"):
         merged["recurrences"] = loser["recurrences"]
 
-    # Accumulate all source URLs into urls[] (primary url stays as-is)
+    # Accumulate all source URLs into urls[], promoting the best-quality link
+    # to primary. A merge must never downgrade a working canonical page to a
+    # share wrapper just because the record carrying the wrapper won on source
+    # precedence — ties keep the winner's existing order, so this only ever
+    # fires when the alternative is strictly better.
     all_urls = _collect_urls(winner, loser)
-    primary = merged.get("url") or ""
-    extra = [u for u in all_urls if u and u != primary]
-    if extra:
-        merged["urls"] = extra
+    if all_urls:
+        primary = min(all_urls, key=lambda u: (url_rank(u), all_urls.index(u)))
+        merged["url"] = primary
+        extra = [u for u in all_urls if u and u != primary]
+        if extra:
+            merged["urls"] = extra
 
     # Re-scrape of the same event id: refresh date/time from incoming data.
     if winner.get("id") == loser.get("id"):
@@ -937,6 +981,117 @@ def _venue_schedule_covers_event(venue_event: dict, ev: dict, day: str) -> bool:
     return False
 
 
+def _hub_schedule_entry(hub: dict, day: str) -> Optional[dict]:
+    """The hub's schedule entry for a weekday, or None."""
+    for entry in hub.get("schedule") or []:
+        if entry.get("dayOfWeek") == day:
+            return entry
+    return None
+
+
+# Fallback length for an event with a start but no end. Only used to decide
+# overlap; the assumption is surfaced in the review row so a human can see it.
+_ASSUMED_EVENT_HOURS = 3
+
+
+def _event_local_window(ev: dict) -> tuple[Optional[datetime], Optional[datetime], bool]:
+    """Event start/end as naive New York datetimes, plus whether end was assumed."""
+    start = parse_date(ev.get("startDate", ""))
+    if start is None:
+        return None, None, False
+    if start.tzinfo is None:
+        start = start.replace(tzinfo=NY_TZ)
+    start = start.astimezone(NY_TZ).replace(tzinfo=None)
+
+    end = parse_date(ev.get("endDate", ""))
+    if end is None:
+        return start, start + timedelta(hours=_ASSUMED_EVENT_HOURS), True
+    if end.tzinfo is None:
+        end = end.replace(tzinfo=NY_TZ)
+    end = end.astimezone(NY_TZ).replace(tzinfo=None)
+    if end <= start:
+        return start, start + timedelta(hours=_ASSUMED_EVENT_HOURS), True
+    return start, end, False
+
+
+def _hub_local_window(entry: dict, on_date: datetime) -> Optional[tuple[datetime, datetime]]:
+    """The hub's window on a given date, or None when the time can't be parsed.
+
+    Closing times past midnight ("9:00 PM – 2:00 AM") roll into the next day.
+    """
+    parsed = _parse_time_range(entry.get("time") or "")
+    if not parsed:
+        return None
+    (sh, sm), (eh, em) = parsed
+    day = on_date.replace(hour=0, minute=0, second=0, microsecond=0)
+    start = day.replace(hour=sh, minute=sm)
+    end = day.replace(hour=eh, minute=em)
+    if end <= start:
+        end += timedelta(days=1)
+    return start, end
+
+
+def _windows_overlap(hub: dict, entry: dict, ev: dict) -> tuple[Optional[bool], dict]:
+    """Does the scraped event's window intersect the hub's window that night?
+
+    Returns (overlap, detail). `overlap` is None when either side has no usable
+    time — the caller must then treat the collision as a judgment call rather
+    than guessing. Windows that merely touch (event ends exactly when the hub
+    opens) do not overlap: that is the Battle-of-the-Beats shape, an afternoon
+    program that hands off to the venue's regular night.
+    """
+    ev_start, ev_end, end_assumed = _event_local_window(ev)
+    detail: dict = {"event_end_assumed": end_assumed}
+    if ev_start is None:
+        detail["reason"] = "event has no parseable start time"
+        return None, detail
+
+    hub_window = _hub_local_window(entry, ev_start)
+    if hub_window is None:
+        detail["reason"] = f"hub time {entry.get('time')!r} is not parseable"
+        return None, detail
+
+    hub_start, hub_end = hub_window
+    detail["event_window"] = _format_window(ev_start, ev_end)
+    detail["hub_window"] = f"{entry.get('dayOfWeek', '')}s, {entry.get('time', '')}"
+    return (ev_start < hub_end and hub_start < ev_end), detail
+
+
+def _format_window(start: datetime, end: Optional[datetime]) -> str:
+    def _t(d: datetime) -> str:
+        return d.strftime("%-I:%M %p")
+    if end is None:
+        return f"{start.strftime('%a %b %-d')}, {_t(start)}"
+    return f"{start.strftime('%a %b %-d')}, {_t(start)} – {_t(end)}"
+
+
+# Generic words in a venue name that identify nothing on their own — "Club"
+# alone must not make "Salsa Club Night" read as a Havana Club event.
+_GENERIC_VENUE_WORDS = {"the", "club", "bar", "lounge", "studio", "dance",
+                        "salsa", "bachata", "social", "boston", "cambridge"}
+
+
+def _reads_like_hub_night(hub: dict, ev: dict) -> bool:
+    """True when the scraped name reads like the venue's own regular night.
+
+    Used only to decide whether a time-overlapping collision is obvious enough
+    to fold silently, never to delete an event whose times don't overlap. A
+    distinctly-branded name (anniversary, takeover, guest lineup) is exempt
+    even when it names the venue — those are takeovers, which need a human to
+    say whether they replace the regular night or run alongside it.
+    """
+    ev_name = normalize_name(ev.get("name", ""))
+    hub_name = normalize_name(hub.get("name", ""))
+    if not ev_name or not hub_name:
+        return False
+    if _is_special_edition(ev_name):
+        return False
+    if _names_are_same_series(ev_name, hub_name):
+        return True
+    distinctive = set(hub_name.split()) - _GENERIC_VENUE_WORDS
+    return bool(distinctive) and bool(distinctive & set(ev_name.split()))
+
+
 def _scraped_at_venue_hub(hub: dict, scraped: dict) -> bool:
     """True when scraped event is at the same venue as a schedule hub.
 
@@ -966,19 +1121,161 @@ def _scraped_at_venue_hub(hub: dict, scraped: dict) -> bool:
     return False
 
 
-def _suppress_venue_covered_events(venue_events: list[dict], active_events: list[dict]) -> list[dict]:
+def _venue_match_reason(hub: dict, ev: dict) -> str:
+    """Short label for *why* an event was considered to be at this hub."""
+    hub_loc = (hub.get("location") or "").lower().strip()
+    ev_loc = (ev.get("location") or "").lower().strip()
+    if _canonical_location(hub.get("location", "")) and _canonical_location(ev.get("location", "")):
+        return "canonical venue alias"
+    if hub_loc and ev_loc and hub_loc == ev_loc:
+        return "identical location string"
+    hub_name = (hub.get("name") or "").lower()
+    if hub_name and (hub_name in (ev.get("name") or "").lower() or hub_name in ev_loc):
+        return f"venue name {hub.get('name')!r} appears in the event"
+    return f"street address ({_location_key(ev_loc) or ev_loc or 'unknown'})"
+
+
+def _truncate(text: str, limit: int = 400) -> str:
+    # Scraped blurbs open with boilerplate and a "Source: <url>" line; dropping
+    # it buys back a chunk of the budget for text that actually informs.
+    text = re.sub(r"Source:\s*\S+", " ", text or "")
+    text = " ".join(text.split())
+    if len(text) <= limit:
+        return text
+    return text[:limit].rstrip() + "… [truncated — event_get for full text]"
+
+
+def _time_mentions(text: str, limit: int = 6) -> list[str]:
+    """Lines in a description that state a clock time.
+
+    An event's own run-of-show ("4:30 PM: Workshops / 7:00 PM: Social Dance
+    Party") is the single most decisive evidence about whether it is the
+    venue's regular night, and it usually sits far past any truncation point.
+    Pull those lines out so the reviewer sees them without fetching the event.
+    """
+    found: list[str] = []
+    for raw in (text or "").splitlines():
+        line = " ".join(raw.split())
+        if not line or not _TIME_RE.search(line):
+            continue
+        if len(line) > 120:
+            line = line[:120].rstrip() + "…"
+        if line not in found:
+            found.append(line)
+        if len(found) >= limit:
+            break
+    return found
+
+
+def _venue_conflict_row(hub: dict, ev: dict, entry: dict, overlap: Optional[bool],
+                        detail: dict, kept: bool) -> dict:
+    """Everything needed to decide this one collision, in one self-contained row.
+
+    Deliberately carries facts only — no recommendation. A precomputed verdict
+    would just be the old name-regex wearing a different hat, and the reviewer
+    would anchor on it instead of reading the two descriptions.
+    """
+    other_days = [s.get("dayOfWeek", "")[:3] for s in hub.get("schedule") or []
+                  if s.get("dayOfWeek") != entry.get("dayOfWeek")]
+    row = {
+        "id": ev.get("id"),
+        "event": {
+            "name": ev.get("name"),
+            "window": detail.get("event_window") or ev.get("startDate", ""),
+            "location": ev.get("location"),
+            "styles": ev.get("styles", []),
+            "cost": ev.get("cost"),
+            "source": ev.get("source"),
+            "url": ev.get("url"),
+            "recurring": bool(ev.get("recurring")),
+            "schedule_in_description": _time_mentions(ev.get("description") or ""),
+            "description": _truncate(ev.get("description") or ""),
+        },
+        "hub": {
+            "id": hub.get("id"),
+            "name": hub.get("name"),
+            "window": detail.get("hub_window")
+                      or f"{entry.get('dayOfWeek', '')}s, {entry.get('time', '')}",
+            "note": entry.get("note"),
+            "cost": hub.get("cost"),
+            "url": hub.get("url"),
+            "also_runs": other_days,
+            "description": _truncate(hub.get("description") or "", 200),
+        },
+        "times_overlap": overlap,
+        "matched_on": _venue_match_reason(hub, ev),
+    }
+    if detail.get("event_end_assumed"):
+        row["event_end_assumed"] = True
+        row["assumed_note"] = (
+            f"event had no usable end time; assumed {_ASSUMED_EVENT_HOURS}h for the overlap test"
+        )
+    if detail.get("reason"):
+        row["overlap_unknown_because"] = detail["reason"]
+    if kept:
+        row["currently"] = "published — both pins showing"
+        row["if_you_do_nothing"] = "stays published; this row returns next publish"
+    else:
+        row["currently"] = "suppressed — folded into the venue hub, no separate pin"
+        row["if_you_do_nothing"] = "stays suppressed"
+    return row
+
+
+def _resolve_venue_collision(hub: dict, ev: dict, day: str) -> tuple[str, Optional[dict]]:
+    """Decide what to do about one event/hub collision.
+
+    Returns ("duplicate"|"keep", row). A row of None means a human or the
+    review agent already ruled on this pair and it needs no further attention.
+    """
+    entry = _hub_schedule_entry(hub, day) or {}
+    overlap, detail = _windows_overlap(hub, entry, ev)
+
+    decided = ev.get("_venue_conflict_decision") or {}
+    if decided.get("hub") == hub.get("id"):
+        if decided.get("decision") == "duplicate":
+            row = _venue_conflict_row(hub, ev, entry, overlap, detail, kept=False)
+            row["resolved"] = decided
+            return "duplicate", row
+        return "keep", None
+
+    # An event already flagged as a big one-off is never silently folded into a
+    # weekly night, whatever the clock says. It still surfaces for review so the
+    # call gets recorded once instead of being re-derived every publish.
+    if ev.get("special"):
+        return "keep", _venue_conflict_row(hub, ev, entry, overlap, detail, kept=True)
+
+    if overlap and _reads_like_hub_night(hub, ev):
+        return "duplicate", _venue_conflict_row(hub, ev, entry, overlap, detail, kept=False)
+
+    return "keep", _venue_conflict_row(hub, ev, entry, overlap, detail, kept=True)
+
+
+def _suppress_venue_covered_events(
+    venue_events: list[dict], active_events: list[dict]
+) -> tuple[list[dict], set, dict]:
     """Resolve overlap between venue hubs and scraped events.
 
-    Regular venues: scraped events at the same location+day are suppressed (venue wins).
+    Regular venues: a scraped event is folded into the hub only when it is
+    plainly the hub's own weekly night — same place, same weekday, overlapping
+    clock times, and a name that reads like the venue's night. Anything else
+    stays on the map and is queued for review instead. Deleting an event is
+    the one outcome that is invisible to visitors, so it requires the strongest
+    evidence; a duplicate pin is merely untidy and self-correcting.
+
     Irregular venues (nextDateApproximate): scraped events WIN — the venue entry is
     suppressed when confirmed scraped events exist. This lets the "Date unconfirmed"
     venue entry show only when no confirmed scrape is available.
+
+    Returns (kept, suppressed_venue_ids, report) where report carries the
+    suppression log and the review queue.
     """
     regular_hubs = [v for v in venue_events if _is_venue_schedule_record(v) and not v.get("nextDateApproximate")]
     irregular_hubs = [v for v in venue_events if _is_venue_schedule_record(v) and v.get("nextDateApproximate")]
 
+    report: dict = {"suppressed": [], "conflicts": []}
+
     if not regular_hubs and not irregular_hubs:
-        return active_events, set()
+        return active_events, set(), report
 
     now = datetime.now(NY_TZ)
 
@@ -1000,10 +1297,6 @@ def _suppress_venue_covered_events(venue_events: list[dict], active_events: list
             kept.append(ev)
             continue
 
-        if _is_special_edition(normalize_name(ev.get("name", ""))):
-            kept.append(ev)
-            continue
-
         day = _event_day_of_week(ev)
         if not day:
             kept.append(ev)
@@ -1016,17 +1309,23 @@ def _suppress_venue_covered_events(venue_events: list[dict], active_events: list
             if coords:
                 ev["lat"], ev["lng"] = coords
 
-        # Check regular hubs — suppress scraped event if covered
-        suppressed_by_regular = False
+        # Check regular hubs — same place, same weekday, hub's schedule admits
+        # the date. That is a *collision*, not yet a verdict.
+        colliding_hub = None
         for hub in regular_hubs:
             if not _venue_schedule_covers_event(hub, ev, day):
                 continue
             if _scraped_at_venue_hub(hub, ev):
-                suppressed_by_regular = True
+                colliding_hub = hub
                 break
 
-        if suppressed_by_regular:
-            continue
+        if colliding_hub is not None:
+            verdict, row = _resolve_venue_collision(colliding_hub, ev, day)
+            if verdict == "duplicate":
+                report["suppressed"].append(row)
+                continue
+            if row is not None:
+                report["conflicts"].append(row)
 
         # Check irregular hubs — only future scraped events from the matching
         # source can confirm (suppress) the venue entry.
@@ -1060,7 +1359,7 @@ def _suppress_venue_covered_events(venue_events: list[dict], active_events: list
         if hub["id"] in irregular_hub_covered:
             suppressed_venues.add(hub["id"])
 
-    return kept, suppressed_venues
+    return kept, suppressed_venues, report
 
 
 def collapse_recurring_series(events: list[dict]) -> list[dict]:
@@ -2156,6 +2455,124 @@ def _strip_internal_fields(ev: dict, source_names: dict[str, str]) -> None:
             ev.pop(key)
 
 
+VENUE_CONFLICT_DECISIONS = ("distinct", "replaces", "duplicate")
+
+
+def load_venue_conflicts() -> dict:
+    """The review queue written by the last publish()."""
+    if not VENUE_CONFLICTS_JSON.exists():
+        return {"generated_at": None, "conflicts": [], "suppressed": []}
+    return json.loads(VENUE_CONFLICTS_JSON.read_text())
+
+
+def _venue_exclude_date(venue_id: str, date_str: str) -> bool:
+    """Stop a venue hub from generating a pin on one date. Returns True if added."""
+    venues = json.loads(VENUES_JSON.read_text())
+    for venue in venues:
+        if venue.get("id") != venue_id:
+            continue
+        excluded = venue.setdefault("excludeDates", [])
+        if date_str in excluded:
+            return False
+        excluded.append(date_str)
+        excluded.sort()
+        VENUES_JSON.write_text(json.dumps(venues, indent=2) + "\n")
+        return True
+    raise ValueError(f"No venue with id '{venue_id}' in venues.json")
+
+
+def resolve_venue_conflict(event_id: str, decision: str, note: str = "",
+                           hub_id: Optional[str] = None) -> dict:
+    """Record a ruling on an event/venue-hub collision so it never re-surfaces.
+
+    distinct  — both are real; the event keeps its own pin alongside the hub.
+    replaces  — the event takes over the venue that night; the hub is told to
+                skip that date so a phantom pin for the usual night doesn't ship.
+    duplicate — the scrape is just the hub's weekly night; fold it in.
+    """
+    if decision not in VENUE_CONFLICT_DECISIONS:
+        return {"status": "error",
+                "error": f"decision must be one of {', '.join(VENUE_CONFLICT_DECISIONS)}"}
+
+    if hub_id is None:
+        queue = load_venue_conflicts()
+        for row in queue.get("conflicts", []) + queue.get("suppressed", []):
+            if row.get("id") == event_id:
+                hub_id = row.get("hub", {}).get("id")
+                break
+    if hub_id is None:
+        return {"status": "error",
+                "error": f"No venue conflict on record for '{event_id}'. "
+                         "Run event_publish() to refresh the queue, or pass hub_id."}
+
+    active = load_active()
+    event = next((e for e in active if e.get("id") == event_id), None)
+    if event is None:
+        return {"status": "error", "error": f"Event '{event_id}' is not in active."}
+
+    event["_venue_conflict_decision"] = {
+        "hub": hub_id,
+        "decision": decision,
+        "at": datetime.now(timezone.utc).isoformat(),
+        "note": note,
+    }
+
+    excluded_date = None
+    if decision == "replaces":
+        start, _end, _assumed = _event_local_window(event)
+        if start is None:
+            return {"status": "error",
+                    "error": "Cannot exclude a hub date: event has no parseable startDate."}
+        excluded_date = start.strftime("%Y-%m-%d")
+        try:
+            _venue_exclude_date(hub_id, excluded_date)
+        except ValueError as exc:
+            return {"status": "error", "error": str(exc)}
+
+    save_active(active)
+    _append_changelog("venue_conflict_resolved", event_id,
+                      f"{decision} vs hub {hub_id}" + (f": {note}" if note else ""))
+    return {
+        "status": "resolved",
+        "event_id": event_id,
+        "event_name": event.get("name"),
+        "hub": hub_id,
+        "decision": decision,
+        "hub_date_excluded": excluded_date,
+        "next": "Run event_publish() to apply.",
+    }
+
+
+def _write_venue_conflicts(report: dict) -> None:
+    """Persist the venue-hub review queue and say out loud what got folded.
+
+    Suppression used to be silent, which is why a marquee event sat deleted for
+    a week while every pipeline run reported success. Anything the pipeline
+    removes from the map now names itself at publish time.
+    """
+    payload = {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "conflicts": report.get("conflicts", []),
+        "suppressed": report.get("suppressed", []),
+    }
+    VENUE_CONFLICTS_JSON.write_text(json.dumps(payload, indent=2) + "\n")
+
+    # Reporting must never be what breaks a publish, so read every field softly.
+    for row in payload["suppressed"]:
+        ev, hub = row.get("event", {}), row.get("hub", {})
+        resolved = " [resolved: duplicate]" if row.get("resolved") else ""
+        print(f"  🔇 folded into venue hub: {ev.get('name')!r} ({ev.get('window', '?')}) "
+              f"→ {hub.get('name')} {hub.get('window', '?')}{resolved}")
+    if payload["conflicts"]:
+        print(f"  🔎 {len(payload['conflicts'])} venue conflict(s) need review "
+              f"(kept on the map meanwhile) — event_list(status=\"venue_conflict\"):")
+        for row in payload["conflicts"]:
+            overlap = {True: "times overlap", False: "no time overlap"}.get(
+                row.get("times_overlap"), "overlap unknown")
+            print(f"       - {row.get('event', {}).get('name')!r} "
+                  f"vs {row.get('hub', {}).get('name')} ({overlap})")
+
+
 def publish() -> dict:
     """Generate events-published.json from active + archived events + expanded venues."""
     source_names = _load_source_names()
@@ -2174,7 +2591,8 @@ def publish() -> dict:
     ]
     venue_events = expand_venues()
 
-    active, suppressed_venue_ids = _suppress_venue_covered_events(venue_events, active)
+    active, suppressed_venue_ids, venue_report = _suppress_venue_covered_events(venue_events, active)
+    _write_venue_conflicts(venue_report)
     # Irregular-schedule venues (nextDateApproximate) never get a pin: their
     # expanded dates are pattern guesses, so users only ever see the venue via
     # a confirmed scraped event. But the venue itself stays findable — when no
@@ -2254,6 +2672,8 @@ def publish() -> dict:
         "count": len(deduped),
         "archived_count": len(archived_out),
         "search_only_count": len(searchonly_out),
+        "venue_suppressed_count": len(venue_report.get("suppressed", [])),
+        "venue_conflict_count": len(venue_report.get("conflicts", [])),
         "path": str(PUBLIC_EVENTS_JSON),
     }
 

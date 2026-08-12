@@ -117,7 +117,25 @@ your main job, along with the other judgment calls it can't make.
    brand-new quarantines; already-active misses (like Baila por Venezuela)
    sit here until someone flags them.
 
-5. **Verify.** `event_verify(stale_days=7)`. For flagged items:
+5. **Rule on venue conflicts.** `event_list(status="venue_conflict")`. These are
+   scraped events sharing a venue and weekday with one of that venue's regular
+   nights. Each row is self-contained — both sides in full, whether the clock
+   times overlap, and the event's own run-of-show pulled from its description —
+   so decide per row without loading anything else. `event_get` is there if you
+   want the untruncated text. Call it with `venue_conflict_resolve(event_id, decision)`:
+   - `distinct` — both are real and both keep a pin. An afternoon program that
+     ends as the venue's night begins is the common case.
+   - `replaces` — the event takes over the venue that night. The hub is told to
+     skip that date, so no phantom pin ships for a night that isn't happening.
+   - `duplicate` — it is just the venue's weekly night under a scraped name.
+   Rulings persist across re-scrapes, so a pair you have judged will not return.
+   Also skim `auto_suppressed` in the same response: those were folded into the
+   hub without asking. They are not decisions to make, but if one looks wrong,
+   `venue_conflict_resolve(id, "distinct")` puts it back on the map.
+   **Nothing here is hidden while it waits** — a queued conflict stays published,
+   so leaving a row unresolved costs a duplicate pin, never a missing event.
+
+6. **Verify.** `event_verify(stale_days=7)`. For flagged items:
    - `date_mismatch` → the source shows a different day than we do (fields
      `our_date` / `source_date`). The source wins — fix via `event_edit`. This
      is the highest-stakes flag; never leave it unresolved.
@@ -132,17 +150,17 @@ your main job, along with the other judgment calls it can't make.
      to check) — no action needed, but don't treat it as fully confirmed.
    - When in doubt, change nothing and note it in the summary.
 
-6. **Publish.** `event_publish()`. It is guarded: if the live-event count
+7. **Publish.** `event_publish()`. It is guarded: if the live-event count
    collapses below 70% of the previous published file it auto-restores the old
    files and returns `status: "tripwire"` / `tripped: true` — if you see that,
    do NOT commit; investigate and report. Even when it publishes normally,
    sanity-check the reported count against the previous one.
 
-7. **Commit and push.** Only the pipeline-owned files:
+8. **Commit and push.** Only the pipeline-owned files:
    `git add public/events.json data/events-published.json data/events/ data/venues.json data/sources.json data/known_duplicates.json`
    then commit with message `Weekly agent review $(date +%Y-%m-%d)` and push.
 
-8. **Write the summary.** Overwrite `automation/logs/last-agent-summary.md`
+9. **Write the summary.** Overwrite `automation/logs/last-agent-summary.md`
    with: queues cleared (counts + notable decisions), verification outcomes,
    big-event flags you set, anything you skipped or that needs a human, and
    the final published count. Do not commit the summary file.

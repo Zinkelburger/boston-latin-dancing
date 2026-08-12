@@ -311,10 +311,36 @@ def flag_social(event: dict, url: str) -> dict:
 
 # ── Main verification dispatcher ─────────────────────────────────────
 
+def _verifiable_alternate(event: dict) -> Optional[str]:
+    """First entry in urls[] we can actually check without a browser.
+
+    Social links short-circuit to needs_browser, which is a status nothing ever
+    drains — so an event whose primary is Facebook went unverified forever even
+    when a scrapeable organizer page sat one field over in urls[].
+    """
+    for alt in event.get("urls") or []:
+        if alt and classify_url(alt) in ("direct", "eventbrite"):
+            return alt
+    return None
+
+
 def verify_event(event: dict) -> dict:
     """Verify a single event. Returns a report entry."""
     url = event.get("url")
     url_type = classify_url(url)
+
+    # Primary needs a browser, but an alternate doesn't: verify against the
+    # alternate and record which URL actually answered.
+    if url_type in ("facebook_event", "facebook_page", "instagram", "social"):
+        alt = _verifiable_alternate(event)
+        if alt:
+            result = (verify_eventbrite if classify_url(alt) == "eventbrite"
+                      else verify_direct)(event, alt)
+            result["notes"] = (
+                f"{result.get('notes', '')} (verified via urls[] alternate; "
+                f"primary {url_type} link not checkable)"
+            ).strip()
+            return result
 
     if url_type == "direct":
         return verify_direct(event, url)

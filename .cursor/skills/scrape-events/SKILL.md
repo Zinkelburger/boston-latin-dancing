@@ -489,11 +489,16 @@ What happens during publish (`scripts/event_store.py` → `publish()`):
 
 1. **Expand venues** — `data/venues.json` weekly schedules become dated events
    (Havana Club, Dante's, Bachata Room, etc.)
-2. **Combine** — expanded venue events + all active events
-3. **Second dedup pass** — merges **certain** duplicates only (same ID or URL)
+2. **Resolve venue collisions** — a scraped event at a hub's venue on a hub's
+   weekday is folded into the hub **only** when the clock times overlap *and*
+   the name reads like that venue's regular night. Anything else stays on the
+   map and lands in `event_list(status="venue_conflict")` for review. Every fold
+   is printed at publish time; nothing disappears silently.
+3. **Combine** — expanded venue events + all active events
+4. **Second dedup pass** — merges **certain** duplicates only (same ID or URL)
    that coexist in the combined pool (e.g. venue hub records duplicated between
    active store and venue expansion)
-4. **Recurring-series collapse** — groups same-name/same-location events into
+5. **Recurring-series collapse** — groups same-name/same-location events into
    one entry with a `recurrences[]` array (e.g. multiple Lister workout dates)
 
 Typical math: 55 active + 6 venue-expanded = 61 combined → ~56 after dedup →
@@ -654,6 +659,11 @@ ICS calendar (`sensualeros-boston`) also lists night-specific entries (e.g.
 "Bachata Sensual Mondays @ Havana Club") which collapse into recurring series
 on publish. These complement the venue hub with per-night URLs and names.
 No config change needed — just don't expect a Facebook scrape for Havana.
+The venue also hosts one-off events on the same weekdays it runs its own nights
+("Battle of the Beats", 4:30–8:30 PM on a Saturday, handing off to the regular
+9 PM night). Those are **not** duplicates of the hub — they surface in the
+venue-conflict queue; resolve with `distinct`, or `replaces` if the one-off
+takes the night over.
 
 ---
 

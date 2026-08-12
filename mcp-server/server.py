@@ -38,6 +38,9 @@ from event_store import (
     load_blocked,
     load_pending,
     load_rejected,
+    load_venue_conflicts,
+    resolve_venue_conflict,
+    VENUE_CONFLICT_DECISIONS,
     publish_guarded,
     reject_pending,
     remove_active_event,
@@ -75,7 +78,36 @@ def event_list(
     search: Optional[str] = None,
     limit: int = 50,
 ) -> str:
-    """List events by status (active/pending/rejected/blocked/archive). Optionally filter by style or text search."""
+    """List events by status (active/pending/rejected/blocked/archive/venue_conflict). Optionally filter by style or text search.
+
+    venue_conflict returns scraped events that collide with a venue hub's
+    weekly night. Each row is self-contained — both sides in full, plus whether
+    the clock times overlap — so the call can be made per row without reading
+    anything else. Resolve with venue_conflict_resolve().
+    """
+    if status == "venue_conflict":
+        queue = load_venue_conflicts()
+        rows = queue.get("conflicts", [])[:limit]
+        return json.dumps({
+            "generated_at": queue.get("generated_at"),
+            "needs_review": len(queue.get("conflicts", [])),
+            "conflicts": rows,
+            # Read-only: what suppression already folded away this publish. Not
+            # decisions to make — a list to skim so a wrong fold is caught by
+            # reading rather than by someone noticing a missing pin next month.
+            "auto_suppressed": [
+                {"id": r["id"], "name": r["event"]["name"], "window": r["event"]["window"],
+                 "hub": r["hub"]["name"], "hub_window": r["hub"]["window"]}
+                for r in queue.get("suppressed", [])
+            ],
+            "how_to_resolve": (
+                'venue_conflict_resolve(event_id, decision) — "distinct" (both real, '
+                'both get pins), "replaces" (event takes over the venue that night; '
+                'the hub skips that date), "duplicate" (it is just the hub\'s weekly '
+                'night; fold it in). Decisions persist across re-scrapes.'
+            ),
+        }, indent=2)
+
     if status == "active":
         events = load_active()
     elif status == "pending":
@@ -87,7 +119,7 @@ def event_list(
     elif status == "archive":
         events = load_archive()
     else:
-        return json.dumps({"error": f"Invalid status '{status}'. Use active/pending/rejected/blocked/archive."})
+        return json.dumps({"error": f"Invalid status '{status}'. Use active/pending/rejected/blocked/archive/venue_conflict."})
 
     if style:
         events = [e for e in events if style.lower() in [s.lower() for s in e.get("styles", [])]]
@@ -312,6 +344,25 @@ def event_remove(event_id: str, reason: str = "removed from active", block: bool
     block_category (when block=True): defunct, class_only, not_latin, not_dance, out_of_area, duplicate_source, other
     """
     result = remove_active_event(event_id, reason, block=block, block_category=block_category)
+    return json.dumps(result, indent=2, default=str)
+
+
+@mcp.tool()
+def venue_conflict_resolve(event_id: str, decision: str, note: str = "") -> str:
+    """Rule on an event that collides with a venue hub's weekly night.
+
+    decision:
+      distinct  — both are real and both keep a pin (an afternoon workshop that
+                  hands off to the venue's regular night, say).
+      replaces  — the event takes over the venue that night; the hub is told to
+                  skip that date so no phantom pin ships for the usual night.
+      duplicate — the scrape is just the hub's weekly night; fold it in.
+
+    The ruling is stored on the event and survives re-scrapes, so a pair you
+    have already judged will not come back next week. Run event_publish()
+    afterwards to apply it.
+    """
+    result = resolve_venue_conflict(event_id, decision, note=note)
     return json.dumps(result, indent=2, default=str)
 
 
