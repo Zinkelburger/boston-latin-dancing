@@ -31,9 +31,9 @@
       "2026-08-03T18:00:00-04:00",
       "2026-08-10T18:00:00-04:00"
     ],
-    "_verified_at": "2026-08-13T18:24:57.655248+00:00",
+    "_verified_at": "2026-08-13T19:46:02.534155+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (location checked)",
     "_verification_url": "https://www.eventbrite.com/e/saborcito-the-anchor-salsa-bachata-dancing-tickets-1989160742327"
   },
   {
@@ -67,7 +67,7 @@
       "2026-08-04T19:00:00-04:00",
       "2026-08-11T19:00:00-04:00"
     ],
-    "_verified_at": "2026-08-13T18:25:03.594905+00:00",
+    "_verified_at": "2026-08-13T19:46:03.795750+00:00",
     "_verified_status": "unverifiable",
     "_verified_notes": "Instagram link — cannot scrape programmatically. Manual check recommended.",
     "_verification_url": "https://www.instagram.com/timbadescontrol/",
@@ -92,9 +92,9 @@
     "cost": null,
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:03.596783+00:00",
+    "_verified_at": "2026-08-13T19:46:03.797769+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.eventbrite.com/e/arts-at-the-armory-spotlight-series-presents-tito-puente-jr-tickets-1984583543803"
   },
   {
@@ -128,7 +128,7 @@
       "2026-07-30T21:30:00-04:00",
       "2026-08-06T21:30:00-04:00"
     ],
-    "_verified_at": "2026-08-13T18:25:04.956836+00:00",
+    "_verified_at": "2026-08-13T19:46:05.553460+00:00",
     "_verified_status": "needs_browser",
     "_verified_notes": "Facebook page — agent should check Events tab for upcoming events",
     "_verification_url": "https://www.facebook.com/Ceijaykiz"
@@ -165,7 +165,7 @@
       "2026-07-30T20:45:00-04:00",
       "2026-08-06T20:45:00-04:00"
     ],
-    "_verified_at": "2026-08-13T18:25:04.958933+00:00",
+    "_verified_at": "2026-08-13T19:46:05.557105+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://havanaclubsalsa.com",
@@ -205,7 +205,7 @@
       "2026-08-03T20:00:00-04:00",
       "2026-08-10T20:00:00-04:00"
     ],
-    "_verified_at": "2026-08-13T18:25:05.547541+00:00",
+    "_verified_at": "2026-08-13T19:46:06.903718+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://havanaclubsalsa.com"
@@ -242,7 +242,7 @@
       "2026-08-04T20:00:00-04:00",
       "2026-08-11T20:00:00-04:00"
     ],
-    "_verified_at": "2026-08-13T18:25:06.121892+00:00",
+    "_verified_at": "2026-08-13T19:46:07.397282+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://havanaclubsalsa.com"
@@ -280,7 +280,7 @@
       "2026-08-05T21:00:00-04:00",
       "2026-08-12T21:00:00-04:00"
     ],
-    "_verified_at": "2026-08-13T18:25:06.612755+00:00",
+    "_verified_at": "2026-08-13T19:46:07.974244+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.bachataroomboston.com"
@@ -307,7 +307,7 @@
       "2026-07-14T20:00:00-04:00",
       "2026-08-11T20:00:00-04:00"
     ],
-    "_verified_at": "2026-08-13T18:25:16.209929+00:00",
+    "_verified_at": "2026-08-13T19:46:11.104987+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://forms.gle/kvUf8nb8iqrYuUKaA"
@@ -343,7 +343,7 @@
       "2026-08-16T18:00:00-04:00",
       "2026-08-23T18:00:00-04:00"
     ],
-    "_verified_at": "2026-08-13T18:25:18.144530+00:00",
+    "_verified_at": "2026-08-13T19:46:12.954506+00:00",
     "_verified_status": "needs_browser",
     "_verified_notes": "Facebook page — agent should check Events tab for upcoming events",
     "_verification_url": "https://www.facebook.com/groups/1429334677328445/",
@@ -374,9 +374,9 @@
       "2026-08-02T18:00:00-04:00",
       "2026-09-06T17:00:00-04:00"
     ],
-    "_verified_at": "2026-08-13T18:25:18.148170+00:00",
+    "_verified_at": "2026-08-13T19:46:12.956096+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (location checked)",
     "_verification_url": "https://www.listerevents.com/event-details/bachata-salsa-by-the-river-3",
     "urls": [
       "https://facebook.com/events/s/bachata-salsa-by-the-river/1522894889342446/"
@@ -399,7 +399,7 @@
     "cost": null,
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:22.077729+00:00",
+    "_verified_at": "2026-08-13T19:46:14.312026+00:00",
     "_verified_status": "unverifiable",
     "_verified_notes": "Instagram link — cannot scrape programmatically. Manual check recommended.",
     "_verification_url": "https://www.instagram.com/p/DZibxMqJYRR/"
@@ -434,7 +434,7 @@
       "2026-08-27T21:30:00-04:00",
       "2026-09-03T21:30:00-04:00"
     ],
-    "_verified_at": "2026-08-13T18:25:22.079004+00:00",
+    "_verified_at": "2026-08-13T19:46:14.313484+00:00",
     "_verified_status": "needs_browser",
     "_verified_notes": "Facebook page — agent should check Events tab for upcoming events",
     "_verification_url": "https://www.facebook.com/Ceijaykiz"
@@ -458,9 +458,9 @@
     "cost": "$12.51",
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:22.080258+00:00",
+    "_verified_at": "2026-08-13T19:46:14.315166+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.eventbrite.com/e/parrandazo-vol-5-at-spy-bar-enjoy-the-native-rhythms-of-the-caribbean-tickets-1991570102789"
   },
   {
@@ -481,9 +481,9 @@
     "cost": "$12.51",
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:23.064787+00:00",
+    "_verified_at": "2026-08-13T19:46:14.797661+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.eventbrite.com/e/sabor-latino-el-barco-salsabachata-night-tickets-1991805664360"
   },
   {
@@ -505,7 +505,7 @@
     "recurring": true,
     "source": "beatrice-calendar",
     "dayOfWeek": "Saturday",
-    "_verified_at": "2026-08-13T18:25:24.029810+00:00",
+    "_verified_at": "2026-08-13T19:46:15.098141+00:00",
     "_verified_status": "unverifiable",
     "_verified_notes": "Instagram link — cannot scrape programmatically. Manual check recommended.",
     "_verification_url": "https://www.instagram.com/p/DZF_C5HpIe3/",
@@ -532,7 +532,7 @@
     "cost": "Free",
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:24.033457+00:00",
+    "_verified_at": "2026-08-13T19:46:15.099830+00:00",
     "_verified_status": "unverifiable",
     "_verified_notes": "Instagram link — cannot scrape programmatically. Manual check recommended.",
     "_verification_url": "https://www.instagram.com/reel/Dab2OC-h8bt/",
@@ -557,7 +557,7 @@
     "cost": "Free",
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:24.036964+00:00",
+    "_verified_at": "2026-08-13T19:46:15.101344+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.eventbrite.com/e/2nd-annual-del-barrio-afro-latino-festival-tickets-1992695483834?utm_experiment=test_share_listing&aff=ebdsshios&sg=56077d3869924c5777eebd2f6fdf20c0930e20783c5987e1d0b6863e0d4aa6195a9c0f85478960de5dd04535fd6f830d47692d0429f1b7f91e4099817b1a34af2dfc3147d414da37cb5e175250"
@@ -579,7 +579,7 @@
     "cost": "$10",
     "recurring": true,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:24.601256+00:00",
+    "_verified_at": "2026-08-13T19:46:15.492513+00:00",
     "_verified_status": "unverifiable",
     "_verified_notes": "Instagram link — cannot scrape programmatically. Manual check recommended.",
     "_verification_url": "https://www.instagram.com/timbadescontrol/",
@@ -615,7 +615,7 @@
     "cost": "Free",
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:24.602808+00:00",
+    "_verified_at": "2026-08-13T19:46:15.494679+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://uncommoncorner.org/event/baila-boston-salsa-night-8/"
@@ -638,9 +638,9 @@
     "cost": "$55.20",
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:25.394128+00:00",
+    "_verified_at": "2026-08-13T19:46:17.042309+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.eventbrite.com/e/bostons-salsa-and-bachata-cruise-tropical-sunset-edition-tickets-1993426549471"
   },
   {
@@ -661,9 +661,9 @@
     "cost": "$12.51",
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:25.962574+00:00",
+    "_verified_at": "2026-08-13T19:46:17.521113+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.eventbrite.com/e/lynn-ma-boston-area-bachata-party-at-malecon-la-casa-de-la-bachatatm-tickets-1992850905705"
   },
   {
@@ -684,9 +684,9 @@
     "cost": "Free",
     "recurring": false,
     "source": "lister-events",
-    "_verified_at": "2026-08-13T18:25:26.359858+00:00",
+    "_verified_at": "2026-08-13T19:46:18.395906+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.listerevents.com/event-details/earlier-time-bachata-salsa-by-the-river"
   },
   {
@@ -707,9 +707,9 @@
     "cost": "Free",
     "recurring": false,
     "source": "lister-events",
-    "_verified_at": "2026-08-13T18:25:28.421273+00:00",
+    "_verified_at": "2026-08-13T19:46:21.361265+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.listerevents.com/event-details/earlier-time-bachata-salsa-by-the-river-2"
   },
   {
@@ -729,7 +729,7 @@
     "cost": null,
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:28.783939+00:00",
+    "_verified_at": "2026-08-13T19:46:22.541285+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.boston.gov/calendar/tito-puente-latin-music-series-ehshawnee"
@@ -751,7 +751,7 @@
     "cost": null,
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:29.863251+00:00",
+    "_verified_at": "2026-08-13T19:46:24.279720+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.boston.gov/calendar/tito-puente-latin-music-series-kristalis-y-las-nenas-del-swing"
@@ -775,7 +775,7 @@
     "recurring": false,
     "source": "fiesta-dance-company",
     "_location_override": "Agave Mexican Grill & Cantina, 197A Boston Post Rd W, Marlborough, MA 01752",
-    "_verified_at": "2026-08-13T18:25:30.778875+00:00",
+    "_verified_at": "2026-08-13T19:46:25.543317+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://fiestadancecompany.com/upcoming-socials"
@@ -798,7 +798,7 @@
     "cost": "Free",
     "recurring": true,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:31.176016+00:00",
+    "_verified_at": "2026-08-13T19:46:26.426195+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.eventbrite.com/e/sushi-con-salsa-dance-sessions-vol1-tickets-1988719477492",
@@ -831,9 +831,9 @@
       "2026-08-16T14:00:00-04:00",
       "2026-09-20T14:00:00-04:00"
     ],
-    "_verified_at": "2026-08-13T18:25:31.578039+00:00",
+    "_verified_at": "2026-08-13T19:46:27.198159+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (location checked)",
     "_verification_url": "https://www.nextlevelfusiondance.com/event-details/egleston-park-summer-socials-2026-07-19-14-00"
   },
   {
@@ -853,7 +853,7 @@
     "cost": "$200",
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:32.395885+00:00",
+    "_verified_at": "2026-08-13T19:46:27.849968+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "Facebook preview matches (date checked); by Baile Y Arte",
     "_verification_url": "https://facebook.com/events/s/zouk-weekender-bubble-with-iag/1275347797524181/"
@@ -876,7 +876,7 @@
     "cost": null,
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:33.339311+00:00",
+    "_verified_at": "2026-08-13T19:46:29.115311+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "Facebook preview matches (date checked); by Black Mamba Entertainment Ltd",
     "_verification_url": "https://www.facebook.com/events/1299596699048505/"
@@ -902,9 +902,9 @@
     "urls": [
       "https://facebook.com/events/s/battle-of-the-beats-2026-bosto/1613687936940528/"
     ],
-    "_verified_at": "2026-08-13T18:25:34.357585+00:00",
+    "_verified_at": "2026-08-13T19:46:29.984354+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.listerevents.com/event-details/battle-of-the-beats-2026-latin-vs-hip-hop",
     "_venue_conflict_decision": {
       "hub": "havana-club",
@@ -931,9 +931,9 @@
     "cost": "Free",
     "recurring": false,
     "source": "mato-lawn-on-d",
-    "_verified_at": "2026-08-13T18:25:34.944607+00:00",
+    "_verified_at": "2026-08-13T19:46:30.788660+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://ma.to/event/salsa-night-at-the-grove-27-aug-2026"
   },
   {
@@ -953,9 +953,9 @@
     "cost": "Free",
     "recurring": false,
     "source": "mato-lawn-on-d",
-    "_verified_at": "2026-08-13T18:25:40.553060+00:00",
+    "_verified_at": "2026-08-13T19:46:31.302385+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://ma.to/event/salsa-night-at-the-grove-24-sep-2026"
   },
   {
@@ -975,9 +975,9 @@
     "cost": "Free",
     "recurring": false,
     "source": "mato-lawn-on-d",
-    "_verified_at": "2026-08-13T18:25:41.191843+00:00",
+    "_verified_at": "2026-08-13T19:46:31.658728+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://ma.to/event/salsa-night-at-the-grove-29-oct-2026"
   },
   {
@@ -997,9 +997,9 @@
     "cost": "$20",
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:41.596478+00:00",
+    "_verified_at": "2026-08-13T19:46:31.998775+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.tickeri.com/events/q7z2xad17lps/salsa-salsa-game-time"
   },
   {
@@ -1021,9 +1021,9 @@
     "cost": null,
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:42.145115+00:00",
+    "_verified_at": "2026-08-13T19:46:32.236949+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.eventbrite.com/e/baila-por-venezuela-tickets-1994854202620?aff=ebdssbdestsearch",
     "special": true
   },
@@ -1044,9 +1044,9 @@
     "cost": "$30",
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:42.470827+00:00",
+    "_verified_at": "2026-08-13T19:46:32.424491+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.eventbrite.com/e/el-bonches-super-matinee-ft-the-timba-messengers-august-8-tickets-1994871823324?utm_experiment=test_share_listing&aff=ebdsshios&sg=1aafd6368819320930aa864a81b5533e0c3e9444f8a1f2de3dea7a6d6d2bd784be6016d414a2a3c5a47853c651a08878f728e48e13fed5b8742ef364af4c1bf9dcd9110970229d3d8568bb4547"
   },
   {
@@ -1067,9 +1067,9 @@
     "cost": "$20",
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:42.668377+00:00",
+    "_verified_at": "2026-08-13T19:46:32.616934+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.eventbrite.com/e/salsa-bachata-glow-in-the-dark-party-tickets-1995057904899"
   },
   {
@@ -1090,7 +1090,7 @@
     "cost": null,
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:42.865374+00:00",
+    "_verified_at": "2026-08-13T19:46:32.780554+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://posh.vip/e/salsa-bachata-rooftop-brunch"
@@ -1112,7 +1112,7 @@
     "cost": null,
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:43.292897+00:00",
+    "_verified_at": "2026-08-13T19:46:33.093125+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.eventbrite.com/e/boston-salsa-festival-2026-registration-1591571175229"
@@ -1136,7 +1136,7 @@
     "recurring": false,
     "organizer": "Boston Salsa Festival",
     "source": "manual",
-    "_verified_at": "2026-08-13T18:25:43.510241+00:00",
+    "_verified_at": "2026-08-13T19:46:33.256365+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "Facebook preview matches (date checked); by Boston Salsa Festival and 2 others",
     "_verification_url": "https://www.facebook.com/events/4290241331227148/"
@@ -1163,9 +1163,9 @@
     "artist": "La diaspora combo",
     "artistUrl": "https://www.instagram.com/ladiasporacombo/",
     "venueId": "lous-live",
-    "_verified_at": "2026-08-13T18:25:44.313633+00:00",
+    "_verified_at": "2026-08-13T19:46:33.761617+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (date checked)",
     "_verification_url": "https://www.wearelous.com/lous-live/diaspora-latin-brunch"
   },
   {
@@ -1186,7 +1186,7 @@
     "cost": null,
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:44.704139+00:00",
+    "_verified_at": "2026-08-13T19:46:33.977689+00:00",
     "_verified_status": "unverifiable",
     "_verified_notes": "Instagram link — cannot scrape programmatically. Manual check recommended.",
     "_verification_url": "https://www.instagram.com/noise.boston/",
@@ -1202,9 +1202,9 @@
     "startDate": "2026-08-13T23:00:00+00:00",
     "endDate": "2026-08-14T02:00:00+00:00",
     "dayOfWeek": "Thursday",
-    "location": "Suegra's Molino Lounge, 937 Western Ave, Lynn, MA  01905, United States",
-    "lat": 42.4568295,
-    "lng": -70.9725536,
+    "location": "Gran Peñol Restaurant & Bar, 151 Central Ave, Lynn, MA 01901",
+    "lat": 42.4644805,
+    "lng": -70.949976,
     "description": "Lesson at 7:30, social after\n\nSource: https://partiful.com/e/ohIa4GyB68iwaNegLFTS?c=gsAMrx_9",
     "url": "https://partiful.com/e/ohIa4GyB68iwaNegLFTS?c=gsAMrx_9",
     "styles": [
@@ -1213,9 +1213,9 @@
     "cost": null,
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:44.706076+00:00",
-    "_verified_status": "location_mismatch",
-    "_verified_notes": "location: source 'Gran Peñol Restaurant & Bar, 151 Central Ave, Lynn, MA 01901' vs our 'Suegra's Molino Lounge, 937 Western Ave, Lynn, MA  01905, United States'",
+    "_verified_at": "2026-08-13T19:46:33.979036+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://partiful.com/e/ohIa4GyB68iwaNegLFTS?c=gsAMrx_9"
   },
   {
@@ -1236,9 +1236,9 @@
     "cost": "$150",
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:45.078141+00:00",
+    "_verified_at": "2026-08-13T19:46:34.495713+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://dancefam.org/event/2552"
   },
   {
@@ -1258,7 +1258,7 @@
     "cost": "$22 online",
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:45.326185+00:00",
+    "_verified_at": "2026-08-13T19:46:35.577378+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "Facebook preview matches (date checked); by Julian De Las Nieves and Michelle De Las Nieves",
     "_verification_url": "https://facebook.com/events/s/querencia-5-year-anniversary-s/1032277646392309/"
@@ -1280,7 +1280,7 @@
     "cost": null,
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-08-13T18:25:46.413107+00:00",
+    "_verified_at": "2026-08-13T19:46:36.786758+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.vivoperformingarts.org/live-performances/lets-dance-boston-2026/"
@@ -1303,9 +1303,9 @@
     "cost": "Free",
     "recurring": true,
     "source": "eventbrite-boston-latin",
-    "_verified_at": "2026-08-13T18:25:46.775260+00:00",
+    "_verified_at": "2026-08-13T19:46:37.102181+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (location checked)",
     "_verification_url": "https://www.eventbrite.com/e/free-seaport-dance-series-tickets-1995790781954"
   },
   {
@@ -1325,7 +1325,7 @@
     "cost": "$12.51",
     "recurring": false,
     "source": "eventbrite-boston-latin",
-    "_verified_at": "2026-08-13T18:25:46.941218+00:00",
+    "_verified_at": "2026-08-13T19:46:37.328108+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.eventbrite.com/e/noche-latina-august-salsa-workshop-and-practica-tickets-1996444933539"
@@ -1347,9 +1347,9 @@
     "cost": "$17.85",
     "recurring": false,
     "source": "eventbrite-boston-latin",
-    "_verified_at": "2026-08-13T18:25:47.181592+00:00",
+    "_verified_at": "2026-08-13T19:46:37.597786+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.eventbrite.com/e/sabroso-primer-aniversario-tickets-1996831355337"
   },
   {
@@ -1370,9 +1370,9 @@
     "cost": "$15 at the door",
     "recurring": false,
     "source": "nlf-events",
-    "_verified_at": "2026-08-13T18:25:47.430255+00:00",
+    "_verified_at": "2026-08-13T19:46:37.868741+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD event data matches (date + location checked)",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.nextlevelfusiondance.com/event-details/intermediate-bachata-w-tina-2026-08-06-20-45"
   },
   {
@@ -1393,7 +1393,7 @@
     "cost": "$20",
     "recurring": false,
     "source": "dantes-inferno-fb",
-    "_verified_at": "2026-08-13T18:25:50.421732+00:00",
+    "_verified_at": "2026-08-13T19:46:38.331438+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "Facebook preview matches (date checked); by Dante's Salsa Inferno and Franklin Condori",
     "_verification_url": "https://www.facebook.com/events/1694392281858453"
@@ -1416,7 +1416,7 @@
     "recurring": false,
     "source": "beatrice-calendar",
     "dayOfWeek": "Saturday",
-    "_verified_at": "2026-08-13T18:25:58.041896+00:00",
+    "_verified_at": "2026-08-13T19:46:39.189792+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "Facebook preview matches (date checked); by DJ CLAVE",
     "_verification_url": "https://facebook.com/events/s/rumba-y-clave-salsa-bachata-so/1934802984573954/"
@@ -1439,7 +1439,7 @@
     "recurring": false,
     "source": "beatrice-calendar",
     "dayOfWeek": "Thursday",
-    "_verified_at": "2026-08-13T18:26:01.547358+00:00",
+    "_verified_at": "2026-08-13T19:46:40.008801+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.vivoperformingarts.org/live-performances/lets-dance-boston-2026/"
@@ -1475,7 +1475,7 @@
       "2026-10-15T22:00:00-04:00",
       "2026-10-22T22:00:00-04:00"
     ],
-    "_verified_at": "2026-08-13T18:26:02.423783+00:00",
+    "_verified_at": "2026-08-13T19:46:40.148732+00:00",
     "_verified_status": "no_source",
     "_verified_notes": "No URL. Search suggestion: \"The Timba Messenger at Wally's  Wally's Cafe Jazz Club, 427 Massachusetts Ave, Boston, MA 02118, EE. UU. boston\"",
     "_verification_url": null

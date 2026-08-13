@@ -36,7 +36,7 @@ from urllib.parse import urlparse
 import requests
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from link_meta import link_meta
+from link_meta import link_meta, looks_like_render_timestamp
 from event_store import (
     ACTIVE_JSON,
     EVENTS_DIR,
@@ -201,9 +201,18 @@ def verify_direct(event: dict, url: str) -> dict:
         # room. Skip recurring series (JSON-LD carries one occurrence; our stored
         # startDate is the first of many, so a diff there is expected, not wrong).
         our_start = event.get("startDate", "")
+        # Some calendars stamp the page's render clock into startDate rather
+        # than the event's — boston.gov does, and the seconds tick between
+        # fetches. A date_mismatch is acted on as "the source wins", so
+        # believing it would rewrite a correct date to today's.
+        if looks_like_render_timestamp(source_start):
+            source_start = ""
+            notes.append("source startDate is the page's render clock — ignored")
+        date_checked = False
         if source_start and our_start and not event.get("recurrences") and not event.get("recurring"):
             src_day = _ny_calendar_day(source_start)
             our_day = _ny_calendar_day(our_start)
+            date_checked = bool(src_day and our_day)
             if src_day and our_day and src_day != our_day:
                 result["source_date"] = source_start
                 result["our_date"] = our_start
@@ -231,8 +240,28 @@ def verify_direct(event: dict, url: str) -> dict:
             result["status"] = issues[0]
             result["notes"] = "; ".join(notes)
         else:
-            result["status"] = "confirmed"
-            result["notes"] = "JSON-LD event data matches (date + location checked)"
+            # Say what was actually checked. Claiming "date + location" when
+            # the date was discarded as a render clock, or when the source
+            # published no date at all, reads as a stronger confirmation than
+            # we earned — and a reviewer trusts it.
+            checked = [f for f, present in
+                       (("date", date_checked), ("location", bool(source_loc))) if present]
+            if checked:
+                result["status"] = "confirmed"
+                result["notes"] = "; ".join(
+                    notes + [f"JSON-LD matches ({' + '.join(checked)} checked)"])
+            elif ld_status == "https://schema.org/EventScheduled":
+                # Nothing comparable was published, but the source does state
+                # outright that the event is still on — worth more than a page
+                # that merely loaded.
+                result["status"] = "confirmed"
+                result["notes"] = "; ".join(
+                    notes + ["JSON-LD says the event is scheduled; "
+                             "no date or location published to compare"])
+            else:
+                result["status"] = "reachable_only"
+                result["notes"] = "; ".join(
+                    notes + ["JSON-LD found but it published nothing to check"])
         return result
 
     # A reachable page with no structured data proves the URL is live but confirms

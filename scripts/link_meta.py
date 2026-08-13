@@ -31,8 +31,9 @@ import json
 import re
 import sys
 import time
-from datetime import date
+from datetime import date, datetime, timezone
 from html import unescape
+from zoneinfo import ZoneInfo
 from typing import Optional
 from urllib.parse import urlparse
 
@@ -116,6 +117,70 @@ def jsonld_events(html: str) -> list[dict]:
                 ):
                     found.append(node)
     return found
+
+
+def jsonld_location(event_ld: dict) -> Optional[str]:
+    """Flatten a schema.org Event's location into one comparable string."""
+    loc = event_ld.get("location")
+    if isinstance(loc, str):
+        return loc.strip() or None
+    if not isinstance(loc, dict):
+        return None
+
+    name = (loc.get("name") or "").strip()
+    addr = loc.get("address")
+    if isinstance(addr, dict):
+        parts = [addr.get(k, "") for k in
+                 ("streetAddress", "addressLocality", "addressRegion", "postalCode")]
+        addr = ", ".join(p.strip() for p in parts if p and p.strip())
+    addr = (addr or "").strip()
+
+    joined = ", ".join(p for p in (name, addr) if p)
+    return joined or None
+
+
+def jsonld_start(event_ld: dict) -> Optional[str]:
+    start = event_ld.get("startDate")
+    return start if isinstance(start, str) and start else None
+
+
+# A page that stamps "now" into startDate will sit this close to the clock.
+# Real events are scheduled in advance and essentially never begin within a
+# few minutes of the moment we happen to fetch the page.
+_RENDER_TIMESTAMP_WINDOW_S = 15 * 60
+
+# The sites we read are Boston ones, so a timestamp with no offset is Boston's.
+LOCAL_TZ = ZoneInfo("America/New_York")
+
+
+def looks_like_render_timestamp(iso_str: Optional[str], now: Optional[datetime] = None) -> bool:
+    """Whether a JSON-LD date is really the page's own render clock.
+
+    boston.gov emits `"startDate": "2026-08-13T15:36:39"` and the seconds
+    advance between fetches — it is stamping the current time, not the event's.
+    Believing it is worse than ignoring it: the review process treats a date
+    mismatch as "the source wins", so this would quietly rewrite a correct
+    date to today's and send people to a concert that already happened.
+
+    Such a stamp is naive and written in the site's own wall clock, so a naive
+    value is read as Boston time. Guessing across every possible offset instead
+    would catch tonight's genuine 8pm event whenever we happened to run near
+    the hour, which is the false positive that matters here.
+    """
+    if not iso_str:
+        return False
+    try:
+        dt = datetime.fromisoformat(iso_str.replace("Z", "+00:00"))
+    except (ValueError, TypeError):
+        return False
+
+    now = now or datetime.now(timezone.utc)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=LOCAL_TZ)
+
+    return abs((dt - now).total_seconds()) <= _RENDER_TIMESTAMP_WINDOW_S
 
 
 def extract(html: str) -> dict:

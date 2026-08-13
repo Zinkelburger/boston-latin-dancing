@@ -28,6 +28,8 @@
     "check-links": "python3 scripts/check_links.py",
     "check-links-live": "python3 scripts/check_links.py --only-live --fail-on-broken",
     "link-meta": "python3 scripts/link_meta.py",
+    "cross-check": "python3 scripts/cross_check.py",
+    "cross-check-conflicts": "python3 scripts/cross_check.py --disagreements",
     "slug-registry": "python3 scripts/slug_registry.py",
     "check-site": "python3 scripts/check_internal_links.py",
     "fetch-eastboston": "python3 scripts/scrape_eastboston.py",

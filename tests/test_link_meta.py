@@ -6,6 +6,8 @@ parses correctly — it is the only machine-readable date a Facebook event page
 will give us, and every event linked to Facebook is verified from it.
 """
 
+from datetime import datetime, timezone
+
 import link_meta as lm
 
 FB_EVENT = "https://www.facebook.com/events/1299596699048505/"
@@ -148,3 +150,59 @@ def test_extract_reads_events_out_of_a_graph():
 def test_extract_of_an_empty_page_is_all_empty():
     meta = lm.extract("")
     assert meta["og_title"] == "" and meta["jsonld_events"] == []
+
+
+# ── dates that are not dates ──────────────────────────────────────────
+
+NOW = datetime(2026, 8, 13, 19, 47, 0, tzinfo=timezone.utc)  # 15:47 in Boston
+
+
+def test_render_clock_is_recognised():
+    # boston.gov writes the moment it rendered the page into startDate; the
+    # seconds advance between fetches. Believing it would rewrite a correct
+    # date to today's, because a date mismatch is acted on as "source wins".
+    assert lm.looks_like_render_timestamp("2026-08-13T15:36:39", NOW)
+
+
+def test_naive_stamps_are_read_as_boston_time():
+    # The same value read as UTC sits four hours from now and slips through.
+    assert lm.looks_like_render_timestamp("2026-08-13T15:47:00", NOW)
+
+
+def test_a_real_event_tonight_is_not_a_render_clock():
+    # The false positive that matters: guessing across every UTC offset would
+    # condemn tonight's genuine 8pm event whenever we ran near the hour.
+    assert not lm.looks_like_render_timestamp("2026-08-13T20:00:00", NOW)
+
+
+def test_a_dated_event_with_an_offset_is_left_alone():
+    assert not lm.looks_like_render_timestamp("2026-08-15T20:30:00-04:00", NOW)
+
+
+def test_far_off_dates_are_left_alone():
+    assert not lm.looks_like_render_timestamp("2026-08-20T15:47:00", NOW)
+    assert not lm.looks_like_render_timestamp("2026-08-06T15:47:00", NOW)
+
+
+def test_missing_or_unparseable_dates_are_not_render_clocks():
+    assert not lm.looks_like_render_timestamp(None, NOW)
+    assert not lm.looks_like_render_timestamp("", NOW)
+    assert not lm.looks_like_render_timestamp("next Tuesday", NOW)
+
+
+# ── location flattening ───────────────────────────────────────────────
+
+def test_jsonld_location_joins_name_and_address():
+    ld = {"location": {"name": "Gran Peñol", "address": {
+        "streetAddress": "151 Central Ave", "addressLocality": "Lynn",
+        "addressRegion": "MA", "postalCode": "01901"}}}
+    assert lm.jsonld_location(ld) == "Gran Peñol, 151 Central Ave, Lynn, MA, 01901"
+
+
+def test_jsonld_location_accepts_a_bare_string():
+    assert lm.jsonld_location({"location": "Havana Club"}) == "Havana Club"
+
+
+def test_jsonld_location_of_nothing_is_none():
+    assert lm.jsonld_location({}) is None
+    assert lm.jsonld_location({"location": {}}) is None

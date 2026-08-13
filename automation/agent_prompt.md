@@ -180,7 +180,26 @@ your main job, along with the other judgment calls it can't make.
    was shared (often a photo, not the event) and they cannot be fixed by
    re-scraping, only by finding the real link.
 
-8. **Publish.** `event_publish()`. Publishing also updates `data/slug-registry.json`,
+8. **Cross-check the sources.** `npm run cross-check-conflicts`. Verification
+   only ever reads one URL per event, so a listing is as right as whichever
+   source won the merge — "BachaTipico Hangout" sat at the wrong venue, 2.3km
+   from where its own Partiful page put it, until the two were compared. This
+   asks every URL an event has and reports where they diverge, from each other
+   as well as from us.
+   - A `disagree` on location is worth acting on: open both links, decide which
+     is right, and fix ours with `event_edit`. Prefer the organizer's own page
+     over an aggregator's.
+   - `unknown` is not a finding — it means one side gave no address, or the
+     geocoder could not place them. Leave it.
+   - Facebook claims are city-level only ("Boston, MA"), so they can catch an
+     event listed in the wrong town but never tell two venues apart. Do not
+     "correct" a street address to a city on Facebook's say-so.
+   - Treat a date a source states as evidence, not as an order — some
+     calendars stamp their own render clock into `startDate` (boston.gov
+     does), and those are ignored automatically. `npm run link-meta -- <url>`
+     shows what a page really claims if a row looks wrong.
+
+9. **Publish.** `event_publish()`. Publishing also updates `data/slug-registry.json`,
    which keeps every URL we have ever shipped resolving — merges and renames
    mint a new slug, and the old one is still in Google's index. The result's
    `retired_urls` counts those; they become redirect or "ended" pages at build,
@@ -191,11 +210,11 @@ your main job, along with the other judgment calls it can't make.
    do NOT commit; investigate and report. Even when it publishes normally,
    sanity-check the reported count against the previous one.
 
-9. **Commit and push.** Only the pipeline-owned files:
+10. **Commit and push.** Only the pipeline-owned files:
    `git add public/events.json data/events-published.json data/events/ data/venues.json data/sources.json data/known_duplicates.json data/link-check.json`
    then commit with message `Weekly agent review $(date +%Y-%m-%d)` and push.
 
-10. **Write the summary.** Overwrite `automation/logs/last-agent-summary.md`
+11. **Write the summary.** Overwrite `automation/logs/last-agent-summary.md`
    with: queues cleared (counts + notable decisions), verification outcomes,
    big-event flags you set, anything you skipped or that needs a human, and
    the final published count. Do not commit the summary file.
