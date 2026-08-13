@@ -349,9 +349,7 @@
       "2026-08-16T18:00:00-04:00",
       "2026-08-23T18:00:00-04:00"
     ],
-    "urls": [
-      "https://www.instagram.com/p/DY5afzhhsK7/"
-    ],
+    "urls": null,
     "slug": "rueda-in-the-pahk-5ed3301d",
     "recurrenceLabel": "Every Sunday",
     "organizer": "Greater Boston Dance Socials (Beatrice)"
@@ -961,13 +959,14 @@
     "lat": 42.3352,
     "lng": -71.0464,
     "description": "Boston's #1 Latin Dance Social — Salsa, Bachata and Latin vibes with live DJs and artists, monthly at PKL.\n\nWith live music by Ruben Rodriguez y Orquesta and DJ El Catalan Timbero",
-    "url": "https://www.facebook.com/share/1EjEyfCyhA",
+    "url": "https://www.instagram.com/noise.boston/",
     "styles": [
       "salsa",
       "bachata"
     ],
     "cost": null,
     "recurring": false,
+    "urls": null,
     "slug": "noise-live-7ee9f55f",
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },

@@ -1,34 +1,23 @@
 {
-  "checked_at": "2026-08-13T15:11:32.465877+00:00",
+  "checked_at": "2026-08-13T15:26:26.840377+00:00",
   "scope": "live",
   "totals": {
-    "urls": 70,
-    "ok": 60,
-    "broken": 1,
-    "unverifiable": 9
+    "urls": 69,
+    "ok": 67,
+    "broken": 0,
+    "unverifiable": 2
   },
   "needs_manual_check": [
     {
       "id": "7EE9F55F-DC66-4E39-B19F-BD3E19C6387B",
       "name": "NOISE \ud83d\udd7a LIVE",
       "startDate": "2026-08-30T01:00:00+00:00",
-      "url": "https://www.facebook.com/share/1EjEyfCyhA",
-      "reason": "Only link is a Facebook share wrapper that resolves to a photo, not an event. Date/venue confirmed by organizer blurb (Aug 29, PKL); a real event link still needs finding by hand.",
-      "flagged_at": "2026-08-13T15:10:15.734433+00:00"
+      "url": "https://www.instagram.com/noise.boston/",
+      "reason": "Link is the organizer's Instagram profile, not a page for this date \u2014 @noise.boston posts the next date in its bio, which we cannot read. Aug 29 at PKL came from the organizer's blurb; re-check the bio before the event, and each month after.",
+      "flagged_at": "2026-08-13T15:23:20.673836+00:00"
     }
   ],
-  "broken": [
-    {
-      "url": "https://www.facebook.com/share/1EjEyfCyhA",
-      "status": 200,
-      "final_url": "https://www.facebook.com/photo.php?fbid=1377740577881276&set=a.391436386511705&type=3&rdid=eHu1Q8Uldcq6Lzpk&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1EjEyfCyhA",
-      "verdict": "broken",
-      "note": "share wrapper resolves to no event (no page title)",
-      "appears_in": [
-        "event: NOISE \ud83d\udd7a LIVE"
-      ]
-    }
-  ],
+  "broken": [],
   "unverifiable": [
     {
       "url": "https://www.facebook.com/groups/576206842396498",
@@ -50,77 +39,6 @@
       "appears_in": [
         "event: Mambo City Salsa Social",
         "venue: Mambo City Salsa Social"
-      ]
-    },
-    {
-      "url": "https://www.instagram.com/fuegoycandelasalsa/",
-      "status": 200,
-      "final_url": null,
-      "verdict": "unverifiable",
-      "note": "instagram serves an identical login wall for real and dead handles",
-      "appears_in": [
-        "event: Fuego y Candela Salsa Social (alt)"
-      ]
-    },
-    {
-      "url": "https://www.instagram.com/ladiasporacombo/",
-      "status": 200,
-      "final_url": null,
-      "verdict": "unverifiable",
-      "note": "instagram serves an identical login wall for real and dead handles",
-      "appears_in": [
-        "event: Latin Brunch \u2013 La diaspora combo (artist)"
-      ]
-    },
-    {
-      "url": "https://www.instagram.com/p/DY5afzhhsK7/",
-      "status": 200,
-      "final_url": null,
-      "verdict": "unverifiable",
-      "note": "instagram serves an identical login wall for real and dead handles",
-      "appears_in": [
-        "event: Rueda in the Pahk (alt)"
-      ]
-    },
-    {
-      "url": "https://www.instagram.com/p/DZF_C5HpIe3/",
-      "status": 200,
-      "final_url": null,
-      "verdict": "unverifiable",
-      "note": "instagram serves an identical login wall for real and dead handles",
-      "appears_in": [
-        "event: Saz\u00f3n Saturday"
-      ]
-    },
-    {
-      "url": "https://www.instagram.com/p/DZibxMqJYRR/",
-      "status": 200,
-      "final_url": null,
-      "verdict": "unverifiable",
-      "note": "instagram serves an identical login wall for real and dead handles",
-      "appears_in": [
-        "event: East Boston Latin music and dance festival"
-      ]
-    },
-    {
-      "url": "https://www.instagram.com/reel/Dab2OC-h8bt/",
-      "status": 200,
-      "final_url": null,
-      "verdict": "unverifiable",
-      "note": "instagram serves an identical login wall for real and dead handles",
-      "appears_in": [
-        "event: Salsa on the Beach featuring Los Mambiseros"
-      ]
-    },
-    {
-      "url": "https://www.instagram.com/timbadescontrol/",
-      "status": 200,
-      "final_url": null,
-      "verdict": "unverifiable",
-      "note": "instagram serves an identical login wall for real and dead handles",
-      "appears_in": [
-        "event: Timba y Descontrol Cuban salsa lessons + social",
-        "event: Timba y Descontrol Cuban salsa lessons + social (alt)"
       ]
     }
   ],
@@ -611,6 +529,77 @@
       "note": "live (Rueda in the Pahk - Boston, MA)",
       "appears_in": [
         "event: Rueda in the Pahk"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/fuegoycandelasalsa/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Franklin Condori (&#064;fuegoycandelasalsa) &#x2022; Instagr)",
+      "appears_in": [
+        "event: Fuego y Candela Salsa Social (alt)"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/ladiasporacombo/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (La Di&#xe1;spora Combo (&#064;ladiasporacombo) &#x2022; Inst)",
+      "appears_in": [
+        "event: Latin Brunch \u2013 La diaspora combo (artist)"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/noise.boston/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Noise | Latin luxury elevated (&#064;noise.boston) &#x2022; )",
+      "appears_in": [
+        "event: NOISE \ud83d\udd7a LIVE"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/p/DZF_C5HpIe3/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Liliana Jimenez on Instagram: &quot;Our official monthly soc)",
+      "appears_in": [
+        "event: Saz\u00f3n Saturday"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/p/DZibxMqJYRR/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (East Boston Latin Music &amp; Dance Festival on Instagram: &)",
+      "appears_in": [
+        "event: East Boston Latin music and dance festival"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/reel/Dab2OC-h8bt/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (&#xa1;Yes2Art! on Instagram: &quot;&#x1fa98; &#x1f3b6;SALSA )",
+      "appears_in": [
+        "event: Salsa on the Beach featuring Los Mambiseros"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/timbadescontrol/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Timba y Descontrol (&#064;timbadescontrol) &#x2022; Instagra)",
+      "appears_in": [
+        "event: Timba y Descontrol Cuban salsa lessons + social",
+        "event: Timba y Descontrol Cuban salsa lessons + social (alt)"
       ]
     },
     {

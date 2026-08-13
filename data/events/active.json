@@ -347,9 +347,7 @@
     "_verified_status": "needs_browser",
     "_verified_notes": "Facebook page — agent should check Events tab for upcoming events",
     "_verification_url": "https://www.facebook.com/groups/1429334677328445/",
-    "urls": [
-      "https://www.instagram.com/p/DY5afzhhsK7/"
-    ]
+    "urls": null
   },
   {
     "id": "15F245C1-03AD-4AC3-ADB5-9CE4CDE011AC",
@@ -1180,7 +1178,7 @@
     "lat": 42.3352,
     "lng": -71.0464,
     "description": "Boston's #1 Latin Dance Social — Salsa, Bachata and Latin vibes with live DJs and artists, monthly at PKL.\n\nWith live music by Ruben Rodriguez y Orquesta and DJ El Catalan Timbero",
-    "url": "https://www.facebook.com/share/1EjEyfCyhA",
+    "url": "https://www.instagram.com/noise.boston/",
     "styles": [
       "salsa",
       "bachata"
@@ -1193,9 +1191,10 @@
     "_verified_notes": "Facebook page — agent should check Events tab for upcoming events",
     "_verification_url": "https://www.facebook.com/share/1EjEyfCyhA",
     "_needs_manual_check": {
-      "reason": "Only link is a Facebook share wrapper that resolves to a photo, not an event. Date/venue confirmed by organizer blurb (Aug 29, PKL); a real event link still needs finding by hand.",
-      "flagged_at": "2026-08-13T15:10:15.734433+00:00"
-    }
+      "reason": "Link is the organizer's Instagram profile, not a page for this date — @noise.boston posts the next date in its bio, which we cannot read. Aug 29 at PKL came from the organizer's blurb; re-check the bio before the event, and each month after.",
+      "flagged_at": "2026-08-13T15:23:20.673836+00:00"
+    },
+    "urls": null
   },
   {
     "id": "F8B6E308-C6BD-49A3-962E-FD78CBC46CDC",

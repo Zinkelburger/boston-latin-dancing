@@ -16,9 +16,10 @@ anything. Measured behaviour, not assumed (see tests/test_link_check.py):
                  is not enough — a live page carries a real <title>, a dead
                  one carries none or the bare chrome title "Facebook".
   instagram.com  Returns 200 with a near-identical login wall for real and
-                 nonexistent handles alike. Nothing in the response
-                 distinguishes them, so IG links are reported UNVERIFIABLE
-                 and never claimed to be OK.
+                 nonexistent handles alike, so the status is useless — but
+                 asked as the og-scraper it still emits an og:title for a
+                 real profile ("Noise | Latin luxury elevated (@noise.boston)")
+                 and none at all for a handle that does not exist.
   eventbrite     Honest 404s. Trust the status.
 
 Anything we cannot prove dead is never reported as broken — this runs
@@ -72,6 +73,9 @@ UNVERIFIABLE = "unverifiable"
 # behind the URL.
 _FB_EMPTY_TITLES = {"", "facebook", "log in or sign up to view", "log into facebook"}
 _TITLE_RE = re.compile(r"<title[^>]*>(.*?)</title>", re.S | re.I)
+_OG_TITLE_RE = re.compile(
+    r'<meta[^>]+property=["\']og:title["\'][^>]+content=["\']([^"\']*)', re.I
+)
 _SHARE_WRAPPER_RE = re.compile(r"/events/s/|/share/")
 
 
@@ -84,6 +88,13 @@ def _host(url: str) -> str:
 
 def _title(html: str) -> str:
     m = _TITLE_RE.search(html)
+    if not m:
+        return ""
+    return re.sub(r"\s+", " ", m.group(1)).strip()
+
+
+def _og_title(html: str) -> str:
+    m = _OG_TITLE_RE.search(html)
     if not m:
         return ""
     return re.sub(r"\s+", " ", m.group(1)).strip()
@@ -107,10 +118,19 @@ def classify(url: str, status: Optional[int], html: str, error: Optional[str] = 
             return BROKEN, f"unreachable ({error})"
         return UNVERIFIABLE, f"transient network failure ({error})"
 
-    # Instagram cannot be checked at all: nonexistent handles return 200 with
-    # the same login wall as real ones.
     if "instagram.com" in host:
-        return UNVERIFIABLE, "instagram serves an identical login wall for real and dead handles"
+        if status == 404:
+            return BROKEN, "HTTP 404"
+        if status and status >= 500:
+            return UNVERIFIABLE, f"instagram server error (HTTP {status})"
+        if status in (401, 403, 429):
+            return UNVERIFIABLE, f"instagram rate-limited us (HTTP {status})"
+        og = _og_title(html)
+        if og:
+            return OK, f"live ({og.split(' • ')[0][:60]})"
+        # The login wall is served either way; only the absent og:title
+        # separates a dead handle from a real one.
+        return BROKEN, "no profile metadata — handle does not exist"
 
     if "facebook.com" in host or "fb.com" in host:
         if status == 404:
@@ -143,16 +163,18 @@ def classify(url: str, status: Optional[int], html: str, error: Optional[str] = 
 def fetch(url: str) -> dict:
     """Fetch a URL with the strategy its host actually responds to."""
     host = _host(url)
-    is_fb = "facebook.com" in host or "fb.com" in host
-    headers = {"User-Agent": FB_BOT_UA if is_fb else BROWSER_UA}
+    # Instagram is Meta's too, and answers the same og-scraper UA with the
+    # profile metadata that tells a real handle from a dead one.
+    is_meta = any(h in host for h in ("facebook.com", "fb.com", "instagram.com"))
+    headers = {"User-Agent": FB_BOT_UA if is_meta else BROWSER_UA}
 
     status, html, error, final = None, "", None, None
     for attempt in range(RETRIES):
         try:
             resp = requests.get(url, headers=headers, timeout=TIMEOUT, allow_redirects=True)
             status, final = resp.status_code, resp.url
-            # Only Facebook classification needs the body.
-            html = resp.text if is_fb else ""
+            # Only the Meta hosts are classified on their body.
+            html = resp.text if is_meta else ""
             error = None
             break
         except requests.RequestException as exc:
@@ -235,11 +257,35 @@ def manual_check_queue() -> list[dict]:
     return queue
 
 
+def _guard_against_a_blocked_host(results: list[dict]) -> None:
+    """Downgrade a whole host's failures when it has plainly started blocking us.
+
+    Profile metadata is the only thing separating a live Instagram handle from
+    a dead one, so the day Instagram decides to stop serving it to datacenter
+    IPs, every link we have flips to "broken" at once. Sixteen accounts do not
+    vanish overnight; a host-wide block is the likelier story, and acting on it
+    would pull real events off the map. Only applies when a host fails
+    wholesale — genuine dead links show up among live ones.
+    """
+    for host_fragment in ("instagram.com", "facebook.com"):
+        group = [r for r in results if host_fragment in _host(r["url"])]
+        if len(group) < 3:
+            continue
+        broken = [r for r in group if r["verdict"] == BROKEN]
+        if len(broken) == len(group):
+            for r in broken:
+                r["verdict"] = UNVERIFIABLE
+                r["note"] = (f"{host_fragment} returned nothing usable for any of "
+                             f"{len(group)} links — treating as blocked, not dead")
+
+
 def check_all(only_live: bool = False) -> dict:
     targets = collect_targets(only_live)
     urls = sorted(targets)
     with ThreadPoolExecutor(max_workers=WORKERS) as pool:
         results = list(pool.map(fetch, urls))
+
+    _guard_against_a_blocked_host(results)
 
     for r in results:
         r["appears_in"] = targets[r["url"]]

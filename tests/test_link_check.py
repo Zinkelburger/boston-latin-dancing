@@ -103,16 +103,76 @@ def test_facebook_500_is_not_broken():
     assert cl.classify(FB_EVENT, 500, "")[0] == cl.UNVERIFIABLE
 
 
-# ── instagram: no signal exists at all ────────────────────────────────
+# ── instagram: the status lies, the og:title does not ─────────────────
 
-def test_instagram_is_always_unverifiable():
-    # Measured: a nonexistent handle returns 200 with a login wall byte-for-
-    # byte comparable to a real one. We cannot ever claim an IG link is ok.
-    assert cl.classify(IG, 200, "")[0] == cl.UNVERIFIABLE
+LIVE_IG = ('<meta property="og:title" content="Noise | Latin luxury elevated '
+           '(&#064;noise.boston) &#x2022; Instagram photos and videos"/>')
+DEAD_IG = "<html><head><title>Instagram</title></head></html>"
 
 
-def test_instagram_404_still_not_claimed_ok():
-    assert cl.classify(IG, 404, "")[0] == cl.UNVERIFIABLE
+def test_instagram_profile_with_og_title_is_ok():
+    assert cl.classify(IG, 200, LIVE_IG)[0] == cl.OK
+
+
+def test_instagram_reports_the_account_name():
+    # The bullet-separated boilerplate is trimmed so the note reads as a name.
+    verdict, note = cl.classify(IG, 200, LIVE_IG)
+    assert verdict == cl.OK and "Noise" in note and "Instagram photos" not in note
+
+
+def test_dead_instagram_handle_is_broken_despite_200():
+    # Measured: a nonexistent handle serves the same login wall with a 200 and
+    # no profile metadata at all. That absence is the only signal there is.
+    assert cl.classify(IG, 200, DEAD_IG)[0] == cl.BROKEN
+
+
+def test_instagram_rate_limit_is_not_broken():
+    for status in (401, 403, 429):
+        assert cl.classify(IG, status, "")[0] == cl.UNVERIFIABLE
+
+
+def test_instagram_500_is_not_broken():
+    assert cl.classify(IG, 500, "")[0] == cl.UNVERIFIABLE
+
+
+# ── a blocked host must not read as a mass extinction ─────────────────
+
+def _result(url, verdict=cl.BROKEN):
+    return {"url": url, "verdict": verdict, "note": "no profile metadata"}
+
+
+def test_wholesale_instagram_failure_is_treated_as_a_block():
+    # Sixteen accounts do not vanish overnight. If every single one comes back
+    # empty, Instagram stopped talking to us — acting on that would pull real
+    # events off the map.
+    results = [_result(f"https://www.instagram.com/acct{i}/") for i in range(5)]
+    cl._guard_against_a_blocked_host(results)
+    assert all(r["verdict"] == cl.UNVERIFIABLE for r in results)
+    assert "blocked" in results[0]["note"]
+
+
+def test_one_dead_handle_among_live_ones_stays_broken():
+    results = [_result("https://www.instagram.com/dead/")] + [
+        _result(f"https://www.instagram.com/live{i}/", cl.OK) for i in range(4)
+    ]
+    cl._guard_against_a_blocked_host(results)
+    assert results[0]["verdict"] == cl.BROKEN
+
+
+def test_the_guard_needs_a_real_sample_before_it_fires():
+    # With one or two links there is no way to tell a block from a dead
+    # account, and silently excusing them would hide a genuine break.
+    results = [_result("https://www.instagram.com/only/")]
+    cl._guard_against_a_blocked_host(results)
+    assert results[0]["verdict"] == cl.BROKEN
+
+
+def test_the_guard_does_not_cross_hosts():
+    # Facebook being blocked says nothing about Instagram.
+    results = [_result(f"https://www.facebook.com/events/{i}/") for i in range(4)]
+    results.append(_result("https://www.instagram.com/dead/"))
+    cl._guard_against_a_blocked_host(results)
+    assert results[-1]["verdict"] == cl.BROKEN
 
 
 # ── transport failures ────────────────────────────────────────────────
