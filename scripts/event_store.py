@@ -2667,9 +2667,25 @@ def publish() -> dict:
     _write_json(PUBLIC_EVENTS_JSON, published)
     # Legacy path for scripts still referencing public/events.json
     _write_json(ROOT / "public" / "events.json", published)
+
+    # Record this run's URLs and re-point any that this publish just retired.
+    # Every publish path goes through here — the pipeline's and the agent's —
+    # so a slug can never quietly disappear between the index and the site.
+    # Never fatal: a registry problem must not block shipping the events.
+    registry_result = None
+    try:
+        from slug_registry import update as _update_slug_registry
+        registry_result = _update_slug_registry()
+        if registry_result["alias"] or registry_result["ended"]:
+            print(f"  🔗 urls: {registry_result['live']} live, "
+                  f"{registry_result['alias']} redirecting, {registry_result['ended']} ended")
+    except Exception as exc:  # noqa: BLE001 - reported, never raised
+        print(f"  ⚠️  slug registry not updated ({exc}) — retired URLs may 404")
+
     return {
         "status": "published",
         "count": len(deduped),
+        "retired_urls": (registry_result["alias"] + registry_result["ended"]) if registry_result else None,
         "archived_count": len(archived_out),
         "search_only_count": len(searchonly_out),
         "venue_suppressed_count": len(venue_report.get("suppressed", [])),

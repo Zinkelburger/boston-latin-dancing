@@ -31,8 +31,18 @@ fi
 # before the commit, which is exactly what we want.
 .venv/bin/python scripts/run_pipeline.py
 
+# Link check reports, it does not gate. A link dying upstream is not a reason
+# to hold back every other event's update — but it must never pass unnoticed,
+# so the report is committed and the weekly agent run clears it.
+if ! .venv/bin/python scripts/check_links.py --only-live --fail-on-broken; then
+  log "WARNING: broken links published — see data/link-check.json"
+fi
+
+# The registry is written by publish(); it must ship with the data it
+# describes, or the build has no alias pages for the URLs this run retired.
 git add public/events.json data/events-published.json data/events/ \
-        data/venues.json data/sources.json data/known_duplicates.json
+        data/venues.json data/sources.json data/known_duplicates.json \
+        data/link-check.json data/slug-registry.json
 if git diff --cached --quiet; then
   log "no changes to publish"
   exit 0

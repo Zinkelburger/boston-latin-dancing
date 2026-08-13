@@ -6,6 +6,7 @@ import { formatEventTimeRange, getRecurrenceLabel } from '@/lib/recurrences';
 import { stripHtml } from '@/lib/strip-html';
 import EventJsonLd from './EventJsonLd';
 import MapView from '@/app/components/MapView';
+import { redirectTarget, retiredName, retiredSlugs } from '@/lib/slug-registry';
 
 const events = allEvents as DanceEvent[];
 
@@ -32,7 +33,11 @@ function findActiveInstance(event: DanceEvent): DanceEvent | undefined {
 }
 
 export function generateStaticParams(): Params[] {
-  return events.filter(e => e.slug).map(e => ({ slug: e.slug! }));
+  // Retired slugs get a page too. A URL we have published is a URL someone may
+  // have indexed, bookmarked or shared, and the static export is the only
+  // chance to answer it — there is no server to redirect at request time.
+  const live = events.filter(e => e.slug).map(e => e.slug!);
+  return [...new Set([...live, ...retiredSlugs()])].map(slug => ({ slug }));
 }
 
 /**
@@ -71,7 +76,23 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const { slug } = await params;
   const event = findBySlug(slug);
   if (!event) {
-    return { title: 'Event Not Found' };
+    const target = redirectTarget(slug);
+    if (target) {
+      // Point every signal at the replacement so the ranking this URL earned
+      // moves there rather than evaporating.
+      const moved = findBySlug(target);
+      return {
+        title: { absolute: `${moved?.name ?? 'Event'} | Boston Salsa` },
+        alternates: { canonical: `${SITE_URL}/event/${target}` },
+        robots: { index: false, follow: true },
+      };
+    }
+    const name = retiredName(slug);
+    return {
+      title: { absolute: name ? `${name} — ended | Boston Salsa` : 'Event ended | Boston Salsa' },
+      description: 'This event has ended. See what else is on in Boston.',
+      robots: { index: false, follow: true },
+    };
   }
 
   const venue = event.location?.split(',')[0] || '';
@@ -135,12 +156,41 @@ export default async function EventPage({ params }: { params: Promise<Params> })
   const event = findBySlug(slug);
 
   if (!event) {
+    const target = redirectTarget(slug);
+    if (target) {
+      const moved = findBySlug(target);
+      const href = `/event/${target}`;
+      // A static export has no server to issue a 301, so the redirect has to
+      // travel in the page: an instant meta refresh (which Google follows and
+      // treats as a permanent move), plus a real link so anyone whose browser
+      // ignores it — or who arrives with JS off — still gets there.
+      return (
+        <>
+          <meta httpEquiv="refresh" content={`0; url=${href}`} />
+          <div className="min-h-screen flex items-center justify-center bg-gray-50">
+            <div className="text-center px-6">
+              <h1 className="text-2xl font-bold text-gray-800 mb-2">This event moved</h1>
+              <p className="text-gray-500 mb-4">
+                {moved ? `It is now listed as “${moved.name}”.` : 'Taking you to its new page.'}
+              </p>
+              <a href={href} className="pretty-pill pretty-pill-rose">Go to the event</a>
+            </div>
+          </div>
+        </>
+      );
+    }
+
+    const name = retiredName(slug);
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">Event Not Found</h1>
-          <p className="text-gray-500 mb-4">This event may have been removed or the link is incorrect.</p>
-          <a href="/" className="pretty-pill pretty-pill-rose">Back to Map</a>
+        <div className="text-center px-6">
+          <h1 className="text-2xl font-bold text-gray-800 mb-2">
+            {name ? `${name} has ended` : 'This event has ended'}
+          </h1>
+          <p className="text-gray-500 mb-4">
+            It is no longer on the calendar — but plenty else is.
+          </p>
+          <a href="/" className="pretty-pill pretty-pill-rose">See what’s on</a>
         </div>
       </div>
     );

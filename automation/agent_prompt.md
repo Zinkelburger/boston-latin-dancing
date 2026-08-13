@@ -150,17 +150,46 @@ your main job, along with the other judgment calls it can't make.
      to check) — no action needed, but don't treat it as fully confirmed.
    - When in doubt, change nothing and note it in the summary.
 
-7. **Publish.** `event_publish()`. It is guarded: if the live-event count
+7. **Clear broken links.** `npm run check-links` and open `data/link-check.json`.
+   A dead link is worse than a missing event — the pin is on the map and the
+   tap goes nowhere — so `broken` must be empty when you finish:
+   - Prefer replacing the link over dropping the event. Web-search the event
+     name for the organizer's own page and set it with `event_edit`; a
+     canonical organizer URL outranks any social link.
+   - If an alternate already sits in the event's `urls`, promote it.
+   - Only if no working link exists at all: `event_archive` a one-off, or for
+     a recurring series clear the URL rather than shipping a dead one.
+   - `unverifiable` is **not** a to-do list. Instagram links and login-walled
+     Facebook pages report that way by design because no signal exists to
+     check them — leave them alone unless you have other reason to doubt one.
+   - `needs_manual_check` is the human's queue, not yours. These are events
+     where no automated check can settle the link and guessing would ship a
+     wrong one. Do **not** edit them or clear the flag. List each one in the
+     summary under "verify by hand", with the event name, date and the reason
+     from the flag, so it can be checked against the organizer directly. Add a
+     new flag yourself — `event_edit(id, updates_json='{"_needs_manual_check":
+     {"reason": "...", "flagged_at": "<iso>"}}')` — when you hit a broken link
+     you cannot honestly resolve, instead of leaving a dead link published.
+   Watch specifically for Facebook `share/` wrappers: they resolve to whatever
+   was shared (often a photo, not the event) and they cannot be fixed by
+   re-scraping, only by finding the real link.
+
+8. **Publish.** `event_publish()`. Publishing also updates `data/slug-registry.json`,
+   which keeps every URL we have ever shipped resolving — merges and renames
+   mint a new slug, and the old one is still in Google's index. The result's
+   `retired_urls` counts those; they become redirect or "ended" pages at build,
+   never 404s. Nothing to do unless the count jumps sharply, which means a
+   publish churned slugs it should not have. It is guarded: if the live-event count
    collapses below 70% of the previous published file it auto-restores the old
    files and returns `status: "tripwire"` / `tripped: true` — if you see that,
    do NOT commit; investigate and report. Even when it publishes normally,
    sanity-check the reported count against the previous one.
 
-8. **Commit and push.** Only the pipeline-owned files:
-   `git add public/events.json data/events-published.json data/events/ data/venues.json data/sources.json data/known_duplicates.json`
+9. **Commit and push.** Only the pipeline-owned files:
+   `git add public/events.json data/events-published.json data/events/ data/venues.json data/sources.json data/known_duplicates.json data/link-check.json`
    then commit with message `Weekly agent review $(date +%Y-%m-%d)` and push.
 
-9. **Write the summary.** Overwrite `automation/logs/last-agent-summary.md`
+10. **Write the summary.** Overwrite `automation/logs/last-agent-summary.md`
    with: queues cleared (counts + notable decisions), verification outcomes,
    big-event flags you set, anything you skipped or that needs a human, and
    the final published count. Do not commit the summary file.
