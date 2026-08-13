@@ -404,44 +404,6 @@
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
-    "id": "bachata-room",
-    "name": "Bachata Room",
-    "startDate": "2026-08-12T21:00:00-04:00",
-    "endDate": "2026-08-13T00:00:00-04:00",
-    "dayOfWeek": "Wednesday",
-    "location": "La Fábrica Central, 450 Massachusetts Ave, Cambridge, MA 02139",
-    "lat": 42.3634,
-    "lng": -71.1012,
-    "description": "Your weekly fix for all your dancing needs.\n\n9:00pm – 10:00pm Bachata Lesson (Beginner/Intermediate)\n10:00pm – 12:00am Social Dancing (Bachata, Salsa, Merengue)\n\n$15 Lesson/Social Dancing (18+)",
-    "url": "https://www.bachataroomboston.com",
-    "styles": [
-      "bachata",
-      "salsa",
-      "merengue"
-    ],
-    "cost": "$15",
-    "recurring": true,
-    "recurrences": [
-      "2026-08-12T21:00:00-04:00",
-      "2026-08-19T21:00:00-04:00",
-      "2026-08-26T21:00:00-04:00",
-      "2026-09-02T21:00:00-04:00",
-      "2026-09-09T21:00:00-04:00",
-      "2026-09-16T21:00:00-04:00",
-      "2026-09-23T21:00:00-04:00",
-      "2026-09-30T21:00:00-04:00"
-    ],
-    "schedule": [
-      {
-        "dayOfWeek": "Wednesday",
-        "time": "9:00 PM – 12:00 AM",
-        "note": "Lesson + social (18+)"
-      }
-    ],
-    "slug": "bachata-room-bachata-",
-    "recurrenceLabel": "Every Wednesday · 9:00 PM – 12:00 AM"
-  },
-  {
     "id": "408adba864c7bcc60677d4a59f172d58a83c5c5a@dance-calendar",
     "name": "Sabor Latino! @ El Barco - Salsa/Bachata Night",
     "startDate": "2026-08-13T00:00:00+00:00",
@@ -806,6 +768,44 @@
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
+    "id": "bachata-room",
+    "name": "Bachata Room",
+    "startDate": "2026-08-19T21:00:00-04:00",
+    "endDate": "2026-08-20T00:00:00-04:00",
+    "dayOfWeek": "Wednesday",
+    "location": "La Fábrica Central, 450 Massachusetts Ave, Cambridge, MA 02139",
+    "lat": 42.3634,
+    "lng": -71.1012,
+    "description": "Your weekly fix for all your dancing needs.\n\n9:00pm – 10:00pm Bachata Lesson (Beginner/Intermediate)\n10:00pm – 12:00am Social Dancing (Bachata, Salsa, Merengue)\n\n$15 Lesson/Social Dancing (18+)",
+    "url": "https://www.bachataroomboston.com",
+    "styles": [
+      "bachata",
+      "salsa",
+      "merengue"
+    ],
+    "cost": "$15",
+    "recurring": true,
+    "recurrences": [
+      "2026-08-19T21:00:00-04:00",
+      "2026-08-26T21:00:00-04:00",
+      "2026-09-02T21:00:00-04:00",
+      "2026-09-09T21:00:00-04:00",
+      "2026-09-16T21:00:00-04:00",
+      "2026-09-23T21:00:00-04:00",
+      "2026-09-30T21:00:00-04:00",
+      "2026-10-07T21:00:00-04:00"
+    ],
+    "schedule": [
+      {
+        "dayOfWeek": "Wednesday",
+        "time": "9:00 PM – 12:00 AM",
+        "note": "Lesson + social (18+)"
+      }
+    ],
+    "slug": "bachata-room-bachata-",
+    "recurrenceLabel": "Every Wednesday · 9:00 PM – 12:00 AM"
+  },
+  {
     "id": "manual-bsf-preparty-20260820-0",
     "name": "Pre-Party: Boston Salsa Festival 2026",
     "startDate": "2026-08-20T20:30:00-04:00",
@@ -960,10 +960,11 @@
     "location": "PKL",
     "lat": 42.3352,
     "lng": -71.0464,
-    "description": "With live music by Ruben Rodriguez y Orquesta and DJ El Catalan Timbero\n\nSource: https://www.facebook.com/share/1EjEyfCyhA/",
+    "description": "Boston's #1 Latin Dance Social — Salsa, Bachata and Latin vibes with live DJs and artists, monthly at PKL.\n\nWith live music by Ruben Rodriguez y Orquesta and DJ El Catalan Timbero",
     "url": "https://www.facebook.com/share/1EjEyfCyhA",
     "styles": [
-      "other"
+      "salsa",
+      "bachata"
     ],
     "cost": null,
     "recurring": false,

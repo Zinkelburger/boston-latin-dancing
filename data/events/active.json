@@ -1179,10 +1179,11 @@
     "location": "PKL",
     "lat": 42.3352,
     "lng": -71.0464,
-    "description": "With live music by Ruben Rodriguez y Orquesta and DJ El Catalan Timbero\n\nSource: https://www.facebook.com/share/1EjEyfCyhA/",
+    "description": "Boston's #1 Latin Dance Social — Salsa, Bachata and Latin vibes with live DJs and artists, monthly at PKL.\n\nWith live music by Ruben Rodriguez y Orquesta and DJ El Catalan Timbero",
     "url": "https://www.facebook.com/share/1EjEyfCyhA",
     "styles": [
-      "other"
+      "salsa",
+      "bachata"
     ],
     "cost": null,
     "recurring": false,
@@ -1190,7 +1191,11 @@
     "_verified_at": "2026-08-05T19:41:36.491987+00:00",
     "_verified_status": "needs_browser",
     "_verified_notes": "Facebook page — agent should check Events tab for upcoming events",
-    "_verification_url": "https://www.facebook.com/share/1EjEyfCyhA"
+    "_verification_url": "https://www.facebook.com/share/1EjEyfCyhA",
+    "_needs_manual_check": {
+      "reason": "Only link is a Facebook share wrapper that resolves to a photo, not an event. Date/venue confirmed by organizer blurb (Aug 29, PKL); a real event link still needs finding by hand.",
+      "flagged_at": "2026-08-13T15:10:15.734433+00:00"
+    }
   },
   {
     "id": "F8B6E308-C6BD-49A3-962E-FD78CBC46CDC",
