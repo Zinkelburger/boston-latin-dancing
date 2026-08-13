@@ -37,14 +37,13 @@ import argparse
 import json
 import re
 import sys
-import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
-from urllib.parse import urlparse
 
-import requests
+from link_meta import extract, host_of, is_meta_host
+from link_meta import fetch as fetch_page
 
 ROOT = Path(__file__).resolve().parent.parent
 PUBLISHED = ROOT / "data" / "events-published.json"
@@ -52,14 +51,6 @@ ACTIVE = ROOT / "data" / "events" / "active.json"
 VENUES = ROOT / "data" / "venues.json"
 SOURCES = ROOT / "data" / "sources.json"
 REPORT_PATH = ROOT / "data" / "link-check.json"
-
-BROWSER_UA = (
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"
-)
-# Meta's own og-scraper UA. Facebook answers it honestly; it answers browser
-# UAs from datacenter IPs with a blanket 400.
-FB_BOT_UA = "facebookexternalhit/1.1"
 
 TIMEOUT = 20
 RETRIES = 3
@@ -72,32 +63,7 @@ UNVERIFIABLE = "unverifiable"
 # Titles Facebook serves on its generic chrome when there is no real content
 # behind the URL.
 _FB_EMPTY_TITLES = {"", "facebook", "log in or sign up to view", "log into facebook"}
-_TITLE_RE = re.compile(r"<title[^>]*>(.*?)</title>", re.S | re.I)
-_OG_TITLE_RE = re.compile(
-    r'<meta[^>]+property=["\']og:title["\'][^>]+content=["\']([^"\']*)', re.I
-)
 _SHARE_WRAPPER_RE = re.compile(r"/events/s/|/share/")
-
-
-def _host(url: str) -> str:
-    try:
-        return (urlparse(url).hostname or "").lower()
-    except ValueError:
-        return ""
-
-
-def _title(html: str) -> str:
-    m = _TITLE_RE.search(html)
-    if not m:
-        return ""
-    return re.sub(r"\s+", " ", m.group(1)).strip()
-
-
-def _og_title(html: str) -> str:
-    m = _OG_TITLE_RE.search(html)
-    if not m:
-        return ""
-    return re.sub(r"\s+", " ", m.group(1)).strip()
 
 
 def classify(url: str, status: Optional[int], html: str, error: Optional[str] = None) -> tuple[str, str]:
@@ -109,7 +75,8 @@ def classify(url: str, status: Optional[int], html: str, error: Optional[str] = 
     if not url:
         return UNVERIFIABLE, "no url"
 
-    host = _host(url)
+    host = host_of(url)
+    meta = extract(html) if html else {"title": "", "og_title": ""}
 
     if error and status is None:
         # Transport failure after retries. DNS death is strong evidence the
@@ -125,7 +92,7 @@ def classify(url: str, status: Optional[int], html: str, error: Optional[str] = 
             return UNVERIFIABLE, f"instagram server error (HTTP {status})"
         if status in (401, 403, 429):
             return UNVERIFIABLE, f"instagram rate-limited us (HTTP {status})"
-        og = _og_title(html)
+        og = meta["og_title"]
         if og:
             return OK, f"live ({og.split(' • ')[0][:60]})"
         # The login wall is served either way; only the absent og:title
@@ -140,12 +107,12 @@ def classify(url: str, status: Optional[int], html: str, error: Optional[str] = 
             return UNVERIFIABLE, "facebook refused the request (HTTP 400) — status carries no signal"
         if status and status >= 500:
             return UNVERIFIABLE, f"facebook server error (HTTP {status})"
-        title = _title(html).lower()
+        title = meta["title"].lower()
         if title in _FB_EMPTY_TITLES:
             if _SHARE_WRAPPER_RE.search(url.lower()):
                 return BROKEN, "share wrapper resolves to no event (no page title)"
             return UNVERIFIABLE, "no page title — login wall or deleted, cannot distinguish"
-        return OK, f"live ({_title(html)[:60]})"
+        return OK, f"live ({meta['title'][:60]})"
 
     if status is None:
         return UNVERIFIABLE, "no response"
@@ -161,31 +128,17 @@ def classify(url: str, status: Optional[int], html: str, error: Optional[str] = 
 
 
 def fetch(url: str) -> dict:
-    """Fetch a URL with the strategy its host actually responds to."""
-    host = _host(url)
-    # Instagram is Meta's too, and answers the same og-scraper UA with the
-    # profile metadata that tells a real handle from a dead one.
-    is_meta = any(h in host for h in ("facebook.com", "fb.com", "instagram.com"))
-    headers = {"User-Agent": FB_BOT_UA if is_meta else BROWSER_UA}
+    """Check one URL, asking each host as whatever it will answer."""
+    fetched = fetch_page(url, timeout=TIMEOUT, retries=RETRIES)
+    # Only the Meta hosts are classified on their body; everyone else is
+    # judged on the status alone, so parsing their HTML would be wasted work.
+    html = fetched["html"] if is_meta_host(url) else ""
 
-    status, html, error, final = None, "", None, None
-    for attempt in range(RETRIES):
-        try:
-            resp = requests.get(url, headers=headers, timeout=TIMEOUT, allow_redirects=True)
-            status, final = resp.status_code, resp.url
-            # Only the Meta hosts are classified on their body.
-            html = resp.text if is_meta else ""
-            error = None
-            break
-        except requests.RequestException as exc:
-            error = type(exc).__name__
-            if attempt < RETRIES - 1:
-                time.sleep(1.5 * (attempt + 1))
-
-    verdict, note = classify(url, status, html, error)
+    verdict, note = classify(url, fetched["status"], html, fetched["error"])
+    final = fetched["final_url"]
     return {
         "url": url,
-        "status": status,
+        "status": fetched["status"],
         "final_url": final if final and final != url else None,
         "verdict": verdict,
         "note": note,
@@ -268,7 +221,7 @@ def _guard_against_a_blocked_host(results: list[dict]) -> None:
     wholesale — genuine dead links show up among live ones.
     """
     for host_fragment in ("instagram.com", "facebook.com"):
-        group = [r for r in results if host_fragment in _host(r["url"])]
+        group = [r for r in results if host_fragment in host_of(r["url"])]
         if len(group) < 3:
             continue
         broken = [r for r in group if r["verdict"] == BROKEN]

@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-08-13T15:26:26.840377+00:00",
+  "checked_at": "2026-08-13T18:27:32.448726+00:00",
   "scope": "live",
   "totals": {
     "urls": 69,
@@ -119,7 +119,7 @@
       "status": 200,
       "final_url": "https://www.facebook.com/events/s/bachata-salsa-by-the-river/1522894889342446/",
       "verdict": "ok",
-      "note": "live (NEW DATE RAIN DATE: BACHATA &amp; SALSA BY THE RIVER)",
+      "note": "live (NEW DATE RAIN DATE: BACHATA & SALSA BY THE RIVER)",
       "appears_in": [
         "event: Bachata & Salsa By The River (alt)"
       ]
@@ -149,7 +149,7 @@
       "status": 200,
       "final_url": "https://www.facebook.com/events/s/rumba-y-clave-salsa-bachata-so/1934802984573954/",
       "verdict": "ok",
-      "note": "live (Rumba y Clave: Salsa &amp; Bachata Social)",
+      "note": "live (Rumba y Clave: Salsa & Bachata Social)",
       "appears_in": [
         "event: Rumba y Clave: Salsa & Bachata Social"
       ]
@@ -159,7 +159,7 @@
       "status": 200,
       "final_url": "https://www.facebook.com/events/s/zouk-weekender-bubble-with-iag/1275347797524181/",
       "verdict": "ok",
-      "note": "live (&quot;Zouk Weekender Bubble&quot; with Iago + Ninna 2026)",
+      "note": "live (\"Zouk Weekender Bubble\" with Iago + Ninna 2026)",
       "appears_in": [
         "event: \"Zouk Weekender Bubble\" with Iago + Ninna 2026"
       ]
@@ -463,7 +463,7 @@
       "status": 200,
       "final_url": null,
       "verdict": "ok",
-      "note": "live (Ceijay &amp; Bruna | Cambridge MA)",
+      "note": "live (Ceijay & Bruna | Cambridge MA)",
       "appears_in": [
         "event: Kizz Thursday"
       ]
@@ -473,7 +473,7 @@
       "status": 200,
       "final_url": null,
       "verdict": "ok",
-      "note": "live (Dante&#039;s Salsa Inferno)",
+      "note": "live (Dante's Salsa Inferno)",
       "appears_in": [
         "event: Dante's Salsa Fridays",
         "venue: Dante's Salsa Fridays"
@@ -506,7 +506,7 @@
       "status": 200,
       "final_url": null,
       "verdict": "ok",
-      "note": "live (Dante&#039;s Salsa Inferno Aug 7th Salsa/Bachata Social!! RO)",
+      "note": "live (Dante's Salsa Inferno Aug 7th Salsa/Bachata Social!! ROAD TO)",
       "appears_in": [
         "event: Dante's Salsa Inferno Aug 7th Salsa/Bachata Social!! ROAD TO BSF!!"
       ]
@@ -536,7 +536,7 @@
       "status": 200,
       "final_url": null,
       "verdict": "ok",
-      "note": "live (Franklin Condori (&#064;fuegoycandelasalsa) &#x2022; Instagr)",
+      "note": "live (Franklin Condori (@fuegoycandelasalsa))",
       "appears_in": [
         "event: Fuego y Candela Salsa Social (alt)"
       ]
@@ -546,7 +546,7 @@
       "status": 200,
       "final_url": null,
       "verdict": "ok",
-      "note": "live (La Di&#xe1;spora Combo (&#064;ladiasporacombo) &#x2022; Inst)",
+      "note": "live (La Di\u00e1spora Combo (@ladiasporacombo))",
       "appears_in": [
         "event: Latin Brunch \u2013 La diaspora combo (artist)"
       ]
@@ -556,7 +556,7 @@
       "status": 200,
       "final_url": null,
       "verdict": "ok",
-      "note": "live (Noise | Latin luxury elevated (&#064;noise.boston) &#x2022; )",
+      "note": "live (Noise | Latin luxury elevated (@noise.boston))",
       "appears_in": [
         "event: NOISE \ud83d\udd7a LIVE"
       ]
@@ -566,7 +566,7 @@
       "status": 200,
       "final_url": null,
       "verdict": "ok",
-      "note": "live (Liliana Jimenez on Instagram: &quot;Our official monthly soc)",
+      "note": "live (Liliana Jimenez on Instagram: \"Our official monthly social i)",
       "appears_in": [
         "event: Saz\u00f3n Saturday"
       ]
@@ -576,7 +576,7 @@
       "status": 200,
       "final_url": null,
       "verdict": "ok",
-      "note": "live (East Boston Latin Music &amp; Dance Festival on Instagram: &)",
+      "note": "live (East Boston Latin Music & Dance Festival on Instagram: \"The )",
       "appears_in": [
         "event: East Boston Latin music and dance festival"
       ]
@@ -586,7 +586,7 @@
       "status": 200,
       "final_url": null,
       "verdict": "ok",
-      "note": "live (&#xa1;Yes2Art! on Instagram: &quot;&#x1fa98; &#x1f3b6;SALSA )",
+      "note": "live (\u00a1Yes2Art! on Instagram: \"\ud83e\ude98 \ud83c\udfb6SALSA ON THE BEACH 2026 \ud83c\udfd6\ufe0f\u2600\ufe0f \ud83c\udfa8 H)",
       "appears_in": [
         "event: Salsa on the Beach featuring Los Mambiseros"
       ]
@@ -596,7 +596,7 @@
       "status": 200,
       "final_url": null,
       "verdict": "ok",
-      "note": "live (Timba y Descontrol (&#064;timbadescontrol) &#x2022; Instagra)",
+      "note": "live (Timba y Descontrol (@timbadescontrol))",
       "appears_in": [
         "event: Timba y Descontrol Cuban salsa lessons + social",
         "event: Timba y Descontrol Cuban salsa lessons + social (alt)"

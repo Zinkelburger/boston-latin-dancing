@@ -7,10 +7,17 @@ are still accurate. Produces a structured report for human review.
 
 Verification strategies by URL type:
   1. Direct organizer site  -- HTTP fetch + JSON-LD / text extraction
-  2. Facebook event URL     -- needs browser MCP (flagged for agent)
+  2. Facebook event URL     -- og-scraper fetch, date read from the preview
   3. Facebook page URL      -- needs browser MCP (flagged for agent)
   4. Instagram / social     -- flagged as unverifiable
   5. No URL                 -- flagged for web search
+
+Facebook event pages carry no JSON-LD, but their link preview states the
+date outright ("Event in Cambridge, MA by Liz Lister on Saturday, August 15
+2026"), and asking as `facebookexternalhit/1.1` is what makes it readable at
+all — see scripts/link_meta.py. Before that these short-circuited to
+needs_browser, a status nothing ever drained, so a Facebook-linked event was
+never actually checked.
 
 Usage:
     python3 scripts/verify_events.py                # verify all active events
@@ -29,6 +36,7 @@ from urllib.parse import urlparse
 import requests
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from link_meta import link_meta
 from event_store import (
     ACTIVE_JSON,
     EVENTS_DIR,
@@ -241,17 +249,72 @@ def verify_eventbrite(event: dict, url: str) -> dict:
 
 # ── Strategies that need browser MCP ─────────────────────────────────
 
-def flag_facebook_event(event: dict, url: str) -> dict:
-    return {
+def verify_facebook_event(event: dict, url: str) -> dict:
+    """Verify a Facebook event against its own link preview.
+
+    This used to short-circuit to needs_browser, a status nothing ever drained,
+    so every Facebook-linked event went permanently unchecked. Facebook ships
+    no JSON-LD, but asked as its own og-scraper it states the facts in the
+    preview sentence — "Event in Cambridge, MA by Liz Lister on Saturday,
+    August 15 2026" — which is enough to check the date, the field where being
+    wrong sends people to an empty room.
+    """
+    result = {
         "event_id": event["id"],
         "event_name": event["name"],
         "url_type": "facebook_event",
         "source_url": url,
-        "status": "needs_browser",
-        "notes": "Facebook event page — agent should visit via browser MCP to check date/location/status",
         "our_location": event.get("location", ""),
         "verified_at": datetime.now(timezone.utc).isoformat(),
     }
+
+    meta = link_meta(url)
+    status = meta["status"]
+
+    if status == 404:
+        result["status"] = "page_gone"
+        result["notes"] = "HTTP 404"
+        return result
+    if status is None or status >= 500 or status in (401, 403, 429):
+        result["status"] = "needs_browser"
+        result["notes"] = f"Facebook would not answer ({meta['error'] or f'HTTP {status}'})"
+        return result
+    if not meta["og_title"]:
+        # A live event always previews with a title; its absence is the same
+        # signal a deleted post gives.
+        result["status"] = "page_gone"
+        result["notes"] = "No preview metadata — event appears deleted"
+        return result
+
+    details = meta.get("facebook_event")
+    if not details:
+        result["status"] = "reachable_only"
+        result["notes"] = f"Event page live ('{meta['og_title'][:60]}'), but the preview carried no date"
+        return result
+
+    result["source_date"] = details["date"]
+    result["our_date"] = event.get("startDate", "")
+    if details["location"]:
+        result["source_location"] = details["location"]
+
+    # Recurring series carry one occurrence upstream against many of ours, so a
+    # difference there is expected rather than wrong.
+    our_day = _ny_calendar_day(event.get("startDate", ""))
+    if our_day and not event.get("recurring") and not event.get("recurrences"):
+        if details["date"] != our_day:
+            result["status"] = "date_mismatch"
+            result["notes"] = (f"date: source {details['date']} ({details['weekday']}) "
+                               f"vs our {our_day}")
+            return result
+        result["status"] = "confirmed"
+        result["notes"] = (f"Facebook preview matches (date checked); "
+                           f"by {details['organizer']}")
+        return result
+
+    result["status"] = "reachable_only"
+    result["notes"] = (f"Event page live, upstream date {details['date']} — recurring series, "
+                       f"not compared against our first occurrence")
+    return result
 
 
 def flag_facebook_page(event: dict, url: str) -> dict:
@@ -347,7 +410,7 @@ def verify_event(event: dict) -> dict:
     elif url_type == "eventbrite":
         return verify_eventbrite(event, url)
     elif url_type == "facebook_event":
-        return flag_facebook_event(event, url)
+        return verify_facebook_event(event, url)
     elif url_type == "facebook_page":
         return flag_facebook_page(event, url)
     elif url_type == "instagram":

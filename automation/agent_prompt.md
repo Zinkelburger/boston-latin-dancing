@@ -145,7 +145,13 @@ your main job, along with the other judgment calls it can't make.
    - `cancelled` / `page_gone` → archive one-off events via
      `event_archive(event_id)`; for recurring series, leave active and note
      it in the summary
-   - `needs_browser` / `unverifiable` → skip; list them in the summary
+   - `needs_browser` → now only Facebook *page* and group URLs. Event pages
+     verify on their own: Facebook states the date in its link preview, which
+     `scripts/link_meta.py` reads. Run `npm run link-meta -- <url>` on any link
+     you want to see the real title, description, date or JSON-LD for —
+     it asks Meta hosts as their own og-scraper, which is the only way they
+     answer honestly.
+   - `unverifiable` → skip; list them in the summary
    - `reachable_only` is NOT flagged (the URL is live but had no structured data
      to check) — no action needed, but don't treat it as fully confirmed.
    - When in doubt, change nothing and note it in the summary.
