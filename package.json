@@ -37,7 +37,8 @@
     "fetch-nlf": "python3 scripts/scrape_jsonld.py nlf-events",
     "fetch-prfestival": "python3 scripts/scrape_jsonld.py pr-festival-ma",
     "fetch-lous": "python3 scripts/scrape_lous.py",
-    "fetch-all": "npm run fetch-events && npm run fetch-sensualeros && npm run fetch-unabulla && npm run fetch-timba && npm run fetch-lister && npm run fetch-eventbrite && npm run fetch-fiesta && npm run fetch-bobas && npm run fetch-sabor-latino && npm run fetch-lowell-sitp && npm run fetch-lawn-on-d && npm run fetch-eastboston && npm run fetch-harvardsquare && npm run fetch-nlf && npm run fetch-prfestival && npm run fetch-lous && npm run fetch-submissions && npm run ingest-publish",
+    "fetch-jandl": "python3 scripts/scrape_jandl.py",
+    "fetch-all": "npm run fetch-events && npm run fetch-sensualeros && npm run fetch-unabulla && npm run fetch-timba && npm run fetch-lister && npm run fetch-eventbrite && npm run fetch-fiesta && npm run fetch-bobas && npm run fetch-sabor-latino && npm run fetch-lowell-sitp && npm run fetch-lawn-on-d && npm run fetch-eastboston && npm run fetch-harvardsquare && npm run fetch-nlf && npm run fetch-prfestival && npm run fetch-lous && npm run fetch-jandl && npm run fetch-submissions && npm run ingest-publish",
     "build-all": "npm run publish-events && npm run build && npm run check-site"
   },
   "dependencies": {

@@ -16,8 +16,10 @@ sudo -u bld bash -c 'cd /opt/bld-api && python3 -m venv venv && venv/bin/pip ins
 
 # Create .env
 sudo tee /opt/bld-api/.env <<'EOF'
-BLD_FRONTEND_ORIGIN=https://bostonlatindance.com
+BLD_FRONTEND_ORIGIN=https://bostonsalsa.org
 BLD_SUBMISSIONS_PATH=/opt/bld-api/submissions.json
+TURNSTILE_SECRET=
+TURNSTILE_HOSTNAMES=bostonsalsa.org,www.bostonsalsa.org
 EOF
 sudo chown bld:bld /opt/bld-api/.env
 

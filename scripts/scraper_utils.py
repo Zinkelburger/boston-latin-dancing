@@ -134,7 +134,7 @@ VENUE_COORDS = {
     "420 d street": (42.34445, -71.04488),
     "420 d st": (42.34445, -71.04488),
     "astela dance studio": (42.2973914, -71.2885582),
-    "2 brook st": (42.2973914, -71.2885582),
+    "2 brook st, wellesley": (42.2973914, -71.2885582),
     "agave mexican grill": (42.3404499, -71.5909618),
     "agave mexican grill & cantina": (42.3404499, -71.5909618),
     "197a boston post": (42.3404499, -71.5909618),
@@ -490,8 +490,16 @@ def make_event(
     cost: Optional[str] = None,
     recurring: bool = False,
     source: str = "",
+    venue_unknown: bool = False,
 ) -> dict:
-    """Build a DanceEvent dict matching the TypeScript schema."""
+    """Build a DanceEvent dict matching the TypeScript schema.
+
+    ``venue_unknown`` marks a listing whose ``location`` is a region rather than
+    an address — a promoted festival we know is happening somewhere in Boston,
+    say. Geocoding one of those drops a pin on the region's centroid (City
+    Hall, for "Boston, MA"), which reads as a real venue, so those events ship
+    without coordinates and stay off the map instead.
+    """
     if end is None:
         end = start
 
@@ -501,7 +509,7 @@ def make_event(
     if cost is None:
         cost = extract_cost(combined)
 
-    if lat is None or lng is None:
+    if (lat is None or lng is None) and not venue_unknown:
         coords = geocode(location)
         if coords:
             lat, lng = coords
@@ -521,6 +529,7 @@ def make_event(
         "cost": cost,
         "recurring": recurring,
         "source": source,
+        **({"venueUnknown": True} if venue_unknown else {}),
     }
 
 

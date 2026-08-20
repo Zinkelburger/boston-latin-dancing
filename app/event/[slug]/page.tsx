@@ -117,8 +117,10 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 
   // Title carries the "when" so our listing reads differently from the
   // organizer's / ticketing platform's result and gives a reason to click.
+  // Never invent "Every Sunday" from dayOfWeek alone — a monthly first-Sunday
+  // series with a rain date in recurrences[] used to get that fallback.
   const whenLabel = event.recurring
-    ? (getRecurrenceLabel(event) || `Every ${event.dayOfWeek}`)
+    ? (getRecurrenceLabel(event) || date)
     : date;
   const pageTitle = whenLabel
     ? `${event.name} — ${whenLabel} | Boston Salsa`

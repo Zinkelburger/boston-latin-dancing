@@ -136,7 +136,7 @@ def load_registry() -> dict:
 
 def save_registry(reg: dict) -> None:
     reg["updated_at"] = _now()
-    REGISTRY_PATH.write_text(json.dumps(reg, indent=2, sort_keys=True) + "\n")
+    REGISTRY_PATH.write_text(json.dumps(reg, indent=2, sort_keys=True, ensure_ascii=False) + "\n")
 
 
 def _load_published() -> list[dict]:

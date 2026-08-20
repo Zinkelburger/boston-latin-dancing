@@ -98,6 +98,8 @@ event_scrape(source_id="beatrice-calendar")
 | `fiesta-dance-company` | `scrape_fiesta_dance.py` | Fiesta Dance Company socials |
 | `somerville-arts` | `scrape_tribe_calendar.py` | Somerville Arts Council — general municipal calendar; keyword-filtered at scrape time |
 | `eastboston-events` | `scrape_eastboston.py` | EastBoston.com Sugar Calendar (HTML `<time>`; the one non-JSON-LD site) |
+| `lous-live` | `scrape_lous.py` | Lou's Live (Squarespace JSON; dance nights only) |
+| `jandl-events` | `scrape_jandl.py` | J&L Dance Studio sitewide upcoming-events bar (socials/parties/fests; skips workshops and closures) |
 | `submissions` | `fetch_submissions.py` | User-submitted events from API |
 
 **Source trust.** Curated single-purpose Latin calendars carry `"latin_by_default": true`
@@ -125,8 +127,10 @@ site to a shape and add a `data/sources.json` entry — no new Python:
 All three reuse `make_event` + `filter_latin_events`/style detection +
 `record_scrape_health`, so noise never enters the pipeline and a page that goes
 structurally dark is flagged for redesign. **Only hand-roll a bespoke scraper when
-a site has neither JSON-LD nor an iCal feed** — the sole current example is
-`scrape_eastboston.py` (Sugar Calendar, HTML `<time>` elements).
+a site has neither JSON-LD nor an iCal feed** — current examples are
+`scrape_eastboston.py` (Sugar Calendar `<time>`), `scrape_fiesta_dance.py` /
+`scrape_lous.py` (Squarespace listings), and `scrape_jandl.py` (Squarespace
+announcement bar).
 
 > **Preserving event IDs on migration.** `scrape_jsonld.py` mints ids as
 > `<id_prefix>-<url-slug>` (default prefix = source id). If a source previously ran

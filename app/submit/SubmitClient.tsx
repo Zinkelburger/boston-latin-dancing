@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, type FormEvent } from 'react';
+import { useState, useCallback, useRef, type FormEvent } from 'react';
 import Link from 'next/link';
 import TurnstileWidget from '@/app/components/TurnstileWidget';
 import { API_URL, STYLE_LABELS, STYLE_PILL_CLASS } from '@/lib/constants';
@@ -46,6 +46,8 @@ export default function SubmitClient() {
   const [errorMsg, setErrorMsg] = useState('');
   const [contactError, setContactError] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileFailed, setTurnstileFailed] = useState(false);
+  const turnstileWidgetId = useRef<string | null>(null);
 
   const resetForm = useCallback(() => {
     setEmail('');
@@ -117,9 +119,12 @@ export default function SubmitClient() {
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : 'Something went wrong');
       setSubmitState('error');
-      // Turnstile tokens are single-use; get a fresh one for the retry.
+    } finally {
+      // Tokens are single-use; reset this widget so a retry gets a fresh one.
+      if (turnstileWidgetId.current !== null) {
+        window.turnstile?.reset(turnstileWidgetId.current);
+      }
       setTurnstileToken('');
-      window.turnstile?.reset();
     }
   };
 
@@ -395,13 +400,24 @@ export default function SubmitClient() {
             </fieldset>
 
             {/* ── Actions ── */}
-            <TurnstileWidget onToken={setTurnstileToken} />
+            <TurnstileWidget
+              onToken={token => { setTurnstileToken(token); setTurnstileFailed(false); }}
+              onWidgetId={id => { turnstileWidgetId.current = id; }}
+              onUnavailable={() => setTurnstileFailed(true)}
+            />
+            {turnstileFailed && (
+              <p className="text-xs" style={{ color: '#ef4444' }}>
+                The spam check couldn&apos;t load, so this form can&apos;t be submitted
+                right now. Reload the page to try again — if it keeps failing, a
+                privacy extension or ad blocker is likely blocking it.
+              </p>
+            )}
             {submitState === 'error' && (
               <p className="text-xs" style={{ color: '#ef4444' }}>{errorMsg}</p>
             )}
             <button
               type="submit"
-              disabled={submitState === 'submitting'}
+              disabled={submitState === 'submitting' || !turnstileToken}
               className="pretty-pill pretty-pill-solid-rose submit-btn"
             >
               {submitState === 'submitting' ? (

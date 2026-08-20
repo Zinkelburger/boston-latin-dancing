@@ -5,6 +5,7 @@ import allEvents from '@/data/events-published.json';
 import type { DanceEvent } from '@/types/event';
 import { SITE_URL, STYLE_LABELS, STYLE_PILL_CLASS } from '@/lib/constants';
 import {
+  extraScheduleNote,
   formatEventTimeRange,
   getRecurrenceLabel,
   nextOccurrenceIso,
@@ -100,6 +101,7 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
 
   const allLinks = collectEventLinks(event);
   const recurrenceLabel = getRecurrenceLabel(event);
+  const scheduleNote = extraScheduleNote(event);
   const nextIso = shouldShowNextOccurrence(event) ? nextOccurrenceIso(event) : null;
 
   const nextInstance = useMemo(() => {
@@ -277,9 +279,13 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
 
         <UpcomingDatesTable event={event} className="mt-1" />
 
-        {/* One row would just restate the pill and the "Next" line as a table. */}
+        {/* One row would just restate the pill and the "Next" line as a table,
+            but its note can still carry something neither of those says. */}
         {event.schedule && event.schedule.length > 1 && (
           <WeeklyScheduleTable schedule={event.schedule} className="mt-1" />
+        )}
+        {scheduleNote && (
+          <div className="text-sm text-gray-600">ℹ️ {scheduleNote}</div>
         )}
 
         {/* Location */}

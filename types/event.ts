@@ -42,6 +42,10 @@ export interface DanceEvent {
   /** True for dateless venue records (irregular schedules): findable via
    *  search and detail pages, but never a map pin, feed row, or filter hit. */
   searchOnly?: boolean;
+  /** True when `location` names a region rather than a venue (a promoted event
+   *  whose address we do not have). Keeps the pipeline from geocoding it onto
+   *  the region's centroid, so it stays off the map instead of pinning wrong. */
+  venueUnknown?: boolean;
   /** Human-readable organizer name (e.g. "BOBAS", "Fiesta Dance Company") */
   organizer?: string;
   /** Big one-off event (festival, annual edition, big outdoor party) —

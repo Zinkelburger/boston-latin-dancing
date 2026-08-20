@@ -11,6 +11,7 @@ import json
 
 import pytest
 
+import event_store as es
 import slug_registry as sr
 
 
@@ -207,3 +208,48 @@ def test_generic_dance_words_do_not_create_a_match():
     # Nearly every title here contains "salsa", "bachata", "social", "night".
     # If those counted, every event at a venue would match every other.
     assert sr._title_overlap("Salsa Social Night", "Bachata Dance Party Boston") == 0.0
+
+
+class TestSlugCollisions:
+    """`<name>-<id[:8]>` collides whenever a scraper mints ids from a shared
+    prefix ("fiesta-2026...", "bobas-2026..."). The site's findBySlug() takes
+    the first match, so before this every Fiesta night but one was unreachable
+    and the shipped URL rendered the wrong venue."""
+
+    def _events(self):
+        return [
+            {"id": "fiesta-20260828-sol-de-mexico", "name": "Salsa Social", "slug": "salsa-social-fiesta-2"},
+            {"id": "fiesta-20260807-agave", "name": "Salsa Social", "slug": "salsa-social-fiesta-2"},
+            {"id": "unique-event", "name": "Other Night", "slug": "other-night-unique-e"},
+        ]
+
+    def test_every_event_keeps_its_own_url(self, monkeypatch, tmp_path):
+        monkeypatch.setattr(sr, "REGISTRY_PATH", tmp_path / "missing.json")
+        events = self._events()
+        es._resolve_slug_collisions(events)
+        slugs = [e["slug"] for e in events]
+        assert len(set(slugs)) == len(slugs)
+
+    def test_untouched_slug_is_left_alone(self, monkeypatch, tmp_path):
+        monkeypatch.setattr(sr, "REGISTRY_PATH", tmp_path / "missing.json")
+        events = self._events()
+        es._resolve_slug_collisions(events)
+        assert events[2]["slug"] == "other-night-unique-e"
+
+    def test_registered_id_keeps_the_public_url(self, monkeypatch, tmp_path):
+        registry = tmp_path / "slug-registry.json"
+        registry.write_text(json.dumps({"entries": {
+            "salsa-social-fiesta-2": {"id": "fiesta-20260807-agave"},
+        }}))
+        monkeypatch.setattr(sr, "REGISTRY_PATH", registry)
+        events = self._events()
+        es._resolve_slug_collisions(events)
+        keeper = next(e for e in events if e["id"] == "fiesta-20260807-agave")
+        assert keeper["slug"] == "salsa-social-fiesta-2"
+
+    def test_new_slugs_are_stable_across_runs(self, monkeypatch, tmp_path):
+        monkeypatch.setattr(sr, "REGISTRY_PATH", tmp_path / "missing.json")
+        first, second = self._events(), self._events()
+        es._resolve_slug_collisions(first)
+        es._resolve_slug_collisions(second)
+        assert [e["slug"] for e in first] == [e["slug"] for e in second]

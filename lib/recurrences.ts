@@ -300,20 +300,44 @@ export function formatRecurrenceTime(iso: string): string {
 
 const TZ_OPTS = { timeZone: 'America/New_York' } as const;
 
+const DATE_PARTS_FMT = new Intl.DateTimeFormat('en-US', { ...TZ_OPTS, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+
+function dateParts(d: Date): Record<string, string> {
+  const p: Record<string, string> = {};
+  for (const part of DATE_PARTS_FMT.formatToParts(d)) p[part.type] = part.value;
+  return p;
+}
+
 /** True when start/end are midnight on the same day (date-only, no time on source). */
 export function isDateOnlyEvent(start: string, end: string): boolean {
-  const s = new Date(start);
-  const e = new Date(end);
-  const fmt = new Intl.DateTimeFormat('en-US', { ...TZ_OPTS, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
-  const sp: Record<string, string> = {};
-  for (const part of fmt.formatToParts(s)) sp[part.type] = part.value;
-  const ep: Record<string, string> = {};
-  for (const part of fmt.formatToParts(e)) ep[part.type] = part.value;
+  const sp = dateParts(new Date(start));
+  const ep = dateParts(new Date(end));
   return (
     sp.year === ep.year && sp.month === ep.month && sp.day === ep.day
     && sp.hour === '00' && sp.minute === '00'
     && ep.hour === '00' && ep.minute === '00'
   );
+}
+
+/**
+ * True for a festival-style listing that spans days with no times on the
+ * source: both endpoints land on midnight. The end is exclusive, the way
+ * iCalendar writes an all-day DTEND, so the last day people can attend is the
+ * day before it. Without this the UI printed "Aug 21 12:00 AM – Aug 24 12:00
+ * AM" — hours no source ever published.
+ */
+export function isMultiDayAllDayEvent(start: string, end: string): boolean {
+  const s = new Date(start);
+  const e = new Date(end);
+  if (!(e.getTime() > s.getTime())) return false;
+  const sp = dateParts(s);
+  const ep = dateParts(e);
+  return sp.hour === '00' && sp.minute === '00' && ep.hour === '00' && ep.minute === '00';
+}
+
+/** Inclusive last day of a multi-day all-day range (its exclusive end, minus a day). */
+export function allDayLastDay(end: string): Date {
+  return new Date(new Date(end).getTime() - 24 * 60 * 60 * 1000);
 }
 
 export function formatEventTimeRange(start: string, end: string): string {
@@ -323,6 +347,14 @@ export function formatEventTimeRange(start: string, end: string): string {
     weekday: 'short', month: 'short', day: 'numeric', timeZone: 'America/New_York',
   });
   if (isDateOnlyEvent(start, end)) return dateStr;
+
+  if (isMultiDayAllDayEvent(start, end)) {
+    const last = allDayLastDay(end);
+    const lastStr = last.toLocaleDateString('en-US', {
+      weekday: 'short', month: 'short', day: 'numeric', timeZone: 'America/New_York',
+    });
+    return lastStr === dateStr ? dateStr : `${dateStr} – ${lastStr}`;
+  }
 
   const startTime = s.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' });
   const endTime = e.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' });
@@ -528,6 +560,20 @@ export function computeRecurrenceLabel(event: DanceEvent): string | null {
 export function getRecurrenceLabel(event: DanceEvent): string | null {
   if (event.recurrenceLabel) return event.recurrenceLabel;
   return computeRecurrenceLabel(event);
+}
+
+/**
+ * A one-row schedule's note, when it says something the recurrence label does
+ * not already say. The popup hides a one-row schedule table (it would just
+ * restate the pill and the "Next" line), which would otherwise drop notes like
+ * "Lesson + social (18+)" — but not "1st Saturday of each month", which
+ * labelFromScheduleNote() has already folded into the label.
+ */
+export function extraScheduleNote(event: DanceEvent): string | null {
+  if (event.schedule?.length !== 1) return null;
+  const { note, dayOfWeek } = event.schedule[0];
+  if (!note?.trim()) return null;
+  return labelFromScheduleNote(note, dayOfWeek) ? null : note;
 }
 
 /** Multi-day venue hubs (e.g. Havana) — pattern only, no single "next" date. */

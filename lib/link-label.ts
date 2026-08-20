@@ -4,6 +4,7 @@ export function linkLabel(url: string): { label: string; icon: string } {
     if (host.includes('eventbrite.com')) return { label: 'Eventbrite', icon: '🎟' };
     if (host.includes('facebook.com')) return { label: 'Facebook', icon: '📘' };
     if (host.includes('instagram.com')) return { label: 'Instagram', icon: '📷' };
+    if (host.includes('whatsapp.com')) return { label: 'WhatsApp', icon: '💬' };
     if (host.includes('tickeri.com')) return { label: 'Tickeri', icon: '🎫' };
     if (host.includes('humanitix.com')) return { label: 'Humanitix', icon: '🎟' };
     if (host.includes('resy.com')) return { label: 'Resy', icon: '🍽' };

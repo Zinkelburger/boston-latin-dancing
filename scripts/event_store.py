@@ -19,6 +19,7 @@ Provides:
   - Publish step (generate public/events.json)
 """
 
+import hashlib
 import json
 import math
 import re
@@ -81,6 +82,7 @@ SOURCE_PRIORITY = {
     "eastboston-events": 14,
     "harvardsquare": 14,
     "lous-live": 13,
+    "jandl-events": 13,
     "": 20,
 }
 
@@ -651,15 +653,17 @@ def url_rank(url: str) -> int:
     return 10
 
 
-def _collect_urls(a: dict, b: dict) -> list[str]:
-    """Gather unique URLs from both events, keeping one per domain."""
+def _event_url_list(ev: dict) -> list[str]:
+    return [u for u in [ev.get("url"), *(ev.get("urls") or [])] if u]
+
+
+def _collect_urls(*events: dict) -> list[str]:
+    """Gather unique URLs from the given events, keeping one per domain."""
     seen_hosts: set[str] = set()
     seen_urls: set[str] = set()
     result: list[str] = []
-    for ev in (a, b):
-        for u in [ev.get("url")] + (ev.get("urls") or []):
-            if not u:
-                continue
+    for ev in events:
+        for u in _event_url_list(ev):
             normalized = u.rstrip("/").lower()
             if normalized in seen_urls:
                 continue
@@ -1362,6 +1366,47 @@ def _suppress_venue_covered_events(
     return kept, suppressed_venues, report
 
 
+def _collapse_urls(group_events: list[dict], next_start: str) -> tuple[Optional[str], list[str]]:
+    """Pick the best primary URL for a collapsed series.
+
+    Source rank decides which *record* wins. Link quality is separate: among
+    equal-quality URLs, prefer the one that belongs to the next occurrence so
+    a closed past listing on the same host does not outrank the open one.
+    """
+    next_dt = parse_date(next_start)
+    all_urls: list[str] = []
+    next_keys: set[str] = set()
+    seen: set[str] = set()
+    for ev in group_events:
+        ev_start = parse_date(ev.get("startDate", ""))
+        from_next = bool(next_dt and ev_start and ev_start == next_dt)
+        for u in _event_url_list(ev):
+            key = u.rstrip("/").lower()
+            if key not in seen:
+                seen.add(key)
+                all_urls.append(u)
+            # Flag the key on *any* member dated at the next occurrence — the
+            # winning record often already carries that member's URL in its
+            # own urls[], and attributing the flag only to whichever record
+            # happened to mention it first left the stale link primary.
+            if from_next:
+                next_keys.add(key)
+    if not all_urls:
+        return None, []
+
+    def rank(u: str) -> tuple[int, int]:
+        key = u.rstrip("/").lower()
+        return (url_rank(u), 0 if key in next_keys else 1)
+
+    primary = min(all_urls, key=rank)
+    primary_key = primary.rstrip("/").lower()
+    extras = [
+        u for u in _collect_urls({"url": primary}, *group_events)
+        if u.rstrip("/").lower() != primary_key
+    ]
+    return primary, extras
+
+
 def collapse_recurring_series(events: list[dict]) -> list[dict]:
     groups: list[list[int]] = []
     assigned: set[int] = set()
@@ -1467,8 +1512,17 @@ def collapse_recurring_series(events: list[dict]) -> list[dict]:
                 best["lng"] = ev["lng"]
             if not best.get("cost") and ev.get("cost"):
                 best["cost"] = ev["cost"]
-            if not best.get("url") and ev.get("url"):
-                best["url"] = ev["url"]
+
+        # Primary link must be the working page for the *next* night, not
+        # whichever member won on source rank (that is how By the River kept
+        # a closed July Lister URL after Sep/Oct listings collapsed into it).
+        primary, extra = _collapse_urls(group_events, new_start)
+        if primary:
+            best["url"] = primary
+            if extra:
+                best["urls"] = extra
+            else:
+                best.pop("urls", None)
 
         result.append(best)
 
@@ -1745,11 +1799,58 @@ def _queue_rejected(event: dict, reason: str, review_type: str = "non_latin") ->
     return record
 
 
-def slugify(name: str, event_id: str) -> str:
+def _slug_base(name: str) -> str:
     base = unicode_normalize("NFKD", name).encode("ascii", "ignore").decode()
-    base = re.sub(r"[^a-z0-9]+", "-", base.lower()).strip("-")[:60]
-    suffix = event_id[:8].lower()
-    return f"{base}-{suffix}"
+    return re.sub(r"[^a-z0-9]+", "-", base.lower()).strip("-")[:60]
+
+
+def slugify(name: str, event_id: str) -> str:
+    return f"{_slug_base(name)}-{event_id[:8].lower()}"
+
+
+def _resolve_slug_collisions(events: list[dict]) -> list[tuple[str, str]]:
+    """Give every published event a /event/ URL of its own.
+
+    slugify() suffixes the name with the first 8 characters of the id, and
+    whole families of ids share those 8 characters ("fiesta-2026...",
+    "bobas-2026..."). Colliding events all answered on one URL, and the site's
+    findBySlug() returns whichever comes first in the published list, so the
+    shipped URL for one Fiesta night rendered a different night at a different
+    venue and the rest were unreachable.
+
+    The slug the registry already bound to an id stays with that id — that URL
+    is public — and every other member of the collision falls back to a hash of
+    its id, which is stable across runs. Returns the (id, slug) pairs moved.
+    """
+    by_slug: dict[str, list[dict]] = {}
+    for ev in events:
+        if ev.get("slug"):
+            by_slug.setdefault(ev["slug"], []).append(ev)
+    collisions = {slug: evs for slug, evs in by_slug.items() if len(evs) > 1}
+    if not collisions:
+        return []
+
+    shipped: dict[str, str] = {}
+    try:
+        from slug_registry import REGISTRY_PATH
+        entries = json.loads(REGISTRY_PATH.read_text())["entries"]
+        shipped = {slug: e["id"] for slug, e in entries.items() if e.get("id")}
+    except Exception:  # noqa: BLE001 - a missing registry just means no keeper
+        pass
+
+    moved: list[tuple[str, str]] = []
+    for slug, group in collisions.items():
+        ids = sorted(ev.get("id") or "" for ev in group)
+        keeper = shipped.get(slug)
+        if keeper not in ids:
+            keeper = ids[0]
+        for ev in group:
+            if ev.get("id") == keeper:
+                continue
+            digest = hashlib.md5((ev.get("id") or ev["slug"]).encode()).hexdigest()[:8]
+            ev["slug"] = f"{_slug_base(ev.get('name', ''))}-{digest}"
+            moved.append((ev.get("id") or "?", ev["slug"]))
+    return moved
 
 
 def validate_event(event: dict) -> list[str]:
@@ -1761,7 +1862,7 @@ def validate_event(event: dict) -> list[str]:
         issues.append("missing startDate")
     if not event.get("location"):
         issues.append("missing location")
-    if event.get("lat") is None and event.get("location"):
+    if event.get("lat") is None and event.get("location") and not event.get("venueUnknown"):
         coords = geocode(event["location"])
         if coords:
             event["lat"], event["lng"] = coords
@@ -1779,6 +1880,8 @@ def validate_event(event: dict) -> list[str]:
 
 def _infer_location(event: dict) -> None:
     """Fill missing location from description, known venues, or Eventbrite URL."""
+    if event.get("venueUnknown"):
+        return
     if event.get("location"):
         event["location"] = clean_location(event["location"])
         return
@@ -2138,7 +2241,20 @@ def archive_past_events() -> list[dict]:
             still_active.append(ev)
 
     if newly_archived:
-        archive.extend(newly_archived)
+        # An event can reach the archive twice — a re-scrape that fails to
+        # match the archived copy (a changed venue string is enough) lands a
+        # fresh active record with the same id, which is archived again on the
+        # next run. Appending blindly left byte-identical pairs in the archive,
+        # and publish() ships the archive verbatim, so the site rendered the
+        # same past event twice. Refresh the stored copy instead.
+        by_id = {ev.get("id"): i for i, ev in enumerate(archive) if ev.get("id")}
+        for ev in newly_archived:
+            idx = by_id.get(ev.get("id"))
+            if idx is None:
+                by_id[ev.get("id")] = len(archive)
+                archive.append(ev)
+            else:
+                archive[idx] = ev
         save_archive(archive)
         save_active(still_active)
 
@@ -2476,7 +2592,7 @@ def _venue_exclude_date(venue_id: str, date_str: str) -> bool:
             return False
         excluded.append(date_str)
         excluded.sort()
-        VENUES_JSON.write_text(json.dumps(venues, indent=2) + "\n")
+        VENUES_JSON.write_text(json.dumps(venues, indent=2, ensure_ascii=False) + "\n")
         return True
     raise ValueError(f"No venue with id '{venue_id}' in venues.json")
 
@@ -2555,7 +2671,7 @@ def _write_venue_conflicts(report: dict) -> None:
         "conflicts": report.get("conflicts", []),
         "suppressed": report.get("suppressed", []),
     }
-    VENUE_CONFLICTS_JSON.write_text(json.dumps(payload, indent=2) + "\n")
+    VENUE_CONFLICTS_JSON.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n")
 
     # Reporting must never be what breaks a publish, so read every field softly.
     for row in payload["suppressed"]:
@@ -2655,6 +2771,12 @@ def publish() -> dict:
         print(f"  ℹ️  {len(searchonly_out)} irregular venue(s) published as search-only records: {names}")
 
     published = deduped + archived_out + searchonly_out
+
+    moved_slugs = _resolve_slug_collisions(published)
+    if moved_slugs:
+        print(f"  🔀 {len(moved_slugs)} event(s) had a colliding slug and were re-slugged:")
+        for event_id, slug in moved_slugs:
+            print(f"       - {event_id} → {slug}")
 
     # Loudly surface anything shipping without coordinates — those events never
     # render a pin on the map, so they're effectively invisible to visitors.

@@ -74,6 +74,70 @@ def test_merge_url_choice_is_order_independent():
     assert a["url"] == b["url"] == CANONICAL
 
 
+def test_collapse_prefers_next_occurrence_url_on_same_host():
+    """A closed past Lister page must not stay primary after a later date
+    of the same series (with a live listing) collapses into it."""
+    old = _event(
+        id="beatrice-river",
+        name="Bachata & Salsa By The River",
+        source="beatrice-calendar",
+        startDate="2026-07-05T18:00:00-04:00",
+        url="https://www.listerevents.com/event-details/bachata-salsa-by-the-river-3",
+        recurring=True,
+        recurrences=[
+            "2026-07-05T18:00:00-04:00",
+            "2026-09-06T17:00:00-04:00",
+        ],
+        location="Magazine Beach Park, 668 Memorial Dr, Cambridge, MA",
+    )
+    nxt = _event(
+        id="lister-sep",
+        name="EARLIER TIME: Bachata & Salsa By The River",
+        source="lister-events",
+        startDate="2026-09-06T17:00:00-04:00",
+        url="https://www.listerevents.com/event-details/earlier-time-bachata-salsa-by-the-river",
+        location="The Nature Center @ Magazine Beach Park, 668 Memorial Dr, Cambridge, MA",
+    )
+    result = es.collapse_recurring_series([old, nxt])
+    assert len(result) == 1
+    assert result[0]["id"] == "beatrice-river"
+    assert result[0]["url"] == nxt["url"]
+
+
+def test_collapse_next_occurrence_url_wins_even_when_the_winner_carries_it():
+    """The winning record usually already carries the next night's URL in its
+    own urls[] (a previous merge put it there). Attributing "belongs to the
+    next occurrence" to only the first record that mentions a URL left the
+    closed July page primary."""
+    old = _event(
+        id="beatrice-river",
+        name="Bachata & Salsa By The River",
+        source="beatrice-calendar",
+        startDate="2026-07-05T18:00:00-04:00",
+        endDate="2026-07-05T21:00:00-04:00",
+        url="https://www.listerevents.com/event-details/by-the-river-july",
+        urls=["https://www.listerevents.com/event-details/by-the-river-sept"],
+        recurring=True,
+        recurrences=[
+            "2026-07-05T18:00:00-04:00",
+            "2026-09-06T17:00:00-04:00",
+        ],
+        location="Magazine Beach Park, 668 Memorial Dr, Cambridge, MA",
+    )
+    nxt = _event(
+        id="lister-sep",
+        name="Bachata & Salsa By The River",
+        source="lister-events",
+        startDate="2026-09-06T17:00:00-04:00",
+        endDate="2026-09-06T20:00:00-04:00",
+        url="https://www.listerevents.com/event-details/by-the-river-sept",
+        location="Magazine Beach Park, 668 Memorial Dr, Cambridge, MA",
+    )
+    result = es.collapse_recurring_series([old, nxt])
+    assert len(result) == 1
+    assert result[0]["url"] == nxt["url"]
+
+
 def test_merge_still_respects_source_precedence_for_the_record():
     # beatrice-calendar (10) outranks lister-events (12): it must still win the
     # *record*. Only the link selection was ever meant to change.

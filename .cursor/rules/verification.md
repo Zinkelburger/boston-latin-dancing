@@ -139,6 +139,7 @@ These organizer pages may yield new events or help verify existing ones:
 - Havana Club: https://www.havanaclubsalsa.com/
 - Bachata Room: https://www.bachataroomboston.com/
 - Fiesta Dance Company: https://fiestadancecompany.com/upcoming-socials / https://www.instagram.com/fiestadancecompany/ (source: `fiesta-dance-company`)
+- J&L Dance Studio: https://jandldancestudio.com/events (source: `jandl-events`; sitewide upcoming-events bar)
 - Lister Events: https://www.listerevents.com/events
 - Mambo Pa Ti: https://www.mambopati.com/
 - Fuego y Candela: https://www.facebook.com/FuegoyCandelaSalsa/events (source: `dantes-salsa`)

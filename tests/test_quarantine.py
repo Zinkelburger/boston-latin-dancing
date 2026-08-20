@@ -159,6 +159,25 @@ def test_stale_scrape_does_not_reactivate_archived_past_event(store):
     assert len(store.load_archive()) == 1
 
 
+def test_archiving_the_same_id_twice_does_not_duplicate_the_archive(store):
+    """A re-scrape that fails to match the archived copy (a changed venue
+    string is enough) lands a fresh active record with the same id. Archiving
+    it again used to append a second, byte-identical archive entry, and
+    publish() ships the archive verbatim — so the site rendered the same past
+    event twice."""
+    gone = _at(-30)
+    past = _event(id="evt-past", startDate=gone.isoformat(),
+                  endDate=(gone + timedelta(hours=3)).isoformat())
+    store.add_event(dict(past), force=True)
+    assert len(store.archive_past_events()) == 1
+
+    # Same id back in active (however it got there), archived a second time.
+    store.save_active([dict(past)])
+    assert len(store.archive_past_events()) == 1
+    archive = store.load_archive()
+    assert [e["id"] for e in archive] == ["evt-past"]
+
+
 def test_brand_new_past_event_is_skipped(store):
     gone = _at(-30)
     past = _event(id="evt-old", startDate=gone.isoformat(),

@@ -379,5 +379,23 @@
     "date_fix": "evening_ampm",
     "detail_description": "tribe",
     "browser_ua": true
+  },
+  {
+    "id": "jandl-events",
+    "type": "custom",
+    "scraper": "scrape_jandl.py",
+    "name": "J&L Dance Studio",
+    "noise": {
+      "score": 18,
+      "note": "Sitewide upcoming-events bar mixes workshops, closures, and socials; scraper keeps danceable listings (socials, parties, underground, fests they promote)."
+    },
+    "url": "https://jandldancestudio.com/events",
+    "website": "https://jandldancestudio.com",
+    "instagram_handle": "jl_dancestudio",
+    "defaults": {
+      "location": "J&L Dance Studio, 75 Pleasant St #125, Malden, MA 02148"
+    },
+    "enabled": true,
+    "latin_by_default": true
   }
 ]

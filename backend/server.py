@@ -31,10 +31,9 @@ FRONTEND_ORIGIN = os.getenv(
     "BLD_FRONTEND_ORIGIN", "https://bostonsalsa.org"
 )
 ADMIN_TOKEN = os.getenv("BLD_ADMIN_TOKEN", "")
-TURNSTILE_SECRET = os.getenv("TURNSTILE_SECRET", "")
-
-if not TURNSTILE_SECRET:
-    log.warning("TURNSTILE_SECRET is not set — CAPTCHA verification is disabled")
+TURNSTILE_ACTION = "turnstile-spin-v2"
+TURNSTILE_MAX_TOKEN_LEN = 2048
+SITEVERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify"
 
 _cors_origins = [FRONTEND_ORIGIN]
 if os.getenv("BLD_DEBUG"):
@@ -111,25 +110,48 @@ def _client_ip(request: Request) -> str | None:
     ) or None
 
 
+def _turnstile_secret() -> str:
+    return os.getenv("TURNSTILE_SECRET", "").strip()
+
+
+def _turnstile_hostnames() -> set[str]:
+    raw = os.getenv("TURNSTILE_HOSTNAMES", "")
+    return {h.strip() for h in raw.split(",") if h.strip()}
+
+
 def verify_turnstile(token: str, ip: str | None = None) -> bool:
-    if not TURNSTILE_SECRET:
-        return True
-    if not token:
-        log.warning("Turnstile token missing from request")
+    """Canonical Spin siteverify: success, expected action, and hostname."""
+    secret = _turnstile_secret()
+    hostnames = _turnstile_hostnames()
+    if not secret or not hostnames:
+        log.warning("Turnstile is not configured (TURNSTILE_SECRET or TURNSTILE_HOSTNAMES)")
+        return False
+    if not isinstance(token, str) or not token or len(token) > TURNSTILE_MAX_TOKEN_LEN:
+        log.warning("Turnstile token missing or too long")
         return False
     try:
-        payload: dict = {"secret": TURNSTILE_SECRET, "response": token}
+        payload: dict = {"secret": secret, "response": token}
         if ip:
             payload["remoteip"] = ip
-        resp = http_requests.post(
-            "https://challenges.cloudflare.com/turnstile/v0/siteverify",
-            data=payload,
-            timeout=10,
-        )
+        resp = http_requests.post(SITEVERIFY_URL, data=payload, timeout=10)
+        if not resp.ok:
+            log.warning("Turnstile siteverify HTTP %s", resp.status_code)
+            return False
         result = resp.json()
-        if not result.get("success"):
-            log.warning("Turnstile validation failed: %s", result.get("error-codes", []))
-        return result.get("success", False)
+        ok = (
+            result.get("success") is True
+            and result.get("action") == TURNSTILE_ACTION
+            and result.get("hostname") in hostnames
+        )
+        if not ok:
+            log.warning(
+                "Turnstile validation failed: success=%s action=%s hostname=%s errors=%s",
+                result.get("success"),
+                result.get("action"),
+                result.get("hostname"),
+                result.get("error-codes", []),
+            )
+        return ok
     except Exception as e:
         log.error("Turnstile siteverify request failed: %s", e)
         return False
@@ -138,7 +160,7 @@ def verify_turnstile(token: str, ip: str | None = None) -> bool:
 @app.post("/api/submit-event")
 @limiter.limit("5/minute")
 def submit_event(body: EventSubmission, request: Request):
-    if TURNSTILE_SECRET and not verify_turnstile(body.cf_turnstile_token, _client_ip(request)):
+    if not verify_turnstile(body.cf_turnstile_token, _client_ip(request)):
         raise HTTPException(status_code=403, detail="CAPTCHA verification failed")
 
     entry = body.model_dump(exclude={"cf_turnstile_token"})
