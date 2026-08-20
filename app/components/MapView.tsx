@@ -1,12 +1,8 @@
 'use client';
 
 import { useRef, useState, useMemo, useCallback, useEffect } from 'react';
-import MapGL, {
-  Source,
-  Layer,
-  type MapRef,
-  type LayerProps,
-} from 'react-map-gl/maplibre';
+import dynamic from 'next/dynamic';
+import type { MapRef } from 'react-map-gl/maplibre';
 import type { MapLayerMouseEvent } from 'maplibre-gl';
 import type { Feature, FeatureCollection, Point } from 'geojson';
 
@@ -19,6 +15,21 @@ import SearchBar from './SearchBar';
 import FeedView from './FeedView';
 import { useEventFilters } from './useEventFilters';
 import { isSeriesInstance, normalizeEventName } from '@/lib/search';
+import type { MapViewState } from './EventMap';
+import PinOverlay, { type PinProps } from './PinOverlay';
+
+// maplibre-gl is ~1 MB (270 kB gzipped) and a deep-linked visitor does not
+// need any of it to read the event. Loading it lazily keeps it out of the
+// chunks React needs to hydrate this tree, so the popup opens while the map
+// library is still on the wire. `ssr: false` because maplibre touches
+// `window` on import.
+const EventMap = dynamic(() => import('./EventMap'), {
+  ssr: false,
+  // PinOverlay paints the ground and the pins while this is pending.
+  loading: () => null,
+});
+
+const DEFAULT_VIEW: MapViewState = { longitude: -71.08, latitude: 42.36, zoom: 11 };
 
 /** Archived events and search-only venue records: shown as a translucent dot
  *  when opened, never a normal pin, and exempt from filters. */
@@ -26,25 +37,9 @@ function isGhostEvent(event: DanceEvent | null | undefined): boolean {
   return Boolean(event && (event.archived || event.searchOnly));
 }
 
-// Big events (`special`) get a larger pin with a gold ring so festivals stand
-// out from the weekly socials at a glance.
-const unclusteredLayer: LayerProps = {
-  id: 'unclustered',
-  type: 'circle',
-  filter: ['!', ['has', 'point_count']],
-  paint: {
-    'circle-color': ['get', '__color'],
-    'circle-radius': ['case', ['get', '__special'], 9, 7],
-    'circle-stroke-color': ['case', ['get', '__special'], '#facc15', '#ffffff'],
-    'circle-stroke-width': ['case', ['get', '__special'], 3, 2],
-  },
-};
-
-type MarkerProps = { id: string; __color: string; __special: boolean };
+type MarkerProps = PinProps;
 type MarkerFeature = Feature<Point, MarkerProps>;
 type MarkerCollection = FeatureCollection<Point, MarkerProps>;
-
-const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json';
 
 function primaryColor(event: { styles: DanceStyle[] }): string {
   const primary = event.styles[0];
@@ -92,10 +87,14 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
   /** True once the (re)mounted map has fired its `load` event and is safe to drive. */
   const [mapReady, setMapReady] = useState(false);
 
-  /** Event to fly to once the map is ready (set by deep-links and feed selection). */
+  /** Event to fly to once the map is ready (set by feed selection). */
   const pendingFlyToRef = useRef<DanceEvent | null>(null);
-  /** When true, open the event popup after the pending fly-to settles (deep-link UX). */
-  const pendingPopupRef = useRef(false);
+  /**
+   * Camera the map mounts with. A deep-link sets this to the venue before the
+   * map chunk has even arrived, so the first frame is already on the pin —
+   * no city-wide tiles, no 1.2 s flight, nothing for the popup to wait on.
+   */
+  const [initialView, setInitialView] = useState<MapViewState>(DEFAULT_VIEW);
 
   const flyToEvent = useCallback((event: DanceEvent) => {
     if (event.lat == null || event.lng == null) return;
@@ -131,6 +130,13 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
   // initial prop) on arrival and open that event. Guarded so later filter/date
   // changes — which recreate `ensureEventVisible` — can't re-fire this and
   // reopen a closed popup or undo the user's filters.
+  //
+  // The popup opens right here, synchronously with hydration. It used to wait
+  // for the map to load and fly to the pin, which on a slow connection meant
+  // the visitor stared at a blank page through a 1 MB library download, a
+  // remote style fetch, the tiles, and a 1.2 s animation before reading a
+  // single word. The map is decoration for that visitor; it catches up on its
+  // own (see `initialView`).
   const didDeepLinkRef = useRef(false);
   useEffect(() => {
     if (didDeepLinkRef.current) return;
@@ -146,12 +152,16 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
       // Ghosts render regardless of filters (and may have no dates), so
       // there's nothing for ensureEventVisible to unhide.
       if (!isGhostEvent(ev)) ensureEventVisible(ev);
-      setHighlightedEvent(ev);
-      window.history.replaceState(null, '', `#event=${ev.slug}`);
-      pendingFlyToRef.current = ev;
-      pendingPopupRef.current = true;
+      if (mapRef.current) {
+        // Map already mounted (hash-link on the homepage with a warm cache):
+        // fly rather than re-mount.
+        flyToEvent(ev);
+      } else {
+        setInitialView({ longitude: ev.lng, latitude: ev.lat, zoom: 15 });
+      }
+      openEvent(ev);
     }
-  }, [eventsBySlug, initialEventSlug, ensureEventVisible]);
+  }, [eventsBySlug, initialEventSlug, ensureEventVisible, flyToEvent, openEvent]);
 
   const mappableEvents = useMemo(
     () => events.filter(e => e.lat != null && e.lng != null),
@@ -209,7 +219,7 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
       return {
         type: 'Feature',
         geometry: { type: 'Point', coordinates: [lng, lat] },
-        properties: { id: event.id, __color: primaryColor(event), __special: Boolean(event.special) },
+        properties: { id: event.id, __color: primaryColor(event), __special: Boolean(event.special), __name: event.name },
       };
     });
 
@@ -293,28 +303,14 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
     if (viewMode !== 'map') setMapReady(false);
   }, [viewMode]);
 
-  // Once the map has loaded, run any pending fly-to (from a deep-link or feed
-  // selection) and, for deep-links, open the popup after the camera settles.
+  // Once the map has (re)loaded, run any pending fly-to from a feed selection.
   useEffect(() => {
     if (!mapReady) return;
     const target = pendingFlyToRef.current;
     if (!target) return;
     pendingFlyToRef.current = null;
     flyToEvent(target);
-    if (pendingPopupRef.current) {
-      pendingPopupRef.current = false;
-      const map = mapRef.current?.getMap();
-      // Fallback: open the popup after a timeout in case flyTo doesn't trigger
-      // moveend (camera already at target, animation cancelled, etc.).
-      const fallback = setTimeout(() => openEvent(target), 1500);
-      if (map) {
-        map.once('moveend', () => {
-          clearTimeout(fallback);
-          openEvent(target);
-        });
-      }
-    }
-  }, [mapReady, flyToEvent, openEvent]);
+  }, [mapReady, flyToEvent]);
 
   return (
     <div className="flex flex-col h-full">
@@ -324,48 +320,29 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
             events={searchableEvents}
             onSelectEvent={handleSearchSelectEvent}
           />
-          <MapGL
+          {/* Pins that work before the map does. Stacked above the (possibly
+              still-empty) canvas until maplibre's own pins are on screen, then
+              gone — the overlay's pixels line up with the map's, so the visitor
+              sees the same dots throughout. */}
+          {!mapReady && (
+            <PinOverlay
+              geojson={geojson}
+              view={initialView}
+              highlightedId={highlightedEvent?.id ?? null}
+              onSelect={id => { const ev = eventsById.get(id); if (ev) openEvent(ev); }}
+              onClear={() => { setHighlightedEvent(null); closePopup(); }}
+            />
+          )}
+          <EventMap
             ref={mapRef}
-            initialViewState={{ longitude: -71.08, latitude: 42.36, zoom: 11 }}
-            mapStyle={MAP_STYLE}
-            style={{ width: '100%', height: '100%' }}
-            dragRotate={false}
-            interactiveLayerIds={['unclustered']}
+            initialViewState={initialView}
+            geojson={geojson}
+            highlightGeojson={highlightGeojson}
+            highlightColor={highlightedEvent ? primaryColor(highlightedEvent) : '#888'}
+            highlightIsGhost={isGhostEvent(highlightedEvent)}
             onClick={handleClick}
             onLoad={() => setMapReady(true)}
-          >
-            <Source id="events" type="geojson" data={geojson} cluster={false}>
-              <Layer {...unclusteredLayer} />
-            </Source>
-            {highlightGeojson && (
-              <Source id="selected-event" type="geojson" data={highlightGeojson}>
-                {isGhostEvent(highlightedEvent) && (
-                  <Layer
-                    id="selected-dot"
-                    type="circle"
-                    paint={{
-                      'circle-color': ['get', '__color'],
-                      'circle-radius': 7,
-                      'circle-stroke-color': '#ffffff',
-                      'circle-stroke-width': 2,
-                      'circle-opacity': 0.5,
-                    }}
-                  />
-                )}
-                <Layer
-                  id="selected-ring"
-                  type="circle"
-                  paint={{
-                    'circle-radius': 18,
-                    'circle-color': 'transparent',
-                    'circle-stroke-color': highlightedEvent ? primaryColor(highlightedEvent) : '#888',
-                    'circle-stroke-width': 3,
-                    'circle-stroke-opacity': isGhostEvent(highlightedEvent) ? 0.4 : 0.6,
-                  }}
-                />
-              </Source>
-            )}
-          </MapGL>
+          />
         </div>
       ) : (
         <div className="flex-1 overflow-hidden">

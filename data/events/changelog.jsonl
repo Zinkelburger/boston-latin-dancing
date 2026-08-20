@@ -762,3 +762,13 @@
 {"ts": "2026-08-20T19:38:39.717551+00:00", "action": "archive", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": ""}
 {"ts": "2026-08-20T19:43:52.281958+00:00", "action": "add", "event_id": "submit-252c2ee787d87f88", "details": ""}
 {"ts": "2026-08-20T19:44:12.386286+00:00", "action": "block", "event_id": "submit-252c2ee787d87f88", "details": "out_of_area: test submission; Gurgaon, not Boston"}
+{"ts": "2026-08-20T21:25:26.688665+00:00", "action": "reactivate", "event_id": "C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5", "details": "from archive (certain)"}
+{"ts": "2026-08-20T21:25:26.953565+00:00", "action": "reactivate", "event_id": "2ar83v9imef7dkgkonbfvc5t4q@google.com", "details": "from archive (certain)"}
+{"ts": "2026-08-20T21:25:27.075066+00:00", "action": "reactivate", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": "from archive (certain)"}
+{"ts": "2026-08-20T21:25:27.121167+00:00", "action": "reactivate", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": "from archive (certain)"}
+{"ts": "2026-08-20T21:25:27.285824+00:00", "action": "drop_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-09-20-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-08-20T21:25:27.287397+00:00", "action": "drop_non_latin", "event_id": "pr-festival-ma-fiesta-en-la-playa-sabor-boricua", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-08-20T21:25:27.396138+00:00", "action": "archive", "event_id": "C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5", "details": ""}
+{"ts": "2026-08-20T21:25:27.396179+00:00", "action": "archive", "event_id": "2ar83v9imef7dkgkonbfvc5t4q@google.com", "details": ""}
+{"ts": "2026-08-20T21:25:27.396196+00:00", "action": "archive", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": ""}
+{"ts": "2026-08-20T21:25:27.396208+00:00", "action": "archive", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": ""}

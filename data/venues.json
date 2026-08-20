@@ -16,32 +16,32 @@
     "schedule": [
       {
         "dayOfWeek": "Monday",
-        "time": "8:00 PM \u2013 12:30 AM",
+        "time": "8:00 PM – 12:30 AM",
         "note": "90% Bachata, 10% Salsa (21+)"
       },
       {
         "dayOfWeek": "Tuesday",
-        "time": "8:00 PM \u2013 11:30 PM",
+        "time": "8:00 PM – 11:30 PM",
         "note": "60% Bachata, 40% Salsa"
       },
       {
         "dayOfWeek": "Thursday",
-        "time": "9:00 PM \u2013 12:00 AM",
+        "time": "9:00 PM – 12:00 AM",
         "note": "80% Bachata, 20% Salsa (21+)"
       },
       {
         "dayOfWeek": "Friday",
-        "time": "9:00 PM \u2013 2:00 AM",
+        "time": "9:00 PM – 2:00 AM",
         "note": "70% Bachata, 25% Salsa, 5% Merengue (21+)"
       },
       {
         "dayOfWeek": "Saturday",
-        "time": "9:00 PM \u2013 2:00 AM",
+        "time": "9:00 PM – 2:00 AM",
         "note": "70% Bachata, 25% Salsa, 5% Merengue (21+)"
       },
       {
         "dayOfWeek": "Sunday",
-        "time": "7:00 PM \u2013 10:00 PM",
+        "time": "7:00 PM – 10:00 PM",
         "note": "90% Bachata, 10% Salsa"
       }
     ],
@@ -50,7 +50,7 @@
   {
     "id": "bachata-room",
     "name": "Bachata Room",
-    "location": "La F\u00e1brica Central, 450 Massachusetts Ave, Cambridge, MA 02139",
+    "location": "La Fábrica Central, 450 Massachusetts Ave, Cambridge, MA 02139",
     "lat": 42.3634,
     "lng": -71.1012,
     "url": "https://www.bachataroomboston.com",
@@ -60,11 +60,11 @@
       "merengue"
     ],
     "cost": "$15",
-    "description": "Your weekly fix for all your dancing needs.\n\n9:00pm \u2013 10:00pm Bachata Lesson (Beginner/Intermediate)\n10:00pm \u2013 12:00am Social Dancing (Bachata, Salsa, Merengue)\n\n$15 Lesson/Social Dancing (18+)",
+    "description": "Your weekly fix for all your dancing needs.\n\n9:00pm – 10:00pm Bachata Lesson (Beginner/Intermediate)\n10:00pm – 12:00am Social Dancing (Bachata, Salsa, Merengue)\n\n$15 Lesson/Social Dancing (18+)",
     "schedule": [
       {
         "dayOfWeek": "Wednesday",
-        "time": "9:00 PM \u2013 12:00 AM",
+        "time": "9:00 PM – 12:00 AM",
         "note": "Lesson + social (18+)"
       }
     ],
@@ -88,16 +88,17 @@
       "bachata"
     ],
     "cost": "$20",
-    "description": "Friday salsa/bachata socials at the Dante Alighieri Society. Dante's Salsa Inferno is the usual brand; Fuego y Candela and occasional Tamb\u00f3 nights share the hall. Cadence drifts (biweekly earlier in 2026, roughly monthly since May) \u2014 never invent dates from the pattern. Map pins come only from scraped Facebook/calendar listings.\n\n8:30pm \u2013 9:30pm Beginner Lesson\n9:30pm \u2013 1:00am Social Dancing\n\nPlenty of dance space, parking lot, powerful A/C, and a full cash bar. Check the Facebook pages for the next confirmed night.",
+    "description": "Friday salsa/bachata socials at the Dante Alighieri Society — Dante's Salsa Inferno most nights, with Fuego y Candela and Tambó sharing the hall.\n\n8:30pm – 9:30pm Beginner Lesson\n9:30pm – 1:00am Social Dancing\n\nPlenty of dance space, parking lot, powerful A/C, and a full cash bar. Check Facebook for the next date.",
     "nextDateApproximate": true,
-    "recurrenceLabel": "Fridays at the Dante \u2014 dates vary, check FB",
+    "recurrenceLabel": "Fridays, dates vary",
     "schedule": [
       {
         "dayOfWeek": "Friday",
-        "time": "8:30 PM \u2013 1:00 AM"
+        "time": "8:30 PM – 1:00 AM"
       }
     ],
-    "slug": "dante-s-salsa-fridays-dantes-t"
+    "slug": "dante-s-salsa-fridays-dantes-t",
+    "_editorNote": "Cadence drifts (biweekly earlier in 2026, roughly monthly since May) — never invent dates from the pattern. Map pins come only from scraped Facebook/calendar listings."
   },
   {
     "id": "jl-underground",
@@ -113,11 +114,11 @@
       "merengue"
     ],
     "cost": "$15",
-    "description": "Energy, fun, and an exciting mix of Bachata with sprinkles of Salsa, Kizomba, and Merengue.\n\nResident DJ: DJ Luis Talavera D\u00edaz\n\n7:00pm \u2013 8:00pm Bachata Footwork Challenge\n8:00pm \u2013 11:00pm Social Dancing\n\n$15 cash at the door. 1st Saturday of each month.",
+    "description": "Energy, fun, and an exciting mix of Bachata with sprinkles of Salsa, Kizomba, and Merengue.\n\nResident DJ: DJ Luis Talavera Díaz\n\n7:00pm – 8:00pm Bachata Footwork Challenge\n8:00pm – 11:00pm Social Dancing\n\n$15 cash at the door. 1st Saturday of each month.",
     "schedule": [
       {
         "dayOfWeek": "Saturday",
-        "time": "7:00 PM \u2013 11:00 PM",
+        "time": "7:00 PM – 11:00 PM",
         "note": "1st Saturday of each month"
       }
     ],
@@ -134,11 +135,11 @@
       "salsa"
     ],
     "cost": "$15",
-    "description": "The hottest Salsa/Mambo in the heart of Cambridge! Plenty of room for dancing, socializing, and MAMBO!\n\nResident DJ: DJ Rob Suave\n\n7:00pm \u2013 11:00pm Social Dancing\n\n1st Sunday of each month.",
+    "description": "The hottest Salsa/Mambo in the heart of Cambridge! Plenty of room for dancing, socializing, and MAMBO!\n\nResident DJ: DJ Rob Suave\n\n7:00pm – 11:00pm Social Dancing\n\n1st Sunday of each month.",
     "schedule": [
       {
         "dayOfWeek": "Sunday",
-        "time": "7:00 PM \u2013 11:00 PM",
+        "time": "7:00 PM – 11:00 PM",
         "note": "1st Sunday of each month"
       }
     ],
@@ -159,17 +160,17 @@
       "salsa"
     ],
     "cost": "$20",
-    "description": "Non-stop dancing with only the best Salsa/Mambo Boston has to offer. Strengthening our community one social at a time!\n\nResident DJ: DJ Condori\n\n8:30pm \u2013 9:30pm Beginner Salsa Class Workshop\n9:30pm \u2013 1:30am Social Dancing\n\nUsually 1st Friday or 2nd Saturday of each month \u2014 dates vary, check FB page for exact schedule.",
+    "description": "Non-stop dancing with only the best Salsa/Mambo Boston has to offer. Strengthening our community one social at a time!\n\nResident DJ: DJ Condori\n\n8:30pm – 9:30pm Beginner Salsa Class Workshop\n9:30pm – 1:30am Social Dancing\n\nUsually the 1st Friday or 2nd Saturday. Check Facebook.",
     "nextDateApproximate": true,
-    "recurrenceLabel": "Monthly \u2014 dates vary, check FB/IG",
+    "recurrenceLabel": "Monthly, dates vary",
     "schedule": [
       {
         "dayOfWeek": "Friday",
-        "time": "8:30 PM \u2013 1:30 AM"
+        "time": "8:30 PM – 1:30 AM"
       },
       {
         "dayOfWeek": "Saturday",
-        "time": "8:30 PM \u2013 1:30 AM"
+        "time": "8:30 PM – 1:30 AM"
       }
     ],
     "slug": "fuego-y-candela-salsa-social-fuego-y-"
@@ -187,13 +188,13 @@
       "salsa"
     ],
     "cost": "Free",
-    "description": "Boston Outdoor Bachata And Salsa (BOBAS). Outdoor social dancing on the docks behind the Hatch Shell \u2014 bachata on one side, salsa on the other. Free, weather permitting. Usually Tuesdays 6\u20139 PM but dates vary, check the Facebook page.",
+    "description": "Boston Outdoor Bachata And Salsa. Outdoor social dancing on the docks behind the Hatch Shell — bachata on one side, salsa on the other.\n\nFree, weather permitting. Check Facebook.",
     "nextDateApproximate": true,
-    "recurrenceLabel": "Usually Tuesdays \u2014 weather permitting, check FB",
+    "recurrenceLabel": "Usually Tuesdays",
     "schedule": [
       {
         "dayOfWeek": "Tuesday",
-        "time": "6:00 PM \u2013 9:00 PM"
+        "time": "6:00 PM – 9:00 PM"
       }
     ],
     "slug": "bobas-sunset-salsa-bachata-on-the-docks-bobas"
@@ -211,11 +212,11 @@
       "kizomba"
     ],
     "cost": "$15",
-    "description": "Black Mamba Dance Company presents an exciting Salsa & Bachata Social in the Metrowest area! Elegant and spacious venue with premium wood floor. Separate Bachata & Kizomba room.\n\nResident DJ: DJ Black Mamba\n\n6:30pm \u2013 7:30pm Class Workshop\n7:30pm \u2013 10:30pm Social Dancing\n\n$15 Social Dancing / $25 Class + Social (All Ages). 2nd Sunday of each month.",
+    "description": "Black Mamba Dance Company presents an exciting Salsa & Bachata Social in the Metrowest area! Elegant and spacious venue with premium wood floor. Separate Bachata & Kizomba room.\n\nResident DJ: DJ Black Mamba\n\n6:30pm – 7:30pm Class Workshop\n7:30pm – 10:30pm Social Dancing\n\n$15 Social Dancing / $25 Class + Social (All Ages). 2nd Sunday of each month.",
     "schedule": [
       {
         "dayOfWeek": "Sunday",
-        "time": "6:30 PM \u2013 10:30 PM",
+        "time": "6:30 PM – 10:30 PM",
         "note": "2nd Sunday of each month"
       }
     ],
@@ -235,13 +236,12 @@
       "salsa"
     ],
     "cost": null,
-    "description": "Asere, qu\u00e9 bol\u00e1!? Dance group dedicated to spreading the love for Cuban music and dance.\n\nOutdoor Cuban salsa at Cambridge Common (Harvard Square). Usually Tuesdays around 6pm, weather permitting. They skip, move, and shift times a lot \u2014 check Instagram or join the WhatsApp group before you go.",
-    "recurrenceLabel": "Usually Tuesdays @ 6pm \u2014 weather permitting, check IG",
+    "description": "Asere, qué bolá!? Dance group dedicated to spreading the love for Cuban music and dance.\n\nWeather permitting. Check WhatsApp.",
+    "recurrenceLabel": "Usually Tuesdays",
     "schedule": [
       {
         "dayOfWeek": "Tuesday",
-        "time": "6:00 PM \u2013 8:00 PM",
-        "note": "Weather permitting \u2014 time and spot can change, check Instagram"
+        "time": "6:00 PM – 8:00 PM"
       }
     ],
     "slug": "timba-y-descontrol-timba-y"

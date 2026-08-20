@@ -253,7 +253,7 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
         {/* Search-only records have no date — plain note in the date's place */}
         {!hasDates && (
           <div className="text-sm text-gray-600">
-            📅 No confirmed next date — irregular schedule, check the links below.
+            📅 No confirmed date yet
           </div>
         )}
 
@@ -277,7 +277,8 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
 
         <UpcomingDatesTable event={event} className="mt-1" />
 
-        {event.schedule && event.schedule.length > 0 && (
+        {/* One row would just restate the pill and the "Next" line as a table. */}
+        {event.schedule && event.schedule.length > 1 && (
           <WeeklyScheduleTable schedule={event.schedule} className="mt-1" />
         )}
 

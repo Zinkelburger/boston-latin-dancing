@@ -3324,8 +3324,8 @@
       "2026-07-18T18:00:00-04:00",
       "2026-08-15T18:00:00-04:00"
     ],
-    "archivedAt": "2026-08-20T19:38:39.716898+00:00",
-    "reactivatedAt": "2026-08-20T19:38:37.630316+00:00"
+    "archivedAt": "2026-08-20T21:25:27.396097+00:00",
+    "reactivatedAt": "2026-08-20T21:25:26.685019+00:00"
   },
   {
     "id": "2ar83v9imef7dkgkonbfvc5t4q@google.com",
@@ -3353,8 +3353,8 @@
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://forms.gle/kvUf8nb8iqrYuUKaA",
-    "archivedAt": "2026-08-20T19:38:39.716898+00:00",
-    "reactivatedAt": "2026-08-20T19:38:38.210190+00:00"
+    "archivedAt": "2026-08-20T21:25:27.396097+00:00",
+    "reactivatedAt": "2026-08-20T21:25:26.950761+00:00"
   },
   {
     "id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar",
@@ -3383,8 +3383,8 @@
     "_verified_notes": "Page accessible, no JSON-LD found (text check only)",
     "_verification_url": "https://www.eventbrite.com/e/sushi-con-salsa-dance-sessions-vol1-tickets-1988719477492",
     "urls": [],
-    "archivedAt": "2026-08-20T19:38:39.716898+00:00",
-    "reactivatedAt": "2026-08-20T19:38:39.005719+00:00"
+    "archivedAt": "2026-08-20T21:25:27.396097+00:00",
+    "reactivatedAt": "2026-08-20T21:25:27.070965+00:00"
   },
   {
     "id": "130F0122-6C01-443F-AD1D-5B40E8F046CF",
@@ -3415,7 +3415,7 @@
     "_verified_status": "confirmed",
     "_verified_notes": "Page accessible, no JSON-LD found (text check only)",
     "_verification_url": "https://jandldancestudio.com/jl-underground-social",
-    "archivedAt": "2026-08-20T19:38:39.716898+00:00",
-    "reactivatedAt": "2026-08-20T19:38:39.088645+00:00"
+    "archivedAt": "2026-08-20T21:25:27.396097+00:00",
+    "reactivatedAt": "2026-08-20T21:25:27.118229+00:00"
   }
 ]

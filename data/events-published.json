@@ -339,7 +339,7 @@
     "location": "Cambridge Common, Waterhouse St & Massachusetts Ave, Cambridge, MA 02138",
     "lat": 42.3763,
     "lng": -71.1217,
-    "description": "Asere, qué bolá!? Dance group dedicated to spreading the love for Cuban music and dance.\n\nOutdoor Cuban salsa at Cambridge Common (Harvard Square). Usually Tuesdays around 6pm, weather permitting. They skip, move, and shift times a lot — check Instagram or join the WhatsApp group before you go.",
+    "description": "Asere, qué bolá!? Dance group dedicated to spreading the love for Cuban music and dance.\n\nWeather permitting. Check WhatsApp.",
     "url": "https://www.instagram.com/timbadescontrol/",
     "styles": [
       "salsa"
@@ -359,14 +359,13 @@
     "schedule": [
       {
         "dayOfWeek": "Tuesday",
-        "time": "6:00 PM – 8:00 PM",
-        "note": "Weather permitting — time and spot can change, check Instagram"
+        "time": "6:00 PM – 8:00 PM"
       }
     ],
     "urls": [
       "https://chat.whatsapp.com/ECNGI8jyYiF58K9fmqPlcQ"
     ],
-    "recurrenceLabel": "Usually Tuesdays @ 6pm — weather permitting, check IG",
+    "recurrenceLabel": "Usually Tuesdays",
     "slug": "timba-y-descontrol-timba-y-"
   },
   {
@@ -4045,7 +4044,7 @@
     "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA 02139",
     "lat": 42.3679,
     "lng": -71.0885,
-    "description": "Friday salsa/bachata socials at the Dante Alighieri Society. Dante's Salsa Inferno is the usual brand; Fuego y Candela and occasional Tambó nights share the hall. Cadence drifts (biweekly earlier in 2026, roughly monthly since May) — never invent dates from the pattern. Map pins come only from scraped Facebook/calendar listings.\n\n8:30pm – 9:30pm Beginner Lesson\n9:30pm – 1:00am Social Dancing\n\nPlenty of dance space, parking lot, powerful A/C, and a full cash bar. Check the Facebook pages for the next confirmed night.",
+    "description": "Friday salsa/bachata socials at the Dante Alighieri Society — Dante's Salsa Inferno most nights, with Fuego y Candela and Tambó sharing the hall.\n\n8:30pm – 9:30pm Beginner Lesson\n9:30pm – 1:00am Social Dancing\n\nPlenty of dance space, parking lot, powerful A/C, and a full cash bar. Check Facebook for the next date.",
     "url": "https://www.facebook.com/DantesSalsaInferno/events",
     "styles": [
       "salsa",
@@ -4059,7 +4058,7 @@
       "https://www.tambosalsa.com/"
     ],
     "nextDateApproximate": true,
-    "recurrenceLabel": "Fridays at the Dante — dates vary, check FB",
+    "recurrenceLabel": "Fridays, dates vary",
     "searchOnly": true,
     "slug": "dante-s-salsa-fridays-dantes-t",
     "organizer": "Dante's Salsa Inferno"
@@ -4073,7 +4072,7 @@
     "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA 02139",
     "lat": 42.3679,
     "lng": -71.0885,
-    "description": "Non-stop dancing with only the best Salsa/Mambo Boston has to offer. Strengthening our community one social at a time!\n\nResident DJ: DJ Condori\n\n8:30pm – 9:30pm Beginner Salsa Class Workshop\n9:30pm – 1:30am Social Dancing\n\nUsually 1st Friday or 2nd Saturday of each month — dates vary, check FB page for exact schedule.",
+    "description": "Non-stop dancing with only the best Salsa/Mambo Boston has to offer. Strengthening our community one social at a time!\n\nResident DJ: DJ Condori\n\n8:30pm – 9:30pm Beginner Salsa Class Workshop\n9:30pm – 1:30am Social Dancing\n\nUsually the 1st Friday or 2nd Saturday. Check Facebook.",
     "url": "https://www.facebook.com/FuegoyCandelaSalsa/events",
     "styles": [
       "salsa"
@@ -4084,7 +4083,7 @@
       "https://www.instagram.com/fuegoycandelasalsa/"
     ],
     "nextDateApproximate": true,
-    "recurrenceLabel": "Monthly — dates vary, check FB/IG",
+    "recurrenceLabel": "Monthly, dates vary",
     "searchOnly": true,
     "slug": "fuego-y-candela-salsa-social-fuego-y-",
     "organizer": "Fuego y Candela Salsa Socials"
@@ -4098,7 +4097,7 @@
     "location": "Hatch Shell on the Esplanade, Boston, MA",
     "lat": 42.357256,
     "lng": -71.073702,
-    "description": "Boston Outdoor Bachata And Salsa (BOBAS). Outdoor social dancing on the docks behind the Hatch Shell — bachata on one side, salsa on the other. Free, weather permitting. Usually Tuesdays 6–9 PM but dates vary, check the Facebook page.",
+    "description": "Boston Outdoor Bachata And Salsa. Outdoor social dancing on the docks behind the Hatch Shell — bachata on one side, salsa on the other.\n\nFree, weather permitting. Check Facebook.",
     "url": "https://www.facebook.com/groups/576206842396498",
     "styles": [
       "bachata",
@@ -4107,7 +4106,7 @@
     "cost": "Free",
     "recurring": true,
     "nextDateApproximate": true,
-    "recurrenceLabel": "Usually Tuesdays — weather permitting, check FB",
+    "recurrenceLabel": "Usually Tuesdays",
     "searchOnly": true,
     "slug": "bobas-sunset-salsa-bachata-on-the-docks-bobas",
     "organizer": "Boston Outdoor Bachata And Salsa (BOBAS)"
