@@ -232,73 +232,59 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
               </span>
             )}
           </div>
+
+        <div className="event-popup-facts">
+          {hasDates && !(event.schedule && event.schedule.length > 0) && (
+            <MetaRow icon="calendar">
+              {formatEventTimeRange(displayStart, displayEnd)}
+              {event.archived && ' — this event has passed'}
+            </MetaRow>
+          )}
+
+          {!hasDates && (
+            <MetaRow icon="calendar">No confirmed date yet</MetaRow>
+          )}
+
+          {event.archived && nextInstance && (
+            <div className="text-sm text-gray-600">
+              Next up:{' '}
+              <button
+                onClick={() => onNavigate?.(nextInstance)}
+                className="underline font-medium hover:text-gray-900 cursor-pointer"
+              >
+                {nextInstance.name} — {formatEventTimeRange(nextInstance.startDate, nextInstance.endDate)}
+              </button>
+            </div>
+          )}
+
+          {nextIso && event.schedule && event.schedule.length > 0 && (
+            <MetaRow icon="calendar">
+              Next: {formatEventTimeRange(nextIso, occurrenceEndDate(event, nextIso))}
+            </MetaRow>
+          )}
+
+          {event.location && (
+            <MetaRow icon="pin">{event.location}</MetaRow>
+          )}
+
+          {event.cost && (
+            <MetaRow icon="cost">{event.cost}</MetaRow>
+          )}
+
+          {scheduleNote && (
+            <MetaRow icon="info">{scheduleNote}</MetaRow>
+          )}
+        </div>
         </div>
 
-        {/* Scrollable body — header and links stay pinned */}
-        <div
-          style={{
-            overflowY: 'auto',
-            padding: '1.25rem 1.25rem 0.75rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.5rem',
-          }}
-        >
-        {hasDates && !(event.schedule && event.schedule.length > 0) && (
-          <MetaRow icon="calendar">
-            {formatEventTimeRange(displayStart, displayEnd)}
-            {event.archived && ' — this event has passed'}
-          </MetaRow>
-        )}
-
-        {!hasDates && (
-          <MetaRow icon="calendar">No confirmed date yet</MetaRow>
-        )}
-
-        {event.archived && nextInstance && (
-          <div className="text-sm text-gray-600">
-            Next up:{' '}
-            <button
-              onClick={() => onNavigate?.(nextInstance)}
-              className="underline font-medium hover:text-gray-900 cursor-pointer"
-            >
-              {nextInstance.name} — {formatEventTimeRange(nextInstance.startDate, nextInstance.endDate)}
-            </button>
-          </div>
-        )}
-
-        {nextIso && event.schedule && event.schedule.length > 0 && (
-          <MetaRow icon="calendar">
-            Next: {formatEventTimeRange(nextIso, occurrenceEndDate(event, nextIso))}
-          </MetaRow>
-        )}
-
-        <UpcomingDatesTable event={event} className="mt-1" />
-
-        {/* One row would just restate the pill and the "Next" line as a table,
-            but its note can still carry something neither of those says. */}
-        {event.schedule && event.schedule.length > 1 && (
-          <WeeklyScheduleTable schedule={event.schedule} className="mt-1" />
-        )}
-        {scheduleNote && (
-          <MetaRow icon="info">{scheduleNote}</MetaRow>
-        )}
-
-        {/* Location */}
-        {event.location && (
-          <MetaRow icon="pin">{event.location}</MetaRow>
-        )}
-
-        {event.cost && (
-          <MetaRow icon="cost">{event.cost}</MetaRow>
-        )}
-
-        {/* Description */}
+        {/* Story + extra tables scroll; identity and logistics stay put */}
+        <div className="event-popup-body">
         {cleanDesc.trim() && (
-          <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-line border-t border-gray-100 pt-2 mt-1">
+          <div className="event-popup-desc">
             {linkifyText(visibleDesc)}
             {isLong && !descExpanded && (
               <button
+                type="button"
                 onClick={() => setDescExpanded(true)}
                 className="block mt-1 text-xs font-medium text-rose-500 hover:text-rose-700 cursor-pointer"
               >
@@ -307,6 +293,7 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
             )}
             {isLong && descExpanded && (
               <button
+                type="button"
                 onClick={() => setDescExpanded(false)}
                 className="block mt-1 text-xs font-medium text-rose-500 hover:text-rose-700 cursor-pointer"
               >
@@ -314,6 +301,14 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
               </button>
             )}
           </div>
+        )}
+
+        <UpcomingDatesTable event={event} className="mt-1" />
+
+        {/* One row would just restate the pill and the "Next" line as a table,
+            but its note can still carry something neither of those says. */}
+        {event.schedule && event.schedule.length > 1 && (
+          <WeeklyScheduleTable schedule={event.schedule} className="mt-1" />
         )}
 
         {pastInstances.length > 0 && (
