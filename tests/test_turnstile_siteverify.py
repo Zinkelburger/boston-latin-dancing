@@ -90,6 +90,20 @@ def test_rejects_localhost_even_if_returned(monkeypatch):
     assert api.verify_turnstile("ok-token") is False
 
 
+def test_accepts_www_hostname_when_allowlisted(monkeypatch):
+    monkeypatch.setenv("TURNSTILE_SECRET", "test-secret")
+    monkeypatch.setenv(
+        "TURNSTILE_HOSTNAMES", "bostonsalsa.org,www.bostonsalsa.org"
+    )
+    _mock_post(monkeypatch, _ok_result(hostname="www.bostonsalsa.org"))
+    assert api.verify_turnstile("ok-token") is True
+
+
+def test_rejects_www_when_not_allowlisted(configured, monkeypatch):
+    _mock_post(monkeypatch, _ok_result(hostname="www.bostonsalsa.org"))
+    assert api.verify_turnstile("ok-token") is False
+
+
 def test_accepts_matching_action_and_hostname(configured, monkeypatch):
     mock = _mock_post(monkeypatch, _ok_result())
     assert api.verify_turnstile("ok-token", ip="1.2.3.4") is True

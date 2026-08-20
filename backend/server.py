@@ -35,7 +35,24 @@ TURNSTILE_ACTION = "turnstile-spin-v2"
 TURNSTILE_MAX_TOKEN_LEN = 2048
 SITEVERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify"
 
-_cors_origins = [FRONTEND_ORIGIN]
+
+def _cors_origins_from_env(raw: str) -> list[str]:
+    origins: list[str] = []
+    for origin in (o.strip().rstrip("/") for o in raw.split(",")):
+        if origin and origin not in origins:
+            origins.append(origin)
+        if origin.startswith("https://www."):
+            apex = "https://" + origin.removeprefix("https://www.")
+            if apex not in origins:
+                origins.append(apex)
+        elif origin.startswith("https://"):
+            www = "https://www." + origin.removeprefix("https://")
+            if www not in origins:
+                origins.append(www)
+    return origins
+
+
+_cors_origins = _cors_origins_from_env(FRONTEND_ORIGIN)
 if os.getenv("BLD_DEBUG"):
     _cors_origins.append("http://localhost:3000")
 
