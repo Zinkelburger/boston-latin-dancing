@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import allEvents from '@/data/events-published.json';
 import type { DanceEvent } from '@/types/event';
 import { SITE_URL } from '@/lib/constants';
-import { stripHtml } from '@/lib/strip-html';
 import { formatEventTimeRange, firstOccurrenceInRange } from '@/lib/recurrences';
 import MapView from './components/MapView';
+import { cleanDisplayText } from '@/lib/display-text';
 
 const events = (allEvents as DanceEvent[]).filter(e => !e.archived && !e.searchOnly && e.slug);
 
@@ -94,9 +94,7 @@ export default function Home() {
       <section className="sr-only" aria-label="Event listings">
         <h2>Upcoming Events</h2>
         {events.map(e => {
-          const desc = stripHtml(e.description)
-            .replace(/https?:\/\/\S+/gi, '')
-            .replace(/www\.\S+/gi, '')
+          const desc = cleanDisplayText(e.description)
             .replace(/\s+/g, ' ')
             .slice(0, 200).trim();
           return (

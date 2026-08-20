@@ -6,7 +6,7 @@ import {
   shouldShowUpcomingDates,
   upcomingRecurrences,
 } from '@/lib/recurrences';
-import { stripHtml } from '@/lib/strip-html';
+import { cleanDisplayText } from '@/lib/display-text';
 
 const DAY_SHORT: Record<DayOfWeek, string> = {
   Monday: 'Mon', Tuesday: 'Tue', Wednesday: 'Wed',
@@ -237,7 +237,7 @@ export function SearchResultsTable({
             const dateLabel = !event.startDate
               ? 'Varies'
               : new Date(event.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'America/New_York' });
-            const desc = stripHtml(event.description);
+            const desc = cleanDisplayText(event.description);
             const snippet = searchTokens.length > 0 ? excerptAround(desc, searchTokens) : '';
             return (
               <tr
@@ -265,7 +265,7 @@ export function SearchResultsTable({
                 <td className="search-results-when">
                   {dateLabel}
                   {event.archived && (
-                    <span className="block text-[10px] uppercase tracking-wide text-gray-400">past</span>
+                    <span className="block text-[10px] uppercase tracking-wide text-gray-600">past</span>
                   )}
                 </td>
               </tr>

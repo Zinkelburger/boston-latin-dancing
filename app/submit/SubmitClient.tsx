@@ -141,6 +141,7 @@ export default function SubmitClient() {
           <Link
             href="/"
             className="pretty-pill pretty-pill-neutral"
+            aria-label="Back to map"
             style={{ padding: '0.2rem 0.5rem', lineHeight: 1, textDecoration: 'none' }}
           >
             &#x2715;
@@ -166,6 +167,8 @@ export default function SubmitClient() {
           <form onSubmit={handleSubmit} className="submit-modal-body">
             {/* ── Contact ── */}
             <fieldset className="submit-section">
+              <legend className="submit-section-label">How we reach you</legend>
+              <p className="submit-hint">Email or Instagram — we only need one so we can follow up.</p>
               <div className="submit-row">
                 <div className="submit-field">
                   <label htmlFor="se-email">Email</label>
@@ -190,6 +193,11 @@ export default function SubmitClient() {
                   />
                 </div>
               </div>
+              {contactError && (
+                <p className="submit-hint" style={{ color: '#b91c1c' }}>
+                  Add an email or Instagram so we can follow up.
+                </p>
+              )}
             </fieldset>
 
             {/* ── Event Details ── */}
@@ -406,14 +414,17 @@ export default function SubmitClient() {
               onUnavailable={() => setTurnstileFailed(true)}
             />
             {turnstileFailed && (
-              <p className="text-xs" style={{ color: '#ef4444' }}>
+              <p className="text-xs" style={{ color: '#b91c1c' }}>
                 The spam check couldn&apos;t load, so this form can&apos;t be submitted
                 right now. Reload the page to try again — if it keeps failing, a
                 privacy extension or ad blocker is likely blocking it.
               </p>
             )}
             {submitState === 'error' && (
-              <p className="text-xs" style={{ color: '#ef4444' }}>{errorMsg}</p>
+              <p className="text-xs" style={{ color: '#b91c1c' }}>{errorMsg}</p>
+            )}
+            {submitState !== 'submitting' && !turnstileToken && !turnstileFailed && (
+              <p className="submit-hint">Waiting for the spam check before you can submit.</p>
             )}
             <button
               type="submit"

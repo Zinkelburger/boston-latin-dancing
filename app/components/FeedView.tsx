@@ -7,7 +7,7 @@ import { STYLE_LABELS, STYLE_PILL_CLASS, SITE_URL } from '@/lib/constants';
 import { DAY_NAMES } from '@/lib/filter-options';
 import { formatShort, bostonWeekday } from '@/lib/dates';
 import { tokenize, matchEvent } from '@/lib/search';
-import { stripHtml } from '@/lib/strip-html';
+import { cleanDisplayText } from '@/lib/display-text';
 import {
   getRecurrenceLabel,
   isDateOnlyEvent,
@@ -336,7 +336,7 @@ function FeedCard({
   onSelect: () => void;
   searchTokens: string[];
 }) {
-  const cleanDesc = stripHtml(event.description);
+  const cleanDesc = cleanDisplayText(event.description);
   const shortDesc = searchTokens.length > 0
     ? excerptAround(cleanDesc, searchTokens)
     : cleanDesc.length > 120

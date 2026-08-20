@@ -4,6 +4,7 @@ import type { DanceEvent } from '@/types/event';
 import { SITE_URL, STYLE_LABELS } from '@/lib/constants';
 import { formatEventTimeRange, getRecurrenceLabel } from '@/lib/recurrences';
 import { stripHtml } from '@/lib/strip-html';
+import { cleanDisplayText } from '@/lib/display-text';
 import EventJsonLd from './EventJsonLd';
 import MapView from '@/app/components/MapView';
 import { redirectTarget, retiredName, retiredSlugs } from '@/lib/slug-registry';
@@ -200,9 +201,7 @@ export default async function EventPage({ params }: { params: Promise<Params> })
 
   const shareUrl = `${SITE_URL}/event/${slug}`;
   const isMappable = event.lat != null && event.lng != null;
-  const cleanDesc = stripHtml(event.description)
-    .replace(/https?:\/\/\S+/gi, '')
-    .replace(/www\.\S+/gi, '')
+  const cleanDesc = cleanDisplayText(event.description)
     .replace(/\s+/g, ' ')
     .slice(0, 300).trim();
 

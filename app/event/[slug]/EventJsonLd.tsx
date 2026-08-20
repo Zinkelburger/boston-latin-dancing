@@ -1,5 +1,5 @@
 import type { DanceEvent } from '@/types/event';
-import { stripHtml } from '@/lib/strip-html';
+import { cleanDisplayText } from '@/lib/display-text';
 
 interface Props {
   event: DanceEvent;
@@ -33,7 +33,7 @@ export default function EventJsonLd({ event, url }: Props) {
   };
 
   if (event.description) {
-    jsonLd.description = stripHtml(event.description).slice(0, 300);
+    jsonLd.description = cleanDisplayText(event.description).slice(0, 300);
   }
 
   if (event.organizer) {

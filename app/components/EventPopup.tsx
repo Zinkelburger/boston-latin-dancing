@@ -14,10 +14,11 @@ import {
   shouldShowNextOccurrence,
 } from '@/lib/recurrences';
 import { isSeriesInstance, normalizeEventName } from '@/lib/search';
-import { stripHtml } from '@/lib/strip-html';
+import { cleanDisplayText } from '@/lib/display-text';
 import { collectEventLinks } from '@/lib/link-label';
 import ShareButton from './ShareButton';
 import { PastDatesTable, UpcomingDatesTable, WeeklyScheduleTable } from './EventTable';
+import MetaRow from './MetaRow';
 
 const URL_RE = /(https?:\/\/[^\s,)]+)/g;
 
@@ -92,7 +93,7 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
 
   const [descExpanded, setDescExpanded] = useState(false);
 
-  const cleanDesc = stripHtml(event.description);
+  const cleanDesc = cleanDisplayText(event.description);
   const CHAR_LIMIT = 300;
   const isLong = cleanDesc.length > CHAR_LIMIT;
   const visibleDesc = descExpanded || !isLong
@@ -187,7 +188,53 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
         }}
         onClick={e => e.stopPropagation()}
       >
-        {/* Scrollable body — the links footer below stays pinned */}
+        <div className="event-popup-header">
+          <div className="event-popup-heading">
+            <div className="event-popup-actions">
+              {shareUrl && (
+                <ShareButton url={shareUrl} title={event.name} text={cleanDesc.slice(0, 120) || undefined} className="shrink-0 text-xs" />
+              )}
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Close"
+                className="pretty-pill pretty-pill-neutral shrink-0"
+                style={{ padding: '0.2rem 0.5rem', lineHeight: 1 }}
+              >
+                &#x2715;
+              </button>
+            </div>
+            <h2 className="event-title">
+              {event.name}
+            </h2>
+          </div>
+
+          <div className="flex flex-wrap gap-1.5">
+            {event.special && (
+              <span className="pretty-pill pretty-pill-amber text-xs">Big Event</span>
+            )}
+            {event.styles.map(style => (
+              <span key={style} className={`pretty-pill ${STYLE_PILL_CLASS[style]} text-xs`}>
+                {STYLE_LABELS[style]}
+              </span>
+            ))}
+            {event.recurring && !recurrenceLabel && (
+              <span className="pretty-pill pretty-pill-neutral text-xs">Recurring</span>
+            )}
+            {recurrenceLabel && (event.schedule?.length ?? 0) <= 1 && (
+              <span className="pretty-pill pretty-pill-sky text-xs">
+                {recurrenceLabel}
+              </span>
+            )}
+            {event.nextDateApproximate && !(event.searchOnly && !event.archived) && (
+              <span className="pretty-pill pretty-pill-amber text-xs">
+                Date unconfirmed
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Scrollable body — header and links stay pinned */}
         <div
           style={{
             overflowY: 'auto',
@@ -197,66 +244,15 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
             gap: '0.5rem',
           }}
         >
-        <div className="flex items-start">
-          <h2 className="text-lg font-semibold min-w-0 flex-1" style={{ margin: 0 }}>
-            {event.name}
-          </h2>
-          <div className="flex items-center shrink-0" style={{ gap: '0.5rem' }}>
-            {shareUrl && (
-              <ShareButton url={shareUrl} title={event.name} text={stripHtml(event.description).slice(0, 120) || undefined} className="shrink-0 text-xs" />
-            )}
-            <button
-              onClick={onClose}
-              aria-label="Close"
-              className="pretty-pill pretty-pill-neutral shrink-0"
-              style={{ padding: '0.2rem 0.5rem', lineHeight: 1 }}
-            >
-              &#x2715;
-            </button>
-          </div>
-        </div>
-
-        {/* Style pills */}
-        <div className="flex flex-wrap gap-1.5">
-          {event.special && (
-            <span className="pretty-pill pretty-pill-amber text-xs">Big Event</span>
-          )}
-          {event.styles.map(style => (
-            <span key={style} className={`pretty-pill ${STYLE_PILL_CLASS[style]} text-xs`}>
-              {STYLE_LABELS[style]}
-            </span>
-          ))}
-          {event.recurring && !recurrenceLabel && (
-            <span className="pretty-pill pretty-pill-neutral text-xs">Recurring</span>
-          )}
-        </div>
-
-        {recurrenceLabel && (
-          <div className="flex flex-wrap gap-1.5 items-center">
-            <span className="pretty-pill pretty-pill-sky text-xs">
-              {recurrenceLabel}
-            </span>
-            {/* The search-only date line already says the date is unconfirmed */}
-            {event.nextDateApproximate && !(event.searchOnly && !event.archived) && (
-              <span className="pretty-pill pretty-pill-amber text-xs">
-                Date unconfirmed
-              </span>
-            )}
-          </div>
-        )}
-
         {hasDates && !(event.schedule && event.schedule.length > 0) && (
-          <div className="text-sm text-gray-600">
-            📅 {formatEventTimeRange(displayStart, displayEnd)}
+          <MetaRow icon="calendar">
+            {formatEventTimeRange(displayStart, displayEnd)}
             {event.archived && ' — this event has passed'}
-          </div>
+          </MetaRow>
         )}
 
-        {/* Search-only records have no date — plain note in the date's place */}
         {!hasDates && (
-          <div className="text-sm text-gray-600">
-            📅 No confirmed date yet
-          </div>
+          <MetaRow icon="calendar">No confirmed date yet</MetaRow>
         )}
 
         {event.archived && nextInstance && (
@@ -272,9 +268,9 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
         )}
 
         {nextIso && event.schedule && event.schedule.length > 0 && (
-          <div className="text-sm text-gray-600">
-            📅 Next: {formatEventTimeRange(nextIso, occurrenceEndDate(event, nextIso))}
-          </div>
+          <MetaRow icon="calendar">
+            Next: {formatEventTimeRange(nextIso, occurrenceEndDate(event, nextIso))}
+          </MetaRow>
         )}
 
         <UpcomingDatesTable event={event} className="mt-1" />
@@ -285,26 +281,21 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
           <WeeklyScheduleTable schedule={event.schedule} className="mt-1" />
         )}
         {scheduleNote && (
-          <div className="text-sm text-gray-600">ℹ️ {scheduleNote}</div>
+          <MetaRow icon="info">{scheduleNote}</MetaRow>
         )}
 
         {/* Location */}
         {event.location && (
-          <div className="text-sm text-gray-600">
-            📍 {event.location}
-          </div>
+          <MetaRow icon="pin">{event.location}</MetaRow>
         )}
 
-        {/* Cost */}
         {event.cost && (
-          <div className="text-sm font-medium text-rose-600">
-            💵 {event.cost}
-          </div>
+          <MetaRow icon="cost">{event.cost}</MetaRow>
         )}
 
         {/* Description */}
         {cleanDesc.trim() && (
-          <div className="text-sm text-gray-600 leading-relaxed whitespace-pre-line border-t border-gray-100 pt-2 mt-1">
+          <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-line border-t border-gray-100 pt-2 mt-1">
             {linkifyText(visibleDesc)}
             {isLong && !descExpanded && (
               <button
@@ -331,10 +322,7 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
         </div>
 
         {/* Links — pinned footer, always visible */}
-        <div
-          className="flex flex-wrap gap-2"
-          style={{ padding: '0.75rem 1.25rem', borderTop: '1px solid #f3f4f6', flexShrink: 0 }}
-        >
+        <div className="event-popup-footer">
           {allLinks.map((lnk, i) => (
             <a
               key={i}
