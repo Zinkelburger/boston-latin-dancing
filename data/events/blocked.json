@@ -174,5 +174,38 @@
     "blocked_notes": "Una Bulla pattern guess (1st/3rd Friday) — FB URL is old Jun 19 event; only confirmed Inferno is Aug 7",
     "location": "Dante Alighieri Society of Massachusetts, 41 Hampshire St, Cambridge, MA 02139, USA",
     "block_key": "dantes salsa inferno|dante alighieri"
+  },
+  {
+    "id": "eb-1997804991509",
+    "name": "Bachata (Dominicana) Bootcamp",
+    "source": "eventbrite-boston-latin",
+    "blocked_reason": "class, not social dance",
+    "blocked_category": "class_only",
+    "blocked_at": "2026-08-20T19:24:08.295142+00:00",
+    "blocked_notes": "class, not social dance",
+    "location": "Studio 204, Artist Studios, Boston Center for the Arts, 551 Tremont Street, Boston, MA 02116",
+    "block_key": "bachata dominicana bootcamp|studio 204 artist studios boston center for the arts 551 tremont street boston ma 02116"
+  },
+  {
+    "id": "nlf-events-intermediate-bachata-w-tina-2026-08-20-20-45",
+    "name": "Intermediate Bachata w/ Tina",
+    "source": "nlf-events",
+    "blocked_reason": "class, not social dance",
+    "blocked_category": "class_only",
+    "blocked_at": "2026-08-20T19:24:08.300036+00:00",
+    "blocked_notes": "class, not social dance",
+    "location": "Havana Club, 288 Green St, Cambridge, MA 02139",
+    "block_key": "intermediate bachata w tina|havana club 288 green st cambridge ma 02139"
+  },
+  {
+    "id": "submit-252c2ee787d87f88",
+    "name": "Test Social",
+    "source": "submissions",
+    "blocked_reason": "test submission; Gurgaon, not Boston",
+    "blocked_category": "out_of_area",
+    "blocked_at": "2026-08-20T19:44:12.385746+00:00",
+    "blocked_notes": "test submission; Gurgaon, not Boston",
+    "location": "Striker Bar, Gurgaon",
+    "block_key": "test social|striker bar gurgaon"
   }
 ]

@@ -648,3 +648,117 @@
 {"ts": "2026-08-13T15:25:44.425261+00:00", "action": "edit", "event_id": "7EE9F55F-DC66-4E39-B19F-BD3E19C6387B", "details": "{\"urls\": null}"}
 {"ts": "2026-08-13T15:25:44.427048+00:00", "action": "edit", "event_id": "5ED3301D-8CE8-45D1-8094-C380C699DA99", "details": "{\"urls\": null}"}
 {"ts": "2026-08-13T19:32:44.719925+00:00", "action": "edit", "event_id": "F8B6E308-C6BD-49A3-962E-FD78CBC46CDC", "details": "{\"location\": \"Gran Pe\\u00f1ol Restaurant & Bar, 151 Central Ave, Lynn, MA 01901\"}"}
+{"ts": "2026-08-20T19:03:03.978068+00:00", "action": "remove", "event_id": "16m8bm77eru8te9pak73f904qn@google.com", "details": "replaced by recurring venue hub at Cambridge Common (Instagram)"}
+{"ts": "2026-08-20T19:03:03.978647+00:00", "action": "dismiss_rejected", "event_id": "16m8bm77eru8te9pak73f904qn@google.com", "details": "replaced by recurring venue hub at Cambridge Common (Instagram)"}
+{"ts": "2026-08-20T19:03:03.983670+00:00", "action": "remove", "event_id": "9802609C-4946-4E9E-8E83-D491FE8F00A5", "details": "replaced by recurring venue hub at Cambridge Common (Instagram)"}
+{"ts": "2026-08-20T19:03:03.984248+00:00", "action": "dismiss_rejected", "event_id": "9802609C-4946-4E9E-8E83-D491FE8F00A5", "details": "replaced by recurring venue hub at Cambridge Common (Instagram)"}
+{"ts": "2026-08-20T19:14:49.477759+00:00", "action": "add", "event_id": "9802609C-4946-4E9E-8E83-D491FE8F00A5", "details": ""}
+{"ts": "2026-08-20T19:14:49.551103+00:00", "action": "add", "event_id": "7D289883-0E47-4FD6-9604-693C13FFD0A5", "details": ""}
+{"ts": "2026-08-20T19:14:51.325217+00:00", "action": "reactivate", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": "from archive (certain)"}
+{"ts": "2026-08-20T19:14:51.394083+00:00", "action": "add", "event_id": "837D1E85-F1BF-4DB6-B03D-710CE18620B3", "details": ""}
+{"ts": "2026-08-20T19:14:51.413270+00:00", "action": "reactivate", "event_id": "61B50538-D7A5-466E-9039-7663B3F54F9D", "details": "from archive (certain)"}
+{"ts": "2026-08-20T19:14:51.457764+00:00", "action": "reactivate", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": "from archive (certain)"}
+{"ts": "2026-08-20T19:14:51.646329+00:00", "action": "add", "event_id": "fiesta-20260828-sol-de-mexico-milford", "details": ""}
+{"ts": "2026-08-20T19:14:51.669503+00:00", "action": "add", "event_id": "fiesta-20260911-agave-mexican-grill-cantina-marlborough", "details": ""}
+{"ts": "2026-08-20T19:14:51.698789+00:00", "action": "add", "event_id": "fiesta-20260925-sol-de-mexico-milford", "details": ""}
+{"ts": "2026-08-20T19:14:51.730135+00:00", "action": "add", "event_id": "fiesta-18609de322ec", "details": ""}
+{"ts": "2026-08-20T19:14:51.912516+00:00", "action": "add", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-08-20-20-45", "details": ""}
+{"ts": "2026-08-20T19:14:51.918397+00:00", "action": "drop_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-09-20-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-08-20T19:14:51.924638+00:00", "action": "drop_non_latin", "event_id": "pr-festival-ma-fiesta-en-la-playa-sabor-boricua", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-08-20T19:14:52.031537+00:00", "action": "reactivate", "event_id": "5984F5C6-9A2D-454E-AE0B-B201FC78B814", "details": "from archive (certain)"}
+{"ts": "2026-08-20T19:14:52.038434+00:00", "action": "archive", "event_id": "d3953ee79b4effa6b332abf32cb4e01ba180f56e@occurrence-1@dance-calendar", "details": ""}
+{"ts": "2026-08-20T19:14:52.038785+00:00", "action": "archive", "event_id": "61B50538-D7A5-466E-9039-7663B3F54F9D", "details": ""}
+{"ts": "2026-08-20T19:14:52.038937+00:00", "action": "archive", "event_id": "5984F5C6-9A2D-454E-AE0B-B201FC78B814", "details": ""}
+{"ts": "2026-08-20T19:14:52.039042+00:00", "action": "archive", "event_id": "4BACCA44-811C-4F7E-99D8-7AC8DA46D5CC", "details": ""}
+{"ts": "2026-08-20T19:14:52.039121+00:00", "action": "archive", "event_id": "D7362ECA-A6A7-4528-B752-3CBD6141CE81", "details": ""}
+{"ts": "2026-08-20T19:14:52.039191+00:00", "action": "archive", "event_id": "8EDCCA4B-FCFA-4CD9-ABA3-8074966ACFCB", "details": ""}
+{"ts": "2026-08-20T19:14:52.039252+00:00", "action": "archive", "event_id": "2ar83v9imef7dkgkonbfvc5t4q@google.com", "details": ""}
+{"ts": "2026-08-20T19:14:52.039326+00:00", "action": "archive", "event_id": "078572ff12be0362690bdbe8105cd514244c3813@dance-calendar", "details": ""}
+{"ts": "2026-08-20T19:14:52.039382+00:00", "action": "archive", "event_id": "408adba864c7bcc60677d4a59f172d58a83c5c5a@dance-calendar", "details": ""}
+{"ts": "2026-08-20T19:14:52.039437+00:00", "action": "archive", "event_id": "C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5", "details": ""}
+{"ts": "2026-08-20T19:14:52.039486+00:00", "action": "archive", "event_id": "61BD2CD0-8D61-4FB5-9B00-83D32168C036", "details": ""}
+{"ts": "2026-08-20T19:14:52.039537+00:00", "action": "archive", "event_id": "00E9F069-7BE1-4C6D-BA6E-69B8A2E7FDA3", "details": ""}
+{"ts": "2026-08-20T19:14:52.039589+00:00", "action": "archive", "event_id": "374F6A9E-8016-4466-9441-0793EA0E0EA6", "details": ""}
+{"ts": "2026-08-20T19:14:52.039640+00:00", "action": "archive", "event_id": "d3c3821c604c59d369b5a9d85718aaa3162e67dd@dance-calendar", "details": ""}
+{"ts": "2026-08-20T19:14:52.039695+00:00", "action": "archive", "event_id": "6fo246sl11793v7m8reu28jk7s@google.com", "details": ""}
+{"ts": "2026-08-20T19:14:52.039742+00:00", "action": "archive", "event_id": "3vv69eu4dohgr059ur06cr5s8s@google.com", "details": ""}
+{"ts": "2026-08-20T19:14:52.039794+00:00", "action": "archive", "event_id": "fiesta-20260807-agave-mexican-grill-cantina-marlborough", "details": ""}
+{"ts": "2026-08-20T19:14:52.039856+00:00", "action": "archive", "event_id": "23FEA93F-DAA4-40B3-9036-92B11292E207", "details": ""}
+{"ts": "2026-08-20T19:14:52.039908+00:00", "action": "archive", "event_id": "75AB4ED9-33C0-4242-BF08-8606C7B94665", "details": ""}
+{"ts": "2026-08-20T19:14:52.039962+00:00", "action": "archive", "event_id": "CDCAA72E-7512-4641-A838-3FD8DA41BFBE", "details": ""}
+{"ts": "2026-08-20T19:14:52.040035+00:00", "action": "archive", "event_id": "54594D45-3E71-4472-96F1-5DC3F4060FFA", "details": ""}
+{"ts": "2026-08-20T19:14:52.040088+00:00", "action": "archive", "event_id": "BED3AFD2-27A6-4F23-99ED-61C336F0212D", "details": ""}
+{"ts": "2026-08-20T19:14:52.040156+00:00", "action": "archive", "event_id": "EFD7FCB6-73B1-4868-BD63-E48D00664070", "details": ""}
+{"ts": "2026-08-20T19:14:52.040240+00:00", "action": "archive", "event_id": "F8B6E308-C6BD-49A3-962E-FD78CBC46CDC", "details": ""}
+{"ts": "2026-08-20T19:14:52.040305+00:00", "action": "archive", "event_id": "eb-1995790781954", "details": ""}
+{"ts": "2026-08-20T19:14:52.040369+00:00", "action": "archive", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-08-06-20-45", "details": ""}
+{"ts": "2026-08-20T19:14:52.040422+00:00", "action": "archive", "event_id": "dantes-inferno-fb-20260807-0", "details": ""}
+{"ts": "2026-08-20T19:14:52.040473+00:00", "action": "archive", "event_id": "51341C72-563A-4C5D-9236-3398E78ABC3A", "details": ""}
+{"ts": "2026-08-20T19:14:52.040534+00:00", "action": "archive", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": ""}
+{"ts": "2026-08-20T19:14:52.040592+00:00", "action": "archive", "event_id": "61B50538-D7A5-466E-9039-7663B3F54F9D", "details": ""}
+{"ts": "2026-08-20T19:14:52.040646+00:00", "action": "archive", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": ""}
+{"ts": "2026-08-20T19:14:52.040712+00:00", "action": "archive", "event_id": "5984F5C6-9A2D-454E-AE0B-B201FC78B814", "details": ""}
+{"ts": "2026-08-20T19:20:25.942475+00:00", "action": "reactivate", "event_id": "d3953ee79b4effa6b332abf32cb4e01ba180f56e@occurrence-1@dance-calendar", "details": "from archive (certain)"}
+{"ts": "2026-08-20T19:23:18.091509+00:00", "action": "add", "event_id": "eb-1997804991509", "details": ""}
+{"ts": "2026-08-20T19:23:18.186593+00:00", "action": "add", "event_id": "eb-1998309494491", "details": ""}
+{"ts": "2026-08-20T19:23:18.204997+00:00", "action": "reactivate", "event_id": "61B50538-D7A5-466E-9039-7663B3F54F9D", "details": "from archive (certain)"}
+{"ts": "2026-08-20T19:23:18.214841+00:00", "action": "reactivate", "event_id": "8EDCCA4B-FCFA-4CD9-ABA3-8074966ACFCB", "details": "from archive (certain)"}
+{"ts": "2026-08-20T19:23:18.224756+00:00", "action": "reactivate", "event_id": "4BACCA44-811C-4F7E-99D8-7AC8DA46D5CC", "details": "from archive (certain)"}
+{"ts": "2026-08-20T19:23:18.234238+00:00", "action": "reactivate", "event_id": "D7362ECA-A6A7-4528-B752-3CBD6141CE81", "details": "from archive (certain)"}
+{"ts": "2026-08-20T19:23:18.243841+00:00", "action": "reactivate", "event_id": "5984F5C6-9A2D-454E-AE0B-B201FC78B814", "details": "from archive (certain)"}
+{"ts": "2026-08-20T19:23:18.265825+00:00", "action": "approve", "event_id": "eb-com-b4188c9c", "details": ""}
+{"ts": "2026-08-20T19:23:18.266579+00:00", "action": "reject", "event_id": "eb-1997400920923", "details": "class, not social dance"}
+{"ts": "2026-08-20T19:23:18.267137+00:00", "action": "reject", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-08-13-20-45", "details": "class, not social dance"}
+{"ts": "2026-08-20T19:23:18.267641+00:00", "action": "reject", "event_id": "f57gcfqqsmkvvr001ipn901seo@google.com", "details": "class, not social dance"}
+{"ts": "2026-08-20T19:23:18.268108+00:00", "action": "reject", "event_id": "5dr5gqnfrfbrp0t3kr2c5mc074@google.com", "details": "class, not social dance"}
+{"ts": "2026-08-20T19:23:18.268514+00:00", "action": "reject", "event_id": "0bgn7v2scifgs27vukps4frk30@google.com", "details": "class, not social dance"}
+{"ts": "2026-08-20T19:23:18.268826+00:00", "action": "reject", "event_id": "837D1E85-F1BF-4DB6-B03D-710CE18620B3", "details": "already in active"}
+{"ts": "2026-08-20T19:23:18.269112+00:00", "action": "reject", "event_id": "fiesta-20260828-sol-de-mexico-milford", "details": "already in active"}
+{"ts": "2026-08-20T19:23:18.269352+00:00", "action": "reject", "event_id": "fiesta-20260911-agave-mexican-grill-cantina-marlborough", "details": "already in active"}
+{"ts": "2026-08-20T19:23:18.269576+00:00", "action": "reject", "event_id": "fiesta-20260925-sol-de-mexico-milford", "details": "already in active"}
+{"ts": "2026-08-20T19:23:18.269766+00:00", "action": "reject", "event_id": "fiesta-18609de322ec", "details": "already in active"}
+{"ts": "2026-08-20T19:23:18.271528+00:00", "action": "remove", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-08-20-20-45", "details": "class, not social dance"}
+{"ts": "2026-08-20T19:23:18.271813+00:00", "action": "dismiss_rejected", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-08-20-20-45", "details": "class, not social dance"}
+{"ts": "2026-08-20T19:23:18.273538+00:00", "action": "remove", "event_id": "eb-1997804991509", "details": "class, not social dance"}
+{"ts": "2026-08-20T19:23:18.273813+00:00", "action": "dismiss_rejected", "event_id": "eb-1997804991509", "details": "class, not social dance"}
+{"ts": "2026-08-20T19:23:22.704677+00:00", "action": "edit", "event_id": "40604F5D-9503-41AB-B87C-8AA21BC364F4", "details": "{\"location\": \"Astela Dance Studio, 2 Brook St, Wellesley, MA 02482\", \"styles\": [\"salsa\"], \"special\": true, \"lat\": 42.2973914, \"lng\": -71.2885582}"}
+{"ts": "2026-08-20T19:23:22.706533+00:00", "action": "edit", "event_id": "fiesta-20260911-agave-mexican-grill-cantina-marlborough", "details": "{\"location\": \"Agave Mexican Grill & Cantina, 197A Boston Post Rd W, Marlborough, MA 01752\", \"_location_override\": \"Agave Mexican Grill & Cantina, 197A Boston Post Rd W, Marlborough, MA 01752\"}"}
+{"ts": "2026-08-20T19:23:22.708298+00:00", "action": "edit", "event_id": "fiesta-18609de322ec", "details": "{\"special\": true, \"name\": \"Fiesta Dance 4 Year Anniversary Social\"}"}
+{"ts": "2026-08-20T19:23:22.710018+00:00", "action": "edit", "event_id": "837D1E85-F1BF-4DB6-B03D-710CE18620B3", "details": "{\"special\": true}"}
+{"ts": "2026-08-20T19:23:22.711711+00:00", "action": "edit", "event_id": "eb-1996831355337", "details": "{\"special\": true, \"styles\": [\"salsa\"]}"}
+{"ts": "2026-08-20T19:23:22.713368+00:00", "action": "edit", "event_id": "E69B54FA-330F-42FD-B113-B6331D4DF842", "details": "{\"special\": true}"}
+{"ts": "2026-08-20T19:23:22.714997+00:00", "action": "edit", "event_id": "0D2E7B82-58C2-4CA7-89C1-174364983C04", "details": "{\"special\": true, \"styles\": [\"salsa\"]}"}
+{"ts": "2026-08-20T19:23:22.716627+00:00", "action": "edit", "event_id": "92e81fecab09b574610defbe21d157c83a289704@dance-calendar", "details": "{\"special\": true}"}
+{"ts": "2026-08-20T19:24:08.294542+00:00", "action": "edit", "event_id": "fiesta-20260911-agave-mexican-grill-cantina-marlborough", "details": "{\"lat\": 42.3404499, \"lng\": -71.5909618}"}
+{"ts": "2026-08-20T19:24:08.299516+00:00", "action": "block", "event_id": "eb-1997804991509", "details": "class_only: class, not social dance"}
+{"ts": "2026-08-20T19:24:08.300994+00:00", "action": "block", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-08-20-20-45", "details": "class_only: class, not social dance"}
+{"ts": "2026-08-20T19:24:45.988950+00:00", "action": "edit", "event_id": "1ee53ea9f8c2c3000235ffc8c5b0bc0abbf19b2d@dance-calendar", "details": "{\"special\": true}"}
+{"ts": "2026-08-20T19:24:45.990768+00:00", "action": "edit", "event_id": "manual-bsf-preparty-20260820-0", "details": "{\"special\": true}"}
+{"ts": "2026-08-20T19:24:45.992558+00:00", "action": "edit", "event_id": "548F5048-49C0-4DB4-9299-79E38B708BEF", "details": "{\"special\": true}"}
+{"ts": "2026-08-20T19:24:45.994340+00:00", "action": "edit", "event_id": "1D5D663C-16A8-44ED-8F01-28CD53AF9276", "details": "{\"special\": true}"}
+{"ts": "2026-08-20T19:24:45.996222+00:00", "action": "edit", "event_id": "FC29C1F2-096C-48C6-ABC1-038BEC368F24", "details": "{\"special\": true}"}
+{"ts": "2026-08-20T19:24:45.998026+00:00", "action": "edit", "event_id": "a37202a6a3b3ec4c12d49d8e184bab76048a3b2e@dance-calendar", "details": "{\"styles\": [\"salsa\"]}"}
+{"ts": "2026-08-20T19:26:03.305767+00:00", "action": "edit", "event_id": "m493k99gsroqpbockbf2e5cgi7@google.com", "details": "{\"recurrences\": [\"2026-05-21T21:30:00-04:00\", \"2026-05-28T21:30:00-04:00\", \"2026-06-04T21:30:00-04:00\", \"2026-06-11T21:30:00-04:00\", \"2026-06-18T21:30:00-04:00\", \"2026-06-25T21:30:00-04:00\", \"2026-07-02T21:30:00-04:00\", \"2026-07-09T21:30:00-04:00\", \"2026-07-16T21:30:00-04:00\", \"2026-07-23T21:30:00-04:00\", \"2026-07-30T21:30:00-04:00\", \"2026-08-06T21:30:00-04:00\", \"2026-08-13T21:30:00-04:00\", \"2026-08-20T21:30:00-04:00\", \"2026-08-27T21:30:00-04:00\", \"2026-09-03T21:30:00-04:00\", \"2026-09-10T21:30:00-04:00\", \"2026-09-17T21:30:00-04:00\", \"2026-09-24T21:30:00-04:00\", \"2026-10-01T21:30:00-04:00\", \"2026-10-08T21:30:00-04:00\", \"2026-10-15T21:30:00-04:00\", \"2026-10-22T21:30:00-04:00\", \"2026-10-29T21:30:00-04:00\", \"2026-11-05T21:30:00-05:00\"]}"}
+{"ts": "2026-08-20T19:26:03.311711+00:00", "action": "remove", "event_id": "61B50538-D7A5-466E-9039-7663B3F54F9D", "details": "duplicate of Beatrice Kiz Thursday (same Ceijay series)"}
+{"ts": "2026-08-20T19:26:11.267967+00:00", "action": "dismiss_rejected", "event_id": "61B50538-D7A5-466E-9039-7663B3F54F9D", "details": "duplicate of Beatrice Kiz Thursday"}
+{"ts": "2026-08-20T19:30:13.336648+00:00", "action": "edit", "event_id": "15F245C1-03AD-4AC3-ADB5-9CE4CDE011AC", "details": "{\"url\": \"https://www.listerevents.com/event-details/earlier-time-bachata-salsa-by-the-river\", \"urls\": [\"https://www.massaudubon.org/programs/magazine-beach/102437-bachata-by-the-river\", \"https://www.listerevents.com/events\"], \"recurrenceLabel\": \"First Sunday of each month, May\\u2013Oct\", \"startDate\": \"2026-09-06T17:00:00-04:00\", \"endDate\": \"2026-09-06T19:30:00-04:00\", \"dayOfWeek\": \"Sunday\", \"recurrences\": [\"2026-06-07T18:00:00-04:00\", \"2026-06-14T18:00:00-04:00\", \"2026-07-05T18:00:00-04:00\", \"2026-08-02T18:00:00-04:00\", \"2026-09-06T17:00:00-04:00\", \"2026-10-04T17:00:00-04:00\"], \"description\": \"Sep 6 and Oct 4 start at 5:00 PM (earlier than the summer 6:00 PM start).\\n\\nCome Dance!\\n\\nEveryone is welcome from total beginners to seasoned bachateros and salseros.\\n\\n***BBTR HAPPENS EVERY FIRST SUNDAY FROM MAY - OCTOBER 2026***\\nTWO DANCE FLOORS \\u2014 100% Bachata and 100% Salsa.\\n\\nBeginner Bachata lesson, then social dancing until sunset. FREE.\\nMagazine Beach Park Nature Center, 668 Memorial Dr, Cambridge.\\n\", \"_verified_status\": \"confirmed\", \"_verified_notes\": \"Lister Sep 6 page + Mass Audubon match date/location; first Sunday May\\u2013Oct\", \"_verification_url\": \"https://www.listerevents.com/event-details/earlier-time-bachata-salsa-by-the-river\"}"}
+{"ts": "2026-08-20T19:30:13.338413+00:00", "action": "edit", "event_id": "_6crjic1k6co68e1o71h30opp6dhj4d36ccsj4p1i6krm2php74oj8eb175hm2c9m81i62rj3ckmm6obccln68obi_R20260616T220000@google.com", "details": "{\"url\": \"https://ma.to/venue/shoreleavebos\", \"recurrenceLabel\": \"Third Tuesday \\u2014 series finale Sep 15\", \"_verified_status\": \"reachable_only\", \"_verified_notes\": \"Eventbrite vol.1 ended May 19. Mato venue lists Final Party as upcoming; Aug 18 was penultimate.\", \"_verification_url\": \"https://ma.to/venue/shoreleavebos\"}"}
+{"ts": "2026-08-20T19:30:13.340096+00:00", "action": "edit", "event_id": "4qc656kur2gocnolf5ns78ag18@google.com", "details": "{\"url\": \"https://www.nextlevelfusiondance.com/event-details/egleston-park-summer-socials-2026-09-20-14-00\", \"recurrences\": [\"2026-07-19T14:00:00-04:00\", \"2026-08-16T14:00:00-04:00\", \"2026-09-20T14:00:00-04:00\", \"2026-10-18T14:00:00-04:00\"], \"_verified_status\": \"confirmed\", \"_verified_notes\": \"NLF Sep 20 page live (RSVP open); also lists Oct 18\", \"_verification_url\": \"https://www.nextlevelfusiondance.com/event-details/egleston-park-summer-socials-2026-09-20-14-00\"}"}
+{"ts": "2026-08-20T19:30:13.341771+00:00", "action": "edit", "event_id": "phfsfa6ctj6jq4nikphf3mql0l@google.com", "details": "{\"url\": \"https://www.thetimbamessengers.com\", \"_verified_status\": \"reachable_only\", \"_verified_notes\": \"Band site; no dated event page for Wally's Thursdays\", \"_verification_url\": \"https://www.thetimbamessengers.com\"}"}
+{"ts": "2026-08-20T19:30:13.343466+00:00", "action": "edit", "event_id": "0D2E7B82-58C2-4CA7-89C1-174364983C04", "details": "{\"endDate\": \"2026-09-13T20:00:00-04:00\", \"startDate\": \"2026-09-13T13:00:00-04:00\", \"description\": \"5th Annual East Boston Latin Music and Dance Festival. Senator Lydia Edwards, in partnership with Salsa Y Control and Zumix. Free, 1:00\\u20138:00 PM at East Boston Memorial Park.\\n\\nSource: https://eastboston.com/events/5th-annual-east-boston-latin-music-and-dance-festival/\", \"_verified_status\": \"confirmed\", \"_verified_notes\": \"eastboston.com: Sep 13 1\\u20138pm, East Boston Memorial Park\", \"_verification_url\": \"https://eastboston.com/events/5th-annual-east-boston-latin-music-and-dance-festival/\"}"}
+{"ts": "2026-08-20T19:31:04.600299+00:00", "action": "edit", "event_id": "_6crjic1k6co68e1o71h30opp6dhj4d36ccsj4p1i6krm2php74oj8eb175hm2c9m81i62rj3ckmm6obccln68obi_R20260616T220000@google.com", "details": "{\"startDate\": \"2026-09-15T18:00:00-04:00\", \"endDate\": \"2026-09-15T21:00:00-04:00\"}"}
+{"ts": "2026-08-20T19:31:39.357885+00:00", "action": "edit", "event_id": "_6crjic1k6co68e1o71h30opp6dhj4d36ccsj4p1i6krm2php74oj8eb175hm2c9m81i62rj3ckmm6obccln68obi_R20260616T220000@google.com", "details": "{\"description\": \"Salsa lesson + social at Shore Leave. Sep 15 is the summer series finale.\\n\\nLesson with Luis Talavera and Claudia Leitzman, then a free social with DJ Lola Vera. Class ticket includes a drink; social hour is free.\\n\\n11 William E. Mullins Way, Boston.\\n\"}"}
+{"ts": "2026-08-20T19:38:37.636846+00:00", "action": "reactivate", "event_id": "C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5", "details": "from archive (certain)"}
+{"ts": "2026-08-20T19:38:38.219356+00:00", "action": "reactivate", "event_id": "2ar83v9imef7dkgkonbfvc5t4q@google.com", "details": "from archive (certain)"}
+{"ts": "2026-08-20T19:38:39.012194+00:00", "action": "reactivate", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": "from archive (certain)"}
+{"ts": "2026-08-20T19:38:39.093962+00:00", "action": "reactivate", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": "from archive (certain)"}
+{"ts": "2026-08-20T19:38:39.234541+00:00", "action": "pending_review", "event_id": "jandl-20260821-boston-salsa-fest", "details": "review dup of 1ee53ea9f8c2c3000235ffc8c5b0bc0abbf19b2d@dance-calendar: substring_name+within_24h+same_day"}
+{"ts": "2026-08-20T19:38:39.243770+00:00", "action": "quarantine_new", "event_id": "jandl-20261003-j-l-underground-social", "details": ""}
+{"ts": "2026-08-20T19:38:39.368704+00:00", "action": "drop_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-09-20-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-08-20T19:38:39.374549+00:00", "action": "drop_non_latin", "event_id": "pr-festival-ma-fiesta-en-la-playa-sabor-boricua", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-08-20T19:38:39.717097+00:00", "action": "archive", "event_id": "C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5", "details": ""}
+{"ts": "2026-08-20T19:38:39.717364+00:00", "action": "archive", "event_id": "2ar83v9imef7dkgkonbfvc5t4q@google.com", "details": ""}
+{"ts": "2026-08-20T19:38:39.717473+00:00", "action": "archive", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": ""}
+{"ts": "2026-08-20T19:38:39.717551+00:00", "action": "archive", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": ""}
+{"ts": "2026-08-20T19:43:52.281958+00:00", "action": "add", "event_id": "submit-252c2ee787d87f88", "details": ""}
+{"ts": "2026-08-20T19:44:12.386286+00:00", "action": "block", "event_id": "submit-252c2ee787d87f88", "details": "out_of_area: test submission; Gurgaon, not Boston"}

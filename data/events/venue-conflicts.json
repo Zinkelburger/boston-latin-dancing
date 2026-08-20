@@ -1,84 +1,71 @@
 {
-  "generated_at": "2026-08-13T19:46:45.014763+00:00",
-  "conflicts": [
-    {
-      "id": "nlf-events-intermediate-bachata-w-tina-2026-08-06-20-45",
-      "event": {
-        "name": "Intermediate Bachata w/ Tina",
-        "window": "Thu Aug 6, 8:45 PM \u2013 9:45 PM",
-        "location": "Havana Club, 288 Green St, Cambridge, MA 02139, USA",
-        "styles": [
-          "bachata",
-          "salsa"
-        ],
-        "cost": "$15 at the door",
-        "source": "nlf-events",
-        "url": "https://www.nextlevelfusiondance.com/event-details/intermediate-bachata-w-tina-2026-08-06-20-45",
-        "recurring": false,
-        "schedule_in_description": [
-          "45 - 9:45 PM",
-          "Followed by Social Dancing until 12:30 AM"
-        ],
-        "description": "45 - 9:45 PM Followed by Social Dancing until 12:30 AM $15 at the door, no partner needed 288 Green St, Cambridge, MA 02139 See Havana Club website for details: https://havanaclubsalsa.com/thursdays"
-      },
-      "hub": {
-        "id": "havana-club",
-        "name": "Havana Club",
-        "window": "Thursdays, 9:00 PM \u2013 12:00 AM",
-        "note": "80% Bachata, 20% Salsa (21+)",
-        "cost": "$15",
-        "url": "https://havanaclubsalsa.com",
-        "also_runs": [
-          "Mon",
-          "Tue",
-          "Fri",
-          "Sat",
-          "Sun"
-        ],
-        "description": "Boston's hot spot for Bachata and Salsa dancing in Cambridge. Lessons + social dancing every night. Amazing venue, inexpensive parking garage next door, public transportation one block away on Mass Av\u2026 [truncated \u2014 event_get for full text]"
-      },
-      "times_overlap": true,
-      "matched_on": "venue name 'Havana Club' appears in the event",
-      "currently": "published \u2014 both pins showing",
-      "if_you_do_nothing": "stays published; this row returns next publish"
-    }
-  ],
+  "generated_at": "2026-08-20T19:44:12.392233+00:00",
+  "conflicts": [],
   "suppressed": [
     {
-      "id": "5984F5C6-9A2D-454E-AE0B-B201FC78B814",
+      "id": "9802609C-4946-4E9E-8E83-D491FE8F00A5",
       "event": {
-        "name": "Havana Bachata Thursdays",
-        "window": "Thu Aug 6, 8:45 PM \u2013 12:30 AM",
-        "location": "288 Green St, Central Sq, Cambridge",
+        "name": "Timba y Descontrol Cuban salsa lessons + social",
+        "window": "Tue Aug 25, 6:00 PM \u2013 11:00 PM",
+        "location": "Cambridge Common, Waterhouse St & Massachusetts Ave, Cambridge, MA 02138, USA",
         "styles": [
-          "bachata",
           "salsa"
         ],
-        "cost": "$15",
-        "source": "sensualeros-boston",
-        "url": "https://havanaclubsalsa.com",
+        "cost": "$10",
+        "source": "beatrice-calendar",
+        "url": "https://www.instagram.com/timbadescontrol/",
         "recurring": true,
         "schedule_in_description": [],
-        "description": "$15 Lesson + Dance | $10 Dance Only \ud83d\udd1e 21+ Event | Drinks at the Bar \ud83c\udfb6 80% Bachata, 20% Salsa \ud83d\udccd 288 Green St, Central Sq, Cambridge \ud83d\udc57 Dress Code: Smart Casual to Elegant | Free Coat Check No partner needed, beginners welcome!"
+        "description": "Rueda de casino classes every Tuesday, followed by social dancing until midnight!<br><br><b>Schedule</b><br>7pm-8pm: Intermediate<br>8pm-9pm: Beginner<br>9pm-12am: social dancing<br><br><b>Price</b><br>$10<br><br><b>Organized by Timba y Descontrol</b><br>Instagram: <a href=\"https://www.instagram.com/timbadescontrol/\" target=\"_blank\">https://www.instagram.com/timbadescontrol/</a><br><br><br>---<br>\u2026 [truncated \u2014 event_get for full text]"
       },
       "hub": {
-        "id": "havana-club",
-        "name": "Havana Club",
-        "window": "Thursdays, 9:00 PM \u2013 12:00 AM",
-        "note": "80% Bachata, 20% Salsa (21+)",
-        "cost": "$15",
-        "url": "https://havanaclubsalsa.com",
-        "also_runs": [
-          "Mon",
-          "Tue",
-          "Fri",
-          "Sat",
-          "Sun"
-        ],
-        "description": "Boston's hot spot for Bachata and Salsa dancing in Cambridge. Lessons + social dancing every night. Amazing venue, inexpensive parking garage next door, public transportation one block away on Mass Av\u2026 [truncated \u2014 event_get for full text]"
+        "id": "timba-y-descontrol",
+        "name": "Timba y Descontrol",
+        "window": "Tuesdays, 6:00 PM \u2013 8:00 PM",
+        "note": "Weather permitting \u2014 time and spot can change, check Instagram",
+        "cost": null,
+        "url": "https://www.instagram.com/timbadescontrol/",
+        "also_runs": [],
+        "description": "Asere, qu\u00e9 bol\u00e1!? Dance group dedicated to spreading the love for Cuban music and dance. Outdoor Cuban salsa at Cambridge Common (Harvard Square). Usually Tuesdays around 6pm, weather permitting. They\u2026 [truncated \u2014 event_get for full text]"
       },
       "times_overlap": true,
-      "matched_on": "street address (288 green st)",
+      "matched_on": "venue name 'Timba y Descontrol' appears in the event",
+      "currently": "suppressed \u2014 folded into the venue hub, no separate pin",
+      "if_you_do_nothing": "stays suppressed"
+    },
+    {
+      "id": "8EDCCA4B-FCFA-4CD9-ABA3-8074966ACFCB",
+      "event": {
+        "name": "Bachata Room ",
+        "window": "Wed Aug 19, 9:00 PM \u2013 12:00 AM",
+        "location": "La Fabrica , 450 Massachusetts Ave, Cambridge, MA 02139, United States",
+        "styles": [
+          "bachata",
+          "salsa",
+          "merengue"
+        ],
+        "cost": "$15 cover",
+        "source": "sensualeros-boston",
+        "url": "https://www.bachataroomboston.com",
+        "recurring": true,
+        "schedule_in_description": [
+          "\ud83d\udd58 **Beginner-friendly Bachata class at 9:00 - 10:00 pm** (no partner needed)",
+          "\ud83c\udfb6 **Social dancing 10:00 pm to midnight** 90% bachata 10% Salsa, Merengue."
+        ],
+        "description": "Join us for a fun-filled night of dancing and good vibes! \ud83c\udf1f \ud83d\udd58 **Beginner-friendly Bachata class at 9:00 - 10:00 pm** (no partner needed) \ud83c\udfb6 **Social dancing 10:00 pm to midnight** 90% bachata 10% Salsa, Merengue. \ud83d\udcb5 $15 cover (class & social dancing) \ud83d\udd1e 21+ event"
+      },
+      "hub": {
+        "id": "bachata-room",
+        "name": "Bachata Room",
+        "window": "Wednesdays, 9:00 PM \u2013 12:00 AM",
+        "note": "Lesson + social (18+)",
+        "cost": "$15",
+        "url": "https://www.bachataroomboston.com",
+        "also_runs": [],
+        "description": "Your weekly fix for all your dancing needs. 9:00pm \u2013 10:00pm Bachata Lesson (Beginner/Intermediate) 10:00pm \u2013 12:00am Social Dancing (Bachata, Salsa, Merengue) $15 Lesson/Social Dancing (18+)"
+      },
+      "times_overlap": true,
+      "matched_on": "canonical venue alias",
       "currently": "suppressed \u2014 folded into the venue hub, no separate pin",
       "if_you_do_nothing": "stays suppressed"
     },
@@ -86,7 +73,7 @@
       "id": "4BACCA44-811C-4F7E-99D8-7AC8DA46D5CC",
       "event": {
         "name": "Bachata Sensual Mondays @ Havana Club",
-        "window": "Mon Aug 10, 8:00 PM \u2013 12:30 AM",
+        "window": "Mon Aug 24, 8:00 PM \u2013 12:30 AM",
         "location": "Havana Club, 288 Green St, Cambridge, MA  02139, United States",
         "styles": [
           "bachata",
@@ -128,7 +115,7 @@
       "id": "D7362ECA-A6A7-4528-B752-3CBD6141CE81",
       "event": {
         "name": "Salsa/Bachata Tuesdays @ Havana",
-        "window": "Tue Aug 4, 8:00 PM \u2013 11:30 PM",
+        "window": "Tue Aug 25, 8:00 PM \u2013 11:30 PM",
         "location": "Havana Club, 288 Green St, Cambridge, MA  02139, United States",
         "styles": [
           "bachata",
@@ -167,72 +154,40 @@
       "if_you_do_nothing": "stays suppressed"
     },
     {
-      "id": "8EDCCA4B-FCFA-4CD9-ABA3-8074966ACFCB",
+      "id": "5984F5C6-9A2D-454E-AE0B-B201FC78B814",
       "event": {
-        "name": "Bachata Room ",
-        "window": "Wed Aug 5, 9:00 PM \u2013 12:00 AM",
-        "location": "La Fabrica , 450 Massachusetts Ave, Cambridge, MA 02139, United States",
-        "styles": [
-          "bachata",
-          "salsa",
-          "merengue"
-        ],
-        "cost": "$15 cover",
-        "source": "sensualeros-boston",
-        "url": "https://www.bachataroomboston.com",
-        "recurring": true,
-        "schedule_in_description": [
-          "\ud83d\udd58 **Beginner-friendly Bachata class at 9:00 - 10:00 pm** (no partner needed)",
-          "\ud83c\udfb6 **Social dancing 10:00 pm to midnight** 90% bachata 10% Salsa, Merengue."
-        ],
-        "description": "Join us for a fun-filled night of dancing and good vibes! \ud83c\udf1f \ud83d\udd58 **Beginner-friendly Bachata class at 9:00 - 10:00 pm** (no partner needed) \ud83c\udfb6 **Social dancing 10:00 pm to midnight** 90% bachata 10% Salsa, Merengue. \ud83d\udcb5 $15 cover (class & social dancing) \ud83d\udd1e 21+ event"
-      },
-      "hub": {
-        "id": "bachata-room",
-        "name": "Bachata Room",
-        "window": "Wednesdays, 9:00 PM \u2013 12:00 AM",
-        "note": "Lesson + social (18+)",
-        "cost": "$15",
-        "url": "https://www.bachataroomboston.com",
-        "also_runs": [],
-        "description": "Your weekly fix for all your dancing needs. 9:00pm \u2013 10:00pm Bachata Lesson (Beginner/Intermediate) 10:00pm \u2013 12:00am Social Dancing (Bachata, Salsa, Merengue) $15 Lesson/Social Dancing (18+)"
-      },
-      "times_overlap": true,
-      "matched_on": "canonical venue alias",
-      "currently": "suppressed \u2014 folded into the venue hub, no separate pin",
-      "if_you_do_nothing": "stays suppressed"
-    },
-    {
-      "id": "23FEA93F-DAA4-40B3-9036-92B11292E207",
-      "event": {
-        "name": "Black Mamba's Salsa and Bachata Social",
-        "window": "Sun Aug 9, 7:00 PM \u2013 10:00 PM",
-        "location": "Todos Dance & Fitness Studio, 677 Worcester St, Natick, MA 01760",
+        "name": "Havana Bachata Thursdays",
+        "window": "Thu Aug 20, 8:45 PM \u2013 12:30 AM",
+        "location": "288 Green St, Central Sq, Cambridge",
         "styles": [
           "bachata",
           "salsa"
         ],
-        "cost": null,
-        "source": "beatrice-calendar",
-        "url": "https://www.facebook.com/events/1299596699048505/",
-        "recurring": false,
-        "schedule_in_description": [
-          "\u23f0 7:00 PM \u2013 10:00 PM"
-        ],
-        "description": "The Black Mamba Salsa & Bachata Social is officially returning to Natick, MA! \ud83d\udcc5 Sunday, August 9th \u23f0 7:00 PM \u2013 10:00 PM \ud83d\udccd Todos Dance & Fitness Studio | Natick, MA Get your dance shoes ready for an incredible night of music and vibes. More details are dropping soon, so stay tuned! \ud83c\udfa7\ud83d\udc83\ud83d\udd7a #BlackMambaSocial #Salsa #Bachata #NatickMA #TodosDance #SocialDancing #MassDancers"
+        "cost": "$15",
+        "source": "sensualeros-boston",
+        "url": "https://havanaclubsalsa.com",
+        "recurring": true,
+        "schedule_in_description": [],
+        "description": "$15 Lesson + Dance | $10 Dance Only \ud83d\udd1e 21+ Event | Drinks at the Bar \ud83c\udfb6 80% Bachata, 20% Salsa \ud83d\udccd 288 Green St, Central Sq, Cambridge \ud83d\udc57 Dress Code: Smart Casual to Elegant | Free Coat Check No partner needed, beginners welcome!"
       },
       "hub": {
-        "id": "black-mamba-social",
-        "name": "Black Mamba Salsa & Bachata Social",
-        "window": "Sundays, 6:30 PM \u2013 10:30 PM",
-        "note": "2nd Sunday of each month",
+        "id": "havana-club",
+        "name": "Havana Club",
+        "window": "Thursdays, 9:00 PM \u2013 12:00 AM",
+        "note": "80% Bachata, 20% Salsa (21+)",
         "cost": "$15",
-        "url": "https://blackmambasalsa.com/black-mamba-social",
-        "also_runs": [],
-        "description": "Black Mamba Dance Company presents an exciting Salsa & Bachata Social in the Metrowest area! Elegant and spacious venue with premium wood floor. Separate Bachata & Kizomba room. Resident DJ: DJ Black\u2026 [truncated \u2014 event_get for full text]"
+        "url": "https://havanaclubsalsa.com",
+        "also_runs": [
+          "Mon",
+          "Tue",
+          "Fri",
+          "Sat",
+          "Sun"
+        ],
+        "description": "Boston's hot spot for Bachata and Salsa dancing in Cambridge. Lessons + social dancing every night. Amazing venue, inexpensive parking garage next door, public transportation one block away on Mass Av\u2026 [truncated \u2014 event_get for full text]"
       },
       "times_overlap": true,
-      "matched_on": "identical location string",
+      "matched_on": "street address (288 green st)",
       "currently": "suppressed \u2014 folded into the venue hub, no separate pin",
       "if_you_do_nothing": "stays suppressed"
     }

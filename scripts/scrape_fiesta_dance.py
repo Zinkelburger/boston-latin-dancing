@@ -28,6 +28,8 @@ VENUE_ADDRESSES = {
     "sol de mexico": "Sol de Mexico, 350 E Main St, Milford, MA 01757",
     "westborough community center": "Westborough Community Center, 1500 Union St, 2nd Floor, Westborough, MA 01581",
     "westborough": "Westborough Community Center, 1500 Union St, 2nd Floor, Westborough, MA 01581",
+    "agave mexican grill & cantina": "Agave Mexican Grill & Cantina, 197A Boston Post Rd W, Marlborough, MA 01752",
+    "agave mexican grill": "Agave Mexican Grill & Cantina, 197A Boston Post Rd W, Marlborough, MA 01752",
 }
 
 _DAY = r"(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)"
