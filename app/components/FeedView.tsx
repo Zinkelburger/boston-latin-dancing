@@ -17,6 +17,7 @@ import {
 } from '@/lib/recurrences';
 import ShareButton from './ShareButton';
 import { StyleFilter, DayFilter, PresetChips, DateRangeDialog, BigEventsToggle } from './FilterControls';
+import FilterSheet from './FilterSheet';
 import type { FilterControlsProps } from './useEventFilters';
 
 type FeedEntry = {
@@ -139,7 +140,19 @@ export default function FeedView({
 }: Props) {
   const [search, setSearch] = useState('');
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
   const [dateDialogOpen, setDateDialogOpen] = useState(false);
+
+  // Phones get the bottom sheet, wider screens the inline panel. Decided at
+  // tap time from the live viewport, so there is nothing to get wrong on
+  // the server render.
+  const toggleFilters = () => {
+    if (typeof window !== 'undefined' && window.matchMedia('(max-width: 640px)').matches) {
+      setSheetOpen(true);
+    } else {
+      setFiltersOpen(v => !v);
+    }
+  };
 
   const trimmed = search.trim();
 
@@ -186,11 +199,12 @@ export default function FeedView({
             )}
           </div>
           <button
-            onClick={() => setFiltersOpen(v => !v)}
+            onClick={toggleFilters}
             className={clsx(
               'pretty-pill text-xs',
               filtersOpen || activeFilterCount > 0 ? 'pretty-pill-rose' : 'pretty-pill-ghost',
             )}
+            aria-expanded={filtersOpen}
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
@@ -257,6 +271,21 @@ export default function FeedView({
           </div>
         )}
       </div>
+
+      <FilterSheet
+        open={sheetOpen}
+        onClose={() => setSheetOpen(false)}
+        onOpenDateRange={() => setDateDialogOpen(true)}
+        resultLabel={`Show ${grouped.reduce((n, g) => n + g.entries.length, 0)} events`}
+        selectedStyles={selectedStyles} onStylesChange={onStylesChange}
+        selectedDays={selectedDays} onDaysChange={onDaysChange}
+        specialOnly={specialOnly} onSpecialOnlyChange={onSpecialOnlyChange}
+        dateMode={dateMode} onDateModeChange={onDateModeChange}
+        dateSlider={dateSlider} onDateSliderChange={onDateSliderChange}
+        sliderMin={sliderMin} sliderMax={sliderMax}
+        defaultFrom={defaultFrom} defaultTo={defaultTo}
+        datePreset={datePreset} onPresetChange={onPresetChange}
+      />
 
       <DateRangeDialog
         open={dateDialogOpen}

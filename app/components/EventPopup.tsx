@@ -163,31 +163,14 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
       role="dialog"
       aria-modal="true"
       aria-label={event.name}
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 1000,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'rgba(2, 6, 23, 0.45)',
-      }}
+      className="event-popup-backdrop"
       onClick={onClose}
     >
       <div
-        className="relative"
-        style={{
-          width: 'min(92vw, 420px)',
-          maxHeight: '84vh',
-          background: '#ffffff',
-          borderRadius: '1rem',
-          boxShadow: '0 18px 50px rgba(0,0,0,0.28)',
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
-        }}
+        className="event-popup-card"
         onClick={e => e.stopPropagation()}
       >
+        <div className="event-popup-grabber" aria-hidden="true" />
         <div className="event-popup-header">
           <div className="event-popup-heading">
             <div className="event-popup-actions">

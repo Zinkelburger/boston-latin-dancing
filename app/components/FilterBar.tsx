@@ -5,11 +5,14 @@ import Link from 'next/link';
 import clsx from 'clsx';
 import { formatShort } from '@/lib/dates';
 import { StyleFilter, DayFilter, PresetChips, DateRangeDialog, BigEventsToggle } from './FilterControls';
+import FilterSheet from './FilterSheet';
 import type { FilterControlsProps } from './useEventFilters';
 
 type Props = FilterControlsProps & {
   viewMode: 'map' | 'feed';
   onViewModeToggle: () => void;
+  /** Events passing the current filters; labels the sheet's Done button. */
+  resultCount?: number;
 };
 
 export default function FilterBar({
@@ -22,14 +25,73 @@ export default function FilterBar({
   defaultFrom, defaultTo,
   viewMode, onViewModeToggle,
   datePreset, onPresetChange,
+  resultCount,
 }: Props) {
   const [dateDialogOpen, setDateDialogOpen] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
 
   const isAny = dateMode === 'any';
   const dateLabel = `${formatShort(dateSlider.fromDay)} – ${formatShort(dateSlider.toDay)}`;
+  const activeCount = selectedStyles.length + selectedDays.length +
+    (dateMode === 'custom' ? 1 : 0) + (specialOnly ? 1 : 0);
+
+  const controls = {
+    selectedStyles, onStylesChange,
+    selectedDays, onDaysChange,
+    specialOnly, onSpecialOnlyChange,
+    dateMode, onDateModeChange,
+    dateSlider, onDateSliderChange,
+    sliderMin, sliderMax,
+    defaultFrom, defaultTo,
+    datePreset, onPresetChange,
+  };
 
   return (
     <div className="filter-bar">
+      {/* ── Phone layout: one thumb-height bar. Quick picks scroll sideways;
+          everything else lives in the sheet. Hidden on wider screens via CSS
+          (not JS) so the first paint is right on both. ── */}
+      <div className="filter-mobile">
+        <div className="filter-mobile-rail">
+          <button
+            onClick={() => setSheetOpen(true)}
+            className={clsx('pretty-pill text-xs', activeCount > 0 ? 'pretty-pill-rose' : 'pretty-pill-ghost')}
+            aria-haspopup="dialog"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+            </svg>
+            {activeCount > 0 ? `Filters · ${activeCount}` : 'Filters'}
+          </button>
+          <PresetChips datePreset={datePreset} onPresetChange={onPresetChange} />
+          <BigEventsToggle active={specialOnly} onChange={onSpecialOnlyChange} />
+        </div>
+        <button
+          onClick={onViewModeToggle}
+          className="pretty-pill pretty-pill-ghost text-xs filter-mobile-feed"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="8" y1="6" x2="21" y2="6" />
+            <line x1="8" y1="12" x2="21" y2="12" />
+            <line x1="8" y1="18" x2="21" y2="18" />
+            <line x1="3" y1="6" x2="3.01" y2="6" />
+            <line x1="3" y1="12" x2="3.01" y2="12" />
+            <line x1="3" y1="18" x2="3.01" y2="18" />
+          </svg>
+          Feed
+        </button>
+      </div>
+
+      <FilterSheet
+        {...controls}
+        open={sheetOpen}
+        onClose={() => setSheetOpen(false)}
+        onOpenDateRange={() => setDateDialogOpen(true)}
+        resultLabel={resultCount != null ? `Show ${resultCount} event${resultCount === 1 ? '' : 's'}` : undefined}
+      />
+
+      {/* ── Desktop layout: three labelled rows. ── */}
+      <div className="filter-desktop">
       {/* Row 1: Style */}
       <div className="filter-bar-row">
         <div className="filter-group">
@@ -123,6 +185,7 @@ export default function FilterBar({
             )}
           </button>
         </div>
+      </div>
       </div>
 
       <DateRangeDialog
