@@ -1,11 +1,10 @@
 'use client';
 
 import { useMemo, useState, type ReactNode } from 'react';
-import clsx from 'clsx';
 import type { DanceEvent, DayOfWeek } from '@/types/event';
 import { STYLE_LABELS, STYLE_PILL_CLASS, SITE_URL } from '@/lib/constants';
 import { DAY_NAMES } from '@/lib/filter-options';
-import { formatShort, bostonWeekday } from '@/lib/dates';
+import { bostonWeekday } from '@/lib/dates';
 import { tokenize, matchEvent } from '@/lib/search';
 import { cleanDisplayText } from '@/lib/display-text';
 import {
@@ -16,8 +15,8 @@ import {
   shouldShowNextOccurrence,
 } from '@/lib/recurrences';
 import ShareButton from './ShareButton';
-import { StyleFilter, DayFilter, PresetChips, DateRangeDialog, BigEventsToggle } from './FilterControls';
-import FilterSheet from './FilterSheet';
+import MetaRow from './MetaRow';
+import FilterBar from './FilterBar';
 import type { FilterControlsProps } from './useEventFilters';
 
 type FeedEntry = {
@@ -139,20 +138,6 @@ export default function FeedView({
   sliderMin, sliderMax, defaultFrom, defaultTo,
 }: Props) {
   const [search, setSearch] = useState('');
-  const [filtersOpen, setFiltersOpen] = useState(false);
-  const [sheetOpen, setSheetOpen] = useState(false);
-  const [dateDialogOpen, setDateDialogOpen] = useState(false);
-
-  // Phones get the bottom sheet, wider screens the inline panel. Decided at
-  // tap time from the live viewport, so there is nothing to get wrong on
-  // the server render.
-  const toggleFilters = () => {
-    if (typeof window !== 'undefined' && window.matchMedia('(max-width: 640px)').matches) {
-      setSheetOpen(true);
-    } else {
-      setFiltersOpen(v => !v);
-    }
-  };
 
   const trimmed = search.trim();
 
@@ -168,15 +153,14 @@ export default function FeedView({
     [filtered, selectedDays, fromMs, toMs],
   );
 
-  const activeFilterCount = selectedStyles.length + selectedDays.length +
-    (dateMode === 'custom' ? 1 : 0) + (specialOnly ? 1 : 0);
-  const isAny = dateMode === 'any';
-  const dateLabel = `${formatShort(dateSlider.fromDay)} – ${formatShort(dateSlider.toDay)}`;
-
   return (
     <div className="feed-view">
+      {/* Left column carries search + every filter row; the right column pins
+          the close button to the top and Map to the bottom-most row. */}
+      {/* Search sits with the close button; the filter bar underneath is the
+          same component the map uses, so phone and desktop stay in step. */}
       <div className="feed-header">
-        <div className="feed-header-top">
+        <div className="feed-search-row">
           <div className="feed-search-wrap">
             <svg className="feed-search-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path fillRule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clipRule="evenodd" />
@@ -184,7 +168,7 @@ export default function FeedView({
             <input
               type="text"
               className="feed-search"
-              placeholder="Search..."
+              placeholder="Search events, venues, styles..."
               value={search}
               onChange={e => setSearch(e.target.value)}
             />
@@ -199,30 +183,6 @@ export default function FeedView({
             )}
           </div>
           <button
-            onClick={toggleFilters}
-            className={clsx(
-              'pretty-pill text-xs',
-              filtersOpen || activeFilterCount > 0 ? 'pretty-pill-rose' : 'pretty-pill-ghost',
-            )}
-            aria-expanded={filtersOpen}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-            </svg>
-            {activeFilterCount > 0 ? `Filters (${activeFilterCount})` : 'Filters'}
-          </button>
-          <button
-            onClick={onViewModeToggle}
-            className="pretty-pill pretty-pill-ghost text-xs"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6" />
-              <line x1="8" y1="2" x2="8" y2="18" />
-              <line x1="16" y1="6" x2="16" y2="22" />
-            </svg>
-            Map
-          </button>
-          <button
             onClick={onViewModeToggle}
             className="feed-close-btn"
             aria-label="Close feed"
@@ -233,71 +193,20 @@ export default function FeedView({
             </svg>
           </button>
         </div>
-        <div className="feed-date-chips">
-          <PresetChips datePreset={datePreset} onPresetChange={onPresetChange} />
-          <BigEventsToggle active={specialOnly} onChange={onSpecialOnlyChange} />
-        </div>
 
-        {filtersOpen && (
-          <div className="feed-filters-panel">
-            <div className="feed-filter-row">
-              <span className="filter-label">Style</span>
-              <StyleFilter selected={selectedStyles} onChange={onStylesChange} />
-            </div>
-            <div className="feed-filter-row">
-              <span className="filter-label">Day</span>
-              <DayFilter selected={selectedDays} onChange={onDaysChange} />
-            </div>
-            <div className="feed-filter-row">
-              <span className="filter-label">When</span>
-              <div className="filter-pills">
-                <button
-                  onClick={() => onDateModeChange('any')}
-                  className={clsx('pretty-pill text-xs', isAny ? 'pretty-pill-rose' : 'pretty-pill-ghost')}
-                >
-                  Any
-                </button>
-                <button
-                  onClick={() => {
-                    onDateModeChange('custom');
-                    setDateDialogOpen(true);
-                  }}
-                  className={clsx('pretty-pill text-xs', !isAny ? 'pretty-pill-rose' : 'pretty-pill-ghost')}
-                >
-                  {dateLabel}
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        <FilterBar
+          selectedStyles={selectedStyles} onStylesChange={onStylesChange}
+          selectedDays={selectedDays} onDaysChange={onDaysChange}
+          specialOnly={specialOnly} onSpecialOnlyChange={onSpecialOnlyChange}
+          dateMode={dateMode} onDateModeChange={onDateModeChange}
+          dateSlider={dateSlider} onDateSliderChange={onDateSliderChange}
+          sliderMin={sliderMin} sliderMax={sliderMax}
+          defaultFrom={defaultFrom} defaultTo={defaultTo}
+          datePreset={datePreset} onPresetChange={onPresetChange}
+          viewMode="feed"
+          onViewModeToggle={onViewModeToggle}
+        />
       </div>
-
-      <FilterSheet
-        open={sheetOpen}
-        onClose={() => setSheetOpen(false)}
-        onOpenDateRange={() => setDateDialogOpen(true)}
-        resultLabel={`Show ${grouped.reduce((n, g) => n + g.entries.length, 0)} events`}
-        selectedStyles={selectedStyles} onStylesChange={onStylesChange}
-        selectedDays={selectedDays} onDaysChange={onDaysChange}
-        specialOnly={specialOnly} onSpecialOnlyChange={onSpecialOnlyChange}
-        dateMode={dateMode} onDateModeChange={onDateModeChange}
-        dateSlider={dateSlider} onDateSliderChange={onDateSliderChange}
-        sliderMin={sliderMin} sliderMax={sliderMax}
-        defaultFrom={defaultFrom} defaultTo={defaultTo}
-        datePreset={datePreset} onPresetChange={onPresetChange}
-      />
-
-      <DateRangeDialog
-        open={dateDialogOpen}
-        onClose={() => setDateDialogOpen(false)}
-        dateSlider={dateSlider}
-        onDateSliderChange={onDateSliderChange}
-        onDateModeChange={onDateModeChange}
-        sliderMin={sliderMin}
-        sliderMax={sliderMax}
-        defaultFrom={defaultFrom}
-        defaultTo={defaultTo}
-      />
 
       <div className="feed-scroll">
         {grouped.map(group => (
@@ -378,29 +287,24 @@ function FeedCard({
 
   const hl = (text: string) => highlightText(text, searchTokens);
 
+  const dateText = event.schedule && event.schedule.length > 0
+    ? formatDate(displayDate)
+    : scheduleTime
+      ? `${formatDate(displayDate)} · ${scheduleTime}`
+      : isDateOnlyEvent(event.startDate, event.endDate)
+        ? formatDate(displayDate)
+        : `${formatDate(displayDate)} · ${formatTime(event.startDate)} – ${formatTime(event.endDate)}`;
+
   return (
     <div role="button" tabIndex={0} className="feed-card" onClick={onSelect} onKeyDown={e => { if (e.key === 'Enter') onSelect(); }}>
+      {/* Name first — the pills only mean something once you know what they
+          are describing. Styles next, then status, then the facts. */}
       <div className="feed-card-top">
-        <div className="feed-card-pills">
-          {event.special && (
-            <span className="pretty-pill pretty-pill-amber text-xs">
-              Big Event
-            </span>
-          )}
-          {event.styles.map(style => (
-            <span
-              key={style}
-              className={`pretty-pill ${STYLE_PILL_CLASS[style]} text-xs`}
-            >
-              {hl(STYLE_LABELS[style])}
-            </span>
-          ))}
-          {event.recurring && !recurrenceLabel && (
-            <span className="pretty-pill pretty-pill-neutral text-xs">
-              Recurring
-            </span>
-          )}
-        </div>
+        <h3 className="feed-card-title">
+          {shareUrl
+            ? <a href={`/event/${event.slug}`} onClick={e => e.stopPropagation()}>{hl(event.name)}</a>
+            : hl(event.name)}
+        </h3>
         {shareUrl && (
           <div onClick={e => e.stopPropagation()}>
             <ShareButton
@@ -412,17 +316,36 @@ function FeedCard({
         )}
       </div>
 
-      <h3 className="feed-card-title">
-        {shareUrl
-          ? <a href={`/event/${event.slug}`} onClick={e => e.stopPropagation()}>{hl(event.name)}</a>
-          : hl(event.name)}
-      </h3>
+      {event.styles.length > 0 && (
+        <div className="feed-card-pills">
+          {event.styles.map(style => (
+            <span
+              key={style}
+              className={`pretty-pill ${STYLE_PILL_CLASS[style]} text-xs`}
+            >
+              {hl(STYLE_LABELS[style])}
+            </span>
+          ))}
+        </div>
+      )}
 
-      {recurrenceLabel && (
-        <div className="flex flex-wrap gap-1.5 items-center" style={{ alignSelf: 'flex-start' }}>
-          <span className="pretty-pill pretty-pill-sky text-xs">
-            {shouldShowNextOccurrence(event) ? recurringWhenLabel(event) : recurrenceLabel}
-          </span>
+      {(recurrenceLabel || event.recurring || event.special || event.nextDateApproximate) && (
+        <div className="feed-card-pills">
+          {recurrenceLabel && (
+            <span className="pretty-pill pretty-pill-sky text-xs">
+              {shouldShowNextOccurrence(event) ? recurringWhenLabel(event) : recurrenceLabel}
+            </span>
+          )}
+          {event.recurring && !recurrenceLabel && (
+            <span className="pretty-pill pretty-pill-neutral text-xs">
+              Recurring
+            </span>
+          )}
+          {event.special && (
+            <span className="pretty-pill pretty-pill-fuchsia text-xs">
+              Big Event
+            </span>
+          )}
           {event.nextDateApproximate && (
             <span className="pretty-pill pretty-pill-amber text-xs">
               Date unconfirmed
@@ -431,24 +354,13 @@ function FeedCard({
         </div>
       )}
 
-      <div className="feed-card-meta">
-        <span className="feed-card-date">
-          {event.schedule && event.schedule.length > 0
-            ? formatDate(displayDate)
-            : scheduleTime
-              ? `${formatDate(displayDate)} · ${scheduleTime}`
-              : isDateOnlyEvent(event.startDate, event.endDate)
-                ? formatDate(displayDate)
-                : `${formatDate(displayDate)} · ${formatTime(event.startDate)} – ${formatTime(event.endDate)}`
-          }
-        </span>
+      <div className="feed-card-facts">
+        <MetaRow icon="calendar">{dateText}</MetaRow>
+        {event.location && (
+          <MetaRow icon="pin">{hl(event.location)}</MetaRow>
+        )}
+        {event.cost && <MetaRow icon="cost">{event.cost}</MetaRow>}
       </div>
-
-      {event.location && (
-        <div className="feed-card-location">{hl(event.location)}</div>
-      )}
-
-      {event.cost && <div className="feed-card-cost">{event.cost}</div>}
 
       {shortDesc && (
         <p className="feed-card-desc">{hl(shortDesc)}</p>

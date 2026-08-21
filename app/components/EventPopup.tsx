@@ -193,14 +193,14 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
           </div>
 
           <div className="flex flex-wrap gap-1.5">
-            {event.special && (
-              <span className="pretty-pill pretty-pill-amber text-xs">Big Event</span>
-            )}
             {event.styles.map(style => (
               <span key={style} className={`pretty-pill ${STYLE_PILL_CLASS[style]} text-xs`}>
                 {STYLE_LABELS[style]}
               </span>
             ))}
+            {event.special && (
+              <span className="pretty-pill pretty-pill-fuchsia text-xs">Big Event</span>
+            )}
             {event.recurring && !recurrenceLabel && (
               <span className="pretty-pill pretty-pill-neutral text-xs">Recurring</span>
             )}
@@ -288,8 +288,9 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
 
         <UpcomingDatesTable event={event} className="mt-1" />
 
-        {/* One row would just restate the pill and the "Next" line as a table,
-            but its note can still carry something neither of those says. */}
+        {/* A one-row table would just restate the pill and the "Next" line, so
+            a single weekly slot renders as neither. Its note travels with the
+            facts strip above. */}
         {event.schedule && event.schedule.length > 1 && (
           <WeeklyScheduleTable schedule={event.schedule} className="mt-1" />
         )}

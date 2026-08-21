@@ -29,12 +29,12 @@ const homeDescription = upcomingCount >= 5
 
 export const metadata: Metadata = {
   title: {
-    absolute: 'Salsa & Bachata Events in Boston This Week | bostonsalsa.org',
+    absolute: 'Boston Salsa Events | bostonsalsa.org',
   },
   description: homeDescription,
   alternates: { canonical: SITE_URL },
   openGraph: {
-    title: 'Salsa & Bachata Events in Boston This Week',
+    title: 'Boston Salsa Events',
     description: homeDescription,
     type: 'website',
     url: SITE_URL,

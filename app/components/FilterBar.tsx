@@ -4,17 +4,22 @@ import { useState } from 'react';
 import Link from 'next/link';
 import clsx from 'clsx';
 import { formatShort } from '@/lib/dates';
-import { StyleFilter, DayFilter, PresetChips, DateRangeDialog, BigEventsToggle } from './FilterControls';
-import FilterSheet from './FilterSheet';
+import { StyleFilter, DayFilter, DateRangeDialog, WhenPills, FilterLabel } from './FilterControls';
 import type { FilterControlsProps } from './useEventFilters';
 
 type Props = FilterControlsProps & {
   viewMode: 'map' | 'feed';
   onViewModeToggle: () => void;
-  /** Events passing the current filters; labels the sheet's Done button. */
-  resultCount?: number;
 };
 
+type FilterMenu = 'style' | 'day' | 'when';
+
+/**
+ * The one filter surface, identical on phones and desktop: three labelled rows.
+ * The only difference is that a phone hides the less-used pills behind the
+ * row's arrow, so the bar stays thumb-height without a second UI to maintain.
+ * Which pills those are is decided in CSS, so the first paint is right on both.
+ */
 export default function FilterBar({
   selectedStyles, onStylesChange,
   selectedDays, onDaysChange,
@@ -25,141 +30,53 @@ export default function FilterBar({
   defaultFrom, defaultTo,
   viewMode, onViewModeToggle,
   datePreset, onPresetChange,
-  resultCount,
 }: Props) {
   const [dateDialogOpen, setDateDialogOpen] = useState(false);
-  const [sheetOpen, setSheetOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<FilterMenu | null>(null);
 
   const isAny = dateMode === 'any';
   const dateLabel = `${formatShort(dateSlider.fromDay)} – ${formatShort(dateSlider.toDay)}`;
-  const activeCount = selectedStyles.length + selectedDays.length +
-    (dateMode === 'custom' ? 1 : 0) + (specialOnly ? 1 : 0);
-
-  const controls = {
-    selectedStyles, onStylesChange,
-    selectedDays, onDaysChange,
-    specialOnly, onSpecialOnlyChange,
-    dateMode, onDateModeChange,
-    dateSlider, onDateSliderChange,
-    sliderMin, sliderMax,
-    defaultFrom, defaultTo,
-    datePreset, onPresetChange,
+  const toggleMenu = (menu: FilterMenu) => {
+    setOpenMenu(current => (current === menu ? null : menu));
   };
 
   return (
     <div className="filter-bar">
-      {/* ── Phone layout: one thumb-height bar. Quick picks scroll sideways;
-          everything else lives in the sheet. Hidden on wider screens via CSS
-          (not JS) so the first paint is right on both. ── */}
-      <div className="filter-mobile">
-        <div className="filter-mobile-rail">
-          <button
-            onClick={() => setSheetOpen(true)}
-            className={clsx('pretty-pill text-xs', activeCount > 0 ? 'pretty-pill-rose' : 'pretty-pill-ghost')}
-            aria-haspopup="dialog"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-            </svg>
-            {activeCount > 0 ? `Filters · ${activeCount}` : 'Filters'}
-          </button>
-          <PresetChips datePreset={datePreset} onPresetChange={onPresetChange} />
-          <BigEventsToggle active={specialOnly} onChange={onSpecialOnlyChange} />
-        </div>
-        <button
-          onClick={onViewModeToggle}
-          className="pretty-pill pretty-pill-ghost text-xs filter-mobile-feed"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="8" y1="6" x2="21" y2="6" />
-            <line x1="8" y1="12" x2="21" y2="12" />
-            <line x1="8" y1="18" x2="21" y2="18" />
-            <line x1="3" y1="6" x2="3.01" y2="6" />
-            <line x1="3" y1="12" x2="3.01" y2="12" />
-            <line x1="3" y1="18" x2="3.01" y2="18" />
-          </svg>
-          Feed
-        </button>
-      </div>
-
-      <FilterSheet
-        {...controls}
-        open={sheetOpen}
-        onClose={() => setSheetOpen(false)}
-        onOpenDateRange={() => setDateDialogOpen(true)}
-        resultLabel={resultCount != null ? `Show ${resultCount} event${resultCount === 1 ? '' : 's'}` : undefined}
-      />
-
-      {/* ── Desktop layout: three labelled rows. ── */}
-      <div className="filter-desktop">
-      {/* Row 1: Style */}
-      <div className="filter-bar-row">
-        <div className="filter-group">
-          <span className="filter-label">Style</span>
+      {/* Style row also carries the actions. On a phone they share its line;
+          on desktop `display: contents` drops them into the grid's last row. */}
+      <div className="filter-bar-row filter-bar-style-row">
+        <div className={clsx('filter-group', openMenu === 'style' && 'is-expanded')}>
+          <FilterLabel open={openMenu === 'style'} onToggle={() => toggleMenu('style')}>
+            Style
+          </FilterLabel>
           <StyleFilter selected={selectedStyles} onChange={onStylesChange} />
         </div>
-      </div>
-
-      {/* Row 2: Day */}
-      <div className="filter-bar-row">
-        <div className="filter-group">
-          <span className="filter-label">Day</span>
-          <DayFilter selected={selectedDays} onChange={onDaysChange} />
-        </div>
-      </div>
-
-      {/* Row 3: When presets + date range */}
-      <div className="filter-bar-row filter-bar-date-row">
-        <div className="filter-date-section">
-          <span className="filter-label">When</span>
-          <button
-            onClick={() => {
-              onPresetChange(null);
-              onDateModeChange('any');
-            }}
-            className={clsx(
-              'pretty-pill text-xs',
-              isAny && !datePreset ? 'pretty-pill-rose' : 'pretty-pill-ghost',
-            )}
-          >
-            Any
-          </button>
-          <PresetChips datePreset={datePreset} onPresetChange={onPresetChange} />
-          <button
-            onClick={() => {
-              onDateModeChange('custom');
-              setDateDialogOpen(true);
-            }}
-            className={clsx(
-              'pretty-pill text-xs',
-              !isAny && !datePreset ? 'pretty-pill-rose' : 'pretty-pill-ghost',
-            )}
-          >
-            {dateLabel}
-          </button>
-          <BigEventsToggle active={specialOnly} onChange={onSpecialOnlyChange} />
-        </div>
         <div className="filter-right-actions">
-          <a
-            href="https://github.com/Zinkelburger/boston-latin-dancing"
-            target="_blank"
-            rel="noopener"
-            className="pretty-pill pretty-pill-ghost text-xs"
-            aria-label="GitHub repository"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-            </svg>
-          </a>
-          <Link
-            href="/submit"
-            className="pretty-pill pretty-pill-ghost text-xs"
-          >
-            + Submit event
-          </Link>
+          {viewMode === 'map' && (
+            <>
+              <a
+                href="https://github.com/Zinkelburger/boston-latin-dancing"
+                target="_blank"
+                rel="noopener"
+                className="pretty-pill pretty-pill-ghost text-xs filter-desktop-only"
+                aria-label="GitHub repository"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                </svg>
+              </a>
+              <Link
+                href="/submit"
+                className="pretty-pill pretty-pill-ghost text-xs filter-desktop-only"
+              >
+                + Submit event
+              </Link>
+            </>
+          )}
           <button
+            type="button"
             onClick={onViewModeToggle}
-            className="pretty-pill pretty-pill-ghost text-xs"
+            className="pretty-pill pretty-pill-neutral text-xs"
           >
             {viewMode === 'map' ? (
               <>
@@ -186,11 +103,40 @@ export default function FilterBar({
           </button>
         </div>
       </div>
+
+      <div className="filter-bar-row filter-bar-day-row">
+        <div className={clsx('filter-group', openMenu === 'day' && 'is-expanded')}>
+          <FilterLabel open={openMenu === 'day'} onToggle={() => toggleMenu('day')}>
+            Day
+          </FilterLabel>
+          <DayFilter selected={selectedDays} onChange={onDaysChange} />
+        </div>
+      </div>
+
+      <div className="filter-bar-row filter-bar-date-row">
+        <div className={clsx('filter-date-section', openMenu === 'when' && 'is-expanded')}>
+          <FilterLabel open={openMenu === 'when'} onToggle={() => toggleMenu('when')}>
+            When
+          </FilterLabel>
+          <WhenPills
+            isAny={isAny}
+            datePreset={datePreset}
+            onPresetChange={onPresetChange}
+            onDateModeChange={onDateModeChange}
+            onOpenCustom={() => setDateDialogOpen(true)}
+            customLabel={dateLabel}
+            specialOnly={specialOnly}
+            onSpecialOnlyChange={onSpecialOnlyChange}
+          />
+        </div>
       </div>
 
       <DateRangeDialog
         open={dateDialogOpen}
         onClose={() => setDateDialogOpen(false)}
+        dateMode={dateMode}
+        selectedDays={selectedDays}
+        onDaysChange={onDaysChange}
         dateSlider={dateSlider}
         onDateSliderChange={onDateSliderChange}
         onDateModeChange={onDateModeChange}

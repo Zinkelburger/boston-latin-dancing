@@ -772,3 +772,4 @@
 {"ts": "2026-08-20T21:25:27.396179+00:00", "action": "archive", "event_id": "2ar83v9imef7dkgkonbfvc5t4q@google.com", "details": ""}
 {"ts": "2026-08-20T21:25:27.396196+00:00", "action": "archive", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": ""}
 {"ts": "2026-08-20T21:25:27.396208+00:00", "action": "archive", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": ""}
+{"ts": "2026-08-20T23:13:23.914550+00:00", "action": "edit", "event_id": "E69B54FA-330F-42FD-B113-B6331D4DF842", "details": "{\"special\": false}"}

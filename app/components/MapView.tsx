@@ -361,7 +361,6 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
         <div className="shrink-0">
           <FilterBar
             {...controls}
-            resultCount={filteredEvents.length}
             viewMode={viewMode}
             onViewModeToggle={() => setViewMode(v => v === 'map' ? 'feed' : 'map')}
           />

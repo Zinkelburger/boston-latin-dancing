@@ -100,8 +100,20 @@ body {
   flex-direction: column;
   overflow: hidden;
 }
+/* Phone-only drag handle: the popup rises from the bottom edge like a sheet. */
 .event-popup-grabber {
   display: none;
+  width: 2.25rem;
+  height: 0.3rem;
+  border-radius: 9999px;
+  background: #d6d3d1;
+  margin: 0.5rem auto 0;
+  flex-shrink: 0;
+}
+
+@keyframes sheet-enter {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
 }
 
 .event-popup-header,
@@ -115,6 +127,12 @@ body {
   flex-direction: column;
   gap: 0.65rem;
   border-bottom: 1px solid #e7e5e4;
+  /* Header and footer both refuse to shrink, and the card clips its overflow,
+     so a tall header (long title + a three-line address) would push the footer
+     links past the bottom edge where they cannot be reached. Cap it and let it
+     scroll instead — the footer stays put. */
+  max-height: 50vh;
+  overflow-y: auto;
 }
 .event-popup-heading {
   display: flow-root;
@@ -131,6 +149,11 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+}
+/* Description and tables are all conditional; with none of them the body would
+   be an empty white band between header and footer. */
+.event-popup-body:empty {
+  display: none;
 }
 .event-popup-body {
   overflow-y: auto;
@@ -168,33 +191,28 @@ body {
   white-space: nowrap;
 }
 
-/* Hover lift only on real controls (links, buttons) — not display-only spans,
-   and only on devices that can hover. On touch, :hover sticks after a tap
-   and the pill looks stuck mid-air. */
+/* A pill stays put when you touch it: no lift, no shadow, no squash — just
+   the border darkening so you can tell it took the press. */
 :is(a, button).pretty-pill {
   cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease,
-    border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+  transition: border-color 0.12s ease, color 0.12s ease, background-color 0.12s ease;
 }
 @media (hover: hover) {
   :is(a, button).pretty-pill:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 14px rgba(2, 6, 23, 0.12);
+    border-color: #94a3b8;
   }
 }
 :is(a, button).pretty-pill:active {
-  transform: translateY(0) scale(0.97);
+  border-color: #64748b;
 }
 button.pretty-pill {
   font-family: inherit;
   appearance: none;
   -webkit-appearance: none;
 }
-button.pretty-pill:disabled:hover {
-  transform: none;
-  box-shadow: none;
+button.pretty-pill:disabled {
   cursor: not-allowed;
 }
 
@@ -212,6 +230,15 @@ button.pretty-pill:disabled:hover {
   background: #f5f3ff;
   border-color: #8b5cf6;
   color: #6d28d9;
+}
+/* Big Event. Tinted like every other pill. Fuchsia is the one wide gap left in
+   the wheel — the styles sit at amber, emerald, sky, violet and rose, and blue
+   is taken by the popup actions, so this is ~45 degrees clear of its nearest
+   neighbours (violet for kizomba, rose for bachata) either side. */
+.pretty-pill-fuchsia {
+  background: #fdf4ff;
+  border-color: #d946ef;
+  color: #a21caf;
 }
 .pretty-pill-emerald {
   background: #ecfdf5;
@@ -273,80 +300,105 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   opacity: 1;
 }
 
-/* ─── Filter Bar ─── */
+/* ─── Filter Bar ───
+   One layout for every screen: three labelled rows. A phone hides the extra
+   pills behind each row's arrow; wider screens show them all and the label
+   goes inert. */
 
 .filter-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.5rem;
   background: rgba(249, 250, 251, 0.97);
   border-top: 1px solid #e5e7eb;
   padding: 0.625rem 0.75rem;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.filter-desktop {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-/* Phone bar: one row, quick picks scroll under a fade, Feed pinned right. */
-.filter-mobile {
-  display: none;
-  align-items: center;
-  gap: 0.5rem;
-}
-.filter-mobile-rail {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  /* breathing room so the last chip clears the fade */
-  padding: 2px 1.5rem 2px 2px;
-  margin-right: -1.5rem;
-  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 1.75rem), transparent);
-  mask-image: linear-gradient(to right, #000 calc(100% - 1.75rem), transparent);
-}
-.filter-mobile-rail::-webkit-scrollbar {
-  display: none;
-}
-.filter-mobile-rail > .pretty-pill {
-  flex-shrink: 0;
-}
-.filter-mobile-feed {
-  flex-shrink: 0;
-  position: relative;
-  z-index: 1;
+/* In the feed the bar is part of the header, not a bar of its own. */
+.feed-header .filter-bar {
+  background: transparent;
+  border: none;
+  padding: 0;
 }
 
 .filter-bar-row {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.75rem;
+  min-width: 0;
 }
 
-.filter-bar-date-row {
-  justify-content: space-between;
+/* Dissolved so the style group and the actions land in different grid rows. */
+.filter-bar > .filter-bar-style-row {
+  display: contents;
+}
+.filter-bar > .filter-bar-style-row .filter-group {
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+.filter-bar > .filter-bar-day-row {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+.filter-bar > .filter-bar-date-row {
+  grid-column: 1;
+  grid-row: 3;
+  min-width: 0;
+}
+
+.filter-right-actions {
+  grid-column: 2;
+  grid-row: 3;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex-shrink: 0;
+  align-self: center;
 }
 
 .filter-group {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  min-width: 0;
+  flex: 1;
 }
 
 .filter-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  margin: 0;
+  font-family: inherit;
   font-size: 0.7rem;
   font-weight: 600;
-  color: #9ca3af;
+  color: #4b5563;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   white-space: nowrap;
   min-width: 3rem;
-  width: 3rem;
   flex-shrink: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  line-height: 1;
+  appearance: none;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.filter-label-chevron {
+  display: none;
+  flex-shrink: 0;
+  width: 0.7rem;
+  height: 0.7rem;
+  transition: transform 0.15s ease;
+}
+.filter-label.is-open .filter-label-chevron {
+  transform: rotate(90deg);
 }
 
 .filter-pills {
@@ -358,13 +410,9 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 .filter-date-section {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.5rem;
-}
-
-.filter-count {
-  font-size: 0.7rem;
-  color: #9ca3af;
-  white-space: nowrap;
+  min-width: 0;
 }
 
 /* ─── Date Dialog (floating) ─── */
@@ -421,6 +469,34 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+}
+
+.filter-dialog-presets-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.filter-dialog-presets-label {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.filter-dialog-hint {
+  margin: -0.2rem 0 0.1rem;
+  font-size: 0.72rem;
+  color: #9ca3af;
+  line-height: 1.35;
+}
+
+.filter-dialog-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
 }
 
 .filter-dialog-inputs {
@@ -660,23 +736,10 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 .feed-header {
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
+  gap: 0.5rem;
   padding: 0.65rem 0.85rem;
   border-bottom: 1px solid #e5e7eb;
   background: rgba(249, 250, 251, 0.97);
-  flex-shrink: 0;
-}
-
-.feed-header-top {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-}
-
-.feed-count {
-  font-size: 0.72rem;
-  color: #9ca3af;
-  white-space: nowrap;
   flex-shrink: 0;
 }
 
@@ -684,8 +747,8 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1.65rem;
-  height: 1.65rem;
+  width: 1.75rem;
+  height: 1.75rem;
   border-radius: 9999px;
   border: none;
   background: #f3f4f6;
@@ -693,66 +756,41 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   cursor: pointer;
   flex-shrink: 0;
   transition: background-color 0.15s, color 0.15s;
-  margin-left: auto;
 }
 .feed-close-btn:hover {
   background: #e5e7eb;
   color: #374151;
 }
 
-.feed-date-chips {
-  display: flex;
-  gap: 0.3rem;
-  padding: 2px 0 4px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-.feed-date-chips::-webkit-scrollbar {
-  display: none;
-}
-
-.feed-filters-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  padding: 0.3rem 0 0.15rem;
-  border-top: 1px solid #e5e7eb;
-}
-
-.feed-filter-row {
+.feed-search-row {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-}
-
-.feed-filter-row .filter-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem;
+  min-width: 0;
 }
 
 .feed-search-wrap {
   position: relative;
+  flex: 1;
+  min-width: 0;
 }
 
 .feed-search-icon {
   position: absolute;
-  left: 0.5rem;
+  left: 0.75rem;
   top: 50%;
   transform: translateY(-50%);
-  width: 0.75rem;
-  height: 0.75rem;
+  width: 0.9rem;
+  height: 0.9rem;
   color: #9ca3af;
   pointer-events: none;
 }
 
 .feed-search {
   box-sizing: border-box;
-  width: 25rem;
-  max-width: 100%;
-  padding: 0.35rem 1.4rem 0.35rem 1.55rem;
-  font-size: 0.78rem;
+  width: 100%;
+  padding: 0.55rem 2rem 0.55rem 2.1rem;
+  font-size: 0.9rem;
   border: 1px solid #d1d5db;
   border-radius: 9999px;
   background: rgba(255, 255, 255, 0.95);
@@ -772,13 +810,13 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .feed-search-clear {
   position: absolute;
-  right: 0.35rem;
+  right: 0.6rem;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
   color: #9ca3af;
-  font-size: 1rem;
+  font-size: 1.15rem;
   line-height: 1;
   cursor: pointer;
   padding: 0 0.15rem;
@@ -797,7 +835,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 .feed-scroll {
   flex: 1;
   overflow-y: auto;
-  padding: 0.5rem 0.65rem 1rem;
+  padding: 0.5rem 0.65rem calc(1rem + env(safe-area-inset-bottom));
   -webkit-overflow-scrolling: touch;
 }
 
@@ -847,7 +885,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .feed-card-top {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 0.5rem;
 }
@@ -860,7 +898,9 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 .feed-card-title {
   margin: 0;
-  font-size: 0.92rem;
+  min-width: 0;
+  flex: 1;
+  font-size: 0.95rem;
   font-weight: 650;
   color: #1f2937;
   line-height: 1.3;
@@ -870,27 +910,24 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   text-decoration: none;
 }
 
-.feed-card-meta {
+.feed-card-facts {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  flex-direction: column;
+  gap: 0.15rem;
 }
-
-.feed-card-date {
+.feed-card-facts .meta-row {
   font-size: 0.78rem;
   color: #6b7280;
+  gap: 0.4rem;
 }
-
-.feed-card-location {
-  font-size: 0.76rem;
-  color: #9ca3af;
-  line-height: 1.35;
+.feed-card-facts .meta-row-icon {
+  width: 1rem;
+  color: #6b7280;
+  margin-top: 0.1rem;
 }
-
-.feed-card-cost {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: #e11d48;
+.feed-card-facts .meta-row-icon svg {
+  width: 14px;
+  height: 14px;
 }
 
 .feed-card-desc {
@@ -1066,195 +1103,81 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 }
 
 
-/* ─── Bottom sheet (phone filters) ─── */
-
-.sheet-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 950;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  background: rgba(2, 6, 23, 0.4);
-  animation: fade-in 0.18s ease-out;
-}
-
-.sheet {
-  width: 100%;
-  max-width: 560px;
-  max-height: min(88vh, 88dvh);
-  background: #ffffff;
-  border-radius: 1.25rem 1.25rem 0 0;
-  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.18);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  animation: sheet-enter 0.24s cubic-bezier(0.2, 0.8, 0.2, 1);
-  padding-bottom: env(safe-area-inset-bottom);
-}
-
-.sheet-grabber,
-.event-popup-grabber {
-  width: 2.25rem;
-  height: 0.3rem;
-  border-radius: 9999px;
-  background: #d6d3d1;
-  margin: 0.5rem auto 0;
-  flex-shrink: 0;
-}
-
-.sheet-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.6rem 1.1rem 0.5rem;
-}
-.sheet-title {
-  margin: 0;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #1f2937;
-}
-.sheet-clear {
-  background: none;
-  border: none;
-  font: inherit;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #be123c;
-  padding: 0.5rem 0.25rem;
-  cursor: pointer;
-  touch-action: manipulation;
-}
-.sheet-clear:disabled {
-  color: #a8a29e;
-  cursor: default;
-}
-
-.sheet-body {
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  padding: 0.25rem 1.1rem 0.75rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.1rem;
-}
-
-.sheet-group-label {
-  margin: 0 0 0.45rem;
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: #78716c;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-/* Justified rows: every pill stretches so each line is flush and nothing
-   dangles alone. Wrap points still fall wherever the text needs them. */
-.sheet-group .filter-pills {
-  gap: 0.45rem;
-}
-.sheet-group .filter-pills > .pretty-pill {
-  flex: 1 1 auto;
-  min-height: 2.6rem;
-  font-size: 0.875rem;
-  padding: 0.5rem 0.9rem;
-}
-
-.sheet-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.25rem;
-  padding-top: 0.25rem;
-  border-top: 1px solid #f3f4f6;
-}
-.sheet-link {
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: #6b7280;
-  text-decoration: none;
-  padding: 0.5rem 0;
-}
-
-.sheet-footer {
-  flex-shrink: 0;
-  padding: 0.6rem 1.1rem 0.9rem;
-  border-top: 1px solid #f3f4f6;
-  background: #fff;
-}
-.sheet-done {
-  width: 100%;
-  min-height: 3rem;
-  font-size: 0.95rem;
-}
-
-@keyframes sheet-enter {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .sheet, .sheet-backdrop, .event-popup-card, .filter-dialog {
-    animation: none;
+/* GitHub and Submit go before the layout gets tight, not at the phone
+   breakpoint. The When row and the actions share the bar's last grid row and
+   the actions never shrink, so keeping them past this width just squeezes the
+   date pills into a wrapped stack. The view toggle stays — it is the only one
+   of the three you need in the bar. */
+@media (max-width: 900px) {
+  .filter-desktop-only {
+    display: none !important;
   }
 }
+
 
 /* ─── Mobile adjustments ─── */
 
 @media (max-width: 640px) {
-  /* Bottom bar: swap the three rows for the single rail. */
-  .filter-desktop {
-    display: none;
-  }
-  .filter-mobile {
-    display: flex;
-  }
+  /* Same labelled rows as desktop; the arrow reveals the rest. Selected
+     extras stay out so you can always see what is on. */
   .filter-bar {
-    padding: 0.5rem 0.65rem calc(0.5rem + env(safe-area-inset-bottom));
-  }
-
-  /* Feed header: search takes what's left; the Map button already closes. */
-  .feed-header {
-    padding: 0.5rem 0.6rem;
+    padding:
+      0.45rem
+      calc(0.55rem + env(safe-area-inset-right))
+      calc(0.45rem + env(safe-area-inset-bottom))
+      calc(0.55rem + env(safe-area-inset-left));
     gap: 0.4rem;
   }
-  .feed-header-top {
-    gap: 0.4rem;
-  }
-  .feed-search-wrap {
-    flex: 1;
+  .filter-bar > .filter-bar-style-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.35rem;
+    grid-column: 1 / -1;
+    grid-row: 1;
     min-width: 0;
   }
-  .feed-search {
-    width: 100%;
+  .filter-bar > .filter-bar-style-row .filter-group {
+    grid-column: auto;
+    grid-row: auto;
   }
-  .feed-close-btn {
+  .filter-right-actions {
+    grid-column: auto;
+    grid-row: auto;
+    align-self: center;
+  }
+  .filter-bar > .filter-bar-day-row {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  .filter-bar > .filter-bar-date-row {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
+  .filter-label {
+    cursor: pointer;
+    min-width: 3.75rem;
+  }
+  .filter-label-chevron {
+    display: block;
+  }
+  .filter-group:not(.is-expanded) .filter-pill-extra,
+  .filter-date-section:not(.is-expanded) .filter-pill-extra {
     display: none;
   }
-  .feed-date-chips {
-    gap: 0.3rem;
-    padding: 2px 0 4px;
-    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 1.25rem), transparent);
-    mask-image: linear-gradient(to right, #000 calc(100% - 1.25rem), transparent);
-  }
-  .feed-date-chips > .pretty-pill {
-    flex-shrink: 0;
-  }
-  .feed-date-chips::after {
-    content: '';
-    flex: 0 0 1rem; /* last chip clears the fade */
-  }
 
-  .feed-scroll {
-    padding: 0.4rem 0.5rem calc(0.75rem + env(safe-area-inset-bottom));
+  /* Feed header: search and close on one line, the shared bar underneath. */
+  .feed-header {
+    padding:
+      0.5rem
+      calc(0.6rem + env(safe-area-inset-right))
+      0.5rem
+      calc(0.6rem + env(safe-area-inset-left));
+    gap: 0.4rem;
   }
-  .feed-card {
-    padding: 0.7rem 0.8rem;
+  .feed-scroll {
+    padding-right: calc(0.65rem + env(safe-area-inset-right));
+    padding-left: calc(0.65rem + env(safe-area-inset-left));
   }
 
   /* Event popup becomes a bottom sheet: full width, thumb-reachable close,
@@ -1284,7 +1207,6 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   }
   .event-popup-footer > .pretty-pill {
     flex: 1 1 auto;
-    min-height: 2.6rem;
   }
   .event-title {
     font-size: 1.3rem;
@@ -1328,17 +1250,9 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 }
 
 /* Touch targets: 44pt is the floor on any coarse pointer, phone or tablet. */
+/* Circular icon buttons still need a real tap target — pills do not get
+   resized, they stay the size they are on every other screen. */
 @media (pointer: coarse) {
-  :is(a, button).pretty-pill {
-    min-height: 2.5rem;
-    padding-top: 0.45rem;
-    padding-bottom: 0.45rem;
-  }
-  .filter-mobile-rail > .pretty-pill,
-  .feed-date-chips > .pretty-pill {
-    padding-left: 0.85rem;
-    padding-right: 0.85rem;
-  }
   .close-circle,
   .feed-close-btn {
     width: 2.25rem;
@@ -1346,9 +1260,13 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   }
 }
 
-@media (pointer: coarse) {
-  .event-popup-actions > .pretty-pill {
-    min-width: 2.5rem;
-    min-height: 2.5rem;
+
+/* Last in the file on purpose: media queries carry no extra specificity, so
+   this only beats `.filter-dialog`/`.event-popup-card` animations by coming
+   after them. */
+@media (prefers-reduced-motion: reduce) {
+  .event-popup-card,
+  .filter-dialog {
+    animation: none;
   }
 }
