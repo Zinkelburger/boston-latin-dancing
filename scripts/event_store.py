@@ -291,6 +291,31 @@ def parse_date(iso_str: str) -> Optional[datetime]:
         return None
 
 
+def last_occurrence(event: dict) -> Optional[datetime]:
+    """When an event is finally over: the latest of startDate and recurrences.
+
+    Taking recurrences[-1] alone silently retires a live series whose stored
+    list has gone stale — "Rueda in the Pahk" ran every Sunday with a list that
+    ended weeks earlier, so archive_past_events() filed it away while its own
+    startDate was still in the future. Whichever field is further out wins, so
+    an inconsistent record errs toward staying on the map.
+    """
+    candidates = [event.get("startDate", "")]
+    if event.get("recurrences"):
+        candidates.append(event["recurrences"][-1])
+
+    latest = None
+    for raw in candidates:
+        dt = parse_date(raw)
+        if dt is None:
+            continue
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=NY_TZ)
+        if latest is None or dt > latest:
+            latest = dt
+    return latest
+
+
 def _coords_close(a: dict, b: dict, threshold_km: float = 0.3) -> bool:
     lat_a, lng_a = a.get("lat"), a.get("lng")
     lat_b, lng_b = b.get("lat"), b.get("lng")
@@ -657,6 +682,16 @@ def _event_url_list(ev: dict) -> list[str]:
     return [u for u in [ev.get("url"), *(ev.get("urls") or [])] if u]
 
 
+def _url_key(url: str) -> str:
+    """Comparison form for a URL, matching _collect_urls' dedup rule."""
+    return (url or "").rstrip("/").lower()
+
+
+def _dropped_url_list(ev: dict) -> list[str]:
+    """URLs a reviewer removed by hand, which re-scrapes must not resurrect."""
+    return [u for u in (ev.get("_dropped_urls") or []) if u]
+
+
 def _collect_urls(*events: dict) -> list[str]:
     """Gather unique URLs from the given events, keeping one per domain."""
     seen_hosts: set[str] = set()
@@ -744,16 +779,33 @@ def merge_event(a: dict, b: dict) -> dict:
     # precedence — ties keep the winner's existing order, so this only ever
     # fires when the alternative is strictly better.
     all_urls = _collect_urls(winner, loser)
+    dropped = _dropped_url_list(winner) + _dropped_url_list(loser)
+    if dropped:
+        merged["_dropped_urls"] = sorted({_url_key(u): u for u in dropped}.values())
+        suppressed = {_url_key(u) for u in dropped}
+        # A URL the reviewer struck off stays off, however many re-scrapes
+        # hand it back. Only drop it while something still links the event —
+        # a record with no link at all is worse than a stale one.
+        remaining = [u for u in all_urls if _url_key(u) not in suppressed]
+        if remaining:
+            all_urls = remaining
     if all_urls:
         primary = min(all_urls, key=lambda u: (url_rank(u), all_urls.index(u)))
         merged["url"] = primary
         extra = [u for u in all_urls if u and u != primary]
         if extra:
             merged["urls"] = extra
+        else:
+            merged.pop("urls", None)
 
     # Re-scrape of the same event id: refresh date/time from incoming data.
+    # recurrences[] has to come along, or the record ends up describing two
+    # different weeks — a refreshed startDate with a months-old occurrence
+    # list, which is what quietly archived "Rueda in the Pahk" mid-season.
+    # An incoming copy with no recurrences[] is a single occurrence, not a
+    # claim that the series ended, so it never clears a stored list.
     if winner.get("id") == loser.get("id"):
-        for key in ("startDate", "endDate", "dayOfWeek"):
+        for key in ("startDate", "endDate", "dayOfWeek", "recurrences"):
             if loser.get(key):
                 merged[key] = loser[key]
 
@@ -2098,12 +2150,7 @@ def add_event(
             # copy is actually upcoming. Stale scraped files re-listing past
             # dates must not ping-pong events between archive and active
             # (reactivate here, re-archive in archive_past_events) every run.
-            last_date_str = event.get("startDate", "")
-            if event.get("recurrences"):
-                last_date_str = event["recurrences"][-1]
-            incoming_dt = parse_date(last_date_str)
-            if incoming_dt is not None and incoming_dt.tzinfo is None:
-                incoming_dt = incoming_dt.replace(tzinfo=NY_TZ)
+            incoming_dt = last_occurrence(event)
             if incoming_dt is None or incoming_dt < datetime.now(timezone.utc) - timedelta(hours=24):
                 return {
                     "status": "duplicate",
@@ -2175,13 +2222,9 @@ def add_event(
     # A brand-new event that already ended is pure churn (stale scraped file):
     # it would only be archived on the next pass. Skip it outright.
     if not force:
-        new_last = event["recurrences"][-1] if event.get("recurrences") else event.get("startDate", "")
-        new_dt = parse_date(new_last)
-        if new_dt is not None:
-            if new_dt.tzinfo is None:
-                new_dt = new_dt.replace(tzinfo=NY_TZ)
-            if new_dt < datetime.now(timezone.utc) - timedelta(hours=24):
-                return {"status": "skipped_past", "message": "new event is already past"}
+        new_dt = last_occurrence(event)
+        if new_dt is not None and new_dt < datetime.now(timezone.utc) - timedelta(hours=24):
+            return {"status": "skipped_past", "message": "new event is already past"}
 
     _enrich_event(event)
 
@@ -2220,18 +2263,10 @@ def archive_past_events() -> list[dict]:
     newly_archived = []
 
     for ev in active:
-        # For recurring events, check last recurrence
-        last_date_str = ev.get("startDate", "")
-        if ev.get("recurrences"):
-            last_date_str = ev["recurrences"][-1]
-
-        dt = parse_date(last_date_str)
+        dt = last_occurrence(ev)
         if dt is None:
             still_active.append(ev)
             continue
-
-        if dt.tzinfo is None:
-            dt = dt.replace(tzinfo=NY_TZ)
 
         if dt < cutoff:
             ev["archivedAt"] = now.isoformat()
@@ -2526,9 +2561,27 @@ def edit_event(event_id: str, updates: dict) -> dict:
     if idx is None:
         return {"status": "not_found", "message": f"No active event with id '{event_id}'"}
 
+    # A link the reviewer deletes has to stay deleted. Re-scrapes accumulate
+    # every URL a source has ever carried back into urls[], so clearing a dead
+    # alt link only held until the next ingest put it straight back — the same
+    # facebook share wrapper and expired instagram post came back to
+    # check-links week after week. Record the removals; merge_event honours them.
+    before = _event_url_list(active[idx]) if ("url" in updates or "urls" in updates) else []
+
     for k, v in updates.items():
         if k != "id":
             active[idx][k] = v
+
+    if before:
+        kept = {_url_key(u) for u in _event_url_list(active[idx])}
+        dropped = {_url_key(u): u for u in _dropped_url_list(active[idx])}
+        dropped.update({_url_key(u): u for u in before if _url_key(u) not in kept})
+        # An edit that puts a link back overrides an earlier removal.
+        surviving = sorted(v for k_, v in dropped.items() if k_ not in kept)
+        if surviving:
+            active[idx]["_dropped_urls"] = surviving
+        else:
+            active[idx].pop("_dropped_urls", None)
 
     # Re-geocode if location changed
     if "location" in updates and (active[idx].get("lat") is None or "location" in updates):
