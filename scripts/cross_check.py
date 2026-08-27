@@ -144,12 +144,38 @@ def _ny_day(iso_str: Optional[str]) -> Optional[str]:
     return dt.astimezone(NY_TZ).date().isoformat()
 
 
+# A timezone artifact is a whole-offset shift, not a vague difference. Sources
+# legitimately disagree by minutes (doors vs lesson vs "event starts"), so only
+# a gap that lands exactly on a US-Eastern offset is worth reporting.
+EASTERN_OFFSETS_H = (4, 5)
+
+
+def whole_offset_shift(a: Optional[str], b: Optional[str]) -> Optional[int]:
+    """Hours between two instants when the gap is exactly an Eastern offset.
+
+    Catches the artifact _ny_day cannot see: a source rendering 9 PM as 5 PM
+    keeps the same calendar day, so a day-granularity check calls it agreement.
+    """
+    da, db = parse_date(a or ""), parse_date(b or "")
+    if da is None or db is None:
+        return None
+    if da.tzinfo is None:
+        da = da.replace(tzinfo=NY_TZ)
+    if db.tzinfo is None:
+        db = db.replace(tzinfo=NY_TZ)
+    delta = abs((da - db).total_seconds())
+    for hours in EASTERN_OFFSETS_H:
+        if abs(delta - hours * 3600) < 60:
+            return hours
+    return None
+
+
 # ── what one source claims ────────────────────────────────────────────
 
 def source_claim(url: str) -> dict:
     """Read one source's claimed location and date."""
-    claim = {"url": url, "location": None, "date": None, "via": None,
-             "city_level": False, "error": None}
+    claim = {"url": url, "location": None, "date": None, "instant": None,
+             "via": None, "city_level": False, "error": None}
 
     meta = link_meta(url)
     status = meta["status"]
@@ -165,7 +191,8 @@ def source_claim(url: str) -> dict:
             if looks_like_render_timestamp(start):
                 start = None
                 claim["error"] = "startDate was the page's render clock — ignored"
-            claim.update({"location": loc, "date": _ny_day(start), "via": "json-ld"})
+            claim.update({"location": loc, "date": _ny_day(start),
+                          "instant": start, "via": "json-ld"})
             return claim
 
     fb = meta.get("facebook_event")
@@ -236,8 +263,19 @@ def cross_check_event(event: dict, allow_geocode: bool = True) -> dict:
     if our_day and not event.get("recurring") and not event.get("recurrences"):
         for claim in dated:
             verdict = AGREE if claim["date"] == our_day else DISAGREE
+            shift = whole_offset_shift(claim.get("instant"), event.get("startDate"))
+            if shift:
+                # Same calendar day can still hide a timezone bug, so this
+                # overrides an "agree" the day comparison would have given.
+                verdict = DISAGREE
+                date_notes.append(
+                    f"{_short(claim['url'])} ({claim['via']}): time differs by exactly "
+                    f"{shift}h — a timezone artifact, not a reschedule; see "
+                    f"'Whose clock to trust' in .cursor/rules/verification.md")
+            else:
+                date_notes.append(
+                    f"{_short(claim['url'])} ({claim['via']}): says {claim['date']}")
             date_verdicts.append(verdict)
-            date_notes.append(f"{_short(claim['url'])} ({claim['via']}): says {claim['date']}")
     elif dated:
         date_notes.append("recurring series — upstream dates not compared")
 

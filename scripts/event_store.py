@@ -316,6 +316,30 @@ def last_occurrence(event: dict) -> Optional[datetime]:
     return latest
 
 
+DEAD_HOURS = range(1, 9)
+
+
+def implausible_start_hour(event: dict) -> Optional[int]:
+    """Boston-local start hour if it lands somewhere no social dance starts.
+
+    A timezone bug that converts the wrong way pushes a 9 PM social to 1 AM.
+    Nothing here legitimately starts between 1 and 9 in the morning, so that
+    window is a free tripwire on double conversions. Midnight is excluded:
+    date-only listings (Fiesta Dance Co) anchor there deliberately.
+
+    This cannot see an artifact that lands back in the evening — 9 PM read as
+    5 PM is invisible here, and needs a second source. See "Whose clock to
+    trust" in .cursor/rules/verification.md.
+    """
+    dt = parse_date(event.get("startDate", "") or "")
+    if dt is None:
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=NY_TZ)
+    hour = dt.astimezone(NY_TZ).hour
+    return hour if hour in DEAD_HOURS else None
+
+
 def _coords_close(a: dict, b: dict, threshold_km: float = 0.3) -> bool:
     lat_a, lng_a = a.get("lat"), a.get("lng")
     lat_b, lng_b = b.get("lat"), b.get("lng")
@@ -2857,9 +2881,20 @@ def publish() -> dict:
     except Exception as exc:  # noqa: BLE001 - reported, never raised
         print(f"  ⚠️  slug registry not updated ({exc}) — retired URLs may 404")
 
+    odd_hours = [(e, h) for e in deduped
+                 if (h := implausible_start_hour(e)) is not None]
+    if odd_hours:
+        print(f"  ⏰ {len(odd_hours)} event(s) start in the small hours — check for a "
+              f"timezone conversion bug before trusting these:")
+        for e, h in odd_hours[:5]:
+            print(f"       - {e.get('name', '?')[:52]} starts {h}:00 AM Boston time")
+
     return {
         "status": "published",
         "count": len(deduped),
+        "implausible_start_hours": [
+            {"id": e.get("id"), "name": e.get("name"), "hour": h} for e, h in odd_hours
+        ],
         "retired_urls": (registry_result["alias"] + registry_result["ended"]) if registry_result else None,
         "archived_count": len(archived_out),
         "search_only_count": len(searchonly_out),

@@ -1,11 +1,11 @@
 {
-  "checked_at": "2026-08-27T20:46:07.261562+00:00",
+  "checked_at": "2026-08-27T22:15:52.018232+00:00",
   "totals": {
-    "events": 40,
-    "with_multiple_sources": 7,
+    "events": 42,
+    "with_multiple_sources": 6,
     "disagreements": 0,
     "location_agreed": 21,
-    "location_unknown": 19
+    "location_unknown": 21
   },
   "disagreements": [],
   "checked": [
@@ -20,6 +20,7 @@
           "url": "https://www.eventbrite.com/e/arts-at-the-armory-spotlight-series-presents-tito-puente-jr-tickets-1984583543803",
           "location": "Arts at the Armory, 191 Highland Avenue, Somerville, MA 02143, Somerville, MA",
           "date": "2026-12-11",
+          "instant": "2026-12-11T19:00:00-05:00",
           "via": "json-ld",
           "city_level": false,
           "error": null
@@ -49,6 +50,7 @@
           "url": "https://www.listerevents.com/event-details/earlier-time-bachata-salsa-by-the-river",
           "location": "The Nature Center @ Magazine Beach Park, 668 Memorial Dr, Cambridge, MA 02139, USA",
           "date": "2026-09-06",
+          "instant": "2026-09-06T17:00:00-04:00",
           "via": "json-ld",
           "city_level": false,
           "error": null
@@ -57,6 +59,7 @@
           "url": "https://www.massaudubon.org/programs/magazine-beach/102437-bachata-by-the-river",
           "location": "Magazine Beach Park Nature Center, 668 Memorial Dr, Cambridge, MA, 02139",
           "date": "2026-09-06",
+          "instant": "2026-09-06T17:00:00-04:00",
           "via": "json-ld",
           "city_level": false,
           "error": null
@@ -65,6 +68,7 @@
           "url": "https://facebook.com/events/s/bachata-salsa-by-the-river/1522894889342446/",
           "location": "Cambridge",
           "date": "2026-06-14",
+          "instant": null,
           "via": "facebook-preview",
           "city_level": true,
           "error": null
@@ -96,6 +100,7 @@
           "url": "https://eastboston.com/events/5th-annual-east-boston-latin-music-and-dance-festival/",
           "location": null,
           "date": null,
+          "instant": null,
           "via": null,
           "city_level": false,
           "error": "no structured data"
@@ -104,6 +109,7 @@
           "url": "https://www.instagram.com/p/DZibxMqJYRR/",
           "location": null,
           "date": null,
+          "instant": null,
           "via": null,
           "city_level": false,
           "error": "no structured data"
@@ -129,6 +135,7 @@
           "url": "https://www.facebook.com/Ceijaykiz",
           "location": null,
           "date": null,
+          "instant": null,
           "via": null,
           "city_level": false,
           "error": "no structured data"
@@ -154,6 +161,7 @@
           "url": "https://www.eventbrite.com/e/bostons-salsa-and-bachata-cruise-tropical-sunset-edition-tickets-1993426549471",
           "location": "Marina Bay Ferry, 552 Victory Road, Quincy, MA 02171, Quincy, MA",
           "date": "2026-09-12",
+          "instant": "2026-09-12T16:30:00-04:00",
           "via": "json-ld",
           "city_level": false,
           "error": null
@@ -183,6 +191,7 @@
           "url": "https://www.listerevents.com/event-details/earlier-time-bachata-salsa-by-the-river",
           "location": "The Nature Center @ Magazine Beach Park, 668 Memorial Dr, Cambridge, MA 02139, USA",
           "date": "2026-09-06",
+          "instant": "2026-09-06T17:00:00-04:00",
           "via": "json-ld",
           "city_level": false,
           "error": null
@@ -212,6 +221,7 @@
           "url": "https://www.listerevents.com/event-details/earlier-time-bachata-salsa-by-the-river-2",
           "location": "The Nature Center @ Magazine Beach Park, 668 Memorial Dr, Cambridge, MA 02139, USA",
           "date": "2026-10-04",
+          "instant": "2026-10-04T17:00:00-04:00",
           "via": "json-ld",
           "city_level": false,
           "error": null
@@ -241,6 +251,7 @@
           "url": "https://ma.to/venue/shoreleavebos",
           "location": "Shore Leave",
           "date": "2026-08-30",
+          "instant": "2026-08-30T19:30:00.000-04:00",
           "via": "json-ld",
           "city_level": false,
           "error": null
@@ -270,6 +281,7 @@
           "url": "https://www.nextlevelfusiondance.com/event-details/egleston-park-summer-socials-2026-09-20-14-00",
           "location": "Egleston Square Peace Garden, 3129 Washington St, Jamaica Plain, MA 02130, USA",
           "date": "2026-09-20",
+          "instant": "2026-09-20T14:00:00-04:00",
           "via": "json-ld",
           "city_level": false,
           "error": null
@@ -299,6 +311,7 @@
           "url": "https://facebook.com/events/s/zouk-weekender-bubble-with-iag/1275347797524181/",
           "location": "Boston",
           "date": "2026-09-26",
+          "instant": null,
           "via": "facebook-preview",
           "city_level": true,
           "error": null
@@ -328,6 +341,7 @@
           "url": "https://ma.to/event/salsa-night-at-the-grove-27-aug-2026",
           "location": "The Grove at Lawn on D, 420 D Street, Boston, MA 02210, Boston",
           "date": "2026-08-27",
+          "instant": "2026-08-27T19:00:00.000-04:00",
           "via": "json-ld",
           "city_level": false,
           "error": null
@@ -357,6 +371,7 @@
           "url": "https://ma.to/event/salsa-night-at-the-grove-24-sep-2026",
           "location": "The Grove at Lawn on D, 420 D Street, Boston, MA 02210, Boston",
           "date": "2026-09-24",
+          "instant": "2026-09-24T19:00:00.000-04:00",
           "via": "json-ld",
           "city_level": false,
           "error": null
@@ -386,6 +401,7 @@
           "url": "https://ma.to/event/salsa-night-at-the-grove-29-oct-2026",
           "location": "The Grove at Lawn on D, 420 D Street, Boston, MA 02210, Boston",
           "date": "2026-10-29",
+          "instant": "2026-10-29T19:00:00.000-04:00",
           "via": "json-ld",
           "city_level": false,
           "error": null
@@ -415,6 +431,7 @@
           "url": "https://www.eventbrite.com/e/salsa-bachata-glow-in-the-dark-party-tickets-1995057904899",
           "location": "Dante Alighieri Society of Massachusetts, 41 Hampshire Street, Cambridge, MA 02139, Cambridge, MA",
           "date": "2026-09-12",
+          "instant": "2026-09-12T21:00:00-04:00",
           "via": "json-ld",
           "city_level": false,
           "error": null
@@ -438,20 +455,13 @@
       "event_name": "NOISE 🕺 LIVE",
       "our_location": "PKL, 64 C St, South Boston, MA 02127",
       "our_date": "2026-08-29",
-      "source_count": 2,
+      "source_count": 1,
       "claims": [
         {
           "url": "https://www.instagram.com/noise.boston/",
           "location": null,
           "date": null,
-          "via": null,
-          "city_level": false,
-          "error": "no structured data"
-        },
-        {
-          "url": "https://www.facebook.com/share/1EjEyfCyhA",
-          "location": null,
-          "date": null,
+          "instant": null,
           "via": null,
           "city_level": false,
           "error": "no structured data"
@@ -477,6 +487,7 @@
           "url": "https://dancefam.org/event/2552",
           "location": "Trio's Mexican Grill, 70 Market Street, Lynn, Massachusetts, 01901",
           "date": "2026-08-29",
+          "instant": "2026-08-30T00:30:00.000Z",
           "via": "json-ld",
           "city_level": false,
           "error": null
@@ -506,6 +517,7 @@
           "url": "https://facebook.com/events/s/querencia-5-year-anniversary-s/1032277646392309/",
           "location": "Wellesley",
           "date": "2026-09-12",
+          "instant": null,
           "via": "facebook-preview",
           "city_level": true,
           "error": null
@@ -535,6 +547,7 @@
           "url": "https://www.vivoperformingarts.org/live-performances/lets-dance-boston-2026/",
           "location": null,
           "date": null,
+          "instant": null,
           "via": null,
           "city_level": false,
           "error": "no structured data"
@@ -560,6 +573,7 @@
           "url": "https://www.eventbrite.com/e/sabroso-primer-aniversario-tickets-1996831355337",
           "location": "Descent, 33 Dunster Street, Cambridge, MA 02138, Cambridge, MA",
           "date": "2026-08-29",
+          "instant": "2026-08-29T21:30:00-04:00",
           "via": "json-ld",
           "city_level": false,
           "error": null
@@ -589,6 +603,7 @@
           "url": "https://www.vivoperformingarts.org/live-performances/lets-dance-boston-2026/",
           "location": null,
           "date": null,
+          "instant": null,
           "via": null,
           "city_level": false,
           "error": "no structured data"
@@ -614,6 +629,7 @@
           "url": "https://www.thetimbamessengers.com",
           "location": null,
           "date": null,
+          "instant": null,
           "via": null,
           "city_level": false,
           "error": "no structured data"
@@ -639,6 +655,7 @@
           "url": "https://www.instagram.com/timbadescontrol/",
           "location": null,
           "date": null,
+          "instant": null,
           "via": null,
           "city_level": false,
           "error": "no structured data"
@@ -664,6 +681,7 @@
           "url": "https://www.wearelous.com/lous-live/los-mambiseros",
           "location": null,
           "date": "2026-08-28",
+          "instant": "2026-08-28T19:00:00-0400",
           "via": "json-ld",
           "city_level": false,
           "error": null
@@ -691,6 +709,7 @@
           "url": "https://www.embraceboston.org/collective-action/masso-con-salsa-ritmo-y-sonido-block-party",
           "location": null,
           "date": null,
+          "instant": null,
           "via": null,
           "city_level": false,
           "error": "no structured data"
@@ -716,6 +735,7 @@
           "url": "https://fiestadancecompany.com/upcoming-socials",
           "location": null,
           "date": null,
+          "instant": null,
           "via": null,
           "city_level": false,
           "error": "no structured data"
@@ -741,6 +761,7 @@
           "url": "https://fiestadancecompany.com/upcoming-socials",
           "location": null,
           "date": null,
+          "instant": null,
           "via": null,
           "city_level": false,
           "error": "no structured data"
@@ -766,6 +787,7 @@
           "url": "https://fiestadancecompany.com/upcoming-socials",
           "location": null,
           "date": null,
+          "instant": null,
           "via": null,
           "city_level": false,
           "error": "no structured data"
@@ -791,6 +813,7 @@
           "url": "https://fiestadancecompany.com/upcoming-socials",
           "location": null,
           "date": null,
+          "instant": null,
           "via": null,
           "city_level": false,
           "error": "no structured data"
@@ -816,6 +839,7 @@
           "url": "https://www.eventbrite.com/e/saborcito-the-anchor-salsa-bachata-dancing-tickets-1989160742327",
           "location": "The Anchor, 1 Shipyard Park, charlestown, MA 02129, charlestown, MA",
           "date": "2026-05-25",
+          "instant": "2026-05-25T18:00:00-04:00",
           "via": "json-ld",
           "city_level": false,
           "error": null
@@ -824,6 +848,7 @@
           "url": "https://www.facebook.com/events/2073153546944008/",
           "location": "Boston",
           "date": "2026-08-31",
+          "instant": null,
           "via": "facebook-preview",
           "city_level": true,
           "error": null
@@ -854,6 +879,7 @@
           "url": "https://www.eventbrite.com/e/thursday-night-vibes-disco-funk-salsa-rb-with-dj-ballack-tickets-1998309494491",
           "location": "Reunion BBQ, 439 Tremont St, 439 Tremont St, Boston, MA 02116, Boston, MA",
           "date": "2026-09-10",
+          "instant": "2026-09-10T21:00:00-04:00",
           "via": "json-ld",
           "city_level": false,
           "error": null
@@ -883,6 +909,7 @@
           "url": "https://www.bachataroomboston.com",
           "location": null,
           "date": null,
+          "instant": null,
           "via": null,
           "city_level": false,
           "error": "no structured data"
@@ -908,6 +935,7 @@
           "url": "https://havanaclubsalsa.com",
           "location": null,
           "date": null,
+          "instant": null,
           "via": null,
           "city_level": false,
           "error": "no structured data"
@@ -933,6 +961,7 @@
           "url": "https://havanaclubsalsa.com",
           "location": null,
           "date": null,
+          "instant": null,
           "via": null,
           "city_level": false,
           "error": "no structured data"
@@ -958,6 +987,7 @@
           "url": "https://havanaclubsalsa.com",
           "location": null,
           "date": null,
+          "instant": null,
           "via": null,
           "city_level": false,
           "error": "no structured data"
@@ -966,6 +996,7 @@
           "url": "https://www.nextlevelfusiondance.com/event-details/intermediate-bachata-w-tina-2026-07-23-20-45",
           "location": "Havana Club, 288 Green St, Cambridge, MA 02139, USA",
           "date": "2026-07-23",
+          "instant": "2026-07-23T20:45:00-04:00",
           "via": "json-ld",
           "city_level": false,
           "error": null
@@ -995,6 +1026,7 @@
           "url": "https://jandldancestudio.com/jl-underground-social",
           "location": null,
           "date": null,
+          "instant": null,
           "via": null,
           "city_level": false,
           "error": "no structured data"
@@ -1020,6 +1052,7 @@
           "url": "https://www.instagram.com/p/DcP7mnqDT8u/",
           "location": null,
           "date": null,
+          "instant": null,
           "via": null,
           "city_level": false,
           "error": "no structured data"
@@ -1045,6 +1078,7 @@
           "url": "https://www.eventbrite.com/e/salsa-at-sunset-tickets-1998486474844",
           "location": "85 W Newton St, 85 West Newton Street, Boston, MA 02118, Boston, MA",
           "date": "2026-09-10",
+          "instant": "2026-09-10T19:00:00-04:00",
           "via": "json-ld",
           "city_level": false,
           "error": null
@@ -1064,49 +1098,26 @@
       }
     },
     {
-      "event_id": "jandl-20260821-boston-salsa-fest",
-      "event_name": "Boston Salsa Fest",
-      "our_location": "Boston, MA",
-      "our_date": "2026-08-21",
-      "source_count": 1,
-      "claims": [
-        {
-          "url": "https://jandldancestudio.com/events",
-          "location": null,
-          "date": null,
-          "via": null,
-          "city_level": false,
-          "error": "no structured data"
-        }
-      ],
-      "location": {
-        "verdict": "unknown",
-        "notes": []
-      },
-      "date": {
-        "verdict": "unknown",
-        "notes": []
-      }
-    },
-    {
-      "event_id": "lous-5e943723",
-      "event_name": "SALSA DANCE NIGHT",
-      "our_location": "Lou's, 13 Brattle St, Cambridge, MA 02138",
+      "event_id": "eb-1998764492402",
+      "event_name": "Salsa Dance Night at Lou's | Lessons & Social Dancing",
+      "our_location": "Lou's, 13 Brattle Street, Cambridge, MA 02138, Cambridge, MA",
       "our_date": "2026-09-09",
       "source_count": 3,
       "claims": [
         {
-          "url": "https://www.wearelous.com/lous-live/salsa-night",
-          "location": null,
+          "url": "https://www.eventbrite.com/e/salsa-dance-night-at-lous-lessons-social-dancing-tickets-1998764492402",
+          "location": "Lou's, 13 Brattle Street, Cambridge, MA 02138, Cambridge, MA",
           "date": "2026-09-09",
+          "instant": "2026-09-09T19:00:00-04:00",
           "via": "json-ld",
           "city_level": false,
           "error": null
         },
         {
-          "url": "https://www.eventbrite.com/e/salsa-dance-night-at-lous-lessons-social-dancing-tickets-1998764492402",
-          "location": "Lou's, 13 Brattle Street, Cambridge, MA 02138, Cambridge, MA",
+          "url": "https://www.wearelous.com/lous-live/salsa-night",
+          "location": null,
           "date": "2026-09-09",
+          "instant": "2026-09-09T19:00:00-0400",
           "via": "json-ld",
           "city_level": false,
           "error": null
@@ -1115,6 +1126,7 @@
           "url": "https://www.facebook.com/events/1113878394300187/",
           "location": "Cambridge",
           "date": "2026-09-09",
+          "instant": null,
           "via": "facebook-preview",
           "city_level": true,
           "error": null
@@ -1123,15 +1135,15 @@
       "location": {
         "verdict": "agree",
         "notes": [
-          "eventbrite.com/e/salsa-dance-night-at-lous-le (json-ld): agree — same street number (13)",
+          "eventbrite.com/e/salsa-dance-night-at-lous-le (json-ld): agree — same address text",
           "facebook.com/events/1113878394300187/ (facebook-preview): agree — same address text"
         ]
       },
       "date": {
         "verdict": "agree",
         "notes": [
-          "wearelous.com/lous-live/salsa-night (json-ld): says 2026-09-09",
           "eventbrite.com/e/salsa-dance-night-at-lous-le (json-ld): says 2026-09-09",
+          "wearelous.com/lous-live/salsa-night (json-ld): says 2026-09-09",
           "facebook.com/events/1113878394300187/ (facebook-preview): says 2026-09-09"
         ]
       }
@@ -1141,12 +1153,13 @@
       "event_name": "Flow Friday at The Anchor: Bachata Class & Social",
       "our_location": "The Anchor, 1 Shipyard Park, Charlestown, MA 02129",
       "our_date": "2026-08-28",
-      "source_count": 2,
+      "source_count": 3,
       "claims": [
         {
           "url": "https://www.eventbrite.com/e/flow-friday-at-the-anchor-tickets-1997187023149",
           "location": "The Anchor Boston, 1 Shipyard Park, Charlestown, MA 02129, Charlestown, MA",
           "date": "2026-08-28",
+          "instant": "2026-08-28T19:00:00-04:00",
           "via": "json-ld",
           "city_level": false,
           "error": null
@@ -1155,9 +1168,19 @@
           "url": "https://www.facebook.com/events/1393051752744141/",
           "location": "Boston",
           "date": "2026-08-28",
+          "instant": null,
           "via": "facebook-preview",
           "city_level": true,
           "error": null
+        },
+        {
+          "url": "message:%3C1E.1C.17072.DF12F8A6@i-0d57859519e2973e8.mta1vrest.sd.prd.sparkpost%3E",
+          "location": null,
+          "date": null,
+          "instant": null,
+          "via": null,
+          "city_level": false,
+          "error": "InvalidSchema"
         }
       ],
       "location": {
@@ -1173,6 +1196,84 @@
           "eventbrite.com/e/flow-friday-at-the-anchor-ti (json-ld): says 2026-08-28",
           "facebook.com/events/1393051752744141/ (facebook-preview): says 2026-08-28"
         ]
+      }
+    },
+    {
+      "event_id": "5ED3301D-8CE8-45D1-8094-C380C699DA99",
+      "event_name": "Rueda in the Pahk",
+      "our_location": "Jill Brown Rhone Park, 900 Main St, Cambridge, MA  02139, United States",
+      "our_date": "2026-08-30",
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://www.facebook.com/groups/1429334677328445/",
+          "location": null,
+          "date": null,
+          "instant": null,
+          "via": null,
+          "city_level": false,
+          "error": "no structured data"
+        }
+      ],
+      "location": {
+        "verdict": "unknown",
+        "notes": []
+      },
+      "date": {
+        "verdict": "unknown",
+        "notes": []
+      }
+    },
+    {
+      "event_id": "C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5",
+      "event_name": "Sazón Saturday",
+      "our_location": "Lili Latin Dance, 423 W Broadway, Ste 202, South Boston, MA 02127",
+      "our_date": "2026-09-19",
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://www.instagram.com/p/DZF_C5HpIe3/",
+          "location": null,
+          "date": null,
+          "instant": null,
+          "via": null,
+          "city_level": false,
+          "error": "no structured data"
+        }
+      ],
+      "location": {
+        "verdict": "unknown",
+        "notes": []
+      },
+      "date": {
+        "verdict": "unknown",
+        "notes": []
+      }
+    },
+    {
+      "event_id": "2ar83v9imef7dkgkonbfvc5t4q@google.com",
+      "event_name": "Senior Zouk Social",
+      "our_location": "Multicultural Arts Center, 41 Second St, Cambridge, MA 02141, USA",
+      "our_date": "2026-09-08",
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://forms.gle/kvUf8nb8iqrYuUKaA",
+          "location": null,
+          "date": null,
+          "instant": null,
+          "via": null,
+          "city_level": false,
+          "error": "no structured data"
+        }
+      ],
+      "location": {
+        "verdict": "unknown",
+        "notes": []
+      },
+      "date": {
+        "verdict": "unknown",
+        "notes": []
       }
     }
   ]

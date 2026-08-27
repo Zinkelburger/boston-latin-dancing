@@ -89,6 +89,44 @@ For Facebook page URLs (like Dante's Salsa Inferno):
 3. Check for upcoming events
 4. If no upcoming events, flag as "may be on hiatus"
 
+## Whose clock to trust
+
+A page can state its time twice — once machine-readable (JSON-LD `startDate`,
+an og tag, an API field) and once as text a human reads. When those two
+disagree, **the machine-readable instant wins and you do not escalate.**
+
+The giveaway is that the difference is *exactly* the venue's UTC offset (4h in
+EDT, 5h in EST). `dancefam.org` publishes `2026-08-30T00:30:00.000Z` and
+displays "Sunday, Aug 30, 12:30 AM" — the same number formatted without
+converting it. Only one of those is a time in Boston. A renderer that forgets
+to convert is ordinary; a timestamp that is wrong by precisely one offset is
+not.
+
+Then sanity-check the answer against what the event actually is. A bar social,
+a restaurant night, a studio social: these start between about 5 PM and 10 PM
+and end after midnight. If one reading gives 8:30 PM–1:00 AM and the other
+gives 12:30 AM–5:00 AM, the second is not a close call, it is a rendering bug.
+**Do not flag `_needs_manual_check` for an ambiguity the shape of the event
+already settles** — that spends a human's attention on arithmetic and, worse,
+implies the published time is doubtful when it is not.
+
+Escalate only when both readings are genuinely plausible, or when the gap is
+*not* a whole-offset shift (which means something other than a timezone is
+wrong, and the source may simply have moved the event).
+
+### What catches a timezone artifact on its own
+
+| Where it shows up | Caught by |
+|---|---|
+| Two sources, artifact crosses midnight | `cross_check.py` — compares NY calendar day |
+| Two sources, same day (9 PM read as 5 PM) | `cross_check.py` whole-offset time check |
+| One source only | Nothing automatic — this rule is the guard |
+| Double conversion into the dead hours | `publish()` implausible-hour warning |
+
+Note what the last row means: `verify_events.py` cannot catch this at all. It
+derives both sides from the *same* JSON-LD instant, so they always agree. It is
+checking that we copied the source faithfully, not that the source is sane.
+
 ## Location overrides
 
 When an event's source has the wrong location (e.g., ICS feed is outdated):
