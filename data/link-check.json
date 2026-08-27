@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-08-27T22:04:17.849383+00:00",
+  "checked_at": "2026-08-27T22:09:25.787118+00:00",
   "scope": "all",
   "totals": {
     "urls": 178,
@@ -1416,7 +1416,7 @@
     {
       "url": "https://www.facebook.com/share/p/14XJ6zMt3gB/?mibextid=wwXIfr",
       "status": 200,
-      "final_url": "https://www.facebook.com/groups/salsainboston/permalink/26784092907885992/?mibextid=wwXIfr&rdid=67AwY302Rr5YELej&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fp%2F14XJ6zMt3gB%2F%3Fmibextid%3DwwXIfr",
+      "final_url": "https://www.facebook.com/groups/salsainboston/permalink/26784092907885992/?mibextid=wwXIfr&rdid=zBCyMkim7hgISbhs&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fp%2F14XJ6zMt3gB%2F%3Fmibextid%3DwwXIfr",
       "verdict": "ok",
       "note": "live (Salsa in Boston)",
       "appears_in": [
