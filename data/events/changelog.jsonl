@@ -773,3 +773,92 @@
 {"ts": "2026-08-20T21:25:27.396196+00:00", "action": "archive", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": ""}
 {"ts": "2026-08-20T21:25:27.396208+00:00", "action": "archive", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": ""}
 {"ts": "2026-08-20T23:13:23.914550+00:00", "action": "edit", "event_id": "E69B54FA-330F-42FD-B113-B6331D4DF842", "details": "{\"special\": false}"}
+{"ts": "2026-08-27T20:36:08.119893+00:00", "action": "reactivate", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": "from archive (certain)"}
+{"ts": "2026-08-27T20:36:08.180500+00:00", "action": "pending_review", "event_id": "8CCA30E6-6C4B-4E0E-8A78-BCA2C5761DE2", "details": "review dup of d3953ee79b4effa6b332abf32cb4e01ba180f56e@occurrence-1@dance-calendar: word_overlap(2/4)+same_location"}
+{"ts": "2026-08-27T20:36:09.643024+00:00", "action": "reactivate", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": "from archive (certain)"}
+{"ts": "2026-08-27T20:36:09.661783+00:00", "action": "quarantine_new", "event_id": "823B2F4E-5C48-4CB4-A8A0-ED4279C959DE", "details": ""}
+{"ts": "2026-08-27T20:36:09.690123+00:00", "action": "reactivate", "event_id": "C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5", "details": "from archive (certain)"}
+{"ts": "2026-08-27T20:36:09.762187+00:00", "action": "reactivate", "event_id": "2ar83v9imef7dkgkonbfvc5t4q@google.com", "details": "from archive (certain)"}
+{"ts": "2026-08-27T20:36:09.802133+00:00", "action": "quarantine_new", "event_id": "eb-1998752914773", "details": ""}
+{"ts": "2026-08-27T20:36:12.940412+00:00", "action": "quarantine_new", "event_id": "eb-1998486474844", "details": ""}
+{"ts": "2026-08-27T20:36:12.972666+00:00", "action": "quarantine_new", "event_id": "eb-1998764492402", "details": ""}
+{"ts": "2026-08-27T20:36:13.098533+00:00", "action": "quarantine_new", "event_id": "lous-5e943723", "details": ""}
+{"ts": "2026-08-27T20:36:13.160391+00:00", "action": "quarantine_new", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-08-27-20-45", "details": ""}
+{"ts": "2026-08-27T20:36:13.165354+00:00", "action": "drop_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-09-20-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-08-27T20:36:13.168895+00:00", "action": "drop_non_latin", "event_id": "pr-festival-ma-fiesta-en-la-playa-sabor-boricua", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-08-27T20:36:13.380559+00:00", "action": "archive", "event_id": "5ED3301D-8CE8-45D1-8094-C380C699DA99", "details": ""}
+{"ts": "2026-08-27T20:36:13.380657+00:00", "action": "archive", "event_id": "1ee53ea9f8c2c3000235ffc8c5b0bc0abbf19b2d@dance-calendar", "details": ""}
+{"ts": "2026-08-27T20:36:13.380687+00:00", "action": "archive", "event_id": "manual-bsf-preparty-20260820-0", "details": ""}
+{"ts": "2026-08-27T20:36:13.380713+00:00", "action": "archive", "event_id": "lous-f2d17c80", "details": ""}
+{"ts": "2026-08-27T20:36:13.380737+00:00", "action": "archive", "event_id": "eb-1996444933539", "details": ""}
+{"ts": "2026-08-27T20:36:13.380777+00:00", "action": "archive", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": ""}
+{"ts": "2026-08-27T20:36:13.380803+00:00", "action": "archive", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": ""}
+{"ts": "2026-08-27T20:36:13.380833+00:00", "action": "archive", "event_id": "C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5", "details": ""}
+{"ts": "2026-08-27T20:36:13.380854+00:00", "action": "archive", "event_id": "2ar83v9imef7dkgkonbfvc5t4q@google.com", "details": ""}
+{"ts": "2026-08-27T20:36:33.673079+00:00", "action": "reactivate", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": "from archive (certain)"}
+{"ts": "2026-08-27T20:36:33.744449+00:00", "action": "reactivate", "event_id": "5ED3301D-8CE8-45D1-8094-C380C699DA99", "details": "from archive (certain)"}
+{"ts": "2026-08-27T20:36:34.645379+00:00", "action": "reactivate", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": "from archive (certain)"}
+{"ts": "2026-08-27T20:36:34.687028+00:00", "action": "reactivate", "event_id": "C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5", "details": "from archive (certain)"}
+{"ts": "2026-08-27T20:36:34.752151+00:00", "action": "reactivate", "event_id": "2ar83v9imef7dkgkonbfvc5t4q@google.com", "details": "from archive (certain)"}
+{"ts": "2026-08-27T20:36:34.781319+00:00", "action": "quarantine_new", "event_id": "dantes-inferno-fb-20260909-0", "details": ""}
+{"ts": "2026-08-27T20:36:35.128564+00:00", "action": "drop_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-09-20-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-08-27T20:36:35.131659+00:00", "action": "drop_non_latin", "event_id": "pr-festival-ma-fiesta-en-la-playa-sabor-boricua", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-08-27T20:36:35.379207+00:00", "action": "archive", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": ""}
+{"ts": "2026-08-27T20:36:35.379348+00:00", "action": "archive", "event_id": "5ED3301D-8CE8-45D1-8094-C380C699DA99", "details": ""}
+{"ts": "2026-08-27T20:36:35.379420+00:00", "action": "archive", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": ""}
+{"ts": "2026-08-27T20:36:35.379535+00:00", "action": "archive", "event_id": "C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5", "details": ""}
+{"ts": "2026-08-27T20:36:35.379575+00:00", "action": "archive", "event_id": "2ar83v9imef7dkgkonbfvc5t4q@google.com", "details": ""}
+{"ts": "2026-08-27T20:40:41.845224+00:00", "action": "add", "event_id": "jandl-20261003-j-l-underground-social", "details": ""}
+{"ts": "2026-08-27T20:40:41.845405+00:00", "action": "approve", "event_id": "jandl-20261003-j-l-underground-social", "details": ""}
+{"ts": "2026-08-27T20:40:41.855497+00:00", "action": "add", "event_id": "823B2F4E-5C48-4CB4-A8A0-ED4279C959DE", "details": ""}
+{"ts": "2026-08-27T20:40:41.855565+00:00", "action": "approve", "event_id": "823B2F4E-5C48-4CB4-A8A0-ED4279C959DE", "details": ""}
+{"ts": "2026-08-27T20:40:41.863564+00:00", "action": "add", "event_id": "eb-1998486474844", "details": ""}
+{"ts": "2026-08-27T20:40:41.863627+00:00", "action": "approve", "event_id": "eb-1998486474844", "details": ""}
+{"ts": "2026-08-27T20:40:41.864058+00:00", "action": "reject", "event_id": "eb-1998752914773", "details": "Instruction-only beginner Rumba class for adults; no social dancing."}
+{"ts": "2026-08-27T20:40:41.864343+00:00", "action": "reject", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-08-27-20-45", "details": "Class listing for Havana Club Thursdays, already covered by the venue hub."}
+{"ts": "2026-08-27T20:41:00.759341+00:00", "action": "add", "event_id": "jandl-20260821-boston-salsa-fest", "details": ""}
+{"ts": "2026-08-27T20:41:00.759596+00:00", "action": "approve", "event_id": "jandl-20260821-boston-salsa-fest", "details": ""}
+{"ts": "2026-08-27T20:41:01.585016+00:00", "action": "edit", "event_id": "eb-1998486474844", "details": "{\"location\": \"85 West Newton St, Boston, MA 02118\", \"special\": true}"}
+{"ts": "2026-08-27T20:41:01.586624+00:00", "action": "edit", "event_id": "823B2F4E-5C48-4CB4-A8A0-ED4279C959DE", "details": "{\"styles\": [\"salsa\"], \"special\": true}"}
+{"ts": "2026-08-27T20:41:15.179606+00:00", "action": "add", "event_id": "lous-5e943723", "details": ""}
+{"ts": "2026-08-27T20:41:15.179696+00:00", "action": "approve", "event_id": "lous-5e943723", "details": ""}
+{"ts": "2026-08-27T20:41:15.180591+00:00", "action": "edit", "event_id": "lous-5e943723", "details": "{\"cost\": \"$20 (lesson + social) / $15 (social only)\", \"urls\": [\"https://www.eventbrite.com/e/salsa-dance-night-at-lous-lessons-social-dancing-tickets-1998764492402\", \"https://www.facebook.com/events/1113878394300187/\"]}"}
+{"ts": "2026-08-27T20:41:15.180782+00:00", "action": "reject", "event_id": "eb-1998764492402", "details": "Duplicate of lous-5e943723 (same Sep 9 Lou's salsa night); kept the venue's own listing."}
+{"ts": "2026-08-27T20:41:15.180922+00:00", "action": "reject", "event_id": "dantes-inferno-fb-20260909-0", "details": "Duplicate of lous-5e943723 (same Sep 9 Lou's salsa night); kept the venue's own listing."}
+{"ts": "2026-08-27T20:41:31.792150+00:00", "action": "reject", "event_id": "8CCA30E6-6C4B-4E0E-8A78-BCA2C5761DE2", "details": "distinct event \u2014 Friday bachata-only night, not the Monday Saborcito series at the same venue"}
+{"ts": "2026-08-27T20:41:31.799708+00:00", "action": "distinct_from", "event_id": "8CCA30E6-6C4B-4E0E-8A78-BCA2C5761DE2", "details": "pre-marked different from d3953ee79b4effa6b332abf32cb4e01ba180f56e@occurrence-1@dance-calendar"}
+{"ts": "2026-08-27T20:41:31.874134+00:00", "action": "add", "event_id": "8CCA30E6-6C4B-4E0E-8A78-BCA2C5761DE2", "details": ""}
+{"ts": "2026-08-27T20:41:31.881342+00:00", "action": "edit", "event_id": "8CCA30E6-6C4B-4E0E-8A78-BCA2C5761DE2", "details": "{\"urls\": [\"https://www.facebook.com/events/1393051752744141/\"]}"}
+{"ts": "2026-08-27T20:44:19.598007+00:00", "action": "edit", "event_id": "E69B54FA-330F-42FD-B113-B6331D4DF842", "details": "{\"special\": true}"}
+{"ts": "2026-08-27T20:44:19.600420+00:00", "action": "edit", "event_id": "7EE9F55F-DC66-4E39-B19F-BD3E19C6387B", "details": "{\"location\": \"PKL, 64 C St, South Boston, MA 02127\", \"special\": true}"}
+{"ts": "2026-08-27T20:44:19.602495+00:00", "action": "edit", "event_id": "AB9A3E99-2637-4C54-9B88-3FD589F6CE1C", "details": "{\"cost\": \"From $20\", \"special\": true, \"_needs_manual_check\": {\"reason\": \"dancefam.org JSON-LD says 2026-08-30T00:30Z (= Sat Aug 29, 8:30 PM EDT, what we publish) but dancefam's own page DISPLAYS 'Sunday, Aug 30, 12:30 AM - 5:00 AM'. One of the two is a timezone bug; confirm the door time with the organizer (BachaTipico Hangout) or Trio's before trusting either.\", \"flagged_at\": \"2026-08-27T21:00:00+00:00\"}}"}
+{"ts": "2026-08-27T20:44:19.604403+00:00", "action": "edit", "event_id": "lister-earlier-time-bachata-salsa-by-the-river", "details": "{\"name\": \"Bachata & Salsa By The River\"}"}
+{"ts": "2026-08-27T20:44:19.606191+00:00", "action": "edit", "event_id": "lister-earlier-time-bachata-salsa-by-the-river-2", "details": "{\"name\": \"Bachata & Salsa By The River\"}"}
+{"ts": "2026-08-27T20:47:17.371002+00:00", "action": "edit", "event_id": "7EE9F55F-DC66-4E39-B19F-BD3E19C6387B", "details": "{\"urls\": []}"}
+{"ts": "2026-08-27T20:48:10.679497+00:00", "action": "edit", "event_id": "5ED3301D-8CE8-45D1-8094-C380C699DA99", "details": "reactivated from archive: stale recurrences (ended Aug 23) archived a live weekly series; refreshed from beatrice-calendar (Aug 30 - Nov 15), dropped dead IG alt link"}
+{"ts": "2026-08-27T20:48:59.788934+00:00", "action": "edit", "event_id": "D0F83D40-A8C4-4EA2-940E-70F326647AFC", "details": "cleared dead instagram reel link (past event, no replacement found)"}
+{"ts": "2026-08-27T21:15:22.095363+00:00", "action": "reactivate", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": "from archive (certain)"}
+{"ts": "2026-08-27T21:15:23.036081+00:00", "action": "reactivate", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": "from archive (certain)"}
+{"ts": "2026-08-27T21:15:23.082384+00:00", "action": "reactivate", "event_id": "C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5", "details": "from archive (certain)"}
+{"ts": "2026-08-27T21:15:23.148037+00:00", "action": "reactivate", "event_id": "2ar83v9imef7dkgkonbfvc5t4q@google.com", "details": "from archive (certain)"}
+{"ts": "2026-08-27T21:15:23.226703+00:00", "action": "quarantine_new", "event_id": "eb-1998752914773", "details": ""}
+{"ts": "2026-08-27T21:15:23.484652+00:00", "action": "pending_review", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-08-27-20-45", "details": "review dup of 5984F5C6-9A2D-454E-AE0B-B201FC78B814: word_overlap(1/3)+within_24h+same_location+same_day"}
+{"ts": "2026-08-27T21:15:23.488418+00:00", "action": "drop_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-09-20-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-08-27T21:15:23.491472+00:00", "action": "drop_non_latin", "event_id": "pr-festival-ma-fiesta-en-la-playa-sabor-boricua", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-08-27T21:15:23.675575+00:00", "action": "archive", "event_id": "jandl-20260821-boston-salsa-fest", "details": ""}
+{"ts": "2026-08-27T21:15:23.675657+00:00", "action": "archive", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": ""}
+{"ts": "2026-08-27T21:15:23.675696+00:00", "action": "archive", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": ""}
+{"ts": "2026-08-27T21:16:06.903843+00:00", "action": "reject", "event_id": "eb-1998752914773", "details": "Instruction-only beginner Rumba class for adults; no social dancing."}
+{"ts": "2026-08-27T21:16:06.906368+00:00", "action": "reject", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-08-27-20-45", "details": "Class listing for Havana Club Thursdays, already covered by the venue hub."}
+{"ts": "2026-08-27T21:18:14.206963+00:00", "action": "edit", "event_id": "7EE9F55F-DC66-4E39-B19F-BD3E19C6387B", "details": "{\"urls\": []}"}
+{"ts": "2026-08-27T21:18:14.207822+00:00", "action": "edit", "event_id": "5ED3301D-8CE8-45D1-8094-C380C699DA99", "details": "{\"urls\": []}"}
+{"ts": "2026-08-27T21:18:14.492370+00:00", "action": "reactivate", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": "from archive (certain)"}
+{"ts": "2026-08-27T21:18:15.412265+00:00", "action": "reactivate", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": "from archive (certain)"}
+{"ts": "2026-08-27T21:18:15.618114+00:00", "action": "quarantine_new", "event_id": "eb-1998752914773", "details": ""}
+{"ts": "2026-08-27T21:18:15.859755+00:00", "action": "quarantine_new", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-08-27-20-45", "details": ""}
+{"ts": "2026-08-27T21:18:15.863441+00:00", "action": "drop_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-09-20-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-08-27T21:18:15.866468+00:00", "action": "drop_non_latin", "event_id": "pr-festival-ma-fiesta-en-la-playa-sabor-boricua", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-08-27T21:18:16.047430+00:00", "action": "archive", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": ""}
+{"ts": "2026-08-27T21:18:16.047498+00:00", "action": "archive", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": ""}
+{"ts": "2026-08-27T21:18:43.681505+00:00", "action": "reject", "event_id": "eb-1998752914773", "details": "Instruction-only beginner Rumba class for adults; no social dancing."}
+{"ts": "2026-08-27T21:18:43.681737+00:00", "action": "reject", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-08-27-20-45", "details": "Class listing for Havana Club Thursdays, already covered by the venue hub."}

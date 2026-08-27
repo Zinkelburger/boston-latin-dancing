@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-08-20T23:13:23.921345+00:00",
+  "generated_at": "2026-08-27T21:18:43.689213+00:00",
   "conflicts": [],
   "suppressed": [
     {
       "id": "9802609C-4946-4E9E-8E83-D491FE8F00A5",
       "event": {
         "name": "Timba y Descontrol Cuban salsa lessons + social",
-        "window": "Tue Aug 25, 6:00 PM – 11:00 PM",
+        "window": "Tue Sep 1, 6:00 PM – 11:00 PM",
         "location": "Cambridge Common, Waterhouse St & Massachusetts Ave, Cambridge, MA 02138, USA",
         "styles": [
           "salsa"
@@ -37,7 +37,7 @@
       "id": "8EDCCA4B-FCFA-4CD9-ABA3-8074966ACFCB",
       "event": {
         "name": "Bachata Room ",
-        "window": "Wed Aug 19, 9:00 PM – 12:00 AM",
+        "window": "Wed Aug 26, 9:00 PM – 12:00 AM",
         "location": "La Fabrica , 450 Massachusetts Ave, Cambridge, MA 02139, United States",
         "styles": [
           "bachata",
@@ -73,7 +73,7 @@
       "id": "4BACCA44-811C-4F7E-99D8-7AC8DA46D5CC",
       "event": {
         "name": "Bachata Sensual Mondays @ Havana Club",
-        "window": "Mon Aug 24, 8:00 PM – 12:30 AM",
+        "window": "Mon Aug 31, 8:00 PM – 12:30 AM",
         "location": "Havana Club, 288 Green St, Cambridge, MA  02139, United States",
         "styles": [
           "bachata",
@@ -115,7 +115,7 @@
       "id": "D7362ECA-A6A7-4528-B752-3CBD6141CE81",
       "event": {
         "name": "Salsa/Bachata Tuesdays @ Havana",
-        "window": "Tue Aug 25, 8:00 PM – 11:30 PM",
+        "window": "Tue Sep 1, 8:00 PM – 11:30 PM",
         "location": "Havana Club, 288 Green St, Cambridge, MA  02139, United States",
         "styles": [
           "bachata",
@@ -157,7 +157,7 @@
       "id": "5984F5C6-9A2D-454E-AE0B-B201FC78B814",
       "event": {
         "name": "Havana Bachata Thursdays",
-        "window": "Thu Aug 20, 8:45 PM – 12:30 AM",
+        "window": "Thu Aug 27, 8:45 PM – 12:30 AM",
         "location": "288 Green St, Central Sq, Cambridge",
         "styles": [
           "bachata",
@@ -188,6 +188,43 @@
       },
       "times_overlap": true,
       "matched_on": "street address (288 green st)",
+      "currently": "suppressed — folded into the venue hub, no separate pin",
+      "if_you_do_nothing": "stays suppressed"
+    },
+    {
+      "id": "jandl-20261003-j-l-underground-social",
+      "event": {
+        "name": "J&L Underground Social",
+        "window": "Sat Oct 3, 7:00 PM – 11:00 PM",
+        "location": "J&L Dance Studio, 75 Pleasant St #125, Malden, MA 02148",
+        "styles": [
+          "bachata",
+          "salsa",
+          "kizomba",
+          "merengue"
+        ],
+        "cost": "$15",
+        "source": "jandl-events",
+        "url": "https://jandldancestudio.com/jl-underground-social",
+        "recurring": false,
+        "schedule_in_description": [
+          "7:00pm–8:00pm Bachata Footwork Challenge (or beginner crash course).",
+          "8:00pm–11:00pm social dancing (bachata with salsa/kizomba/merengue)."
+        ],
+        "description": "Listed on J&L Dance Studio's upcoming-events bar. J&L Underground Social at J&L Dance Studio, 75 Pleasant Street #125, 1st Floor, Malden, MA. 7:00pm–8:00pm Bachata Footwork Challenge (or beginner crash course). 8:00pm–11:00pm social dancing (bachata with salsa/kizomba/merengue). $15 cash at the door."
+      },
+      "hub": {
+        "id": "jl-underground",
+        "name": "J&L Underground Bachata Social",
+        "window": "Saturdays, 7:00 PM – 11:00 PM",
+        "note": "1st Saturday of each month",
+        "cost": "$15",
+        "url": "https://jandldancestudio.com/jl-underground-social",
+        "also_runs": [],
+        "description": "Energy, fun, and an exciting mix of Bachata with sprinkles of Salsa, Kizomba, and Merengue. Resident DJ: DJ Luis Talavera Díaz 7:00pm – 8:00pm Bachata Footwork Challenge 8:00pm – 11:00pm Social Dancin… [truncated — event_get for full text]"
+      },
+      "times_overlap": true,
+      "matched_on": "canonical venue alias",
       "currently": "suppressed — folded into the venue hub, no separate pin",
       "if_you_do_nothing": "stays suppressed"
     }

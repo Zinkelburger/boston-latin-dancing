@@ -1,11 +1,11 @@
 {
-  "checked_at": "2026-08-13T19:45:30.947848+00:00",
-  "scope": "live",
+  "checked_at": "2026-08-27T21:18:59.671860+00:00",
+  "scope": "all",
   "totals": {
-    "urls": 69,
-    "ok": 67,
+    "urls": 178,
+    "ok": 177,
     "broken": 0,
-    "unverifiable": 2
+    "unverifiable": 1
   },
   "needs_manual_check": [
     {
@@ -15,6 +15,14 @@
       "url": "https://www.instagram.com/noise.boston/",
       "reason": "Link is the organizer's Instagram profile, not a page for this date \u2014 @noise.boston posts the next date in its bio, which we cannot read. Aug 29 at PKL came from the organizer's blurb; re-check the bio before the event, and each month after.",
       "flagged_at": "2026-08-13T15:23:20.673836+00:00"
+    },
+    {
+      "id": "AB9A3E99-2637-4C54-9B88-3FD589F6CE1C",
+      "name": "Bachata VS. T\u00edpico \u201cLa Gran Batalla\u201d",
+      "startDate": "2026-08-30T00:30:00+00:00",
+      "url": "https://dancefam.org/event/2552",
+      "reason": "dancefam.org JSON-LD says 2026-08-30T00:30Z (= Sat Aug 29, 8:30 PM EDT, what we publish) but dancefam's own page DISPLAYS 'Sunday, Aug 30, 12:30 AM - 5:00 AM'. One of the two is a timezone bug; confirm the door time with the organizer (BachaTipico Hangout) or Trio's before trusting either.",
+      "flagged_at": "2026-08-27T21:00:00+00:00"
     }
   ],
   "broken": [],
@@ -29,31 +37,9 @@
         "event: BOBAS: Sunset Salsa & Bachata on the Docks",
         "venue: BOBAS: Sunset Salsa & Bachata on the Docks"
       ]
-    },
-    {
-      "url": "https://www.facebook.com/profile.php?id=100064636639498",
-      "status": 200,
-      "final_url": null,
-      "verdict": "unverifiable",
-      "note": "no page title \u2014 login wall or deleted, cannot distinguish",
-      "appears_in": [
-        "event: Mambo City Salsa Social",
-        "venue: Mambo City Salsa Social"
-      ]
     }
   ],
   "ok": [
-    {
-      "url": "https://blackmambasalsa.com/black-mamba-social",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Black Mamba Salsa & Bachata Social",
-        "venue: Black Mamba Salsa & Bachata Social"
-      ]
-    },
     {
       "url": "https://calendar.google.com/calendar/ical/31d111cd5f84b2c5cde57a9a175e4769da698d758828fb8de8b47158eefb819c%40group.calendar.google.com/public/basic.ics",
       "status": 200,
@@ -95,6 +81,36 @@
       ]
     },
     {
+      "url": "https://chat.whatsapp.com/ECNGI8jyYiF58K9fmqPlcQ",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Timba y Descontrol (alt)"
+      ]
+    },
+    {
+      "url": "https://dancefam.org/event/2430",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: BachaTipico Hangout: Dominican Flow Party \u201cColmad\u00f3n. Edition\u201d"
+      ]
+    },
+    {
+      "url": "https://dancefam.org/event/2473",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: El Patio del Tipico - BachaTipico "
+      ]
+    },
+    {
       "url": "https://dancefam.org/event/2552",
       "status": 200,
       "final_url": null,
@@ -105,6 +121,16 @@
       ]
     },
     {
+      "url": "https://danz.ly/events/fuego-y-candela-ri-titans-salsa-takeover",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Fuego y Candela: RI Titans SALSA Takeover"
+      ]
+    },
+    {
       "url": "https://eastboston.com/events/",
       "status": 200,
       "final_url": null,
@@ -112,6 +138,56 @@
       "note": "HTTP 200",
       "appears_in": [
         "source: eastboston-events"
+      ]
+    },
+    {
+      "url": "https://eastboston.com/events/5th-annual-east-boston-latin-music-and-dance-festival/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: East Boston Latin music and dance festival"
+      ]
+    },
+    {
+      "url": "https://events.humanitix.com/groundbeatsalsa?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleARxRJxleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAacrPTeCnyZY3m_Ygi7UrNkggUUeDGBz5EO24tvZWOhRkFRx5G4S1KsD-BxQkA_aem_0h7GrsPKKVyXBq_npch_sQ",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Salsa at the Shell"
+      ]
+    },
+    {
+      "url": "https://facebook.com/events/s/-live-salsa-bachata-and-mereng/1369271468592715/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/-live-salsa-bachata-and-mereng/1369271468592715/",
+      "verdict": "ok",
+      "note": "live (\ud83d\udd7a LIVE Salsa, Bachata, and Merengue in Boston! \ud83d\udc83)",
+      "appears_in": [
+        "event: NOISE \ud83d\udd7a LIVE Salsa, Bachata, and Merengue in Boston! \ud83d\udc83"
+      ]
+    },
+    {
+      "url": "https://facebook.com/events/s/bacaneria-pop-up-social-cya-de/925224613663609/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/bacaneria-pop-up-social-cya-de/925224613663609/",
+      "verdict": "ok",
+      "note": "live (Bacaneria Pop Up Social - CyA Debut)",
+      "appears_in": [
+        "event: Bacaneria Pop Up Social - CyA Debut"
+      ]
+    },
+    {
+      "url": "https://facebook.com/events/s/bachata-room-9-year-anniversar/1499653191567362/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/bachata-room-9-year-anniversar/1499653191567362/",
+      "verdict": "ok",
+      "note": "live (BACHATA ROOM 9 Year Anniversary FT: Bachata Star DJ Zacarry)",
+      "appears_in": [
+        "event: BACHATA ROOM 9 Year Anniversary FT: Bachata Star DJ Zacarry"
       ]
     },
     {
@@ -135,6 +211,106 @@
       ]
     },
     {
+      "url": "https://facebook.com/events/s/booze-bachata-featuring-nicole/1660286798343007/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/booze-bachata-featuring-nicole/1660286798343007/",
+      "verdict": "ok",
+      "note": "live (Booze & Bachata Featuring Nicole from ATL !)",
+      "appears_in": [
+        "event: Booze & Bachata Featuring Nicole from ATL !"
+      ]
+    },
+    {
+      "url": "https://facebook.com/events/s/boston-salsa-cruise-recordamos/1582926930506442/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/boston-salsa-cruise-recordamos/1582926930506442/",
+      "verdict": "ok",
+      "note": "live (BOSTON SALSA CRUISE RECORDAMOS A LA LEYENDA WILLIE COLON)",
+      "appears_in": [
+        "event: BOSTON SALSA CRUISE RECORDAMOS A LA LEYENDA WILLIE COLON"
+      ]
+    },
+    {
+      "url": "https://facebook.com/events/s/boston-senior-zouk-social-5262/1681982413007492/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/boston-senior-zouk-social-5262/1681982413007492/",
+      "verdict": "ok",
+      "note": "live (Boston Senior Zouk Social (5/26/2026))",
+      "appears_in": [
+        "event: Boston Senior Zouk Social (5/26/2026)"
+      ]
+    },
+    {
+      "url": "https://facebook.com/events/s/boston-zouk-flow-social-52326/1127380893783555/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/boston-zouk-flow-social-52326/1127380893783555/",
+      "verdict": "ok",
+      "note": "live (Boston Zouk Flow Social (5/23/26))",
+      "appears_in": [
+        "event: Boston Zouk Flow Social (5/23/26)"
+      ]
+    },
+    {
+      "url": "https://facebook.com/events/s/boston-zouk-pratica-52726/1603239760775468/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/boston-zouk-pratica-52726/1603239760775468/",
+      "verdict": "ok",
+      "note": "live (Boston Zouk Pratica (5/27/26))",
+      "appears_in": [
+        "event: Boston Zouk Pratica (5/27/26)"
+      ]
+    },
+    {
+      "url": "https://facebook.com/events/s/kizkonpa-gouyad-edition-round-/819202317480600/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/kizkonpa-gouyad-edition-round-/819202317480600/",
+      "verdict": "ok",
+      "note": "live (KizKonpa: Gouyad Edition \u2014 Round 2)",
+      "appears_in": [
+        "event: KizKonpa: Gouyad Edition \u2014 Round 2"
+      ]
+    },
+    {
+      "url": "https://facebook.com/events/s/leandro-nayara-brazilian-zouk-/1308464591126910/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/leandro-nayara-brazilian-zouk-/1308464591126910/",
+      "verdict": "ok",
+      "note": "live (Leandro & Nayara Brazilian Zouk Weekender in Boston)",
+      "appears_in": [
+        "event: Leandro & Nayara Brazilian Zouk Weekender in Boston"
+      ]
+    },
+    {
+      "url": "https://facebook.com/events/s/maine-battle-of-the-beats/1619913609561716/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/maine-battle-of-the-beats/1619913609561716/",
+      "verdict": "ok",
+      "note": "live (MAINE Battle Of The Beats)",
+      "appears_in": [
+        "event: MAINE Battle Of The Beats"
+      ]
+    },
+    {
+      "url": "https://facebook.com/events/s/mambo-city-salsa-social-june-7/2818849835132939/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/mambo-city-salsa-social-june-7/2818849835132939/",
+      "verdict": "ok",
+      "note": "live (Mambo City Salsa Social - June 7th 7pm - 575 Cambridge St, C)",
+      "appears_in": [
+        "event: Mambo City Salsa Social - June 7th 7pm - 575 Cambridge St, Cambridge, MA"
+      ]
+    },
+    {
+      "url": "https://facebook.com/events/s/pride-social-at-the-anchor-hos/864698719253809/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/pride-social-at-the-anchor-hos/864698719253809/",
+      "verdict": "ok",
+      "note": "live (PRIDE Social at the Anchor- Hosted by Next Level Fusion)",
+      "appears_in": [
+        "event: PRIDE Social at the Anchor- Hosted by Next Level Fusion"
+      ]
+    },
+    {
       "url": "https://facebook.com/events/s/querencia-5-year-anniversary-s/1032277646392309/",
       "status": 200,
       "final_url": "https://www.facebook.com/events/s/querencia-5-year-anniversary-s/1032277646392309/",
@@ -145,6 +321,16 @@
       ]
     },
     {
+      "url": "https://facebook.com/events/s/roots-connection-konpa-x-kizom/1336045105053981/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/roots-connection-konpa-x-kizom/1336045105053981/",
+      "verdict": "ok",
+      "note": "live (ROOTS & CONNECTION: Konpa x Kizomba)",
+      "appears_in": [
+        "event: ROOTS & CONNECTION: Konpa x Kizomba"
+      ]
+    },
+    {
       "url": "https://facebook.com/events/s/rumba-y-clave-salsa-bachata-so/1934802984573954/",
       "status": 200,
       "final_url": "https://www.facebook.com/events/s/rumba-y-clave-salsa-bachata-so/1934802984573954/",
@@ -152,6 +338,66 @@
       "note": "live (Rumba y Clave: Salsa & Bachata Social)",
       "appears_in": [
         "event: Rumba y Clave: Salsa & Bachata Social"
+      ]
+    },
+    {
+      "url": "https://facebook.com/events/s/rumba-y-clave-salsa-bachata-so/4426977090880615/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/rumba-y-clave-salsa-bachata-so/4426977090880615/",
+      "verdict": "ok",
+      "note": "live (Rumba y Clave: Salsa & Bachata Social (Opening Night))",
+      "appears_in": [
+        "event: Rumba y Clave: Salsa & Bachata Social (Opening Night)"
+      ]
+    },
+    {
+      "url": "https://facebook.com/events/s/salsa-and-bachata-sunset-cruis/977669088380847/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/salsa-and-bachata-sunset-cruis/977669088380847/",
+      "verdict": "ok",
+      "note": "live (Boston\u2019s \"All White\" Salsa & Bachata Sunset Cruise)",
+      "appears_in": [
+        "event: Salsa and Bachata Sunset Cruise \"Pre-July 4th Celebration\""
+      ]
+    },
+    {
+      "url": "https://facebook.com/events/s/salsa-bachata-social-w-fiesta-/1460349465060315/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/salsa-bachata-social-w-fiesta-/1460349465060315/",
+      "verdict": "ok",
+      "note": "live (Salsa & Bachata Social w/ Fiesta Dance Co)",
+      "appears_in": [
+        "event: Salsa & Bachata Social w/ Fiesta Dance Co"
+      ]
+    },
+    {
+      "url": "https://facebook.com/events/s/salsa-y-control-teams-debut-so/1372368978065436/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/salsa-y-control-teams-debut-so/1372368978065436/",
+      "verdict": "ok",
+      "note": "live (Salsa y Control Teams Debut Social Vol 1)",
+      "appears_in": [
+        "event: Salsa y Control Teams Debut Social Vol 2"
+      ]
+    },
+    {
+      "url": "https://facebook.com/events/s/sunset-salsa-bachata-on-the-do/1144218355444560/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/sunset-salsa-bachata-on-the-do/1144218355444560/",
+      "verdict": "ok",
+      "note": "live (Sunset Salsa Bachata on the Docks)",
+      "appears_in": [
+        "event: Sunset Salsa Bachata on the Docks"
+      ]
+    },
+    {
+      "url": "https://facebook.com/events/s/sunset-salsa-bachata-on-the-do/900929579697812/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/sunset-salsa-bachata-on-the-do/900929579697812/",
+      "verdict": "ok",
+      "note": "live (Sunset Salsa Bachata on the Docks)",
+      "appears_in": [
+        "event: Sunset Salsa Bachata on the Docks"
       ]
     },
     {
@@ -172,6 +418,7 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: Salsa & Bachata Social w/ Fiesta Dance Co",
+        "event: Fiesta Dance 4 Year Anniversary Social",
         "source: fiesta-dance-company"
       ]
     },
@@ -183,6 +430,16 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: Senior Zouk Social"
+      ]
+    },
+    {
+      "url": "https://harvardsquare.com/12th-annual-salsa-squared-in-harvard-square/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: 12th Annual Salsa Squared"
       ]
     },
     {
@@ -207,6 +464,17 @@
       ]
     },
     {
+      "url": "https://jandldancestudio.com/events",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Boston Salsa Fest",
+        "source: jandl-events"
+      ]
+    },
+    {
       "url": "https://jandldancestudio.com/jl-underground-social",
       "status": 200,
       "final_url": null,
@@ -214,7 +482,18 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: J&L Underground Bachata Social",
+        "event: J&L Underground Social",
         "venue: J&L Underground Bachata Social"
+      ]
+    },
+    {
+      "url": "https://luma.com/x0o9o1lr",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Salsa Dancing at The Grove at Lawn on D Presented by Salsa y Control"
       ]
     },
     {
@@ -228,6 +507,16 @@
       ]
     },
     {
+      "url": "https://ma.to/event/salsa-night-at-the-grove-30-jul-2026",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Salsa Dancing at The Grove at Lawn on D Presented by Salsa y Control (alt)"
+      ]
+    },
+    {
       "url": "https://ma.to/venue/lawnond",
       "status": 200,
       "final_url": null,
@@ -235,6 +524,26 @@
       "note": "HTTP 200",
       "appears_in": [
         "source: mato-lawn-on-d"
+      ]
+    },
+    {
+      "url": "https://ma.to/venue/shoreleavebos",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: SUSHI CON SALSA"
+      ]
+    },
+    {
+      "url": "https://maps.app.goo.gl/ERYQSY3Qy9Pbk5ew6",
+      "status": 200,
+      "final_url": "https://www.google.com/maps/place/42.357889,-71.073684/data=!4m6!3m5!1s0!7e2!8m2!3d42.3578889!4d-71.0736841?utm_source=mstt_1&entry=gps&lucs=47068615,,47075915&g_ep=CAESCTExLjk2LjMwMBgAINeCAyoSNDcwNjg2MTUsLDQ3MDc1OTE1QgJVUw%3D%3D",
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Su-BOBAS 7-10pm"
       ]
     },
     {
@@ -248,6 +557,16 @@
       ]
     },
     {
+      "url": "https://posh.vip/e/bachata-brunch-club-1-year-anniversary",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Bachata Brunch Club"
+      ]
+    },
+    {
       "url": "https://posh.vip/e/salsa-bachata-rooftop-brunch",
       "status": 200,
       "final_url": null,
@@ -258,6 +577,16 @@
       ]
     },
     {
+      "url": "https://resy.com/cities/somerville-ma/venues/juliet/events/beginner-salsa-class-w-snacks-mixer-before-2026-06-11?seats=1&date=2026-05-18",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Singles salsa night at Juliet / Dance class + cocktail mixer"
+      ]
+    },
+    {
       "url": "https://somervilleartscouncil.org/events/",
       "status": 200,
       "final_url": null,
@@ -265,6 +594,36 @@
       "note": "HTTP 200",
       "appears_in": [
         "source: somerville-arts"
+      ]
+    },
+    {
+      "url": "https://somervilleartscouncil.org/events/seven-hills-stage/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: ArtBeat Salsa Dance Party at Seven Hills Stage"
+      ]
+    },
+    {
+      "url": "https://tunehatch.com/shows/salsa-bachata-social-dj-clave",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Salsa & Bachata Social - DJ CLAVE"
+      ]
+    },
+    {
+      "url": "https://uncommoncorner.org/event/baila-boston-salsa-night-7/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event:  \u00c1gora Cultural Architects Present: \u00a1Baila Boston! Salsa Night"
       ]
     },
     {
@@ -289,6 +648,26 @@
       ]
     },
     {
+      "url": "https://www.boston.gov/calendar/tito-puente-latin-music-series-alex-alvear-and-mango-blue",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Tito Puente Latin Music Series - Alex Alvear and Mango Blue"
+      ]
+    },
+    {
+      "url": "https://www.boston.gov/calendar/tito-puente-latin-music-series-cesar-orozco-and-sonahead",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Tito Puente Latin Music Series - C\u00e9sar Orozco and SonAhead"
+      ]
+    },
+    {
       "url": "https://www.boston.gov/calendar/tito-puente-latin-music-series-ehshawnee",
       "status": 200,
       "final_url": null,
@@ -309,6 +688,46 @@
       ]
     },
     {
+      "url": "https://www.boston.gov/calendar/tito-puente-latin-music-series-sbm",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Tito Puente Latin Music Series - Sbm"
+      ]
+    },
+    {
+      "url": "https://www.bostonmusicproject.org/events-1/salsa-at-the-shell-1",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Salsa at the Shell (alt)"
+      ]
+    },
+    {
+      "url": "https://www.embraceboston.org/collective-action/masso-con-salsa-ritmo-y-sonido-block-party",
+      "status": 200,
+      "final_url": "https://www.embraceboston.org/collective-action/masso-con-salsa-ritmo-y-sonido-block-party/",
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: EMBRACE MASS\u00d3 \u00a1CON SALSA! RITMO Y SONIDO BLOCK PARTY"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.co.uk/e/zouk-bootcamp-for-bachata-dancers-2-days-tickets-1991816316220",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Zouk BOOTCAMP for Bachata Dancers (2 Days)"
+      ]
+    },
+    {
       "url": "https://www.eventbrite.com/e/2nd-annual-del-barrio-afro-latino-festival-tickets-1992695483834?utm_experiment=test_share_listing&aff=ebdsshios&sg=56077d3869924c5777eebd2f6fdf20c0930e20783c5987e1d0b6863e0d4aa6195a9c0f85478960de5dd04535fd6f830d47692d0429f1b7f91e4099817b1a34af2dfc3147d414da37cb5e175250",
       "status": 200,
       "final_url": null,
@@ -316,6 +735,16 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: 2nd Annual Del Barrio Afro Latino Festival"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/all-about-that-bass-and-segunda-a-bachata-musicality-workshop-tickets-1988910876973",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: All About That Bass! (and segunda): A Bachata Musicality Workshop"
       ]
     },
     {
@@ -329,6 +758,16 @@
       ]
     },
     {
+      "url": "https://www.eventbrite.com/e/bachata-wlouis-casiano-and-elvis-lora-dance-for-the-diaspora-boston-tickets-1991019030517",
+      "status": 200,
+      "final_url": "https://www.eventbrite.com/e/bachata-from-roots-to-the-dance-floor-wlouis-casiano-and-elvis-lora-d4d-tickets-1991019030517",
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Bachata w/Louis Casiano and Elvis Lora - DANCE FOR THE DIASPORA BOSTON"
+      ]
+    },
+    {
       "url": "https://www.eventbrite.com/e/baila-por-venezuela-tickets-1994854202620?aff=ebdssbdestsearch",
       "status": 200,
       "final_url": null,
@@ -336,6 +775,16 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: Baila por Venezuela"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/boston-area-traditional-bachata-night-in-lynn-ma-la-casa-de-la-bachata-tickets-1990048459513",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: BOSTON AREA - Traditional Bachata Night in Lynn, MA | La Casa de la Bachata"
       ]
     },
     {
@@ -349,6 +798,16 @@
       ]
     },
     {
+      "url": "https://www.eventbrite.com/e/bostons-all-white-salsa-bachata-sunset-cruise-tickets-1990316528314",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Salsa and Bachata Sunset Cruise \"Pre-July 4th Celebration\" (alt)"
+      ]
+    },
+    {
       "url": "https://www.eventbrite.com/e/bostons-salsa-and-bachata-cruise-tropical-sunset-edition-tickets-1993426549471",
       "status": 200,
       "final_url": null,
@@ -356,6 +815,36 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: Boston\u2019s Salsa and Bachata Cruise: Tropical Sunset Edition!"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/centro-cultural-cubano-havana-night-salsa-party-tickets-1987021216949",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Centro Cultural Cubano - Havana Night Salsa Party"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/copy-of-caribbean-konpa-and-bachata-dance-eventclass-tickets-1993623354119",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Caribbean Konpa and Bachata Dance Event"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/el-bonche-5-year-anniversary-weekend-live-concert-workshops-tickets-1985561510929",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: EL BONCHE 5 Year Anniversary Weekend  | Live Concert + Workshops!"
       ]
     },
     {
@@ -369,6 +858,26 @@
       ]
     },
     {
+      "url": "https://www.eventbrite.com/e/festival-betances-2026-boricua-legacy-shaping-americas-story-tickets-1990510467391",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Festival Betances 2026 - Boricua Legacy: Shaping America\u2019s Story"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/flow-friday-at-the-anchor-tickets-1997187023149",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Flow Friday at The Anchor: Bachata Class & Social"
+      ]
+    },
+    {
       "url": "https://www.eventbrite.com/e/free-seaport-dance-series-tickets-1995790781954",
       "status": 200,
       "final_url": null,
@@ -376,6 +885,26 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: FREE Seaport Dance Series"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/kizomba-meets-konpa-dj-eloi-tickets-1989028851839",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Kizomba Meets Konpa + DJ Eloi"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/latino-professional-network-monthly-mingle-salsa-bachata-tickets-1993914028534",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Latino Professional Network Monthly Mingle: Salsa & Bachata"
       ]
     },
     {
@@ -399,6 +928,56 @@
       ]
     },
     {
+      "url": "https://www.eventbrite.com/e/noche-latina-july-salsa-wprkshop-and-practica-tickets-1994624708196",
+      "status": 200,
+      "final_url": "https://www.eventbrite.com/e/noche-latina-july-salsa-workshop-and-practica-tickets-1994624708196",
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Noche Latina July Salsa Workshop and Practica"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/noche-latina-june-social-party-dj-eloi-tickets-1990393602846",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Noche Latina June Social Party + DJ Eloi"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/noche-latina-salsa-workshop-and-practica-tickets-1991286859601",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Noche Latina Salsa Workshop and Practica"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/noise-1st-anniversary-tickets-1992309697938?utm_experiment=test_share_listing&aff=ebdsshios&sg=9f84233c3cda0245ea6dc3675042d14d411286d7aea050e0365096563ad86d76052ab6a1cdb7dc490bafa2b2ff95a4a352ce0a61f4ec262807fa73d3c0bd991d0ec3f843e0fbe5ef4cf5b5f220",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Noise 1st Anniversary"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/parrandazo-vol-4-at-spy-bar-enjoy-the-native-rhythms-of-the-caribbean-tickets-1991568778829",
+      "status": 200,
+      "final_url": "https://www.eventbrite.com/e/parrandazo-vol-4-at-cosmica-enjoy-the-native-rhythms-of-the-caribbean-tickets-1991568778829",
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: \u201cParrandazo!\u201d Vol. 4 at Spy Bar: Enjoy the Native Rhythms of the Caribbean"
+      ]
+    },
+    {
       "url": "https://www.eventbrite.com/e/parrandazo-vol-5-at-spy-bar-enjoy-the-native-rhythms-of-the-caribbean-tickets-1991570102789",
       "status": 200,
       "final_url": null,
@@ -406,6 +985,26 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: \u201cParrandazo!\u201d Vol. 5 at Spy Bar: Enjoy the Native Rhythms of the Caribbean"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/sabado-social-donde-la-gente-fina-vienen-a-fiestar-tickets-1989725539651",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: S\u00e1bado Social.. Donde La Gente Fina Vienen A Fiestar!"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/sabor-latino-el-barco-salsabachata-night-tickets-1991805539988",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Sabor Latino! @ El Barco - Salsa/Bachata Night"
       ]
     },
     {
@@ -439,6 +1038,26 @@
       ]
     },
     {
+      "url": "https://www.eventbrite.com/e/sabroso-vol011-tickets-1990397458378",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: SABROSO Vol.011"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/salsa-at-sunset-tickets-1998486474844",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Salsa at Sunset"
+      ]
+    },
+    {
       "url": "https://www.eventbrite.com/e/salsa-bachata-glow-in-the-dark-party-tickets-1995057904899",
       "status": 200,
       "final_url": null,
@@ -449,13 +1068,133 @@
       ]
     },
     {
+      "url": "https://www.eventbrite.com/e/salsa-bachata-hawaiian-summer-party-tickets-1990335344594",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Salsa & Bachata Hawaiian Summer party"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/salsa-bachata-white-summer-party-live-band-tickets-1992856599736",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Salsa & Bachata White Summer Party (alt)"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/salsa-brunch-peka-tickets-1989920260065",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Salsa Brunch @ PEKA"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/salsa-dance-night-at-lous-lessons-social-dancing-tickets-1998764492402",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Salsa Dance Night at Lou's | Lessons & Social Dancing"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/salsa-night-pop-up-sabor-latino-tickets-1989674200093",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Salsa Night Pop Up - Sabor Latino!"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/salsa-party-tickets-1989841148440?utm_experiment=test_share_listing&aff=ebdsshios&sg=7e443c8e1b59172420d03ea7e5f8f37a6aa906779bdeee8a35331bb05dc314a1b5accf629a5b8c8a83a1c8920bf82a69a18c6e3db2bac81561363553d312ebf56367efb52d38c803d385182891",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Salsa Party at MIT Open Space"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/salsa-social-day-party-tickets-1987364492696",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: SALSA SOCIAL DAY PARTY"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/sensual-bachata-social-tickets-1991829934954",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Sensual Bachata Social"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/spin-into-confidence-workshop-with-nina-tickets-1990291472371",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Spin into Confidence Workshop with Nina!"
+      ]
+    },
+    {
       "url": "https://www.eventbrite.com/e/sushi-con-salsa-dance-sessions-vol1-tickets-1988719477492",
       "status": 200,
       "final_url": null,
       "verdict": "ok",
       "note": "HTTP 200",
       "appears_in": [
-        "event: SUSHI CON SALSA"
+        "event: Sushi Con Salsa - Dance Sessions"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/taco-tuesday-with-dj-ballack-4-tacos-margaritas-reggaeton-night-tickets-1994718686287",
+      "status": 200,
+      "final_url": "https://www.eventbrite.com/e/taco-tuesday-with-dj-ballack-4-tacos-margaritas-tickets-1994718686287",
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Taco Tuesday with DJ Ballack | $4 Tacos, Margaritas & Reggaeton Night"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/the-boston-flow-salsa-bachata-dance-competition-tickets-1985733674876",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: The Boston Flow:  Salsa & Bachata Dance Competition"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/thursday-night-vibes-disco-funk-salsa-rb-with-dj-ballack-tickets-1998309494491",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: THURSDAY NIGHT VIBES  | Disco \u2022 Funk \u2022 Salsa \u2022 R&B with DJ Ballack"
       ]
     },
     {
@@ -465,7 +1204,17 @@
       "verdict": "ok",
       "note": "live (Ceijay & Bruna | Cambridge MA)",
       "appears_in": [
-        "event: Kizz Thursday"
+        "event: Kiz Thursday"
+      ]
+    },
+    {
+      "url": "https://www.facebook.com/ChelseaSITP",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Chelsea Salsa In The Park | Chelsea MA)",
+      "appears_in": [
+        "event: Chelsea Salsa In The Park (alt)"
       ]
     },
     {
@@ -486,6 +1235,7 @@
       "verdict": "ok",
       "note": "live (Fuego y Candela Salsa Socials)",
       "appears_in": [
+        "event: Fuego y Candela 15-Year Anniversary Salsa Extravaganza",
         "event: Dante's Salsa Fridays (alt)",
         "event: Fuego y Candela Salsa Social",
         "venue: Fuego y Candela Salsa Social"
@@ -502,6 +1252,57 @@
       ]
     },
     {
+      "url": "https://www.facebook.com/blackmambasalsa/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (BLACK MAMBA Dance Company | Natick MA)",
+      "appears_in": [
+        "event: Black Mamba Salsa & Bachata Social",
+        "venue: Black Mamba Salsa & Bachata Social"
+      ]
+    },
+    {
+      "url": "https://www.facebook.com/bostonguateque/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Guateque Cubano)",
+      "appears_in": [
+        "event: \ud83d\udc83 Guateque Cubano"
+      ]
+    },
+    {
+      "url": "https://www.facebook.com/events/1113878394300187/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Salsa Nights at Lou's: Class & Dancing the Night Away! *DEBU)",
+      "appears_in": [
+        "event: Salsa Dance Night at Lou's | Lessons & Social Dancing (alt)"
+      ]
+    },
+    {
+      "url": "https://www.facebook.com/events/1299596699048505/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Black Mamba's \"Night Of Performances\" Salsa & Bachata Social)",
+      "appears_in": [
+        "event: Black Mamba's Salsa and Bachata Social"
+      ]
+    },
+    {
+      "url": "https://www.facebook.com/events/1393051752744141/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Flow Friday at The Anchor)",
+      "appears_in": [
+        "event: Flow Friday at The Anchor: Bachata Class & Social (alt)"
+      ]
+    },
+    {
       "url": "https://www.facebook.com/events/1694392281858453",
       "status": 200,
       "final_url": null,
@@ -509,6 +1310,56 @@
       "note": "live (Dante's Salsa Inferno Aug 7th Salsa/Bachata Social!! ROAD TO)",
       "appears_in": [
         "event: Dante's Salsa Inferno Aug 7th Salsa/Bachata Social!! ROAD TO BSF!!"
+      ]
+    },
+    {
+      "url": "https://www.facebook.com/events/1701258681125486/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Salsa Night)",
+      "appears_in": [
+        "event: Salsa Night at the Mary Ellen Welch Greenway"
+      ]
+    },
+    {
+      "url": "https://www.facebook.com/events/1755042935909327",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Sunset Salsa Bachata on the Docks)",
+      "appears_in": [
+        "event: Sunset Salsa Bachata on the Docks"
+      ]
+    },
+    {
+      "url": "https://www.facebook.com/events/1801495350829105",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Sunset Salsa Bachata on the Docks)",
+      "appears_in": [
+        "event: Sunset Salsa Bachata on the Docks"
+      ]
+    },
+    {
+      "url": "https://www.facebook.com/events/2073153546944008/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/2073153546944008/2073153583610671/",
+      "verdict": "ok",
+      "note": "live (Saborcito @ The Anchor - Salsa & Bachata Dancing)",
+      "appears_in": [
+        "event: Saborcito @ The Anchor: Salsa & Bachata Dancing (alt)"
+      ]
+    },
+    {
+      "url": "https://www.facebook.com/events/27615176894807797/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Sunset Salsa Bachata on the Docks 7-10pm)",
+      "appears_in": [
+        "event: Sunset Salsa Bachata on the Docks 7-10pm"
       ]
     },
     {
@@ -522,6 +1373,26 @@
       ]
     },
     {
+      "url": "https://www.facebook.com/events/892156423940406/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Dante's Salsa Inferno July 24th Salsa/Bachata Social!)",
+      "appears_in": [
+        "event: Dante's Salsa Inferno July 24th Salsa/Bachata Social!"
+      ]
+    },
+    {
+      "url": "https://www.facebook.com/events/953350091067889/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Fuego y Candela July 17th Salsa Dance Social! Querencia Take)",
+      "appears_in": [
+        "event: Fuego y Candela Salsa Social \u2014 Querencia Takeover"
+      ]
+    },
+    {
       "url": "https://www.facebook.com/groups/1429334677328445/",
       "status": 200,
       "final_url": null,
@@ -529,6 +1400,37 @@
       "note": "live (Rueda in the Pahk - Boston, MA)",
       "appears_in": [
         "event: Rueda in the Pahk"
+      ]
+    },
+    {
+      "url": "https://www.facebook.com/rob.suave.96",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Rob Suave (@rob.suave.96) \u2022 Facebook, Connect with friends)",
+      "appears_in": [
+        "event: Mambo City Salsa Social",
+        "venue: Mambo City Salsa Social"
+      ]
+    },
+    {
+      "url": "https://www.facebook.com/share/p/14XJ6zMt3gB/?mibextid=wwXIfr",
+      "status": 200,
+      "final_url": "https://www.facebook.com/groups/salsainboston/permalink/26784092907885992/?mibextid=wwXIfr&rdid=WwncLTFtGEiuOFcv&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fp%2F14XJ6zMt3gB%2F%3Fmibextid%3DwwXIfr",
+      "verdict": "ok",
+      "note": "live (Salsa in Boston)",
+      "appears_in": [
+        "event: Free concert and performances: Parkway Methodist Church Concert Series"
+      ]
+    },
+    {
+      "url": "https://www.icaboston.org/events/vinyl-nights/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: ICA Vinyl Nights"
       ]
     },
     {
@@ -562,13 +1464,34 @@
       ]
     },
     {
+      "url": "https://www.instagram.com/p/DYAzxqWmP3u",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Rumba Land \ud83d\udc3c on Instagram: \"Catch Pand\u00edn at West End Johnnie)",
+      "appears_in": [
+        "event: Rumba Land"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/p/DYM5FjUDkmD",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Los Mambiseros \ud83c\udde8\ud83c\uddfa on Instagram: \"Join Los Mambiseros for a n)",
+      "appears_in": [
+        "event: Cuban Salsa on the Patio"
+      ]
+    },
+    {
       "url": "https://www.instagram.com/p/DZF_C5HpIe3/",
       "status": 200,
       "final_url": null,
       "verdict": "ok",
       "note": "live (Liliana Jimenez on Instagram: \"Our official monthly social i)",
       "appears_in": [
-        "event: Saz\u00f3n Saturday"
+        "event: Saz\u00f3n Saturday",
+        "event: NOISE \ud83d\udd7a LIVE Salsa, Bachata, and Merengue in Boston! \ud83d\udc83 (alt)"
       ]
     },
     {
@@ -578,7 +1501,77 @@
       "verdict": "ok",
       "note": "live (East Boston Latin Music & Dance Festival on Instagram: \"The )",
       "appears_in": [
-        "event: East Boston Latin music and dance festival"
+        "event: East Boston Latin music and dance festival (alt)"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/p/DaHxXKGMnQ5",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Rumba Land \ud83d\udc3c on Instagram: \"\ud83d\udd25 Boston, are you ready? The par)",
+      "appears_in": [
+        "event: Rumba Land Vol 4"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/p/DaWAkJAJOW-",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Dante\u2019s Salsa & Bachata on Instagram: \"You bring your best w)",
+      "appears_in": [
+        "event: Salsa & Bachata White Summer Party"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/p/DaWJqFIq_86",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Noise | Latin luxury elevated on Instagram: \"\u2764\ufe0f\ud83c\uddfb\ud83c\uddea United for)",
+      "appears_in": [
+        "event: NOISE/La Boutique presents United for Venezuela"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/p/DaWTD7anCtz",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Angel Javier Camilo on Instagram: \"\u00a1Invitamos a todos los gu)",
+      "appears_in": [
+        "event: La Di\u00e1spora Combo at Beehive"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/p/Dalkcbqirj2",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (La Calma 787 on Instagram: \"\ud83d\udcfb\ud83c\uddf5\ud83c\uddf7 La m\u00fasica de PR llega a El B)",
+      "appears_in": [
+        "event: La Calma presenta Salsa de PR"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/p/DcP7mnqDT8u/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Ritmo Cale\u00f1o Boston on Instagram: \"Evento #2 \ud83c\udde8\ud83c\uddf4\ud83d\udc83\ud83d\udd25 Ritmo Cale)",
+      "appears_in": [
+        "event: Ritmo Cale\u00f1o class and social: How can you help Colombia"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/reel/DYcdFD0uC7A",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Los Mambiseros \ud83c\udde8\ud83c\uddfa on Instagram: \"Join Los Mambiseros at @lon)",
+      "appears_in": [
+        "event: Los Mambiseros: free night of traditional Cuban music"
       ]
     },
     {
@@ -598,12 +1591,22 @@
       "verdict": "ok",
       "note": "live (Timba y Descontrol (@timbadescontrol))",
       "appears_in": [
-        "event: Timba y Descontrol Cuban salsa lessons + social",
-        "event: Timba y Descontrol Cuban salsa lessons + social (alt)"
+        "event: Timba y Descontrol",
+        "venue: Timba y Descontrol"
       ]
     },
     {
-      "url": "https://www.listerevents.com/event-details/bachata-salsa-by-the-river-3",
+      "url": "https://www.listerevents.com/event-details/bachata-dance-workout-morse-library",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Bachata Dance Workout @Morse Library"
+      ]
+    },
+    {
+      "url": "https://www.listerevents.com/event-details/bachata-salsa-by-the-river-4",
       "status": 200,
       "final_url": null,
       "verdict": "ok",
@@ -623,6 +1626,16 @@
       ]
     },
     {
+      "url": "https://www.listerevents.com/event-details/earlier-time-bachata-salsa-by-the-river",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Bachata & Salsa By The River"
+      ]
+    },
+    {
       "url": "https://www.listerevents.com/events",
       "status": 200,
       "final_url": null,
@@ -633,7 +1646,37 @@
       ]
     },
     {
-      "url": "https://www.nextlevelfusiondance.com/event-details/egleston-park-summer-socials-2026-07-19-14-00",
+      "url": "https://www.massaudubon.org/programs/magazine-beach/102437-bachata-by-the-river",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Bachata & Salsa By The River (alt)"
+      ]
+    },
+    {
+      "url": "https://www.metamovements.com/event-details/salsa-in-the-park-at-blackstone-2026-05-30-13-00",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Salsa In The Park at Blackstone"
+      ]
+    },
+    {
+      "url": "https://www.metamovements.com/events-2/chelsea-salsa-in-the-park!",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Chelsea Salsa In The Park"
+      ]
+    },
+    {
+      "url": "https://www.nextlevelfusiondance.com/event-details/egleston-park-summer-socials-2026-09-20-14-00",
       "status": 200,
       "final_url": null,
       "verdict": "ok",
@@ -683,6 +1726,36 @@
       ]
     },
     {
+      "url": "https://www.thebostoncalendar.com/events/fuego-y-candela-celebrating-women-s-history-month-salsa-dance-social",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Fuego y Candela: Celebrating Women's History Month Salsa Dance Social"
+      ]
+    },
+    {
+      "url": "https://www.thetimbamessengers.com",
+      "status": 200,
+      "final_url": "https://www.thetimbamessengers.com/",
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: The Timba Messenger at Wally's "
+      ]
+    },
+    {
+      "url": "https://www.tickeri.com/events/k131rxmd611i/boston-salsa-cruise-tributo-a-la-salsa-colombiana",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Boston Salsa Cruise \"Tributo a la salsa Colombiana\""
+      ]
+    },
+    {
       "url": "https://www.tickeri.com/events/q7z2xad17lps/salsa-salsa-game-time",
       "status": 200,
       "final_url": null,
@@ -690,6 +1763,16 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: Salsa salsa game time"
+      ]
+    },
+    {
+      "url": "https://www.tickeri.com/events/st43bjyvvgbc/run-and-salsa?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAdGRleAR5ZkhleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA8xMjQwMjQ1NzQyODc0MTQAAaePQukteDtD_eJfizysT2wkltUXFmn5i5TOX7BEYNx2l_l3hAyID5ySFFZICQ_aem_AH23mIQZ_9dVyXWUIpC8Pw",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Run & Salsa hosted by Run This City Run Club"
       ]
     },
     {
@@ -721,6 +1804,26 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: Latin Brunch \u2013 La diaspora combo"
+      ]
+    },
+    {
+      "url": "https://www.wearelous.com/lous-live/los-mambiseros",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Los Mambiseros @ Lou\u2019s"
+      ]
+    },
+    {
+      "url": "https://www.wearelous.com/lous-live/salsa-night",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Salsa Dance Night at Lou's | Lessons & Social Dancing (alt)"
       ]
     }
   ]

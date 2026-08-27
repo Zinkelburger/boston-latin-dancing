@@ -1342,7 +1342,7 @@
     "lat": 42.3474,
     "lng": -71.0812,
     "description": "RUMBALAND 3rd EDITION: BACK TO EL BARCO\nLive Concert Series\nSaturday, June 27 | 9 PM - 1 AM\nDJ Roosevelt\nFabian Arias - Salsa Caleña & Boogaloo Workshop\n(Beginners Welcome!)\n\nBest Couple Competition - $50 by Pandín El Barco Restaurant - 50 Dalton St, Boston, MA 02115\n$20 at the Door\nOne night, One unforgettable party.\n\nSource: https://www.instagram.com/reel/DZP-9wou0hm/",
-    "url": "https://www.instagram.com/reel/DZP-9wou0hm/",
+    "url": null,
     "styles": [
       "salsa"
     ],
@@ -2771,94 +2771,129 @@
     "archivedAt": "2026-08-20T19:14:52.038313+00:00"
   },
   {
-    "id": "C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5",
-    "name": "Sazón Saturday",
-    "startDate": "2026-09-19T18:00:00-04:00",
-    "endDate": "2026-09-19T22:00:00-04:00",
-    "location": "Lili Latin Dance, 423 W Broadway, Ste 202, South Boston, MA 02127",
-    "lat": 42.336527,
-    "lng": -71.047731,
-    "description": "Our official monthly social is back! Join us for a fun night of Salsa, Bachata, Merengue, and sprinkles of other party music! We will provide a fun ChaCha workshop to kick you off!\n\n$10 ($5 for Lili Latin Dance Students!)\nJune 20th\n6-6:55 PM: ChaCha Workshop\n7:00-10:00 PM: Social Dance and Shows",
-    "url": "https://www.instagram.com/p/DZF_C5HpIe3/",
-    "styles": [
-      "salsa",
-      "bachata",
-      "merengue"
-    ],
-    "cost": "$10",
-    "recurring": true,
-    "source": "beatrice-calendar",
-    "dayOfWeek": "Saturday",
-    "_verified_at": "2026-08-13T19:46:15.098141+00:00",
-    "_verified_status": "unverifiable",
-    "_verified_notes": "Instagram link — cannot scrape programmatically. Manual check recommended.",
-    "_verification_url": "https://www.instagram.com/p/DZF_C5HpIe3/",
-    "recurrences": [
-      "2026-06-20T18:00:00-04:00",
-      "2026-07-18T18:00:00-04:00",
-      "2026-08-15T18:00:00-04:00"
-    ],
-    "archivedAt": "2026-08-20T21:25:27.396097+00:00",
-    "reactivatedAt": "2026-08-20T21:25:26.685019+00:00"
-  },
-  {
-    "id": "2ar83v9imef7dkgkonbfvc5t4q@google.com",
-    "name": "Senior Zouk Social",
-    "startDate": "2026-09-08T20:00:00-04:00",
-    "endDate": "2026-09-08T23:00:00-04:00",
-    "dayOfWeek": "Tuesday",
-    "location": "Multicultural Arts Center, 41 Second St, Cambridge, MA 02141, USA",
-    "lat": 42.3699327,
-    "lng": -71.0796219,
-    "description": "<div dir=\"auto\">Hang out, dance, and let’s enjoy movement and being alive at our Tuesday Senior Zouk Social 🌼 <br><div dir=\"auto\">By and for people who want to dance Zouk and get home in time for a decent night’s sleep. 😌 <br><div dir=\"auto\">We start early. End early. No matter your age, we invite you to embrace your inner senior. 👴👵<br><div dir=\"auto\">—<div dir=\"auto\">📍 Where &amp; When<div dir=\"auto\">- 8-11 pm<div dir=\"auto\">- Multicultural Arts Center <div dir=\"auto\">- Street parking available along Second St and Cambridge St. <div dir=\"auto\">- 2 min walk from Lechmere Station, 16 min walk from the Kendall T stop. <br><div dir=\"auto\">👯 Who It’s For<div dir=\"auto\">- Brazilian Zouk and Lambada dancers<div dir=\"auto\">- Open to all levels and ages, from beginners to advanced dancers.<br><div dir=\"auto\">🎶 Music <div dir=\"auto\">Prerecorded mixsets by:<div dir=\"auto\">✨ TBA<br><div dir=\"auto\">💸 Cost<div dir=\"auto\">$15, Venmo @philip-blatner<div dir=\"auto\">Sliding scale available if needed, please talk to us!<br><div dir=\"auto\">✅ Tip the DJs<div dir=\"auto\">- If you’re feeling generous you’re welcome to tip the DJs. 100% of extra proceeds beyond the entrance fee will be paid to them.<br><div dir=\"auto\">To stay in the loop for future events - follow the Zouk BOS Facebook and Instagram pages!<br><div dir=\"auto\">Have any feedback? We’d love to hear it!<div dir=\"auto\"><a href=\"https://forms.gle/kvUf8nb8iqrYuUKaA?fbclid=IwZXh0bgNhZW0CMTAAYnJpZBExMU9ScVVhN1dnY1Bvd09kRXNydGMGYXBwX2lkEDIyMjAzOTE3ODgyMDA4OTIAAR77LFmpGH83XnqtfZqNU-mkuxGadZ1H28PCZ4g249u7ufulK39VLkOVXbfbMw_aem_6IVToRq1FzLJxxpfAO7cjQ\" target=\"_blank\">https://forms.gle/kvUf8nb8iqrYuUKaA</a><br><br>Source: <a href=\"https://www.facebook.com/profile.php?id=100090589803309\">Facebook</a>",
-    "url": "https://forms.gle/kvUf8nb8iqrYuUKaA",
-    "styles": [
-      "zouk"
-    ],
-    "cost": "$15",
-    "recurring": true,
-    "source": "beatrice-calendar",
-    "recurrences": [
-      "2026-06-09T20:00:00-04:00",
-      "2026-07-14T20:00:00-04:00",
-      "2026-08-11T20:00:00-04:00"
-    ],
-    "_verified_at": "2026-08-13T19:46:11.104987+00:00",
-    "_verified_status": "reachable_only",
-    "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
-    "_verification_url": "https://forms.gle/kvUf8nb8iqrYuUKaA",
-    "archivedAt": "2026-08-20T21:25:27.396097+00:00",
-    "reactivatedAt": "2026-08-20T21:25:26.950761+00:00"
-  },
-  {
-    "id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar",
-    "name": "Sushi Con Salsa - Dance Sessions",
-    "startDate": "2026-06-16T18:00:00-04:00",
-    "endDate": "2026-06-16T21:00:00-04:00",
-    "dayOfWeek": "Tuesday",
-    "location": "11 William E Mullins Way, Boston, MA 02118",
-    "lat": 42.345422,
-    "lng": -71.064269,
-    "description": "Sushi + salsa dancing! Two sessions:\nVol.1: 6:00 PM - 9:00 PM\nVol.2: 6:30 PM - 10:30 PM\n\nVen a disfrutar de sushi rico y mueve el cuerpo con salsa en nuestras sesiones de baile en vivo.",
-    "url": "https://www.eventbrite.com/e/sushi-con-salsa-dance-sessions-vol1-tickets-1988719477492",
+    "id": "1ee53ea9f8c2c3000235ffc8c5b0bc0abbf19b2d@dance-calendar",
+    "name": "Boston Salsa Festival, 2026",
+    "startDate": "2026-08-21T00:00:00-04:00",
+    "endDate": "2026-08-24T00:00:00-04:00",
+    "dayOfWeek": "Friday",
+    "location": "70 Third Avenue, Waltham, MA 02451",
+    "lat": 42.3947033,
+    "lng": -71.2599412,
+    "description": "The Boston Salsa Festival features workshops and performances by world class dancers and instructors, live music and more.\n\nSource: https://www.eventbrite.com/e/boston-salsa-festival-2026-registration-1591571175229",
+    "url": "https://www.eventbrite.com/e/boston-salsa-festival-2026-registration-1591571175229",
     "styles": [
       "salsa"
     ],
-    "cost": "$28.52",
-    "recurring": true,
+    "cost": null,
+    "recurring": false,
     "source": "beatrice-calendar",
-    "recurrences": [
-      "2026-06-16T18:00:00-04:00",
-      "2026-06-16T22:30:00+00:00",
-      "2026-07-21T18:00:00-04:00"
+    "_verified_at": "2026-08-20T19:24:07.654772+00:00",
+    "_verified_status": "reachable_only",
+    "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
+    "_verification_url": "https://www.eventbrite.com/e/boston-salsa-festival-2026-registration-1591571175229",
+    "special": true,
+    "archivedAt": "2026-08-27T20:36:13.380522+00:00"
+  },
+  {
+    "id": "manual-bsf-preparty-20260820-0",
+    "name": "Pre-Party: Boston Salsa Festival 2026",
+    "startDate": "2026-08-20T20:30:00-04:00",
+    "endDate": "2026-08-21T01:00:00-04:00",
+    "dayOfWeek": "Thursday",
+    "location": "Dante Alighieri Society, 41 Hampshire St, Cambridge, MA 02139",
+    "lat": 42.3679,
+    "lng": -71.0885,
+    "description": "Latin dance social to kick off the 2026 Boston Salsa Festival at the Dante Alighieri Society. No lesson — doors open at 8:30 PM, social dancing until 1 AM. $20 at the door (cash), not included in any festival pass.",
+    "url": "https://www.facebook.com/events/4290241331227148/",
+    "styles": [
+      "salsa",
+      "bachata"
     ],
-    "_verified_at": "2026-07-15T03:32:45.157145+00:00",
+    "cost": "$20",
+    "recurring": false,
+    "organizer": "Boston Salsa Festival",
+    "source": "manual",
+    "_verified_at": "2026-08-20T19:24:08.179852+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "Page accessible, no JSON-LD found (text check only)",
-    "_verification_url": "https://www.eventbrite.com/e/sushi-con-salsa-dance-sessions-vol1-tickets-1988719477492",
-    "urls": [],
-    "archivedAt": "2026-08-20T21:25:27.396097+00:00",
-    "reactivatedAt": "2026-08-20T21:25:27.070965+00:00"
+    "_verified_notes": "Facebook preview matches (date checked); by Boston Salsa Festival and 2 others",
+    "_verification_url": "https://www.facebook.com/events/4290241331227148/",
+    "special": true,
+    "archivedAt": "2026-08-27T20:36:13.380522+00:00"
+  },
+  {
+    "id": "lous-f2d17c80",
+    "name": "Latin Brunch – La diaspora combo",
+    "startDate": "2026-08-22T12:00:00.834000-04:00",
+    "endDate": "2026-08-22T14:30:00.834000-04:00",
+    "dayOfWeek": "Saturday",
+    "location": "Lou's, 13 Brattle St, Cambridge, MA 02138",
+    "lat": 42.3736,
+    "lng": -71.1212,
+    "description": "Led by lead vocalist and multi-instrumentalist Angel Javier Camilo, La Diáspora Combo is an intergenerational collective of musicians from Latin America and the United States. Rooted in diasporic identity and community, the ensemble brings high-energy, dance-forward performances of salsa, merengue, and bachata. Honoring the Latin American tradition of musical storytelling, La Diáspora Combo reimagines the works of artists such as Rubén Blades & Willie Colón, Juan Luis Guerra, El Gran Combo, and Oscar D’León, transforming each performance into a celebration of culture, dance, and communal spirit.\nFOLLOW",
+    "url": "https://www.wearelous.com/lous-live/diaspora-latin-brunch",
+    "styles": [
+      "bachata",
+      "salsa",
+      "merengue"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "lous-live",
+    "artist": "La diaspora combo",
+    "artistUrl": "https://www.instagram.com/ladiasporacombo/",
+    "venueId": "lous-live",
+    "_verified_at": "2026-08-20T19:24:11.738587+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD matches (date checked)",
+    "_verification_url": "https://www.wearelous.com/lous-live/diaspora-latin-brunch",
+    "archivedAt": "2026-08-27T20:36:13.380522+00:00"
+  },
+  {
+    "id": "eb-1996444933539",
+    "name": "Noche Latina August Salsa Workshop and Practica",
+    "startDate": "2026-08-25T19:00:00-04:00",
+    "endDate": "2026-08-25T22:30:00-04:00",
+    "dayOfWeek": "Tuesday",
+    "location": "Luna Fitness Club, 735 William T Morrissey Boulevard, Boston, MA 02122, Boston, MA",
+    "lat": 42.2953653,
+    "lng": -71.0488803,
+    "description": "Workshop and Social Dancing Practice. Salsa and Chacha Workshop and two hours to practice your new steps!\n\nOrganizer: Noche Latina Dance Company",
+    "url": "https://www.eventbrite.com/e/noche-latina-august-salsa-workshop-and-practica-tickets-1996444933539",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$12.51",
+    "recurring": false,
+    "source": "eventbrite-boston-latin",
+    "_verified_at": "2026-08-20T19:24:16.205037+00:00",
+    "_verified_status": "reachable_only",
+    "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
+    "_verification_url": "https://www.eventbrite.com/e/noche-latina-august-salsa-workshop-and-practica-tickets-1996444933539",
+    "archivedAt": "2026-08-27T20:36:13.380522+00:00"
+  },
+  {
+    "id": "jandl-20260821-boston-salsa-fest",
+    "name": "Boston Salsa Fest",
+    "startDate": "2026-08-21T00:00:00-04:00",
+    "endDate": "2026-08-23T00:00:00-04:00",
+    "dayOfWeek": "Friday",
+    "location": "Boston, MA",
+    "lat": 42.3588336,
+    "lng": -71.0578303,
+    "description": "Listed on J&L Dance Studio's upcoming-events bar as Boston Salsa Fest. This is an event J&L is promoting — venue is not the Malden studio. J&L promo code: jnl26.",
+    "url": "https://jandldancestudio.com/events",
+    "styles": [
+      "salsa"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "jandl-events",
+    "organizer": "J&L Dance Studio",
+    "_verified_at": "2026-08-27T20:44:47.995788+00:00",
+    "_verified_status": "reachable_only",
+    "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
+    "_verification_url": "https://jandldancestudio.com/events",
+    "archivedAt": "2026-08-27T21:15:23.675461+00:00"
   },
   {
     "id": "130F0122-6C01-443F-AD1D-5B40E8F046CF",
@@ -2889,7 +2924,36 @@
     "_verified_status": "confirmed",
     "_verified_notes": "Page accessible, no JSON-LD found (text check only)",
     "_verification_url": "https://jandldancestudio.com/jl-underground-social",
-    "archivedAt": "2026-08-20T21:25:27.396097+00:00",
-    "reactivatedAt": "2026-08-20T21:25:27.118229+00:00"
+    "archivedAt": "2026-08-27T21:18:16.047326+00:00",
+    "reactivatedAt": "2026-08-27T21:18:14.486924+00:00"
+  },
+  {
+    "id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar",
+    "name": "Sushi Con Salsa - Dance Sessions",
+    "startDate": "2026-06-16T18:00:00-04:00",
+    "endDate": "2026-06-16T21:00:00-04:00",
+    "dayOfWeek": "Tuesday",
+    "location": "11 William E Mullins Way, Boston, MA 02118",
+    "lat": 42.345422,
+    "lng": -71.064269,
+    "description": "Sushi + salsa dancing! Two sessions:\nVol.1: 6:00 PM - 9:00 PM\nVol.2: 6:30 PM - 10:30 PM\n\nVen a disfrutar de sushi rico y mueve el cuerpo con salsa en nuestras sesiones de baile en vivo.",
+    "url": "https://www.eventbrite.com/e/sushi-con-salsa-dance-sessions-vol1-tickets-1988719477492",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$28.52",
+    "recurring": true,
+    "source": "beatrice-calendar",
+    "recurrences": [
+      "2026-06-16T18:00:00-04:00",
+      "2026-06-16T22:30:00+00:00",
+      "2026-07-21T18:00:00-04:00"
+    ],
+    "_verified_at": "2026-07-15T03:32:45.157145+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Page accessible, no JSON-LD found (text check only)",
+    "_verification_url": "https://www.eventbrite.com/e/sushi-con-salsa-dance-sessions-vol1-tickets-1988719477492",
+    "archivedAt": "2026-08-27T21:18:16.047326+00:00",
+    "reactivatedAt": "2026-08-27T21:18:15.404996+00:00"
   }
 ]
