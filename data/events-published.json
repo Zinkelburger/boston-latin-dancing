@@ -820,38 +820,6 @@
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
-    "id": "black-mamba-social",
-    "name": "Black Mamba Salsa & Bachata Social",
-    "startDate": "2026-09-13T18:30:00-04:00",
-    "endDate": "2026-09-13T22:30:00-04:00",
-    "dayOfWeek": "Sunday",
-    "location": "Todos Dance & Fitness Studio, 677 Worcester St, Natick, MA 01760",
-    "lat": 42.2873,
-    "lng": -71.3674,
-    "description": "Black Mamba Dance Company presents an exciting Salsa & Bachata Social in the Metrowest area! Elegant and spacious venue with premium wood floor. Separate Bachata & Kizomba room.\n\nResident DJ: DJ Black Mamba\n\n6:30pm – 7:30pm Class Workshop\n7:30pm – 10:30pm Social Dancing\n\n$15 Social Dancing / $25 Class + Social (All Ages). 2nd Sunday of each month.",
-    "url": "https://www.facebook.com/blackmambasalsa/",
-    "styles": [
-      "salsa",
-      "bachata",
-      "kizomba"
-    ],
-    "cost": "$15",
-    "recurring": true,
-    "recurrences": [
-      "2026-09-13T18:30:00-04:00",
-      "2026-10-11T18:30:00-04:00"
-    ],
-    "schedule": [
-      {
-        "dayOfWeek": "Sunday",
-        "time": "6:30 PM – 10:30 PM",
-        "note": "2nd Sunday of each month"
-      }
-    ],
-    "slug": "black-mamba-salsa-bachata-social-black-ma",
-    "recurrenceLabel": "Second Sunday of each month"
-  },
-  {
     "id": "_6crjic1k6co68e1o71h30opp6dhj4d36ccsj4p1i6krm2php74oj8eb175hm2c9m81i62rj3ckmm6obccln68obi_R20260616T220000@google.com",
     "name": "SUSHI CON SALSA",
     "startDate": "2026-09-15T18:00:00-04:00",
@@ -3747,5 +3715,28 @@
     "searchOnly": true,
     "slug": "bobas-sunset-salsa-bachata-on-the-docks-bobas",
     "organizer": "Boston Outdoor Bachata And Salsa (BOBAS)"
+  },
+  {
+    "id": "black-mamba-social",
+    "name": "Black Mamba Salsa & Bachata Social",
+    "startDate": "",
+    "endDate": "",
+    "dayOfWeek": "Sunday",
+    "location": "Todos Dance & Fitness Studio, 677 Worcester St, Natick, MA 01760",
+    "lat": 42.2873,
+    "lng": -71.3674,
+    "description": "Black Mamba Entertainment's Salsa & Bachata Social in the Metrowest area. Elegant and spacious venue with premium wood floor; separate Bachata & Kizomba room.\n\nRuns monthly at Todos, historically on a Sunday, but the organizer announces each date rather than holding a fixed slot — check their Facebook page before going.\n\nLast confirmed night: Sunday Aug 9, 2026, 7:00–10:30 PM (“Night Of Performances” edition).",
+    "url": "https://www.facebook.com/BlackMambasEntertainmentco/events",
+    "styles": [
+      "salsa",
+      "bachata",
+      "kizomba"
+    ],
+    "cost": "$15",
+    "recurring": true,
+    "nextDateApproximate": true,
+    "searchOnly": true,
+    "slug": "black-mamba-salsa-bachata-social-black-ma",
+    "recurrenceLabel": "Every Sunday"
   }
 ]

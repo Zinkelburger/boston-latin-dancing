@@ -205,22 +205,23 @@
     "location": "Todos Dance & Fitness Studio, 677 Worcester St, Natick, MA 01760",
     "lat": 42.2873,
     "lng": -71.3674,
-    "url": "https://www.facebook.com/blackmambasalsa/",
+    "url": "https://www.facebook.com/BlackMambasEntertainmentco/events",
     "styles": [
       "salsa",
       "bachata",
       "kizomba"
     ],
     "cost": "$15",
-    "description": "Black Mamba Dance Company presents an exciting Salsa & Bachata Social in the Metrowest area! Elegant and spacious venue with premium wood floor. Separate Bachata & Kizomba room.\n\nResident DJ: DJ Black Mamba\n\n6:30pm – 7:30pm Class Workshop\n7:30pm – 10:30pm Social Dancing\n\n$15 Social Dancing / $25 Class + Social (All Ages). 2nd Sunday of each month.",
+    "description": "Black Mamba Entertainment's Salsa & Bachata Social in the Metrowest area. Elegant and spacious venue with premium wood floor; separate Bachata & Kizomba room.\n\nRuns monthly at Todos, historically on a Sunday, but the organizer announces each date rather than holding a fixed slot — check their Facebook page before going.\n\nLast confirmed night: Sunday Aug 9, 2026, 7:00–10:30 PM (“Night Of Performances” edition).",
     "schedule": [
       {
         "dayOfWeek": "Sunday",
-        "time": "6:30 PM – 10:30 PM",
-        "note": "2nd Sunday of each month"
+        "time": "7:00 PM – 10:30 PM",
+        "note": "Dates vary — monthly at Todos, check the organizer's page"
       }
     ],
-    "slug": "black-mamba-salsa-bachata-social-black-m"
+    "slug": "black-mamba-salsa-bachata-social-black-m",
+    "nextDateApproximate": true
   },
   {
     "id": "timba-y-descontrol",

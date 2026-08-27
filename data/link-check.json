@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-08-27T21:18:59.671860+00:00",
+  "checked_at": "2026-08-27T22:04:17.849383+00:00",
   "scope": "all",
   "totals": {
     "urls": 178,
@@ -1198,6 +1198,17 @@
       ]
     },
     {
+      "url": "https://www.facebook.com/BlackMambasEntertainmentco/events",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Black Mamba Entertainment Ltd)",
+      "appears_in": [
+        "event: Black Mamba Salsa & Bachata Social",
+        "venue: Black Mamba Salsa & Bachata Social"
+      ]
+    },
+    {
       "url": "https://www.facebook.com/Ceijaykiz",
       "status": 200,
       "final_url": null,
@@ -1249,17 +1260,6 @@
       "note": "live (Tamb\u00f3 Salsa)",
       "appears_in": [
         "event: Dante's Salsa Fridays (alt)"
-      ]
-    },
-    {
-      "url": "https://www.facebook.com/blackmambasalsa/",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "live (BLACK MAMBA Dance Company | Natick MA)",
-      "appears_in": [
-        "event: Black Mamba Salsa & Bachata Social",
-        "venue: Black Mamba Salsa & Bachata Social"
       ]
     },
     {
@@ -1416,7 +1416,7 @@
     {
       "url": "https://www.facebook.com/share/p/14XJ6zMt3gB/?mibextid=wwXIfr",
       "status": 200,
-      "final_url": "https://www.facebook.com/groups/salsainboston/permalink/26784092907885992/?mibextid=wwXIfr&rdid=WwncLTFtGEiuOFcv&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fp%2F14XJ6zMt3gB%2F%3Fmibextid%3DwwXIfr",
+      "final_url": "https://www.facebook.com/groups/salsainboston/permalink/26784092907885992/?mibextid=wwXIfr&rdid=67AwY302Rr5YELej&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fp%2F14XJ6zMt3gB%2F%3Fmibextid%3DwwXIfr",
       "verdict": "ok",
       "note": "live (Salsa in Boston)",
       "appears_in": [
