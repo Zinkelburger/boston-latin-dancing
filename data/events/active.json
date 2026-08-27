@@ -425,11 +425,7 @@
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://dancefam.org/event/2552",
-    "special": true,
-    "_needs_manual_check": {
-      "reason": "dancefam.org JSON-LD says 2026-08-30T00:30Z (= Sat Aug 29, 8:30 PM EDT, what we publish) but dancefam's own page DISPLAYS 'Sunday, Aug 30, 12:30 AM - 5:00 AM'. One of the two is a timezone bug; confirm the door time with the organizer (BachaTipico Hangout) or Trio's before trusting either.",
-      "flagged_at": "2026-08-27T21:00:00+00:00"
-    }
+    "special": true
   },
   {
     "id": "40604F5D-9503-41AB-B87C-8AA21BC364F4",

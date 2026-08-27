@@ -1,11 +1,11 @@
 {
-  "checked_at": "2026-08-27T22:09:25.787118+00:00",
+  "checked_at": "2026-08-27T22:11:29.055027+00:00",
   "scope": "all",
   "totals": {
     "urls": 178,
-    "ok": 177,
+    "ok": 176,
     "broken": 0,
-    "unverifiable": 1
+    "unverifiable": 2
   },
   "needs_manual_check": [
     {
@@ -15,22 +15,24 @@
       "url": "https://www.instagram.com/noise.boston/",
       "reason": "Link is the organizer's Instagram profile, not a page for this date \u2014 @noise.boston posts the next date in its bio, which we cannot read. Aug 29 at PKL came from the organizer's blurb; re-check the bio before the event, and each month after.",
       "flagged_at": "2026-08-13T15:23:20.673836+00:00"
-    },
-    {
-      "id": "AB9A3E99-2637-4C54-9B88-3FD589F6CE1C",
-      "name": "Bachata VS. T\u00edpico \u201cLa Gran Batalla\u201d",
-      "startDate": "2026-08-30T00:30:00+00:00",
-      "url": "https://dancefam.org/event/2552",
-      "reason": "dancefam.org JSON-LD says 2026-08-30T00:30Z (= Sat Aug 29, 8:30 PM EDT, what we publish) but dancefam's own page DISPLAYS 'Sunday, Aug 30, 12:30 AM - 5:00 AM'. One of the two is a timezone bug; confirm the door time with the organizer (BachaTipico Hangout) or Trio's before trusting either.",
-      "flagged_at": "2026-08-27T21:00:00+00:00"
     }
   ],
   "broken": [],
   "unverifiable": [
     {
+      "url": "https://www.facebook.com/groups/1429334677328445/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/login/?next=https%3A%2F%2Fwww.facebook.com%2Fgroups%2F1429334677328445%2F",
+      "verdict": "unverifiable",
+      "note": "no page title \u2014 login wall or deleted, cannot distinguish",
+      "appears_in": [
+        "event: Rueda in the Pahk"
+      ]
+    },
+    {
       "url": "https://www.facebook.com/groups/576206842396498",
       "status": 200,
-      "final_url": null,
+      "final_url": "https://www.facebook.com/login/?next=https%3A%2F%2Fwww.facebook.com%2Fgroups%2F576206842396498",
       "verdict": "unverifiable",
       "note": "no page title \u2014 login wall or deleted, cannot distinguish",
       "appears_in": [
@@ -1393,16 +1395,6 @@
       ]
     },
     {
-      "url": "https://www.facebook.com/groups/1429334677328445/",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "live (Rueda in the Pahk - Boston, MA)",
-      "appears_in": [
-        "event: Rueda in the Pahk"
-      ]
-    },
-    {
       "url": "https://www.facebook.com/rob.suave.96",
       "status": 200,
       "final_url": null,
@@ -1416,7 +1408,7 @@
     {
       "url": "https://www.facebook.com/share/p/14XJ6zMt3gB/?mibextid=wwXIfr",
       "status": 200,
-      "final_url": "https://www.facebook.com/groups/salsainboston/permalink/26784092907885992/?mibextid=wwXIfr&rdid=zBCyMkim7hgISbhs&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fp%2F14XJ6zMt3gB%2F%3Fmibextid%3DwwXIfr",
+      "final_url": "https://www.facebook.com/groups/salsainboston/permalink/26784092907885992/?mibextid=wwXIfr&rdid=9SehiNuzAZSdDET6&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fp%2F14XJ6zMt3gB%2F%3Fmibextid%3DwwXIfr",
       "verdict": "ok",
       "note": "live (Salsa in Boston)",
       "appears_in": [
