@@ -138,6 +138,13 @@ body {
   display: flow-root;
   min-width: 0;
 }
+.event-popup-close {
+  /* Same height as the Share pill beside it; square-ish so the glyph sits centred. */
+  align-self: stretch;
+  padding-left: 0.65rem;
+  padding-right: 0.65rem;
+}
+
 .event-popup-actions {
   float: right;
   display: flex;
@@ -301,9 +308,8 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 }
 
 /* ─── Filter Bar ───
-   One layout for every screen: three labelled rows. A phone hides the extra
-   pills behind each row's arrow; wider screens show them all and the label
-   goes inert. */
+   One layout for every screen: three labelled rows. Wider screens wrap the
+   pills; a phone puts each row on a horizontal rail you swipe. */
 
 .filter-bar {
   display: grid;
@@ -380,38 +386,13 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   white-space: nowrap;
   min-width: 3rem;
   flex-shrink: 0;
-  padding: 0;
-  background: none;
-  border: none;
   line-height: 1;
-  appearance: none;
-  -webkit-appearance: none;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-}
-
-.filter-label-chevron {
-  display: none;
-  flex-shrink: 0;
-  width: 0.7rem;
-  height: 0.7rem;
-  transition: transform 0.15s ease;
-}
-.filter-label.is-open .filter-label-chevron {
-  transform: rotate(90deg);
 }
 
 .filter-pills {
   display: flex;
   flex-wrap: wrap;
   gap: 0.3rem;
-}
-
-.filter-date-section {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
   min-width: 0;
 }
 
@@ -1118,8 +1099,9 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 /* ─── Mobile adjustments ─── */
 
 @media (max-width: 640px) {
-  /* Same labelled rows as desktop; the arrow reveals the rest. Selected
-     extras stay out so you can always see what is on. */
+  /* Same labelled rows as desktop, but each row's pills sit on one line you
+     swipe sideways. The right edge fades so it reads as "more this way";
+     the trailing padding lets the last pill scroll clear of the fade. */
   .filter-bar {
     padding:
       0.45rem
@@ -1155,15 +1137,25 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     grid-row: 3;
   }
   .filter-label {
-    cursor: pointer;
-    min-width: 3.75rem;
+    min-width: 2.75rem;
   }
-  .filter-label-chevron {
-    display: block;
+  .filter-pills {
+    flex: 1;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0.15rem 1.75rem 0.15rem 0;
+    margin: -0.15rem 0;
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 1.75rem), transparent);
+    mask-image: linear-gradient(to right, #000 calc(100% - 1.75rem), transparent);
   }
-  .filter-group:not(.is-expanded) .filter-pill-extra,
-  .filter-date-section:not(.is-expanded) .filter-pill-extra {
+  .filter-pills::-webkit-scrollbar {
     display: none;
+  }
+  .filter-pills > .pretty-pill {
+    flex-shrink: 0;
   }
 
   /* Feed header: search and close on one line, the shared bar underneath. */

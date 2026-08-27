@@ -1,76 +1,16 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import clsx from 'clsx';
 import type { DanceStyle, DayOfWeek } from '@/types/event';
 import { STYLE_LABELS, STYLE_PILL_CLASS } from '@/lib/constants';
-import { FILTER_STYLES, PRIMARY_STYLES, DAYS, DAY_SHORT, PRIMARY_DAYS } from '@/lib/filter-options';
+import { FILTER_STYLES, DAYS, DAY_SHORT } from '@/lib/filter-options';
 import { dayToIso, isoToDay } from '@/lib/dates';
 import { computePresetRange, DATE_PRESETS, PRESET_LABELS, type DatePreset } from '@/lib/date-presets';
 import DateRangeSlider, { type DateRangeValue } from './DateRangeSlider';
 
 function toggle<T>(list: T[], item: T): T[] {
   return list.includes(item) ? list.filter(x => x !== item) : [...list, item];
-}
-
-/** True only where the rows actually collapse. Starts false so the server and
- *  the first paint agree on the wider layout; which pills are visible is decided
- *  in CSS either way, so nothing moves when this flips after hydration. */
-function useCollapsibleRows(): boolean {
-  const [collapsible, setCollapsible] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia('(max-width: 640px)');
-    const sync = () => setCollapsible(mq.matches);
-    sync();
-    mq.addEventListener('change', sync);
-    return () => mq.removeEventListener('change', sync);
-  }, []);
-  return collapsible;
-}
-
-/** Row label. On a phone it is the tap target that reveals the extra pills.
- *  Where every pill is already out there is nothing to reveal, so it renders as
- *  plain text rather than a focusable button that does nothing and misreports
- *  the row as collapsed. */
-export function FilterLabel({
-  children,
-  open,
-  onToggle,
-}: {
-  children: string;
-  open: boolean;
-  onToggle: () => void;
-}) {
-  const collapsible = useCollapsibleRows();
-
-  if (!collapsible) {
-    return <span className="filter-label">{children}</span>;
-  }
-
-  return (
-    <button
-      type="button"
-      className={clsx('filter-label', open && 'is-open')}
-      onClick={onToggle}
-      aria-expanded={open}
-    >
-      {children}
-      <svg
-        className="filter-label-chevron"
-        width="12"
-        height="12"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-      >
-        <polyline points="9 6 15 12 9 18" />
-      </svg>
-    </button>
-  );
 }
 
 /** The two presets worth a permanent chip. Tomorrow / Next 7 Days live behind
@@ -97,22 +37,18 @@ export function StyleFilter({
       >
         Any
       </button>
-      {FILTER_STYLES.map(style => {
-        const extra = !PRIMARY_STYLES.includes(style) && !selected.includes(style);
-        return (
-          <button
-            key={style}
-            onClick={() => onChange(toggle(selected, style))}
-            className={clsx(
-              'pretty-pill text-xs',
-              extra && 'filter-pill-extra',
-              selected.includes(style) ? STYLE_PILL_CLASS[style] : 'pretty-pill-ghost',
-            )}
-          >
-            {STYLE_LABELS[style]}
-          </button>
-        );
-      })}
+      {FILTER_STYLES.map(style => (
+        <button
+          key={style}
+          onClick={() => onChange(toggle(selected, style))}
+          className={clsx(
+            'pretty-pill text-xs',
+            selected.includes(style) ? STYLE_PILL_CLASS[style] : 'pretty-pill-ghost',
+          )}
+        >
+          {STYLE_LABELS[style]}
+        </button>
+      ))}
     </div>
   );
 }
@@ -144,12 +80,9 @@ export function BigEventsToggle({
 export function DayFilter({
   selected,
   onChange,
-  showAll = false,
 }: {
   selected: DayOfWeek[];
   onChange: (days: DayOfWeek[]) => void;
-  /** Skip the phone row's collapsing — the dialog has room for all seven. */
-  showAll?: boolean;
 }) {
   return (
     <div className="filter-pills">
@@ -159,22 +92,18 @@ export function DayFilter({
       >
         Any
       </button>
-      {DAYS.map(day => {
-        const extra = !showAll && !PRIMARY_DAYS.includes(day) && !selected.includes(day);
-        return (
-          <button
-            key={day}
-            onClick={() => onChange(toggle(selected, day))}
-            className={clsx(
-              'pretty-pill text-xs',
-              extra && 'filter-pill-extra',
-              selected.includes(day) ? 'pretty-pill-rose' : 'pretty-pill-ghost',
-            )}
-          >
-            {DAY_SHORT[day]}
-          </button>
-        );
-      })}
+      {DAYS.map(day => (
+        <button
+          key={day}
+          onClick={() => onChange(toggle(selected, day))}
+          className={clsx(
+            'pretty-pill text-xs',
+            selected.includes(day) ? 'pretty-pill-rose' : 'pretty-pill-ghost',
+          )}
+        >
+          {DAY_SHORT[day]}
+        </button>
+      ))}
     </div>
   );
 }
@@ -204,8 +133,7 @@ export function PresetChips({
   );
 }
 
-/** The When row: Any · Today · This Weekend · Big Events · Custom. Rendered as
- *  a fragment so the bar and the sheet keep their own wrappers. */
+/** The When row: Any · Today · This Weekend · Custom · Big Events. */
 export function WhenPills({
   isAny,
   datePreset,
@@ -228,7 +156,7 @@ export function WhenPills({
 }) {
   const customActive = !isAny && !datePreset;
   return (
-    <>
+    <div className="filter-pills">
       <button
         onClick={() => {
           onPresetChange(null);
@@ -247,20 +175,12 @@ export function WhenPills({
           onDateModeChange('custom');
           onOpenCustom();
         }}
-        className={clsx(
-          'pretty-pill text-xs',
-          !customActive && 'filter-pill-extra',
-          customActive ? 'pretty-pill-rose' : 'pretty-pill-ghost',
-        )}
+        className={clsx('pretty-pill text-xs', customActive ? 'pretty-pill-rose' : 'pretty-pill-ghost')}
       >
         {customActive ? customLabel : 'Custom'}
       </button>
-      <BigEventsToggle
-        active={specialOnly}
-        onChange={onSpecialOnlyChange}
-        className={!specialOnly ? 'filter-pill-extra' : undefined}
-      />
-    </>
+      <BigEventsToggle active={specialOnly} onChange={onSpecialOnlyChange} />
+    </div>
   );
 }
 
@@ -403,7 +323,7 @@ export function DateRangeDialog({
             <p className="filter-dialog-hint">
               Only show certain nights inside the range above.
             </p>
-            <DayFilter selected={selectedDays} onChange={onDaysChange} showAll />
+            <DayFilter selected={selectedDays} onChange={onDaysChange} />
           </div>
 
           <div className="filter-dialog-actions">

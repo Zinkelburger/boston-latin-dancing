@@ -181,8 +181,7 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
                 type="button"
                 onClick={onClose}
                 aria-label="Close"
-                className="pretty-pill pretty-pill-neutral shrink-0"
-                style={{ padding: '0.2rem 0.5rem', lineHeight: 1 }}
+                className="pretty-pill pretty-pill-neutral shrink-0 text-xs event-popup-close"
               >
                 &#x2715;
               </button>

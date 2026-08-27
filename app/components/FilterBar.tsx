@@ -2,9 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import clsx from 'clsx';
 import { formatShort } from '@/lib/dates';
-import { StyleFilter, DayFilter, DateRangeDialog, WhenPills, FilterLabel } from './FilterControls';
+import { StyleFilter, DayFilter, DateRangeDialog, WhenPills } from './FilterControls';
 import type { FilterControlsProps } from './useEventFilters';
 
 type Props = FilterControlsProps & {
@@ -12,13 +11,11 @@ type Props = FilterControlsProps & {
   onViewModeToggle: () => void;
 };
 
-type FilterMenu = 'style' | 'day' | 'when';
-
 /**
  * The one filter surface, identical on phones and desktop: three labelled rows.
- * The only difference is that a phone hides the less-used pills behind the
- * row's arrow, so the bar stays thumb-height without a second UI to maintain.
- * Which pills those are is decided in CSS, so the first paint is right on both.
+ * The only difference is that on a phone each row's pills sit on a horizontal
+ * rail you swipe, with a fade at the edge to say there is more; wider screens
+ * wrap them. Nothing is hidden behind a control on either.
  */
 export default function FilterBar({
   selectedStyles, onStylesChange,
@@ -32,23 +29,17 @@ export default function FilterBar({
   datePreset, onPresetChange,
 }: Props) {
   const [dateDialogOpen, setDateDialogOpen] = useState(false);
-  const [openMenu, setOpenMenu] = useState<FilterMenu | null>(null);
 
   const isAny = dateMode === 'any';
   const dateLabel = `${formatShort(dateSlider.fromDay)} – ${formatShort(dateSlider.toDay)}`;
-  const toggleMenu = (menu: FilterMenu) => {
-    setOpenMenu(current => (current === menu ? null : menu));
-  };
 
   return (
     <div className="filter-bar">
       {/* Style row also carries the actions. On a phone they share its line;
           on desktop `display: contents` drops them into the grid's last row. */}
       <div className="filter-bar-row filter-bar-style-row">
-        <div className={clsx('filter-group', openMenu === 'style' && 'is-expanded')}>
-          <FilterLabel open={openMenu === 'style'} onToggle={() => toggleMenu('style')}>
-            Style
-          </FilterLabel>
+        <div className="filter-group">
+          <span className="filter-label">Style</span>
           <StyleFilter selected={selectedStyles} onChange={onStylesChange} />
         </div>
         <div className="filter-right-actions">
@@ -105,19 +96,15 @@ export default function FilterBar({
       </div>
 
       <div className="filter-bar-row filter-bar-day-row">
-        <div className={clsx('filter-group', openMenu === 'day' && 'is-expanded')}>
-          <FilterLabel open={openMenu === 'day'} onToggle={() => toggleMenu('day')}>
-            Day
-          </FilterLabel>
+        <div className="filter-group">
+          <span className="filter-label">Day</span>
           <DayFilter selected={selectedDays} onChange={onDaysChange} />
         </div>
       </div>
 
       <div className="filter-bar-row filter-bar-date-row">
-        <div className={clsx('filter-date-section', openMenu === 'when' && 'is-expanded')}>
-          <FilterLabel open={openMenu === 'when'} onToggle={() => toggleMenu('when')}>
-            When
-          </FilterLabel>
+        <div className="filter-group">
+          <span className="filter-label">When</span>
           <WhenPills
             isAny={isAny}
             datePreset={datePreset}

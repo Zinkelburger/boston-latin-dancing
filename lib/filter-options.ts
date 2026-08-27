@@ -1,13 +1,5 @@
 import type { DanceStyle, DayOfWeek } from '@/types/event';
 
-/** Weekdays always visible in the phone day row. Fri–Sun sit behind the arrow.
- *  Kept as a plain Mon-first prefix so the row always reads in calendar order —
- *  revealing the rest appends, it never reshuffles what you were looking at. */
-export const PRIMARY_DAYS: DayOfWeek[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday'];
-
-/** Styles always visible in the phone style row. The rest sit behind the arrow. */
-export const PRIMARY_STYLES: DanceStyle[] = ['bachata', 'salsa'];
-
 /** Every dance style that can appear on an event, in display order. */
 export const ALL_STYLES: DanceStyle[] = ['bachata', 'salsa', 'kizomba', 'zouk', 'merengue', 'other'];
 
