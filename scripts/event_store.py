@@ -2320,6 +2320,58 @@ def archive_past_events() -> list[dict]:
     return newly_archived
 
 
+def _merge_into_archived(event: dict, candidate_id: str) -> Optional[dict]:
+    """Merge an approved event into its dedup candidate when that candidate is
+    already archived. Returns None when the candidate is not there, leaving the
+    caller on the ordinary add_event() path.
+
+    approve_pending() lands its event with add_event(force=True), and force
+    deliberately skips add_event's archive-match branch. So approving a dedup
+    pair whose candidate had already been archived appended a second copy to
+    active instead of merging, and archive_past_events() then filed it beside
+    the original — one past festival, two archive rows, two searchable ghosts
+    (Boston Salsa Fest, 2026-08-27). Approval knows the candidate's id
+    outright, so send the merge to wherever that candidate actually lives.
+    """
+    if any(e.get("id") == candidate_id for e in load_active()):
+        return None
+
+    archive = load_archive()
+    idx = next((i for i, e in enumerate(archive) if e.get("id") == candidate_id), None)
+    if idx is None:
+        return None
+
+    archived = archive[idx]
+    confidence = dedup_confidence(archived, event) or "review"
+    reason = _dedup_reason(archived, event, confidence)
+    merged = merge_event(archived, event)
+    _enrich_event(merged)
+
+    # Approving a still-upcoming event has to put it back on the map; one whose
+    # merged dates have already passed stays filed. Same cutoff
+    # archive_past_events() uses, so the two can never disagree and bounce a
+    # record between the stores.
+    last = last_occurrence(merged)
+    if last is not None and last >= datetime.now(timezone.utc) - timedelta(hours=24):
+        archive.pop(idx)
+        save_archive(archive)
+        merged["reactivatedAt"] = datetime.now(timezone.utc).isoformat()
+        active = load_active()
+        active.append(merged)
+        save_active(active)
+        _clear_stale_rejected(merged["id"])
+        _log_dedup("reactivate", archived, event, confidence, reason)
+        _append_changelog("reactivate", merged["id"],
+                          f"approved {event['id']} merged into archived {candidate_id}")
+        return {"status": "reactivated", "confidence": confidence, "event": merged}
+
+    archive[idx] = merged
+    save_archive(archive)
+    _log_dedup("approve_merge", archived, event, confidence, reason)
+    _append_changelog("merge", event["id"], f"folded into archived {candidate_id}")
+    return {"status": "merged_into_archive", "confidence": confidence, "event": merged}
+
+
 def approve_pending(event_id: str, force: bool = False) -> dict:
     """Approve a pending event, moving it to active.
 
@@ -2327,6 +2379,10 @@ def approve_pending(event_id: str, force: bool = False) -> dict:
     and persists a permanent ``verdict:"same"`` so future occurrences auto-merge
     with no review. Because that is silent and compounding, this refuses to merge
     across a special-edition boundary unless ``force=True``.
+
+    The candidate may already be archived, in which case the merge happens there
+    — see _merge_into_archived. The merged record only returns to active if its
+    dates are still ahead.
     """
     pending = load_pending()
     idx = None
@@ -2371,7 +2427,9 @@ def approve_pending(event_id: str, force: bool = False) -> dict:
         event.pop(key, None)
 
     issues = validate_event(event)
-    result = add_event(event, force=True)
+    result = _merge_into_archived(event, candidate_id) if candidate_id else None
+    if result is None:
+        result = add_event(event, force=True)
     if issues:
         result["warnings"] = issues
     # An approved event with no coordinates renders no map pin — it is live but
