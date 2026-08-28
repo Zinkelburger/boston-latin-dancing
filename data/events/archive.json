@@ -2792,7 +2792,10 @@
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.eventbrite.com/e/boston-salsa-festival-2026-registration-1591571175229",
     "special": true,
-    "archivedAt": "2026-08-27T20:36:13.380522+00:00"
+    "archivedAt": "2026-08-27T20:36:13.380522+00:00",
+    "urls": [
+      "https://jandldancestudio.com/events"
+    ]
   },
   {
     "id": "manual-bsf-preparty-20260820-0",
@@ -2870,30 +2873,6 @@
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.eventbrite.com/e/noche-latina-august-salsa-workshop-and-practica-tickets-1996444933539",
     "archivedAt": "2026-08-27T20:36:13.380522+00:00"
-  },
-  {
-    "id": "jandl-20260821-boston-salsa-fest",
-    "name": "Boston Salsa Fest",
-    "startDate": "2026-08-21T00:00:00-04:00",
-    "endDate": "2026-08-23T00:00:00-04:00",
-    "dayOfWeek": "Friday",
-    "location": "Boston, MA",
-    "lat": 42.3588336,
-    "lng": -71.0578303,
-    "description": "Listed on J&L Dance Studio's upcoming-events bar as Boston Salsa Fest. This is an event J&L is promoting — venue is not the Malden studio. J&L promo code: jnl26.",
-    "url": "https://jandldancestudio.com/events",
-    "styles": [
-      "salsa"
-    ],
-    "cost": null,
-    "recurring": false,
-    "source": "jandl-events",
-    "organizer": "J&L Dance Studio",
-    "_verified_at": "2026-08-27T20:44:47.995788+00:00",
-    "_verified_status": "reachable_only",
-    "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
-    "_verification_url": "https://jandldancestudio.com/events",
-    "archivedAt": "2026-08-27T21:15:23.675461+00:00"
   },
   {
     "id": "130F0122-6C01-443F-AD1D-5B40E8F046CF",
