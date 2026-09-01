@@ -12,5 +12,15 @@ ExecStart=/opt/bld-api/venv/bin/uvicorn server:app --host 127.0.0.1 --port 8001
 Restart=on-failure
 RestartSec=5
 
+# Hardening. The service only needs to read its own code/venv/.env and write
+# the submissions store (BLD_SUBMISSIONS_PATH, its .lock sidecar, and the
+# archive/corrupt files next to it), all under /opt/bld-api.
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/opt/bld-api
+UMask=0077
+
 [Install]
 WantedBy=multi-user.target
