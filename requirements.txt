@@ -1,5 +1,7 @@
-requests
-beautifulsoup4
-icalendar
-python-dateutil
-mcp
+# Runtime deps for scripts/ and mcp-server/. Pinned so a fresh VPS clone
+# gets the versions the pipeline was tested against; bump deliberately.
+requests==2.34.2
+beautifulsoup4==4.15.0
+icalendar==7.2.2
+python-dateutil==2.9.0.post0
+mcp==2.0.0
