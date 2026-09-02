@@ -52,9 +52,7 @@ function expandAndGroup(
     }
   }
 
-  entries.sort(
-    (a, b) => new Date(a.displayDate).getTime() - new Date(b.displayDate).getTime(),
-  );
+  entries.sort((a, b) => new Date(a.displayDate).getTime() - new Date(b.displayDate).getTime());
 
   const groups = new Map<string, FeedEntry[]>();
   for (const entry of entries) {
@@ -85,7 +83,12 @@ type Props = {
 const CARD_DESC_LEN = 120;
 
 export default function FeedView({
-  controls, events, fromMs, toMs, onSelectEvent, onViewModeToggle,
+  controls,
+  events,
+  fromMs,
+  toMs,
+  onSelectEvent,
+  onViewModeToggle,
 }: Props) {
   const { selectedDays } = controls;
   const [search, setSearch] = useState('');
@@ -95,7 +98,7 @@ export default function FeedView({
   const searchTokens = useMemo(() => tokenize(trimmed), [trimmed]);
 
   const filtered = useMemo(
-    () => trimmed ? events.filter(e => matchEvent(e, search)) : events,
+    () => (trimmed ? events.filter(e => matchEvent(e, search)) : events),
     [events, search, trimmed],
   );
 
@@ -113,8 +116,17 @@ export default function FeedView({
       <div className="feed-header">
         <div className="feed-search-row">
           <div className="feed-search-wrap">
-            <svg className="feed-search-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path fillRule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clipRule="evenodd" />
+            <svg
+              className="feed-search-icon"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fillRule="evenodd"
+                d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+                clipRule="evenodd"
+              />
             </svg>
             <input
               type="text"
@@ -134,23 +146,24 @@ export default function FeedView({
               </button>
             )}
           </div>
-          <button
-            onClick={onViewModeToggle}
-            className="feed-close-btn"
-            aria-label="Close feed"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <button onClick={onViewModeToggle} className="feed-close-btn" aria-label="Close feed">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           </button>
         </div>
 
-        <FilterBar
-          controls={controls}
-          viewMode="feed"
-          onViewModeToggle={onViewModeToggle}
-        />
+        <FilterBar controls={controls} viewMode="feed" onViewModeToggle={onViewModeToggle} />
       </div>
 
       <div className="feed-scroll">
@@ -197,11 +210,12 @@ function FeedCard({
   searchTokens: string[];
 }) {
   const cleanDesc = cleanDisplayText(event.description);
-  const shortDesc = searchTokens.length > 0
-    ? excerptAround(cleanDesc, searchTokens, { maxLen: CARD_DESC_LEN, ellipsis: '...' })
-    : cleanDesc.length > CARD_DESC_LEN
-      ? cleanDesc.slice(0, cleanDesc.lastIndexOf(' ', CARD_DESC_LEN)) + '...'
-      : cleanDesc;
+  const shortDesc =
+    searchTokens.length > 0
+      ? excerptAround(cleanDesc, searchTokens, { maxLen: CARD_DESC_LEN, ellipsis: '...' })
+      : cleanDesc.length > CARD_DESC_LEN
+        ? cleanDesc.slice(0, cleanDesc.lastIndexOf(' ', CARD_DESC_LEN)) + '...'
+        : cleanDesc;
 
   const shareUrl = event.slug ? `${SITE_URL}/event/${event.slug}` : '';
   const scheduleTime = event.recurrences ? scheduleTimeForDate(event, displayDate) : null;
@@ -209,31 +223,40 @@ function FeedCard({
 
   const hl = (text: string) => highlightText(text, searchTokens);
 
-  const dateText = event.schedule && event.schedule.length > 0
-    ? formatRecurrenceDate(displayDate)
-    : scheduleTime
-      ? `${formatRecurrenceDate(displayDate)} · ${scheduleTime}`
-      : isDateOnlyEvent(event.startDate, event.endDate)
-        ? formatRecurrenceDate(displayDate)
-        : `${formatRecurrenceDate(displayDate)} · ${formatRecurrenceTime(event.startDate)} – ${formatRecurrenceTime(event.endDate)}`;
+  const dateText =
+    event.schedule && event.schedule.length > 0
+      ? formatRecurrenceDate(displayDate)
+      : scheduleTime
+        ? `${formatRecurrenceDate(displayDate)} · ${scheduleTime}`
+        : isDateOnlyEvent(event.startDate, event.endDate)
+          ? formatRecurrenceDate(displayDate)
+          : `${formatRecurrenceDate(displayDate)} · ${formatRecurrenceTime(event.startDate)} – ${formatRecurrenceTime(event.endDate)}`;
 
   return (
-    <div role="button" tabIndex={0} className="feed-card" onClick={onSelect} onKeyDown={e => { if (e.key === 'Enter') onSelect(); }}>
+    <div
+      role="button"
+      tabIndex={0}
+      className="feed-card"
+      onClick={onSelect}
+      onKeyDown={e => {
+        if (e.key === 'Enter') onSelect();
+      }}
+    >
       {/* Name first — the pills only mean something once you know what they
           are describing. Styles next, then status, then the facts. */}
       <div className="feed-card-top">
         <h3 className="feed-card-title">
-          {shareUrl
-            ? <a href={`/event/${event.slug}`} onClick={e => e.stopPropagation()}>{hl(event.name)}</a>
-            : hl(event.name)}
+          {shareUrl ? (
+            <a href={`/event/${event.slug}`} onClick={e => e.stopPropagation()}>
+              {hl(event.name)}
+            </a>
+          ) : (
+            hl(event.name)
+          )}
         </h3>
         {shareUrl && (
           <div onClick={e => e.stopPropagation()}>
-            <ShareButton
-              url={shareUrl}
-              title={event.name}
-              className="shrink-0 text-xs"
-            />
+            <ShareButton url={shareUrl} title={event.name} className="shrink-0 text-xs" />
           </div>
         )}
       </div>
@@ -241,10 +264,7 @@ function FeedCard({
       {event.styles.length > 0 && (
         <div className="feed-card-pills">
           {event.styles.map(style => (
-            <span
-              key={style}
-              className={`pretty-pill ${STYLE_PILL_CLASS[style]} text-xs`}
-            >
+            <span key={style} className={`pretty-pill ${STYLE_PILL_CLASS[style]} text-xs`}>
               {hl(STYLE_LABELS[style])}
             </span>
           ))}
@@ -259,34 +279,24 @@ function FeedCard({
             </span>
           )}
           {event.recurring && !recurrenceLabel && (
-            <span className="pretty-pill pretty-pill-neutral text-xs">
-              Recurring
-            </span>
+            <span className="pretty-pill pretty-pill-neutral text-xs">Recurring</span>
           )}
           {event.special && (
-            <span className="pretty-pill pretty-pill-fuchsia text-xs">
-              Big Event
-            </span>
+            <span className="pretty-pill pretty-pill-fuchsia text-xs">Big Event</span>
           )}
           {event.nextDateApproximate && (
-            <span className="pretty-pill pretty-pill-amber text-xs">
-              Date unconfirmed
-            </span>
+            <span className="pretty-pill pretty-pill-amber text-xs">Date unconfirmed</span>
           )}
         </div>
       )}
 
       <div className="feed-card-facts">
         <MetaRow icon="calendar">{dateText}</MetaRow>
-        {event.location && (
-          <MetaRow icon="pin">{hl(event.location)}</MetaRow>
-        )}
+        {event.location && <MetaRow icon="pin">{hl(event.location)}</MetaRow>}
         {event.cost && <MetaRow icon="cost">{event.cost}</MetaRow>}
       </div>
 
-      {shortDesc && (
-        <p className="feed-card-desc">{hl(shortDesc)}</p>
-      )}
+      {shortDesc && <p className="feed-card-desc">{hl(shortDesc)}</p>}
     </div>
   );
 }

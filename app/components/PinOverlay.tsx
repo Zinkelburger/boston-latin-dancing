@@ -32,17 +32,20 @@ type Props = {
 
 const TILE = 512;
 
-function project(lng: number, lat: number, view: MapViewState, w: number, h: number): [number, number] {
+function project(
+  lng: number,
+  lat: number,
+  view: MapViewState,
+  w: number,
+  h: number,
+): [number, number] {
   const scale = TILE * Math.pow(2, view.zoom);
   const toX = (l: number) => ((l + 180) / 360) * scale;
   const toY = (la: number) => {
     const r = (la * Math.PI) / 180;
     return ((1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2) * scale;
   };
-  return [
-    toX(lng) - toX(view.longitude) + w / 2,
-    toY(lat) - toY(view.latitude) + h / 2,
-  ];
+  return [toX(lng) - toX(view.longitude) + w / 2, toY(lat) - toY(view.latitude) + h / 2];
 }
 
 export default function PinOverlay({ geojson, view, highlightedId, onSelect, onClear }: Props) {
@@ -69,40 +72,44 @@ export default function PinOverlay({ geojson, view, highlightedId, onSelect, onC
       onClick={onClear}
       data-testid="pin-overlay"
     >
-      {size.w > 0 && geojson.features.map(f => {
-        const [lng, lat] = f.geometry.coordinates;
-        const [x, y] = project(lng, lat, view, size.w, size.h);
-        if (x < -24 || y < -24 || x > size.w + 24 || y > size.h + 24) return null;
-        const { id, __color, __special, __name } = f.properties;
-        // Match the maplibre circle layer: radius 7 / stroke 2, or 9 / 3 gold
-        // for big events. maplibre draws the stroke outside the radius.
-        const diameter = __special ? 24 : 18;
-        const border = __special ? '3px solid #facc15' : '2px solid #ffffff';
-        const highlighted = id === highlightedId;
-        return (
-          <button
-            key={id}
-            type="button"
-            aria-label={__name}
-            onClick={e => { e.stopPropagation(); onSelect(id); }}
-            style={{
-              position: 'absolute',
-              borderRadius: '9999px',
-              padding: 0,
-              cursor: 'pointer',
-              left: x,
-              top: y,
-              width: diameter,
-              height: diameter,
-              transform: 'translate(-50%, -50%)',
-              background: __color,
-              border,
-              boxSizing: 'border-box',
-              boxShadow: highlighted ? `0 0 0 3px ${__color}99` : undefined,
-            }}
-          />
-        );
-      })}
+      {size.w > 0 &&
+        geojson.features.map(f => {
+          const [lng, lat] = f.geometry.coordinates;
+          const [x, y] = project(lng, lat, view, size.w, size.h);
+          if (x < -24 || y < -24 || x > size.w + 24 || y > size.h + 24) return null;
+          const { id, __color, __special, __name } = f.properties;
+          // Match the maplibre circle layer: radius 7 / stroke 2, or 9 / 3 gold
+          // for big events. maplibre draws the stroke outside the radius.
+          const diameter = __special ? 24 : 18;
+          const border = __special ? '3px solid #facc15' : '2px solid #ffffff';
+          const highlighted = id === highlightedId;
+          return (
+            <button
+              key={id}
+              type="button"
+              aria-label={__name}
+              onClick={e => {
+                e.stopPropagation();
+                onSelect(id);
+              }}
+              style={{
+                position: 'absolute',
+                borderRadius: '9999px',
+                padding: 0,
+                cursor: 'pointer',
+                left: x,
+                top: y,
+                width: diameter,
+                height: diameter,
+                transform: 'translate(-50%, -50%)',
+                background: __color,
+                border,
+                boxSizing: 'border-box',
+                boxShadow: highlighted ? `0 0 0 3px ${__color}99` : undefined,
+              }}
+            />
+          );
+        })}
     </div>
   );
 }

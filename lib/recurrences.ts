@@ -18,10 +18,7 @@ import { DAY_NAMES } from '@/lib/filter-options';
 export const UPCOMING_MAX = 3;
 
 /** Next `maxCount` recurrence ISO strings on or after today. */
-export function upcomingRecurrences(
-  dates: string[],
-  maxCount: number = UPCOMING_MAX,
-): string[] {
+export function upcomingRecurrences(dates: string[], maxCount: number = UPCOMING_MAX): string[] {
   const today = bostonStartOfDay(Date.now());
 
   return dates
@@ -31,11 +28,7 @@ export function upcomingRecurrences(
 }
 
 /** Recurrence ISO strings whose start time falls within [fromMs, toMs] (inclusive). */
-export function recurrencesInRange(
-  dates: string[],
-  fromMs: number,
-  toMs: number,
-): string[] {
+export function recurrencesInRange(dates: string[], fromMs: number, toMs: number): string[] {
   return dates
     .filter(iso => {
       const ms = new Date(iso).getTime();
@@ -44,10 +37,7 @@ export function recurrencesInRange(
     .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
 }
 
-type OccurrenceSource = Pick<
-  DanceEvent,
-  'startDate' | 'recurrences' | 'nextDateApproximate'
->;
+type OccurrenceSource = Pick<DanceEvent, 'startDate' | 'recurrences' | 'nextDateApproximate'>;
 
 /** Whether an event has any occurrence in the map/feed date window. */
 export function eventMatchesDateRange(
@@ -75,9 +65,7 @@ export function occurrencesInRange(
   fromMs: number,
   toMs: number,
 ): string[] {
-  const from = event.nextDateApproximate
-    ? Math.max(fromMs, bostonStartOfDay(Date.now()))
-    : fromMs;
+  const from = event.nextDateApproximate ? Math.max(fromMs, bostonStartOfDay(Date.now())) : fromMs;
 
   let all: string[];
   if (event.recurrences?.length) {
@@ -122,7 +110,10 @@ type DisplayOccurrenceOpts = {
 
 /** Resolve which occurrence to show in cards/popups for a filtered recurring event. */
 export function resolveDisplayOccurrence(
-  event: Pick<DanceEvent, 'startDate' | 'endDate' | 'recurrences' | 'recurring' | 'nextDateApproximate'>,
+  event: Pick<
+    DanceEvent,
+    'startDate' | 'endDate' | 'recurrences' | 'recurring' | 'nextDateApproximate'
+  >,
   opts: DisplayOccurrenceOpts = {},
 ): { start: string; end: string } {
   const { displayDate, fromMs, toMs } = opts;
@@ -161,8 +152,9 @@ export function matchesDay(
   range: { fromMs: number; toMs: number },
 ): boolean {
   if (days.length === 0) return true;
-  return occurrencesInRange(event, range.fromMs, range.toMs)
-    .some(iso => occurrenceMatchesDays(iso, days));
+  return occurrencesInRange(event, range.fromMs, range.toMs).some(iso =>
+    occurrenceMatchesDays(iso, days),
+  );
 }
 
 export function formatRecurrenceDate(iso: string): string {
@@ -184,7 +176,15 @@ export function formatRecurrenceTime(iso: string): string {
 
 const TZ_OPTS = { timeZone: 'America/New_York' } as const;
 
-const DATE_PARTS_FMT = new Intl.DateTimeFormat('en-US', { ...TZ_OPTS, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+const DATE_PARTS_FMT = new Intl.DateTimeFormat('en-US', {
+  ...TZ_OPTS,
+  hourCycle: 'h23',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+});
 
 function dateParts(d: Date): Record<string, string> {
   const p: Record<string, string> = {};
@@ -197,9 +197,13 @@ export function isDateOnlyEvent(start: string, end: string): boolean {
   const sp = dateParts(new Date(start));
   const ep = dateParts(new Date(end));
   return (
-    sp.year === ep.year && sp.month === ep.month && sp.day === ep.day
-    && sp.hour === '00' && sp.minute === '00'
-    && ep.hour === '00' && ep.minute === '00'
+    sp.year === ep.year &&
+    sp.month === ep.month &&
+    sp.day === ep.day &&
+    sp.hour === '00' &&
+    sp.minute === '00' &&
+    ep.hour === '00' &&
+    ep.minute === '00'
   );
 }
 
@@ -228,37 +232,70 @@ export function formatEventTimeRange(start: string, end: string): string {
   const s = new Date(start);
   const e = new Date(end);
   const dateStr = s.toLocaleDateString('en-US', {
-    weekday: 'short', month: 'short', day: 'numeric', timeZone: 'America/New_York',
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'America/New_York',
   });
   if (isDateOnlyEvent(start, end)) return dateStr;
 
   if (isMultiDayAllDayEvent(start, end)) {
     const last = allDayLastDay(end);
     const lastStr = last.toLocaleDateString('en-US', {
-      weekday: 'short', month: 'short', day: 'numeric', timeZone: 'America/New_York',
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+      timeZone: 'America/New_York',
     });
     return lastStr === dateStr ? dateStr : `${dateStr} – ${lastStr}`;
   }
 
-  const startTime = s.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' });
-  const endTime = e.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' });
+  const startTime = s.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZone: 'America/New_York',
+  });
+  const endTime = e.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZone: 'America/New_York',
+  });
 
-  const sDateStr = s.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'America/New_York' });
-  const eDateStr = e.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'America/New_York' });
+  const sDateStr = s.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    timeZone: 'America/New_York',
+  });
+  const eDateStr = e.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    timeZone: 'America/New_York',
+  });
   const sameDay = sDateStr === eDateStr;
 
-  const sameEvening = !sameDay
-    && (e.getTime() - s.getTime()) < 12 * 60 * 60 * 1000
-    && (() => {
+  const sameEvening =
+    !sameDay &&
+    e.getTime() - s.getTime() < 12 * 60 * 60 * 1000 &&
+    (() => {
       const p: Record<string, string> = {};
-      for (const part of new Intl.DateTimeFormat('en-US', { ...TZ_OPTS, hourCycle: 'h23', hour: '2-digit' }).formatToParts(e)) p[part.type] = part.value;
+      for (const part of new Intl.DateTimeFormat('en-US', {
+        ...TZ_OPTS,
+        hourCycle: 'h23',
+        hour: '2-digit',
+      }).formatToParts(e))
+        p[part.type] = part.value;
       return +p.hour < 6;
     })();
 
   if (sameDay || sameEvening) return `${dateStr}, ${startTime} – ${endTime}`;
 
   const endDateStr = e.toLocaleDateString('en-US', {
-    weekday: 'short', month: 'short', day: 'numeric', timeZone: 'America/New_York',
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'America/New_York',
   });
   return `${dateStr} ${startTime} – ${endDateStr} ${endTime}`;
 }
@@ -276,7 +313,11 @@ export function recurrenceTimeRange(event: DanceEvent, recurrenceIso: string): s
   const end = new Date(start.getTime() + durationMs);
 
   const startTime = formatRecurrenceTime(recurrenceIso);
-  const endTime = end.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' });
+  const endTime = end.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZone: 'America/New_York',
+  });
   return `${startTime} – ${endTime}`;
 }
 
@@ -295,12 +336,12 @@ export function recurrenceSlotKey(event: DanceEvent, recurrenceIso: string): str
 function noteIsInLabel(note: string | undefined): boolean {
   const noteLower = (note ?? '').toLowerCase();
   return (
-    noteLower.includes('every other')
-    || noteLower.includes('alternating')
-    || /(\d)(?:st|nd|rd|th)\s+\w+day/.test(noteLower)
-    || /\b1st\b/.test(noteLower)
-    || noteLower.includes('of each month')
-    || noteLower.includes('of the month')
+    noteLower.includes('every other') ||
+    noteLower.includes('alternating') ||
+    /(\d)(?:st|nd|rd|th)\s+\w+day/.test(noteLower) ||
+    /\b1st\b/.test(noteLower) ||
+    noteLower.includes('of each month') ||
+    noteLower.includes('of the month')
   );
 }
 

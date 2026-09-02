@@ -10,7 +10,11 @@ export function tokenize(query: string): string[] {
 
 /** Lowercase, strip punctuation, collapse whitespace — for name-equality matching. */
 export function normalizeEventName(name: string): string {
-  return name.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, ' ').trim();
+  return name
+    .toLowerCase()
+    .replace(/[^\w\s]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 function venueKey(location: string | null | undefined): string {
@@ -44,15 +48,26 @@ export function isSameSeries(a: DanceEvent, b: DanceEvent): boolean {
 
 /** Words so common on dance listings that sharing them proves nothing. */
 const DANCE_STOPWORDS = new Set([
-  'salsa', 'bachata', 'kizomba', 'zouk', 'merengue', 'latin',
-  'social', 'dance', 'dancing', 'night', 'party', 'boston',
-  'class', 'workshop', 'lesson', 'free',
+  'salsa',
+  'bachata',
+  'kizomba',
+  'zouk',
+  'merengue',
+  'latin',
+  'social',
+  'dance',
+  'dancing',
+  'night',
+  'party',
+  'boston',
+  'class',
+  'workshop',
+  'lesson',
+  'free',
 ]);
 
 function significantWords(normalizedName: string): Set<string> {
-  return new Set(
-    normalizedName.split(' ').filter(w => w.length > 2 && !DANCE_STOPWORDS.has(w)),
-  );
+  return new Set(normalizedName.split(' ').filter(w => w.length > 2 && !DANCE_STOPWORDS.has(w)));
 }
 
 function sameVenue(a: DanceEvent, b: DanceEvent): boolean {
@@ -73,7 +88,10 @@ function sameVenue(a: DanceEvent, b: DanceEvent): boolean {
  * shorter name, ignoring dance stopwords. Loose word overlap alone matched
  * every "Salsa Social" to every other, so it is never used without the venue.
  */
-export function findActiveInstance(event: DanceEvent, events: DanceEvent[]): DanceEvent | undefined {
+export function findActiveInstance(
+  event: DanceEvent,
+  events: DanceEvent[],
+): DanceEvent | undefined {
   if (!event.archived) return undefined;
 
   const candidates = events.filter(e => !e.archived && e.id !== event.id && e.slug);

@@ -6,7 +6,12 @@ import type { DanceStyle, DayOfWeek } from '@/types/event';
 import { STYLE_LABELS, STYLE_PILL_CLASS } from '@/lib/constants';
 import { FILTER_STYLES, DAYS, DAY_SHORT } from '@/lib/filter-options';
 import { dayToIso, isoToDay } from '@/lib/dates';
-import { computePresetRange, DATE_PRESETS, PRESET_LABELS, type DatePreset } from '@/lib/date-presets';
+import {
+  computePresetRange,
+  DATE_PRESETS,
+  PRESET_LABELS,
+  type DatePreset,
+} from '@/lib/date-presets';
 import DateRangeSlider, { type DateRangeValue } from './DateRangeSlider';
 
 function toggle<T>(list: T[], item: T): T[] {
@@ -35,7 +40,10 @@ export function StyleFilter({
         type="button"
         onClick={() => onChange([])}
         aria-pressed={selected.length === 0}
-        className={clsx('pretty-pill text-xs', selected.length === 0 ? 'pretty-pill-rose' : 'pretty-pill-ghost')}
+        className={clsx(
+          'pretty-pill text-xs',
+          selected.length === 0 ? 'pretty-pill-rose' : 'pretty-pill-ghost',
+        )}
       >
         Any
       </button>
@@ -72,9 +80,23 @@ export function BigEventsToggle({
       type="button"
       onClick={() => onChange(!active)}
       aria-pressed={active}
-      className={clsx('pretty-pill text-xs', className, active ? 'pretty-pill-fuchsia' : 'pretty-pill-ghost')}
+      className={clsx(
+        'pretty-pill text-xs',
+        className,
+        active ? 'pretty-pill-fuchsia' : 'pretty-pill-ghost',
+      )}
     >
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
       </svg>
       Big Events
@@ -96,7 +118,10 @@ export function DayFilter({
         type="button"
         onClick={() => onChange([])}
         aria-pressed={selected.length === 0}
-        className={clsx('pretty-pill text-xs', selected.length === 0 ? 'pretty-pill-rose' : 'pretty-pill-ghost')}
+        className={clsx(
+          'pretty-pill text-xs',
+          selected.length === 0 ? 'pretty-pill-rose' : 'pretty-pill-ghost',
+        )}
       >
         Any
       </button>
@@ -137,7 +162,10 @@ export function PresetChips({
           type="button"
           onClick={() => onPresetChange(datePreset === preset ? null : preset)}
           aria-pressed={datePreset === preset}
-          className={clsx('pretty-pill text-xs', datePreset === preset ? 'pretty-pill-rose' : 'pretty-pill-ghost')}
+          className={clsx(
+            'pretty-pill text-xs',
+            datePreset === preset ? 'pretty-pill-rose' : 'pretty-pill-ghost',
+          )}
         >
           {PRESET_LABELS[preset]}
         </button>
@@ -193,7 +221,10 @@ export function WhenPills({
         }}
         aria-pressed={customActive}
         aria-haspopup="dialog"
-        className={clsx('pretty-pill text-xs', customActive ? 'pretty-pill-rose' : 'pretty-pill-ghost')}
+        className={clsx(
+          'pretty-pill text-xs',
+          customActive ? 'pretty-pill-rose' : 'pretty-pill-ghost',
+        )}
       >
         {customActive ? customLabel : 'Custom'}
       </button>
@@ -202,7 +233,8 @@ export function WhenPills({
   );
 }
 
-const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
+const FOCUSABLE =
+  'a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
 
 /** Modal date-range picker: slider + From/To inputs + Reset/Done.
  *  Closes on outside-click and Escape; keeps keyboard focus inside while open
@@ -315,7 +347,8 @@ export function DateRangeDialog({
             <div className="filter-dialog-presets">
               {DATE_PRESETS.map(preset => {
                 const range = computePresetRange(preset);
-                const active = dateMode === 'custom' && range != null && rangesMatch(dateSlider, range);
+                const active =
+                  dateMode === 'custom' && range != null && rangesMatch(dateSlider, range);
                 return (
                   <button
                     key={preset}
@@ -326,7 +359,10 @@ export function DateRangeDialog({
                       onDateSliderChange(range);
                     }}
                     aria-pressed={active}
-                    className={clsx('pretty-pill text-xs', active ? 'pretty-pill-rose' : 'pretty-pill-ghost')}
+                    className={clsx(
+                      'pretty-pill text-xs',
+                      active ? 'pretty-pill-rose' : 'pretty-pill-ghost',
+                    )}
                   >
                     {PRESET_LABELS[preset]}
                   </button>
@@ -382,9 +418,7 @@ export function DateRangeDialog({
 
           <div className="filter-dialog-presets-wrap">
             <p className="filter-dialog-presets-label">Days of the week</p>
-            <p className="filter-dialog-hint">
-              Only show certain nights inside the range above.
-            </p>
+            <p className="filter-dialog-hint">Only show certain nights inside the range above.</p>
             <DayFilter selected={selectedDays} onChange={onDaysChange} />
           </div>
 

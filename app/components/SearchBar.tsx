@@ -53,7 +53,11 @@ export default function SearchBar({ events, onSelectEvent }: Props) {
   const showDropdown = open && q.length >= 2;
 
   return (
-    <div ref={wrapperRef} className="absolute z-10 w-[25rem] max-w-[calc(100%-2rem)]" style={{ top: '1rem', left: '1rem' }}>
+    <div
+      ref={wrapperRef}
+      className="absolute z-10 w-[25rem] max-w-[calc(100%-2rem)]"
+      style={{ top: '1rem', left: '1rem' }}
+    >
       <div className="relative">
         <input
           ref={inputRef}
@@ -75,7 +79,11 @@ export default function SearchBar({ events, onSelectEvent }: Props) {
           {eventResults.length === 0 ? (
             <div className="px-4 py-3 text-sm text-gray-400">No results</div>
           ) : (
-            <SearchResultsTable events={eventResults} onSelect={handleSelect} searchTokens={tokens} />
+            <SearchResultsTable
+              events={eventResults}
+              onSelect={handleSelect}
+              searchTokens={tokens}
+            />
           )}
         </div>
       )}

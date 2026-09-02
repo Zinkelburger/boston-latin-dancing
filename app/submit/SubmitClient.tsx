@@ -97,9 +97,7 @@ export default function SubmitClient() {
   }, []);
 
   const toggleStyle = (s: DanceStyle) => {
-    setStyles(prev =>
-      prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s],
-    );
+    setStyles(prev => (prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s]));
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -180,8 +178,19 @@ export default function SubmitClient() {
             <p className="text-sm" style={{ color: '#4b5563' }}>
               Submitted! We&apos;ll review your event.
             </p>
-            <div style={{ marginTop: '1.5rem', display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
-              <Link href="/" className="pretty-pill pretty-pill-ghost text-sm" style={{ textDecoration: 'none' }}>
+            <div
+              style={{
+                marginTop: '1.5rem',
+                display: 'flex',
+                gap: '0.75rem',
+                justifyContent: 'center',
+              }}
+            >
+              <Link
+                href="/"
+                className="pretty-pill pretty-pill-ghost text-sm"
+                style={{ textDecoration: 'none' }}
+              >
                 Back to map
               </Link>
               <button onClick={resetForm} className="pretty-pill pretty-pill-rose text-sm">
@@ -194,7 +203,9 @@ export default function SubmitClient() {
             {/* ── Contact ── */}
             <fieldset className="submit-section">
               <legend className="submit-section-label">How we reach you</legend>
-              <p className="submit-hint">Email or Instagram — we only need one so we can follow up.</p>
+              <p className="submit-hint">
+                Email or Instagram — we only need one so we can follow up.
+              </p>
               <div className="submit-row">
                 <div className="submit-field">
                   <label htmlFor="se-email">Email</label>
@@ -203,7 +214,10 @@ export default function SubmitClient() {
                     type="email"
                     placeholder="you@example.com"
                     value={email}
-                    onChange={e => { setEmail(e.target.value); setContactError(false); }}
+                    onChange={e => {
+                      setEmail(e.target.value);
+                      setContactError(false);
+                    }}
                     className={`submit-input${contactError && !email.trim() && !instagram.trim() ? ' submit-input-error' : ''}`}
                   />
                 </div>
@@ -214,7 +228,10 @@ export default function SubmitClient() {
                     type="text"
                     placeholder="@handle"
                     value={instagram}
-                    onChange={e => { setInstagram(e.target.value); setContactError(false); }}
+                    onChange={e => {
+                      setInstagram(e.target.value);
+                      setContactError(false);
+                    }}
                     className={`submit-input${contactError && !email.trim() && !instagram.trim() ? ' submit-input-error' : ''}`}
                   />
                 </div>
@@ -260,9 +277,7 @@ export default function SubmitClient() {
                       key={s}
                       type="button"
                       className={`pretty-pill text-xs ${
-                        styles.includes(s)
-                          ? STYLE_PILL_CLASS[s]
-                          : 'pretty-pill-ghost'
+                        styles.includes(s) ? STYLE_PILL_CLASS[s] : 'pretty-pill-ghost'
                       }`}
                       onClick={() => toggleStyle(s)}
                     >
@@ -414,7 +429,8 @@ export default function SubmitClient() {
                     <p className="text-xs italic" style={{ color: '#6b7280' }}>
                       {summary}
                       {time && ` at ${time}`}
-                      {startDate && `, starting ${new Date(startDate + 'T00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`}
+                      {startDate &&
+                        `, starting ${new Date(startDate + 'T00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`}
                     </p>
                   )}
                 </div>
@@ -435,19 +451,26 @@ export default function SubmitClient() {
 
             {/* ── Actions ── */}
             <TurnstileWidget
-              onToken={token => { setTurnstileToken(token); setTurnstileFailed(false); }}
-              onWidgetId={id => { turnstileWidgetId.current = id; }}
+              onToken={token => {
+                setTurnstileToken(token);
+                setTurnstileFailed(false);
+              }}
+              onWidgetId={id => {
+                turnstileWidgetId.current = id;
+              }}
               onUnavailable={() => setTurnstileFailed(true)}
             />
             {turnstileFailed && (
               <p className="text-xs" style={{ color: '#b91c1c' }}>
-                The spam check couldn&apos;t load, so this form can&apos;t be submitted
-                right now. Reload the page to try again — if it keeps failing, a
-                privacy extension or ad blocker is likely blocking it.
+                The spam check couldn&apos;t load, so this form can&apos;t be submitted right now.
+                Reload the page to try again — if it keeps failing, a privacy extension or ad
+                blocker is likely blocking it.
               </p>
             )}
             {submitState === 'error' && (
-              <p className="text-xs" style={{ color: '#b91c1c', whiteSpace: 'pre-line' }}>{errorMsg}</p>
+              <p className="text-xs" style={{ color: '#b91c1c', whiteSpace: 'pre-line' }}>
+                {errorMsg}
+              </p>
             )}
             {submitState !== 'submitting' && !turnstileToken && !turnstileFailed && (
               <p className="submit-hint">Waiting for the spam check before you can submit.</p>

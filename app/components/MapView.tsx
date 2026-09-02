@@ -66,7 +66,9 @@ function urlWithoutHash(): string {
   return window.location.pathname + window.location.search;
 }
 
-function staggerCoordinates(items: { id: string; lat: number; lng: number }[]): Map<string, [number, number]> {
+function staggerCoordinates(
+  items: { id: string; lat: number; lng: number }[],
+): Map<string, [number, number]> {
   const groups = new Map<string, string[]>();
   for (const e of items) {
     const key = `${e.lat.toFixed(5)},${e.lng.toFixed(5)}`;
@@ -98,7 +100,8 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
     [allEventsTyped],
   );
 
-  const { controls, applyFilters, effectiveFromMs, effectiveToMs, ensureEventVisible } = useEventFilters();
+  const { controls, applyFilters, effectiveFromMs, effectiveToMs, ensureEventVisible } =
+    useEventFilters();
 
   const [activeEvent, setActiveEvent] = useState<DanceEvent | null>(null);
   const [activeDisplayDate, setActiveDisplayDate] = useState<string | null>(null);
@@ -130,24 +133,23 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
    * pre-popup page. `replace` is for arrival by deep link: there is nothing to
    * go back to, so the current entry is reused and Close simply drops the hash.
    */
-  const openEvent = useCallback((
-    event: DanceEvent | null,
-    displayDate?: string,
-    opts: { replace?: boolean } = {},
-  ) => {
-    setActiveEvent(event);
-    setActiveDisplayDate(displayDate ?? null);
-    setHighlightedEvent(event);
-    const url = event?.slug ? `#event=${event.slug}` : urlWithoutHash();
-    const state = window.history.state as PopupHistoryState;
-    if (opts.replace) {
-      window.history.replaceState(null, '', url);
-    } else if (state?.popup) {
-      window.history.replaceState({ popup: true }, '', url);
-    } else {
-      window.history.pushState({ popup: true }, '', url);
-    }
-  }, []);
+  const openEvent = useCallback(
+    (event: DanceEvent | null, displayDate?: string, opts: { replace?: boolean } = {}) => {
+      setActiveEvent(event);
+      setActiveDisplayDate(displayDate ?? null);
+      setHighlightedEvent(event);
+      const url = event?.slug ? `#event=${event.slug}` : urlWithoutHash();
+      const state = window.history.state as PopupHistoryState;
+      if (opts.replace) {
+        window.history.replaceState(null, '', url);
+      } else if (state?.popup) {
+        window.history.replaceState({ popup: true }, '', url);
+      } else {
+        window.history.pushState({ popup: true }, '', url);
+      }
+    },
+    [],
+  );
 
   const closePopup = useCallback(() => {
     setActiveEvent(null);
@@ -236,9 +238,7 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
   // series) already holds the search slot.
   const searchableEvents = useMemo(() => {
     const activeNames = new Set(events.map(e => normalizeEventName(e.name)));
-    const searchOnly = allEventsTyped.filter(
-      e => e.searchOnly && e.lat != null && e.lng != null,
-    );
+    const searchOnly = allEventsTyped.filter(e => e.searchOnly && e.lat != null && e.lng != null);
     const archivedByName = new Map<string, DanceEvent>();
     for (const e of allEventsTyped) {
       if (!e.archived || e.lat == null || e.lng == null) continue;
@@ -256,15 +256,9 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
     [mappableEvents, applyFilters],
   );
 
-  const filteredAllEvents = useMemo(
-    () => applyFilters(events),
-    [events, applyFilters],
-  );
+  const filteredAllEvents = useMemo(() => applyFilters(events), [events, applyFilters]);
 
-  const coordinateOffsets = useMemo(
-    () => staggerCoordinates(filteredEvents),
-    [filteredEvents],
-  );
+  const coordinateOffsets = useMemo(() => staggerCoordinates(filteredEvents), [filteredEvents]);
 
   const geojson: MarkerCollection = useMemo(() => {
     const features: MarkerFeature[] = filteredEvents.map(event => {
@@ -274,20 +268,23 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
       return {
         type: 'Feature',
         geometry: { type: 'Point', coordinates: [lng, lat] },
-        properties: { id: event.id, __color: primaryColor(event), __special: Boolean(event.special), __name: event.name },
+        properties: {
+          id: event.id,
+          __color: primaryColor(event),
+          __special: Boolean(event.special),
+          __name: event.name,
+        },
       };
     });
 
     return { type: 'FeatureCollection', features };
   }, [filteredEvents, coordinateOffsets]);
 
-  const filteredIds = useMemo(
-    () => new Set(filteredEvents.map(e => e.id)),
-    [filteredEvents],
-  );
+  const filteredIds = useMemo(() => new Set(filteredEvents.map(e => e.id)), [filteredEvents]);
 
   const highlightGeojson = useMemo(() => {
-    if (!highlightedEvent || highlightedEvent.lat == null || highlightedEvent.lng == null) return null;
+    if (!highlightedEvent || highlightedEvent.lat == null || highlightedEvent.lng == null)
+      return null;
     // Don't draw an orphan ring: if the highlighted event has been filtered out
     // (and isn't a ghost, which has no pin to orphan), drop the highlight.
     if (!isGhostEvent(highlightedEvent) && !filteredIds.has(highlightedEvent.id)) return null;
@@ -296,11 +293,13 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
     const lat = highlightedEvent.lat + offset[1];
     return {
       type: 'FeatureCollection' as const,
-      features: [{
-        type: 'Feature' as const,
-        geometry: { type: 'Point' as const, coordinates: [lng, lat] },
-        properties: { __color: primaryColor(highlightedEvent) },
-      }],
+      features: [
+        {
+          type: 'Feature' as const,
+          geometry: { type: 'Point' as const, coordinates: [lng, lat] },
+          properties: { __color: primaryColor(highlightedEvent) },
+        },
+      ],
     };
   }, [highlightedEvent, coordinateOffsets, filteredIds]);
 
@@ -371,10 +370,7 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
     <div className="flex flex-col h-full">
       {viewMode === 'map' ? (
         <div className="relative flex-1 overflow-hidden min-h-[40vh]">
-          <SearchBar
-            events={searchableEvents}
-            onSelectEvent={handleSearchSelectEvent}
-          />
+          <SearchBar events={searchableEvents} onSelectEvent={handleSearchSelectEvent} />
           {/* Pins that work before the map does. Stacked above the (possibly
               still-empty) canvas until maplibre's own pins are on screen, then
               gone — the overlay's pixels line up with the map's, so the visitor
@@ -384,8 +380,14 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
               geojson={geojson}
               view={initialView}
               highlightedId={highlightedEvent?.id ?? null}
-              onSelect={id => { const ev = eventsById.get(id); if (ev) openEvent(ev); }}
-              onClear={() => { setHighlightedEvent(null); closePopup(); }}
+              onSelect={id => {
+                const ev = eventsById.get(id);
+                if (ev) openEvent(ev);
+              }}
+              onClear={() => {
+                setHighlightedEvent(null);
+                closePopup();
+              }}
             />
           )}
           <EventMap
@@ -417,7 +419,7 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
           <FilterBar
             controls={controls}
             viewMode={viewMode}
-            onViewModeToggle={() => setViewMode(v => v === 'map' ? 'feed' : 'map')}
+            onViewModeToggle={() => setViewMode(v => (v === 'map' ? 'feed' : 'map'))}
           />
         </div>
       )}

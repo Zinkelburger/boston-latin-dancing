@@ -57,9 +57,11 @@ type Props = {
   toMs?: number;
 };
 
-
 function toGcalDate(iso: string): string {
-  return new Date(iso).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+  return new Date(iso)
+    .toISOString()
+    .replace(/[-:]/g, '')
+    .replace(/\.\d{3}/, '');
 }
 
 function googleCalendarUrl(event: DanceEvent, startDate: string, endDate: string): string {
@@ -73,8 +75,14 @@ function googleCalendarUrl(event: DanceEvent, startDate: string, endDate: string
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
 
-
-export default function EventPopup({ event, onClose, onNavigate, displayDate, fromMs, toMs }: Props) {
+export default function EventPopup({
+  event,
+  onClose,
+  onNavigate,
+  displayDate,
+  fromMs,
+  toMs,
+}: Props) {
   const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -110,9 +118,10 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
   const cleanDesc = cleanDisplayText(event.description);
   const CHAR_LIMIT = 300;
   const isLong = cleanDesc.length > CHAR_LIMIT;
-  const visibleDesc = descExpanded || !isLong
-    ? cleanDesc
-    : cleanDesc.slice(0, cleanDesc.lastIndexOf(' ', CHAR_LIMIT)) + '…';
+  const visibleDesc =
+    descExpanded || !isLong
+      ? cleanDesc
+      : cleanDesc.slice(0, cleanDesc.lastIndexOf(' ', CHAR_LIMIT)) + '…';
 
   const allLinks = collectEventLinks(event);
   const recurrenceLabel = getRecurrenceLabel(event);
@@ -146,16 +155,18 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
       className="event-popup-backdrop"
       onClick={onClose}
     >
-      <div
-        className="event-popup-card"
-        onClick={e => e.stopPropagation()}
-      >
+      <div className="event-popup-card" onClick={e => e.stopPropagation()}>
         <div className="event-popup-grabber" aria-hidden="true" />
         <div className="event-popup-header">
           <div className="event-popup-heading">
             <div className="event-popup-actions">
               {shareUrl && (
-                <ShareButton url={shareUrl} title={event.name} text={cleanDesc.slice(0, 120) || undefined} className="shrink-0 text-xs" />
+                <ShareButton
+                  url={shareUrl}
+                  title={event.name}
+                  text={cleanDesc.slice(0, 120) || undefined}
+                  className="shrink-0 text-xs"
+                />
               )}
               <button
                 ref={closeRef}
@@ -167,9 +178,7 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
                 &#x2715;
               </button>
             </div>
-            <h2 className="event-title">
-              {event.name}
-            </h2>
+            <h2 className="event-title">{event.name}</h2>
           </div>
 
           <div className="flex flex-wrap gap-1.5">
@@ -185,102 +194,91 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
               <span className="pretty-pill pretty-pill-neutral text-xs">Recurring</span>
             )}
             {recurrenceLabel && (event.schedule?.length ?? 0) <= 1 && (
-              <span className="pretty-pill pretty-pill-sky text-xs">
-                {recurrenceLabel}
-              </span>
+              <span className="pretty-pill pretty-pill-sky text-xs">{recurrenceLabel}</span>
             )}
             {event.nextDateApproximate && !(event.searchOnly && !event.archived) && (
-              <span className="pretty-pill pretty-pill-amber text-xs">
-                Date unconfirmed
-              </span>
+              <span className="pretty-pill pretty-pill-amber text-xs">Date unconfirmed</span>
             )}
           </div>
 
-        <div className="event-popup-facts">
-          {hasDates && !(event.schedule && event.schedule.length > 0) && (
-            <MetaRow icon="calendar">
-              {formatEventTimeRange(displayStart, displayEnd)}
-              {event.archived && ' — this event has passed'}
-            </MetaRow>
-          )}
+          <div className="event-popup-facts">
+            {hasDates && !(event.schedule && event.schedule.length > 0) && (
+              <MetaRow icon="calendar">
+                {formatEventTimeRange(displayStart, displayEnd)}
+                {event.archived && ' — this event has passed'}
+              </MetaRow>
+            )}
 
-          {!hasDates && (
-            <MetaRow icon="calendar">No confirmed date yet</MetaRow>
-          )}
+            {!hasDates && <MetaRow icon="calendar">No confirmed date yet</MetaRow>}
 
-          {event.archived && nextInstance && (
-            <div className="text-sm text-gray-600">
-              Next up:{' '}
-              <button
-                onClick={() => onNavigate?.(nextInstance)}
-                className="underline font-medium hover:text-gray-900 cursor-pointer"
-              >
-                {nextInstance.name} — {formatEventTimeRange(
-                  displayStartIso(nextInstance),
-                  occurrenceEndDate(nextInstance, displayStartIso(nextInstance)),
-                )}
-              </button>
-            </div>
-          )}
+            {event.archived && nextInstance && (
+              <div className="text-sm text-gray-600">
+                Next up:{' '}
+                <button
+                  onClick={() => onNavigate?.(nextInstance)}
+                  className="underline font-medium hover:text-gray-900 cursor-pointer"
+                >
+                  {nextInstance.name} —{' '}
+                  {formatEventTimeRange(
+                    displayStartIso(nextInstance),
+                    occurrenceEndDate(nextInstance, displayStartIso(nextInstance)),
+                  )}
+                </button>
+              </div>
+            )}
 
-          {nextIso && event.schedule && event.schedule.length > 0 && (
-            <MetaRow icon="calendar">
-              Next: {formatEventTimeRange(nextIso, occurrenceEndDate(event, nextIso))}
-            </MetaRow>
-          )}
+            {nextIso && event.schedule && event.schedule.length > 0 && (
+              <MetaRow icon="calendar">
+                Next: {formatEventTimeRange(nextIso, occurrenceEndDate(event, nextIso))}
+              </MetaRow>
+            )}
 
-          {event.location && (
-            <MetaRow icon="pin">{event.location}</MetaRow>
-          )}
+            {event.location && <MetaRow icon="pin">{event.location}</MetaRow>}
 
-          {event.cost && (
-            <MetaRow icon="cost">{event.cost}</MetaRow>
-          )}
+            {event.cost && <MetaRow icon="cost">{event.cost}</MetaRow>}
 
-          {scheduleNote && (
-            <MetaRow icon="info">{scheduleNote}</MetaRow>
-          )}
-        </div>
+            {scheduleNote && <MetaRow icon="info">{scheduleNote}</MetaRow>}
+          </div>
         </div>
 
         {/* Story + extra tables scroll; identity and logistics stay put */}
         <div className="event-popup-body">
-        {cleanDesc.trim() && (
-          <div className="event-popup-desc">
-            {linkifyText(visibleDesc)}
-            {isLong && !descExpanded && (
-              <button
-                type="button"
-                onClick={() => setDescExpanded(true)}
-                className="block mt-1 text-xs font-medium text-rose-500 hover:text-rose-700 cursor-pointer"
-              >
-                Show more
-              </button>
-            )}
-            {isLong && descExpanded && (
-              <button
-                type="button"
-                onClick={() => setDescExpanded(false)}
-                className="block mt-1 text-xs font-medium text-rose-500 hover:text-rose-700 cursor-pointer"
-              >
-                Show less
-              </button>
-            )}
-          </div>
-        )}
+          {cleanDesc.trim() && (
+            <div className="event-popup-desc">
+              {linkifyText(visibleDesc)}
+              {isLong && !descExpanded && (
+                <button
+                  type="button"
+                  onClick={() => setDescExpanded(true)}
+                  className="block mt-1 text-xs font-medium text-rose-500 hover:text-rose-700 cursor-pointer"
+                >
+                  Show more
+                </button>
+              )}
+              {isLong && descExpanded && (
+                <button
+                  type="button"
+                  onClick={() => setDescExpanded(false)}
+                  className="block mt-1 text-xs font-medium text-rose-500 hover:text-rose-700 cursor-pointer"
+                >
+                  Show less
+                </button>
+              )}
+            </div>
+          )}
 
-        <UpcomingDatesTable event={event} className="mt-1" />
+          <UpcomingDatesTable event={event} className="mt-1" />
 
-        {/* A one-row table would just restate the pill and the "Next" line, so
+          {/* A one-row table would just restate the pill and the "Next" line, so
             a single weekly slot renders as neither. Its note travels with the
             facts strip above. */}
-        {event.schedule && event.schedule.length > 1 && (
-          <WeeklyScheduleTable schedule={event.schedule} className="mt-1" />
-        )}
+          {event.schedule && event.schedule.length > 1 && (
+            <WeeklyScheduleTable schedule={event.schedule} className="mt-1" />
+          )}
 
-        {pastInstances.length > 0 && (
-          <PastDatesTable current={event} pastInstances={pastInstances} className="mt-1" />
-        )}
+          {pastInstances.length > 0 && (
+            <PastDatesTable current={event} pastInstances={pastInstances} className="mt-1" />
+          )}
         </div>
 
         {/* Links — pinned footer, always visible */}

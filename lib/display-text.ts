@@ -3,8 +3,10 @@ import { stripHtml } from './strip-html';
 /** Pictographs, variation selectors, and ZWJ — not useful as UI chrome. */
 const PICTOGRAPH = /[\p{Extended_Pictographic}\p{Emoji_Presentation}\uFE0F\u200D]/gu;
 
-const LEADING_DECOR = /^(?:[\s*#_~\-•·.]+|[\p{Extended_Pictographic}\p{Emoji_Presentation}\uFE0F\u200D]+)+/u;
-const TRAILING_DECOR = /(?:[\s*#_~\-•·.]+|[\p{Extended_Pictographic}\p{Emoji_Presentation}\uFE0F\u200D]+)+$/u;
+const LEADING_DECOR =
+  /^(?:[\s*#_~\-•·.]+|[\p{Extended_Pictographic}\p{Emoji_Presentation}\uFE0F\u200D]+)+/u;
+const TRAILING_DECOR =
+  /(?:[\s*#_~\-•·.]+|[\p{Extended_Pictographic}\p{Emoji_Presentation}\uFE0F\u200D]+)+$/u;
 
 function stripLineDecor(line: string): string {
   return line

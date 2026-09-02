@@ -42,13 +42,11 @@ export default function ShareButton({ url, title, text, className = '' }: Props)
     >
       {copied ? (
         <>
-          <Icon name="check" size={14} />
-          {' '}Copied!
+          <Icon name="check" size={14} /> Copied!
         </>
       ) : (
         <>
-          <Icon name="share" size={14} />
-          {' '}Share
+          <Icon name="share" size={14} /> Share
         </>
       )}
     </button>

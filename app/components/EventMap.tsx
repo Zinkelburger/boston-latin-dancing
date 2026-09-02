@@ -46,7 +46,15 @@ type Props = {
 };
 
 const EventMap = forwardRef<MapRef, Props>(function EventMap(
-  { initialViewState, geojson, highlightGeojson, highlightColor, highlightIsGhost, onClick, onLoad },
+  {
+    initialViewState,
+    geojson,
+    highlightGeojson,
+    highlightColor,
+    highlightIsGhost,
+    onClick,
+    onLoad,
+  },
   ref,
 ) {
   return (

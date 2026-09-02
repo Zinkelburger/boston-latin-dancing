@@ -49,9 +49,10 @@ export default function DateRangeSlider({ minDay, maxDay, value, onChange }: Pro
       const distFrom = Math.abs(day - localValue.fromDay);
       const distTo = Math.abs(day - localValue.toDay);
       const nearest = distFrom <= distTo ? 'from' : 'to';
-      const next = nearest === 'from'
-        ? { fromDay: Math.min(day, localValue.toDay), toDay: localValue.toDay }
-        : { fromDay: localValue.fromDay, toDay: Math.max(day, localValue.fromDay) };
+      const next =
+        nearest === 'from'
+          ? { fromDay: Math.min(day, localValue.toDay), toDay: localValue.toDay }
+          : { fromDay: localValue.fromDay, toDay: Math.max(day, localValue.fromDay) };
       setLocalValue(next);
       onChange(next);
     },
@@ -138,9 +139,10 @@ export default function DateRangeSlider({ minDay, maxDay, value, onChange }: Pro
       e.preventDefault();
       const day = Math.max(low, Math.min(high, target));
       if (day === current) return;
-      const next = thumb === 'from'
-        ? { fromDay: day, toDay: localValue.toDay }
-        : { fromDay: localValue.fromDay, toDay: day };
+      const next =
+        thumb === 'from'
+          ? { fromDay: day, toDay: localValue.toDay }
+          : { fromDay: localValue.fromDay, toDay: day };
       setLocalValue(next);
       onChange(next);
     },
@@ -166,16 +168,15 @@ export default function DateRangeSlider({ minDay, maxDay, value, onChange }: Pro
     touchAction: 'none',
   });
 
-  const thumbClass = 'absolute focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2';
+  const thumbClass =
+    'absolute focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2';
 
   return (
     <div className="flex flex-col gap-1" style={{ minWidth: 180 }}>
       {/* Labels row */}
       <div className="flex items-center justify-between text-xs">
         <span className="font-semibold text-rose-600">{fromLabel}</span>
-        <span className="text-gray-400 px-1">
-          {daySpan === 0 ? '1 day' : `${daySpan} days`}
-        </span>
+        <span className="text-gray-400 px-1">{daySpan === 0 ? '1 day' : `${daySpan} days`}</span>
         <span className="font-semibold text-rose-600">{toLabel}</span>
       </div>
 

@@ -16,19 +16,11 @@ type TableProps = {
   className?: string;
 };
 
-function EventTable({
-  title,
-  className = '',
-  children,
-}: TableProps & { children: ReactNode }) {
+function EventTable({ title, className = '', children }: TableProps & { children: ReactNode }) {
   return (
     <div className={`event-table-wrap ${className}`.trim()}>
-      {title && (
-        <div className="event-table-title">{title}</div>
-      )}
-      <table className="event-table">
-        {children}
-      </table>
+      {title && <div className="event-table-title">{title}</div>}
+      <table className="event-table">{children}</table>
     </div>
   );
 }
@@ -167,13 +159,16 @@ export function SearchResultsTable({
             // Recurring series show their next date, not the first one.
             const dateLabel = hasStartDate(event)
               ? new Date(displayStartIso(event)).toLocaleDateString('en-US', {
-                  month: 'short', day: 'numeric', timeZone: 'America/New_York',
+                  month: 'short',
+                  day: 'numeric',
+                  timeZone: 'America/New_York',
                 })
               : 'Varies';
             const desc = cleanDisplayText(event.description);
-            const snippet = searchTokens.length > 0
-              ? excerptAround(desc, searchTokens, { maxLen: SNIPPET_LEN })
-              : '';
+            const snippet =
+              searchTokens.length > 0
+                ? excerptAround(desc, searchTokens, { maxLen: SNIPPET_LEN })
+                : '';
             return (
               <tr
                 key={event.id}
@@ -181,13 +176,18 @@ export function SearchResultsTable({
                 role="button"
                 className="search-results-row"
                 onClick={() => onSelect(event)}
-                onKeyDown={e => { if (e.key === 'Enter') onSelect(event); }}
+                onKeyDown={e => {
+                  if (e.key === 'Enter') onSelect(event);
+                }}
               >
                 <td>
-                  <div className="search-results-name">{highlightText(event.name, searchTokens)}</div>
+                  <div className="search-results-name">
+                    {highlightText(event.name, searchTokens)}
+                  </div>
                   <div className="search-results-meta">
                     {highlightText(
-                      event.styles.join(', ') + (event.location ? ` · ${event.location.split('\n')[0]}` : ''),
+                      event.styles.join(', ') +
+                        (event.location ? ` · ${event.location.split('\n')[0]}` : ''),
                       searchTokens,
                     )}
                   </div>
@@ -200,7 +200,9 @@ export function SearchResultsTable({
                 <td className="search-results-when">
                   {dateLabel}
                   {event.archived && (
-                    <span className="block text-[10px] uppercase tracking-wide text-gray-600">past</span>
+                    <span className="block text-[10px] uppercase tracking-wide text-gray-600">
+                      past
+                    </span>
                   )}
                 </td>
               </tr>

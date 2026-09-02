@@ -18,12 +18,13 @@ export function GET() {
   for (const e of events) {
     if (e.slug && (!e.archived || e.recurring)) slugs.add(e.slug);
   }
-  const eventEntries = [...slugs]
-    .map(slug => `  <url>
+  const eventEntries = [...slugs].map(
+    slug => `  <url>
     <loc>${escapeXml(`${SITE_URL}/event/${slug}`)}</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-  </url>`);
+  </url>`,
+  );
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

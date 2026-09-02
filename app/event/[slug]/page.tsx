@@ -32,7 +32,10 @@ export function generateStaticParams(): Params[] {
 function displayDateLabel(event: DanceEvent): string {
   if (!hasStartDate(event)) return '';
   return new Date(displayStartIso(event)).toLocaleDateString('en-US', {
-    weekday: 'short', month: 'short', day: 'numeric', timeZone: 'America/New_York',
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'America/New_York',
   });
 }
 
@@ -69,7 +72,10 @@ function descriptionSnippet(raw: string | undefined, max = 150): string {
   if (text.length <= max) return text;
   const cut = text.slice(0, max + 1);
   const lastSentence = Math.max(
-    cut.lastIndexOf('. '), cut.lastIndexOf('! '), cut.lastIndexOf('? '));
+    cut.lastIndexOf('. '),
+    cut.lastIndexOf('! '),
+    cut.lastIndexOf('? '),
+  );
   if (lastSentence > max * 0.5) return cut.slice(0, lastSentence + 1);
   const lastSpace = cut.lastIndexOf(' ');
   return (lastSpace > 0 ? cut.slice(0, lastSpace) : cut.slice(0, max)).trimEnd() + '…';
@@ -104,23 +110,17 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 
   const snippet = descriptionSnippet(event.description);
   const when = [date, venue].filter(Boolean).join(' — ');
-  const description = snippet
-    ? `${when}. ${snippet}`
-    : when;
+  const description = snippet ? `${when}. ${snippet}` : when;
 
   const url = `${SITE_URL}/event/${slug}`;
   const activeInstance = findActiveInstance(event, events);
-  const canonicalUrl = activeInstance
-    ? `${SITE_URL}/event/${activeInstance.slug}`
-    : url;
+  const canonicalUrl = activeInstance ? `${SITE_URL}/event/${activeInstance.slug}` : url;
 
   // Title carries the "when" so our listing reads differently from the
   // organizer's / ticketing platform's result and gives a reason to click.
   // Never invent "Every Sunday" from dayOfWeek alone — a monthly first-Sunday
   // series with a rain date in recurrences[] used to get that fallback.
-  const whenLabel = event.recurring
-    ? (getRecurrenceLabel(event) || date)
-    : date;
+  const whenLabel = event.recurring ? getRecurrenceLabel(event) || date : date;
   const pageTitle = whenLabel
     ? `${event.name} — ${whenLabel} | Boston Salsa`
     : `${event.name} | Boston Salsa`;
@@ -174,7 +174,9 @@ export default async function EventPage({ params }: { params: Promise<Params> })
               <p className="text-gray-500 mb-4">
                 {moved ? `It is now listed as “${moved.name}”.` : 'Taking you to its new page.'}
               </p>
-              <a href={href} className="pretty-pill pretty-pill-rose">Go to the event</a>
+              <a href={href} className="pretty-pill pretty-pill-rose">
+                Go to the event
+              </a>
             </div>
           </div>
         </>
@@ -191,7 +193,9 @@ export default async function EventPage({ params }: { params: Promise<Params> })
           <p className="text-gray-500 mb-4">
             It is no longer on the calendar — but plenty else is.
           </p>
-          <Link href="/" className="pretty-pill pretty-pill-rose">See what’s on</Link>
+          <Link href="/" className="pretty-pill pretty-pill-rose">
+            See what’s on
+          </Link>
         </div>
       </div>
     );
@@ -200,9 +204,7 @@ export default async function EventPage({ params }: { params: Promise<Params> })
   const shareUrl = `${SITE_URL}/event/${slug}`;
   const isMappable = event.lat != null && event.lng != null;
   const timeRange = displayTimeRange(event);
-  const cleanDesc = cleanDisplayText(event.description)
-    .replace(/\s+/g, ' ')
-    .slice(0, 300).trim();
+  const cleanDesc = cleanDisplayText(event.description).replace(/\s+/g, ' ').slice(0, 300).trim();
 
   const breadcrumb = {
     '@context': 'https://schema.org',
@@ -235,20 +237,10 @@ export default async function EventPage({ params }: { params: Promise<Params> })
         <main className="min-h-screen bg-gray-50">
           <div className="mx-auto max-w-2xl px-4 py-10">
             <h1 className="text-2xl font-bold text-gray-900">{event.name}</h1>
-            {timeRange && (
-              <p className="mt-2 text-sm text-gray-700">
-                {timeRange}
-              </p>
-            )}
-            {event.location && (
-              <p className="mt-1 text-sm text-gray-600">{event.location}</p>
-            )}
-            {event.cost && (
-              <p className="mt-2 text-sm font-medium text-rose-700">{event.cost}</p>
-            )}
-            {cleanDesc && (
-              <p className="mt-4 text-sm leading-6 text-gray-700">{cleanDesc}</p>
-            )}
+            {timeRange && <p className="mt-2 text-sm text-gray-700">{timeRange}</p>}
+            {event.location && <p className="mt-1 text-sm text-gray-600">{event.location}</p>}
+            {event.cost && <p className="mt-2 text-sm font-medium text-rose-700">{event.cost}</p>}
+            {cleanDesc && <p className="mt-4 text-sm leading-6 text-gray-700">{cleanDesc}</p>}
             <div className="mt-6">
               <Link href="/" className="pretty-pill pretty-pill-rose">
                 Back to map

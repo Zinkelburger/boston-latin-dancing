@@ -1,8 +1,7 @@
 export type DanceStyle = 'bachata' | 'salsa' | 'kizomba' | 'zouk' | 'merengue' | 'other';
 
 export type DayOfWeek =
-  | 'Monday' | 'Tuesday' | 'Wednesday'
-  | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+  'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
 
 export interface DanceEvent {
   id: string;

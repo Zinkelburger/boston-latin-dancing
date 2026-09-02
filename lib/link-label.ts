@@ -19,7 +19,10 @@ export function linkLabel(url: string): { label: string; icon: string } {
   }
 }
 
-export function collectEventLinks(event: { url: string | null; urls?: string[] }): { url: string; label: string; icon: string }[] {
+export function collectEventLinks(event: {
+  url: string | null;
+  urls?: string[];
+}): { url: string; label: string; icon: string }[] {
   const links: { url: string; label: string; icon: string }[] = [];
   const seenHosts = new Set<string>();
 
@@ -28,7 +31,9 @@ export function collectEventLinks(event: { url: string | null; urls?: string[] }
       const host = new URL(u).hostname.replace(/^www\./, '');
       if (seenHosts.has(host)) return;
       seenHosts.add(host);
-    } catch { /* keep link even if URL parsing fails */ }
+    } catch {
+      /* keep link even if URL parsing fails */
+    }
     links.push({ url: u, ...linkLabel(u) });
   }
 
