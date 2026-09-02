@@ -1,8 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Tailwind v4. This file used to carry the v3 `@tailwind base/components/
+   utilities` directives, which the v4 PostCSS plugin does not treat as a full
+   import: no theme was loaded, so only theme-free utilities (`flex`,
+   `absolute`, `underline`, ...) were ever emitted and every class that needs a
+   token — spacing (`mt-2`), colours (`text-gray-700`), type (`text-sm`,
+   `font-medium`), radii — was silently dropped. Preflight never shipped
+   either. Import the theme and utilities so the classes in the components do
+   what they say, but not preflight: pulling in `tailwindcss` wholesale would
+   add it and restyle every heading, list and button on the site. */
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
 
 html {
   font-size: 16px;

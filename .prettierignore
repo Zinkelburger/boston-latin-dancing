@@ -1,0 +1,10 @@
+.next
+out
+node_modules
+data
+public
+scripts
+backend
+mcp-server
+automation
+package-lock.json

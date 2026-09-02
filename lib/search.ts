@@ -1,5 +1,6 @@
 import type { DanceEvent } from '@/types/event';
 import { STYLE_LABELS } from './constants';
+import { hasStartDate } from './dates';
 import { stripHtml } from './strip-html';
 
 /** Split a query into lowercased, non-empty tokens. */
@@ -39,6 +40,58 @@ export function isSameSeries(a: DanceEvent, b: DanceEvent): boolean {
     return Boolean(va && vb && va === vb);
   }
   return false;
+}
+
+/** Words so common on dance listings that sharing them proves nothing. */
+const DANCE_STOPWORDS = new Set([
+  'salsa', 'bachata', 'kizomba', 'zouk', 'merengue', 'latin',
+  'social', 'dance', 'dancing', 'night', 'party', 'boston',
+  'class', 'workshop', 'lesson', 'free',
+]);
+
+function significantWords(normalizedName: string): Set<string> {
+  return new Set(
+    normalizedName.split(' ').filter(w => w.length > 2 && !DANCE_STOPWORDS.has(w)),
+  );
+}
+
+function sameVenue(a: DanceEvent, b: DanceEvent): boolean {
+  const va = venueKey(a.location);
+  const vb = venueKey(b.location);
+  return Boolean(va && vb && va === vb);
+}
+
+/**
+ * The live listing an archived event has become, if any: the popup's "Next
+ * up" link and the detail page's canonical URL both point at it.
+ *
+ * Candidates are non-archived events with a page of their own; dated ones are
+ * tried before dateless search-only venue records so a concrete next date wins
+ * over the series hub. Matching is strict, in two stages: (1) same series —
+ * identical normalized name, or one name containing the other at the same
+ * venue; (2) same venue plus ≥70% overlap of the distinctive words in the
+ * shorter name, ignoring dance stopwords. Loose word overlap alone matched
+ * every "Salsa Social" to every other, so it is never used without the venue.
+ */
+export function findActiveInstance(event: DanceEvent, events: DanceEvent[]): DanceEvent | undefined {
+  if (!event.archived) return undefined;
+
+  const candidates = events.filter(e => !e.archived && e.id !== event.id && e.slug);
+  candidates.sort((a, b) => Number(hasStartDate(b)) - Number(hasStartDate(a)));
+
+  const series = candidates.find(c => isSameSeries(event, c));
+  if (series) return series;
+
+  const words = significantWords(normalizeEventName(event.name));
+  if (words.size < 2) return undefined;
+  return candidates.find(c => {
+    if (!sameVenue(event, c)) return false;
+    const cWords = significantWords(normalizeEventName(c.name));
+    const smaller = Math.min(words.size, cWords.size);
+    if (smaller < 2) return false;
+    const overlap = [...words].filter(w => cWords.has(w)).length;
+    return overlap >= smaller * 0.7;
+  });
 }
 
 type Fields = { name: string; loc: string; org: string; desc: string; styles: string; day: string };

@@ -1,5 +1,8 @@
 import type { DanceEvent } from '@/types/event';
 import { cleanDisplayText } from '@/lib/display-text';
+import { displayStartIso, hasStartDate } from '@/lib/dates';
+import { occurrenceEndDate } from '@/lib/recurrences';
+import { offerFromCost } from '@/lib/offer';
 
 interface Props {
   event: DanceEvent;
@@ -9,16 +12,20 @@ interface Props {
 export default function EventJsonLd({ event, url }: Props) {
   // No structured data for past events, or for dateless search-only venue
   // records (schema.org Event requires a startDate).
-  if (event.archived || !event.startDate) return null;
+  if (event.archived || !hasStartDate(event)) return null;
 
   const venueName = event.location?.split('\n')[0]?.split(',')[0] || '';
+  // Recurring series: advertise the next occurrence, not the one publish()
+  // happened to see first.
+  const startDate = displayStartIso(event);
+  const endDate = occurrenceEndDate(event, startDate);
 
   const jsonLd: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'DanceEvent',
     name: event.name,
-    startDate: event.startDate,
-    endDate: event.endDate,
+    startDate,
+    endDate,
     url,
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     eventStatus: 'https://schema.org/EventScheduled',
@@ -26,7 +33,7 @@ export default function EventJsonLd({ event, url }: Props) {
       '@type': 'Place',
       name: venueName,
       address: event.location || undefined,
-      ...(event.lat && event.lng
+      ...(event.lat != null && event.lng != null
         ? { geo: { '@type': 'GeoCoordinates', latitude: event.lat, longitude: event.lng } }
         : {}),
     },
@@ -43,17 +50,8 @@ export default function EventJsonLd({ event, url }: Props) {
     };
   }
 
-  if (event.cost) {
-    const isFree = /free/i.test(event.cost);
-    jsonLd.offers = {
-      '@type': 'Offer',
-      price: isFree ? '0' : undefined,
-      priceCurrency: 'USD',
-      availability: 'https://schema.org/InStock',
-      url: event.url || url,
-      description: event.cost,
-    };
-  }
+  const offer = offerFromCost(event.cost, event.url || url);
+  if (offer) jsonLd.offers = offer;
 
   return (
     <script

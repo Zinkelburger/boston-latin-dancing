@@ -8,8 +8,14 @@ export interface DanceEvent {
   id: string;
   slug?: string;
   name: string;
-  /** ISO datetime string for event start */
+  /** ISO datetime string for event start. For recurring events publish()
+   *  rolls this forward to the next occurrence on or after the publish date;
+   *  search-only venue records ship '' (no confirmed date) — narrow with
+   *  `hasStartDate()` from lib/dates before treating it as a date. */
   startDate: string;
+  /** Original first occurrence, kept when publish() has rolled `startDate`
+   *  forward to the next upcoming recurrence. */
+  firstStartDate?: string;
   /** ISO datetime string for event end */
   endDate: string;
   /** Day of week derived from startDate */

@@ -1,16 +1,16 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import type { DanceEvent, DanceStyle, DayOfWeek } from '@/types/event';
-import { eventMatchesDateRange, dayOfWeekFromIso } from '@/lib/recurrences';
+import { eventMatchesDateRange, matchesDay } from '@/lib/recurrences';
 import { dateToDay, dayStartMs } from '@/lib/dates';
 import { computePresetRange, type DatePreset } from '@/lib/date-presets';
 import type { DateRangeValue } from './DateRangeSlider';
 
 /**
- * For a non-schedule event that falls outside the current date window,
- * return the epoch-day we need to include in the range so the event
- * becomes visible on the map.
+ * For an event that falls outside the current date window, return the
+ * epoch-day we need to include in the range so the event becomes visible on
+ * the map.
  */
 function eventTargetDay(event: DanceEvent): number {
   if (event.recurrences?.length) {
@@ -26,6 +26,9 @@ function eventTargetDay(event: DanceEvent): number {
 
 /** How many days ahead the date slider can reach. */
 const WINDOW_DAYS = 45;
+
+/** How often to check whether the calendar day has rolled over. */
+const DAY_CHECK_MS = 60_000;
 
 /** The bundle of state + handlers consumed by FilterBar and FeedView. */
 export type FilterControlsProps = {
@@ -48,20 +51,35 @@ export type FilterControlsProps = {
 };
 
 /**
+ * Today's Boston epoch-day, re-checked every minute so a tab left open past
+ * midnight moves its window forward instead of keeping yesterday as "today".
+ * State only changes when the day does, so nothing re-renders in between.
+ */
+function useTodayDay(): number {
+  const [today, setToday] = useState(() => dateToDay(new Date()));
+  useEffect(() => {
+    const id = setInterval(() => {
+      const day = dateToDay(new Date());
+      setToday(prev => (prev === day ? prev : day));
+    }, DAY_CHECK_MS);
+    return () => clearInterval(id);
+  }, []);
+  return today;
+}
+
+/**
  * Owns all event-filter state (style / day / date) and derives the active date
  * window and the `applyFilters` predicate. Returns a single `controls` bundle to
  * hand to the filter UIs, so MapView doesn't drill ~15 separate props.
  */
 export function useEventFilters() {
-  const { sliderMin, sliderMax, defaultFrom, defaultTo } = useMemo(() => {
-    const today = dateToDay(new Date());
-    return {
-      sliderMin: today,
-      sliderMax: today + WINDOW_DAYS,
-      defaultFrom: today,
-      defaultTo: today + 14,
-    };
-  }, []);
+  const today = useTodayDay();
+  const { sliderMin, sliderMax, defaultFrom, defaultTo } = useMemo(() => ({
+    sliderMin: today,
+    sliderMax: today + WINDOW_DAYS,
+    defaultFrom: today,
+    defaultTo: today + 14,
+  }), [today]);
 
   const [selectedStyles, setSelectedStyles] = useState<DanceStyle[]>([]);
   const [selectedDays, setSelectedDays] = useState<DayOfWeek[]>([]);
@@ -107,21 +125,18 @@ export function useEventFilters() {
     };
   }, [dateMode, sliderMin, sliderMax, dateSlider]);
 
-  const applyFilters = useCallback((source: DanceEvent[]) => {
+  const applyFilters = useCallback(<T extends DanceEvent>(source: T[]): T[] => {
+    const range = { fromMs: effectiveFromMs, toMs: effectiveToMs };
     return source.filter(event => {
       const matchesStyle = selectedStyles.length === 0 ||
         event.styles.some(s => selectedStyles.includes(s));
 
-      const derivedDay = dayOfWeekFromIso(event.startDate);
-      const matchesDay = selectedDays.length === 0 ||
-        selectedDays.includes(derivedDay) ||
-        (event.schedule?.some(s => selectedDays.includes(s.dayOfWeek)) ?? false);
-
-      const matchesDate = eventMatchesDateRange(event, effectiveFromMs, effectiveToMs);
-
       const matchesSpecial = !specialOnly || Boolean(event.special);
 
-      return matchesStyle && matchesDay && matchesDate && matchesSpecial;
+      return matchesStyle
+        && matchesSpecial
+        && eventMatchesDateRange(event, effectiveFromMs, effectiveToMs)
+        && matchesDay(event, selectedDays, range);
     });
   }, [selectedStyles, selectedDays, specialOnly, effectiveFromMs, effectiveToMs]);
 
@@ -131,11 +146,10 @@ export function useEventFilters() {
       event.styles.some(s => selectedStyles.includes(s));
     if (!matchesStyle) setSelectedStyles([]);
 
-    const derivedDay = dayOfWeekFromIso(event.startDate);
-    const matchesDay = selectedDays.length === 0 ||
-      selectedDays.includes(derivedDay) ||
-      (event.schedule?.some(s => selectedDays.includes(s.dayOfWeek)) ?? false);
-    if (!matchesDay) setSelectedDays([]);
+    // The day filter is judged over the whole slider window, not just the
+    // current range: the range may widen below to reach the event.
+    const window = { fromMs: dayStartMs(sliderMin), toMs: dayStartMs(sliderMax + 1) - 1 };
+    if (!matchesDay(event, selectedDays, window)) setSelectedDays([]);
 
     if (specialOnly && !event.special) setSpecialOnly(false);
 

@@ -14,16 +14,13 @@ export function GET() {
   // Keep recurring events in the sitemap even once archived: the series will
   // recur, and the page accumulates ranking authority over time. Only one-off
   // events that are done drop out.
-  const seen = new Set<string>();
-  const eventEntries = events
-    .filter(e => e.slug && (!e.archived || e.recurring))
-    .filter(e => {
-      if (seen.has(e.slug!)) return false;
-      seen.add(e.slug!);
-      return true;
-    })
-    .map(e => `  <url>
-    <loc>${escapeXml(`${SITE_URL}/event/${e.slug}`)}</loc>
+  const slugs = new Set<string>();
+  for (const e of events) {
+    if (e.slug && (!e.archived || e.recurring)) slugs.add(e.slug);
+  }
+  const eventEntries = [...slugs]
+    .map(slug => `  <url>
+    <loc>${escapeXml(`${SITE_URL}/event/${slug}`)}</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>`);

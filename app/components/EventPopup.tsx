@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import allEvents from '@/data/events-published.json';
 import type { DanceEvent } from '@/types/event';
 import { SITE_URL, STYLE_LABELS, STYLE_PILL_CLASS } from '@/lib/constants';
@@ -13,7 +13,8 @@ import {
   resolveDisplayOccurrence,
   shouldShowNextOccurrence,
 } from '@/lib/recurrences';
-import { isSeriesInstance, normalizeEventName } from '@/lib/search';
+import { findActiveInstance, isSeriesInstance } from '@/lib/search';
+import { displayStartIso, hasStartDate } from '@/lib/dates';
 import { cleanDisplayText } from '@/lib/display-text';
 import { collectEventLinks } from '@/lib/link-label';
 import ShareButton from './ShareButton';
@@ -74,6 +75,8 @@ function googleCalendarUrl(event: DanceEvent, startDate: string, endDate: string
 
 
 export default function EventPopup({ event, onClose, onNavigate, displayDate, fromMs, toMs }: Props) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -82,9 +85,20 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
     return () => document.removeEventListener('keydown', onKey);
   }, [onClose]);
 
+  // A modal dialog owns focus while open: land on the close button so
+  // keyboard and screen-reader users start inside it, and hand focus back to
+  // whatever opened it (a feed card, a search row) when it closes.
+  useEffect(() => {
+    const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    closeRef.current?.focus();
+    return () => {
+      if (opener?.isConnected) opener.focus();
+    };
+  }, []);
+
   // Search-only venue records ship without dates on purpose (irregular
   // schedule) — skip everything date-derived for them.
-  const hasDates = Boolean(event.startDate);
+  const hasDates = hasStartDate(event);
   const { start: displayStart, end: displayEnd } = hasDates
     ? resolveDisplayOccurrence(event, { displayDate, fromMs, toMs })
     : { start: '', end: '' };
@@ -105,46 +119,12 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
   const scheduleNote = extraScheduleNote(event);
   const nextIso = shouldShowNextOccurrence(event) ? nextOccurrenceIso(event) : null;
 
+  // The live listing this archived event has become, for the "Next up" link.
+  // Dated candidates win over dateless venue records, so the link can always
+  // name a date.
   const nextInstance = useMemo(() => {
-    if (!event.archived) return null;
-    const norm = normalizeEventName(event.name);
-    const active = (allEvents as DanceEvent[]).filter(e => !e.archived);
-
-    // Only match on exact (or near-exact) name, optionally requiring same venue
-    // for fuzzy matches. Common dance words like "salsa", "bachata", "social"
-    // cause too many false positives with loose word-overlap matching.
-    const DANCE_STOPWORDS = new Set([
-      'salsa', 'bachata', 'kizomba', 'zouk', 'merengue', 'latin',
-      'social', 'dance', 'dancing', 'night', 'party', 'boston',
-      'class', 'workshop', 'lesson', 'free',
-    ]);
-    const normWords = new Set(norm.split(' ').filter(w => w.length > 2 && !DANCE_STOPWORDS.has(w)));
-
-    for (const candidate of active) {
-      const cn = normalizeEventName(candidate.name);
-      if (cn === norm) return candidate;
-      if (cn.includes(norm) || norm.includes(cn)) {
-        const venueA = (event.location || '').split(',')[0].toLowerCase().trim();
-        const venueB = (candidate.location || '').split(',')[0].toLowerCase().trim();
-        if (venueA && venueB && venueA === venueB) return candidate;
-      }
-    }
-
-    // Fuzzy: require same venue + significant non-generic word overlap
-    if (normWords.size >= 2) {
-      for (const candidate of active) {
-        const cn = normalizeEventName(candidate.name);
-        const cWords = new Set(cn.split(' ').filter(w => w.length > 2 && !DANCE_STOPWORDS.has(w)));
-        const overlap = [...normWords].filter(w => cWords.has(w)).length;
-        const smaller = Math.min(normWords.size, cWords.size);
-        if (smaller >= 2 && overlap >= smaller * 0.7) {
-          const venueA = (event.location || '').split(',')[0].toLowerCase().trim();
-          const venueB = (candidate.location || '').split(',')[0].toLowerCase().trim();
-          if (venueA && venueB && venueA === venueB) return candidate;
-        }
-      }
-    }
-    return null;
+    const next = findActiveInstance(event, allEvents as DanceEvent[]);
+    return next && hasStartDate(next) ? next : null;
   }, [event]);
 
   // Past instances of this series (archived events with matching names) —
@@ -178,6 +158,7 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
                 <ShareButton url={shareUrl} title={event.name} text={cleanDesc.slice(0, 120) || undefined} className="shrink-0 text-xs" />
               )}
               <button
+                ref={closeRef}
                 type="button"
                 onClick={onClose}
                 aria-label="Close"
@@ -234,7 +215,10 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
                 onClick={() => onNavigate?.(nextInstance)}
                 className="underline font-medium hover:text-gray-900 cursor-pointer"
               >
-                {nextInstance.name} — {formatEventTimeRange(nextInstance.startDate, nextInstance.endDate)}
+                {nextInstance.name} — {formatEventTimeRange(
+                  displayStartIso(nextInstance),
+                  occurrenceEndDate(nextInstance, displayStartIso(nextInstance)),
+                )}
               </button>
             </div>
           )}
@@ -312,7 +296,7 @@ export default function EventPopup({ event, onClose, onNavigate, displayDate, fr
               {lnk.icon} {lnk.label}
             </a>
           ))}
-          {event.lat && event.lng && (
+          {event.lat != null && event.lng != null && (
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${event.lat},${event.lng}`}
               target="_blank"

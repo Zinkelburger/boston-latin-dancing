@@ -6,7 +6,11 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "format": "prettier --write app lib types tests",
+    "format:check": "prettier --check app lib types tests",
     "fetch-events": "python3 scripts/scrape_ics.py",
     "fetch-sensualeros": "python3 scripts/scrape_ics.py sensualeros-boston",
     "fetch-lister": "python3 scripts/scrape_jsonld.py lister-events",
@@ -50,13 +54,17 @@
     "react-map-gl": "^8.0.4"
   },
   "devDependencies": {
-    "@tailwindcss/forms": "^0.5.10",
+    "@eslint/eslintrc": "^3.3.7",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
     "@types/geojson": "^7946.0.16",
+    "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^15.3.2",
+    "prettier": "^3.9.6",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.11"
   }
 }
