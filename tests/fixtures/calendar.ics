@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Google Inc//Google Calendar 70.9054//EN
+X-WR-TIMEZONE:America/New_York
+BEGIN:VEVENT
+UID:havana-salsa-0905@google.com
+DTSTART;TZID=America/New_York:20260905T210000
+DTEND;TZID=America/New_York:20260906T010000
+SUMMARY:Salsa Social at Havana Club
+LOCATION:Havana Club\, 288 Green St\, Cambridge\, MA
+DESCRIPTION:Salsa and bachata all night. $15 cover. https://example.com/havana
+END:VEVENT
+BEGIN:VEVENT
+UID:bachata-tuesdays@google.com
+DTSTART;TZID=America/New_York:20260901T200000
+DTEND;TZID=America/New_York:20260901T230000
+RRULE:FREQ=WEEKLY;UNTIL=20260929T235959;BYDAY=TU
+SUMMARY:Bachata Tuesdays
+LOCATION:Lou's\, 13 Brattle St\, Cambridge\, MA
+DESCRIPTION:Weekly bachata social.
+END:VEVENT
+BEGIN:VEVENT
+UID:contra-0910@google.com
+DTSTART;TZID=America/New_York:20260910T190000
+DTEND;TZID=America/New_York:20260910T220000
+SUMMARY:Contra Dance
+LOCATION:Scout House\, Concord\, MA
+DESCRIPTION:New England contra dancing with live fiddle.
+END:VEVENT
+END:VCALENDAR

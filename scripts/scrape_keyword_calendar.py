@@ -26,10 +26,10 @@ Feed URL resolution, in order:
                                               (The Events Calendar convention)
   3. source["url"]                          — assume it is already an iCal feed
 
-Fail-safe: any fetch/parse error yields an empty scrape rather than raising, so a
-flaky calendar can never break the weekly pipeline. Health is recorded so a page
-that loads but parses to zero raw events (markup changed) is flagged for redesign
-instead of silently going dark.
+Failure semantics come from scraper_utils.run_scraper: a fetch or parse error
+exits 1, records a health failure, and keeps the previous file. Health is
+recorded with the raw VEVENT count so a feed that loads but parses to zero
+events (format changed) is flagged for redesign instead of silently going dark.
 
 Usage: python3 scripts/scrape_keyword_calendar.py <source_id>
 """
@@ -37,19 +37,15 @@ Usage: python3 scripts/scrape_keyword_calendar.py <source_id>
 import sys
 from pathlib import Path
 
-import requests
-
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from scrape_ics import parse_ics_feed
 from scraper_utils import (
-    filter_future_events,
+    ScrapeResult,
+    fetch,
     filter_latin_events,
-    get_source,
-    record_scrape_health,
-    write_scraped,
+    run_scraper,
+    scraper_argparser,
 )
-
-UA = {"User-Agent": "boston-latin-dance-dev/0.1"}
 
 
 def resolve_feed_url(source: dict) -> str:
@@ -63,39 +59,15 @@ def resolve_feed_url(source: dict) -> str:
     return url
 
 
-def scrape_source(source_id: str) -> list[dict]:
-    source = get_source(source_id)
-    if not source or not source.get("enabled"):
-        print(f"Source '{source_id}' is disabled or not found in sources.json")
-        return []
-
+def fetch_source(source: dict) -> ScrapeResult:
+    source_id = source["id"]
     feed_url = resolve_feed_url(source)
     print(f"[{source_id}] Fetching iCal feed from {feed_url[:90]}")
-    try:
-        resp = requests.get(feed_url, headers=UA, timeout=45)
-        resp.raise_for_status()
-    except Exception as exc:
-        print(f"[{source_id}] Fetch failed: {exc} — emitting nothing")
-        record_scrape_health(source_id, 0, 0, fetched=False,
-                             note=f"fetch failed: {exc}")
-        write_scraped(source_id, [])
-        return []
+    ics_text = fetch(feed_url, timeout=45).text
 
-    try:
-        events = parse_ics_feed(resp.text, source_id=source_id)
-    except Exception as exc:
-        print(f"[{source_id}] iCal parse failed: {exc} — emitting nothing")
-        record_scrape_health(
-            source_id, 0, 0,
-            note=f"feed reached us but iCal parse failed ({exc}); "
-                 "the feed format may have changed — redesign the scraper",
-        )
-        write_scraped(source_id, [])
-        return []
-
+    events = parse_ics_feed(ics_text, source_id=source_id)
     print(f"[{source_id}] Parsed {len(events)} events; applying Latin keyword filter")
     latin = filter_latin_events(events)
-    upcoming = filter_future_events(latin)
 
     # Health: raw_found is events parsed BEFORE the keyword/future filters. Zero on
     # a feed that reached us means the feed returned no parseable VEVENTs — the
@@ -105,18 +77,13 @@ def scrape_source(source_id: str) -> list[dict]:
     if not events:
         note = ("feed loaded but no VEVENTs parsed — the calendar's iCal export "
                 "may have changed or moved; redesign/repoint the scraper")
-    record_scrape_health(source_id, len(events), len(upcoming), note=note)
-
-    write_scraped(source_id, upcoming)
-    return upcoming
+    return ScrapeResult(latin, raw_found=len(events), note=note)
 
 
-def main():
-    if len(sys.argv) < 2:
-        print("Usage: python3 scripts/scrape_keyword_calendar.py <source_id>")
-        sys.exit(1)
-    scrape_source(sys.argv[1])
+def main(argv: list[str] | None = None) -> int:
+    args = scraper_argparser(__doc__).parse_args(argv)
+    return run_scraper(args.source_id, fetch_source)
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

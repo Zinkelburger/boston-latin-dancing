@@ -37,6 +37,7 @@ from typing import Optional
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from atomic_io import write_json
 from link_meta import (jsonld_location, jsonld_start, link_meta,
                        looks_like_render_timestamp)
 from event_store import EVENTS_DIR, NY_TZ, load_active, parse_date
@@ -362,7 +363,7 @@ def main() -> int:
             return 2
 
     report = run(events, allow_geocode=not args.no_geocode)
-    REPORT_PATH.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n")
+    write_json(REPORT_PATH, report)
 
     if args.json:
         print(json.dumps(report, indent=2, ensure_ascii=False))

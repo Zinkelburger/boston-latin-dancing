@@ -27,9 +27,22 @@ if [[ ! -d .venv ]]; then
 fi
 .venv/bin/pip install --quiet -r requirements.txt
 
-# Exits 2 on tripwire (published files already restored) — set -e stops us
-# before the commit, which is exactly what we want.
+# run_pipeline.py exits 2 on a tripwire (published files already restored
+# from the pre-run snapshot) and 1 on a hard failure. Either way nothing below
+# may run — a commit after a tripwire would push the restored files as if
+# they were a fresh scrape. Name the reason in the log rather than relying on
+# a bare `set -e` death.
+set +e
 .venv/bin/python scripts/run_pipeline.py
+pipeline_rc=$?
+set -e
+if [[ "$pipeline_rc" -eq 2 ]]; then
+  log "TRIPWIRE: live-event count collapsed; published files restored. Not committing."
+  exit 2
+elif [[ "$pipeline_rc" -ne 0 ]]; then
+  log "ERROR: run_pipeline.py exited $pipeline_rc; not committing."
+  exit "$pipeline_rc"
+fi
 
 # Link check reports, it does not gate. A link dying upstream is not a reason
 # to hold back every other event's update — but it must never pass unnoticed,

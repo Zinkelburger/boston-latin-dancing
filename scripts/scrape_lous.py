@@ -19,17 +19,17 @@ from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urljoin
 
-import requests
 from bs4 import BeautifulSoup
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from scraper_utils import (
+    DANCE_NIGHT_RE,  # title must look like a dance night, not a seated concert
     NY_TZ,
-    filter_future_events,
-    get_source,
+    ScrapeResult,
+    fetch,
     make_event,
-    record_scrape_health,
-    write_scraped,
+    run_scraper,
+    scraper_argparser,
 )
 
 SOURCE_ID = "lous-live"
@@ -38,19 +38,6 @@ VENUE = "Lou's, 13 Brattle St, Cambridge, MA 02138"
 # Squarespace sometimes ships NYC placeholder coords — never trust item.location.
 VENUE_LAT = 42.3736
 VENUE_LNG = -71.1212
-
-UA = {
-    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
-}
-
-# Title must look like a dance night — not a seated Afro-Cuban / bossa concert.
-DANCE_NIGHT_RE = re.compile(
-    r"\b(salsa|bachata|merengue|kizomba|zouk|timba|mambo|"
-    r"latin\s*(?:night|brunch|dance|social|party)|"
-    r"dance\s*(?:night|party|social))\b",
-    re.I,
-)
 
 # Acts that reliably bring a dance floor at Lou's (even if the title is sparse).
 KNOWN_DANCE_ACTS_RE = re.compile(
@@ -183,16 +170,8 @@ def _absolute_url(path: str) -> str:
     return urljoin(BASE + "/", path.lstrip("/"))
 
 
-def fetch_events(listing_url: str) -> tuple[list[dict], int]:
-    """Return (latin_events, raw_upcoming_count)."""
-    json_url = listing_url
-    if "format=json" not in json_url:
-        sep = "&" if "?" in json_url else "?"
-        json_url = f"{listing_url}{sep}format=json"
-
-    resp = requests.get(json_url, headers=UA, timeout=30)
-    resp.raise_for_status()
-    payload = resp.json()
+def parse_payload(payload: dict) -> tuple[list[dict], int]:
+    """Return (danceable_events, raw_upcoming_count) from the Squarespace JSON."""
     upcoming = payload.get("upcoming") or []
     if not isinstance(upcoming, list):
         upcoming = []
@@ -255,27 +234,27 @@ def fetch_events(listing_url: str) -> tuple[list[dict], int]:
     return events, len(upcoming)
 
 
-def main():
-    source = get_source(SOURCE_ID)
-    if not source or not source.get("enabled"):
-        print(f"Source '{SOURCE_ID}' not found or disabled")
-        return
+def fetch_events(listing_url: str) -> tuple[list[dict], int]:
+    """Fetch the Squarespace JSON and return (danceable_events, raw_upcoming_count)."""
+    json_url = listing_url
+    if "format=json" not in json_url:
+        sep = "&" if "?" in json_url else "?"
+        json_url = f"{listing_url}{sep}format=json"
+    payload = fetch(json_url, browser=True, timeout=30).json()
+    return parse_payload(payload)
 
+
+def fetch_source(source: dict) -> ScrapeResult:
     url = source.get("url") or f"{BASE}/lous-live"
     print(f"Fetching Lou's Live from {url}?format=json")
+    events, raw_found = fetch_events(url)
+    return ScrapeResult(events, raw_found=raw_found)
 
-    try:
-        events, raw_found = fetch_events(url)
-    except Exception as e:
-        print(f"Failed to scrape Lou's: {e}")
-        record_scrape_health(SOURCE_ID, raw_found=0, kept=0, fetched=False, note=str(e))
-        write_scraped(SOURCE_ID, [])
-        return
 
-    events = filter_future_events(events)
-    record_scrape_health(SOURCE_ID, raw_found=raw_found, kept=len(events))
-    write_scraped(SOURCE_ID, events)
+def main(argv: list[str] | None = None) -> int:
+    args = scraper_argparser(__doc__, default_source_id=SOURCE_ID).parse_args(argv)
+    return run_scraper(args.source_id, fetch_source)
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

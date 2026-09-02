@@ -15,57 +15,57 @@ import sys
 import time
 from datetime import datetime
 from html import unescape
+from pathlib import Path
 from urllib.parse import urljoin
 
-import requests
 from bs4 import BeautifulSoup
 
-sys.path.insert(0, str(__import__("pathlib").Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from scraper_utils import (
-    detect_styles,
-    extract_cost,
-    filter_future_events,
-    geocode,
-    get_source,
+    ScrapeResult,
+    fetch,
     make_event,
-    write_scraped,
+    mentions_latin,
+    run_scraper,
+    scraper_argparser,
 )
 
 SOURCE_ID = "eventbrite-boston-latin"
-UA = {
-    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
-}
-
-DANCE_KEYWORDS = re.compile(
-    r"salsa|bachata|kizomba|zouk|merengue|latin\s*dance|cumbia|reggaeton|mambo|cha\s*cha",
-    re.I,
-)
 
 
-def discover_event_urls(search_urls: list[str]) -> list[str]:
-    """Crawl Eventbrite search/category pages to collect event URLs."""
+def extract_event_urls(search_html: str) -> set[str]:
+    """Event page URLs linked from one Eventbrite search/category page."""
+    urls: set[str] = set()
+    soup = BeautifulSoup(search_html, "html.parser")
+    for a in soup.find_all("a", href=True):
+        href = a["href"].split("?")[0]
+        if "/e/" in href and "tickets-" in href:
+            urls.add(urljoin("https://www.eventbrite.com", href))
+    return urls
+
+
+def discover_event_urls(search_urls: list[str]) -> tuple[list[str], bool]:
+    """Crawl Eventbrite search/category pages to collect event URLs.
+
+    Returns (urls, any_search_page_fetched) so the caller can tell "no
+    results" from "Eventbrite was unreachable".
+    """
     all_urls: set[str] = set()
+    any_fetched = False
     for search_url in search_urls:
         print(f"  Searching: {search_url}")
         try:
-            resp = requests.get(search_url, headers=UA, timeout=15)
-            resp.raise_for_status()
+            html = fetch(search_url, browser=True, timeout=15).text
+            any_fetched = True
         except Exception as e:
             print(f"    Failed: {e}")
             continue
 
-        soup = BeautifulSoup(resp.text, "html.parser")
-        for a in soup.find_all("a", href=True):
-            href = a["href"].split("?")[0]
-            if "/e/" in href and "tickets-" in href:
-                full = urljoin("https://www.eventbrite.com", href)
-                all_urls.add(full)
-
+        all_urls |= extract_event_urls(html)
         print(f"    Found {len(all_urls)} total unique event URLs so far")
         time.sleep(1.0)
 
-    return sorted(all_urls)
+    return sorted(all_urls), any_fetched
 
 
 _EVENT_TYPES = {
@@ -107,8 +107,8 @@ def extract_full_description(soup: BeautifulSoup) -> str:
 
 
 def is_dance_relevant(name: str, description: str) -> bool:
-    combined = f"{name} {description}"
-    return bool(DANCE_KEYWORDS.search(combined))
+    """The shared Latin keyword rule — the same one ingest applies."""
+    return mentions_latin(f"{name} {description}")
 
 
 def parse_address(location_obj: dict) -> tuple[str, str]:
@@ -154,9 +154,12 @@ def parse_offers(offers: list | dict | None) -> str | None:
 
 def scrape_event_page(url: str) -> dict | None:
     """Fetch a single Eventbrite event page and return a DanceEvent dict."""
-    resp = requests.get(url, headers=UA, timeout=15)
-    resp.raise_for_status()
-    soup = BeautifulSoup(resp.text, "html.parser")
+    return parse_event_page(fetch(url, browser=True, timeout=15).text, url)
+
+
+def parse_event_page(page_html: str, url: str) -> dict | None:
+    """Turn an Eventbrite event page's HTML into a DanceEvent dict (or None)."""
+    soup = BeautifulSoup(page_html, "html.parser")
 
     ld = extract_event_jsonld(soup)
     if not ld:
@@ -214,16 +217,13 @@ def scrape_event_page(url: str) -> dict | None:
     )
 
 
-def main():
-    source = get_source(SOURCE_ID)
-    if not source or not source.get("enabled"):
-        print(f"Source '{SOURCE_ID}' is disabled or not found in sources.json")
-        return
-
+def fetch_source(source: dict) -> ScrapeResult:
     search_urls = source.get("search_queries", [])
 
     print("Discovering event URLs from Eventbrite search pages...")
-    urls = discover_event_urls(search_urls)
+    urls, any_fetched = discover_event_urls(search_urls)
+    if not any_fetched:
+        raise RuntimeError("no Eventbrite search page could be fetched")
     print(f"\nTotal unique event URLs: {len(urls)}")
 
     events: list[dict] = []
@@ -239,7 +239,7 @@ def main():
                 print(f"    -> {ev['name']} | {ev['dayOfWeek']} | styles={ev['styles']}")
             else:
                 skipped_irrelevant += 1
-                print(f"    -> skipped (not dance-relevant or no JSON-LD)")
+                print("    -> skipped (not dance-relevant or no JSON-LD)")
         except Exception as e:
             skipped_error += 1
             print(f"    ERROR: {e}")
@@ -248,9 +248,16 @@ def main():
             time.sleep(0.8)
 
     print(f"\nResults: {len(events)} events, {skipped_irrelevant} irrelevant, {skipped_error} errors")
-    events = filter_future_events(events)
-    write_scraped(SOURCE_ID, events)
+    # Health keys on discovered event links: zero on a reachable search page
+    # means Eventbrite's result markup changed, not that Boston stopped dancing.
+    note = "" if urls else "search pages loaded but no event links found — result markup may have changed"
+    return ScrapeResult(events, raw_found=len(urls), note=note)
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = scraper_argparser(__doc__, default_source_id=SOURCE_ID).parse_args(argv)
+    return run_scraper(args.source_id, fetch_source)
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

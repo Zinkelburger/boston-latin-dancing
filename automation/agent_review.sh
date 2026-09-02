@@ -30,9 +30,14 @@ log "running deterministic refresh"
   || log "WARNING: refresh failed or tripwired — agent will investigate"
 
 log "starting agent (model: $MODEL)"
+# --force auto-approves every command the agent proposes, and this shell holds
+# push credentials: the only guardrails are the ones written in agent_prompt.md
+# (see automation/README.md, "Security"). Under `set -e` a non-zero agent exit
+# would kill the script right here, before the finish line and log pruning —
+# so capture the status instead of letting it propagate.
+STATUS=0
 cursor-agent --print --force --model "$MODEL" --output-format text \
-  "$(cat "$REPO_DIR/automation/agent_prompt.md")" >>"$LOG_FILE" 2>&1
-STATUS=$?
+  "$(cat "$REPO_DIR/automation/agent_prompt.md")" >>"$LOG_FILE" 2>&1 || STATUS=$?
 
 log "agent finished with exit code $STATUS"
 

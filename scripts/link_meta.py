@@ -33,18 +33,29 @@ import sys
 import time
 from datetime import date, datetime, timezone
 from html import unescape
-from zoneinfo import ZoneInfo
+from pathlib import Path
 from typing import Optional
 from urllib.parse import urlparse
 
 import requests
 
-BROWSER_UA = (
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/126.0 Safari/537.36"
-)
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+# One browser identity and one Boston clock for the whole repo (scraper_utils
+# owns them); this module must not carry its own copies.
+from scraper_utils import BROWSER_UA, NY_TZ  # noqa: E402
+
 # Meta's own link-preview scraper. Facebook and Instagram answer it with real
 # metadata; they stonewall everything else.
+#
+# RISK — this is impersonation. We are claiming to be Meta's crawler, which
+# their terms of service do not permit. If Meta starts verifying crawler IPs
+# (they publish the real ranges) these requests will begin failing, and the
+# VPS IP could be blocked for facebook.com and instagram.com outright. It is
+# kept because it is the only way to read a Facebook event's date without a
+# human in a browser, and it only ever sends GETs to public pages. Dropping it
+# is a one-line change: remove META_HOSTS from ua_for() and those links
+# become "unverifiable" instead of checked. Whether that trade is worth it
+# is a judgment call for the maintainer, not this code.
 META_UA = "facebookexternalhit/1.1"
 
 META_HOSTS = ("facebook.com", "fb.com", "instagram.com")
@@ -150,7 +161,7 @@ def jsonld_start(event_ld: dict) -> Optional[str]:
 _RENDER_TIMESTAMP_WINDOW_S = 15 * 60
 
 # The sites we read are Boston ones, so a timestamp with no offset is Boston's.
-LOCAL_TZ = ZoneInfo("America/New_York")
+LOCAL_TZ = NY_TZ
 
 
 def looks_like_render_timestamp(iso_str: Optional[str], now: Optional[datetime] = None) -> bool:

@@ -42,8 +42,15 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
+from atomic_io import write_json
 from link_meta import extract, host_of, is_meta_host
 from link_meta import fetch as fetch_page
+
+# NOTE on identity: for facebook.com / instagram.com, link_meta.ua_for() sends
+# Meta's own crawler UA (facebookexternalhit/1.1). That is impersonation and
+# carries a real risk of the VPS IP being blocked — see the RISK note on
+# link_meta.META_UA. This checker deliberately keeps the behaviour (it is what
+# makes a Facebook event link verifiable at all); the maintainer decides.
 
 ROOT = Path(__file__).resolve().parent.parent
 PUBLISHED = ROOT / "data" / "events-published.json"
@@ -159,7 +166,7 @@ def collect_targets(only_live: bool = False) -> dict[str, list[str]]:
             targets[url].append(where)
 
     if PUBLISHED.exists():
-        for ev in json.loads(PUBLISHED.read_text()):
+        for ev in json.loads(PUBLISHED.read_text(encoding="utf-8")):
             if only_live and ev.get("archived"):
                 continue
             label = f"event: {ev.get('name', ev.get('id', '?'))}"
@@ -169,12 +176,12 @@ def collect_targets(only_live: bool = False) -> dict[str, list[str]]:
                 add(u, label + " (alt)")
 
     if VENUES.exists():
-        raw = json.loads(VENUES.read_text())
+        raw = json.loads(VENUES.read_text(encoding="utf-8"))
         for v in raw.get("venues", raw) if isinstance(raw, dict) else raw:
             add(v.get("url"), f"venue: {v.get('name', v.get('id', '?'))}")
 
     if SOURCES.exists():
-        raw = json.loads(SOURCES.read_text())
+        raw = json.loads(SOURCES.read_text(encoding="utf-8"))
         for s in raw.get("sources", raw) if isinstance(raw, dict) else raw:
             if s.get("enabled") is False:
                 continue
@@ -195,7 +202,7 @@ def manual_check_queue() -> list[dict]:
     if not ACTIVE.exists():
         return []
     queue = []
-    for ev in json.loads(ACTIVE.read_text()):
+    for ev in json.loads(ACTIVE.read_text(encoding="utf-8")):
         flag = ev.get("_needs_manual_check")
         if not flag:
             continue
@@ -274,7 +281,7 @@ def main() -> int:
         return 1 if (args.fail_on_broken and r["verdict"] == BROKEN) else 0
 
     report = check_all(only_live=args.only_live)
-    REPORT_PATH.write_text(json.dumps(report, indent=2) + "\n")
+    write_json(REPORT_PATH, report)
 
     if args.json:
         print(json.dumps(report, indent=2))

@@ -44,29 +44,24 @@ import re
 import sys
 from pathlib import Path
 
-import requests
-
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from scrape_ics import parse_ics_feed
 from scraper_utils import (
+    ScrapeResult,
     clean_location,
-    filter_future_events,
+    fetch,
     filter_latin_events,
     geocode,
-    get_source,
-    record_scrape_health,
-    write_scraped,
+    run_scraper,
+    scraper_argparser,
 )
 
-UA = {"User-Agent": "boston-latin-dance-dev/0.1"}
 # Slugs under /events/ that are not real events (calendar chrome / taxonomies).
 _NON_EVENT_SLUGS = {"categories", "category", "tag", "list", "month", "day", "week", "photo"}
 
 
 def _fetch(url: str, timeout: int = 30) -> str:
-    resp = requests.get(url, headers=UA, timeout=timeout)
-    resp.raise_for_status()
-    return resp.text
+    return fetch(url, timeout=timeout).text
 
 
 def collect_event_urls(listing_urls: list[str], prefix: str) -> tuple[list[str], bool]:
@@ -120,17 +115,10 @@ def _clean_text(value: str) -> str:
     return re.sub(r"[ \t]+\n", "\n", text).strip()
 
 
-def scrape_event(url: str, source_id: str) -> list[dict]:
-    """Fetch and parse one event's iCal into DanceEvent dicts."""
-    ics_url = url.rstrip("/") + "/ical/"
-    try:
-        ics_text = _fetch(ics_url)
-    except Exception as exc:
-        print(f"  iCal fetch failed for {url}: {exc}")
-        return []
+def parse_event_ics(ics_text: str, url: str, source_id: str) -> list[dict]:
+    """Parse one event's iCal text into DanceEvent dicts (pure, no network)."""
     if "BEGIN:VEVENT" not in ics_text:
         return []
-
     events = parse_ics_feed(ics_text, source_id=source_id)
     geo = _geo_by_uid(ics_text)
 
@@ -149,12 +137,19 @@ def scrape_event(url: str, source_id: str) -> list[dict]:
     return events
 
 
-def scrape_source(source_id: str) -> list[dict]:
-    source = get_source(source_id)
-    if not source or not source.get("enabled"):
-        print(f"Source '{source_id}' is disabled or not found in sources.json")
+def scrape_event(url: str, source_id: str) -> list[dict]:
+    """Fetch and parse one event's iCal into DanceEvent dicts."""
+    ics_url = url.rstrip("/") + "/ical/"
+    try:
+        ics_text = _fetch(ics_url)
+    except Exception as exc:
+        print(f"  iCal fetch failed for {url}: {exc}")
         return []
+    return parse_event_ics(ics_text, url, source_id)
 
+
+def fetch_source(source: dict) -> ScrapeResult:
+    source_id = source["id"]
     prefix = source.get("event_path_prefix")
     if not prefix:
         base = source["url"].split("?")[0].rstrip("/")
@@ -163,6 +158,8 @@ def scrape_source(source_id: str) -> list[dict]:
 
     print(f"[{source_id}] Collecting event links from {len(listing_urls)} listing page(s)...")
     event_urls, listing_fetched = collect_event_urls(listing_urls, prefix)
+    if not listing_fetched:
+        raise RuntimeError(f"no listing page could be fetched for {source_id}")
     print(f"[{source_id}] Found {len(event_urls)} event pages")
 
     all_events: list[dict] = []
@@ -175,28 +172,21 @@ def scrape_source(source_id: str) -> list[dict]:
 
     print(f"[{source_id}] Parsed {len(all_events)} events; applying Latin keyword filter")
     latin = filter_latin_events(all_events)
-    upcoming = filter_future_events(latin)
 
     # Health: raw_found is events parsed BEFORE the keyword filter. Zero on a
     # reachable listing means the permalink markup changed and the scraper needs
     # a redesign; the weekly agent surfaces this so we don't silently miss events.
     note = ""
-    if listing_fetched and not event_urls:
+    if not event_urls:
         note = ("listing page loaded but no event permalinks matched — page markup "
                 "may have changed; redesign the scraper")
-    record_scrape_health(source_id, len(all_events), len(upcoming),
-                         fetched=listing_fetched, note=note)
-
-    write_scraped(source_id, upcoming)
-    return upcoming
+    return ScrapeResult(latin, raw_found=len(all_events), note=note)
 
 
-def main():
-    if len(sys.argv) < 2:
-        print("Usage: python3 scripts/scrape_tribe_calendar.py <source_id>")
-        sys.exit(1)
-    scrape_source(sys.argv[1])
+def main(argv: list[str] | None = None) -> int:
+    args = scraper_argparser(__doc__).parse_args(argv)
+    return run_scraper(args.source_id, fetch_source)
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

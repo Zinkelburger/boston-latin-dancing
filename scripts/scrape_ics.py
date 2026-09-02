@@ -2,36 +2,31 @@
 """
 Scrape events from an ICS (iCalendar) feed.
 
-Replaces the old fetch-ics.ts. Uses the `icalendar` library for proper RFC 5545
-parsing (including RRULE expansion via `dateutil`). Reads URL from sources.json.
+Uses the `icalendar` library for proper RFC 5545 parsing (including RRULE
+expansion via `dateutil`). Reads the feed URL from sources.json.
 
-Outputs: data/scraped/beatrice-calendar.json
+Usage: python3 scripts/scrape_ics.py [<source_id>]   (default: beatrice-calendar)
+Outputs: data/scraped/<source_id>.json
 """
 
-import json
 import re
 import sys
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
-from zoneinfo import ZoneInfo
 
-import requests
 from icalendar import Calendar
 from dateutil.rrule import rrulestr
 
-# Boston-area events. A naive (floating) ICS time is local wall-clock, so
-# interpret it as Eastern — never UTC. ZoneInfo handles EDT/EST automatically.
-NY_TZ = ZoneInfo("America/New_York")
-
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from scraper_utils import (
+    NY_TZ,
+    ScrapeResult,
     detect_styles,
     extract_cost,
-    geocode,
-    get_source,
+    fetch,
     make_event,
-    write_scraped,
-    DAYS,
+    run_scraper,
+    scraper_argparser,
 )
 
 DEFAULT_SOURCE_ID = "beatrice-calendar"
@@ -40,7 +35,11 @@ RRULE_HORIZON_WEEKS = 12
 
 
 def _ical_dt_to_datetime(dt_val) -> datetime | None:
-    """Convert an icalendar date/datetime to a tz-aware Python datetime."""
+    """Convert an icalendar date/datetime to a tz-aware Python datetime.
+
+    A naive (floating) ICS time is local wall-clock, so it is interpreted as
+    Eastern — never UTC.
+    """
     if dt_val is None:
         return None
     d = dt_val.dt if hasattr(dt_val, "dt") else dt_val
@@ -63,27 +62,42 @@ def _unescape_ics(text: str) -> str:
     )
 
 
-def _fix_rrule_until(rule_str: str) -> str:
-    """Fix UNTIL values that dateutil rejects when DTSTART is timezone-aware.
+def _fix_rrule_until(rule_str: str, tz=NY_TZ) -> str:
+    """Rewrite UNTIL values dateutil rejects when DTSTART is timezone-aware.
 
-    Google Calendar sometimes emits date-only UNTIL (e.g. UNTIL=20260625) or
-    local-time UNTIL without a Z suffix. dateutil requires UTC datetime format.
+    Google Calendar sometimes emits a date-only UNTIL (``UNTIL=20260625``) or a
+    floating local-time UNTIL without a Z suffix. dateutil requires a UTC
+    datetime. A floating UNTIL is *local wall-clock* (the series' timezone),
+    so it is localized to ``tz`` and then converted to UTC — simply appending
+    "Z" would treat 23:59:59 Eastern as 23:59:59 UTC, four or five hours
+    earlier, and silently drop the series' last occurrence.
     """
     def _to_utc(m: re.Match) -> str:
         val = m.group(1)
         if len(val) == 8:
-            return f"UNTIL={val}T235959Z"
-        if len(val) == 15:
-            return f"UNTIL={val}Z"
-        return m.group(0)
+            local = datetime.strptime(val, "%Y%m%d").replace(
+                hour=23, minute=59, second=59, tzinfo=tz)
+        elif len(val) == 15:
+            local = datetime.strptime(val, "%Y%m%dT%H%M%S").replace(tzinfo=tz)
+        else:
+            return m.group(0)
+        return "UNTIL=" + local.astimezone(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 
-    return re.sub(r"UNTIL=(\d{8}T\d{6}|(\d{8}))(?![\dTZ])", _to_utc, rule_str)
+    return re.sub(r"UNTIL=(\d{8}T\d{6}|\d{8})(?![\dTZ])", _to_utc, rule_str)
 
 
-def parse_ics_feed(ics_text: str, source_id: str = DEFAULT_SOURCE_ID) -> list[dict]:
-    """Parse an ICS feed and return a list of DanceEvent dicts."""
+def parse_ics_feed(
+    ics_text: str,
+    source_id: str = DEFAULT_SOURCE_ID,
+    now: datetime | None = None,
+) -> list[dict]:
+    """Parse an ICS feed and return a list of upcoming DanceEvent dicts.
+
+    ``now`` (tz-aware) pins the "upcoming" window for tests; it defaults to
+    the current UTC time.
+    """
     cal = Calendar.from_ical(ics_text)
-    now = datetime.now(timezone.utc) - timedelta(days=1)
+    now = (now or datetime.now(timezone.utc)) - timedelta(days=1)
     horizon = now + timedelta(weeks=RRULE_HORIZON_WEEKS)
     events: list[dict] = []
 
@@ -127,7 +141,7 @@ def parse_ics_feed(ics_text: str, source_id: str = DEFAULT_SOURCE_ID) -> list[di
             try:
                 duration = (dtend - dtstart) if dtend else timedelta(hours=2)
                 rule_str = rrule.to_ical().decode("utf-8")
-                rule_str = _fix_rrule_until(rule_str)
+                rule_str = _fix_rrule_until(rule_str, tz=dtstart.tzinfo or NY_TZ)
                 rule = rrulestr(rule_str, dtstart=dtstart)
                 for occ_start in rule.between(now, horizon, inc=True):
                     if occ_start.tzinfo is None:
@@ -148,62 +162,37 @@ def parse_ics_feed(ics_text: str, source_id: str = DEFAULT_SOURCE_ID) -> list[di
         styles = detect_styles(combined)
         cost = extract_cost(combined)
 
-        if len(occurrences) == 1:
-            start, end = occurrences[0]
-            ev = make_event(
-                id=uid,
-                name=summary,
-                start=start,
-                end=end,
-                location=location,
-                description=description,
-                url=url,
-                styles=styles,
-                cost=cost,
-                recurring=is_recurring,
-                source=source_id,
-            )
-            events.append(ev)
-        else:
-            start, end = occurrences[0]
-            ev = make_event(
-                id=uid,
-                name=summary,
-                start=start,
-                end=end,
-                location=location,
-                description=description,
-                url=url,
-                styles=styles,
-                cost=cost,
-                recurring=True,
-                source=source_id,
-            )
+        start, end = occurrences[0]
+        ev = make_event(
+            id=uid,
+            name=summary,
+            start=start,
+            end=end,
+            location=location,
+            description=description,
+            url=url,
+            styles=styles,
+            cost=cost,
+            recurring=is_recurring or len(occurrences) > 1,
+            source=source_id,
+        )
+        if len(occurrences) > 1:
             ev["recurrences"] = [s.isoformat() for s, _ in occurrences]
-            events.append(ev)
+        events.append(ev)
 
     return events
 
 
-def scrape_ics_source(source_id: str) -> list[dict]:
-    """Fetch and parse a single ICS source. Returns the event list."""
-    source = get_source(source_id)
-    if not source or not source.get("enabled"):
-        print(f"Source '{source_id}' is disabled or not found in sources.json")
-        return []
-
+def fetch_source(source: dict) -> ScrapeResult:
+    """Fetch and parse one ICS source from sources.json."""
+    source_id = source["id"]
     ics_url = source["url"]
     print(f"[{source_id}] Fetching ICS feed from {ics_url[:80]}...")
 
-    resp = requests.get(
-        ics_url,
-        headers={"User-Agent": "boston-latin-dance-dev/0.1"},
-        timeout=30,
-    )
-    resp.raise_for_status()
-    print(f"[{source_id}] Fetched {len(resp.text)} bytes")
+    ics_text = fetch(ics_url, timeout=30).text
+    print(f"[{source_id}] Fetched {len(ics_text)} bytes")
 
-    events = parse_ics_feed(resp.text, source_id=source_id)
+    events = parse_ics_feed(ics_text, source_id=source_id)
     print(f"[{source_id}] Parsed {len(events)} future events")
 
     with_coords = sum(1 for e in events if e.get("lat") and e.get("lng"))
@@ -215,14 +204,17 @@ def scrape_ics_source(source_id: str) -> list[dict]:
             style_counts[s] = style_counts.get(s, 0) + 1
     print(f"  Styles: {style_counts}")
 
-    write_scraped(source_id, events)
-    return events
+    # Health keys on VEVENTs in the feed, not on how many are upcoming: an
+    # all-past calendar is still structurally fine.
+    raw_found = ics_text.count("BEGIN:VEVENT")
+    note = "" if raw_found else "feed loaded but contains no VEVENTs — is the calendar still public?"
+    return ScrapeResult(events, raw_found=raw_found, note=note)
 
 
-def main():
-    source_id = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_SOURCE_ID
-    scrape_ics_source(source_id)
+def main(argv: list[str] | None = None) -> int:
+    args = scraper_argparser(__doc__, default_source_id=DEFAULT_SOURCE_ID).parse_args(argv)
+    return run_scraper(args.source_id, fetch_source)
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

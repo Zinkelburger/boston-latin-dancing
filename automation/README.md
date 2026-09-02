@@ -73,6 +73,38 @@ If your cron daemon doesn't support `CRON_TZ` (cronie does, some don't),
 either set the whole server to `America/New_York` or shift the hours to the
 UTC equivalents.
 
+## Security: the agent runs with `--force` while holding push credentials
+
+Read this before enabling the Tuesday cron.
+
+- `agent_review.sh` launches `cursor-agent --force`. `--force` auto-approves
+  every shell command the agent proposes; nothing prompts, nothing is
+  sandboxed. The agent runs as the same user that owns the clone, in the
+  same shell environment, which means it can run anything that user can.
+- That same user holds the deploy key with **write access** (step 1 of the
+  setup above) so that `refresh.sh` can push. The agent therefore has push
+  access to `main` for the whole of its run.
+- The **only** guardrails are the instructions in `agent_prompt.md` ("MCP
+  tools only", "no force push", "stop and report when unsure"). They are
+  prompt text. A confused or prompt-injected agent — a scraped event
+  description is untrusted input that ends up in the agent's context — is
+  not technically prevented from running `git push --force`, deleting data,
+  or exfiltrating the `.env` token.
+
+Recommended hardening (not done here; it changes the key setup on the VPS):
+
+1. Give the clone a **read-only** deploy key. Neither the agent nor the
+   pipeline needs write access to do its job.
+2. Move the push into a **separate step** that runs after the agent has
+   exited — a small script invoked by cron (or by `agent_review.sh` after
+   `cursor-agent` returns) that uses a write key held somewhere the agent's
+   shell cannot read (a different user, an ssh-agent socket that is not
+   exported to the agent, or a GitHub App token minted for that step only).
+   The agent then produces a commit; a process it cannot influence decides
+   whether to publish it.
+3. Until then, treat `automation/logs/agent-*.log` as an audit trail and
+   review it after each run.
+
 ## Behavior notes
 
 - **Dirty tree** → `refresh.sh` refuses to run. It never stomps on
@@ -81,7 +113,13 @@ UTC equivalents.
   previous run, `run_pipeline.py` restores the previous published files and
   exits 2, so nothing is committed. A failed scrape can't blank the site.
 - **Scraper failures** are per-source and non-fatal; they're listed under
-  `scrapers_failed` in the summary JSON in `refresh.log`.
+  `scrapers_failed` in the summary JSON in `refresh.log`. A failed scraper
+  exits 1, records `fetch_error` in `data/scraper-health.json`, and leaves
+  its previous `data/scraped/<id>.json` in place — a stale file beats an
+  empty one. Which scrapers run comes from `data/sources.json` alone
+  (`enabled: true` plus a `scraper` field); there is no second list.
+- **Agent exit status** is captured (`|| STATUS=$?`) so the finish line is
+  always logged and old logs are always pruned, even when the agent fails.
 - **Agent guardrails** live in `agent_prompt.md`: MCP tools only, no force
   push, stop-and-report when unsure. Each run logs to
   `automation/logs/agent-<timestamp>.log` and writes

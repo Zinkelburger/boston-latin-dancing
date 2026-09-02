@@ -42,10 +42,11 @@ Config knobs (all optional unless noted):
   exclude_regions    ["portland","maine"]          drop events whose venue matches (default set)
   defaults.location  fallback venue string
 
-Fail-safe: fetch/parse errors yield an empty scrape rather than raising, and
-scraper health is recorded (raw JSON-LD events found *before* filtering) so a page
-that goes structurally dark is flagged for redesign instead of silently missing
-events.
+Failure semantics come from scraper_utils.run_scraper: if no listing page can
+be fetched the scraper exits 1, records a health failure, and leaves the
+previous normalized file in place. Scraper health is recorded with the raw
+JSON-LD event count found *before* filtering, so a page that goes
+structurally dark is flagged for redesign instead of silently missing events.
 
 Usage: python3 scripts/scrape_jsonld.py <source_id>
 """
@@ -59,28 +60,22 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from urllib.parse import urljoin
 
-import requests
 from bs4 import BeautifulSoup
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from scraper_utils import (
     NY_TZ,
+    ScrapeResult,
     clean_location,
     detect_styles,
     extract_cost,
-    filter_future_events,
-    get_source,
+    fetch,
     make_event,
     mentions_latin,
-    record_scrape_health,
-    write_scraped,
+    run_scraper,
+    scraper_argparser,
 )
 
-DEV_UA = {"User-Agent": "boston-latin-dance-dev/0.1"}
-BROWSER_UA = {
-    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
-}
 DEFAULT_EXCLUDE_REGIONS = {"portland", "maine", "me 04"}
 _EVENT_TYPES = {"Event", "SocialEvent", "DanceEvent", "MusicEvent", "Festival"}
 
@@ -254,13 +249,11 @@ def _enrich_description(base: str, soup: BeautifulSoup, mode: str) -> str:
 
 # ── Fetch / build ────────────────────────────────────────────────────
 
-def _fetch(url: str, ua: dict, timeout: int = 20):
-    resp = requests.get(url, headers=ua, timeout=timeout)
-    resp.raise_for_status()
-    return resp.text
+def _fetch(url: str, browser: bool, timeout: int = 20) -> str:
+    return fetch(url, browser=browser, timeout=timeout).text
 
 
-def _collect_detail_links(listing_urls, link_pattern, ua) -> tuple[list[str], bool]:
+def _collect_detail_links(listing_urls, link_pattern, browser) -> tuple[list[str], bool]:
     """Detail-crawl mode: gather per-event links matching link_pattern.
 
     Returns (links, any_listing_fetched) so the caller can tell a structure change
@@ -272,7 +265,7 @@ def _collect_detail_links(listing_urls, link_pattern, ua) -> tuple[list[str], bo
     for listing_url in listing_urls:
         print(f"  Listing page: {listing_url}")
         try:
-            page = _fetch(listing_url, ua, timeout=15)
+            page = _fetch(listing_url, browser, timeout=15)
             any_fetched = True
         except Exception as exc:
             print(f"    Failed: {exc}")
@@ -349,19 +342,17 @@ def _build_event(obj: dict, page_url: str, soup, cfg: dict):
     )
 
 
-def scrape_source(source_id: str) -> list[dict]:
-    source = get_source(source_id)
-    if not source or not source.get("enabled"):
-        print(f"Source '{source_id}' is disabled or not found in sources.json")
-        return []
+def fetch_source(source: dict, now: datetime | None = None) -> ScrapeResult:
+    """Scrape one JSON-LD source. Raises if no listing page could be fetched."""
+    source_id = source["id"]
+    now = now or datetime.now(NY_TZ)
 
-    # Seasonal gate: outside active_months this scraper is a deliberate no-op.
+    # Seasonal gate: outside active_months this scraper is a deliberate no-op
+    # that still writes an empty file, so last season's events do not linger.
     active_months = source.get("active_months")
-    if active_months and datetime.now(NY_TZ).month not in active_months:
+    if active_months and now.month not in active_months:
         print(f"Off-season (month not in {active_months}); skipping {source_id}.")
-        write_scraped(source_id, [])
-        record_scrape_health(source_id, 0, 0, note="off-season no-op")
-        return []
+        return ScrapeResult([], raw_found=0, note="off-season no-op", skipped=True)
 
     cfg = {
         "source_id": source_id,
@@ -372,21 +363,23 @@ def scrape_source(source_id: str) -> list[dict]:
         "default_location": (source.get("defaults") or {}).get("location", ""),
         "exclude_regions": set(source.get("exclude_regions", DEFAULT_EXCLUDE_REGIONS)),
     }
-    ua = BROWSER_UA if source.get("browser_ua") else DEV_UA
+    browser = bool(source.get("browser_ua"))
     listing_urls = source.get("listing_urls") or [source["url"]]
 
     raw_objs: list[tuple[dict, str, object]] = []  # (jsonld_obj, page_url, soup|None)
     fetched = False
+    last_error: Exception | None = None
 
     if source.get("jsonld_in_listing"):
         # Listing-embedded: JSON-LD array lives on the listing page(s) themselves.
         for listing_url in listing_urls:
             print(f"[{source_id}] Fetching {listing_url}")
             try:
-                page = _fetch(listing_url, ua)
+                page = _fetch(listing_url, browser)
                 fetched = True
             except Exception as exc:
                 print(f"  failed: {exc}")
+                last_error = exc
                 continue
             objs = parse_jsonld_events(page)
             print(f"  {len(objs)} JSON-LD events on page")
@@ -399,11 +392,11 @@ def scrape_source(source_id: str) -> list[dict]:
         link_pattern = source.get("link_pattern", "/event-details/")
         print(f"[{source_id}] Collecting '{link_pattern}' links from "
               f"{len(listing_urls)} listing page(s)")
-        links, fetched = _collect_detail_links(listing_urls, link_pattern, ua)
+        links, fetched = _collect_detail_links(listing_urls, link_pattern, browser)
         print(f"[{source_id}] Found {len(links)} event detail pages")
         for i, link in enumerate(links):
             try:
-                soup = BeautifulSoup(_fetch(link, ua, timeout=15), "html.parser")
+                soup = BeautifulSoup(_fetch(link, browser, timeout=15), "html.parser")
             except Exception as exc:
                 print(f"  [{i+1}/{len(links)}] fetch failed: {exc}")
                 continue
@@ -414,6 +407,14 @@ def scrape_source(source_id: str) -> list[dict]:
             # One event per detail page (take the first Event object).
             raw_objs.append((objs[0], link, soup))
             time.sleep(0.4)
+
+    if not fetched:
+        # Nothing reached us: fail loudly so the stale file is kept rather than
+        # publishing an empty scrape as if the site had no events.
+        raise RuntimeError(
+            f"no listing page could be fetched for {source_id}"
+            + (f": {last_error}" if last_error else "")
+        )
 
     # Build, filter, and de-dupe by id.
     events: list[dict] = []
@@ -430,7 +431,7 @@ def scrape_source(source_id: str) -> list[dict]:
         # fuller description, then re-detect styles from the richer text.
         if soup is None and cfg["detail_description"] and obj.get("url"):
             try:
-                detail = BeautifulSoup(_fetch(obj["url"], ua, timeout=15), "html.parser")
+                detail = BeautifulSoup(_fetch(obj["url"], browser, timeout=15), "html.parser")
                 richer = _enrich_description(ev["description"], detail, cfg["detail_description"])
                 if richer != ev["description"]:
                     ev["description"] = richer
@@ -438,34 +439,27 @@ def scrape_source(source_id: str) -> list[dict]:
                     if styles != ["other"]:
                         ev["styles"] = styles
                 time.sleep(0.4)
-            except Exception:
-                pass
+            except Exception as exc:
+                print(f"    detail page unavailable, keeping JSON-LD description: {exc}",
+                      file=sys.stderr)
         seen.add(ev["id"])
         events.append(ev)
         print(f"  [keep] {ev['name'][:48]} | {ev['dayOfWeek']} "
               f"{ev['startDate'][:10]} | styles={ev['styles']}")
 
-    upcoming = filter_future_events(events)
-
     # Health: raw_found = JSON-LD events parsed BEFORE filtering. Zero on a page
     # that loaded means the JSON-LD is gone / markup changed → redesign needed.
     note = ""
-    if fetched and not raw_objs:
+    if not raw_objs:
         note = ("page loaded but no schema.org JSON-LD events found — the site's "
                 "markup may have changed; redesign/repoint the scraper")
-    record_scrape_health(source_id, len(raw_objs), len(upcoming),
-                         fetched=fetched, note=note)
-
-    write_scraped(source_id, upcoming)
-    return upcoming
+    return ScrapeResult(events, raw_found=len(raw_objs), note=note)
 
 
-def main():
-    if len(sys.argv) < 2:
-        print("Usage: python3 scripts/scrape_jsonld.py <source_id>")
-        sys.exit(1)
-    scrape_source(sys.argv[1])
+def main(argv: list[str] | None = None) -> int:
+    args = scraper_argparser(__doc__).parse_args(argv)
+    return run_scraper(args.source_id, fetch_source)
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
