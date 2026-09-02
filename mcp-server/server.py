@@ -8,28 +8,44 @@ Local stdio-based MCP server for managing the event pipeline:
   - Run scrapers and ingest results
   - Publish public/events.json
 
-Run: python3 mcp-server/server.py
+Run: .venv/bin/python mcp-server/server.py   (from the repo root)
+
+stdio transport: stdout IS the protocol channel. Nothing in this file may
+print to stdout — diagnostics go through _log() to stderr.
 """
 
+import functools
+import hashlib
 import json
-import subprocess
 import sys
+import traceback
 from pathlib import Path
-from typing import Optional
+from typing import Callable, Optional
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
-from mcp.server.fastmcp import FastMCP
+try:  # mcp >= 2.0 renamed FastMCP; keep the 1.x name working too.
+    from mcp.server.mcpserver import MCPServer as _Server
+except ImportError:  # pragma: no cover - depends on the installed SDK
+    from mcp.server.fastmcp import FastMCP as _Server
 
-from event_store import (
+from atomic_io import CorruptJSONError, read_json  # noqa: E402
+from event_store import (  # noqa: E402
+    VALID_BLOCK_CATEGORIES,
+    VENUES_JSON,
+    _looks_like_class,
+    _special_edition_mismatch,
     add_event,
+    add_source,
+    add_venue,
     approve_pending,
     approve_rejected,
+    archive_event,
     archive_past_events,
     block_event,
     dismiss_rejected,
     edit_event,
-    expand_venues,
+    find_duplicate_in,
     forget_known_duplicate,
     ingest_scraped,
     list_known_duplicates,
@@ -39,39 +55,85 @@ from event_store import (
     load_pending,
     load_rejected,
     load_venue_conflicts,
-    resolve_venue_conflict,
-    VENUE_CONFLICT_DECISIONS,
+    parse_date,
     publish_guarded,
     reject_pending,
     remove_active_event,
-    save_pending,
+    resolve_venue_conflict,
     unblock_event,
-    validate_event,
-    _looks_like_class,
-    _special_edition_mismatch,
-    VALID_BLOCK_CATEGORIES,
-    VENUES_JSON,
-    SCRAPED_DIR,
+    validate_venue_schedule,
 )
-from scraper_utils import (
-    ROOT,
-    DATA_DIR,
-    geocode,
+from run_pipeline import run_scrapers  # noqa: E402
+from scraper_utils import (  # noqa: E402
     detect_styles,
-    extract_cost,
+    geocode,
     load_scrape_health,
     load_sources,
+    make_event,
 )
+from verify_events import verify_all  # noqa: E402
 
-mcp = FastMCP("boston-latin-dance")
+mcp = _Server("boston-latin-dance")
 
-SCRIPTS_DIR = ROOT / "scripts"
+SCRAPE_TIMEOUT_SECONDS = 180
+
+
+# ── Plumbing ──────────────────────────────────────────────────────────
+
+
+def _log(message: str) -> None:
+    """Diagnostics for the human running the client. Never stdout."""
+    print(message, file=sys.stderr, flush=True)
+
+
+def _dump(payload) -> str:
+    return json.dumps(payload, indent=2, default=str)
+
+
+def _error(message: str, error_type: str, **extra) -> str:
+    return _dump({"error": message, "type": error_type, **extra})
+
+
+def tool(fn: Callable[..., str]) -> Callable[..., str]:
+    """Register ``fn`` as an MCP tool that always returns a JSON string.
+
+    A raised exception would surface as an opaque MCP protocol error; the
+    agent gets more from ``{"error": ..., "type": ...}``. CorruptJSONError is
+    passed through verbatim because its message names the broken file and
+    says not to treat it as empty — that is exactly what the agent must see.
+    """
+
+    @functools.wraps(fn)
+    def wrapper(*args, **kwargs) -> str:
+        try:
+            return fn(*args, **kwargs)
+        except CorruptJSONError as exc:
+            _log(f"{fn.__name__}: {exc}")
+            return _error(str(exc), "CorruptJSONError", path=str(exc.path))
+        except KeyError as exc:
+            _log(f"{fn.__name__}: KeyError {exc}\n{traceback.format_exc()}")
+            return _error(f"missing key {exc}", "KeyError")
+        except Exception as exc:  # noqa: BLE001 - every failure becomes a payload
+            _log(f"{fn.__name__}: {type(exc).__name__}: {exc}\n{traceback.format_exc()}")
+            return _error(str(exc) or type(exc).__name__, type(exc).__name__)
+
+    return mcp.tool()(wrapper)
+
+
+def _split_csv(raw: Optional[str]) -> Optional[list[str]]:
+    if not raw:
+        return None
+    return [s.strip().lower() for s in raw.split(",") if s.strip()]
+
+
+def _find(pool: list[dict], event_id: str) -> Optional[dict]:
+    return next((e for e in pool if e.get("id") == event_id), None)
 
 
 # ── Event tools ───────────────────────────────────────────────────────
 
 
-@mcp.tool()
+@tool
 def event_list(
     status: str = "active",
     style: Optional[str] = None,
@@ -85,10 +147,13 @@ def event_list(
     the clock times overlap — so the call can be made per row without reading
     anything else. Resolve with venue_conflict_resolve().
     """
+    if limit < 0:
+        return _error(f"limit must be >= 0, got {limit}", "ValueError")
+
     if status == "venue_conflict":
         queue = load_venue_conflicts()
         rows = queue.get("conflicts", [])[:limit]
-        return json.dumps({
+        return _dump({
             "generated_at": queue.get("generated_at"),
             "needs_review": len(queue.get("conflicts", [])),
             "conflicts": rows,
@@ -106,20 +171,22 @@ def event_list(
                 'the hub skips that date), "duplicate" (it is just the hub\'s weekly '
                 'night; fold it in). Decisions persist across re-scrapes.'
             ),
-        }, indent=2)
+        })
 
-    if status == "active":
-        events = load_active()
-    elif status == "pending":
-        events = load_pending()
-    elif status == "rejected":
-        events = load_rejected()
-    elif status == "blocked":
-        events = load_blocked()
-    elif status == "archive":
-        events = load_archive()
-    else:
-        return json.dumps({"error": f"Invalid status '{status}'. Use active/pending/rejected/blocked/archive/venue_conflict."})
+    loaders = {
+        "active": load_active,
+        "pending": load_pending,
+        "rejected": load_rejected,
+        "blocked": load_blocked,
+        "archive": load_archive,
+    }
+    if status not in loaders:
+        return _error(
+            f"Invalid status '{status}'. Use active/pending/rejected/blocked/archive/venue_conflict.",
+            "ValueError",
+        )
+    events = loaders[status]()
+    total = len(events)
 
     if style:
         events = [e for e in events if style.lower() in [s.lower() for s in e.get("styles", [])]]
@@ -161,10 +228,10 @@ def event_list(
                 row["looks_like_class"] = True
         summary.append(row)
 
-    return json.dumps({"count": len(summary), "total": len(load_active() if status == "active" else events), "events": summary}, indent=2)
+    return _dump({"count": len(summary), "total": total, "events": summary})
 
 
-@mcp.tool()
+@tool
 def event_get(event_id: str) -> str:
     """Get full details of a specific event by ID. Searches active, pending, rejected, blocked, then archive."""
     for pool_name, pool in [
@@ -174,13 +241,13 @@ def event_get(event_id: str) -> str:
         ("blocked", load_blocked()),
         ("archive", load_archive()),
     ]:
-        for ev in pool:
-            if ev["id"] == event_id:
-                return json.dumps({"status": pool_name, "event": ev}, indent=2)
-    return json.dumps({"error": f"Event '{event_id}' not found in any pool."})
+        ev = _find(pool, event_id)
+        if ev is not None:
+            return _dump({"status": pool_name, "event": ev})
+    return _error(f"Event '{event_id}' not found in any pool.", "NotFound")
 
 
-@mcp.tool()
+@tool
 def event_add(
     name: str,
     start_date: str,
@@ -195,6 +262,7 @@ def event_add(
     event_id: Optional[str] = None,
     force: bool = False,
     distinct_from: Optional[str] = None,
+    dry_run: bool = False,
 ) -> str:
     """Add a new event to the active store. Handles dedup, geocode, and style detection automatically.
 
@@ -219,51 +287,71 @@ def event_add(
             resembles but is NOT. Persists permanent "different" verdicts so
             the fuzzy match neither queues for review nor force-merges (e.g.
             a festival pre-party vs the festival itself).
+        dry_run: Build the event and report what add_event would do (which
+            existing event it would merge into or queue against) without
+            writing anything. Use before force=True.
     """
-    import hashlib
+    start = parse_date(start_date)
+    if start is None:
+        return _error(f"start_date '{start_date}' is not an ISO datetime", "ValueError")
+    end = start
+    if end_date:
+        end = parse_date(end_date)
+        if end is None:
+            return _error(f"end_date '{end_date}' is not an ISO datetime", "ValueError")
 
     if not event_id:
         hash_input = f"{name}{start_date}{location}"
         event_id = f"{source}-{hashlib.sha1(hash_input.encode()).hexdigest()[:16]}"
 
-    style_list = None
-    if styles:
-        style_list = [s.strip().lower() for s in styles.split(",")]
+    # Same builder the scrapers use, so a manual event carries exactly the
+    # fields (dayOfWeek, cost, styles, coords) a scraped one would.
+    event = make_event(
+        id=event_id,
+        name=name,
+        start=start,
+        end=end,
+        location=location,
+        description=description,
+        url=url,
+        styles=_split_csv(styles),
+        cost=cost,
+        recurring=recurring,
+        source=source,
+    )
 
-    event = {
-        "id": event_id,
-        "name": name,
-        "startDate": start_date,
-        "endDate": end_date or start_date,
-        "location": location,
-        "lat": None,
-        "lng": None,
-        "description": description,
-        "url": url,
-        "styles": style_list or detect_styles(f"{name} {description}"),
-        "cost": cost or extract_cost(f"{name} {description}"),
-        "recurring": recurring,
-        "source": source,
-    }
+    distinct_ids = [s.strip() for s in distinct_from.split(",") if s.strip()] if distinct_from else None
 
-    coords = geocode(location)
-    if coords:
-        event["lat"], event["lng"] = coords
-
-    from event_store import parse_date, DAYS_LIST, NY_TZ
-    dt = parse_date(start_date)
-    if dt:
-        event["dayOfWeek"] = DAYS_LIST[dt.astimezone(NY_TZ).isoweekday() % 7]
-
-    distinct_ids = None
-    if distinct_from:
-        distinct_ids = [s.strip() for s in distinct_from.split(",") if s.strip()]
+    if dry_run:
+        report = {"dry_run": True, "event": event, "force": force, "distinct_from": distinct_ids}
+        for pool_name, pool in (("active", load_active()), ("archive", load_archive())):
+            hit = find_duplicate_in(event, pool)
+            if hit is not None:
+                idx, confidence = hit
+                existing = pool[idx]
+                report["duplicate"] = {
+                    "pool": pool_name,
+                    "id": existing["id"],
+                    "name": existing.get("name"),
+                    "confidence": confidence,
+                    "special_edition_mismatch": _special_edition_mismatch(event, existing),
+                }
+                if distinct_ids and existing["id"] in distinct_ids:
+                    report["would"] = f"add as distinct from {existing['id']}"
+                elif confidence == "certain" or force:
+                    report["would"] = f"merge into {pool_name} event {existing['id']}"
+                else:
+                    report["would"] = f"queue in pending as a review-tier match of {existing['id']}"
+                break
+        else:
+            report["would"] = "add to active (no duplicate found)"
+        return _dump(report)
 
     result = add_event(event, force=force, distinct_from=distinct_ids)
-    return json.dumps(result, indent=2, default=str)
+    return _dump(result)
 
 
-@mcp.tool()
+@tool
 def event_edit(event_id: str, updates_json: str) -> str:
     """Edit fields on an active event. Pass updates as a JSON object string.
 
@@ -272,49 +360,32 @@ def event_edit(event_id: str, updates_json: str) -> str:
     try:
         updates = json.loads(updates_json)
     except json.JSONDecodeError as e:
-        return json.dumps({"error": f"Invalid JSON: {e}"})
+        return _error(f"Invalid JSON: {e}", "JSONDecodeError")
+    if not isinstance(updates, dict):
+        return _error("updates_json must be a JSON object", "ValueError")
 
-    result = edit_event(event_id, updates)
-    return json.dumps(result, indent=2, default=str)
+    return _dump(edit_event(event_id, updates))
 
 
-@mcp.tool()
-def event_archive(event_id: Optional[str] = None) -> str:
+@tool
+def event_archive(event_id: Optional[str] = None, reason: str = "manual") -> str:
     """Archive past events. If event_id is given, archive that specific event. Otherwise archive all past events automatically."""
     if event_id:
-        from event_store import load_active, save_active, load_archive, save_archive, _append_changelog
-        active = load_active()
-        idx = None
-        for i, ev in enumerate(active):
-            if ev["id"] == event_id:
-                idx = i
-                break
-        if idx is None:
-            return json.dumps({"error": f"Event '{event_id}' not found in active."})
-
-        ev = active.pop(idx)
-        from datetime import datetime, timezone
-        ev["archivedAt"] = datetime.now(timezone.utc).isoformat()
-        archive = load_archive()
-        archive.append(ev)
-        save_active(active)
-        save_archive(archive)
-        _append_changelog("archive", event_id, "manual")
-        return json.dumps({"status": "archived", "event_name": ev["name"]})
+        return _dump(archive_event(event_id, reason=reason))
 
     archived = archive_past_events()
-    return json.dumps({
+    return _dump({
         "status": "done",
         "archived_count": len(archived),
         "archived": [{"id": e["id"], "name": e["name"]} for e in archived],
-    }, indent=2)
+    })
 
 
 # ── Pending / submission review ───────────────────────────────────────
 
 
-@mcp.tool()
-def event_approve(event_id: str, force: bool = False) -> str:
+@tool
+def event_approve(event_id: str, force: bool = False, dry_run: bool = False) -> str:
     """Approve a pending submission, moving it to active after validation and geocoding.
 
     For a dedup pair this MERGES the two events and permanently records them as
@@ -322,32 +393,82 @@ def event_approve(event_id: str, force: bool = False) -> str:
     a special-edition boundary (an anniversary/festival/takeover/guest night vs its
     recurring series) the merge is refused — pass force=True only if they truly are
     the same event; otherwise use event_reject(reason="distinct event").
+
+    dry_run=True reports what approving would do (and what force would
+    override) without writing anything.
     """
-    result = approve_pending(event_id, force=force)
-    return json.dumps(result, indent=2, default=str)
+    if dry_run:
+        pending = _find(load_pending(), event_id)
+        if pending is None:
+            return _error(f"Event '{event_id}' not found in pending.", "NotFound")
+        report = {"dry_run": True, "force": force, "event_id": event_id, "name": pending.get("name")}
+        candidate_id = pending.get("_dedup_candidate_of")
+        if candidate_id:
+            candidate = _find(load_active(), candidate_id)
+            mismatch = candidate is not None and _special_edition_mismatch(pending, candidate)
+            report["merge_into"] = candidate_id
+            report["dedup_reason"] = pending.get("_dedup_reason", "")
+            report["special_edition_mismatch"] = mismatch
+            if mismatch and not force:
+                report["would"] = "refuse the merge (special edition vs series); force=True would merge"
+            else:
+                report["would"] = f"merge into {candidate_id} and record the pair as the same forever"
+        else:
+            report["would"] = "move to active"
+        if _looks_like_class(pending):
+            report["looks_like_class"] = True
+        return _dump(report)
+
+    return _dump(approve_pending(event_id, force=force))
 
 
-@mcp.tool()
+@tool
 def event_reject(event_id: str, reason: str = "") -> str:
     """Reject a pending submission with an optional reason."""
-    result = reject_pending(event_id, reason)
-    return json.dumps(result, indent=2, default=str)
+    return _dump(reject_pending(event_id, reason))
 
 
-@mcp.tool()
-def event_remove(event_id: str, reason: str = "removed from active", block: bool = False, block_category: str = "other") -> str:
+@tool
+def event_remove(
+    event_id: str,
+    reason: str = "removed from active",
+    block: bool = False,
+    block_category: str = "other",
+    dry_run: bool = False,
+) -> str:
     """Remove an active event.
 
     If block=False (default): queues in rejected.json for review.
     If block=True: permanently blocks the event (prevents re-scraping).
 
     block_category (when block=True): defunct, class_only, not_latin, not_dance, out_of_area, duplicate_source, other
+
+    dry_run=True reports what would happen without writing.
     """
-    result = remove_active_event(event_id, reason, block=block, block_category=block_category)
-    return json.dumps(result, indent=2, default=str)
+    if block and block_category not in VALID_BLOCK_CATEGORIES:
+        return _error(
+            f"Invalid block_category '{block_category}'. Use one of: {sorted(VALID_BLOCK_CATEGORIES)}",
+            "ValueError",
+        )
+    if dry_run:
+        ev = _find(load_active(), event_id)
+        if ev is None:
+            return _error(f"Event '{event_id}' not found in active.", "NotFound")
+        return _dump({
+            "dry_run": True,
+            "event_id": event_id,
+            "name": ev.get("name"),
+            "would": (
+                f"remove from active and block permanently ({block_category})"
+                if block else "remove from active and queue in rejected for review"
+            ),
+            "reason": reason,
+        })
+
+    return _dump(remove_active_event(event_id, reason, block=block, block_category=block_category))
 
 
-@mcp.tool()
+@tool
 def venue_conflict_resolve(event_id: str, decision: str, note: str = "") -> str:
     """Rule on an event that collides with a venue hub's weekly night.
 
@@ -362,18 +483,16 @@ def venue_conflict_resolve(event_id: str, decision: str, note: str = "") -> str:
     have already judged will not come back next week. Run event_publish()
     afterwards to apply it.
     """
-    result = resolve_venue_conflict(event_id, decision, note=note)
-    return json.dumps(result, indent=2, default=str)
+    return _dump(resolve_venue_conflict(event_id, decision, note=note))
 
 
-@mcp.tool()
+@tool
 def event_approve_rejected(event_id: str) -> str:
     """Promote a rejected event to active (bypasses Latin dance keyword check)."""
-    result = approve_rejected(event_id)
-    return json.dumps(result, indent=2, default=str)
+    return _dump(approve_rejected(event_id))
 
 
-@mcp.tool()
+@tool
 def event_dismiss_rejected(event_id: str, reason: str = "", block: bool = False, block_category: str = "other") -> str:
     """Dismiss a rejected event.
 
@@ -382,12 +501,11 @@ def event_dismiss_rejected(event_id: str, reason: str = "", block: bool = False,
 
     block_category (when block=True): defunct, class_only, not_latin, not_dance, out_of_area, duplicate_source, other
     """
-    result = dismiss_rejected(event_id, reason, block=block, block_category=block_category)
-    return json.dumps(result, indent=2, default=str)
+    return _dump(dismiss_rejected(event_id, reason, block=block, block_category=block_category))
 
 
-@mcp.tool()
-def event_block(event_id: str, category: str, notes: str = "") -> str:
+@tool
+def event_block(event_id: str, category: str, notes: str = "", dry_run: bool = False) -> str:
     """Permanently block an event from appearing on the map. Prevents re-scraping from adding it back.
 
     Searches active, rejected, and archive to find and remove the event, then adds to blocked.json.
@@ -400,19 +518,40 @@ def event_block(event_id: str, category: str, notes: str = "") -> str:
       out_of_area      - not in Boston metro area
       duplicate_source - covered by another source or venue entry
       other            - catch-all
+
+    dry_run=True reports which pool the event would be pulled from without writing.
     """
-    result = block_event(event_id, category, notes)
-    return json.dumps(result, indent=2, default=str)
+    if category not in VALID_BLOCK_CATEGORIES:
+        return _error(
+            f"Invalid category '{category}'. Use one of: {sorted(VALID_BLOCK_CATEGORIES)}",
+            "ValueError",
+        )
+    if dry_run:
+        for pool_name, loader in (("active", load_active), ("rejected", load_rejected), ("archive", load_archive)):
+            ev = _find(loader(), event_id)
+            if ev is not None:
+                return _dump({
+                    "dry_run": True,
+                    "event_id": event_id,
+                    "name": ev.get("name"),
+                    "found_in": pool_name,
+                    "would": f"remove from {pool_name} and block permanently ({category})",
+                    "notes": notes,
+                })
+        if _find(load_blocked(), event_id) is not None:
+            return _dump({"dry_run": True, "event_id": event_id, "would": "nothing: already blocked"})
+        return _error(f"Event '{event_id}' not found in active, rejected, or archive.", "NotFound")
+
+    return _dump(block_event(event_id, category, notes))
 
 
-@mcp.tool()
+@tool
 def event_unblock(event_id: str) -> str:
     """Remove an event from the blocklist. It will be re-added on the next scrape if still in the source."""
-    result = unblock_event(event_id)
-    return json.dumps(result, indent=2, default=str)
+    return _dump(unblock_event(event_id))
 
 
-@mcp.tool()
+@tool
 def event_list_blocked(category: Optional[str] = None) -> str:
     """List all permanently blocked events. Optionally filter by category.
 
@@ -421,7 +560,10 @@ def event_list_blocked(category: Optional[str] = None) -> str:
     blocked = load_blocked()
     if category:
         if category not in VALID_BLOCK_CATEGORIES:
-            return json.dumps({"error": f"Invalid category '{category}'. Use one of: {list(VALID_BLOCK_CATEGORIES)}"})
+            return _error(
+                f"Invalid category '{category}'. Use one of: {sorted(VALID_BLOCK_CATEGORIES)}",
+                "ValueError",
+            )
         blocked = [b for b in blocked if b.get("blocked_category") == category]
     summary = [{
         "id": b["id"],
@@ -430,13 +572,13 @@ def event_list_blocked(category: Optional[str] = None) -> str:
         "blocked_reason": b.get("blocked_reason", ""),
         "blocked_at": b.get("blocked_at", ""),
     } for b in blocked]
-    return json.dumps({"count": len(summary), "blocked": summary}, indent=2)
+    return _dump({"count": len(summary), "blocked": summary})
 
 
 # ── Known-duplicate verdicts ──────────────────────────────────────────
 
 
-@mcp.tool()
+@tool
 def known_duplicate_list() -> str:
     """List human-reviewed duplicate verdicts from data/known_duplicates.json.
 
@@ -445,26 +587,35 @@ def known_duplicate_list() -> str:
     again). Use this to audit what past approvals committed the pipeline to.
     """
     entries = list_known_duplicates()
-    return json.dumps({"count": len(entries), "known_duplicates": entries}, indent=2)
+    return _dump({"count": len(entries), "known_duplicates": entries})
 
 
-@mcp.tool()
-def known_duplicate_forget(id_a: str, id_b: str) -> str:
+@tool
+def known_duplicate_forget(id_a: str, id_b: str, dry_run: bool = False) -> str:
     """Delete a stored duplicate verdict so the pair is re-evaluated on next scrape.
 
     Undoes a wrong "same" verdict (which otherwise auto-merges the pair forever)
     or a wrong "different" verdict (which suppresses it from review forever).
     Removing the record does NOT un-merge events that were already merged — fix
     those with event_edit / event_add if needed.
+
+    dry_run=True shows the verdict that would be deleted without deleting it.
     """
-    result = forget_known_duplicate(id_a, id_b)
-    return json.dumps(result, indent=2)
+    if dry_run:
+        pair = {id_a, id_b}
+        matches = [e for e in list_known_duplicates() if {e.get("id_a"), e.get("id_b")} == pair]
+        if not matches:
+            return _dump({"dry_run": True, "would": "nothing: no verdict stored for this pair",
+                          "id_a": id_a, "id_b": id_b})
+        return _dump({"dry_run": True, "would": "delete this verdict", "verdicts": matches})
+
+    return _dump(forget_known_duplicate(id_a, id_b))
 
 
 # ── Scraping and ingestion ────────────────────────────────────────────
 
 
-@mcp.tool()
+@tool
 def event_scrape(source_id: Optional[str] = None, quarantine_new: bool = False) -> str:
     """Run scrapers and ingest new events into the active store.
 
@@ -472,77 +623,36 @@ def event_scrape(source_id: Optional[str] = None, quarantine_new: bool = False) 
     After scraping, automatically archives past events. Does NOT publish — call event_publish() separately.
     quarantine_new=True routes brand-new events to pending.json for review instead of active.
 
-    Available source_ids: beatrice-calendar, sensualeros-boston, unabulla-cuban-boston, lister-events, nlf-events, pr-festival-ma, mato-lawn-on-d, harvardsquare, eventbrite-boston-latin, fiesta-dance-company, somerville-arts, eastboston-events, lous-live, jandl-events, submissions
-    (Facebook sources require browser MCP and are not auto-runnable.)
+    Uses the same runner (and scraper list) as the cron pipeline, so a source
+    that works here works there. Facebook sources require browser MCP and are
+    not auto-runnable.
     """
-    runnable = {
-        "beatrice-calendar": ["scrape_ics.py"],
-        "sensualeros-boston": ["scrape_ics.py", "sensualeros-boston"],
-        "unabulla-cuban-boston": ["scrape_ics.py", "unabulla-cuban-boston"],
-        "lister-events": ["scrape_jsonld.py", "lister-events"],
-        "nlf-events": ["scrape_jsonld.py", "nlf-events"],
-        "pr-festival-ma": ["scrape_jsonld.py", "pr-festival-ma"],
-        "mato-lawn-on-d": ["scrape_jsonld.py", "mato-lawn-on-d"],
-        "harvardsquare": ["scrape_jsonld.py", "harvardsquare"],
-        "eventbrite-boston-latin": ["scrape_eventbrite.py"],
-        "fiesta-dance-company": ["scrape_fiesta_dance.py"],
-        "somerville-arts": ["scrape_tribe_calendar.py", "somerville-arts"],
-        "eastboston-events": ["scrape_eastboston.py"],
-        "lous-live": ["scrape_lous.py"],
-        "jandl-events": ["scrape_jandl.py"],
-        "submissions": ["fetch_submissions.py"],
-    }
+    results = run_scrapers(only=source_id, timeout=SCRAPE_TIMEOUT_SECONDS)
+    if source_id and not results:
+        return _error(f"Unknown or non-runnable source '{source_id}'.", "ValueError")
 
-    if source_id and source_id not in runnable:
-        return json.dumps({"error": f"Unknown or non-runnable source '{source_id}'. Available: {list(runnable.keys())}"})
-
-    targets = {source_id: runnable[source_id]} if source_id else runnable
-    scrape_results = {}
-
-    for sid, cmd_parts in targets.items():
-        script_path = SCRIPTS_DIR / cmd_parts[0]
-        extra_args = cmd_parts[1:]
-        try:
-            result = subprocess.run(
-                [sys.executable, str(script_path)] + extra_args,
-                capture_output=True, text=True, timeout=120,
-                cwd=str(ROOT),
-            )
-            scrape_results[sid] = {
-                "exit_code": result.returncode,
-                "output": result.stdout[-500:] if result.stdout else "",
-                "error": result.stderr[-300:] if result.stderr else "",
-            }
-        except subprocess.TimeoutExpired:
-            scrape_results[sid] = {"exit_code": -1, "error": "timeout (120s)"}
-        except Exception as e:
-            scrape_results[sid] = {"exit_code": -1, "error": str(e)}
-
-    # Ingest all scraped files
     ingest_result = ingest_scraped(source_id, quarantine_new=quarantine_new)
-
-    # Auto-archive past events
     archived = archive_past_events()
 
-    return json.dumps({
-        "scrape_results": scrape_results,
+    return _dump({
+        "scrape_results": results,
+        "scrapers_failed": [r["source_id"] for r in results if not r.get("ok")],
         "ingestion": ingest_result,
         "archived_count": len(archived),
-    }, indent=2)
+    })
 
 
-@mcp.tool()
+@tool
 def event_ingest(source_id: Optional[str] = None, quarantine_new: bool = False) -> str:
     """Ingest events from data/scraped/ into active store WITHOUT re-running scrapers.
 
     Useful after manually placing a JSON file in data/scraped/ or after browser-based scraping.
     quarantine_new=True routes brand-new events to pending.json for review instead of active.
     """
-    result = ingest_scraped(source_id, quarantine_new=quarantine_new)
-    return json.dumps(result, indent=2)
+    return _dump(ingest_scraped(source_id, quarantine_new=quarantine_new))
 
 
-@mcp.tool()
+@tool
 def scraper_health() -> str:
     """Report each scraper's last-run health, flagging ones that need a redesign.
 
@@ -563,16 +673,13 @@ def scraper_health() -> str:
     health = load_scrape_health()
     needs_redesign = [sid for sid, h in health.items()
                       if h.get("status") == "structure_missing"]
-    return json.dumps({
-        "needs_redesign": needs_redesign,
-        "health": health,
-    }, indent=2)
+    return _dump({"needs_redesign": needs_redesign, "health": health})
 
 
 # ── Publishing ────────────────────────────────────────────────────────
 
 
-@mcp.tool()
+@tool
 def event_publish() -> str:
     """Regenerate public/events.json from active events + expanded venues.
 
@@ -583,32 +690,27 @@ def event_publish() -> str:
     published file, the published files are restored and the result reports
     "status": "tripwire" with "tripped": true — do NOT commit; investigate first.
     """
-    result = publish_guarded()
-    return json.dumps(result, indent=2)
+    return _dump(publish_guarded())
 
 
 # ── Venue management ──────────────────────────────────────────────────
 
 
-@mcp.tool()
+@tool
 def venue_list() -> str:
     """List all permanent weekly venues from data/venues.json."""
-    if not VENUES_JSON.exists():
-        return json.dumps({"venues": []})
-    venues = json.loads(VENUES_JSON.read_text())
-    summary = []
-    for v in venues:
-        summary.append({
-            "id": v["id"],
-            "name": v["name"],
-            "location": v.get("location", ""),
-            "styles": v.get("styles", []),
-            "schedule_days": [s["dayOfWeek"] for s in v.get("schedule", [])],
-        })
-    return json.dumps({"count": len(summary), "venues": summary}, indent=2)
+    venues = read_json(VENUES_JSON, default=[])
+    summary = [{
+        "id": v["id"],
+        "name": v["name"],
+        "location": v.get("location", ""),
+        "styles": v.get("styles", []),
+        "schedule_days": [s["dayOfWeek"] for s in v.get("schedule", [])],
+    } for v in venues]
+    return _dump({"count": len(summary), "venues": summary})
 
 
-@mcp.tool()
+@tool
 def venue_add(
     venue_id: str,
     name: str,
@@ -637,14 +739,15 @@ def venue_add(
     try:
         schedule = json.loads(schedule_json)
     except json.JSONDecodeError as e:
-        return json.dumps({"error": f"Invalid schedule JSON: {e}"})
+        return _error(f"Invalid schedule JSON: {e}", "JSONDecodeError")
+    issues = validate_venue_schedule(schedule)
+    if issues:
+        return _error("Invalid schedule: " + "; ".join(issues), "ValueError", issues=issues)
 
     if lat is None or lng is None:
         coords = geocode(location)
         if coords:
             lat, lng = coords
-
-    style_list = [s.strip().lower() for s in styles.split(",")] if styles else detect_styles(f"{name} {description}")
 
     venue = {
         "id": venue_id,
@@ -653,37 +756,25 @@ def venue_add(
         "lat": lat,
         "lng": lng,
         "url": url,
-        "styles": style_list,
+        "styles": _split_csv(styles) or detect_styles(f"{name} {description}"),
         "cost": cost,
         "description": description,
         "schedule": schedule,
     }
-
-    venues = json.loads(VENUES_JSON.read_text()) if VENUES_JSON.exists() else []
-    for existing in venues:
-        if existing["id"] == venue_id:
-            return json.dumps({"error": f"Venue '{venue_id}' already exists. Edit it directly in data/venues.json."})
-
-    venues.append(venue)
-    VENUES_JSON.write_text(json.dumps(venues, indent=2, ensure_ascii=False))
-
-    from event_store import slugify
-    venue["slug"] = slugify(name, venue_id)
-
-    return json.dumps({"status": "added", "venue": venue}, indent=2)
+    return _dump(add_venue(venue))
 
 
 # ── Source management ─────────────────────────────────────────────────
 
 
-@mcp.tool()
+@tool
 def source_list() -> str:
     """List all registered event sources from data/sources.json."""
     sources = load_sources()
-    return json.dumps({"count": len(sources), "sources": sources}, indent=2)
+    return _dump({"count": len(sources), "sources": sources})
 
 
-@mcp.tool()
+@tool
 def source_add(
     source_id: str,
     source_type: str,
@@ -702,13 +793,6 @@ def source_add(
         url: Primary URL for the source
         config_json: Additional config as JSON object (merged into entry)
     """
-    sources_path = DATA_DIR / "sources.json"
-    sources = json.loads(sources_path.read_text()) if sources_path.exists() else []
-
-    for s in sources:
-        if s["id"] == source_id:
-            return json.dumps({"error": f"Source '{source_id}' already exists."})
-
     entry = {
         "id": source_id,
         "type": source_type,
@@ -721,19 +805,19 @@ def source_add(
     if config_json:
         try:
             extra = json.loads(config_json)
-            entry.update(extra)
-        except json.JSONDecodeError:
-            pass
+        except json.JSONDecodeError as e:
+            return _error(f"Invalid config_json: {e}", "JSONDecodeError")
+        if not isinstance(extra, dict):
+            return _error("config_json must be a JSON object", "ValueError")
+        entry.update(extra)
 
-    sources.append(entry)
-    sources_path.write_text(json.dumps(sources, indent=2, ensure_ascii=False))
-    return json.dumps({"status": "added", "source": entry}, indent=2)
+    return _dump(add_source(entry))
 
 
 # ── Verification ──────────────────────────────────────────────────────
 
 
-@mcp.tool()
+@tool
 def event_verify(
     event_id: Optional[str] = None,
     stale_days: Optional[int] = None,
@@ -752,8 +836,6 @@ def event_verify(
       confirmed, location_mismatch, date_mismatch, cancelled, page_gone,
       needs_review, needs_browser, no_source, unverifiable
     """
-    from verify_events import verify_all
-
     report = verify_all(event_id=event_id, stale_days=stale_days)
 
     summary: dict[str, int] = {}
@@ -779,15 +861,15 @@ def event_verify(
         if e["status"] not in ("confirmed", "reachable_only")
     ]
 
-    return json.dumps({
+    return _dump({
         "total_verified": len(report),
         "summary": summary,
         "flagged_count": len(flagged),
         "flagged": flagged,
-    }, indent=2)
+    })
 
 
-@mcp.tool()
+@tool
 def event_set_location_override(event_id: str, location: str) -> str:
     """Set a location override on an event so re-scraping won't revert it.
 
@@ -798,25 +880,23 @@ def event_set_location_override(event_id: str, location: str) -> str:
         event_id: The event to fix
         location: The correct location string
     """
-    active = load_active()
-    for ev in active:
-        if ev["id"] == event_id:
-            ev["_location_override"] = location
-            ev["location"] = location
-            coords = geocode(location)
-            if coords:
-                ev["lat"], ev["lng"] = coords
-            from event_store import save_active, _append_changelog
-            save_active(active)
-            _append_changelog("location_override", event_id, location)
-            return json.dumps({
-                "status": "override_set",
-                "event_id": event_id,
-                "location": location,
-                "geocoded": coords is not None,
-            }, indent=2)
+    before = _find(load_active(), event_id)
+    if before is None:
+        return _error(f"Event '{event_id}' not found in active.", "NotFound")
 
-    return json.dumps({"error": f"Event '{event_id}' not found in active."})
+    # edit_event re-geocodes a changed location, saves under the store's
+    # lock and writes the changelog — the same path every other edit takes.
+    result = edit_event(event_id, {"_location_override": location, "location": location})
+    if result.get("status") != "updated":
+        return _error(result.get("message", f"Event '{event_id}' not found in active."), "NotFound")
+    after = result["event"]
+    return _dump({
+        "status": "override_set",
+        "event_id": event_id,
+        "location": location,
+        "geocoded": after.get("lat") is not None
+        and (after.get("lat"), after.get("lng")) != (before.get("lat"), before.get("lng")),
+    })
 
 
 # ── Entry point ───────────────────────────────────────────────────────
