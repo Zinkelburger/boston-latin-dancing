@@ -23,19 +23,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import event_store as es
 
 
-@pytest.fixture
-def store(tmp_path, monkeypatch):
-    events_dir = tmp_path / "events"
-    events_dir.mkdir()
-    monkeypatch.setattr(es, "EVENTS_DIR", events_dir)
-    monkeypatch.setattr(es, "ACTIVE_JSON", events_dir / "active.json")
-    monkeypatch.setattr(es, "ARCHIVE_JSON", events_dir / "archive.json")
-    monkeypatch.setattr(es, "PENDING_JSON", events_dir / "pending.json")
-    monkeypatch.setattr(es, "REJECTED_JSON", events_dir / "rejected.json")
-    monkeypatch.setattr(es, "BLOCKED_JSON", events_dir / "blocked.json")
-    monkeypatch.setattr(es, "CHANGELOG", events_dir / "changelog.jsonl")
-    monkeypatch.setattr(es, "KNOWN_DUPLICATES_JSON", tmp_path / "known_duplicates.json")
-    return es
 
 
 NY = ZoneInfo("America/New_York")

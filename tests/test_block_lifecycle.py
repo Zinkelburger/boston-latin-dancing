@@ -16,22 +16,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import event_store as es
 
 
-@pytest.fixture
-def store(tmp_path, monkeypatch):
-    """Point all store files at a tmp dir so tests never touch real data."""
-    events_dir = tmp_path / "events"
-    events_dir.mkdir()
-    scraped_dir = tmp_path / "scraped"
-    scraped_dir.mkdir()
-    monkeypatch.setattr(es, "EVENTS_DIR", events_dir)
-    monkeypatch.setattr(es, "ACTIVE_JSON", events_dir / "active.json")
-    monkeypatch.setattr(es, "ARCHIVE_JSON", events_dir / "archive.json")
-    monkeypatch.setattr(es, "PENDING_JSON", events_dir / "pending.json")
-    monkeypatch.setattr(es, "REJECTED_JSON", events_dir / "rejected.json")
-    monkeypatch.setattr(es, "BLOCKED_JSON", events_dir / "blocked.json")
-    monkeypatch.setattr(es, "CHANGELOG", events_dir / "changelog.jsonl")
-    monkeypatch.setattr(es, "SCRAPED_DIR", scraped_dir)
-    return es
 
 
 # Boston ~ (42.36, -71.06); Miami ~ (25.8, -80.2) is well past the 50km radius.

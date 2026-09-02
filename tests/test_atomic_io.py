@@ -38,7 +38,7 @@ def test_write_failure_does_not_touch_existing_file(tmp_path):
     with pytest.raises(TypeError):
         atomic_io.write_json(p, [object()])
     assert atomic_io.read_json(p) == [1]
-    assert [f.name for f in tmp_path.iterdir()] == ["data.json"]
+    assert [f.name for f in tmp_path.iterdir() if f.is_file()] == ["data.json"]
 
 
 def test_append_line_adds_whole_lines(tmp_path):

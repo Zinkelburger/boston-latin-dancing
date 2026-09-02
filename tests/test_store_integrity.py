@@ -38,25 +38,9 @@ NY = ZoneInfo("America/New_York")
 
 
 @pytest.fixture
-def store(tmp_path, monkeypatch):
-    events_dir = tmp_path / "events"
-    events_dir.mkdir()
-    (tmp_path / "public").mkdir()
-    monkeypatch.setattr(es, "ROOT", tmp_path)
-    monkeypatch.setattr(es, "EVENTS_DIR", events_dir)
-    monkeypatch.setattr(es, "ACTIVE_JSON", events_dir / "active.json")
-    monkeypatch.setattr(es, "ARCHIVE_JSON", events_dir / "archive.json")
-    monkeypatch.setattr(es, "PENDING_JSON", events_dir / "pending.json")
-    monkeypatch.setattr(es, "REJECTED_JSON", events_dir / "rejected.json")
-    monkeypatch.setattr(es, "BLOCKED_JSON", events_dir / "blocked.json")
-    monkeypatch.setattr(es, "CHANGELOG", events_dir / "changelog.jsonl")
-    monkeypatch.setattr(es, "SCRAPED_DIR", tmp_path / "scraped")
-    monkeypatch.setattr(es, "KNOWN_DUPLICATES_JSON", tmp_path / "known_duplicates.json")
+def store(store, tmp_path, monkeypatch):
     monkeypatch.setattr(es, "VENUES_JSON", tmp_path / "venues.json")
     monkeypatch.setattr(es, "SOURCES_JSON", tmp_path / "sources.json")
-    # The published file must be the one the slug registry reads back
-    # (conftest points sr.PUBLISHED at tmp_path / "events-published.json").
-    monkeypatch.setattr(es, "PUBLIC_EVENTS_JSON", tmp_path / "events-published.json")
     atomic_io.write_json(tmp_path / "venues.json", [])
     monkeypatch.setattr(es, "_load_source_names", lambda: {})
     monkeypatch.setattr(es, "noisy_source_ids", lambda: set())

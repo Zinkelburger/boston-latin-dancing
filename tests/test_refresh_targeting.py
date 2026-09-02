@@ -22,21 +22,6 @@ import event_store as es
 import verify_events as ve
 
 
-@pytest.fixture
-def store(tmp_path, monkeypatch):
-    events_dir = tmp_path / "events"
-    events_dir.mkdir()
-    scraped_dir = tmp_path / "scraped"
-    scraped_dir.mkdir()
-    monkeypatch.setattr(es, "EVENTS_DIR", events_dir)
-    monkeypatch.setattr(es, "ACTIVE_JSON", events_dir / "active.json")
-    monkeypatch.setattr(es, "ARCHIVE_JSON", events_dir / "archive.json")
-    monkeypatch.setattr(es, "PENDING_JSON", events_dir / "pending.json")
-    monkeypatch.setattr(es, "REJECTED_JSON", events_dir / "rejected.json")
-    monkeypatch.setattr(es, "BLOCKED_JSON", events_dir / "blocked.json")
-    monkeypatch.setattr(es, "CHANGELOG", events_dir / "changelog.jsonl")
-    monkeypatch.setattr(es, "SCRAPED_DIR", scraped_dir)
-    return es
 
 
 def _event(**overrides):
@@ -119,9 +104,6 @@ def test_jsonld_scheduled_status_overrides_page_text(monkeypatch):
 
 def test_publish_excludes_irregular_venue_placeholders(store, tmp_path, monkeypatch):
     monkeypatch.setattr(es, "VENUES_JSON", tmp_path / "venues.json")
-    monkeypatch.setattr(es, "PUBLIC_EVENTS_JSON", tmp_path / "events-published.json")
-    monkeypatch.setattr(es, "ROOT", tmp_path)
-    (tmp_path / "public").mkdir()
     (tmp_path / "venues.json").write_text(json.dumps([
         {
             "id": "irregular-venue",

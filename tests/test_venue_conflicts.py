@@ -213,13 +213,7 @@ def test_review_row_carries_no_recommendation():
 # ── resolution writes through ─────────────────────────────────────────
 
 @pytest.fixture
-def store(tmp_path, monkeypatch):
-    events_dir = tmp_path / "events"
-    events_dir.mkdir()
-    monkeypatch.setattr(es, "EVENTS_DIR", events_dir)
-    monkeypatch.setattr(es, "ACTIVE_JSON", events_dir / "active.json")
-    monkeypatch.setattr(es, "CHANGELOG", events_dir / "changelog.jsonl")
-    monkeypatch.setattr(es, "VENUE_CONFLICTS_JSON", events_dir / "venue-conflicts.json")
+def store(store, tmp_path, monkeypatch):
     venues = tmp_path / "venues.json"
     venues.write_text(json.dumps([{"id": "havana-club", "name": "Havana Club",
                                    "schedule": HAVANA_HUB["schedule"]}]))

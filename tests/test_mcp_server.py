@@ -50,23 +50,10 @@ srv = _load_mcp_server()
 
 
 @pytest.fixture
-def store(tmp_path, monkeypatch):
-    events_dir = tmp_path / "events"
-    events_dir.mkdir()
-    scraped_dir = tmp_path / "scraped"
-    scraped_dir.mkdir()
-    monkeypatch.setattr(es, "EVENTS_DIR", events_dir)
-    monkeypatch.setattr(es, "ACTIVE_JSON", events_dir / "active.json")
-    monkeypatch.setattr(es, "ARCHIVE_JSON", events_dir / "archive.json")
-    monkeypatch.setattr(es, "PENDING_JSON", events_dir / "pending.json")
-    monkeypatch.setattr(es, "REJECTED_JSON", events_dir / "rejected.json")
-    monkeypatch.setattr(es, "BLOCKED_JSON", events_dir / "blocked.json")
-    monkeypatch.setattr(es, "CHANGELOG", events_dir / "changelog.jsonl")
-    monkeypatch.setattr(es, "SCRAPED_DIR", scraped_dir)
+def store(store, tmp_path, monkeypatch):
     monkeypatch.setattr(es, "VENUES_JSON", tmp_path / "venues.json")
-    monkeypatch.setattr(es, "KNOWN_DUPLICATES_JSON", tmp_path / "known_duplicates.json")
     monkeypatch.setattr(srv, "VENUES_JSON", tmp_path / "venues.json")
-    # Never geocode over the network from a test.
+    # The MCP tools geocode new events; give them a fixed Boston point.
     monkeypatch.setattr(scraper_utils, "geocode", lambda location: (42.36, -71.06))
     monkeypatch.setattr(srv, "geocode", lambda location: (42.36, -71.06))
     return es

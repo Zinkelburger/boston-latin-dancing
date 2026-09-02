@@ -150,10 +150,16 @@ def _label_from_recurrence_dates(dates: list[datetime]) -> Optional[str]:
     nth_values = [_nth_weekday_of_month(d) for d in dates]
     last_flags = [_is_last_weekday_of_month(d) for d in dates]
 
-    if len(set(nth_values)) == 1 and len(set(last_flags)) == 1:
+    # A "last Sunday" series is the 4th Sunday in some months and the 5th in
+    # others, so it is recognised by the last-flag alone; otherwise a series
+    # that always lands on the same ordinal is that ordinal, even when the
+    # ordinal happens to be the last one in a short month.
+    all_last = all(last_flags)
+    same_nth = len(set(nth_values)) == 1
+    if all_last or same_nth:
         gap = _median_gap_days(dates)
         if gap is not None and 24 <= gap <= 35:
-            word = _ordinal_phrase(nth_values[0], last_flags[0])
+            word = _ordinal_phrase(nth_values[0], all_last)
             return f"{word} {day_name} of each month"
 
     gap = _median_gap_days(dates)
