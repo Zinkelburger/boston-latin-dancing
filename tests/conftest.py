@@ -27,5 +27,6 @@ import slug_registry as sr
 def _isolate_dedup_log(tmp_path, monkeypatch):
     monkeypatch.setattr(es, "DEDUP_LOG", tmp_path / "dedup-log.jsonl")
     monkeypatch.setattr(es, "VENUE_CONFLICTS_JSON", tmp_path / "venue-conflicts.json")
+    monkeypatch.setattr(es, "STORE_LOCK", tmp_path / "store")
     monkeypatch.setattr(sr, "REGISTRY_PATH", tmp_path / "slug-registry.json")
     monkeypatch.setattr(sr, "PUBLISHED", tmp_path / "events-published.json")

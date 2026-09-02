@@ -19,6 +19,7 @@ Provides:
   - Publish step (generate public/events.json)
 """
 
+import functools
 import hashlib
 import json
 import math
@@ -27,12 +28,17 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Optional
 from unicodedata import normalize as unicode_normalize
-from zoneinfo import ZoneInfo
 
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import atomic_io
+from atomic_io import CorruptJSONError  # noqa: F401 - re-exported for callers
 from scraper_utils import ROOT, SCRAPED_DIR, VENUE_COORDS, clean_location, geocode, detect_styles, extract_cost, load_sources, mentions_latin, _eventbrite_address, _normalize, _is_near_boston
-from recurrence_utils import recurrence_label
+from source_signal import noisy_source_ids, unreliable_source_ids
+# Calendar constants and the ISO parser live in recurrence_utils (which does not
+# import this module) so the two never drift. They are re-exported from here
+# because the MCP server imports parse_date / DAYS_LIST / NY_TZ from event_store.
+from recurrence_utils import DAY_INDEX, DAYS_LIST, NY_TZ, parse_date, recurrence_label  # noqa: F401
 
 # ── Paths ─────────────────────────────────────────────────────────────
 
@@ -48,15 +54,46 @@ PUBLIC_EVENTS_JSON = ROOT / "data" / "events-published.json"
 
 DEDUP_LOG = EVENTS_DIR / "dedup-log.jsonl"
 KNOWN_DUPLICATES_JSON = ROOT / "data" / "known_duplicates.json"
+SOURCES_JSON = ROOT / "data" / "sources.json"
+LOCATION_ALIASES_JSON = ROOT / "data" / "location-aliases.json"
 # Publish-time review queue: scraped events that collide with a venue hub but
 # are not obviously the hub's regular night. Regenerated every publish.
 VENUE_CONFLICTS_JSON = EVENTS_DIR / "venue-conflicts.json"
 
-NY_TZ = ZoneInfo("America/New_York")
+# One lock for the whole store. Every read/modify/write of any store file —
+# active, archive, pending, rejected, blocked, known duplicates, venues,
+# sources — runs under it, so the long-lived MCP server, the cron pipeline and
+# the review CLIs serialise instead of overwriting each other's saves. A single
+# store-wide lock (rather than one per file) means a multi-file move can never
+# deadlock on lock ordering. atomic_io.locked is re-entrant, so lifecycle
+# functions may call each other freely. The sidecar is <STORE_LOCK>.lock.
+STORE_LOCK = EVENTS_DIR / "store"
 
 EVENTS_DIR.mkdir(parents=True, exist_ok=True)
 
-_known_duplicates_cache: Optional[list[dict]] = None
+
+def _log(msg: str) -> None:
+    """Operator-facing progress and warnings. Always stderr: the MCP server
+    speaks JSON-RPC on stdout, and a stray print there corrupts the stream."""
+    print(msg, file=sys.stderr, flush=True)
+
+
+def store_lock():
+    """Context manager holding the store-wide lock (re-entrant).
+
+    CLIs and the MCP server wrap any direct load_*/modify/save_* sequence in
+    it so their write cannot race a lifecycle function in another process.
+    """
+    return atomic_io.locked(STORE_LOCK)
+
+
+def _locked(fn):
+    """Run a lifecycle function under the store-wide lock."""
+    @functools.wraps(fn)
+    def wrapper(*args, **kwargs):
+        with atomic_io.locked(STORE_LOCK):
+            return fn(*args, **kwargs)
+    return wrapper
 
 # ── Source priority ───────────────────────────────────────────────────
 # Lower rank = higher precedence. Venue schedule hubs always win (see source_rank).
@@ -109,61 +146,27 @@ def pick_winner(a: dict, b: dict) -> tuple[dict, dict]:
 
 # ── Location aliases ──────────────────────────────────────────────────
 # Maps variant location names to a canonical key so events at the same
-# physical venue match even when sources name the venue differently.
+# physical venue match even when sources name the venue differently. The
+# table itself is data, not code: data/location-aliases.json, shaped
+# {"canonical-key": ["alias", "alias", ...]}. Keys starting with "_" are notes.
 
-LOCATION_ALIASES: dict[str, str] = {
-    "rumba y timbal": "rumba-y-timbal",
-    "rumba y timbal dance studio": "rumba-y-timbal",
-    "7 temple st": "rumba-y-timbal",
-    "7 temple street": "rumba-y-timbal",
-    "j&l dance studio": "jl-dance-studio",
-    "j&l dance": "jl-dance-studio",
-    "75 pleasant st": "jl-dance-studio",
-    "75 pleasant street": "jl-dance-studio",
-    "the anchor boston": "the-anchor",
-    "the anchor": "the-anchor",
-    "1 shipyard park": "the-anchor",
-    "shipyard park": "the-anchor",
-    "hatch shell on the esplanade": "hatch-shell",
-    "hatch memorial shell": "hatch-shell",
-    "docks near the hatch memorial shell": "hatch-shell",
-    "the dante alighieri society of massachusetts": "dante-alighieri",
-    "dante alighieri society": "dante-alighieri",
-    "41 hampshire st": "dante-alighieri",
-    "marina bay quincy": "marina-bay-quincy",
-    "marina bay ferry": "marina-bay-quincy",
-    "552 victory road": "marina-bay-quincy",
-    "552 victory rd": "marina-bay-quincy",
-    "magazine beach": "magazine-beach",
-    "magazine beach park": "magazine-beach",
-    "668 memorial dr": "magazine-beach",
-    "668 memorial drive": "magazine-beach",
-    "nature center @ magazine beach park": "magazine-beach",
-    "mass audubon magazine beach park nature center": "magazine-beach",
-    "the cantab lounge": "cantab-lounge",
-    "cantab lounge": "cantab-lounge",
-    "738 massachusetts ave": "cantab-lounge",
-    # Moves & Vibes (Cambridge) — scraped as "Dance Co", "Dancing Academy",
-    # and "Dance and Entertainment Co", with the street as both "5th" and "Fifth".
-    "moves & vibes": "moves-vibes",
-    "44 5th st": "moves-vibes",
-    "44 fifth st": "moves-vibes",
-    "44 fifth street": "moves-vibes",
-    # La Fábrica Central (Cambridge) — appears with/without accent. (Deliberately
-    # not aliasing the bare "450 Massachusetts Ave": special one-off editions are
-    # listed by address only, and we don't want them swallowed into the series.)
-    "la fabrica": "la-fabrica-central",
-    "la fábrica": "la-fabrica-central",
-    # El Barco (Boston) — appears by name and as bare address.
-    "el barco": "el-barco",
-    "50 dalton st": "el-barco",
-    "50 dalton street": "el-barco",
-    # Wally's Cafe Jazz Club (Boston) — appears with accented apostrophe
-    # and with "EE. UU." vs "USA" country suffix across sources.
-    "wally's cafe jazz club": "wallys-cafe",
-    "wally's cafe": "wallys-cafe",
-    "427 massachusetts ave": "wallys-cafe",
-}
+
+def _load_location_aliases(path: Optional[Path] = None) -> dict[str, str]:
+    """Flatten the aliases file into the alias -> canonical-key map that
+    _canonical_location() walks. Insertion order is preserved because the
+    substring pass takes the first alias that matches, so the file's order is
+    the precedence order. A missing file means no aliases; a corrupt one raises."""
+    raw = atomic_io.read_json(path or LOCATION_ALIASES_JSON, default={})
+    aliases: dict[str, str] = {}
+    for key, variants in raw.items():
+        if key.startswith("_"):
+            continue
+        for alias in variants:
+            aliases[alias.lower().strip()] = key
+    return aliases
+
+
+LOCATION_ALIASES: dict[str, str] = _load_location_aliases()
 
 
 def _canonical_location(location: str) -> Optional[str]:
@@ -183,14 +186,20 @@ _STOPWORDS = frozenset({"the", "at", "in", "and", "of", "by", "a", "an", "y"})
 
 
 def normalize_name(name: str) -> str:
+    """Lowercase, drop dates / edition numbers, drop punctuation, squeeze spaces.
+
+    Date and number stripping runs *before* punctuation stripping: "9/12",
+    "Vol. 3" and "#4" only exist while the slash, dot and hash are still there.
+    The old order removed the punctuation first, so "Salsa Social 9/12" became
+    "salsa social 912" and three of these patterns could never match.
+    """
     name = name.lower()
+    name = re.sub(r"\b\d{1,2}[/\-]\d{1,2}([/\-]\d{2,4})?\b", " ", name)
+    name = re.sub(r"\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\w*\s+\d{1,2}\w*\b", " ", name, flags=re.I)
+    name = re.sub(r"\bvol\s*\.?\s*\d+\b", " ", name)
+    name = re.sub(r"#\d+", " ", name)
+    name = re.sub(r"\b\d{1,2}(st|nd|rd|th)\b", " ", name)
     name = re.sub(r"[^\w\s]", "", name)
-    name = re.sub(r"\s+", " ", name).strip()
-    name = re.sub(r"\b\d{1,2}[/\-]\d{1,2}([/\-]\d{2,4})?\b", "", name)
-    name = re.sub(r"\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\w*\s+\d{1,2}\w*\b", "", name, flags=re.I)
-    name = re.sub(r"\bvol\s*\.?\s*\d+\b", "", name)
-    name = re.sub(r"#\d+", "", name)
-    name = re.sub(r"\b\d{1,2}(st|nd|rd|th)\b", "", name)
     name = re.sub(r"\s+", " ", name).strip()
     return name
 
@@ -222,8 +231,10 @@ def _distinctive_words(words: set[str]) -> set[str]:
             if len(w) >= _DISTINCTIVE_MIN_LEN and w not in _GENERIC_DANCE_WORDS}
 
 
-# Minimum token length eligible for fuzzy (1-edit) matching. Shorter tokens
-# match too loosely (e.g. "san"/"sun"), so they require an exact match.
+# Minimum token length eligible for fuzzy (1-edit) matching. One- and two-
+# letter tokens ("dj", "w", "co") are within an edit of almost anything, so
+# they must match exactly. Three letters is the floor because real spelling
+# variants live there: "Kiz Thursday" and "Kizz Thursday" are the same night.
 _FUZZY_MIN_LEN = 3
 
 
@@ -284,11 +295,36 @@ def _shared_word_count(words_a: set[str], words_b: set[str]) -> int:
     return shared
 
 
-def parse_date(iso_str: str) -> Optional[datetime]:
-    try:
-        return datetime.fromisoformat(iso_str)
-    except (ValueError, TypeError):
-        return None
+def _as_aware(dt: datetime) -> datetime:
+    """Naive timestamps in this store mean Boston wall-clock time."""
+    return dt if dt.tzinfo is not None else dt.replace(tzinfo=NY_TZ)
+
+
+def _parse_aware(iso_str: str) -> Optional[datetime]:
+    dt = parse_date(iso_str or "")
+    return None if dt is None else _as_aware(dt)
+
+
+def _eastern_iso(dt: datetime) -> str:
+    """One canonical spelling for an instant: Eastern time with its offset."""
+    return _as_aware(dt).astimezone(NY_TZ).isoformat()
+
+
+def _occurrence_instants(event: dict) -> list[datetime]:
+    """Every dated occurrence of an event (startDate + recurrences[]), parsed
+    to aware datetimes, de-duplicated by *instant* and sorted.
+
+    The stored strings mix +00:00, -04:00 and -05:00 offsets, so the same
+    moment can be spelled two ways. Sorting the strings interleaves them and
+    keeps both; sorting instants does not.
+    """
+    seen: dict[float, datetime] = {}
+    for raw in [event.get("startDate", "")] + list(event.get("recurrences") or []):
+        dt = _parse_aware(raw)
+        if dt is None:
+            continue
+        seen.setdefault(dt.timestamp(), dt)
+    return [seen[k] for k in sorted(seen)]
 
 
 def last_occurrence(event: dict) -> Optional[datetime]:
@@ -298,22 +334,11 @@ def last_occurrence(event: dict) -> Optional[datetime]:
     list has gone stale — "Rueda in the Pahk" ran every Sunday with a list that
     ended weeks earlier, so archive_past_events() filed it away while its own
     startDate was still in the future. Whichever field is further out wins, so
-    an inconsistent record errs toward staying on the map.
+    an inconsistent record errs toward staying on the map. The list is compared
+    as instants, not strings, so a mixed-offset list cannot mis-order.
     """
-    candidates = [event.get("startDate", "")]
-    if event.get("recurrences"):
-        candidates.append(event["recurrences"][-1])
-
-    latest = None
-    for raw in candidates:
-        dt = parse_date(raw)
-        if dt is None:
-            continue
-        if dt.tzinfo is None:
-            dt = dt.replace(tzinfo=NY_TZ)
-        if latest is None or dt > latest:
-            latest = dt
-    return latest
+    instants = _occurrence_instants(event)
+    return instants[-1] if instants else None
 
 
 DEAD_HOURS = range(1, 9)
@@ -413,17 +438,11 @@ def _url_match(a: dict, b: dict) -> bool:
 
 
 def _load_known_duplicates() -> list[dict]:
-    global _known_duplicates_cache
-    if _known_duplicates_cache is not None:
-        return _known_duplicates_cache
-    if not KNOWN_DUPLICATES_JSON.exists():
-        _known_duplicates_cache = []
-    else:
-        try:
-            _known_duplicates_cache = json.loads(KNOWN_DUPLICATES_JSON.read_text())
-        except (json.JSONDecodeError, ValueError):
-            _known_duplicates_cache = []
-    return _known_duplicates_cache
+    """Always read the file. It is a few KB, and a process-level cache is how
+    a long-lived MCP server wrote a stale list back over verdicts the cron
+    pipeline had recorded in the meantime. A corrupt file raises rather than
+    reading as "no verdicts"."""
+    return atomic_io.read_json(KNOWN_DUPLICATES_JSON, default=[])
 
 
 def _known_duplicate_verdict(a: dict, b: dict) -> Optional[str]:
@@ -440,9 +459,14 @@ def _known_duplicate_verdict(a: dict, b: dict) -> Optional[str]:
     return None
 
 
+@_locked
 def _persist_known_duplicate(id_a: str, id_b: str, verdict: str) -> None:
-    """Save a human-reviewed duplicate pair to known_duplicates.json."""
-    global _known_duplicates_cache
+    """Save a human-reviewed duplicate pair to known_duplicates.json.
+
+    Read + modify + write under the store lock, so two reviewers (or the
+    server and the pipeline) cannot each append to their own copy and have
+    the second save erase the first.
+    """
     pair = sorted([id_a, id_b])
     id_a, id_b = pair[0], pair[1]
 
@@ -460,9 +484,7 @@ def _persist_known_duplicate(id_a: str, id_b: str, verdict: str) -> None:
             "reviewed_at": datetime.now(timezone.utc).isoformat(),
         })
 
-    _known_duplicates_cache = entries
-    KNOWN_DUPLICATES_JSON.parent.mkdir(parents=True, exist_ok=True)
-    KNOWN_DUPLICATES_JSON.write_text(json.dumps(entries, indent=2, ensure_ascii=False))
+    atomic_io.write_json(KNOWN_DUPLICATES_JSON, entries)
 
 
 def list_known_duplicates() -> list[dict]:
@@ -472,6 +494,7 @@ def list_known_duplicates() -> list[dict]:
     return entries
 
 
+@_locked
 def forget_known_duplicate(id_a: str, id_b: str) -> dict:
     """Delete a stored duplicate verdict so the pair is re-evaluated from scratch.
 
@@ -479,31 +502,64 @@ def forget_known_duplicate(id_a: str, id_b: str) -> dict:
     forever) or a wrong ``verdict:"different"`` (which suppresses the pair from
     review forever). Removing the record does not un-merge already-merged events.
     """
-    global _known_duplicates_cache
     pair = set([id_a, id_b])
     entries = _load_known_duplicates()
     kept = [e for e in entries if {e.get("id_a"), e.get("id_b")} != pair]
     if len(kept) == len(entries):
         return {"status": "not_found",
                 "message": f"No stored verdict for pair {sorted(pair)}"}
-    _known_duplicates_cache = kept
-    KNOWN_DUPLICATES_JSON.write_text(json.dumps(kept, indent=2, ensure_ascii=False))
+    atomic_io.write_json(KNOWN_DUPLICATES_JSON, kept)
     return {"status": "forgotten", "pair": sorted(pair),
             "remaining": len(kept)}
 
 
-def _get_day_of_week(event: dict) -> Optional[str]:
-    """Return the day of week for an event, from field or parsed startDate."""
-    dow = event.get("dayOfWeek")
-    if dow:
-        return dow
-    dt = parse_date(event.get("startDate", ""))
-    if not dt:
+def _weekday_of(iso_str: str) -> Optional[str]:
+    """Boston weekday name for an ISO timestamp, or None if unparseable."""
+    dt = _parse_aware(iso_str)
+    if dt is None:
         return None
-    if dt.tzinfo is None:
-        dt = dt.replace(tzinfo=NY_TZ)
-    _days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    return _days[dt.astimezone(NY_TZ).isoweekday() % 7]
+    return DAYS_LIST[dt.astimezone(NY_TZ).isoweekday() % 7]
+
+
+def _event_day_of_week(event: dict) -> Optional[str]:
+    """Return dayOfWeek from the field or infer it from startDate."""
+    return event.get("dayOfWeek") or _weekday_of(event.get("startDate", ""))
+
+
+# Two recurring nights at one venue on one weekday still are not the same
+# series when their titles claim different dances or their doors open hours
+# apart. This is the gap a "certain" verdict must not walk through.
+_SERIES_MAX_START_GAP_MIN = 120
+
+
+def _name_styles(name: str) -> set[str]:
+    """Dance styles named in a title, via the scraper's own keyword list."""
+    return {s for s in detect_styles(name or "") if s != "other"}
+
+
+def _wall_clock_minutes(event: dict) -> Optional[int]:
+    dt = _parse_aware(event.get("startDate", ""))
+    if dt is None:
+        return None
+    local = dt.astimezone(NY_TZ)
+    return local.hour * 60 + local.minute
+
+
+def _series_signals_conflict(a: dict, b: dict) -> bool:
+    """True when two same-venue, same-weekday recurring names read as two
+    different nights: the titles name different styles (one says bachata,
+    the other salsa, neither says both), or the start times sit more than
+    _SERIES_MAX_START_GAP_MIN apart on the clock."""
+    styles_a, styles_b = _name_styles(a.get("name", "")), _name_styles(b.get("name", ""))
+    if styles_a and styles_b and not (styles_a <= styles_b or styles_b <= styles_a):
+        return True
+    mins_a, mins_b = _wall_clock_minutes(a), _wall_clock_minutes(b)
+    if mins_a is not None and mins_b is not None:
+        gap = abs(mins_a - mins_b)
+        gap = min(gap, 24 * 60 - gap)
+        if gap > _SERIES_MAX_START_GAP_MIN:
+            return True
+    return False
 
 
 def dedup_confidence(a: dict, b: dict) -> Optional[str]:
@@ -589,9 +645,16 @@ def dedup_confidence(a: dict, b: dict) -> Optional[str]:
         a_recurring = a.get("recurring") or bool(a.get("recurrences"))
         b_recurring = b.get("recurring") or bool(b.get("recurrences"))
         if a_recurring and b_recurring:
-            dow_a = _get_day_of_week(a)
-            dow_b = _get_day_of_week(b)
+            dow_a = _event_day_of_week(a)
+            dow_b = _event_day_of_week(b)
             if dow_a and dow_b and dow_a == dow_b:
+                # Venue + weekday + shared words is not enough on its own:
+                # "Havana Club Bachata Thursdays" and "Havana Club Salsa
+                # Thursdays" clear all three and are two different nights.
+                # Different styles in the titles, or doors hours apart,
+                # demote the pair to review so a human decides.
+                if _series_signals_conflict(a, b):
+                    return "review"
                 return "certain"
 
     # "review" tier: single-signal or weaker matches
@@ -665,8 +728,7 @@ def _log_dedup(action: str, kept: dict, candidate: dict, confidence: str, reason
         "candidate_id": candidate["id"],
         "candidate_name": candidate["name"][:80],
     }
-    with open(DEDUP_LOG, "a") as f:
-        f.write(json.dumps(entry) + "\n")
+    atomic_io.append_line(DEDUP_LOG, json.dumps(entry))
 
 
 def _url_host(url: str) -> str:
@@ -1013,31 +1075,24 @@ def _special_edition_mismatch(a: dict, b: dict) -> bool:
         _is_special_edition(normalize_name(b.get("name", "")))
 
 
+# Collapsing is held to a higher bar than dedup's 0.5: folding two
+# occurrences into one pin is invisible to visitors, so the names must share
+# the larger part of their words.
+_SERIES_OVERLAP_RATIO = 0.6
+
+
 def _names_are_same_series(a: str, b: str) -> bool:
     if a == b:
         return True
     if a in b or b in a:
         return True
-    words_a = set(a.split()) - {"the", "at", "in", "and", "of", "by", "a", "an"}
-    words_b = set(b.split()) - {"the", "at", "in", "and", "of", "by", "a", "an"}
+    words_a = _content_words(a)
+    words_b = _content_words(b)
     if not words_a or not words_b:
         return False
     shared = _shared_word_count(words_a, words_b)
     smaller = min(len(words_a), len(words_b))
-    return shared >= max(2, smaller * 0.6)
-
-
-def _event_day_of_week(event: dict) -> Optional[str]:
-    """Return dayOfWeek from the field or infer from startDate."""
-    dow = event.get("dayOfWeek")
-    if dow:
-        return dow
-    dt = parse_date(event.get("startDate", ""))
-    if not dt:
-        return None
-    if dt.tzinfo is None:
-        dt = dt.replace(tzinfo=NY_TZ)
-    return DAYS_LIST[dt.astimezone(NY_TZ).isoweekday() % 7]
+    return shared >= max(2, smaller * _SERIES_OVERLAP_RATIO)
 
 
 def _venue_schedule_covers_event(venue_event: dict, ev: dict, day: str) -> bool:
@@ -1056,7 +1111,8 @@ def _venue_schedule_covers_event(venue_event: dict, ev: dict, day: str) -> bool:
     for entry in venue_event.get("schedule") or []:
         if entry.get("dayOfWeek") != day:
             continue
-        if dt is None or _matches_schedule_note(dt, entry.get("note", ""), day):
+        if dt is None or _matches_schedule_note(dt, entry.get("note", ""), day,
+                                                entry.get("anchor")):
             return True
     return False
 
@@ -1449,12 +1505,12 @@ def _collapse_urls(group_events: list[dict], next_start: str) -> tuple[Optional[
     equal-quality URLs, prefer the one that belongs to the next occurrence so
     a closed past listing on the same host does not outrank the open one.
     """
-    next_dt = parse_date(next_start)
+    next_dt = _parse_aware(next_start)
     all_urls: list[str] = []
     next_keys: set[str] = set()
     seen: set[str] = set()
     for ev in group_events:
-        ev_start = parse_date(ev.get("startDate", ""))
+        ev_start = _parse_aware(ev.get("startDate", ""))
         from_next = bool(next_dt and ev_start and ev_start == next_dt)
         for u in _event_url_list(ev):
             key = u.rstrip("/").lower()
@@ -1540,17 +1596,18 @@ def collapse_recurring_series(events: list[dict]) -> list[dict]:
         best = dict(group_events[0])
         # Union every member's dates: a member may itself already carry a
         # recurrences[] (e.g. a previously-collapsed series), not just a single
-        # startDate. Dropping those would lose future occurrences.
-        date_set: set[str] = set()
+        # startDate. Dropping those would lose future occurrences. Union by
+        # *instant*: the strings mix +00:00 and -04:00 spellings of the same
+        # moment, and sorting strings interleaved them and kept both.
+        instants: dict[float, datetime] = {}
         for ev in group_events:
-            if ev.get("startDate"):
-                date_set.add(ev["startDate"])
-            for r in ev.get("recurrences") or []:
-                date_set.add(r)
-        dates: list[str] = sorted(date_set)
-        if not dates:
+            for occ in _occurrence_instants(ev):
+                instants.setdefault(occ.timestamp(), occ)
+        if not instants:
             result.extend(group_events)
             continue
+        date_dts = [instants[k] for k in sorted(instants)]
+        dates: list[str] = [_eastern_iso(d) for d in date_dts]
 
         # Preserve the event's duration so endDate never desyncs from startDate
         # when we roll forward to an occurrence no single member's startDate
@@ -1560,14 +1617,14 @@ def collapse_recurring_series(events: list[dict]) -> list[dict]:
         duration = orig_end - orig_start if (orig_start and orig_end and orig_end >= orig_start) else None
 
         def _roll_end(new_start_iso: str) -> Optional[str]:
-            new_start = parse_date(new_start_iso)
+            new_start = _parse_aware(new_start_iso)
             if new_start is None or duration is None:
                 return None
-            return (new_start + duration).isoformat()
+            return _eastern_iso(new_start + duration)
 
         now = datetime.now(NY_TZ)
-        future_dates = [d for d in dates if parse_date(d) and parse_date(d) >= now]
-        new_start = future_dates[0] if future_dates else dates[-1]
+        future = [d for d in date_dts if d >= now]
+        new_start = _eastern_iso(future[0] if future else date_dts[-1])
         best["startDate"] = new_start
         rolled_end = _roll_end(new_start)
         if rolled_end:
@@ -1575,12 +1632,7 @@ def collapse_recurring_series(events: list[dict]) -> list[dict]:
 
         best["recurring"] = True
         best["recurrences"] = dates
-
-        dt = parse_date(best["startDate"])
-        if dt:
-            if dt.tzinfo is None:
-                dt = dt.replace(tzinfo=NY_TZ)
-            best["dayOfWeek"] = DAYS_LIST[dt.astimezone(NY_TZ).isoweekday() % 7]
+        best["dayOfWeek"] = _weekday_of(new_start) or best.get("dayOfWeek")
 
         for ev in group_events[1:]:
             if (best.get("lat") is None or best.get("lng") is None) and ev.get("lat") and ev.get("lng"):
@@ -1607,17 +1659,19 @@ def collapse_recurring_series(events: list[dict]) -> list[dict]:
 
 # ── Venue expansion ───────────────────────────────────────────────────
 
-DAY_INDEX = {"Sunday": 0, "Monday": 1, "Tuesday": 2, "Wednesday": 3,
-             "Thursday": 4, "Friday": 5, "Saturday": 6}
-DAYS_LIST = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-
 _TIME_RE = re.compile(r"(\d{1,2}):(\d{2})\s*(AM|PM)", re.I)
+_TIME_24H_RE = re.compile(r"^\s*(\d{1,2}):(\d{2})\s*$")
 
 
 def _parse_time(time_str: str) -> Optional[tuple[int, int]]:
+    """"9:00 PM" -> (21, 0); a bare 24-hour "21:00" is accepted too."""
     m = _TIME_RE.search(time_str)
     if not m:
-        return None
+        m24 = _TIME_24H_RE.match(time_str or "")
+        if not m24:
+            return None
+        h, mi = int(m24.group(1)), int(m24.group(2))
+        return (h, mi) if h < 24 and mi < 60 else None
     h, mi = int(m.group(1)), int(m.group(2))
     if m.group(3).upper() == "PM" and h != 12:
         h += 12
@@ -1649,7 +1703,31 @@ def _nth_weekday_of_month(year: int, month: int, weekday: int, nth: int) -> Opti
     return None
 
 
-def _matches_schedule_note(date: datetime, note: str, weekday_name: str) -> bool:
+# Phase reference for "every other week" schedules with no explicit anchor.
+# Kept as the historical constant so venues that never set one keep the same
+# weeks they always had.
+_EVERY_OTHER_DEFAULT_ANCHOR = datetime(2026, 1, 2)
+_ANCHOR_FORMAT = "%Y-%m-%d"
+
+
+def _parse_anchor(anchor: Optional[str]) -> Optional[datetime]:
+    """A schedule entry's ``anchor`` ("YYYY-MM-DD") as a naive datetime."""
+    if not anchor:
+        return None
+    try:
+        return datetime.strptime(anchor, _ANCHOR_FORMAT)
+    except (TypeError, ValueError):
+        return None
+
+
+def _matches_schedule_note(date: datetime, note: str, weekday_name: str,
+                           anchor: Optional[str] = None) -> bool:
+    """Does the schedule entry's note admit this date?
+
+    ``anchor`` sets the phase of an "every other" / "alternating" schedule: a
+    date on which the night happens, so the weeks an even number of weeks away
+    are on and the odd ones are off. Without it the historical default applies.
+    """
     note_lower = note.lower() if note else ""
     nth_match = re.search(r"(\d)(?:st|nd|rd|th)\s+\w+day", note_lower)
     if nth_match:
@@ -1657,7 +1735,7 @@ def _matches_schedule_note(date: datetime, note: str, weekday_name: str) -> bool
         target = _nth_weekday_of_month(date.year, date.month, DAY_INDEX[weekday_name], nth)
         return target is not None and target.date() == date.date()
     if "every other" in note_lower or "alternating" in note_lower:
-        ref = datetime(2026, 1, 2)
+        ref = _parse_anchor(anchor) or _EVERY_OTHER_DEFAULT_ANCHOR
         week_num = (date - ref).days // 7
         return week_num % 2 == 0
     return True
@@ -1665,10 +1743,7 @@ def _matches_schedule_note(date: datetime, note: str, weekday_name: str) -> bool
 
 def expand_venues(weeks_ahead: int = 8) -> list[dict]:
     """Read data/venues.json and generate concrete DanceEvent dicts."""
-    if not VENUES_JSON.exists():
-        return []
-
-    venues = json.loads(VENUES_JSON.read_text())
+    venues = atomic_io.read_json(VENUES_JSON, default=[])
     # Anchor the weekly grid to Boston's current date, and stamp generated
     # occurrences as America/New_York so EDT/EST is correct across DST.
     today = datetime.now(NY_TZ).replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=None)
@@ -1693,10 +1768,11 @@ def expand_venues(weeks_ahead: int = 8) -> list[dict]:
                 continue
             time_range = _parse_time_range(sched.get("time", ""))
             note = sched.get("note", "")
+            anchor = sched.get("anchor")
             d = today
             while d < end_window:
                 if d.isoweekday() % 7 == target_wday and d.strftime("%Y-%m-%d") not in exclude_dates:
-                    if _matches_schedule_note(d, note, day_name):
+                    if _matches_schedule_note(d, note, day_name, anchor):
                         if time_range:
                             start_h, start_m = time_range[0]
                             dt = d.replace(hour=start_h, minute=start_m)
@@ -1754,19 +1830,17 @@ def expand_venues(weeks_ahead: int = 8) -> list[dict]:
 # ── File I/O with locking ─────────────────────────────────────────────
 
 def _read_json(path: Path) -> list[dict]:
-    if not path.exists():
-        return []
-    try:
-        return json.loads(path.read_text())
-    except (json.JSONDecodeError, ValueError):
-        return []
+    """Strict read: a missing store file is empty, a corrupt one raises.
+
+    Returning [] on a parse error is how a truncated active.json used to read
+    as "no events" and get written straight back over the real data.
+    """
+    return atomic_io.read_json(path, default=[])
 
 
-def _write_json(path: Path, data: list[dict]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    tmp = path.with_suffix(".tmp")
-    tmp.write_text(json.dumps(data, indent=2, ensure_ascii=False))
-    tmp.rename(path)
+def _write_json(path: Path, data) -> None:
+    """Atomic write (unique temp file + fsync + rename)."""
+    atomic_io.write_json(path, data)
 
 
 def _append_changelog(action: str, event_id: str, details: str = "") -> None:
@@ -1776,8 +1850,7 @@ def _append_changelog(action: str, event_id: str, details: str = "") -> None:
         "event_id": event_id,
         "details": details,
     }
-    with open(CHANGELOG, "a") as f:
-        f.write(json.dumps(entry) + "\n")
+    atomic_io.append_line(CHANGELOG, json.dumps(entry))
 
 
 # ── Public API ────────────────────────────────────────────────────────
@@ -1854,6 +1927,7 @@ def save_blocked(events: list[dict]) -> None:
     _write_json(BLOCKED_JSON, events)
 
 
+@_locked
 def _queue_rejected(event: dict, reason: str, review_type: str = "non_latin") -> dict:
     """Append or update an event in the rejected review queue."""
     rejected = load_rejected()
@@ -1906,13 +1980,13 @@ def _resolve_slug_collisions(events: list[dict]) -> list[tuple[str, str]]:
     if not collisions:
         return []
 
-    shipped: dict[str, str] = {}
-    try:
-        from slug_registry import REGISTRY_PATH
-        entries = json.loads(REGISTRY_PATH.read_text())["entries"]
-        shipped = {slug: e["id"] for slug, e in entries.items() if e.get("id")}
-    except Exception:  # noqa: BLE001 - a missing registry just means no keeper
-        pass
+    # A missing registry just means no slug has shipped yet. A corrupt one
+    # raises: rebuilding "who owns this URL" from nothing would silently
+    # reassign public URLs.
+    from slug_registry import REGISTRY_PATH
+    registry = atomic_io.read_json(REGISTRY_PATH, default={"entries": {}})
+    entries = registry.get("entries") or {}
+    shipped = {slug: e["id"] for slug, e in entries.items() if e.get("id")}
 
     moved: list[tuple[str, str]] = []
     for slug, group in collisions.items():
@@ -2013,14 +2087,15 @@ def _trusted_latin_sources() -> set:
     sources is what stops a real social with an unusual title (e.g. "Thursday
     Night Social @ Havana") from being dropped just because the scraped text
     happens not to contain a style word.
+
+    Errors propagate. This used to return an empty set on any exception, which
+    turned a malformed sources.json into "no source is trusted" and silently
+    rejected every keyword-less event from every curated calendar.
     """
-    try:
-        return {
-            s["id"] for s in load_sources()
-            if s.get("latin_by_default") and s.get("id")
-        }
-    except Exception:
-        return set()
+    return {
+        s["id"] for s in load_sources()
+        if s.get("latin_by_default") and s.get("id")
+    }
 
 
 def _is_out_of_area(event: dict) -> bool:
@@ -2037,15 +2112,18 @@ def _is_out_of_area(event: dict) -> bool:
     return not _is_near_boston(lat, lng)
 
 
-def _is_latin_relevant(event: dict) -> bool:
+def _is_latin_relevant(event: dict, trusted_sources: Optional[set] = None) -> bool:
     """Return True if the event is relevant to Latin dance.
 
     Events from a curated Latin source (``latin_by_default``) always pass.
     Events with a recognized style (bachata, salsa, etc.) always pass.
     Events tagged only as 'other' must mention a Latin dance term in
-    their name or description.
+    their name or description. Pass ``trusted_sources`` to skip re-reading
+    sources.json on every call of a batch ingest.
     """
-    if event.get("source") in _trusted_latin_sources():
+    if trusted_sources is None:
+        trusted_sources = _trusted_latin_sources()
+    if event.get("source") in trusted_sources:
         return True
     styles = event.get("styles", [])
     if styles != ["other"]:
@@ -2072,6 +2150,7 @@ def _remove_from_active(event_id: str) -> None:
         save_active(active)
 
 
+@_locked
 def add_event(
     event: dict,
     force: bool = False,
@@ -2080,6 +2159,7 @@ def add_event(
     quarantine_new: bool = False,
     blocked_keys: Optional[set] = None,
     distinct_from: Optional[list] = None,
+    trusted_sources: Optional[set] = None,
 ) -> dict:
     """Add an event to the active store. Returns result dict with status.
 
@@ -2097,13 +2177,18 @@ def add_event(
     the fuzzy match neither queues for review nor force-merges. (The old
     workaround — add without force, reject the pending pair, re-add — still
     works, but fails for events the guards drop before dedup ever runs.)
-    Pass blocked_ids to avoid re-reading blocked.json on every call during a
-    batch ingest.
+    Pass blocked_ids / blocked_keys / trusted_sources to avoid re-reading
+    blocked.json and sources.json on every call during a batch ingest.
 
     quarantine_new=True routes brand-new events (no duplicate anywhere) to
     pending.json instead of active, so unattended runs can refresh existing
     events without putting unreviewed ones on the map. Re-scrapes update the
     queued copy in place rather than duplicating it.
+
+    Runs under the store lock. Every store file is loaded at most once per
+    call, and any move between two files writes the destination before it
+    removes the source, so a crash between the two leaves a duplicate that
+    dedup catches next run — never a lost event.
     """
     if _is_venue_schedule_record(event):
         return {"status": "rejected", "message": "Venue schedules belong in venues.json"}
@@ -2112,10 +2197,12 @@ def add_event(
         return {"status": "rejected", "message": "event missing id or startDate"}
 
     if not force:
-        if blocked_ids is None:
-            blocked_ids = {b["id"] for b in load_blocked()}
-        if blocked_keys is None:
-            blocked_keys = _blocked_keys(load_blocked())
+        if blocked_ids is None or blocked_keys is None:
+            _blocked = load_blocked()
+            if blocked_ids is None:
+                blocked_ids = {b["id"] for b in _blocked}
+            if blocked_keys is None:
+                blocked_keys = _blocked_keys(_blocked)
         if event.get("id") in blocked_ids:
             return {"status": "blocked", "message": "event is permanently blocked"}
         # Sources that mint a fresh id per occurrence (nlf-events-<slug>-<date>,
@@ -2136,21 +2223,27 @@ def add_event(
                 "message": f"event outside Boston metro area: {event.get('location', '')}",
             }
 
-    if not skip_latin_check and not _is_latin_relevant(event):
-        # Not a Latin-dance event — drop it, don't record it. General calendars
-        # are full of unrelated events; keeping them in a review queue was busywork
-        # (a keyword scan decides this fine, no LLM needed). A human can still
-        # rescue a genuine false negative by adding it with force=True, which
-        # lands it in active — and the check below then lets re-scrapes merge it
-        # instead of dropping it forever.
+    active = load_active()
+    archive = load_archive()
+
+    if not skip_latin_check and not _is_latin_relevant(event, trusted_sources):
+        # Not a Latin-dance event. It goes to the rejected queue rather than
+        # vanishing: a keyword scan is a good first filter but not a verdict,
+        # and a queue row is what lets a reviewer rescue a real social with an
+        # odd title (event_approve_rejected) or block a recurring false hit
+        # for good. Re-scrapes refresh the queued row in place, so the queue
+        # holds one row per event, not one per week. An event a human already
+        # approved (it is in active or archive) is never re-queued: the
+        # dedup below merges the re-scrape instead.
         already_approved = (
-            any(e.get("id") == event["id"] for e in load_active())
-            or any(e.get("id") == event["id"] for e in load_archive())
+            any(e.get("id") == event["id"] for e in active)
+            or any(e.get("id") == event["id"] for e in archive)
         )
         if not already_approved:
             reason = "not Latin dance relevant (styles=['other'], no Latin terms)"
-            _append_changelog("drop_non_latin", event["id"], reason)
-            return {"status": "dropped_non_latin", "message": reason}
+            _queue_rejected(event, reason, "non_latin")
+            _append_changelog("reject_non_latin", event["id"], reason)
+            return {"status": "rejected_non_latin", "message": reason}
 
     _infer_location(event)
 
@@ -2162,9 +2255,6 @@ def add_event(
                 _persist_known_duplicate(event["id"], other_id, "different")
                 _append_changelog("distinct_from", event["id"],
                                   f"pre-marked different from {other_id}")
-
-    active = load_active()
-    archive = load_archive()
 
     archive_match = find_duplicate_in(event, archive)
     if archive_match is not None and not force:
@@ -2183,14 +2273,16 @@ def add_event(
                 }
             archived = archive[archive_idx]
             reason = _dedup_reason(archived, event, conf)
-            _log_dedup("reactivate", archived, event, conf, reason)
             merged = merge_event(archived, event)
             _enrich_event(merged)
             merged["reactivatedAt"] = datetime.now(timezone.utc).isoformat()
-            archive.pop(archive_idx)
-            save_archive(archive)
+            # Destination first: land the record in active, then retire the
+            # archived copy. archive_past_events() reconciles the same id.
             active.append(merged)
             save_active(active)
+            archive.pop(archive_idx)
+            save_archive(archive)
+            _log_dedup("reactivate", archived, event, conf, reason)
             _clear_stale_rejected(merged["id"])
             _append_changelog("reactivate", merged["id"], "from archive (certain)")
             return {"status": "reactivated", "confidence": conf, "event": merged}
@@ -2276,6 +2368,7 @@ def add_event(
     return {"status": "added", "event": event}
 
 
+@_locked
 def archive_past_events() -> list[dict]:
     """Move past events from active to archive. Returns archived events."""
     active = load_active()
@@ -2314,10 +2407,42 @@ def archive_past_events() -> list[dict]:
                 archive.append(ev)
             else:
                 archive[idx] = ev
+        # Destination (archive) before source (active).
         save_archive(archive)
         save_active(still_active)
 
     return newly_archived
+
+
+@_locked
+def archive_event(event_id: str, reason: str = "") -> dict:
+    """Move one active event to the archive by hand, whatever its dates.
+
+    Returns ``{"status": "archived", "event": ...}`` or ``{"status":
+    "not_found", "event": None}``. The archive is written before active is,
+    so an interrupted move duplicates rather than loses.
+    """
+    active = load_active()
+    idx = next((i for i, ev in enumerate(active) if ev.get("id") == event_id), None)
+    if idx is None:
+        return {"status": "not_found", "event": None,
+                "message": f"No active event with id '{event_id}'"}
+
+    event = dict(active[idx])
+    event["archivedAt"] = datetime.now(timezone.utc).isoformat()
+
+    archive = load_archive()
+    a_idx = next((i for i, ev in enumerate(archive) if ev.get("id") == event_id), None)
+    if a_idx is None:
+        archive.append(event)
+    else:
+        archive[a_idx] = event
+    save_archive(archive)
+
+    active.pop(idx)
+    save_active(active)
+    _append_changelog("archive", event_id, reason or "archived by hand")
+    return {"status": "archived", "event": event}
 
 
 def _merge_into_archived(event: dict, candidate_id: str) -> Optional[dict]:
@@ -2333,7 +2458,8 @@ def _merge_into_archived(event: dict, candidate_id: str) -> Optional[dict]:
     (Boston Salsa Fest, 2026-08-27). Approval knows the candidate's id
     outright, so send the merge to wherever that candidate actually lives.
     """
-    if any(e.get("id") == candidate_id for e in load_active()):
+    active = load_active()
+    if any(e.get("id") == candidate_id for e in active):
         return None
 
     archive = load_archive()
@@ -2353,12 +2479,12 @@ def _merge_into_archived(event: dict, candidate_id: str) -> Optional[dict]:
     # record between the stores.
     last = last_occurrence(merged)
     if last is not None and last >= datetime.now(timezone.utc) - timedelta(hours=24):
-        archive.pop(idx)
-        save_archive(archive)
         merged["reactivatedAt"] = datetime.now(timezone.utc).isoformat()
-        active = load_active()
+        # Destination (active) before source (archive).
         active.append(merged)
         save_active(active)
+        archive.pop(idx)
+        save_archive(archive)
         _clear_stale_rejected(merged["id"])
         _log_dedup("reactivate", archived, event, confidence, reason)
         _append_changelog("reactivate", merged["id"],
@@ -2372,6 +2498,35 @@ def _merge_into_archived(event: dict, candidate_id: str) -> Optional[dict]:
     return {"status": "merged_into_archive", "confidence": confidence, "event": merged}
 
 
+# Statuses from add_event / _merge_into_archived that mean "the event now lives
+# in a store". Anything else means it went nowhere, and an approval must then
+# leave its source row where it was instead of deleting the only copy.
+_LANDED_STATUSES = frozenset({
+    "added", "duplicate", "merged", "reactivated", "merged_into_archive", "quarantined_new",
+})
+_PENDING_MARKERS = ("_dedup_candidate_of", "_dedup_confidence", "_dedup_reason",
+                    "_quarantined_new", "_quarantined_at")
+_REJECTED_MARKERS = ("_rejected_at", "_rejected_reason", "_review_type")
+
+
+def _without(event: dict, keys: tuple) -> dict:
+    return {k: v for k, v in event.items() if k not in keys}
+
+
+def _not_approved(result: dict, stored: dict, queue: str) -> dict:
+    """Shape the failure of an approval so the caller knows nothing moved."""
+    return {
+        "status": "not_approved",
+        "add_status": result.get("status"),
+        "message": (
+            f"{result.get('message') or result.get('status')} — the event was left "
+            f"in {queue}; nothing was removed."
+        ),
+        "event": stored,
+    }
+
+
+@_locked
 def approve_pending(event_id: str, force: bool = False) -> dict:
     """Approve a pending event, moving it to active.
 
@@ -2383,25 +2538,24 @@ def approve_pending(event_id: str, force: bool = False) -> dict:
     The candidate may already be archived, in which case the merge happens there
     — see _merge_into_archived. The merged record only returns to active if its
     dates are still ahead.
+
+    Destination first: the event is landed (add_event / archive merge) and only
+    then removed from pending. If landing fails, the row stays queued and the
+    result says ``status: not_approved`` with the underlying ``add_status``.
     """
     pending = load_pending()
-    idx = None
-    for i, ev in enumerate(pending):
-        if ev["id"] == event_id:
-            idx = i
-            break
-
+    idx = next((i for i, ev in enumerate(pending) if ev["id"] == event_id), None)
     if idx is None:
         return {"status": "not_found", "message": f"No pending event with id '{event_id}'"}
 
-    event = pending[idx]
-    candidate_id = event.get("_dedup_candidate_of")
+    stored = pending[idx]
+    candidate_id = stored.get("_dedup_candidate_of")
 
     if candidate_id and not force:
         candidate = next((e for e in load_active() if e.get("id") == candidate_id), None)
         if candidate is None:
             candidate = next((e for e in load_archive() if e.get("id") == candidate_id), None)
-        if candidate is not None and _special_edition_mismatch(event, candidate):
+        if candidate is not None and _special_edition_mismatch(stored, candidate):
             return {
                 "status": "blocked_special_edition",
                 "message": (
@@ -2412,24 +2566,33 @@ def approve_pending(event_id: str, force: bool = False) -> dict:
                     "event_approve(event_id, force=True). Otherwise "
                     "event_reject(event_id, reason='distinct event')."
                 ),
-                "new_event": {"id": event["id"], "name": event.get("name", "")},
+                "new_event": {"id": stored["id"], "name": stored.get("name", "")},
                 "existing_event": {"id": candidate["id"], "name": candidate.get("name", "")},
             }
 
-    pending.pop(idx)
-    save_pending(pending)
-
+    # The verdict goes in first so add_event's own dedup sees the pair as
+    # certain and merges instead of re-queueing. It is rolled back if the
+    # approval does not land.
+    had_verdict = bool(candidate_id) and \
+        _known_duplicate_verdict({"id": event_id}, {"id": candidate_id}) is not None
     if candidate_id:
         _persist_known_duplicate(event_id, candidate_id, "same")
 
-    for key in ("_dedup_candidate_of", "_dedup_confidence", "_dedup_reason",
-                "_quarantined_new", "_quarantined_at"):
-        event.pop(key, None)
-
+    event = _without(stored, _PENDING_MARKERS)
     issues = validate_event(event)
     result = _merge_into_archived(event, candidate_id) if candidate_id else None
     if result is None:
         result = add_event(event, force=True)
+
+    if result.get("status") not in _LANDED_STATUSES:
+        if candidate_id and not had_verdict:
+            forget_known_duplicate(event_id, candidate_id)
+        return _not_approved(result, stored, "pending.json")
+
+    # Landed. Now, and only now, retire the queued row.
+    pending = [p for p in load_pending() if p.get("id") != event_id]
+    save_pending(pending)
+
     if issues:
         result["warnings"] = issues
     # An approved event with no coordinates renders no map pin — it is live but
@@ -2446,45 +2609,66 @@ def approve_pending(event_id: str, force: bool = False) -> dict:
     return result
 
 
+@_locked
 def remove_active_event(event_id: str, reason: str = "removed from active", block: bool = False, block_category: str = "other") -> dict:
     """Remove an active event.
 
     If block=True, moves to blocked.json (permanent, prevents re-scraping).
     If block=False, moves to rejected.json for review (as before).
+
+    The destination (blocklist or rejected queue) is written before the event
+    leaves active, so a failure — an invalid block category, a crash — never
+    loses the record.
     """
     active = load_active()
     idx = next((i for i, ev in enumerate(active) if ev["id"] == event_id), None)
     if idx is None:
         return {"status": "not_found", "message": f"No active event with id '{event_id}'"}
 
-    event = active.pop(idx)
-    save_active(active)
+    event = active[idx]
 
     if block:
-        return _add_to_blocked(event, block_category, reason)
+        outcome = _add_to_blocked(dict(event), block_category, reason)
+        if outcome.get("status") != "blocked":
+            return outcome
+        active.pop(idx)
+        save_active(active)
+        return outcome
 
     queued = _queue_rejected(event, reason)
+    active.pop(idx)
+    save_active(active)
     _append_changelog("remove", event_id, reason)
     return {"status": "removed", "event": queued}
 
 
+@_locked
 def approve_rejected(event_id: str) -> dict:
-    """Promote a rejected event to active (bypasses Latin relevance check)."""
+    """Promote a rejected event to active (bypasses Latin relevance check).
+
+    Lands the event first; the rejected row is only removed once it has.
+    """
     rejected = load_rejected()
     idx = next((i for i, ev in enumerate(rejected) if ev["id"] == event_id), None)
     if idx is None:
         return {"status": "not_found", "message": f"No rejected event with id '{event_id}'"}
 
-    event = rejected.pop(idx)
-    save_rejected(rejected)
-    for key in ("_rejected_at", "_rejected_reason", "_review_type"):
-        event.pop(key, None)
+    stored = rejected[idx]
+    event = _without(stored, _REJECTED_MARKERS)
 
     result = add_event(event, force=True, skip_latin_check=True)
+    if result.get("status") not in _LANDED_STATUSES:
+        return _not_approved(result, stored, "rejected.json")
+
+    # add_event clears the rejected row on most landing paths; the force-merge
+    # path does not, so reconcile here rather than trust it.
+    rejected = [r for r in load_rejected() if r.get("id") != event_id]
+    save_rejected(rejected)
     _append_changelog("approve_rejected", event_id, "promoted from rejected queue")
     return result
 
 
+@_locked
 def dismiss_rejected(event_id: str, reason: str = "", block: bool = False, block_category: str = "other") -> dict:
     """Dismiss a rejected event.
 
@@ -2496,12 +2680,19 @@ def dismiss_rejected(event_id: str, reason: str = "", block: bool = False, block
     if idx is None:
         return {"status": "not_found", "message": f"No rejected event with id '{event_id}'"}
 
-    event = rejected.pop(idx)
-    save_rejected(rejected)
+    stored = rejected[idx]
 
     if block:
-        return _add_to_blocked(event, block_category, reason)
+        outcome = _add_to_blocked(dict(stored), block_category, reason)
+        if outcome.get("status") != "blocked":
+            return outcome
+        rejected.pop(idx)
+        save_rejected(rejected)
+        return outcome
 
+    rejected.pop(idx)
+    save_rejected(rejected)
+    event = _without(stored, _REJECTED_MARKERS)
     _append_changelog("dismiss_rejected", event_id, reason)
     return {"status": "dismissed", "event": event, "reason": reason}
 
@@ -2546,51 +2737,57 @@ def _add_to_blocked(event: dict, category: str, notes: str = "") -> dict:
     return {"status": "blocked", "event": record}
 
 
+@_locked
 def block_event(event_id: str, category: str, notes: str = "") -> dict:
     """Block an event permanently. Removes from active or rejected and adds to blocked.json.
 
     Categories: defunct, class_only, not_latin, not_dance, out_of_area, duplicate_source, other
+
+    The blocklist entry is written first; the copies in active / rejected /
+    pending (and archive, only when the event is nowhere else) are removed
+    after. A failure part-way leaves a copy that the blocklist then rejects on
+    re-ingest — never a record that is in neither place.
     """
     if category not in VALID_BLOCK_CATEGORIES:
         return {"status": "error", "message": f"Invalid category '{category}'. Use one of: {VALID_BLOCK_CATEGORIES}"}
 
-    event = None
+    stores = [
+        (load_active, save_active),
+        (load_rejected, save_rejected),
+        (load_pending, save_pending),
+    ]
+    found = None
+    removals: list[tuple[list, int, callable]] = []
+    for load, save in stores:
+        items = load()
+        idx = next((i for i, ev in enumerate(items) if ev["id"] == event_id), None)
+        if idx is None:
+            continue
+        if found is None:
+            found = items[idx]
+        removals.append((items, idx, save))
 
-    active = load_active()
-    idx = next((i for i, ev in enumerate(active) if ev["id"] == event_id), None)
-    if idx is not None:
-        event = active.pop(idx)
-        save_active(active)
-
-    rejected = load_rejected()
-    r_idx = next((i for i, ev in enumerate(rejected) if ev["id"] == event_id), None)
-    if r_idx is not None:
-        r_event = rejected.pop(r_idx)
-        save_rejected(rejected)
-        if event is None:
-            event = r_event
-
-    pending = load_pending()
-    p_idx = next((i for i, ev in enumerate(pending) if ev["id"] == event_id), None)
-    if p_idx is not None:
-        p_event = pending.pop(p_idx)
-        save_pending(pending)
-        if event is None:
-            event = p_event
-
-    if event is None:
+    if found is None:
         archive = load_archive()
         a_idx = next((i for i, ev in enumerate(archive) if ev["id"] == event_id), None)
         if a_idx is not None:
-            event = archive.pop(a_idx)
-            save_archive(archive)
+            found = archive[a_idx]
+            removals.append((archive, a_idx, save_archive))
 
-    if event is None:
+    if found is None:
         return {"status": "not_found", "message": f"Event '{event_id}' not found in active, rejected, pending, or archive."}
 
-    return _add_to_blocked(event, category, notes)
+    outcome = _add_to_blocked(dict(found), category, notes)
+    if outcome.get("status") != "blocked":
+        return outcome
+
+    for items, idx, save in removals:
+        items.pop(idx)
+        save(items)
+    return outcome
 
 
+@_locked
 def unblock_event(event_id: str) -> dict:
     """Remove an event from the blocklist. It will be re-added on the next scrape if still in the source."""
     blocked = load_blocked()
@@ -2604,33 +2801,29 @@ def unblock_event(event_id: str) -> dict:
     return {"status": "unblocked", "event": record}
 
 
+@_locked
 def reject_pending(event_id: str, reason: str = "") -> dict:
     """Reject a pending event."""
     pending = load_pending()
-    idx = None
-    for i, ev in enumerate(pending):
-        if ev["id"] == event_id:
-            idx = i
-            break
-
+    idx = next((i for i, ev in enumerate(pending) if ev["id"] == event_id), None)
     if idx is None:
         return {"status": "not_found", "message": f"No pending event with id '{event_id}'"}
 
-    event = pending.pop(idx)
-    save_pending(pending)
-
-    candidate_id = event.pop("_dedup_candidate_of", None)
-    event.pop("_dedup_confidence", None)
-    event.pop("_dedup_reason", None)
-    event.pop("_quarantined_new", None)
-    event.pop("_quarantined_at", None)
+    stored = pending[idx]
+    candidate_id = stored.get("_dedup_candidate_of")
+    # The verdict is the durable outcome of a rejection; record it before the
+    # queue row goes so an interruption cannot lose the decision.
     if candidate_id:
         _persist_known_duplicate(event_id, candidate_id, "different")
 
+    pending.pop(idx)
+    save_pending(pending)
+    event = _without(stored, _PENDING_MARKERS)
     _append_changelog("reject", event_id, reason)
     return {"status": "rejected", "event": event, "reason": reason}
 
 
+@_locked
 def edit_event(event_id: str, updates: dict) -> dict:
     """Edit fields on an active event."""
     active = load_active()
@@ -2678,12 +2871,7 @@ def edit_event(event_id: str, updates: dict) -> dict:
 
 def _load_source_names() -> dict[str, str]:
     """Map source IDs to human-readable organizer names from data/sources.json."""
-    sources_path = ROOT / "data" / "sources.json"
-    if not sources_path.exists():
-        return {}
-    with open(sources_path) as f:
-        sources = json.load(f)
-    return {s["id"]: s["name"] for s in sources if "id" in s and "name" in s}
+    return {s["id"]: s["name"] for s in load_sources() if "id" in s and "name" in s}
 
 
 def _strip_internal_fields(ev: dict, source_names: dict[str, str]) -> None:
@@ -2711,14 +2899,16 @@ VENUE_CONFLICT_DECISIONS = ("distinct", "replaces", "duplicate")
 
 def load_venue_conflicts() -> dict:
     """The review queue written by the last publish()."""
-    if not VENUE_CONFLICTS_JSON.exists():
-        return {"generated_at": None, "conflicts": [], "suppressed": []}
-    return json.loads(VENUE_CONFLICTS_JSON.read_text())
+    return atomic_io.read_json(
+        VENUE_CONFLICTS_JSON,
+        default={"generated_at": None, "conflicts": [], "suppressed": []},
+    )
 
 
+@_locked
 def _venue_exclude_date(venue_id: str, date_str: str) -> bool:
     """Stop a venue hub from generating a pin on one date. Returns True if added."""
-    venues = json.loads(VENUES_JSON.read_text())
+    venues = atomic_io.read_json(VENUES_JSON, default=[])
     for venue in venues:
         if venue.get("id") != venue_id:
             continue
@@ -2727,11 +2917,12 @@ def _venue_exclude_date(venue_id: str, date_str: str) -> bool:
             return False
         excluded.append(date_str)
         excluded.sort()
-        VENUES_JSON.write_text(json.dumps(venues, indent=2, ensure_ascii=False) + "\n")
+        atomic_io.write_json(VENUES_JSON, venues)
         return True
     raise ValueError(f"No venue with id '{venue_id}' in venues.json")
 
 
+@_locked
 def resolve_venue_conflict(event_id: str, decision: str, note: str = "",
                            hub_id: Optional[str] = None) -> dict:
     """Record a ruling on an event/venue-hub collision so it never re-surfaces.
@@ -2799,40 +2990,90 @@ def _write_venue_conflicts(report: dict) -> None:
 
     Suppression used to be silent, which is why a marquee event sat deleted for
     a week while every pipeline run reported success. Anything the pipeline
-    removes from the map now names itself at publish time.
+    removes from the map now names itself at publish time (on stderr).
     """
     payload = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "conflicts": report.get("conflicts", []),
         "suppressed": report.get("suppressed", []),
     }
-    VENUE_CONFLICTS_JSON.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n")
+    atomic_io.write_json(VENUE_CONFLICTS_JSON, payload)
 
     # Reporting must never be what breaks a publish, so read every field softly.
     for row in payload["suppressed"]:
         ev, hub = row.get("event", {}), row.get("hub", {})
         resolved = " [resolved: duplicate]" if row.get("resolved") else ""
-        print(f"  🔇 folded into venue hub: {ev.get('name')!r} ({ev.get('window', '?')}) "
-              f"→ {hub.get('name')} {hub.get('window', '?')}{resolved}")
+        _log(f"  🔇 folded into venue hub: {ev.get('name')!r} ({ev.get('window', '?')}) "
+             f"→ {hub.get('name')} {hub.get('window', '?')}{resolved}")
     if payload["conflicts"]:
-        print(f"  🔎 {len(payload['conflicts'])} venue conflict(s) need review "
-              f"(kept on the map meanwhile) — event_list(status=\"venue_conflict\"):")
+        _log(f"  🔎 {len(payload['conflicts'])} venue conflict(s) need review "
+             f"(kept on the map meanwhile) — event_list(status=\"venue_conflict\"):")
         for row in payload["conflicts"]:
             overlap = {True: "times overlap", False: "no time overlap"}.get(
                 row.get("times_overlap"), "overlap unknown")
-            print(f"       - {row.get('event', {}).get('name')!r} "
-                  f"vs {row.get('hub', {}).get('name')} ({overlap})")
+            _log(f"       - {row.get('event', {}).get('name')!r} "
+                 f"vs {row.get('hub', {}).get('name')} ({overlap})")
 
 
-def publish() -> dict:
-    """Generate events-published.json from active + archived events + expanded venues."""
+# Archived rows ship in the client bundle only so their pages stay findable;
+# nobody reads a past event's full blurb from the search dropdown.
+ARCHIVED_DESCRIPTION_LIMIT = 300
+
+
+def _truncate_description(text: str, limit: int = ARCHIVED_DESCRIPTION_LIMIT) -> str:
+    """Cut to at most ``limit`` characters at a word boundary, ending in "…"."""
+    text = text or ""
+    if len(text) <= limit:
+        return text
+    cut = text[:limit - 1]
+    boundary = max(cut.rfind(" "), cut.rfind("\n"), cut.rfind("\t"))
+    if boundary > 0:
+        cut = cut[:boundary]
+    return cut.rstrip(" \n\t,;:-–—") + "…"
+
+
+def _roll_series_forward(ev: dict, today: datetime) -> bool:
+    """Advance a stale recurring series to its next occurrence, for publish.
+
+    A live weekly series whose stored startDate is weeks old leaks that date
+    into JSON-LD, meta descriptions and the search dropdown. When the event
+    carries a recurrences[] list and its startDate is before ``today``, move
+    startDate (and endDate by the same delta) to the first occurrence on or
+    after today and keep the original in ``firstStartDate``. Only the
+    published copy changes; the stored record and its id are untouched.
+    Returns True when something moved.
+    """
+    if not ev.get("recurrences"):
+        return False
+    start = _parse_aware(ev.get("startDate", ""))
+    if start is None or start >= today:
+        return False
+    occurrences = _occurrence_instants(ev)
+    upcoming = [d for d in occurrences if d >= today]
+    if not upcoming:
+        return False
+    new_start = upcoming[0]
+    delta = new_start - start
+    ev["firstStartDate"] = ev["startDate"]
+    ev["startDate"] = _eastern_iso(new_start)
+    end = _parse_aware(ev.get("endDate", ""))
+    if end is not None:
+        ev["endDate"] = _eastern_iso(end + delta)
+    ev["recurrences"] = [_eastern_iso(d) for d in occurrences]
+    ev["dayOfWeek"] = _weekday_of(ev["startDate"]) or ev.get("dayOfWeek")
+    return True
+
+
+def _compute_publish() -> dict:
+    """Everything a publish would ship, computed without writing a byte.
+
+    Split from the write step so publish_guarded() can measure the result
+    against the previous file and, when the tripwire trips, ship nothing at
+    all — no half-written JSON, no slug registry that has already retired
+    URLs for a publish that never happened.
+    """
     source_names = _load_source_names()
-
-    try:
-        from source_signal import unreliable_source_ids
-        unreliable_sources = unreliable_source_ids()
-    except Exception:
-        unreliable_sources = set()
+    unreliable_sources = unreliable_source_ids()
 
     # Belt-and-suspenders: never ship pins from unreliable sources even if a
     # stale active row survived (e.g. before the source was demoted).
@@ -2843,7 +3084,6 @@ def publish() -> dict:
     venue_events = expand_venues()
 
     active, suppressed_venue_ids, venue_report = _suppress_venue_covered_events(venue_events, active)
-    _write_venue_conflicts(venue_report)
     # Irregular-schedule venues (nextDateApproximate) never get a pin: their
     # expanded dates are pattern guesses, so users only ever see the venue via
     # a confirmed scraped event. But the venue itself stays findable — when no
@@ -2860,6 +3100,11 @@ def publish() -> dict:
     deduped = deduplicate(all_events)
     deduped = collapse_recurring_series(deduped)
 
+    # A live series must advertise its next night, not the one it was first
+    # scraped with.
+    today = datetime.now(NY_TZ).replace(hour=0, minute=0, second=0, microsecond=0)
+    rolled = [ev.get("id") for ev in deduped if _roll_series_forward(ev, today)]
+
     # Sort by start date
     deduped.sort(key=lambda e: e.get("startDate", ""))
 
@@ -2872,7 +3117,8 @@ def publish() -> dict:
     for ev in deduped:
         _strip_internal_fields(ev, source_names)
 
-    # Include archived events so their pages persist for SEO
+    # Include archived events so their pages persist for SEO. They ship in the
+    # client bundle, so their descriptions are cut down to a preview.
     archive = load_archive()
     archived_out = []
     for ev in archive:
@@ -2880,6 +3126,8 @@ def publish() -> dict:
             _enrich_event(ev)
         _strip_internal_fields(ev, source_names)
         ev["archived"] = True
+        if ev.get("description"):
+            ev["description"] = _truncate_description(ev["description"])
         archived_out.append(ev)
 
     # Dateless search-only records for irregular venues: searchable, with a
@@ -2901,51 +3149,87 @@ def publish() -> dict:
             _enrich_event(rec)
         _strip_internal_fields(rec, source_names)
         searchonly_out.append(rec)
-    if searchonly_out:
-        names = ", ".join(repr(e.get("name", "?")) for e in searchonly_out)
-        print(f"  ℹ️  {len(searchonly_out)} irregular venue(s) published as search-only records: {names}")
 
     published = deduped + archived_out + searchonly_out
-
     moved_slugs = _resolve_slug_collisions(published)
-    if moved_slugs:
-        print(f"  🔀 {len(moved_slugs)} event(s) had a colliding slug and were re-slugged:")
-        for event_id, slug in moved_slugs:
-            print(f"       - {event_id} → {slug}")
+
+    missing = [ev for ev in deduped if ev.get("lat") is None or ev.get("lng") is None]
+    odd_hours = [(e, h) for e in deduped
+                 if (h := implausible_start_hour(e)) is not None]
+
+    return {
+        "published": published,
+        "deduped": deduped,
+        "archived_out": archived_out,
+        "searchonly_out": searchonly_out,
+        "venue_report": venue_report,
+        "moved_slugs": moved_slugs,
+        "missing": missing,
+        "odd_hours": odd_hours,
+        "rolled": rolled,
+    }
+
+
+def _legacy_public_json() -> Path:
+    """Resolved at call time: tests relocate ROOT."""
+    return ROOT / "public" / "events.json"
+
+
+def _commit_publish(art: dict) -> dict:
+    """Write a computed publish to disk and report on it (stderr only)."""
+    published = art["published"]
+    deduped = art["deduped"]
+    venue_report = art["venue_report"]
+
+    _write_venue_conflicts(venue_report)
+
+    if art["searchonly_out"]:
+        names = ", ".join(repr(e.get("name", "?")) for e in art["searchonly_out"])
+        _log(f"  ℹ️  {len(art['searchonly_out'])} irregular venue(s) published as search-only records: {names}")
+
+    if art["moved_slugs"]:
+        _log(f"  🔀 {len(art['moved_slugs'])} event(s) had a colliding slug and were re-slugged:")
+        for event_id, slug in art["moved_slugs"]:
+            _log(f"       - {event_id} → {slug}")
 
     # Loudly surface anything shipping without coordinates — those events never
     # render a pin on the map, so they're effectively invisible to visitors.
-    missing = [ev for ev in deduped if ev.get("lat") is None or ev.get("lng") is None]
-    if missing:
-        print(f"  ⚠️  {len(missing)} active event(s) have no coordinates (won't appear on map):")
-        for ev in missing:
-            print(f"       - {ev.get('name', '?')!r}  ({ev.get('location') or 'no location'})")
+    if art["missing"]:
+        _log(f"  ⚠️  {len(art['missing'])} active event(s) have no coordinates (won't appear on map):")
+        for ev in art["missing"]:
+            _log(f"       - {ev.get('name', '?')!r}  ({ev.get('location') or 'no location'})")
+
+    if art["rolled"]:
+        _log(f"  📅 {len(art['rolled'])} recurring series rolled forward to their next occurrence")
 
     _write_json(PUBLIC_EVENTS_JSON, published)
     # Legacy path for scripts still referencing public/events.json
-    _write_json(ROOT / "public" / "events.json", published)
+    _write_json(_legacy_public_json(), published)
 
     # Record this run's URLs and re-point any that this publish just retired.
     # Every publish path goes through here — the pipeline's and the agent's —
     # so a slug can never quietly disappear between the index and the site.
-    # Never fatal: a registry problem must not block shipping the events.
+    # A registry *problem* must not un-ship the events already written, so it
+    # is reported rather than raised — except a corrupt registry file, which
+    # must stop the run instead of being rebuilt from nothing.
     registry_result = None
     try:
         from slug_registry import update as _update_slug_registry
         registry_result = _update_slug_registry()
         if registry_result["alias"] or registry_result["ended"]:
-            print(f"  🔗 urls: {registry_result['live']} live, "
-                  f"{registry_result['alias']} redirecting, {registry_result['ended']} ended")
+            _log(f"  🔗 urls: {registry_result['live']} live, "
+                 f"{registry_result['alias']} redirecting, {registry_result['ended']} ended")
+    except CorruptJSONError:
+        raise
     except Exception as exc:  # noqa: BLE001 - reported, never raised
-        print(f"  ⚠️  slug registry not updated ({exc}) — retired URLs may 404")
+        _log(f"  ⚠️  slug registry not updated ({exc}) — retired URLs may 404")
 
-    odd_hours = [(e, h) for e in deduped
-                 if (h := implausible_start_hour(e)) is not None]
+    odd_hours = art["odd_hours"]
     if odd_hours:
-        print(f"  ⏰ {len(odd_hours)} event(s) start in the small hours — check for a "
-              f"timezone conversion bug before trusting these:")
+        _log(f"  ⏰ {len(odd_hours)} event(s) start in the small hours — check for a "
+             f"timezone conversion bug before trusting these:")
         for e, h in odd_hours[:5]:
-            print(f"       - {e.get('name', '?')[:52]} starts {h}:00 AM Boston time")
+            _log(f"       - {e.get('name', '?')[:52]} starts {h}:00 AM Boston time")
 
     return {
         "status": "published",
@@ -2954,12 +3238,19 @@ def publish() -> dict:
             {"id": e.get("id"), "name": e.get("name"), "hour": h} for e, h in odd_hours
         ],
         "retired_urls": (registry_result["alias"] + registry_result["ended"]) if registry_result else None,
-        "archived_count": len(archived_out),
-        "search_only_count": len(searchonly_out),
+        "archived_count": len(art["archived_out"]),
+        "search_only_count": len(art["searchonly_out"]),
         "venue_suppressed_count": len(venue_report.get("suppressed", [])),
         "venue_conflict_count": len(venue_report.get("conflicts", [])),
+        "series_rolled_forward": len(art["rolled"]),
         "path": str(PUBLIC_EVENTS_JSON),
     }
+
+
+def publish() -> dict:
+    """Generate events-published.json from active + archived events + expanded venues."""
+    with atomic_io.locked(STORE_LOCK):
+        return _commit_publish(_compute_publish())
 
 
 # Refuse to ship a published file whose live-event count collapsed relative to a
@@ -2967,8 +3258,6 @@ def publish() -> dict:
 # map. Shared by the deterministic pipeline and the agent's own publish.
 TRIPWIRE_MIN_PREVIOUS = 20
 TRIPWIRE_MIN_RATIO = 0.7
-
-_LEGACY_PUBLIC_JSON = ROOT / "public" / "events.json"
 
 
 def _live_event_count(text: Optional[str]) -> int:
@@ -2981,45 +3270,60 @@ def _live_event_count(text: Optional[str]) -> int:
 
 
 def publish_guarded(previous_snapshot: Optional[str] = None) -> dict:
-    """publish(), but restore the previous published files and report
-    ``tripped: True`` if the live-event count collapses below
-    ``TRIPWIRE_MIN_RATIO`` of the baseline.
+    """publish(), unless the live-event count would collapse below
+    ``TRIPWIRE_MIN_RATIO`` of the baseline — then write nothing and report
+    ``tripped: True``.
+
+    The check runs on the computed result *before* any file is touched, so a
+    tripped publish leaves the published JSON, the venue-conflict queue and the
+    slug registry exactly as they were. (Restoring after the fact used to leave
+    the registry with URLs retired for a publish that was then rolled back.)
 
     Baseline defaults to the current published file — the right reference for
     the agent's own publish, which runs after the deterministic refresh already
     published. Callers holding an earlier baseline (run_pipeline, which snapshots
     before scrape/ingest/archive) pass it in explicitly.
     """
-    if previous_snapshot is None:
-        previous_snapshot = (
-            PUBLIC_EVENTS_JSON.read_text() if PUBLIC_EVENTS_JSON.exists() else None
+    with atomic_io.locked(STORE_LOCK):
+        if previous_snapshot is None:
+            previous_snapshot = (
+                PUBLIC_EVENTS_JSON.read_text() if PUBLIC_EVENTS_JSON.exists() else None
+            )
+        previous_live = _live_event_count(previous_snapshot)
+
+        art = _compute_publish()
+        new_live = sum(1 for e in art["published"] if not e.get("archived"))
+        tripped = (
+            previous_live >= TRIPWIRE_MIN_PREVIOUS
+            and new_live < previous_live * TRIPWIRE_MIN_RATIO
         )
-    previous_live = _live_event_count(previous_snapshot)
+        if tripped:
+            message = (
+                f"live events would fall {previous_live} → {new_live} "
+                f"(below {int(TRIPWIRE_MIN_RATIO * 100)}% of baseline); nothing was "
+                "written — do NOT commit. Investigate first."
+            )
+            _log(f"  🚨 tripwire: {message}")
+            return {
+                "status": "tripwire",
+                "tripped": True,
+                "message": message,
+                "count": len(art["deduped"]),
+                "previous_live_events": previous_live,
+                "published_live_events": new_live,
+                "venue_suppressed_count": len(art["venue_report"].get("suppressed", [])),
+                "venue_conflict_count": len(art["venue_report"].get("conflicts", [])),
+                "path": str(PUBLIC_EVENTS_JSON),
+            }
 
-    result = publish()
-
-    new_live = _live_event_count(PUBLIC_EVENTS_JSON.read_text())
-    tripped = (
-        previous_live >= TRIPWIRE_MIN_PREVIOUS
-        and new_live < previous_live * TRIPWIRE_MIN_RATIO
-    )
-    if tripped and previous_snapshot is not None:
-        PUBLIC_EVENTS_JSON.write_text(previous_snapshot)
-        _LEGACY_PUBLIC_JSON.write_text(previous_snapshot)
-
-    result["tripped"] = tripped
-    result["previous_live_events"] = previous_live
-    result["published_live_events"] = new_live
-    if tripped:
-        result["status"] = "tripwire"
-        result["message"] = (
-            f"live events fell {previous_live} → {new_live} "
-            f"(below {int(TRIPWIRE_MIN_RATIO * 100)}% of baseline); published files "
-            "restored to the pre-publish snapshot — do NOT commit. Investigate first."
-        )
-    return result
+        result = _commit_publish(art)
+        result["tripped"] = False
+        result["previous_live_events"] = previous_live
+        result["published_live_events"] = new_live
+        return result
 
 
+@_locked
 def ingest_scraped(source_id: Optional[str] = None, quarantine_new: bool = False) -> dict:
     """Ingest events from data/scraped/ into the active store.
 
@@ -3041,28 +3345,27 @@ def ingest_scraped(source_id: Optional[str] = None, quarantine_new: bool = False
     merged = 0
     reactivated = 0
     skipped = 0
-    dropped_non_latin = 0
+    rejected_non_latin = 0
     rejected_out_of_area = 0
     blocked = 0
     pending_review = 0
     quarantined_new = 0
     review_items: list[dict] = []
+    corrupt_files: list[str] = []
 
     _blocked = load_blocked()
     blocked_ids = {b["id"] for b in _blocked}
     blocked_keys = _blocked_keys(_blocked)
+    trusted = _trusted_latin_sources()
 
     # Sources ranked "noisy" (see data/sources.json + source_signal.py) always
     # route brand-new finds to the pending queue for review, even when the run
     # otherwise publishes directly -- their raw feeds are mostly non-dance.
     # Sources marked unreliable scrape for research but never enter the store.
-    try:
-        from source_signal import noisy_source_ids, unreliable_source_ids
-        noisy_sources = noisy_source_ids()
-        unreliable_sources = unreliable_source_ids()
-    except Exception:
-        noisy_sources = set()
-        unreliable_sources = set()
+    # A malformed sources.json raises here and aborts the run: silently
+    # treating every source as trusted-and-reliable is worse than no ingest.
+    noisy_sources = noisy_source_ids()
+    unreliable_sources = unreliable_source_ids()
 
     skipped_unreliable = 0
 
@@ -3070,8 +3373,12 @@ def ingest_scraped(source_id: Optional[str] = None, quarantine_new: bool = False
         if not path.exists():
             continue
         try:
-            events = json.loads(path.read_text())
-        except (json.JSONDecodeError, ValueError):
+            events = atomic_io.read_json(path, default=[])
+        except CorruptJSONError as exc:
+            # A scraper's output is an input, not the store. Skip it loudly so
+            # the other sources still ingest, and name it in the result.
+            _log(f"  ⚠️  skipping unreadable scrape file {path.name}: {exc}")
+            corrupt_files.append(path.name)
             continue
 
         for ev in events:
@@ -3082,7 +3389,7 @@ def ingest_scraped(source_id: Optional[str] = None, quarantine_new: bool = False
                 continue
             eff_quarantine = quarantine_new or (ev.get("source") in noisy_sources)
             result = add_event(ev, blocked_ids=blocked_ids, blocked_keys=blocked_keys,
-                               quarantine_new=eff_quarantine)
+                               quarantine_new=eff_quarantine, trusted_sources=trusted)
             status = result["status"]
             if status == "added":
                 added += 1
@@ -3096,8 +3403,8 @@ def ingest_scraped(source_id: Optional[str] = None, quarantine_new: bool = False
                 skipped += 1
             elif status == "skipped_past":
                 skipped += 1
-            elif status == "dropped_non_latin":
-                dropped_non_latin += 1
+            elif status == "rejected_non_latin":
+                rejected_non_latin += 1
             elif status == "rejected_out_of_area":
                 rejected_out_of_area += 1
             elif status == "blocked":
@@ -3117,13 +3424,158 @@ def ingest_scraped(source_id: Optional[str] = None, quarantine_new: bool = False
         "reactivated": reactivated,
         "skipped_duplicates": skipped,
         "skipped_unreliable": skipped_unreliable,
-        "dropped_non_latin": dropped_non_latin,
+        "rejected_non_latin": rejected_non_latin,
+        # Legacy name for the same count, kept for run_pipeline's summary.
+        "dropped_non_latin": rejected_non_latin,
         "rejected_out_of_area": rejected_out_of_area,
         "blocked": blocked,
         "pending_review": pending_review,
         "quarantined_new": quarantined_new,
         "files_processed": len(files),
     }
+    if corrupt_files:
+        result["files_corrupt"] = corrupt_files
     if review_items:
         result["review_items"] = review_items
     return result
+
+
+# ── Venues and sources ────────────────────────────────────────────────
+
+def validate_venue_schedule(schedule: list) -> list[str]:
+    """Human-readable problems with a venues.json ``schedule`` list; [] if valid.
+
+    Each entry is an object with ``dayOfWeek`` (a full weekday name), an
+    optional ``time`` the expander can parse ("9:00 PM – 1:00 AM" or a bare
+    "HH:MM"), an optional ``note`` string, and an optional ``anchor``
+    ("YYYY-MM-DD", the phase of an every-other-week schedule).
+    """
+    problems: list[str] = []
+    if not isinstance(schedule, list) or not schedule:
+        return ["schedule must be a non-empty list of {dayOfWeek, time?, note?, anchor?} objects"]
+
+    for i, entry in enumerate(schedule):
+        label = f"schedule[{i}]"
+        if not isinstance(entry, dict):
+            problems.append(f"{label}: must be an object, got {type(entry).__name__}")
+            continue
+
+        day = entry.get("dayOfWeek")
+        if day not in DAYS_LIST:
+            problems.append(f"{label}: dayOfWeek must be one of {', '.join(DAYS_LIST)} (got {day!r})")
+
+        time_str = entry.get("time")
+        if time_str is not None:
+            if not isinstance(time_str, str):
+                problems.append(f"{label}: time must be a string (got {time_str!r})")
+            elif time_str.strip() and not (_parse_time_range(time_str) or _parse_time(time_str)):
+                problems.append(
+                    f"{label}: time {time_str!r} is not parseable — use \"HH:MM\" or "
+                    f"\"H:MM AM – H:MM PM\""
+                )
+
+        note = entry.get("note")
+        if note is not None and not isinstance(note, str):
+            problems.append(f"{label}: note must be a string (got {note!r})")
+
+        anchor = entry.get("anchor")
+        if anchor is not None:
+            parsed = _parse_anchor(anchor) if isinstance(anchor, str) else None
+            if parsed is None:
+                problems.append(f"{label}: anchor must be a YYYY-MM-DD date (got {anchor!r})")
+            elif day in DAYS_LIST:
+                anchor_day = DAYS_LIST[parsed.isoweekday() % 7]
+                if anchor_day != day:
+                    problems.append(
+                        f"{label}: anchor {anchor} is a {anchor_day}, not a {day} — "
+                        f"it should be a date the night actually happens"
+                    )
+    return problems
+
+
+@_locked
+def add_venue(venue: dict) -> dict:
+    """Append a venue to data/venues.json.
+
+    Validates name, location, url and schedule (validate_venue_schedule),
+    refuses a venue whose name or id already exists, geocodes when lat/lng
+    are missing. Returns ``{"status": "added"|"invalid"|"exists",
+    "problems": [...]}``; ``added`` results carry the stored ``venue``.
+    """
+    problems: list[str] = []
+    if not isinstance(venue, dict):
+        return {"status": "invalid", "problems": ["venue must be an object"]}
+
+    for key in ("name", "location", "url"):
+        if not str(venue.get(key) or "").strip():
+            problems.append(f"missing {key}")
+    problems.extend(validate_venue_schedule(venue.get("schedule")))
+    if problems:
+        return {"status": "invalid", "problems": problems}
+
+    name = venue["name"].strip()
+    venue_id = (venue.get("id") or _slug_base(name)).strip()
+    venues = atomic_io.read_json(VENUES_JSON, default=[])
+    for existing in venues:
+        if (existing.get("name") or "").strip().lower() == name.lower():
+            return {"status": "exists",
+                    "problems": [f"a venue named {name!r} already exists (id {existing.get('id')!r})"]}
+        if existing.get("id") == venue_id:
+            return {"status": "exists",
+                    "problems": [f"a venue with id {venue_id!r} already exists"]}
+
+    record = dict(venue)
+    record["id"] = venue_id
+    record["name"] = name
+    if not record.get("styles"):
+        record["styles"] = detect_styles(f"{name} {record.get('description', '')}")
+    warnings: list[str] = []
+    if record.get("lat") is None or record.get("lng") is None:
+        coords = geocode(record["location"])
+        if coords:
+            record["lat"], record["lng"] = coords
+        else:
+            warnings.append("could not geocode location — the venue will have no map pin until lat/lng are set")
+
+    venues.append(record)
+    atomic_io.write_json(VENUES_JSON, venues)
+    _append_changelog("venue_add", venue_id, name)
+    result = {"status": "added", "problems": [], "venue": record}
+    if warnings:
+        result["warnings"] = warnings
+    return result
+
+
+_SOURCE_REQUIRED = ("id", "type", "scraper", "name")
+_SOURCE_LOCATORS = ("url", "search_queries", "facebook_events_url")
+
+
+@_locked
+def add_source(source: dict) -> dict:
+    """Append a source to data/sources.json.
+
+    Requires ``id``, ``type``, ``scraper``, ``name`` and at least one of
+    ``url`` / ``search_queries`` / ``facebook_events_url``; refuses a
+    duplicate id. ``enabled`` defaults to true. Returns ``{"status":
+    "added"|"invalid"|"exists", "problems": [...]}``; ``added`` results
+    carry the stored ``source``.
+    """
+    if not isinstance(source, dict):
+        return {"status": "invalid", "problems": ["source must be an object"]}
+
+    problems = [f"missing {key}" for key in _SOURCE_REQUIRED if not source.get(key)]
+    if not any(source.get(key) for key in _SOURCE_LOCATORS):
+        problems.append(f"needs one of {', '.join(_SOURCE_LOCATORS)}")
+    if problems:
+        return {"status": "invalid", "problems": problems}
+
+    sources = atomic_io.read_json(SOURCES_JSON, default=[])
+    if any(s.get("id") == source["id"] for s in sources):
+        return {"status": "exists", "problems": [f"a source with id {source['id']!r} already exists"]}
+
+    entry = dict(source)
+    entry.setdefault("enabled", True)
+    sources.append(entry)
+    atomic_io.write_json(SOURCES_JSON, sources)
+    _append_changelog("source_add", entry["id"], entry["name"])
+    return {"status": "added", "problems": [], "source": entry}

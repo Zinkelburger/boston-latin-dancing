@@ -129,8 +129,16 @@ Every venue entry MUST have:
 Recognized schedule note patterns:
 - `"1st Sunday of each month"` → generates 1st Sunday only
 - `"2nd Saturday of each month"` → generates 2nd Saturday only
-- `"Every other Friday"` → alternating weeks from reference date
+- `"Every other Friday"` → alternating weeks. Add `"anchor": "YYYY-MM-DD"` (a date
+  the night actually happens) to the schedule entry to set which weeks are on;
+  without it the phase falls back to the historical reference date (2026-01-02),
+  so existing venues are unchanged. Two venues on opposite fortnights just carry
+  anchors one week apart. `validate_venue_schedule` rejects an anchor that is
+  not a date or falls on a different weekday than `dayOfWeek`.
 - `"Lesson + social (18+)"` → every week (no filter)
+
+Schedule entries are `{dayOfWeek, time?, note?, anchor?}`; `venue_add` validates
+them with `event_store.validate_venue_schedule` before writing.
 
 If a venue doesn't follow a reliable pattern, prefer scraping their FB page over
 guessing. Add them as a source in `data/sources.json` instead of (or in addition to)
@@ -174,17 +182,41 @@ Saturday", Dante pattern guesses, Sunday class listings). Prefer organizer
 Eventbrite/Facebook and Beatrice for Cuban nights. Do not re-approve Una Bulla
 rows onto the map without a human override of the flag.
 
-## Source Priority (lower = higher priority for dedup conflicts)
+## Source Priority (lower rank = wins a dedup merge)
 
-0. beatrice-calendar (Google Calendar ICS)
-1. recurring-venues (expanded from data/venues.json)
-2. eventbrite-boston-latin
-3. lister-events
-4. bobas (Facebook)
-5. dantes-salsa (Facebook — Fuego y Candela Salsa Socials)
-6. sensualeros-boston (Google Calendar ICS)
-7. submissions
-8. manual
+`SOURCE_PRIORITY` in `scripts/event_store.py` is the authority; this is a summary.
+Venue hubs (records with a `schedule[]`, expanded from `data/venues.json`) always
+win. Then:
+
+- 0 manual, 1 submissions, 2 recurring-venues
+- 10 beatrice-calendar, sensualeros-boston, unabulla-cuban-boston
+- 11 eventbrite-boston-latin, timba-messengers
+- 12 lister-events, fiesta-dance-company, mato-lawn-on-d, nlf-events
+- 13 bobas, dantes-salsa, sabor-latino, lowell-sitp, lous-live, jandl-events
+- 14 pr-festival-ma, eastboston-events, harvardsquare
+- 50 any source not listed
+
+The winner keeps its description and primary `url`; the loser's URLs go to
+`urls[]`. Description length never decides.
+
+## Store integrity
+
+- One lock for the whole store (`data/events/store.lock`, re-entrant). Every
+  lifecycle function takes it; CLIs and the MCP server wrap any direct
+  `load_* / modify / save_*` sequence in `event_store.store_lock()`.
+- Every JSON write is atomic (`scripts/atomic_io.py`: unique temp file, fsync,
+  rename); JSONL logs are appended with O_APPEND.
+- A corrupt or empty store file raises `CorruptJSONError`. Never catch it and
+  proceed as if the file were empty — restore it from git.
+- Moves between files write the destination before removing the source, so an
+  interrupted move leaves a duplicate (dedup catches it) rather than a gap.
+- `event_store` writes nothing to stdout; progress and warnings go to stderr.
+- Publish rolls a live series' `startDate`/`endDate` forward to its next
+  occurrence in the published copy only (`firstStartDate` keeps the original)
+  and cuts archived descriptions to 300 characters; the stored records are
+  untouched.
+- Store-level helpers for the MCP server: `archive_event(event_id, reason)`,
+  `validate_venue_schedule(schedule)`, `add_venue(venue)`, `add_source(source)`.
 
 ## Important Files
 

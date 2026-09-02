@@ -21,6 +21,7 @@ from event_store import (
     load_active, save_active, load_pending, save_pending,
     merge_event, _persist_known_duplicate, _append_changelog,
     _enrich_event, dedup_confidence, find_duplicate_in, _dedup_reason,
+    store_lock,
 )
 
 
@@ -110,6 +111,11 @@ def cmd_show(event_id: str):
 
 
 def cmd_merge(event_id: str):
+    with store_lock():
+        _cmd_merge(event_id)
+
+
+def _cmd_merge(event_id: str):
     pending = load_pending()
     ev_idx = next((i for i, e in enumerate(pending) if e["id"] == event_id), None)
     if ev_idx is None:
@@ -150,6 +156,11 @@ def cmd_merge(event_id: str):
 
 
 def cmd_add(event_id: str):
+    with store_lock():
+        _cmd_add(event_id)
+
+
+def _cmd_add(event_id: str):
     pending = load_pending()
     ev_idx = next((i for i, e in enumerate(pending) if e["id"] == event_id), None)
     if ev_idx is None:
@@ -185,6 +196,11 @@ def cmd_add(event_id: str):
 
 
 def cmd_dismiss(event_id: str):
+    with store_lock():
+        _cmd_dismiss(event_id)
+
+
+def _cmd_dismiss(event_id: str):
     pending = load_pending()
     ev_idx = next((i for i, e in enumerate(pending) if e["id"] == event_id), None)
     if ev_idx is None:

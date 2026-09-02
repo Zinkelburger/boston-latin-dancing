@@ -18,7 +18,7 @@ DAY_INDEX = {"Sunday": 0, "Monday": 1, "Tuesday": 2, "Wednesday": 3,
 DAY_SHORT = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
 
-def _parse_date(iso_str: str) -> Optional[datetime]:
+def parse_date(iso_str: str) -> Optional[datetime]:
     try:
         return datetime.fromisoformat(iso_str)
     except (ValueError, TypeError):
@@ -30,7 +30,7 @@ _ORDINAL_WORDS = {1: "First", 2: "Second", 3: "Third", 4: "Fourth", 5: "Fifth"}
 def _parse_recurrence_dates(recurrences: list[str]) -> list[datetime]:
     out: list[datetime] = []
     for iso in recurrences:
-        dt = _parse_date(iso)
+        dt = parse_date(iso)
         if not dt:
             continue
         if dt.tzinfo is None:

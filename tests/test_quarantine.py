@@ -105,15 +105,23 @@ def test_approve_quarantined_moves_to_active_and_strips_markers(store):
     assert "_quarantined_at" not in active[0]
 
 
-def test_non_latin_event_is_dropped_not_recorded(store):
-    # An event with no Latin keywords is dropped outright — not queued anywhere.
+def test_non_latin_event_is_queued_for_review(store):
+    # An event with no Latin keywords goes to rejected.json, where a reviewer
+    # can rescue a real social with an odd title or block a recurring false
+    # hit for good. Never onto the map, and never silently dropped.
     ev = _event(name="Community Festival", description="a parade", styles=["other"])
     result = store.add_event(dict(ev))
-    assert result["status"] == "dropped_non_latin"
-    assert "event" not in result  # nothing persisted
+    assert result["status"] == "rejected_non_latin"
     assert store.load_active() == []
-    assert store.load_rejected() == []
     assert store.load_pending() == []
+    rejected = store.load_rejected()
+    assert [r["id"] for r in rejected] == ["evt-q1"]
+    assert rejected[0]["_review_type"] == "non_latin"
+    # A re-scrape refreshes the queued row instead of adding a second one.
+    store.add_event(dict(ev, description="a parade, now with floats"))
+    rejected = store.load_rejected()
+    assert len(rejected) == 1
+    assert rejected[0]["description"] == "a parade, now with floats"
 
 
 def test_latin_keyword_event_still_passes(store):
