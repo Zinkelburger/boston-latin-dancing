@@ -46,6 +46,9 @@ from pathlib import Path
 from typing import Optional
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import atomic_io  # noqa: E402
+
 PUBLISHED = ROOT / "data" / "events-published.json"
 KNOWN_DUPES = ROOT / "data" / "known_duplicates.json"
 REGISTRY_PATH = ROOT / "data" / "slug-registry.json"
@@ -129,20 +132,28 @@ def _within_days(a: Optional[str], b: Optional[str], days: int) -> bool:
 
 
 def load_registry() -> dict:
-    if REGISTRY_PATH.exists():
-        return json.loads(REGISTRY_PATH.read_text())
-    return {"updated_at": None, "entries": {}}
+    """A missing registry is empty. A corrupt one raises (CorruptJSONError)
+    rather than reading as empty: that would forget every URL ever shipped
+    and re-mint them all as new on the next save."""
+    return atomic_io.read_json(REGISTRY_PATH, default={"updated_at": None, "entries": {}})
+
+
+def _sorted_keys(obj):
+    """Recursively sort dict keys so the tracked registry file diffs cleanly."""
+    if isinstance(obj, dict):
+        return {k: _sorted_keys(obj[k]) for k in sorted(obj)}
+    if isinstance(obj, list):
+        return [_sorted_keys(v) for v in obj]
+    return obj
 
 
 def save_registry(reg: dict) -> None:
     reg["updated_at"] = _now()
-    REGISTRY_PATH.write_text(json.dumps(reg, indent=2, sort_keys=True, ensure_ascii=False) + "\n")
+    atomic_io.write_json(REGISTRY_PATH, _sorted_keys(reg))
 
 
 def _load_published() -> list[dict]:
-    if not PUBLISHED.exists():
-        return []
-    return json.loads(PUBLISHED.read_text())
+    return atomic_io.read_json(PUBLISHED, default=[])
 
 
 # ── merge graph ───────────────────────────────────────────────────────
@@ -163,10 +174,9 @@ def _same_id_groups() -> dict[str, str]:
         if ra != rb:
             parent[ra] = rb
 
-    if KNOWN_DUPES.exists():
-        for pair in json.loads(KNOWN_DUPES.read_text()):
-            if pair.get("verdict") == "same" and pair.get("id_a") and pair.get("id_b"):
-                union(pair["id_a"], pair["id_b"])
+    for pair in atomic_io.read_json(KNOWN_DUPES, default=[]):
+        if pair.get("verdict") == "same" and pair.get("id_a") and pair.get("id_b"):
+            union(pair["id_a"], pair["id_b"])
 
     return {k: find(k) for k in parent}
 

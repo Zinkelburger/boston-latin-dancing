@@ -28,7 +28,6 @@ def store(tmp_path, monkeypatch):
     monkeypatch.setattr(es, "BLOCKED_JSON", events_dir / "blocked.json")
     monkeypatch.setattr(es, "CHANGELOG", events_dir / "changelog.jsonl")
     monkeypatch.setattr(es, "KNOWN_DUPLICATES_JSON", tmp_path / "known_duplicates.json")
-    monkeypatch.setattr(es, "_known_duplicates_cache", None)
     return es
 
 

@@ -14,6 +14,9 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import atomic_io  # noqa: E402
+
 EVENTS_JSON = ROOT / "public" / "events.json"
 EVENTS_DIR = ROOT / "data" / "events"
 ACTIVE_JSON = EVENTS_DIR / "active.json"
@@ -38,7 +41,7 @@ def main():
         print(f"ERROR: {EVENTS_JSON} not found")
         sys.exit(1)
 
-    events = json.loads(EVENTS_JSON.read_text())
+    events = atomic_io.read_json(EVENTS_JSON, default=[])
     print(f"Loaded {len(events)} events from {EVENTS_JSON}")
 
     now = datetime.now(timezone.utc)
@@ -68,14 +71,14 @@ def main():
     print(f"  Active (future/current): {len(active)} events")
     print(f"  Archive (past):          {len(archive)} events")
 
-    ACTIVE_JSON.write_text(json.dumps(active, indent=2, ensure_ascii=False))
+    atomic_io.write_json(ACTIVE_JSON, active)
     print(f"\nWrote {ACTIVE_JSON}")
 
-    ARCHIVE_JSON.write_text(json.dumps(archive, indent=2, ensure_ascii=False))
+    atomic_io.write_json(ARCHIVE_JSON, archive)
     print(f"Wrote {ARCHIVE_JSON}")
 
     if not PENDING_JSON.exists():
-        PENDING_JSON.write_text("[]")
+        atomic_io.write_json(PENDING_JSON, [])
         print(f"Created empty {PENDING_JSON}")
 
     print("\nMigration complete!")

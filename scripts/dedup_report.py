@@ -18,6 +18,7 @@ from itertools import combinations
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import atomic_io
 from event_store import (
     normalize_name,
     _content_words,
@@ -33,7 +34,7 @@ from event_store import (
 
 
 def load_events(path: Path) -> list[dict]:
-    return json.loads(path.read_text())
+    return atomic_io.read_json(path, default=[])
 
 
 def report(events: list[dict]) -> list[dict]:

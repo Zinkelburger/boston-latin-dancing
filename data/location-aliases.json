@@ -1,0 +1,78 @@
+{
+  "_notes": [
+    "Maps variant location strings to one canonical venue key so events at the same physical venue dedup even when sources name it differently.",
+    "Shape: {\"canonical-key\": [\"alias\", ...]}. Aliases are lowercased and matched first exactly, then as substrings, in file order.",
+    "Keys starting with an underscore are ignored by the loader (scripts/event_store.py: _load_location_aliases).",
+    "moves-vibes: Moves & Vibes (Cambridge) is scraped as 'Dance Co', 'Dancing Academy' and 'Dance and Entertainment Co', with the street as both '5th' and 'Fifth'.",
+    "la-fabrica-central: appears with and without the accent. The bare '450 Massachusetts Ave' is deliberately NOT aliased: special one-off editions are listed by address only and must not be swallowed into the series.",
+    "el-barco: appears by name and as a bare address.",
+    "wallys-cafe: appears with an accented apostrophe and with 'EE. UU.' vs 'USA' country suffix across sources."
+  ],
+  "rumba-y-timbal": [
+    "rumba y timbal",
+    "rumba y timbal dance studio",
+    "7 temple st",
+    "7 temple street"
+  ],
+  "jl-dance-studio": [
+    "j&l dance studio",
+    "j&l dance",
+    "75 pleasant st",
+    "75 pleasant street"
+  ],
+  "the-anchor": [
+    "the anchor boston",
+    "the anchor",
+    "1 shipyard park",
+    "shipyard park"
+  ],
+  "hatch-shell": [
+    "hatch shell on the esplanade",
+    "hatch memorial shell",
+    "docks near the hatch memorial shell"
+  ],
+  "dante-alighieri": [
+    "the dante alighieri society of massachusetts",
+    "dante alighieri society",
+    "41 hampshire st"
+  ],
+  "marina-bay-quincy": [
+    "marina bay quincy",
+    "marina bay ferry",
+    "552 victory road",
+    "552 victory rd"
+  ],
+  "magazine-beach": [
+    "magazine beach",
+    "magazine beach park",
+    "668 memorial dr",
+    "668 memorial drive",
+    "nature center @ magazine beach park",
+    "mass audubon magazine beach park nature center"
+  ],
+  "cantab-lounge": [
+    "the cantab lounge",
+    "cantab lounge",
+    "738 massachusetts ave"
+  ],
+  "moves-vibes": [
+    "moves & vibes",
+    "44 5th st",
+    "44 fifth st",
+    "44 fifth street"
+  ],
+  "la-fabrica-central": [
+    "la fabrica",
+    "la fábrica"
+  ],
+  "el-barco": [
+    "el barco",
+    "50 dalton st",
+    "50 dalton street"
+  ],
+  "wallys-cafe": [
+    "wally's cafe jazz club",
+    "wally's cafe",
+    "427 massachusetts ave"
+  ]
+}
