@@ -1,0 +1,14 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Somerville Arts Council - ECPv6.0//NONSGML v1.0//EN
+BEGIN:VEVENT
+DTSTART;TZID=America/New_York:20260913T160000
+DTEND;TZID=America/New_York:20260913T190000
+UID:10042-1789344000-1789354800@somervilleartscouncil.org
+SUMMARY:Salsa in the Park
+DESCRIPTION:Free outdoor salsa &amp; bachata social with live timba. <b>All levels.</b>
+URL:https://somervilleartscouncil.org/events/salsa-in-the-park/
+LOCATION:Seven Hills Park\, Somerville\, MA
+GEO:42.397751;-71.124514
+END:VEVENT
+END:VCALENDAR

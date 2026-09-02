@@ -36,7 +36,9 @@ from urllib.parse import urlparse
 import requests
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from atomic_io import write_json
 from link_meta import link_meta, looks_like_render_timestamp
+from scraper_utils import DEV_UA
 from event_store import (
     ACTIVE_JSON,
     EVENTS_DIR,
@@ -63,7 +65,8 @@ def _ny_calendar_day(iso_str: str) -> Optional[str]:
     return dt.astimezone(NY_TZ).date().isoformat()
 
 REPORT_PATH = EVENTS_DIR / "verification-report.json"
-UA = {"User-Agent": "boston-latin-dance-dev/0.1 (event verification)"}
+# The honest identity (with a contact address) — the same one the scrapers use.
+UA = {"User-Agent": DEV_UA}
 
 
 # ── URL classification ────────────────────────────────────────────────
@@ -506,7 +509,7 @@ def verify_all(
         report.append(entry)
         update_event_verification(event["id"], entry)
 
-    REPORT_PATH.write_text(json.dumps(report, indent=2, ensure_ascii=False))
+    write_json(REPORT_PATH, report)
     print(f"\nWrote verification report to {REPORT_PATH}")
     return report
 

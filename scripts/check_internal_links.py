@@ -66,7 +66,7 @@ def check_sitemap() -> list[str]:
         return ["sitemap.xml was not exported"]
 
     failures = []
-    for loc in _LOC_RE.findall(sitemap.read_text()):
+    for loc in _LOC_RE.findall(sitemap.read_text(encoding="utf-8")):
         path = urlparse(loc.strip()).path or "/"
         if not _path_exists(path):
             failures.append(f"sitemap advertises {path} but no page was exported")
@@ -76,7 +76,7 @@ def check_sitemap() -> list[str]:
 def check_registry() -> list[str]:
     if not REGISTRY_PATH.is_file():
         return []
-    entries = json.loads(REGISTRY_PATH.read_text()).get("entries", {})
+    entries = json.loads(REGISTRY_PATH.read_text(encoding="utf-8")).get("entries", {})
     failures = []
     for slug, entry in sorted(entries.items()):
         if not _path_exists(f"/event/{slug}"):
@@ -94,7 +94,7 @@ def check_hrefs() -> list[str]:
     failures = []
     seen: set[tuple[str, str]] = set()
     for page in sorted(OUT.rglob("*.html")):
-        html = page.read_text(errors="ignore")
+        html = page.read_text(encoding="utf-8", errors="ignore")
         source = str(page.relative_to(OUT))
         for href in _HREF_RE.findall(html):
             if href.startswith(_IGNORE_PREFIXES) or (href, source) in seen:

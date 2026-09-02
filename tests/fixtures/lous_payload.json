@@ -1,0 +1,22 @@
+{
+ "upcoming": [
+  {
+   "title": "Saturday &ndash; Latin Night &ndash; La Diáspora Combo &ndash; in the Performance Space",
+   "startDate": 1789261200000,
+   "endDate": 1789273800000,
+   "urlId": "latin-night-diaspora-combo",
+   "fullUrl": "/lous-live/latin-night-diaspora-combo",
+   "excerpt": "<p>Follow the band: https://www.instagram.com/ladiasporacombo/</p>",
+   "body": "<p>Dance to salsa, cumbia and merengue with La Diáspora Combo.</p><p>Reservation: call us.</p>"
+  },
+  {
+   "title": "Friday &ndash; Jazz Trio &ndash; in the Lounge",
+   "startDate": 1789171200000,
+   "endDate": 1789182000000,
+   "urlId": "jazz-trio",
+   "fullUrl": "/lous-live/jazz-trio",
+   "excerpt": "",
+   "body": "<p>Seated jazz set.</p>"
+  }
+ ]
+}

@@ -5,42 +5,33 @@ Scrape Latin dance events from eastboston.com's Sugar Calendar listing.
 Strategy:
   1. Fetch the /events/ listing page which shows up to 90 upcoming events.
   2. Parse event titles, URLs, and start/end times from <time> elements.
-  3. Filter to dance-relevant events (must mention a known dance style).
+  3. Filter to Latin-relevant events with the shared keyword filter.
   4. Fetch detail pages for descriptions.
   5. Write data/scraped/eastboston-events.json.
+
+Usage: python3 scripts/scrape_eastboston.py [eastboston-events]
 """
 
 import hashlib
-import json
 import re
 import sys
 import time
 from datetime import datetime
 from pathlib import Path
 
-import requests
 from bs4 import BeautifulSoup
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from scraper_utils import (
-    detect_styles,
-    extract_cost,
-    filter_future_events,
-    get_source,
+    ScrapeResult,
+    fetch,
     make_event,
-    write_scraped,
+    mentions_latin,
+    run_scraper,
+    scraper_argparser,
 )
 
 SOURCE_ID = "eastboston-events"
-UA = {
-    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
-}
-
-DANCE_KEYWORDS = re.compile(
-    r"salsa|bachata|kizomba|zouk|merengue|latin\s+(?:music|dance)|cumbia|reggaeton|mambo|cha\s*cha|dance\s+festival",
-    re.I,
-)
 
 
 def parse_listing(html: str) -> list[dict]:
@@ -99,20 +90,19 @@ def parse_listing(html: str) -> list[dict]:
 
 
 def is_dance_relevant(name: str, description: str = "") -> bool:
-    combined = f"{name} {description}"
-    return bool(DANCE_KEYWORDS.search(combined))
+    """The shared Latin keyword rule — the same one ingest applies."""
+    return mentions_latin(f"{name} {description}")
 
 
 def fetch_description(url: str) -> str:
     """Fetch an event detail page and extract description text."""
     try:
-        resp = requests.get(url, headers=UA, timeout=15)
-        resp.raise_for_status()
+        html = fetch(url, browser=True, timeout=15).text
     except Exception as e:
         print(f"    Failed to fetch detail: {e}")
         return ""
 
-    soup = BeautifulSoup(resp.text, "html.parser")
+    soup = BeautifulSoup(html, "html.parser")
 
     content = soup.find("div", class_="td-post-content")
     if not content:
@@ -147,25 +137,8 @@ def make_event_id(url: str) -> str:
     return f"eb-com-{short_hash}"
 
 
-def main():
-    source = get_source(SOURCE_ID)
-    if not source or not source.get("enabled"):
-        print(f"Source '{SOURCE_ID}' not found or disabled")
-        return
-
-    listing_url = source["url"]
-    print(f"Fetching events listing from {listing_url}")
-
-    try:
-        resp = requests.get(listing_url, headers=UA, timeout=15)
-        resp.raise_for_status()
-    except Exception as e:
-        print(f"Failed to fetch listing: {e}")
-        return
-
-    raw_events = parse_listing(resp.text)
-    print(f"Found {len(raw_events)} events on listing page")
-
+def build_events(raw_events: list[dict], source: dict, *, delay: float = 0.8) -> list[dict]:
+    """Keyword-filter the listing rows, fetch details, and build DanceEvents."""
     # First pass: filter by title
     candidates = []
     for ev in raw_events:
@@ -177,25 +150,23 @@ def main():
 
     print(f"\n{len(candidates)} potentially relevant events, fetching details...")
 
+    default_location = (source.get("defaults") or {}).get("location", "East Boston, MA")
     events: list[dict] = []
     for i, ev in enumerate(candidates):
         print(f"  [{i+1}/{len(candidates)}] {ev['name']}")
         description = fetch_description(ev["url"])
 
         if not is_dance_relevant(ev["name"], description):
-            print(f"    -> skipped after description check")
+            print("    -> skipped after description check")
             continue
 
+        # Try extracting location from description, else the source default.
         location = ""
-        # Try extracting location from description
         loc_match = re.search(r"Location:\s*(.+?)(?:\n|$)", description)
         if loc_match:
             location = loc_match.group(1).strip()
-
-        # Use defaults from source config if no location found
         if not location:
-            defaults = source.get("defaults", {})
-            location = defaults.get("location", "East Boston, MA")
+            location = default_location
 
         event = make_event(
             id=make_event_id(ev["url"]),
@@ -210,13 +181,27 @@ def main():
         events.append(event)
         print(f"    -> {event['name']} | {event['dayOfWeek']} | styles={event['styles']}")
 
-        if i < len(candidates) - 1:
-            time.sleep(0.8)
+        if delay and i < len(candidates) - 1:
+            time.sleep(delay)
+    return events
 
+
+def fetch_source(source: dict) -> ScrapeResult:
+    listing_url = source["url"]
+    print(f"Fetching events listing from {listing_url}")
+    html = fetch(listing_url, browser=True, timeout=15).text
+
+    raw_events = parse_listing(html)
+    print(f"Found {len(raw_events)} events on listing page")
+    events = build_events(raw_events, source)
     print(f"\nResults: {len(events)} events from {len(raw_events)} total listings")
-    events = filter_future_events(events)
-    write_scraped(SOURCE_ID, events)
+    return ScrapeResult(events, raw_found=len(raw_events))
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = scraper_argparser(__doc__, default_source_id=SOURCE_ID).parse_args(argv)
+    return run_scraper(args.source_id, fetch_source)
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

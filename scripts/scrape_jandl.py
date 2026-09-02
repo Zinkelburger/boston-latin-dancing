@@ -23,17 +23,20 @@ import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 
-import requests
 from bs4 import BeautifulSoup
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from scraper_utils import (
+    DAY_NUM_RE,
+    MONTH_NAME_RE,
     NY_TZ,
-    filter_future_events,
-    get_source,
+    ScrapeResult,
+    fetch,
     make_event,
-    record_scrape_health,
-    write_scraped,
+    month_number,
+    resolve_year as _resolve_year_date,
+    run_scraper,
+    scraper_argparser,
 )
 
 SOURCE_ID = "jandl-events"
@@ -43,29 +46,8 @@ STUDIO = "J&L Dance Studio, 75 Pleasant St #125, Malden, MA 02148"
 STUDIO_LAT = 42.4271
 STUDIO_LNG = -71.0662
 
-UA = {
-    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
-    "Accept": "application/json, text/html;q=0.9",
-}
-
-MONTHS = {
-    "january": 1, "jan": 1,
-    "february": 2, "feb": 2,
-    "march": 3, "mar": 3,
-    "april": 4, "apr": 4,
-    "may": 5,
-    "june": 6, "jun": 6,
-    "july": 7, "jul": 7,
-    "august": 8, "aug": 8,
-    "september": 9, "sep": 9, "sept": 9,
-    "october": 10, "oct": 10,
-    "november": 11, "nov": 11,
-    "december": 12, "dec": 12,
-}
-
-_MONTH = r"(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)"
-_DAY = r"\d{1,2}(?:st|nd|rd|th)?"
+_MONTH = MONTH_NAME_RE
+_DAY = DAY_NUM_RE
 # "August 17th" | "August 21-23" | "August 31st-September 8th" | "September 9th & 14th"
 DATE_HEAD_RE = re.compile(
     rf"^\s*({_MONTH})\s+({_DAY})"
@@ -104,26 +86,20 @@ def _ordinal_day(token: str) -> int:
 
 
 def _month_num(token: str) -> int:
-    key = token.strip().lower()
-    return MONTHS[key] if key in MONTHS else MONTHS[key[:3]]
+    month = month_number(token)
+    if month is None:
+        raise ValueError(f"not a month: {token!r}")
+    return month
 
 
 def resolve_year(month: int, day: int, now: datetime) -> datetime | None:
-    """Attach a year. Dates more than a week in the past roll to next year,
-    unless that lands more than ~6 months out (stale leftover on the bar)."""
-    try:
-        dt = datetime(now.year, month, day, tzinfo=NY_TZ)
-    except ValueError:
+    """Attach a year (shared rollover rule): dates more than a week in the
+    past roll to next year, unless that lands more than ~6 months out — a
+    stale leftover on the bar. Returns a midnight Eastern datetime."""
+    when = _resolve_year_date(month, day, now)
+    if when is None:
         return None
-    if dt.date() < (now.astimezone(NY_TZ).date() - timedelta(days=7)):
-        try:
-            rolled = datetime(now.year + 1, month, day, tzinfo=NY_TZ)
-        except ValueError:
-            return None
-        if rolled > now + timedelta(days=180):
-            return None
-        return rolled
-    return dt
+    return datetime(when.year, when.month, when.day, tzinfo=NY_TZ)
 
 
 def parse_date_head(date_and_title: str, now: datetime) -> list[dict]:
@@ -328,8 +304,13 @@ def items_to_events(items: list[dict], listing_url: str) -> list[dict]:
 
 
 def fetch_page_json(listing_url: str) -> dict:
-    resp = requests.get(listing_url, params={"format": "json"}, headers=UA, timeout=20)
-    resp.raise_for_status()
+    resp = fetch(
+        listing_url,
+        browser=True,
+        params={"format": "json"},
+        headers={"Accept": "application/json, text/html;q=0.9"},
+        timeout=20,
+    )
     try:
         return resp.json()
     except json.JSONDecodeError as e:
@@ -349,27 +330,17 @@ def fetch_events(listing_url: str, now: datetime | None = None) -> tuple[list[di
     return events, len(raw_items)
 
 
-def main():
-    source = get_source(SOURCE_ID)
-    if not source or not source.get("enabled"):
-        print(f"Source '{SOURCE_ID}' not found or disabled")
-        return
-
+def fetch_source(source: dict) -> ScrapeResult:
     listing_url = source.get("url") or EVENTS_URL
     print(f"Fetching J&L announcement bar from {listing_url}?format=json")
+    events, raw_found = fetch_events(listing_url)
+    return ScrapeResult(events, raw_found=raw_found)
 
-    try:
-        events, raw_found = fetch_events(listing_url)
-    except Exception as e:
-        print(f"Failed to scrape J&L: {e}")
-        record_scrape_health(SOURCE_ID, raw_found=0, kept=0, fetched=False, note=str(e))
-        write_scraped(SOURCE_ID, [])
-        return
 
-    events = filter_future_events(events)
-    record_scrape_health(SOURCE_ID, raw_found=raw_found, kept=len(events))
-    write_scraped(SOURCE_ID, events)
+def main(argv: list[str] | None = None) -> int:
+    args = scraper_argparser(__doc__, default_source_id=SOURCE_ID).parse_args(argv)
+    return run_scraper(args.source_id, fetch_source)
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

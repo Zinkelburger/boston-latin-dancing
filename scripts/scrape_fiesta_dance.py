@@ -1,23 +1,30 @@
 #!/usr/bin/env python3
-"""Scrape upcoming socials from Fiesta Dance Company (Squarespace)."""
+"""Scrape upcoming socials from Fiesta Dance Company (Squarespace).
+
+Usage: python3 scripts/scrape_fiesta_dance.py [fiesta-dance-company]
+"""
 
 import hashlib
 import re
 import sys
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
 from pathlib import Path
-from zoneinfo import ZoneInfo
 
-import requests
 from bs4 import BeautifulSoup
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from scraper_utils import filter_future_events, get_source, make_event, write_scraped
+from scraper_utils import (
+    MONTH_NAME_RE,
+    NY_TZ,
+    fetch,
+    make_event,
+    month_number,
+    resolve_year,
+    run_scraper,
+    scraper_argparser,
+)
 
 SOURCE_ID = "fiesta-dance-company"
-UA = {"User-Agent": "boston-latin-dance-dev/0.1"}
-# Wall-clock Eastern times; ZoneInfo keeps EDT/EST correct across DST.
-NY_TZ = ZoneInfo("America/New_York")
 
 WEBSITE = "https://fiestadancecompany.com"
 SOCIALS_URL = f"{WEBSITE}/upcoming-socials"
@@ -33,13 +40,9 @@ VENUE_ADDRESSES = {
 }
 
 _DAY = r"(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)"
-_MONTH = (
-    r"(?:January|February|March|April|May|June|July|August|September|October|November|December|"
-    r"Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)"
-)
 
 LINE_RE = re.compile(
-    rf"^({_DAY})\s+({_MONTH})\.?\s+(\d{{1,2}})\s+-\s+(.+?)\s+-\s+(.+)$",
+    rf"^({_DAY})\s+({MONTH_NAME_RE})\.?\s+(\d{{1,2}})\s+-\s+(.+?)\s+-\s+(.+)$",
     re.I,
 )
 
@@ -47,7 +50,7 @@ LINE_RE = re.compile(
 # "Friday July 17 - Venue - City" entries arrive concatenated. Split at each
 # new day+month+date boundary before line-parsing, or the first entry's
 # city group swallows every entry after it.
-ENTRY_BOUNDARY_RE = re.compile(rf"(?={_DAY}\s+{_MONTH}\.?\s+\d{{1,2}}\s+-)", re.I)
+ENTRY_BOUNDARY_RE = re.compile(rf"(?={_DAY}\s+{MONTH_NAME_RE}\.?\s+\d{{1,2}}\s+-)", re.I)
 
 
 def split_entries(text: str) -> list[str]:
@@ -67,27 +70,27 @@ def resolve_location(venue: str, city_hint: str) -> str:
     return f"{venue.strip()}, MA"
 
 
-def parse_social_line(text: str, year: int) -> dict | None:
+def parse_social_line(text: str, today: datetime) -> dict | None:
+    """One 'Friday July 17 - Venue - City' line -> DanceEvent, or None.
+
+    The page prints no year: a date more than a week past rolls to next year,
+    and a rollover that lands most of a year out is a stale entry left on the
+    listing, not an upcoming social, so it is dropped (see resolve_year).
+    """
     m = LINE_RE.match(text.strip())
     if not m:
         return None
 
-    day_name, month_str, day_num, venue, city_hint = m.groups()
-    month_str = month_str[:3].title()
-    month_map = {
-        "Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6,
-        "Jul": 7, "Aug": 8, "Sep": 9, "Oct": 10, "Nov": 11, "Dec": 12,
-    }
-    month = month_map.get(month_str)
+    _day_name, month_str, day_num, venue, city_hint = m.groups()
+    month = month_number(month_str)
     if not month:
         return None
-
-    try:
-        # Page lists date only — no time; use midnight as date anchor (start === end).
-        start = datetime(year, month, int(day_num), 0, 0, tzinfo=NY_TZ)
-    except ValueError:
+    when = resolve_year(month, int(day_num), today)
+    if when is None:
         return None
 
+    # Page lists date only — no time; use midnight as date anchor (start === end).
+    start = datetime(when.year, when.month, when.day, 0, 0, tzinfo=NY_TZ)
     end = start
     location = resolve_location(venue, city_hint)
     name = "Salsa & Bachata Social w/ Fiesta Dance Co"
@@ -116,10 +119,10 @@ def parse_social_line(text: str, year: int) -> dict | None:
     )
 
 
-def fetch_events(listing_url: str) -> list[dict]:
-    resp = requests.get(listing_url, headers=UA, timeout=15)
-    resp.raise_for_status()
-    soup = BeautifulSoup(resp.text, "html.parser")
+def parse_socials_page(page_html: str, today: datetime | None = None) -> list[dict]:
+    """Parse the socials listing page into DanceEvent dicts."""
+    today = today or datetime.now(NY_TZ)
+    soup = BeautifulSoup(page_html, "html.parser")
 
     lines: list[str] = []
     for block in soup.select("[data-block-type='1337'], .sqs-block-content"):
@@ -132,25 +135,12 @@ def fetch_events(listing_url: str) -> list[dict]:
         for node in soup.find_all(string=LINE_RE):
             lines.extend(s for s in split_entries(node.strip()) if LINE_RE.match(s))
 
-    year = datetime.now(NY_TZ).year
     events: list[dict] = []
     seen: set[str] = set()
     for line in lines:
-        ev = parse_social_line(line, year)
+        ev = parse_social_line(line, today)
         if not ev or ev["id"] in seen:
             continue
-        # If the parsed date is far in the past, try next year — but a rollover
-        # that lands most of a year out means the page entry is stale (an old
-        # date left on the listing), not a genuine upcoming social. Skip those.
-        start_dt = datetime.fromisoformat(ev["startDate"])
-        now = datetime.now(NY_TZ)
-        if start_dt < now - timedelta(days=7):
-            ev = parse_social_line(line, year + 1)
-            if not ev:
-                continue
-            rolled = datetime.fromisoformat(ev["startDate"])
-            if rolled > now + timedelta(days=180):
-                continue
         seen.add(ev["id"])
         events.append(ev)
         print(f"  -> {ev['name']} on {ev['dayOfWeek']} @ {ev['location']}")
@@ -158,18 +148,17 @@ def fetch_events(listing_url: str) -> list[dict]:
     return events
 
 
-def main():
-    source = get_source(SOURCE_ID)
-    if not source or not source.get("enabled"):
-        print(f"Source '{SOURCE_ID}' not found or disabled")
-        return
-
+def fetch_source(source: dict) -> list[dict]:
     listing_url = source.get("url", SOCIALS_URL)
     print(f"Fetching socials from {listing_url}")
-    events = fetch_events(listing_url)
-    events = filter_future_events(events)
-    write_scraped(SOURCE_ID, events)
+    page = fetch(listing_url, timeout=15).text
+    return parse_socials_page(page)
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = scraper_argparser(__doc__, default_source_id=SOURCE_ID).parse_args(argv)
+    return run_scraper(args.source_id, fetch_source)
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

@@ -13,7 +13,7 @@ No browser MCP? Headless Chrome renders the public events tabs without login:
 Strip tags and read the event cards ("Upcoming"/"Past" sections, card text like
 "Fri, Jul 10 <name> · Cambridge"); individual event pages give exact date/time
 in og: meta tags and visible text. Build the raw JSON below from that, then run
-this script with --from-file.
+this script.
 
 Designed to be run by an agent with browser MCP (or the headless fallback):
 
@@ -29,36 +29,51 @@ Usage:
   python3 scripts/scrape_facebook.py <source_id> --from-file data/scraped/<id>-raw.json
   python3 scripts/scrape_facebook.py --all
 
-The --from-file flag accepts a JSON array of raw event objects:
+Without --from-file the raw input defaults to data/scraped/<source_id>-raw.json.
+If no raw input exists the script prints the instructions above and exits 0
+WITHOUT touching data/scraped/<source_id>.json — the pipeline runs this every
+day, and a run with nothing new must never wipe the last good scrape.
+
+The raw file is a JSON array of raw event objects:
   [{"name": "...", "date": "May 22, 2026", "time": "6:00 PM",
     "end_time": "9:00 PM", "location": "...", "url": "...", "description": "..."}]
 """
 
-import argparse
-import json
+import functools
 import re
 import sys
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta
 from pathlib import Path
-from zoneinfo import ZoneInfo
-
-# Facebook lists wall-clock Eastern times. Localize as America/New_York so the
-# stored instant is correct year-round (EDT in summer, EST in winter).
-NY_TZ = ZoneInfo("America/New_York")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from atomic_io import read_json
 from scraper_utils import (
+    NY_TZ,
+    SCRAPED_DIR,
+    ScraperSkipped,
     detect_styles,
     extract_cost,
-    get_source,
     load_sources,
     make_event,
-    write_scraped,
+    resolve_year,
+    run_scraper,
+    scraper_argparser,
 )
 
+# Facebook card text often omits the year ("Fri, Jul 10"). A date this far in
+# the past with no year written is next year's, not last year's.
+NO_YEAR_ROLLOVER_DAYS = 30
+_EXPLICIT_YEAR_RE = re.compile(r"\b(?:19|20)\d{2}\b")
 
-def _parse_fb_datetime(date_str: str, time_str: str = "") -> datetime | None:
-    """Parse date/time strings scraped from Facebook into a datetime."""
+
+def _parse_fb_datetime(date_str: str, time_str: str = "", today: date | None = None) -> datetime | None:
+    """Parse date/time strings scraped from Facebook into a datetime.
+
+    Strings without an explicit year are resolved relative to ``today``: if
+    the year-less date is more than NO_YEAR_ROLLOVER_DAYS in the past it is
+    rolled forward to next year, since Facebook only lists upcoming events
+    that way.
+    """
     combined = f"{date_str} {time_str}".strip()
     if not combined:
         return None
@@ -85,26 +100,18 @@ def _parse_fb_datetime(date_str: str, time_str: str = "") -> datetime | None:
 
     try:
         from dateutil.parser import parse as dtparse
-        return dtparse(combined)
+        parsed = dtparse(combined)
     except Exception:
         return None
 
-
-def _parse_fb_time_range(text: str) -> tuple[str, str, str] | None:
-    """Parse FB's event header format:
-    'Friday, May 22, 2026 at 8:30 PM – 1:00 AM EDT Event Name Venue'
-    Returns (date_with_start_time, end_time, tz) or None.
-    """
-    m = re.match(
-        r"(\w+,\s+\w+\s+\d{1,2},\s+\d{4}\s+at\s+\d{1,2}:\d{2}\s*[AP]M)"
-        r"\s*[–—-]\s*"
-        r"(\d{1,2}:\d{2}\s*[AP]M)"
-        r"\s*(E[DS]T|C[DS]T|P[DS]T|M[DS]T)?",
-        text,
-    )
-    if m:
-        return m.group(1), m.group(2), m.group(3) or "EDT"
-    return None
+    if _EXPLICIT_YEAR_RE.search(combined):
+        return parsed
+    today = today or datetime.now(NY_TZ).date()
+    resolved = resolve_year(parsed.month, parsed.day, today,
+                            grace_days=NO_YEAR_ROLLOVER_DAYS, max_ahead_days=None)
+    if resolved is None:
+        return parsed
+    return parsed.replace(year=resolved.year)
 
 
 def parse_raw_event(raw: dict, idx: int, source_id: str, defaults: dict | None = None) -> dict | None:
@@ -170,7 +177,7 @@ def parse_raw_event(raw: dict, idx: int, source_id: str, defaults: dict | None =
 
 def from_file(path: Path, source_id: str, defaults: dict | None = None) -> list[dict]:
     """Load and parse raw events from a JSON file."""
-    raw_events = json.loads(path.read_text())
+    raw_events = read_json(path)
     if not isinstance(raw_events, list):
         raw_events = [raw_events]
 
@@ -188,69 +195,60 @@ def get_fb_sources() -> list[dict]:
     return [s for s in load_sources() if s.get("type") == "facebook" and s.get("enabled")]
 
 
-def scrape_source(source: dict, from_file_path: Path | None = None) -> list[dict]:
-    """Scrape events for a single Facebook source."""
+def raw_input_path(source_id: str) -> Path:
+    return SCRAPED_DIR / f"{source_id}-raw.json"
+
+
+def fetch_source(source: dict, from_file_path: Path | None = None) -> list[dict]:
+    """Normalize a source's raw events file; skip (untouched) when there is none."""
     source_id = source["id"]
     fb_url = source.get("facebook_events_url", "")
-
     defaults = source.get("defaults", {})
 
     print(f"\n{'='*60}")
     print(f"Source: {source['name']} ({source_id})")
     print(f"FB URL: {fb_url}")
 
-    if from_file_path:
-        if not from_file_path.exists():
-            print(f"File not found: {from_file_path}")
-            return []
-        print(f"Loading from file: {from_file_path}")
-        events = from_file(from_file_path, source_id, defaults)
-    else:
+    path = from_file_path or raw_input_path(source_id)
+    if not path.exists():
         print(
-            f"No upcoming events file found.\n"
-            f"To scrape, a Cursor agent should:\n"
+            f"No raw events file at {path}.\n"
+            f"To scrape, an agent with a browser should:\n"
             f"  1. Navigate to {fb_url}\n"
             f"  2. Close the login dialog\n"
             f"  3. Check for Upcoming tab, extract events\n"
             f"  4. Save to data/scraped/{source_id}-raw.json\n"
-            f"  5. Re-run: python3 scripts/scrape_facebook.py {source_id} "
-            f"--from-file data/scraped/{source_id}-raw.json"
+            f"  5. Re-run: python3 scripts/scrape_facebook.py {source_id}"
         )
-        events = []
+        raise ScraperSkipped(f"no raw input at {path.name}; existing scrape left as is")
 
-    write_scraped(source_id, events)
-    return events
+    print(f"Loading from file: {path}")
+    return from_file(path, source_id, defaults)
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Scrape Facebook events for sources in sources.json")
-    parser.add_argument("source_id", nargs="?", help="Source ID to scrape (from sources.json)")
+def main(argv: list[str] | None = None) -> int:
+    parser = scraper_argparser(__doc__, required=False)
     parser.add_argument("--from-file", type=Path, help="Path to raw events JSON")
-    parser.add_argument("--all", action="store_true", help="Scrape all Facebook sources")
-    args = parser.parse_args()
+    parser.add_argument("--all", action="store_true", help="Normalize every Facebook source")
+    args = parser.parse_args(argv)
 
     if args.all:
         sources = get_fb_sources()
         if not sources:
             print("No enabled Facebook sources in sources.json")
-            return
-        for source in sources:
-            scrape_source(source)
-    elif args.source_id:
-        source = get_source(args.source_id)
-        if not source:
-            print(f"Source '{args.source_id}' not found in sources.json")
-            sys.exit(1)
-        if not source.get("enabled"):
-            print(f"Source '{args.source_id}' is disabled")
-            return
-        scrape_source(source, args.from_file)
-    else:
-        fb_sources = get_fb_sources()
-        if fb_sources:
-            print(f"Available Facebook sources: {[s['id'] for s in fb_sources]}")
-        parser.print_help()
+            return 0
+        return max(run_scraper(s["id"], fetch_source) for s in sources)
+    if args.source_id:
+        return run_scraper(
+            args.source_id,
+            functools.partial(fetch_source, from_file_path=args.from_file),
+        )
+    fb_sources = get_fb_sources()
+    if fb_sources:
+        print(f"Available Facebook sources: {[s['id'] for s in fb_sources]}")
+    parser.print_help()
+    return 2
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
