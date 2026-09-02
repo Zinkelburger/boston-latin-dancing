@@ -1,15 +1,18 @@
 'use client';
 
-import { useMemo, useState, type ReactNode } from 'react';
+import { useMemo, useState } from 'react';
 import type { DanceEvent, DayOfWeek } from '@/types/event';
 import { STYLE_LABELS, STYLE_PILL_CLASS, SITE_URL } from '@/lib/constants';
-import { DAY_NAMES } from '@/lib/filter-options';
-import { bostonWeekday } from '@/lib/dates';
 import { tokenize, matchEvent } from '@/lib/search';
 import { cleanDisplayText } from '@/lib/display-text';
+import { excerptAround, highlightText } from '@/lib/highlight';
 import {
+  dayOfWeekFromIso,
+  formatRecurrenceDate,
+  formatRecurrenceTime,
   getRecurrenceLabel,
   isDateOnlyEvent,
+  occurrenceMatchesDays,
   recurringWhenLabel,
   occurrencesInRange,
   shouldShowNextOccurrence,
@@ -27,24 +30,6 @@ type FeedEntry = {
 // All labels/grouping are pinned to Boston time: these are Boston events, and
 // a visitor (or server) in another timezone must see the same dates as the
 // Boston-pinned day filters, or late-night events land under the wrong day.
-function formatDate(iso: string): string {
-  const d = new Date(iso);
-  return d.toLocaleDateString('en-US', {
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-    timeZone: 'America/New_York',
-  });
-}
-
-function formatTime(iso: string): string {
-  return new Date(iso).toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    timeZone: 'America/New_York',
-  });
-}
-
 function dateKey(iso: string): string {
   // en-CA yields YYYY-MM-DD directly.
   return new Date(iso).toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
@@ -62,8 +47,7 @@ function expandAndGroup(
 
   for (const event of events) {
     for (const occ of occurrencesInRange(event, fromMs, toMs)) {
-      const day = DAY_NAMES[bostonWeekday(new Date(occ).getTime())];
-      if (selectedDays.length > 0 && !selectedDays.includes(day)) continue;
+      if (!occurrenceMatchesDays(occ, selectedDays)) continue;
       entries.push({ event, displayDate: occ });
     }
   }
@@ -75,53 +59,21 @@ function expandAndGroup(
   const groups = new Map<string, FeedEntry[]>();
   for (const entry of entries) {
     const key = dateKey(entry.displayDate);
-    if (!groups.has(key)) groups.set(key, []);
-    groups.get(key)!.push(entry);
+    const group = groups.get(key);
+    if (group) group.push(entry);
+    else groups.set(key, [entry]);
   }
 
   return [...groups.entries()].map(([key, evts]) => ({
     key,
-    label: formatDate(evts[0].displayDate),
+    label: formatRecurrenceDate(evts[0].displayDate),
     entries: evts,
   }));
 }
 
-function highlightText(text: string, tokens: string[]): ReactNode {
-  if (tokens.length === 0) return text;
-
-  const lower = text.toLowerCase();
-  const marks: boolean[] = new Array(text.length).fill(false);
-
-  for (const tok of tokens) {
-    let start = 0;
-    while (true) {
-      const idx = lower.indexOf(tok, start);
-      if (idx === -1) break;
-      for (let i = idx; i < idx + tok.length; i++) marks[i] = true;
-      start = idx + 1;
-    }
-  }
-
-  if (!marks.some(Boolean)) return text;
-
-  const parts: ReactNode[] = [];
-  let i = 0;
-  while (i < text.length) {
-    const marked = marks[i];
-    let j = i;
-    while (j < text.length && marks[j] === marked) j++;
-    const slice = text.slice(i, j);
-    parts.push(
-      marked
-        ? <mark key={i} className="feed-highlight">{slice}</mark>
-        : slice,
-    );
-    i = j;
-  }
-  return <>{parts}</>;
-}
-
-type Props = FilterControlsProps & {
+type Props = {
+  /** Filter state + handlers from useEventFilters, shared with the map's bar. */
+  controls: FilterControlsProps;
   events: DanceEvent[];
   fromMs: number;
   toMs: number;
@@ -129,14 +81,13 @@ type Props = FilterControlsProps & {
   onViewModeToggle: () => void;
 };
 
+/** Feed cards get a longer description window than a search result row. */
+const CARD_DESC_LEN = 120;
+
 export default function FeedView({
-  events, selectedDays, fromMs, toMs, onSelectEvent,
-  datePreset, onPresetChange,
-  specialOnly, onSpecialOnlyChange,
-  selectedStyles, onStylesChange, onDaysChange, onViewModeToggle,
-  dateMode, onDateModeChange, dateSlider, onDateSliderChange,
-  sliderMin, sliderMax, defaultFrom, defaultTo,
+  controls, events, fromMs, toMs, onSelectEvent, onViewModeToggle,
 }: Props) {
+  const { selectedDays } = controls;
   const [search, setSearch] = useState('');
 
   const trimmed = search.trim();
@@ -169,6 +120,7 @@ export default function FeedView({
               type="text"
               className="feed-search"
               placeholder="Search events, venues, styles..."
+              aria-label="Search events, venues, styles"
               value={search}
               onChange={e => setSearch(e.target.value)}
             />
@@ -195,14 +147,7 @@ export default function FeedView({
         </div>
 
         <FilterBar
-          selectedStyles={selectedStyles} onStylesChange={onStylesChange}
-          selectedDays={selectedDays} onDaysChange={onDaysChange}
-          specialOnly={specialOnly} onSpecialOnlyChange={onSpecialOnlyChange}
-          dateMode={dateMode} onDateModeChange={onDateModeChange}
-          dateSlider={dateSlider} onDateSliderChange={onDateSliderChange}
-          sliderMin={sliderMin} sliderMax={sliderMax}
-          defaultFrom={defaultFrom} defaultTo={defaultTo}
-          datePreset={datePreset} onPresetChange={onPresetChange}
+          controls={controls}
           viewMode="feed"
           onViewModeToggle={onViewModeToggle}
         />
@@ -235,32 +180,9 @@ export default function FeedView({
 }
 
 function scheduleTimeForDate(event: DanceEvent, displayDate: string): string | null {
-  const day = DAY_NAMES[bostonWeekday(new Date(displayDate).getTime())];
+  const day = dayOfWeekFromIso(displayDate);
   const entry = event.schedule?.find(s => s.dayOfWeek === day);
   return entry?.time ?? null;
-}
-
-function excerptAround(text: string, tokens: string[], maxLen = 120): string {
-  if (text.length <= maxLen) return text;
-
-  const lower = text.toLowerCase();
-  let earliest = -1;
-  for (const tok of tokens) {
-    const idx = lower.indexOf(tok);
-    if (idx !== -1 && (earliest === -1 || idx < earliest)) earliest = idx;
-  }
-
-  if (earliest === -1 || earliest <= maxLen / 2) {
-    const end = text.lastIndexOf(' ', maxLen);
-    return text.slice(0, end > 0 ? end : maxLen) + '...';
-  }
-
-  const start = Math.max(0, earliest - Math.floor(maxLen / 3));
-  const wordStart = start === 0 ? 0 : text.indexOf(' ', start) + 1;
-  const end = Math.min(text.length, wordStart + maxLen);
-  const wordEnd = end >= text.length ? text.length : text.lastIndexOf(' ', end);
-  const slice = text.slice(wordStart, wordEnd > wordStart ? wordEnd : end);
-  return (wordStart > 0 ? '...' : '') + slice + (wordEnd < text.length ? '...' : '');
 }
 
 function FeedCard({
@@ -276,9 +198,9 @@ function FeedCard({
 }) {
   const cleanDesc = cleanDisplayText(event.description);
   const shortDesc = searchTokens.length > 0
-    ? excerptAround(cleanDesc, searchTokens)
-    : cleanDesc.length > 120
-      ? cleanDesc.slice(0, cleanDesc.lastIndexOf(' ', 120)) + '...'
+    ? excerptAround(cleanDesc, searchTokens, { maxLen: CARD_DESC_LEN, ellipsis: '...' })
+    : cleanDesc.length > CARD_DESC_LEN
+      ? cleanDesc.slice(0, cleanDesc.lastIndexOf(' ', CARD_DESC_LEN)) + '...'
       : cleanDesc;
 
   const shareUrl = event.slug ? `${SITE_URL}/event/${event.slug}` : '';
@@ -288,12 +210,12 @@ function FeedCard({
   const hl = (text: string) => highlightText(text, searchTokens);
 
   const dateText = event.schedule && event.schedule.length > 0
-    ? formatDate(displayDate)
+    ? formatRecurrenceDate(displayDate)
     : scheduleTime
-      ? `${formatDate(displayDate)} · ${scheduleTime}`
+      ? `${formatRecurrenceDate(displayDate)} · ${scheduleTime}`
       : isDateOnlyEvent(event.startDate, event.endDate)
-        ? formatDate(displayDate)
-        : `${formatDate(displayDate)} · ${formatTime(event.startDate)} – ${formatTime(event.endDate)}`;
+        ? formatRecurrenceDate(displayDate)
+        : `${formatRecurrenceDate(displayDate)} · ${formatRecurrenceTime(event.startDate)} – ${formatRecurrenceTime(event.endDate)}`;
 
   return (
     <div role="button" tabIndex={0} className="feed-card" onClick={onSelect} onKeyDown={e => { if (e.key === 'Enter') onSelect(); }}>

@@ -15,9 +15,11 @@ type Props = {
 const TRACK_H = 6;
 const THUMB_R = 9;
 
+type Thumb = 'from' | 'to';
+
 export default function DateRangeSlider({ minDay, maxDay, value, onChange }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);
-  const dragging = useRef<'from' | 'to' | null>(null);
+  const dragging = useRef<Thumb | null>(null);
   const [localValue, setLocalValue] = useState(value);
 
   useEffect(() => {
@@ -57,7 +59,7 @@ export default function DateRangeSlider({ minDay, maxDay, value, onChange }: Pro
   );
 
   const handlePointerDown = useCallback(
-    (thumb: 'from' | 'to') => (e: React.PointerEvent) => {
+    (thumb: Thumb) => (e: React.PointerEvent) => {
       e.preventDefault();
       (e.target as HTMLElement).setPointerCapture(e.pointerId);
       dragging.current = thumb;
@@ -106,9 +108,65 @@ export default function DateRangeSlider({ minDay, maxDay, value, onChange }: Pro
     return () => window.removeEventListener('pointerup', up);
   }, [localValue, onChange]);
 
+  // Keyboard: arrows step a day (a week with Shift); Home/End jump to the
+  // thumb's limit. A thumb can never cross the other one.
+  const handleKeyDown = useCallback(
+    (thumb: Thumb) => (e: React.KeyboardEvent) => {
+      const step = e.shiftKey ? 7 : 1;
+      const current = thumb === 'from' ? localValue.fromDay : localValue.toDay;
+      const low = thumb === 'from' ? minDay : localValue.fromDay;
+      const high = thumb === 'from' ? localValue.toDay : maxDay;
+      let target: number;
+      switch (e.key) {
+        case 'ArrowLeft':
+        case 'ArrowDown':
+          target = current - step;
+          break;
+        case 'ArrowRight':
+        case 'ArrowUp':
+          target = current + step;
+          break;
+        case 'Home':
+          target = low;
+          break;
+        case 'End':
+          target = high;
+          break;
+        default:
+          return;
+      }
+      e.preventDefault();
+      const day = Math.max(low, Math.min(high, target));
+      if (day === current) return;
+      const next = thumb === 'from'
+        ? { fromDay: day, toDay: localValue.toDay }
+        : { fromDay: localValue.fromDay, toDay: day };
+      setLocalValue(next);
+      onChange(next);
+    },
+    [localValue, minDay, maxDay, onChange],
+  );
+
   const fromLabel = formatLabel(localValue.fromDay);
   const toLabel = formatLabel(localValue.toDay);
   const daySpan = localValue.toDay - localValue.fromDay;
+
+  const thumbStyle = (pct: number): React.CSSProperties => ({
+    left: `${pct}%`,
+    top: 2,
+    width: THUMB_R * 2,
+    height: THUMB_R * 2,
+    marginLeft: -THUMB_R,
+    borderRadius: '50%',
+    background: '#ffffff',
+    border: '2.5px solid #e11d48',
+    boxShadow: '0 1px 4px rgba(0,0,0,0.18)',
+    cursor: 'grab',
+    zIndex: 2,
+    touchAction: 'none',
+  });
+
+  const thumbClass = 'absolute focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 focus-visible:ring-offset-2';
 
   return (
     <div className="flex flex-col gap-1" style={{ minWidth: 180 }}>
@@ -155,42 +213,32 @@ export default function DateRangeSlider({ minDay, maxDay, value, onChange }: Pro
 
         {/* From thumb */}
         <div
+          role="slider"
+          tabIndex={0}
+          aria-label="Start date"
+          aria-valuemin={minDay}
+          aria-valuemax={localValue.toDay}
+          aria-valuenow={localValue.fromDay}
+          aria-valuetext={fromLabel}
           onPointerDown={handlePointerDown('from')}
-          className="absolute"
-          style={{
-            left: `${pctFrom}%`,
-            top: 2,
-            width: THUMB_R * 2,
-            height: THUMB_R * 2,
-            marginLeft: -THUMB_R,
-            borderRadius: '50%',
-            background: '#ffffff',
-            border: '2.5px solid #e11d48',
-            boxShadow: '0 1px 4px rgba(0,0,0,0.18)',
-            cursor: 'grab',
-            zIndex: 2,
-            touchAction: 'none',
-          }}
+          onKeyDown={handleKeyDown('from')}
+          className={thumbClass}
+          style={thumbStyle(pctFrom)}
         />
 
         {/* To thumb */}
         <div
+          role="slider"
+          tabIndex={0}
+          aria-label="End date"
+          aria-valuemin={localValue.fromDay}
+          aria-valuemax={maxDay}
+          aria-valuenow={localValue.toDay}
+          aria-valuetext={toLabel}
           onPointerDown={handlePointerDown('to')}
-          className="absolute"
-          style={{
-            left: `${pctTo}%`,
-            top: 2,
-            width: THUMB_R * 2,
-            height: THUMB_R * 2,
-            marginLeft: -THUMB_R,
-            borderRadius: '50%',
-            background: '#ffffff',
-            border: '2.5px solid #e11d48',
-            boxShadow: '0 1px 4px rgba(0,0,0,0.18)',
-            cursor: 'grab',
-            zIndex: 2,
-            touchAction: 'none',
-          }}
+          onKeyDown={handleKeyDown('to')}
+          className={thumbClass}
+          style={thumbStyle(pctTo)}
         />
       </div>
 

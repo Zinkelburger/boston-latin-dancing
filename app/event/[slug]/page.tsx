@@ -1,8 +1,11 @@
 import type { Metadata } from 'next';
 import allEvents from '@/data/events-published.json';
 import type { DanceEvent } from '@/types/event';
-import { SITE_URL, STYLE_LABELS } from '@/lib/constants';
-import { formatEventTimeRange, getRecurrenceLabel } from '@/lib/recurrences';
+import Link from 'next/link';
+import { SITE_URL } from '@/lib/constants';
+import { formatEventTimeRange, getRecurrenceLabel, occurrenceEndDate } from '@/lib/recurrences';
+import { displayStartIso, hasStartDate } from '@/lib/dates';
+import { findActiveInstance } from '@/lib/search';
 import { stripHtml } from '@/lib/strip-html';
 import { cleanDisplayText } from '@/lib/display-text';
 import EventJsonLd from './EventJsonLd';
@@ -17,28 +20,27 @@ function findBySlug(slug: string): DanceEvent | undefined {
   return events.find(e => e.slug === slug);
 }
 
-function findActiveInstance(event: DanceEvent): DanceEvent | undefined {
-  if (!event.archived) return undefined;
-  const norm = event.name.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, ' ').trim();
-  const venueA = (event.location || '').split(',')[0].toLowerCase().trim();
-  return events.find(e => {
-    if (e.archived || !e.slug) return false;
-    const cn = e.name.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, ' ').trim();
-    if (cn === norm) return true;
-    if (cn.includes(norm) || norm.includes(cn)) {
-      const venueB = (e.location || '').split(',')[0].toLowerCase().trim();
-      return venueA && venueB && venueA === venueB;
-    }
-    return false;
-  });
-}
-
 export function generateStaticParams(): Params[] {
   // Retired slugs get a page too. A URL we have published is a URL someone may
   // have indexed, bookmarked or shared, and the static export is the only
   // chance to answer it — there is no server to redirect at request time.
-  const live = events.filter(e => e.slug).map(e => e.slug!);
+  const live = events.flatMap(e => (e.slug ? [e.slug] : []));
   return [...new Set([...live, ...retiredSlugs()])].map(slug => ({ slug }));
+}
+
+/** "Sat, Sep 6" for the next occurrence; '' for dateless venue records. */
+function displayDateLabel(event: DanceEvent): string {
+  if (!hasStartDate(event)) return '';
+  return new Date(displayStartIso(event)).toLocaleDateString('en-US', {
+    weekday: 'short', month: 'short', day: 'numeric', timeZone: 'America/New_York',
+  });
+}
+
+/** The occurrence to describe on the page: the next one for a series. */
+function displayTimeRange(event: DanceEvent): string | null {
+  if (!hasStartDate(event)) return null;
+  const start = displayStartIso(event);
+  return formatEventTimeRange(start, occurrenceEndDate(event, start));
 }
 
 /**
@@ -98,11 +100,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 
   const venue = event.location?.split(',')[0] || '';
   // Search-only venue records are dateless; the recurrence label stands in.
-  const date = event.startDate
-    ? new Date(event.startDate).toLocaleDateString('en-US', {
-        weekday: 'short', month: 'short', day: 'numeric', timeZone: 'America/New_York',
-      })
-    : '';
+  const date = displayDateLabel(event);
 
   const snippet = descriptionSnippet(event.description);
   const when = [date, venue].filter(Boolean).join(' — ');
@@ -111,7 +109,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
     : when;
 
   const url = `${SITE_URL}/event/${slug}`;
-  const activeInstance = findActiveInstance(event);
+  const activeInstance = findActiveInstance(event, events);
   const canonicalUrl = activeInstance
     ? `${SITE_URL}/event/${activeInstance.slug}`
     : url;
@@ -193,7 +191,7 @@ export default async function EventPage({ params }: { params: Promise<Params> })
           <p className="text-gray-500 mb-4">
             It is no longer on the calendar — but plenty else is.
           </p>
-          <a href="/" className="pretty-pill pretty-pill-rose">See what’s on</a>
+          <Link href="/" className="pretty-pill pretty-pill-rose">See what’s on</Link>
         </div>
       </div>
     );
@@ -201,6 +199,7 @@ export default async function EventPage({ params }: { params: Promise<Params> })
 
   const shareUrl = `${SITE_URL}/event/${slug}`;
   const isMappable = event.lat != null && event.lng != null;
+  const timeRange = displayTimeRange(event);
   const cleanDesc = cleanDisplayText(event.description)
     .replace(/\s+/g, ' ')
     .slice(0, 300).trim();
@@ -225,7 +224,7 @@ export default async function EventPage({ params }: { params: Promise<Params> })
         <div className="h-full w-full overflow-hidden">
           <div className="sr-only">
             <h1>{event.name}</h1>
-            {event.startDate && <p>{formatEventTimeRange(event.startDate, event.endDate)}</p>}
+            {timeRange && <p>{timeRange}</p>}
             <p>{event.location}</p>
             {event.cost && <p>{event.cost}</p>}
             {cleanDesc && <p>{cleanDesc}</p>}
@@ -236,9 +235,9 @@ export default async function EventPage({ params }: { params: Promise<Params> })
         <main className="min-h-screen bg-gray-50">
           <div className="mx-auto max-w-2xl px-4 py-10">
             <h1 className="text-2xl font-bold text-gray-900">{event.name}</h1>
-            {event.startDate && (
+            {timeRange && (
               <p className="mt-2 text-sm text-gray-700">
-                {formatEventTimeRange(event.startDate, event.endDate)}
+                {timeRange}
               </p>
             )}
             {event.location && (
@@ -251,9 +250,9 @@ export default async function EventPage({ params }: { params: Promise<Params> })
               <p className="mt-4 text-sm leading-6 text-gray-700">{cleanDesc}</p>
             )}
             <div className="mt-6">
-              <a href="/" className="pretty-pill pretty-pill-rose">
+              <Link href="/" className="pretty-pill pretty-pill-rose">
                 Back to map
-              </a>
+              </Link>
             </div>
           </div>
         </main>

@@ -4,15 +4,8 @@ import { useState, useCallback, useRef, type FormEvent } from 'react';
 import Link from 'next/link';
 import TurnstileWidget from '@/app/components/TurnstileWidget';
 import { API_URL, STYLE_LABELS, STYLE_PILL_CLASS } from '@/lib/constants';
+import { ALL_STYLES, DAYS, DAY_SHORT } from '@/lib/filter-options';
 import type { DanceStyle } from '@/types/event';
-
-const ALL_STYLES = Object.keys(STYLE_LABELS) as DanceStyle[];
-
-const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as const;
-const DAY_SHORT: Record<string, string> = {
-  Monday: 'Mon', Tuesday: 'Tue', Wednesday: 'Wed',
-  Thursday: 'Thu', Friday: 'Fri', Saturday: 'Sat', Sunday: 'Sun',
-};
 
 const WEEK_OPTIONS = ['1st', '2nd', '3rd', '4th', 'Last'] as const;
 

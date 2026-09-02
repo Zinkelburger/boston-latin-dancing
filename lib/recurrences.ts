@@ -1,53 +1,33 @@
+/**
+ * Occurrence math and date labels for published events.
+ *
+ * scripts/event_store.py::publish() is the source of truth for recurrence.
+ * Every published event that recurs carries a concrete `recurrences[]` list
+ * (weekly `schedule[]` rules are expanded there, with exclusions and notes
+ * applied) and a `recurrenceLabel`. Nothing here re-derives either: the
+ * previous TypeScript mirrors of the Python schedule expansion and label
+ * inference had drifted (fractional vs. truncated median gaps, per-entry
+ * times), so the UI could disagree with the data it was rendering. If a
+ * label or occurrence looks wrong, fix publish() and republish.
+ */
 import type { DanceEvent, DayOfWeek } from '@/types/event';
-import {
-  bostonWeekday,
-  bostonStartOfDay,
-  bostonTimeOfDayMs,
-  dateToDay,
-  dayStartMs,
-  dayTimeToMs,
-  dayToDate,
-  isoToDay,
-} from '@/lib/dates';
+import { bostonWeekday, bostonStartOfDay, hasStartDate } from '@/lib/dates';
+import { DAY_NAMES } from '@/lib/filter-options';
 
 /** Max occurrences shown in upcoming-dates UI (popup, detail page). */
 export const UPCOMING_MAX = 3;
-
-/** Day window for expanding recurring events in the feed view. */
-export const FEED_RECURRENCE_DAYS = 7;
-
-const DAY_NAMES: DayOfWeek[] = [
-  'Sunday', 'Monday', 'Tuesday', 'Wednesday',
-  'Thursday', 'Friday', 'Saturday',
-];
-
-/** Start of Boston calendar day for a timestamp. */
-function startOfDay(ms: number): number {
-  return bostonStartOfDay(ms);
-}
 
 /** Next `maxCount` recurrence ISO strings on or after today. */
 export function upcomingRecurrences(
   dates: string[],
   maxCount: number = UPCOMING_MAX,
 ): string[] {
-  const today = startOfDay(Date.now());
+  const today = bostonStartOfDay(Date.now());
 
   return dates
     .filter(iso => new Date(iso).getTime() >= today)
     .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
     .slice(0, maxCount);
-}
-
-/** Recurrence ISO strings from today through the next `withinDays` days (feed expansion). */
-export function recurrencesWithinDays(
-  dates: string[],
-  withinDays: number = FEED_RECURRENCE_DAYS,
-): string[] {
-  const todayDay = dateToDay(new Date());
-  const today = dayStartMs(todayDay);
-  const end = dayStartMs(todayDay + withinDays);
-  return recurrencesInRange(dates, today, end - 1);
 }
 
 /** Recurrence ISO strings whose start time falls within [fromMs, toMs] (inclusive). */
@@ -64,133 +44,18 @@ export function recurrencesInRange(
     .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
 }
 
+type OccurrenceSource = Pick<
+  DanceEvent,
+  'startDate' | 'recurrences' | 'nextDateApproximate'
+>;
+
 /** Whether an event has any occurrence in the map/feed date window. */
 export function eventMatchesDateRange(
-  event: Pick<DanceEvent, 'startDate' | 'schedule' | 'recurrences' | 'nextDateApproximate'>,
+  event: OccurrenceSource,
   fromMs: number,
   toMs: number,
 ): boolean {
   return occurrencesInRange(event, fromMs, toMs).length > 0;
-}
-
-// Boston epoch-day anchoring "every other week" parity. Must match the naive
-// Boston reference in scripts/event_store.py::_matches_schedule_note.
-const EVERY_OTHER_REF_DAY = isoToDay('2026-01-02');
-
-function nthWeekdayOfMonth(
-  year: number,
-  month: number,
-  dayOfWeek: DayOfWeek,
-  nth: number,
-): number | null {
-  const targetDow = DAY_NAMES.indexOf(dayOfWeek);
-  let count = 0;
-  const lastDay = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
-  for (let day = 1; day <= lastDay; day++) {
-    const ms = Date.UTC(year, month, day, 12);
-    if (bostonWeekday(ms) === targetDow) {
-      count++;
-      if (count === nth) return day;
-    }
-  }
-  return null;
-}
-
-function matchesScheduleNote(
-  day: number,
-  note: string | undefined,
-  dayOfWeek: DayOfWeek,
-): boolean {
-  const noteLower = (note ?? '').toLowerCase();
-
-  const nthMatch = noteLower.match(/(\d)(?:st|nd|rd|th)\s+\w+day/);
-  if (nthMatch) {
-    const nth = parseInt(nthMatch[1], 10);
-    const d = dayToDate(day);
-    const target = nthWeekdayOfMonth(
-      d.getUTCFullYear(),
-      d.getUTCMonth(),
-      dayOfWeek,
-      nth,
-    );
-    return target !== null && target === d.getUTCDate();
-  }
-
-  if (noteLower.includes('every other') || noteLower.includes('alternating')) {
-    const weekNum = Math.floor((day - EVERY_OTHER_REF_DAY) / 7);
-    return weekNum % 2 === 0;
-  }
-
-  return true;
-}
-
-/** Build occurrence ISO on a Boston calendar day, preserving the reference
- *  ISO's Boston wall-clock time. Pinned to Boston: viewer-local Date fields
- *  would shift the day/time for anyone outside Eastern time. */
-function occurrenceOnDay(referenceIso: string, day: number): string {
-  const timeOfDay = bostonTimeOfDayMs(new Date(referenceIso).getTime());
-  return new Date(dayTimeToMs(day, timeOfDay)).toISOString();
-}
-
-/** All schedule-based occurrences in [fromMs, toMs] (up to `limit`). */
-function scheduleOccurrencesInRange(
-  event: Pick<DanceEvent, 'startDate' | 'schedule'>,
-  fromMs: number,
-  toMs: number,
-  limit: number = Infinity,
-): string[] {
-  const schedule = event.schedule;
-  if (!schedule?.length) return [];
-
-  // Iterate whole Boston epoch-days, not instant + 24h: DST transitions make
-  // Boston days 23/25 hours long, so fixed-step instants drift off midnight
-  // (duplicating the fall-back day and dropping the window's last day).
-  const fromDay = dateToDay(new Date(fromMs));
-  const toDay = dateToDay(new Date(toMs));
-  const out: string[] = [];
-
-  for (let day = fromDay; day <= toDay && out.length < limit; day++) {
-    const dayName = DAY_NAMES[dayToDate(day).getUTCDay()];
-    for (const entry of schedule) {
-      if (entry.dayOfWeek !== dayName) continue;
-      if (!matchesScheduleNote(day, entry.note, entry.dayOfWeek)) continue;
-      // One occurrence per calendar day even if several entries match.
-      out.push(occurrenceOnDay(event.startDate, day));
-      break;
-    }
-  }
-
-  return out;
-}
-
-/** First schedule-based occurrence in [fromMs, toMs], or null. */
-function firstScheduleOccurrenceInRange(
-  event: Pick<DanceEvent, 'startDate' | 'schedule'>,
-  fromMs: number,
-  toMs: number,
-): string | null {
-  return scheduleOccurrencesInRange(event, fromMs, toMs, 1)[0] ?? null;
-}
-
-type OccurrenceSource = Pick<
-  DanceEvent,
-  'startDate' | 'schedule' | 'recurrences' | 'nextDateApproximate'
->;
-
-/** Earliest single occurrence in [fromMs, toMs] from recurrences/schedule/startDate. */
-function firstOccurrenceFrom(
-  event: OccurrenceSource,
-  fromMs: number,
-  toMs: number,
-): string | null {
-  if (event.recurrences?.length) {
-    return recurrencesInRange(event.recurrences, fromMs, toMs)[0] ?? null;
-  }
-  if (event.schedule?.length) {
-    return firstScheduleOccurrenceInRange(event, fromMs, toMs);
-  }
-  const eventMs = new Date(event.startDate).getTime();
-  return eventMs >= fromMs && eventMs <= toMs ? event.startDate : null;
 }
 
 /**
@@ -200,34 +65,30 @@ function firstOccurrenceFrom(
  *
  * Precedence:
  *  1. Approximate (`nextDateApproximate`) — dates are a pattern guess, not
- *     confirmed. Never grid-expand; surface at most ONE next occurrence (from
- *     today onward) so we don't claim it happens on every matching date. The
- *     placement is computed fresh, never the (possibly stale) `startDate`.
- *  2. Concrete `recurrences[]` — authoritative list of occurrence datetimes.
- *  3. `schedule[]` — weekly weekday rule, expanded across the window.
- *  4. Single `startDate` — non-recurring one-off.
+ *     confirmed. Surface at most ONE next occurrence (from today onward) so we
+ *     don't claim it happens on every matching date.
+ *  2. Concrete `recurrences[]` — the authoritative list from publish().
+ *  3. Single `startDate` — non-recurring one-off.
  */
 export function occurrencesInRange(
   event: OccurrenceSource,
   fromMs: number,
   toMs: number,
 ): string[] {
-  if (event.nextDateApproximate) {
-    const start = Math.max(fromMs, startOfDay(Date.now()));
-    const next = firstOccurrenceFrom(event, start, toMs);
-    return next ? [next] : [];
-  }
+  const from = event.nextDateApproximate
+    ? Math.max(fromMs, bostonStartOfDay(Date.now()))
+    : fromMs;
 
+  let all: string[];
   if (event.recurrences?.length) {
-    return recurrencesInRange(event.recurrences, fromMs, toMs);
+    all = recurrencesInRange(event.recurrences, from, toMs);
+  } else if (hasStartDate(event)) {
+    all = recurrencesInRange([event.startDate], from, toMs);
+  } else {
+    all = [];
   }
 
-  if (event.schedule?.length) {
-    return scheduleOccurrencesInRange(event, fromMs, toMs);
-  }
-
-  const eventMs = new Date(event.startDate).getTime();
-  return eventMs >= fromMs && eventMs <= toMs ? [event.startDate] : [];
+  return event.nextDateApproximate ? all.slice(0, 1) : all;
 }
 
 /** First occurrence start ISO within [fromMs, toMs], or null if none. */
@@ -261,7 +122,7 @@ type DisplayOccurrenceOpts = {
 
 /** Resolve which occurrence to show in cards/popups for a filtered recurring event. */
 export function resolveDisplayOccurrence(
-  event: Pick<DanceEvent, 'startDate' | 'endDate' | 'schedule' | 'recurrences' | 'recurring' | 'nextDateApproximate'>,
+  event: Pick<DanceEvent, 'startDate' | 'endDate' | 'recurrences' | 'recurring' | 'nextDateApproximate'>,
   opts: DisplayOccurrenceOpts = {},
 ): { start: string; end: string } {
   const { displayDate, fromMs, toMs } = opts;
@@ -279,6 +140,29 @@ export function resolveDisplayOccurrence(
 
 export function dayOfWeekFromIso(iso: string): DayOfWeek {
   return DAY_NAMES[bostonWeekday(new Date(iso).getTime())];
+}
+
+/** Whether one occurrence falls on one of the selected weekdays (Boston time).
+ *  An empty selection matches everything. */
+export function occurrenceMatchesDays(iso: string, days: readonly DayOfWeek[]): boolean {
+  return days.length === 0 || days.includes(dayOfWeekFromIso(iso));
+}
+
+/**
+ * The day-of-week filter, shared by the map and the feed: an event passes when
+ * any of its occurrences inside the date window lands on a selected weekday.
+ * The map used to test the weekday of `startDate` alone, so a series whose
+ * next date was a Friday vanished from the map under a "Sat" filter while the
+ * feed still listed its Saturday occurrence.
+ */
+export function matchesDay(
+  event: OccurrenceSource,
+  days: readonly DayOfWeek[],
+  range: { fromMs: number; toMs: number },
+): boolean {
+  if (days.length === 0) return true;
+  return occurrencesInRange(event, range.fromMs, range.toMs)
+    .some(iso => occurrenceMatchesDays(iso, days));
 }
 
 export function formatRecurrenceDate(iso: string): string {
@@ -402,164 +286,27 @@ export function recurrenceSlotKey(event: DanceEvent, recurrenceIso: string): str
   return `${day}|${recurrenceTimeRange(event, recurrenceIso)}`;
 }
 
-const DAY_SHORT_LIST = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const;
-const ORDINAL_WORDS: Record<number, string> = {
-  1: 'First', 2: 'Second', 3: 'Third', 4: 'Fourth', 5: 'Fifth',
-};
-
-function weekdayIndex(iso: string): number {
-  return bostonWeekday(new Date(iso).getTime());
-}
-
-function nthWeekdayOrdinalInMonth(iso: string): number {
-  const ms = new Date(iso).getTime();
-  const dow = bostonWeekday(ms);
-  const d = new Date(ms);
-  const fmt = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' });
-  const p: Record<string, string> = {};
-  for (const part of fmt.formatToParts(d)) p[part.type] = part.value;
-  const dateOfMonth = +p.day;
-  const year = +p.year;
-  const month = +p.month - 1;
-
-  let count = 0;
-  for (let day = 1; day <= dateOfMonth; day++) {
-    if (bostonWeekday(Date.UTC(year, month, day, 12)) === dow) count++;
-  }
-  return count;
-}
-
-function isLastWeekdayOccurrenceInMonth(iso: string): boolean {
-  const ms = new Date(iso).getTime();
-  const fmt = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' });
-  const p: Record<string, string> = {};
-  for (const part of fmt.formatToParts(ms)) p[part.type] = part.value;
-  const dateOfMonth = +p.day;
-  const lastDay = new Date(Date.UTC(+p.year, +p.month, 0)).getUTCDate();
-  return dateOfMonth + 7 > lastDay;
-}
-
-function ordinalPhrase(nth: number, isLast: boolean): string {
-  if (isLast) return 'Last';
-  return ORDINAL_WORDS[nth] ?? `${nth}th`;
-}
-
-function medianGapDays(dates: string[]): number | null {
-  if (dates.length < 2) return null;
-  const gaps: number[] = [];
-  for (let i = 1; i < dates.length; i++) {
-    gaps.push(
-      (new Date(dates[i]).getTime() - new Date(dates[i - 1]).getTime()) / 86400000,
-    );
-  }
-  gaps.sort((a, b) => a - b);
-  const mid = Math.floor(gaps.length / 2);
-  return gaps.length % 2 ? gaps[mid] : (gaps[mid - 1] + gaps[mid]) / 2;
-}
-
-function labelFromScheduleNote(note: string | undefined, dayName: DayOfWeek): string | null {
+/**
+ * Whether a schedule row's note is one publish() has already folded into the
+ * recurrence label ("1st Saturday of each month", "every other Friday"). Kept
+ * deliberately small — it decides only whether to *show* the note, never what
+ * the label says.
+ */
+function noteIsInLabel(note: string | undefined): boolean {
   const noteLower = (note ?? '').toLowerCase();
-  if (noteLower.includes('every other') || noteLower.includes('alternating')) {
-    return `Every other ${dayName}`;
-  }
-  const nthMatch = noteLower.match(/(\d)(?:st|nd|rd|th)\s+\w+day/);
-  if (nthMatch || /\b1st\b/.test(noteLower)) {
-    const nth = nthMatch ? parseInt(nthMatch[1], 10) : 1;
-    const word = ORDINAL_WORDS[nth] ?? `${nth}th`;
-    return `${word} ${dayName} of each month`;
-  }
-  if (noteLower.includes('of each month') || noteLower.includes('of the month')) {
-    return `${dayName}s monthly`;
-  }
-  return null;
-}
-
-function compactScheduleDays(schedule: NonNullable<DanceEvent['schedule']>): string {
-  const indices = [...new Set(schedule.map(s => DAY_NAMES.indexOf(s.dayOfWeek)))].sort(
-    (a, b) => a - b,
+  return (
+    noteLower.includes('every other')
+    || noteLower.includes('alternating')
+    || /(\d)(?:st|nd|rd|th)\s+\w+day/.test(noteLower)
+    || /\b1st\b/.test(noteLower)
+    || noteLower.includes('of each month')
+    || noteLower.includes('of the month')
   );
-  if (indices.length === 7) return 'Every night';
-
-  const segments: string[] = [];
-  let i = 0;
-  while (i < indices.length) {
-    const start = indices[i];
-    let j = i;
-    while (j + 1 < indices.length && indices[j + 1] === indices[j] + 1) j++;
-    segments.push(
-      j === i
-        ? DAY_SHORT_LIST[start]
-        : `${DAY_SHORT_LIST[start]}–${DAY_SHORT_LIST[indices[j]]}`,
-    );
-    i = j + 1;
-  }
-  return segments.join(', ');
 }
 
-function labelFromSchedule(schedule: NonNullable<DanceEvent['schedule']>): string {
-  if (schedule.length === 1) {
-    const { dayOfWeek, time, note } = schedule[0];
-    const fromNote = labelFromScheduleNote(note, dayOfWeek);
-    if (fromNote) return fromNote;
-    return time ? `Every ${dayOfWeek} · ${time}` : `Every ${dayOfWeek}`;
-  }
-  const compact = compactScheduleDays(schedule);
-  return schedule.length >= 4 ? `${compact} · see schedule` : compact;
-}
-
-function labelFromRecurrenceDates(recurrences: string[]): string | null {
-  const sorted = [...recurrences].sort(
-    (a, b) => new Date(a).getTime() - new Date(b).getTime(),
-  );
-  if (sorted.length < 2) return null;
-
-  const weekdays = new Set(sorted.map(weekdayIndex));
-  if (weekdays.size !== 1) return null;
-
-  const dayName = DAY_NAMES[weekdayIndex(sorted[0])];
-  const nthValues = sorted.map(nthWeekdayOrdinalInMonth);
-  const lastFlags = sorted.map(isLastWeekdayOccurrenceInMonth);
-  const gap = medianGapDays(sorted);
-
-  if (
-    new Set(nthValues).size === 1
-    && new Set(lastFlags).size === 1
-    && gap !== null
-    && gap >= 24
-    && gap <= 35
-  ) {
-    return `${ordinalPhrase(nthValues[0], lastFlags[0])} ${dayName} of each month`;
-  }
-  if (gap !== null && gap >= 6 && gap <= 8) return `Every ${dayName}`;
-  if (gap !== null && gap >= 13 && gap <= 15) return `Every other ${dayName}`;
-  return null;
-}
-
-/** Infer recurrence label (mirrors scripts/recurrence_utils.py). */
-export function computeRecurrenceLabel(event: DanceEvent): string | null {
-  if (!event.recurring) return null;
-
-  if (event.schedule?.length) {
-    return labelFromSchedule(event.schedule);
-  }
-
-  const recurrences = event.recurrences ?? [];
-  if (recurrences.length >= 2) {
-    const fromDates = labelFromRecurrenceDates(recurrences);
-    if (fromDates) return fromDates;
-  }
-
-  if (event.dayOfWeek && recurrences.length <= 1) {
-    return `Every ${event.dayOfWeek}`;
-  }
-
-  return null;
-}
-
-/** Published label or computed fallback. */
+/** The label publish() wrote, if any. Never inferred client-side. */
 export function getRecurrenceLabel(event: DanceEvent): string | null {
-  if (event.recurrenceLabel) return event.recurrenceLabel;
-  return computeRecurrenceLabel(event);
+  return event.recurrenceLabel || null;
 }
 
 /**
@@ -567,13 +314,13 @@ export function getRecurrenceLabel(event: DanceEvent): string | null {
  * not already say. The popup hides a one-row schedule table (it would just
  * restate the pill and the "Next" line), which would otherwise drop notes like
  * "Lesson + social (18+)" — but not "1st Saturday of each month", which
- * labelFromScheduleNote() has already folded into the label.
+ * publish() has already folded into the label.
  */
 export function extraScheduleNote(event: DanceEvent): string | null {
   if (event.schedule?.length !== 1) return null;
-  const { note, dayOfWeek } = event.schedule[0];
+  const { note } = event.schedule[0];
   if (!note?.trim()) return null;
-  return labelFromScheduleNote(note, dayOfWeek) ? null : note;
+  return noteIsInLabel(note) ? null : note;
 }
 
 /** Multi-day venue hubs (e.g. Havana) — pattern only, no single "next" date. */
@@ -592,9 +339,9 @@ export function shouldShowNextOccurrence(event: DanceEvent): boolean {
 
 const NEXT_SCAN_DAYS = 365;
 
-/** Next occurrence on or after today (from recurrences[] or schedule rules). */
+/** Next occurrence on or after today (from recurrences[]). */
 export function nextOccurrenceIso(event: DanceEvent): string | null {
-  const fromMs = startOfDay(Date.now());
+  const fromMs = bostonStartOfDay(Date.now());
   const toMs = fromMs + NEXT_SCAN_DAYS * 86400000;
   return occurrencesInRange(event, fromMs, toMs)[0] ?? null;
 }
@@ -608,10 +355,11 @@ export function shouldShowUpcomingDates(event: DanceEvent): boolean {
   const dates = upcomingRecurrences(event.recurrences ?? []);
   if (dates.length === 0) return false;
 
-  if (event.schedule && event.schedule.length > 0) {
+  const schedule = event.schedule;
+  if (schedule && schedule.length > 0) {
     const allMapToSchedule = dates.every(iso => {
       const day = dayOfWeekFromIso(iso);
-      return event.schedule!.some(s => s.dayOfWeek === day);
+      return schedule.some(s => s.dayOfWeek === day);
     });
     if (allMapToSchedule) return false;
   }

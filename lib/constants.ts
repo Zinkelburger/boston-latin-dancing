@@ -29,5 +29,3 @@ export const STYLE_PILL_CLASS: Record<DanceStyle, string> = {
   merengue: 'pretty-pill-emerald',
   other:    'pretty-pill-slate',
 };
-
-export const STYLE_SLUGS = Object.keys(STYLE_LABELS) as DanceStyle[];

@@ -1,17 +1,15 @@
 import type { ReactNode } from 'react';
-import type { DanceEvent, DayOfWeek, RecurringSchedule } from '@/types/event';
+import type { DanceEvent, RecurringSchedule } from '@/types/event';
 import {
   formatRecurrenceDate,
   recurrenceTimeRange,
   shouldShowUpcomingDates,
   upcomingRecurrences,
 } from '@/lib/recurrences';
+import { DAY_SHORT } from '@/lib/filter-options';
+import { displayStartIso, hasStartDate } from '@/lib/dates';
 import { cleanDisplayText } from '@/lib/display-text';
-
-const DAY_SHORT: Record<DayOfWeek, string> = {
-  Monday: 'Mon', Tuesday: 'Tue', Wednesday: 'Wed',
-  Thursday: 'Thu', Friday: 'Fri', Saturday: 'Sat', Sunday: 'Sun',
-};
+import { excerptAround, highlightText } from '@/lib/highlight';
 
 type TableProps = {
   title?: string;
@@ -139,76 +137,8 @@ export function PastDatesTable({
   );
 }
 
-export function CompactScheduleTable({
-  schedule,
-  className,
-}: {
-  schedule: RecurringSchedule[];
-  className?: string;
-}) {
-  if (schedule.length === 0) return null;
-
-  return (
-    <EventTable className={className}>
-      <tbody>
-        {schedule.map(s => (
-          <tr key={s.dayOfWeek}>
-            <td className="event-table-day">{DAY_SHORT[s.dayOfWeek]}</td>
-            <td className="event-table-time">{s.time}</td>
-            <td className="event-table-note">{s.note}</td>
-          </tr>
-        ))}
-      </tbody>
-    </EventTable>
-  );
-}
-
-function highlightText(text: string, tokens: string[]): ReactNode {
-  if (tokens.length === 0) return text;
-  const lower = text.toLowerCase();
-  const marks: boolean[] = new Array(text.length).fill(false);
-  for (const tok of tokens) {
-    let start = 0;
-    while (true) {
-      const idx = lower.indexOf(tok, start);
-      if (idx === -1) break;
-      for (let i = idx; i < idx + tok.length; i++) marks[i] = true;
-      start = idx + 1;
-    }
-  }
-  if (!marks.some(Boolean)) return text;
-  const parts: ReactNode[] = [];
-  let i = 0;
-  while (i < text.length) {
-    const marked = marks[i];
-    let j = i;
-    while (j < text.length && marks[j] === marked) j++;
-    const slice = text.slice(i, j);
-    parts.push(marked ? <mark key={i} className="feed-highlight">{slice}</mark> : slice);
-    i = j;
-  }
-  return <>{parts}</>;
-}
-
-function excerptAround(text: string, tokens: string[], maxLen = 80): string {
-  if (text.length <= maxLen) return text;
-  const lower = text.toLowerCase();
-  let earliest = -1;
-  for (const tok of tokens) {
-    const idx = lower.indexOf(tok);
-    if (idx !== -1 && (earliest === -1 || idx < earliest)) earliest = idx;
-  }
-  if (earliest === -1 || earliest <= maxLen / 2) {
-    const end = text.lastIndexOf(' ', maxLen);
-    return text.slice(0, end > 0 ? end : maxLen) + '…';
-  }
-  const start = Math.max(0, earliest - Math.floor(maxLen / 3));
-  const wordStart = start === 0 ? 0 : text.indexOf(' ', start) + 1;
-  const end = Math.min(text.length, wordStart + maxLen);
-  const wordEnd = end >= text.length ? text.length : text.lastIndexOf(' ', end);
-  const slice = text.slice(wordStart, wordEnd > wordStart ? wordEnd : end);
-  return (wordStart > 0 ? '…' : '') + slice + (wordEnd < text.length ? '…' : '');
-}
+/** Search results are one line each, so the snippet is shorter than a feed card's. */
+const SNIPPET_LEN = 80;
 
 export function SearchResultsTable({
   events,
@@ -234,11 +164,16 @@ export function SearchResultsTable({
           {events.map(event => {
             // Search-only venue records have no confirmed date; archived
             // results are labeled as past so they don't read as upcoming.
-            const dateLabel = !event.startDate
-              ? 'Varies'
-              : new Date(event.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'America/New_York' });
+            // Recurring series show their next date, not the first one.
+            const dateLabel = hasStartDate(event)
+              ? new Date(displayStartIso(event)).toLocaleDateString('en-US', {
+                  month: 'short', day: 'numeric', timeZone: 'America/New_York',
+                })
+              : 'Varies';
             const desc = cleanDisplayText(event.description);
-            const snippet = searchTokens.length > 0 ? excerptAround(desc, searchTokens) : '';
+            const snippet = searchTokens.length > 0
+              ? excerptAround(desc, searchTokens, { maxLen: SNIPPET_LEN })
+              : '';
             return (
               <tr
                 key={event.id}

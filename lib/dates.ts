@@ -92,3 +92,40 @@ export function formatShort(day: number): string {
     timeZone: 'UTC',
   });
 }
+
+/**
+ * Search-only venue records ship `startDate: ''` — they have no confirmed
+ * date. Everything that formats, compares, or emits a start date should
+ * narrow through this first.
+ */
+export function hasStartDate<T extends { startDate?: string | null }>(
+  e: T,
+): e is T & { startDate: string } {
+  return typeof e.startDate === 'string' && e.startDate.length > 0;
+}
+
+/**
+ * The start ISO to *show* for an event: the next occurrence on or after today
+ * (Boston) when the event carries a `recurrences[]` list, else `startDate`.
+ *
+ * publish() already rolls `startDate` forward for recurring events, so this is
+ * belt-and-braces for a site built days after its last publish — the JSON-LD,
+ * meta description and search dropdown should never advertise a date that has
+ * passed while a later one is on file. Falls back to `startDate` when every
+ * listed occurrence is in the past (nothing better is known).
+ */
+export function displayStartIso(
+  event: { startDate: string; recurrences?: string[] },
+  now: number = Date.now(),
+): string {
+  const today = bostonStartOfDay(now);
+  let best: string | null = null;
+  let bestMs = Infinity;
+  for (const iso of [...(event.recurrences ?? []), event.startDate]) {
+    const ms = Date.parse(iso);
+    if (Number.isNaN(ms) || ms < today || ms >= bestMs) continue;
+    best = iso;
+    bestMs = ms;
+  }
+  return best ?? event.startDate;
+}

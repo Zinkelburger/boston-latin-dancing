@@ -6,7 +6,9 @@ import { formatShort } from '@/lib/dates';
 import { StyleFilter, DayFilter, DateRangeDialog, WhenPills } from './FilterControls';
 import type { FilterControlsProps } from './useEventFilters';
 
-type Props = FilterControlsProps & {
+type Props = {
+  /** Filter state + handlers from useEventFilters. */
+  controls: FilterControlsProps;
   viewMode: 'map' | 'feed';
   onViewModeToggle: () => void;
 };
@@ -17,17 +19,17 @@ type Props = FilterControlsProps & {
  * rail you swipe, with a fade at the edge to say there is more; wider screens
  * wrap them. Nothing is hidden behind a control on either.
  */
-export default function FilterBar({
-  selectedStyles, onStylesChange,
-  selectedDays, onDaysChange,
-  specialOnly, onSpecialOnlyChange,
-  dateMode, onDateModeChange,
-  dateSlider, onDateSliderChange,
-  sliderMin, sliderMax,
-  defaultFrom, defaultTo,
-  viewMode, onViewModeToggle,
-  datePreset, onPresetChange,
-}: Props) {
+export default function FilterBar({ controls, viewMode, onViewModeToggle }: Props) {
+  const {
+    selectedStyles, onStylesChange,
+    selectedDays, onDaysChange,
+    specialOnly, onSpecialOnlyChange,
+    dateMode, onDateModeChange,
+    dateSlider, onDateSliderChange,
+    sliderMin, sliderMax,
+    defaultFrom, defaultTo,
+    datePreset, onPresetChange,
+  } = controls;
   const [dateDialogOpen, setDateDialogOpen] = useState(false);
 
   const isAny = dateMode === 'any';

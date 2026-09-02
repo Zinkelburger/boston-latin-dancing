@@ -41,9 +41,29 @@ type MarkerProps = PinProps;
 type MarkerFeature = Feature<Point, MarkerProps>;
 type MarkerCollection = FeatureCollection<Point, MarkerProps>;
 
+/** An event with coordinates — the only kind that can be a pin. */
+type MappableEvent = DanceEvent & { lat: number; lng: number };
+
+function isMappable(event: DanceEvent): event is MappableEvent {
+  return event.lat != null && event.lng != null;
+}
+
 function primaryColor(event: { styles: DanceStyle[] }): string {
   const primary = event.styles[0];
   return (primary && STYLE_COLORS[primary]) || STYLE_COLORS.other;
+}
+
+/** History state written by the popup so Back/Forward can close and reopen it. */
+type PopupHistoryState = { popup?: boolean } | null;
+
+function slugFromHash(hash: string): string | null {
+  const match = hash.match(/^#event=(.+)$/);
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
+/** The current URL without its hash — what closing the popup leaves behind. */
+function urlWithoutHash(): string {
+  return window.location.pathname + window.location.search;
 }
 
 function staggerCoordinates(items: { id: string; lat: number; lng: number }[]): Map<string, [number, number]> {
@@ -101,17 +121,42 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
     mapRef.current?.flyTo({ center: [event.lng, event.lat], zoom: 15, duration: 1200 });
   }, []);
 
-  const openEvent = useCallback((event: DanceEvent | null, displayDate?: string) => {
+  /**
+   * Open the popup and put `#event=slug` in the URL.
+   *
+   * Opening from a closed state pushes a history entry, so the phone's Back
+   * gesture closes the popup instead of leaving the site; switching between
+   * events while one is open replaces that entry, so Back still lands on the
+   * pre-popup page. `replace` is for arrival by deep link: there is nothing to
+   * go back to, so the current entry is reused and Close simply drops the hash.
+   */
+  const openEvent = useCallback((
+    event: DanceEvent | null,
+    displayDate?: string,
+    opts: { replace?: boolean } = {},
+  ) => {
     setActiveEvent(event);
     setActiveDisplayDate(displayDate ?? null);
     setHighlightedEvent(event);
-    window.history.replaceState(null, '', event?.slug ? `#event=${event.slug}` : ' ');
+    const url = event?.slug ? `#event=${event.slug}` : urlWithoutHash();
+    const state = window.history.state as PopupHistoryState;
+    if (opts.replace) {
+      window.history.replaceState(null, '', url);
+    } else if (state?.popup) {
+      window.history.replaceState({ popup: true }, '', url);
+    } else {
+      window.history.pushState({ popup: true }, '', url);
+    }
   }, []);
 
   const closePopup = useCallback(() => {
     setActiveEvent(null);
     setActiveDisplayDate(null);
-    window.history.replaceState(null, '', ' ');
+    const state = window.history.state as PopupHistoryState;
+    // The popstate listener below takes the URL back; otherwise (deep link,
+    // reload) there is no entry of ours to pop, so just drop the hash.
+    if (state?.popup) window.history.back();
+    else window.history.replaceState(null, '', urlWithoutHash());
   }, []);
 
   const eventsById = useMemo(() => {
@@ -140,15 +185,13 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
   const didDeepLinkRef = useRef(false);
   useEffect(() => {
     if (didDeepLinkRef.current) return;
-    const hash = window.location.hash;
-    const match = hash.match(/^#event=(.+)$/);
-    const slug = match ? decodeURIComponent(match[1]) : initialEventSlug;
+    const slug = slugFromHash(window.location.hash) ?? initialEventSlug;
     if (!slug) return;
     const ev = eventsBySlug.get(slug);
     // Wait for events to load before consuming the one-shot guard.
     if (!ev) return;
     didDeepLinkRef.current = true;
-    if (ev.lat != null && ev.lng != null) {
+    if (isMappable(ev)) {
       // Ghosts render regardless of filters (and may have no dates), so
       // there's nothing for ensureEventVisible to unhide.
       if (!isGhostEvent(ev)) ensureEventVisible(ev);
@@ -159,14 +202,32 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
       } else {
         setInitialView({ longitude: ev.lng, latitude: ev.lat, zoom: 15 });
       }
-      openEvent(ev);
+      openEvent(ev, undefined, { replace: true });
     }
   }, [eventsBySlug, initialEventSlug, ensureEventVisible, flyToEvent, openEvent]);
 
-  const mappableEvents = useMemo(
-    () => events.filter(e => e.lat != null && e.lng != null),
-    [events],
-  );
+  // Back closes the popup (its history entry is popped); Forward reopens it
+  // from the hash the entry carries. State is set directly here — the history
+  // has already moved, so openEvent/closePopup must not touch it again.
+  useEffect(() => {
+    const onPopState = (e: PopStateEvent) => {
+      const state = e.state as PopupHistoryState;
+      const slug = state?.popup ? slugFromHash(window.location.hash) : null;
+      const ev = slug ? eventsBySlug.get(slug) : undefined;
+      if (ev) {
+        setActiveEvent(ev);
+        setActiveDisplayDate(null);
+        setHighlightedEvent(ev);
+      } else {
+        setActiveEvent(null);
+        setActiveDisplayDate(null);
+      }
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, [eventsBySlug]);
+
+  const mappableEvents = useMemo(() => events.filter(isMappable), [events]);
 
   // Search also covers ghosts — archived events and dateless search-only venue
   // records. They open as a translucent dot, never a pin. Archived instances
@@ -200,22 +261,16 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
     [events, applyFilters],
   );
 
-  const allMapItems = useMemo(() => {
-    return filteredEvents.map(e => ({
-      id: e.id, lat: e.lat!, lng: e.lng!,
-    }));
-  }, [filteredEvents]);
-
   const coordinateOffsets = useMemo(
-    () => staggerCoordinates(allMapItems),
-    [allMapItems],
+    () => staggerCoordinates(filteredEvents),
+    [filteredEvents],
   );
 
   const geojson: MarkerCollection = useMemo(() => {
     const features: MarkerFeature[] = filteredEvents.map(event => {
       const offset = coordinateOffsets.get(event.id);
-      const lng = event.lng! + (offset?.[0] ?? 0);
-      const lat = event.lat! + (offset?.[1] ?? 0);
+      const lng = event.lng + (offset?.[0] ?? 0);
+      const lat = event.lat + (offset?.[1] ?? 0);
       return {
         type: 'Feature',
         geometry: { type: 'Point', coordinates: [lng, lat] },
@@ -347,7 +402,7 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
       ) : (
         <div className="flex-1 overflow-hidden">
           <FeedView
-            {...controls}
+            controls={controls}
             events={filteredAllEvents}
             fromMs={effectiveFromMs}
             toMs={effectiveToMs}
@@ -360,7 +415,7 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
       {viewMode === 'map' && (
         <div className="shrink-0">
           <FilterBar
-            {...controls}
+            controls={controls}
             viewMode={viewMode}
             onViewModeToggle={() => setViewMode(v => v === 'map' ? 'feed' : 'map')}
           />
