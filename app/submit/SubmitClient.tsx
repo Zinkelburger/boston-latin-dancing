@@ -18,6 +18,39 @@ const WEEK_OPTIONS = ['1st', '2nd', '3rd', '4th', 'Last'] as const;
 
 type SubmitState = 'idle' | 'submitting' | 'success' | 'error';
 
+/**
+ * Turn an API error body into a message we can show.
+ *
+ * FastAPI's `detail` is a plain string for HTTPException responses but a list
+ * of `{loc, msg}` objects for 422 validation errors; rendering the latter with
+ * string coercion shows "[object Object]".
+ */
+export function describeApiError(status: number, data: unknown): string {
+  const fallback = `Error ${status}`;
+  const body = data as { detail?: unknown; error?: unknown } | null;
+  const detail = body?.detail;
+  if (typeof detail === 'string' && detail) return detail;
+  // slowapi's 429 body is {"error": "Rate limit exceeded: ..."}.
+  if (typeof body?.error === 'string' && body.error) return body.error;
+  if (Array.isArray(detail)) {
+    const lines = detail
+      .map(item => {
+        if (typeof item === 'string') return item;
+        if (!item || typeof item !== 'object') return '';
+        const { loc, msg } = item as { loc?: unknown; msg?: unknown };
+        const message = typeof msg === 'string' ? msg : '';
+        const field = Array.isArray(loc)
+          ? loc.filter(part => typeof part === 'string' && part !== 'body').join('.')
+          : '';
+        if (!message) return field;
+        return field ? `${field}: ${message}` : message;
+      })
+      .filter(Boolean);
+    if (lines.length) return lines.join('\n');
+  }
+  return fallback;
+}
+
 function recurrenceSummary(type: string, day: string, week: string): string {
   if (!type || !day) return '';
   if (type === 'weekly') return `Every ${day}`;
@@ -113,7 +146,7 @@ export default function SubmitClient() {
       });
       if (!res.ok) {
         const data = await res.json().catch(() => null);
-        throw new Error(data?.detail || `Error ${res.status}`);
+        throw new Error(describeApiError(res.status, data));
       }
       setSubmitState('success');
     } catch (err) {
@@ -421,7 +454,7 @@ export default function SubmitClient() {
               </p>
             )}
             {submitState === 'error' && (
-              <p className="text-xs" style={{ color: '#b91c1c' }}>{errorMsg}</p>
+              <p className="text-xs" style={{ color: '#b91c1c', whiteSpace: 'pre-line' }}>{errorMsg}</p>
             )}
             {submitState !== 'submitting' && !turnstileToken && !turnstileFailed && (
               <p className="submit-hint">Waiting for the spam check before you can submit.</p>

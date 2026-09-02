@@ -1,7 +1,8 @@
 {
+  "_comment": "Paths are relative to the repo root: Cursor launches project MCP servers with the workspace folder as cwd. .venv/bin/python is used (not bare python3) so the `mcp` package resolves; run `python3 -m venv .venv && .venv/bin/pip install -r requirements.txt` first.",
   "mcpServers": {
     "boston-latin-dance": {
-      "command": "python3",
+      "command": ".venv/bin/python",
       "args": ["mcp-server/server.py"]
     }
   }
