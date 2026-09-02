@@ -415,8 +415,8 @@ def test_malformed_sources_json_aborts_instead_of_untrusting_everyone(tmp_path, 
     data_dir = tmp_path / "data"
     data_dir.mkdir()
     (data_dir / "sources.json").write_text("[{bad json")
-    monkeypatch.setattr(scraper_utils, "DATA_DIR", data_dir)
-    with pytest.raises(ValueError):
+    monkeypatch.setattr(scraper_utils, "SOURCES_PATH", data_dir / "sources.json")
+    with pytest.raises(atomic_io.CorruptJSONError):
         es._trusted_latin_sources()
 
 

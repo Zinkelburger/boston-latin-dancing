@@ -65,7 +65,6 @@ def store(tmp_path, monkeypatch):
     monkeypatch.setattr(es, "SCRAPED_DIR", scraped_dir)
     monkeypatch.setattr(es, "VENUES_JSON", tmp_path / "venues.json")
     monkeypatch.setattr(es, "KNOWN_DUPLICATES_JSON", tmp_path / "known_duplicates.json")
-    monkeypatch.setattr(es, "_known_duplicates_cache", None)
     monkeypatch.setattr(srv, "VENUES_JSON", tmp_path / "venues.json")
     # Never geocode over the network from a test.
     monkeypatch.setattr(scraper_utils, "geocode", lambda location: (42.36, -71.06))
