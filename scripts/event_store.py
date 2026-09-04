@@ -830,7 +830,14 @@ def merge_event(a: dict, b: dict) -> dict:
         merged["location"] = loser["location"]
 
     # Preserve verification metadata from whichever side has it (prefer winner).
-    for key in ("_verified_at", "_verified_status", "_verified_notes", "_verification_url", "_location_override"):
+    for key in (
+        "_verified_at",
+        "_verified_status",
+        "_verified_notes",
+        "_verification_url",
+        "_verification_attestation",
+        "_location_override",
+    ):
         if winner.get(key):
             merged[key] = winner[key]
         elif loser.get(key):
@@ -972,7 +979,7 @@ def find_duplicate_in(event: dict, pool: list[dict]) -> Optional[tuple[int, str]
     return None
 
 
-def deduplicate(events: list[dict]) -> list[dict]:
+def deduplicate(events: list[dict], *, record_log: bool = True) -> list[dict]:
     """Deduplicate for publish. Only merges 'certain' matches."""
     events.sort(key=source_rank)
     result: list[dict] = []
@@ -982,7 +989,8 @@ def deduplicate(events: list[dict]) -> list[dict]:
             idx, conf = match
             if conf == "certain":
                 reason = _dedup_reason(result[idx], ev, conf)
-                _log_dedup(conf, result[idx], ev, conf, reason)
+                if record_log:
+                    _log_dedup(conf, result[idx], ev, conf, reason)
                 result[idx] = merge_event(result[idx], ev)
             else:
                 result.append(ev)
@@ -3151,7 +3159,7 @@ def _roll_series_forward(ev: dict, today: datetime) -> bool:
     return True
 
 
-def _compute_publish() -> dict:
+def _compute_publish(*, enrich_missing: bool = True, record_dedup_log: bool = True) -> dict:
     """Everything a publish would ship, computed without writing a byte.
 
     Split from the write step so publish_guarded() can measure the result
@@ -3184,7 +3192,7 @@ def _compute_publish() -> dict:
         if v.get("id") not in suppressed_venue_ids and not v.get("nextDateApproximate")
     ]
     all_events = venue_events + active
-    deduped = deduplicate(all_events)
+    deduped = deduplicate(all_events, record_log=record_dedup_log)
     deduped = collapse_recurring_series(deduped)
 
     # A live series must advertise its next night, not the one it was first
@@ -3195,10 +3203,12 @@ def _compute_publish() -> dict:
     # Sort by start date
     deduped.sort(key=lambda e: e.get("startDate", ""))
 
-    # Re-geocode any events still missing coordinates
-    for ev in deduped:
-        if ev.get("lat") is None or ev.get("lng") is None:
-            _enrich_event(ev)
+    # Publishing may repair missing coordinates; read-only diagnostics must not
+    # make network calls or mutate even their in-memory preview unexpectedly.
+    if enrich_missing:
+        for ev in deduped:
+            if ev.get("lat") is None or ev.get("lng") is None:
+                _enrich_event(ev)
 
     # Strip internal fields from active events
     for ev in deduped:
@@ -3209,7 +3219,7 @@ def _compute_publish() -> dict:
     archive = load_archive()
     archived_out = []
     for ev in archive:
-        if ev.get("lat") is None or ev.get("lng") is None:
+        if enrich_missing and (ev.get("lat") is None or ev.get("lng") is None):
             _enrich_event(ev)
         _strip_internal_fields(ev, source_names)
         ev["archived"] = True
@@ -3232,7 +3242,7 @@ def _compute_publish() -> dict:
         rec["searchOnly"] = True
         if rec.get("_sourceId"):
             rec["source"] = rec["_sourceId"]
-        if rec.get("lat") is None or rec.get("lng") is None:
+        if enrich_missing and (rec.get("lat") is None or rec.get("lng") is None):
             _enrich_event(rec)
         _strip_internal_fields(rec, source_names)
         searchonly_out.append(rec)
@@ -3255,6 +3265,12 @@ def _compute_publish() -> dict:
         "odd_hours": odd_hours,
         "rolled": rolled,
     }
+
+
+def preview_publish() -> dict:
+    """Compute publish artifacts without writes, geocoding, or dedup logging."""
+    with atomic_io.locked(STORE_LOCK):
+        return _compute_publish(enrich_missing=False, record_dedup_log=False)
 
 
 def _legacy_public_json() -> Path:
@@ -3641,6 +3657,115 @@ def add_venue(venue: dict) -> dict:
     if warnings:
         result["warnings"] = warnings
     return result
+
+
+def load_venues() -> list[dict]:
+    """Load permanent venues through the same strict JSON reader as the store."""
+    return atomic_io.read_json(VENUES_JSON, default=[])
+
+
+def _validate_venue_record(venue: dict) -> list[str]:
+    """Validate a complete venue record before add/edit persists it."""
+    problems: list[str] = []
+    for key in ("id", "name", "location", "url"):
+        if not str(venue.get(key) or "").strip():
+            problems.append(f"missing {key}")
+    problems.extend(validate_venue_schedule(venue.get("schedule")))
+
+    for key in ("styles", "urls", "excludeDates"):
+        value = venue.get(key)
+        if value is not None and not isinstance(value, list):
+            problems.append(f"{key} must be an array")
+    if isinstance(venue.get("styles"), list) and not all(
+        isinstance(value, str) and value.strip() for value in venue["styles"]
+    ):
+        problems.append("styles entries must be non-empty strings")
+    if isinstance(venue.get("urls"), list) and not all(
+        isinstance(value, str) and value.strip() for value in venue["urls"]
+    ):
+        problems.append("urls entries must be non-empty strings")
+    if isinstance(venue.get("excludeDates"), list):
+        for value in venue["excludeDates"]:
+            if not isinstance(value, str) or _parse_anchor(value) is None:
+                problems.append(f"excludeDates entry must be YYYY-MM-DD (got {value!r})")
+
+    lat, lng = venue.get("lat"), venue.get("lng")
+    if (lat is None) != (lng is None):
+        problems.append("lat and lng must be provided together")
+    if lat is not None and (
+        not isinstance(lat, (int, float))
+        or isinstance(lat, bool)
+        or not -90 <= lat <= 90
+    ):
+        problems.append("lat must be a number between -90 and 90")
+    if lng is not None and (
+        not isinstance(lng, (int, float))
+        or isinstance(lng, bool)
+        or not -180 <= lng <= 180
+    ):
+        problems.append("lng must be a number between -180 and 180")
+    return problems
+
+
+@_locked
+def edit_venue(venue_id: str, updates: dict, dry_run: bool = False) -> dict:
+    """Validate and update one permanent venue without allowing identity drift."""
+    if not isinstance(updates, dict):
+        return {"status": "invalid", "problems": ["updates must be an object"]}
+    if "id" in updates and updates["id"] != venue_id:
+        return {"status": "invalid", "problems": ["venue id cannot be changed"]}
+    if ("lat" in updates) != ("lng" in updates):
+        return {"status": "invalid", "problems": ["lat and lng updates must be provided together"]}
+
+    venues = load_venues()
+    idx = next((i for i, venue in enumerate(venues) if venue.get("id") == venue_id), None)
+    if idx is None:
+        return {"status": "not_found", "message": f"No venue with id '{venue_id}'"}
+
+    before = venues[idx]
+    candidate = dict(before)
+    candidate.update(updates)
+    candidate["id"] = venue_id
+    if isinstance(candidate.get("name"), str):
+        candidate["name"] = candidate["name"].strip()
+
+    for i, other in enumerate(venues):
+        candidate_name = candidate.get("name") if isinstance(candidate.get("name"), str) else ""
+        if i != idx and (other.get("name") or "").strip().lower() == candidate_name.lower():
+            return {
+                "status": "exists",
+                "problems": [f"a venue named {candidate.get('name')!r} already exists (id {other.get('id')!r})"],
+            }
+
+    location_changed = candidate.get("location") != before.get("location")
+    coords_explicit = "lat" in updates or "lng" in updates
+    if location_changed and not coords_explicit:
+        coords = geocode(candidate.get("location", ""))
+        if not coords:
+            return {
+                "status": "invalid",
+                "problems": ["new location could not be geocoded; provide both lat and lng explicitly"],
+            }
+        candidate["lat"], candidate["lng"] = coords
+
+    problems = _validate_venue_record(candidate)
+    if problems:
+        return {"status": "invalid", "problems": problems}
+
+    changed = {
+        key: {"before": before.get(key), "after": candidate.get(key)}
+        for key in sorted(set(before) | set(candidate))
+        if before.get(key) != candidate.get(key)
+    }
+    if dry_run:
+        return {"status": "dry_run", "venue": candidate, "changes": changed}
+    if not changed:
+        return {"status": "unchanged", "venue": before, "changes": {}}
+
+    venues[idx] = candidate
+    atomic_io.write_json(VENUES_JSON, venues)
+    _append_changelog("venue_edit", venue_id, json.dumps(changed, sort_keys=True))
+    return {"status": "updated", "venue": candidate, "changes": changed}
 
 
 _SOURCE_REQUIRED = ("id", "type", "scraper", "name")

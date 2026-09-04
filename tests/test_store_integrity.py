@@ -633,6 +633,70 @@ def test_add_venue_validates_dedups_and_appends_atomically(store):
     assert len(atomic_io.read_json(store.VENUES_JSON)) == 1
 
 
+def test_edit_venue_validates_dry_runs_and_regeocodes(store, monkeypatch):
+    venue = {
+        "id": "test-hall",
+        "name": "Test Hall",
+        "location": "1 Pier Rd, Boston, MA",
+        "url": "https://example.com",
+        "lat": 42.36,
+        "lng": -71.05,
+        "styles": ["salsa"],
+        "schedule": [{"dayOfWeek": "Friday", "time": "9:00 PM – 1:00 AM"}],
+    }
+    atomic_io.write_json(store.VENUES_JSON, [venue])
+    monkeypatch.setattr(store, "geocode", lambda location: (42.40, -71.10))
+
+    dry = store.edit_venue("test-hall", {"location": "2 New St, Boston, MA"}, dry_run=True)
+    assert dry["status"] == "dry_run"
+    assert (dry["venue"]["lat"], dry["venue"]["lng"]) == (42.40, -71.10)
+    assert atomic_io.read_json(store.VENUES_JSON) == [venue]
+
+    updated = store.edit_venue("test-hall", {"location": "2 New St, Boston, MA"})
+    assert updated["status"] == "updated"
+    saved = atomic_io.read_json(store.VENUES_JSON)[0]
+    assert saved["location"] == "2 New St, Boston, MA"
+    assert (saved["lat"], saved["lng"]) == (42.40, -71.10)
+    assert '"venue_edit"' in store.CHANGELOG.read_text()
+
+
+def test_edit_venue_rejects_identity_invalid_schedule_and_ungeocodable_location(store, monkeypatch):
+    venue = {
+        "id": "test-hall",
+        "name": "Test Hall",
+        "location": "1 Pier Rd, Boston, MA",
+        "url": "https://example.com",
+        "lat": 42.36,
+        "lng": -71.05,
+        "styles": ["salsa"],
+        "schedule": [{"dayOfWeek": "Friday", "time": "9:00 PM"}],
+    }
+    atomic_io.write_json(store.VENUES_JSON, [venue])
+    assert store.edit_venue("missing", {})["status"] == "not_found"
+    assert store.edit_venue("test-hall", {"id": "renamed"})["status"] == "invalid"
+    assert store.edit_venue("test-hall", {"lat": 42.4})["status"] == "invalid"
+    assert store.edit_venue("test-hall", {"schedule": []})["status"] == "invalid"
+    monkeypatch.setattr(store, "geocode", lambda location: None)
+    failed = store.edit_venue("test-hall", {"location": "Unknown"})
+    assert failed["status"] == "invalid"
+    assert atomic_io.read_json(store.VENUES_JSON) == [venue]
+
+
+def test_publish_preview_does_not_geocode_write_or_log(store, tmp_path, monkeypatch):
+    store.save_active([_event(lat=None, lng=None)])
+    store.save_archive([])
+    monkeypatch.setattr(store, "VENUES_JSON", tmp_path / "venues.json")
+    atomic_io.write_json(store.VENUES_JSON, [])
+    monkeypatch.setattr(store, "geocode", lambda location: pytest.fail("preview attempted geocoding"))
+
+    preview = store.preview_publish()
+
+    assert preview["missing"][0]["id"] == "evt-1"
+    assert not store.PUBLIC_EVENTS_JSON.exists()
+    assert not store.DEDUP_LOG.exists()
+    assert not store.VENUE_CONFLICTS_JSON.exists()
+
+
 def test_add_source_validates_and_rejects_duplicate_ids(store):
     assert store.add_source({"id": "x"})["status"] == "invalid"
     missing = store.add_source({"id": "x", "type": "web", "scraper": "generic", "name": "X"})

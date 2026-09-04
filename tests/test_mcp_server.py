@@ -96,6 +96,9 @@ def test_wrapper_preserves_tool_signatures():
     assert "limit" in schemas["event_list"]["properties"]
     for name in ("event_remove", "event_block", "known_duplicate_forget", "event_approve"):
         assert "dry_run" in schemas[name]["properties"], name
+    assert "dry_run" in schemas["venue_edit"]["properties"]
+    assert "valid_days" in schemas["event_verify_attest"]["properties"]
+    assert "include_publish_preview" in schemas["event_doctor"]["properties"]
 
 
 def test_every_tool_is_wrapped():
@@ -312,6 +315,62 @@ def test_venue_add_validates_then_delegates(store, monkeypatch):
     assert added[0]["schedule"][0]["dayOfWeek"] == "Friday"
     assert added[0]["lat"] == 42.36
     assert added[0]["styles"] == ["salsa"]
+
+
+def test_venue_edit_parses_json_and_delegates(store, monkeypatch):
+    calls = []
+    monkeypatch.setattr(
+        srv,
+        "edit_venue",
+        lambda venue_id, updates, dry_run=False: calls.append((venue_id, updates, dry_run))
+        or {"status": "dry_run" if dry_run else "updated"},
+    )
+    bad = _call(srv.venue_edit, venue_id="hall", updates_json="[]")
+    assert bad["type"] == "ValueError"
+    result = _call(
+        srv.venue_edit,
+        venue_id="hall",
+        updates_json='{"name": "New Hall"}',
+        dry_run=True,
+    )
+    assert result["status"] == "dry_run"
+    assert calls == [("hall", {"name": "New Hall"}, True)]
+
+
+def test_verification_attestation_delegates_all_evidence(store, monkeypatch):
+    calls = []
+    monkeypatch.setattr(srv, "attest_event", lambda **kwargs: calls.append(kwargs) or {"status": "attested"})
+    result = _call(
+        srv.event_verify_attest,
+        event_id="evt-1",
+        source_url="https://example.com/event",
+        notes="browser checked",
+        observed_start="2099-07-01T20:00:00-04:00",
+        observed_location="Boston, MA",
+        valid_days=10,
+    )
+    assert result["status"] == "attested"
+    assert calls[0]["event_id"] == "evt-1"
+    assert calls[0]["status"] == "confirmed"
+    assert calls[0]["valid_days"] == 10
+
+
+def test_event_doctor_delegates_thresholds(store, monkeypatch):
+    calls = []
+    monkeypatch.setattr(srv, "run_doctor", lambda **kwargs: calls.append(kwargs) or {"ok": True})
+    assert _call(
+        srv.event_doctor,
+        health_max_age_hours=12,
+        facebook_max_age_days=5,
+        verification_max_age_days=3,
+        include_publish_preview=False,
+    ) == {"ok": True}
+    assert calls == [{
+        "health_max_age_hours": 12,
+        "facebook_max_age_days": 5,
+        "verification_max_age_days": 3,
+        "include_publish_preview": False,
+    }]
 
 
 def test_source_add_rejects_malformed_config(store, monkeypatch):

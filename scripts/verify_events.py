@@ -25,6 +25,7 @@ Usage:
     python3 scripts/verify_events.py --stale-days 7  # only events not verified in 7+ days
 """
 
+import hashlib
 import json
 import re
 import sys
@@ -36,7 +37,7 @@ from urllib.parse import urlparse
 import requests
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from atomic_io import write_json
+from atomic_io import read_json, write_json
 from link_meta import link_meta, looks_like_render_timestamp
 from scraper_utils import DEV_UA
 from event_store import (
@@ -46,6 +47,7 @@ from event_store import (
     load_active,
     parse_date,
     save_active,
+    store_lock,
     _append_changelog,
 )
 
@@ -67,6 +69,124 @@ def _ny_calendar_day(iso_str: str) -> Optional[str]:
 REPORT_PATH = EVENTS_DIR / "verification-report.json"
 # The honest identity (with a contact address) — the same one the scrapers use.
 UA = {"User-Agent": DEV_UA}
+
+ATTESTATION_STATUSES = {
+    "confirmed",
+    "cancelled",
+    "page_gone",
+    "date_mismatch",
+    "location_mismatch",
+    "needs_review",
+}
+_FINGERPRINT_FIELDS = (
+    "id",
+    "startDate",
+    "endDate",
+    "location",
+    "url",
+    "urls",
+    "recurrences",
+)
+
+
+def event_fingerprint(event: dict) -> str:
+    """Fingerprint externally verifiable facts, excluding mutable metadata."""
+    payload = {key: event.get(key) for key in _FINGERPRINT_FIELDS}
+    canonical = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+
+def _fresh_attestation(event: dict) -> Optional[dict]:
+    attestation = event.get("_verification_attestation")
+    if not isinstance(attestation, dict):
+        return None
+    if attestation.get("fingerprint") != event_fingerprint(event):
+        return None
+    try:
+        expires_at = datetime.fromisoformat(attestation["expires_at"])
+    except (KeyError, TypeError, ValueError):
+        return None
+    if expires_at.tzinfo is None or expires_at <= datetime.now(timezone.utc):
+        return None
+    return attestation
+
+
+def attest_event(
+    event_id: str,
+    source_url: str,
+    status: str = "confirmed",
+    notes: str = "",
+    observed_start: Optional[str] = None,
+    observed_end: Optional[str] = None,
+    observed_location: Optional[str] = None,
+    valid_days: int = 7,
+) -> dict:
+    """Record a time-limited browser verification tied to current event facts."""
+    parsed_url = urlparse(source_url or "")
+    if parsed_url.scheme not in ("http", "https") or not parsed_url.netloc:
+        return {"status": "invalid", "problems": ["source_url must be an http(s) URL"]}
+    if status not in ATTESTATION_STATUSES:
+        return {
+            "status": "invalid",
+            "problems": [f"status must be one of {', '.join(sorted(ATTESTATION_STATUSES))}"],
+        }
+    if not isinstance(valid_days, int) or isinstance(valid_days, bool) or not 1 <= valid_days <= 30:
+        return {"status": "invalid", "problems": ["valid_days must be an integer from 1 to 30"]}
+    if not isinstance(notes, str):
+        return {"status": "invalid", "problems": ["notes must be a string"]}
+    if observed_location is not None and not isinstance(observed_location, str):
+        return {"status": "invalid", "problems": ["observed_location must be a string"]}
+    for label, value in (("observed_start", observed_start), ("observed_end", observed_end)):
+        if value is not None and (not isinstance(value, str) or _ny_calendar_day(value) is None):
+            return {"status": "invalid", "problems": [f"{label} must be an ISO date or datetime"]}
+
+    with store_lock():
+        active = load_active()
+        event = next((candidate for candidate in active if candidate.get("id") == event_id), None)
+        if event is None:
+            return {"status": "not_found", "message": f"No active event with id '{event_id}'"}
+
+        now = datetime.now(timezone.utc)
+        attestation = {
+            "attested_at": now.isoformat(),
+            "expires_at": (now + timedelta(days=valid_days)).isoformat(),
+            "source_url": source_url,
+            "status": status,
+            "notes": notes,
+            "observed_start": observed_start,
+            "observed_end": observed_end,
+            "observed_location": observed_location,
+            "fingerprint": event_fingerprint(event),
+        }
+        event["_verification_attestation"] = attestation
+        event["_verified_at"] = attestation["attested_at"]
+        event["_verified_status"] = status
+        event["_verified_notes"] = notes
+        event["_verification_url"] = source_url
+        save_active(active)
+
+        entry = {
+            "event_id": event_id,
+            "event_name": event.get("name", ""),
+            "status": status,
+            "notes": notes,
+            "source_url": source_url,
+            "our_date": _ny_calendar_day(event.get("startDate", "")),
+            "source_date": _ny_calendar_day(observed_start or ""),
+            "our_location": event.get("location", ""),
+            "source_location": observed_location or "",
+            "verified_at": attestation["attested_at"],
+            "expires_at": attestation["expires_at"],
+            "method": "browser_attestation",
+        }
+        report = read_json(REPORT_PATH, default=[])
+        if not isinstance(report, list):
+            report = []
+        report = [row for row in report if row.get("event_id") != event_id]
+        report.append(entry)
+        write_json(REPORT_PATH, report)
+        _append_changelog("verify_attest", event_id, f"{status}: {source_url}")
+        return {"status": "attested", "event_id": event_id, "attestation": attestation, "report": entry}
 
 
 # ── URL classification ────────────────────────────────────────────────
@@ -421,6 +541,23 @@ def _verifiable_alternate(event: dict) -> Optional[str]:
 
 def verify_event(event: dict) -> dict:
     """Verify a single event. Returns a report entry."""
+    attestation = _fresh_attestation(event)
+    if attestation:
+        return {
+            "event_id": event.get("id"),
+            "event_name": event.get("name", ""),
+            "status": attestation["status"],
+            "notes": attestation.get("notes", ""),
+            "source_url": attestation.get("source_url"),
+            "our_date": _ny_calendar_day(event.get("startDate", "")),
+            "source_date": _ny_calendar_day(attestation.get("observed_start") or ""),
+            "our_location": event.get("location", ""),
+            "source_location": attestation.get("observed_location") or "",
+            "verified_at": attestation["attested_at"],
+            "expires_at": attestation["expires_at"],
+            "method": "browser_attestation",
+        }
+
     url = event.get("url")
     url_type = classify_url(url)
 
@@ -457,15 +594,16 @@ def verify_event(event: dict) -> dict:
 
 def update_event_verification(event_id: str, report_entry: dict) -> None:
     """Write verification metadata back to the event in active.json."""
-    active = load_active()
-    for ev in active:
-        if ev["id"] == event_id:
-            ev["_verified_at"] = report_entry["verified_at"]
-            ev["_verified_status"] = report_entry["status"]
-            ev["_verified_notes"] = report_entry.get("notes", "")
-            ev["_verification_url"] = report_entry.get("source_url")
-            break
-    save_active(active)
+    with store_lock():
+        active = load_active()
+        for ev in active:
+            if ev["id"] == event_id:
+                ev["_verified_at"] = report_entry["verified_at"]
+                ev["_verified_status"] = report_entry["status"]
+                ev["_verified_notes"] = report_entry.get("notes", "")
+                ev["_verification_url"] = report_entry.get("source_url")
+                break
+        save_active(active)
 
 
 def verify_all(
@@ -478,7 +616,8 @@ def verify_all(
         event_id: If set, verify only this event.
         stale_days: If set, only verify events not checked in N+ days.
     """
-    active = load_active()
+    all_active = load_active()
+    active = all_active
 
     if event_id:
         active = [e for e in active if e["id"] == event_id]
@@ -508,6 +647,22 @@ def verify_all(
         entry = verify_event(event)
         report.append(entry)
         update_event_verification(event["id"], entry)
+
+    # Targeted and stale-only runs update coverage instead of erasing every
+    # event that was intentionally not checked in this invocation.
+    if event_id is not None or stale_days is not None:
+        existing = read_json(REPORT_PATH, default=[])
+        if not isinstance(existing, list):
+            existing = []
+        checked_ids = {row.get("event_id") for row in report}
+        active_ids = {event.get("id") for event in all_active}
+        kept = [
+            row for row in existing
+            if isinstance(row, dict)
+            and row.get("event_id") in active_ids
+            and row.get("event_id") not in checked_ids
+        ]
+        report = kept + report
 
     write_json(REPORT_PATH, report)
     print(f"\nWrote verification report to {REPORT_PATH}")

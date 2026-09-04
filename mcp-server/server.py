@@ -29,10 +29,11 @@ try:  # mcp >= 2.0 renamed FastMCP; keep the 1.x name working too.
 except ImportError:  # pragma: no cover - depends on the installed SDK
     from mcp.server.fastmcp import FastMCP as _Server
 
-from atomic_io import CorruptJSONError, read_json  # noqa: E402
+from atomic_io import CorruptJSONError  # noqa: E402
+from event_doctor import run_doctor  # noqa: E402
 from event_store import (  # noqa: E402
     VALID_BLOCK_CATEGORIES,
-    VENUES_JSON,
+    VENUES_JSON,  # re-exported for callers/tests that redirect the store path
     _looks_like_class,
     _special_edition_mismatch,
     add_event,
@@ -45,6 +46,7 @@ from event_store import (  # noqa: E402
     block_event,
     dismiss_rejected,
     edit_event,
+    edit_venue,
     find_duplicate_in,
     forget_known_duplicate,
     ingest_scraped,
@@ -54,6 +56,7 @@ from event_store import (  # noqa: E402
     load_blocked,
     load_pending,
     load_rejected,
+    load_venues,
     load_venue_conflicts,
     parse_date,
     publish_guarded,
@@ -71,7 +74,7 @@ from scraper_utils import (  # noqa: E402
     load_sources,
     make_event,
 )
-from verify_events import verify_all  # noqa: E402
+from verify_events import attest_event, verify_all  # noqa: E402
 
 mcp = _Server("boston-latin-dance")
 
@@ -676,6 +679,27 @@ def scraper_health() -> str:
     return _dump({"needs_redesign": needs_redesign, "health": health})
 
 
+@tool
+def event_doctor(
+    health_max_age_hours: int = 48,
+    facebook_max_age_days: int = 14,
+    verification_max_age_days: int = 14,
+    include_publish_preview: bool = True,
+) -> str:
+    """Run the read-only consolidated pre-publish health check.
+
+    Reports scraper failures and freshness, Facebook evidence, queues,
+    coordinates, verification, duplicates, venue conflicts, odd hours,
+    generated-artifact drift, and publish-tripwire risk.
+    """
+    return _dump(run_doctor(
+        health_max_age_hours=health_max_age_hours,
+        facebook_max_age_days=facebook_max_age_days,
+        verification_max_age_days=verification_max_age_days,
+        include_publish_preview=include_publish_preview,
+    ))
+
+
 # ── Publishing ────────────────────────────────────────────────────────
 
 
@@ -699,7 +723,7 @@ def event_publish() -> str:
 @tool
 def venue_list() -> str:
     """List all permanent weekly venues from data/venues.json."""
-    venues = read_json(VENUES_JSON, default=[])
+    venues = load_venues()
     summary = [{
         "id": v["id"],
         "name": v["name"],
@@ -762,6 +786,27 @@ def venue_add(
         "schedule": schedule,
     }
     return _dump(add_venue(venue))
+
+
+@tool
+def venue_edit(venue_id: str, updates_json: str, dry_run: bool = False) -> str:
+    """Edit a permanent venue after validating its complete resulting record.
+
+    Args:
+        venue_id: Existing venue identifier. Venue IDs are immutable.
+        updates_json: JSON object containing only fields to change.
+        dry_run: Validate and return the proposed record without writing.
+
+    Changing location without supplying coordinates triggers geocoding. If that
+    fails, no write occurs and both lat and lng must be supplied explicitly.
+    """
+    try:
+        updates = json.loads(updates_json)
+    except json.JSONDecodeError as exc:
+        return _error(f"Invalid updates JSON: {exc}", "JSONDecodeError")
+    if not isinstance(updates, dict):
+        return _error("updates_json must be a JSON object", "ValueError")
+    return _dump(edit_venue(venue_id, updates, dry_run=dry_run))
 
 
 # ── Source management ─────────────────────────────────────────────────
@@ -867,6 +912,45 @@ def event_verify(
         "flagged_count": len(flagged),
         "flagged": flagged,
     })
+
+
+@tool
+def event_verify_attest(
+    event_id: str,
+    source_url: str,
+    status: str = "confirmed",
+    notes: str = "",
+    observed_start: Optional[str] = None,
+    observed_end: Optional[str] = None,
+    observed_location: Optional[str] = None,
+    valid_days: int = 7,
+) -> str:
+    """Record a browser verification for an active event.
+
+    The attestation expires and is bound to a fingerprint of the event's date,
+    location, and URLs; changing those facts invalidates the evidence.
+
+    Args:
+        event_id: Active event identifier.
+        source_url: Exact browser evidence URL inspected.
+        status: confirmed, cancelled, page_gone, date_mismatch,
+          location_mismatch, or needs_review.
+        notes: Concise evidence or discrepancy notes.
+        observed_start: Date/time displayed by the source, if available.
+        observed_end: End date/time displayed by the source, if available.
+        observed_location: Location displayed by the source, if available.
+        valid_days: Evidence lifetime from 1 to 30 days.
+    """
+    return _dump(attest_event(
+        event_id=event_id,
+        source_url=source_url,
+        status=status,
+        notes=notes,
+        observed_start=observed_start,
+        observed_end=observed_end,
+        observed_location=observed_location,
+        valid_days=valid_days,
+    ))
 
 
 @tool

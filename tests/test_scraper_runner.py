@@ -412,17 +412,79 @@ def test_facebook_normalizes_the_default_raw_file(registry, monkeypatch):
     assert ev["styles"] == ["bachata"]
 
 
-def test_facebook_explicit_empty_raw_is_a_healthy_no_upcoming_result(registry, monkeypatch):
+def test_facebook_bare_empty_raw_is_rejected_and_preserves_last_good_data(registry, monkeypatch):
     import scrape_facebook
     monkeypatch.setattr(scrape_facebook, "SCRAPED_DIR", su.SCRAPED_DIR)
     write_json(scrape_facebook.raw_input_path("bobas"), [])
+    old = [future_event("bobas", name="Old listing")]
+    write_json(su.scraped_path("bobas"), old)
+
+    assert scrape_facebook.main(["bobas"]) == 1
+    assert read_json(su.scraped_path("bobas")) == old
+    health = su.load_scrape_health()["bobas"]
+    assert health["status"] == "fetch_error"
+    assert "bare []" in health["note"]
+
+
+def test_facebook_no_upcoming_envelope_is_healthy_evidence(registry, monkeypatch):
+    import scrape_facebook
+    monkeypatch.setattr(scrape_facebook, "SCRAPED_DIR", su.SCRAPED_DIR)
+    capture = {
+        "schema_version": 1,
+        "checked_at": datetime.now(timezone.utc).isoformat(),
+        "source_url": "https://www.facebook.com/bobas/events",
+        "status": "no_upcoming",
+        "events": [],
+    }
+    write_json(scrape_facebook.raw_input_path("bobas"), capture)
     write_json(su.scraped_path("bobas"), [future_event("bobas", name="Old listing")])
 
     assert scrape_facebook.main(["bobas"]) == 0
     assert read_json(su.scraped_path("bobas")) == []
     health = su.load_scrape_health()["bobas"]
     assert health["status"] == "skipped"
-    assert health["note"] == "browser confirmed no upcoming Facebook events"
+    assert "browser evidence confirmed" in health["note"]
+
+
+def test_facebook_captured_envelope_normalizes_events(registry, monkeypatch):
+    import scrape_facebook
+    monkeypatch.setattr(scrape_facebook, "SCRAPED_DIR", su.SCRAPED_DIR)
+    when = datetime.now(su.NY_TZ) + timedelta(days=20)
+    capture = {
+        "schema_version": 1,
+        "checked_at": datetime.now(timezone.utc).isoformat(),
+        "source_url": "https://www.facebook.com/bobas/events",
+        "status": "captured",
+        "events": [{
+            "name": "Salsa by the River",
+            "date": when.strftime("%B %d, %Y"),
+            "time": "7:00 PM",
+            "url": "https://www.facebook.com/events/2/",
+        }],
+    }
+    write_json(scrape_facebook.raw_input_path("bobas"), capture)
+
+    assert scrape_facebook.main(["bobas"]) == 0
+    assert read_json(su.scraped_path("bobas"))[0]["name"] == "Salsa by the River"
+    health = su.load_scrape_health()["bobas"]
+    assert health["status"] == "ok"
+    assert "browser evidence captured" in health["note"]
+
+
+def test_facebook_stale_envelope_is_rejected(registry, monkeypatch):
+    import scrape_facebook
+    monkeypatch.setattr(scrape_facebook, "SCRAPED_DIR", su.SCRAPED_DIR)
+    capture = {
+        "schema_version": 1,
+        "checked_at": (datetime.now(timezone.utc) - timedelta(days=15)).isoformat(),
+        "source_url": "https://www.facebook.com/bobas/events",
+        "status": "no_upcoming",
+        "events": [],
+    }
+    write_json(scrape_facebook.raw_input_path("bobas"), capture)
+
+    assert scrape_facebook.main(["bobas"]) == 1
+    assert su.load_scrape_health()["bobas"]["status"] == "fetch_error"
 
 
 def test_facebook_yearless_date_rolls_forward_not_back():

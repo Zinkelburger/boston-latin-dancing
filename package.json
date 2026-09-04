@@ -18,6 +18,7 @@
     "publish-events": "python3 -c \"import sys; sys.path.insert(0,'scripts'); from event_store import publish; print(publish())\"",
     "source-signal": "python3 scripts/source_signal.py",
     "dedup-report": "python3 scripts/dedup_report.py",
+    "doctor": "python3 scripts/event_doctor.py",
     "review-dedup": "python3 scripts/dedup_report.py --pending --json",
     "verify-events": "python3 scripts/verify_events.py",
     "check-links": "python3 scripts/check_links.py",

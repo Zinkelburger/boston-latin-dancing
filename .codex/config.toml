@@ -1,0 +1,3 @@
+[mcp_servers.boston-latin-dance]
+command = ".venv/bin/python"
+args = ["mcp-server/server.py"]

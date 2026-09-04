@@ -23,7 +23,12 @@ from zoneinfo import ZoneInfo
 import requests
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from scraper_utils import make_event, write_scraped, detect_styles  # noqa: E402
+from scraper_utils import (  # noqa: E402
+    detect_styles,
+    make_event,
+    record_scrape_health,
+    write_scraped,
+)
 from recurrence_utils import _ORDINAL_WORDS  # noqa: E402
 
 # Submitted times are Eastern wall-clock; localize DST-aware, never fixed -04.
@@ -315,8 +320,15 @@ def main() -> dict:
     try:
         subs = fetch_submissions()
     except MissingAdminToken as exc:
+        record_scrape_health("submissions", 0, 0, fetched=False, note=str(exc))
         print(f"ERROR: {exc}", file=sys.stderr)
         sys.exit(2)
+    except Exception as exc:
+        record_scrape_health(
+            "submissions", 0, 0, fetched=False,
+            note=f"{type(exc).__name__}: {exc}"[:300],
+        )
+        raise
     print(f"  Found {len(subs)} submissions")
 
     events, needs_date = convert_submissions(subs)
@@ -329,6 +341,13 @@ def main() -> dict:
         )
     print(f"  Converted {len(events)} events")
     write_scraped("submissions", events)
+    record_scrape_health(
+        "submissions",
+        len(subs),
+        len(events),
+        skipped=not subs,
+        note="API returned no submissions" if not subs else "",
+    )
     return {"fetched": len(subs), "converted": len(events), "needs_date": needs_date}
 
 

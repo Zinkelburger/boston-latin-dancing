@@ -82,6 +82,70 @@ def test_real_cancellation_mention_is_flagged():
     assert m is not None
 
 
+def test_browser_attestation_is_fresh_fingerprint_bound_and_reported(store, tmp_path, monkeypatch):
+    event = _event(url="https://www.facebook.com/events/123/")
+    store.save_active([event])
+    monkeypatch.setattr(ve, "REPORT_PATH", tmp_path / "verification-report.json")
+
+    result = ve.attest_event(
+        "evt-1",
+        "https://www.facebook.com/events/123/",
+        notes="Upcoming card and detail page checked",
+        observed_start=event["startDate"],
+        observed_location=event["location"],
+    )
+    assert result["status"] == "attested"
+    saved = store.load_active()[0]
+    verified = ve.verify_event(saved)
+    assert verified["status"] == "confirmed"
+    assert verified["method"] == "browser_attestation"
+    assert json.loads(ve.REPORT_PATH.read_text())[0]["event_id"] == "evt-1"
+
+    changed = dict(saved, startDate="2026-08-13T21:30:00-04:00")
+    assert ve._fresh_attestation(changed) is None
+    expired = dict(saved)
+    expired["_verification_attestation"] = dict(
+        saved["_verification_attestation"],
+        expires_at="2020-01-01T00:00:00+00:00",
+    )
+    assert ve._fresh_attestation(expired) is None
+
+
+def test_browser_attestation_validates_inputs(store, tmp_path, monkeypatch):
+    store.save_active([_event()])
+    monkeypatch.setattr(ve, "REPORT_PATH", tmp_path / "verification-report.json")
+    assert ve.attest_event("missing", "https://example.com")["status"] == "not_found"
+    assert ve.attest_event("evt-1", "not a url")["status"] == "invalid"
+    assert ve.attest_event("evt-1", "https://example.com", status="maybe")["status"] == "invalid"
+    assert ve.attest_event("evt-1", "https://example.com", valid_days=0)["status"] == "invalid"
+    assert ve.attest_event("evt-1", "https://example.com", observed_start="tomorrow")["status"] == "invalid"
+
+
+def test_targeted_verification_preserves_other_report_rows(store, tmp_path, monkeypatch):
+    first = _event(id="evt-1", url="https://example.com/one")
+    second = _event(id="evt-2", url="https://example.com/two")
+    store.save_active([first, second])
+    monkeypatch.setattr(ve, "REPORT_PATH", tmp_path / "verification-report.json")
+    ve.write_json(ve.REPORT_PATH, [{
+        "event_id": "evt-2",
+        "event_name": "Second",
+        "status": "confirmed",
+        "verified_at": "2026-09-01T00:00:00+00:00",
+    }])
+    monkeypatch.setattr(ve, "verify_event", lambda event: {
+        "event_id": event["id"],
+        "event_name": event["name"],
+        "status": "confirmed",
+        "verified_at": "2026-09-04T00:00:00+00:00",
+        "source_url": event["url"],
+    })
+
+    report = ve.verify_all(event_id="evt-1")
+
+    assert {row["event_id"] for row in report} == {"evt-1", "evt-2"}
+    assert {row["event_id"] for row in json.loads(ve.REPORT_PATH.read_text())} == {"evt-1", "evt-2"}
+
+
 def test_jsonld_scheduled_status_overrides_page_text(monkeypatch):
     ld = json.dumps({
         "@type": "Event",

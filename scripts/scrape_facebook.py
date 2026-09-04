@@ -34,16 +34,22 @@ If no raw input exists the script prints the instructions above and exits 0
 WITHOUT touching data/scraped/<source_id>.json — the pipeline runs this every
 day, and a run with nothing new must never wipe the last good scrape.
 
-The raw file is a JSON array of raw event objects:
-  [{"name": "...", "date": "May 22, 2026", "time": "6:00 PM",
-    "end_time": "9:00 PM", "location": "...", "url": "...", "description": "..."}]
+The raw file is a timestamped evidence envelope. ``status`` is ``captured``
+with a non-empty events array, or ``no_upcoming`` with an empty array:
+  {"schema_version": 1, "checked_at": "2026-09-04T14:30:00-04:00",
+   "source_url": "https://www.facebook.com/example/events",
+   "status": "captured", "events": [{"name": "...", "date": "..."}]}
+
+Legacy non-empty arrays are accepted temporarily with a health note. A bare
+empty array is rejected because it cannot prove Facebook loaded successfully.
 """
 
 import functools
 import re
 import sys
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
+from urllib.parse import urlparse
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from atomic_io import read_json
@@ -65,6 +71,9 @@ from scraper_utils import (
 # the past with no year written is next year's, not last year's.
 NO_YEAR_ROLLOVER_DAYS = 30
 _EXPLICIT_YEAR_RE = re.compile(r"\b(?:19|20)\d{2}\b")
+FACEBOOK_CAPTURE_SCHEMA_VERSION = 1
+FACEBOOK_CAPTURE_MAX_AGE_DAYS = 14
+FACEBOOK_CAPTURE_FUTURE_TOLERANCE = timedelta(minutes=5)
 
 
 def _parse_fb_datetime(date_str: str, time_str: str = "", today: date | None = None) -> datetime | None:
@@ -176,19 +185,81 @@ def parse_raw_event(raw: dict, idx: int, source_id: str, defaults: dict | None =
     )
 
 
-def from_file(path: Path, source_id: str, defaults: dict | None = None) -> list[dict]:
-    """Load and parse raw events from a JSON file."""
-    raw_events = read_json(path)
-    if not isinstance(raw_events, list):
-        raw_events = [raw_events]
-
+def _parse_raw_events(raw_events: list, source_id: str, defaults: dict | None = None) -> list[dict]:
+    """Normalize a validated list of raw Facebook event objects."""
     events = []
     for i, raw in enumerate(raw_events):
+        if not isinstance(raw, dict):
+            raise ValueError(f"event #{i} must be a JSON object")
         ev = parse_raw_event(raw, i, source_id, defaults)
         if ev:
             events.append(ev)
             print(f"  -> {ev['name'][:50]} ({ev['dayOfWeek']} {ev['startDate'][:10]})")
     return events
+
+
+def from_file(path: Path, source_id: str, defaults: dict | None = None) -> list[dict]:
+    """Load a legacy raw event array. Prefer ``fetch_source`` for envelopes."""
+    raw_events = read_json(path)
+    if not isinstance(raw_events, list):
+        raise ValueError("legacy Facebook capture must be a JSON array")
+    return _parse_raw_events(raw_events, source_id, defaults)
+
+
+def _parse_capture_checked_at(value: object) -> datetime:
+    if not isinstance(value, str):
+        raise ValueError("checked_at must be a timezone-aware ISO timestamp")
+    try:
+        checked_at = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError as exc:
+        raise ValueError("checked_at must be a timezone-aware ISO timestamp") from exc
+    if checked_at.tzinfo is None:
+        raise ValueError("checked_at must include a timezone offset")
+    return checked_at
+
+
+def validate_capture(
+    capture: dict,
+    source: dict,
+    now: datetime | None = None,
+    max_age_days: int = FACEBOOK_CAPTURE_MAX_AGE_DAYS,
+) -> tuple[str, list, datetime]:
+    """Validate browser evidence and return status, raw events, and timestamp."""
+    if capture.get("schema_version") != FACEBOOK_CAPTURE_SCHEMA_VERSION:
+        raise ValueError(f"schema_version must be {FACEBOOK_CAPTURE_SCHEMA_VERSION}")
+    checked_at = _parse_capture_checked_at(capture.get("checked_at"))
+    now = now or datetime.now(timezone.utc)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
+    checked_utc = checked_at.astimezone(timezone.utc)
+    if checked_utc > now.astimezone(timezone.utc) + FACEBOOK_CAPTURE_FUTURE_TOLERANCE:
+        raise ValueError("checked_at is in the future")
+    if now.astimezone(timezone.utc) - checked_utc > timedelta(days=max_age_days):
+        raise ValueError(
+            f"Facebook evidence is older than {max_age_days} days; re-check the page"
+        )
+
+    source_url = capture.get("source_url")
+    parsed = urlparse(source_url if isinstance(source_url, str) else "")
+    host = (parsed.hostname or "").lower()
+    if parsed.scheme not in ("http", "https") or not (
+        host == "facebook.com" or host.endswith(".facebook.com") or host == "fb.com" or host.endswith(".fb.com")
+    ):
+        raise ValueError("source_url must be the Facebook page inspected")
+    if not source.get("facebook_events_url"):
+        raise ValueError(f"source {source.get('id')!r} has no configured facebook_events_url")
+
+    status = capture.get("status")
+    events = capture.get("events")
+    if status not in ("captured", "no_upcoming"):
+        raise ValueError("status must be 'captured' or 'no_upcoming'")
+    if not isinstance(events, list):
+        raise ValueError("events must be a JSON array")
+    if status == "captured" and not events:
+        raise ValueError("status 'captured' requires at least one event")
+    if status == "no_upcoming" and events:
+        raise ValueError("status 'no_upcoming' requires an empty events array")
+    return status, events, checked_at
 
 
 def get_fb_sources() -> list[dict]:
@@ -226,19 +297,35 @@ def fetch_source(
         raise ScraperSkipped(f"no raw input at {path.name}; existing scrape left as is")
 
     print(f"Loading from file: {path}")
-    raw_events = read_json(path)
-    if raw_events == []:
-        # For browser-driven Facebook sources an explicit [] is meaningful:
-        # the agent reached the Events tab and found only Past events.  It is
-        # not the structural-zero signal used by HTML parsers, because this
-        # script does not parse Facebook markup itself.
+    capture = read_json(path)
+    if isinstance(capture, list):
+        if not capture:
+            raise ValueError(
+                "bare [] is ambiguous Facebook evidence; save a no_upcoming evidence envelope"
+            )
+        events = _parse_raw_events(capture, source_id, defaults)
+        return ScrapeResult(
+            events=events,
+            raw_found=len(capture),
+            note="legacy Facebook capture; migrate to evidence envelope",
+        )
+    if not isinstance(capture, dict):
+        raise ValueError("Facebook capture must be an evidence envelope")
+
+    status, raw_events, checked_at = validate_capture(capture, source)
+    if status == "no_upcoming":
         return ScrapeResult(
             events=[],
             raw_found=0,
-            note="browser confirmed no upcoming Facebook events",
+            note=f"browser evidence confirmed no upcoming Facebook events at {checked_at.isoformat()}",
             skipped=True,
         )
-    return from_file(path, source_id, defaults)
+    events = _parse_raw_events(raw_events, source_id, defaults)
+    return ScrapeResult(
+        events=events,
+        raw_found=len(raw_events),
+        note=f"browser evidence captured at {checked_at.isoformat()}",
+    )
 
 
 def main(argv: list[str] | None = None) -> int:
