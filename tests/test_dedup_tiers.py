@@ -131,6 +131,23 @@ def test_superset_of_styles_is_the_same_night():
     assert es._series_signals_conflict(both, one) is False
 
 
+def test_recurring_titles_with_different_named_weekdays_are_not_duplicates():
+    thursday = _havana(name="Havana Bachata Thursdays")
+    monday_start = _thursday(1) + timedelta(days=4)
+    monday = _havana(
+        id="havana-monday",
+        name="Bachata Sensual Mondays @ Havana Club",
+        startDate=monday_start.isoformat(),
+        endDate=(monday_start + timedelta(hours=4)).isoformat(),
+        dayOfWeek="Monday",
+        source="beatrice-calendar",
+        url="https://example.com/monday",
+    )
+    assert es._named_weekdays_conflict(thursday, monday)
+    assert dedup_confidence(thursday, monday) is None
+    assert dedup_confidence(monday, thursday) is None
+
+
 # ── 6. occurrences are compared as instants, not strings ─────────────
 
 def _iso_utc(local: datetime) -> str:

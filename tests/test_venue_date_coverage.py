@@ -68,3 +68,19 @@ def test_noteless_schedule_covers_every_matching_weekday():
 def test_undated_event_falls_back_to_weekday_match():
     hub = _dante_hub(NTH_SCHEDULE)
     assert _venue_schedule_covers_event(hub, {"id": "x", "name": "n", "startDate": ""}, "Friday")
+
+
+def test_seasonal_schedule_does_not_cover_dates_after_until():
+    hub = _dante_hub([
+        {
+            "dayOfWeek": "Friday",
+            "time": "8:30 PM – 10:00 PM",
+            "until": "2026-09-30",
+        }
+    ])
+    assert _venue_schedule_covers_event(
+        hub, _scraped("2026-09-25T20:30:00-04:00"), "Friday"
+    )
+    assert not _venue_schedule_covers_event(
+        hub, _scraped("2026-10-02T20:30:00-04:00"), "Friday"
+    )

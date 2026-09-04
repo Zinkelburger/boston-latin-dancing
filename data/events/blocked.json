@@ -207,5 +207,82 @@
     "blocked_notes": "test submission; Gurgaon, not Boston",
     "location": "Striker Bar, Gurgaon",
     "block_key": "test social|striker bar gurgaon"
+  },
+  {
+    "id": "eb-1995337635581",
+    "name": "FREE Dance Fitness Class | Dance Latin Boston at The Greenway",
+    "source": "eventbrite-boston-latin",
+    "blocked_reason": "fitness class, not social dance",
+    "blocked_category": "class_only",
+    "blocked_at": "2026-09-04T17:57:42.881690+00:00",
+    "blocked_notes": "fitness class, not social dance",
+    "location": "Rowes Wharf Plaza, High Street, Boston, MA 02110, Boston, MA",
+    "block_key": "free dance fitness class dance latin boston at the greenway|rowes wharf plaza high street boston ma 02110 boston ma"
+  },
+  {
+    "id": "eb-1999266992393",
+    "name": "Newton Beginner Rumba Dance Class for Adults",
+    "source": "eventbrite-boston-latin",
+    "blocked_reason": "class, not social dance",
+    "blocked_category": "class_only",
+    "blocked_at": "2026-09-04T17:57:42.896268+00:00",
+    "blocked_notes": "class, not social dance",
+    "location": "101 Union St, 101 Union Street, Newton, MA 02459, Newton, MA",
+    "block_key": "newton beginner rumba dance class for adults|101 union st 101 union street newton ma 02459 newton ma"
+  },
+  {
+    "id": "eb-1993711267069",
+    "name": "Celebrate! with Veronica Robles Mariachi Band",
+    "source": "eventbrite-boston-latin",
+    "blocked_reason": "interactive music program, not a dance event",
+    "blocked_category": "not_dance",
+    "blocked_at": "2026-09-04T17:57:42.906689+00:00",
+    "blocked_notes": "interactive music program, not a dance event",
+    "location": "John F. Kennedy Presidential Library and Museum, Columbia Point, Boston, MA 02125, Boston, MA",
+    "block_key": "celebrate with veronica robles mariachi band|john f kennedy presidential library and museum columbia point boston ma 02125 boston ma"
+  },
+  {
+    "id": "eb-1998254740721",
+    "name": "N.E. Latin Comedy Festival",
+    "source": "eventbrite-boston-latin",
+    "blocked_reason": "comedy show, not a dance event",
+    "blocked_category": "not_dance",
+    "blocked_at": "2026-09-04T17:58:14.597535+00:00",
+    "blocked_notes": "comedy show, not a dance event",
+    "location": "Chelsea, 425 eastern ave, 105 Everett Ave, Chelsea, MA 02150, Chelsea, MA",
+    "block_key": "ne latin comedy festival|chelsea 425 eastern ave 105 everett ave chelsea ma 02150 chelsea ma"
+  },
+  {
+    "id": "eb-1999736029295",
+    "name": "Timba Musicality & Animations Workshop",
+    "source": "eventbrite-boston-latin",
+    "blocked_reason": "class, not social dance",
+    "blocked_category": "class_only",
+    "blocked_at": "2026-09-04T17:58:14.612000+00:00",
+    "blocked_notes": "class, not social dance",
+    "location": "620 Massachusetts Ave, 620 Massachusetts Avenue, Cambridge, MA 02139, Cambridge, MA",
+    "block_key": "timba musicality animations workshop|620 massachusetts ave 620 massachusetts avenue cambridge ma 02139 cambridge ma"
+  },
+  {
+    "id": "eb-1999236431986",
+    "name": "Noche Latina Dance Company - Ladies Salsa Team Tryouts",
+    "source": "eventbrite-boston-latin",
+    "blocked_reason": "performance-team audition, not social dance",
+    "blocked_category": "not_dance",
+    "blocked_at": "2026-09-04T18:00:04.210522+00:00",
+    "blocked_notes": "performance-team audition, not social dance",
+    "location": "Luna Fitness Club, 735 William T Morrissey Boulevard, Boston, MA 02122, Boston, MA",
+    "block_key": "noche latina dance company ladies salsa team tryouts|luna fitness club 735 william t morrissey boulevard boston ma 02122 boston ma"
+  },
+  {
+    "id": "9802609C-4946-4E9E-8E83-D491FE8F00A5",
+    "name": "Timba y Descontrol Cuban salsa lessons + social",
+    "source": "beatrice-calendar",
+    "blocked_reason": "Duplicate of the maintained Timba y Descontrol venue schedule; the Beatrice record carries an outdated class order, price, and late-night end time.",
+    "blocked_category": "duplicate_source",
+    "blocked_at": "2026-09-04T18:52:28.976601+00:00",
+    "blocked_notes": "Duplicate of the maintained Timba y Descontrol venue schedule; the Beatrice record carries an outdated class order, price, and late-night end time.",
+    "location": "Cambridge Common, Waterhouse St & Massachusetts Ave, Cambridge, MA 02138, USA",
+    "block_key": "timba y descontrol cuban salsa lessons social|cambridge common waterhouse st massachusetts ave cambridge ma 02138 usa"
   }
 ]

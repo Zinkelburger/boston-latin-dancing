@@ -545,6 +545,16 @@ def _wall_clock_minutes(event: dict) -> Optional[int]:
     return local.hour * 60 + local.minute
 
 
+def _named_weekdays_conflict(a: dict, b: dict) -> bool:
+    """True when both titles explicitly name different weekdays."""
+    def named(event: dict) -> set[str]:
+        title = (event.get("name") or "").lower()
+        return {day for day in DAYS_LIST if day.lower() in title}
+
+    days_a, days_b = named(a), named(b)
+    return bool(days_a and days_b and days_a.isdisjoint(days_b))
+
+
 def _series_signals_conflict(a: dict, b: dict) -> bool:
     """True when two same-venue, same-weekday recurring names read as two
     different nights: the titles name different styles (one says bachata,
@@ -677,6 +687,12 @@ def dedup_confidence(a: dict, b: dict) -> Optional[str]:
     # occurrence dates (>24h apart). Flag for review so they can be merged.
     within_7d = _dates_within(a, b, 168)
     if same_loc and (names_exact or names_substring or word_overlap_strong) and within_7d is True:
+        if (
+            (a.get("recurring") or a.get("recurrences"))
+            and (b.get("recurring") or b.get("recurrences"))
+            and _named_weekdays_conflict(a, b)
+        ):
+            return None
         return "review"
 
     return None
@@ -895,6 +911,33 @@ def merge_event(a: dict, b: dict) -> dict:
             if loser.get(key):
                 merged[key] = loser[key]
 
+    # Calendar providers sometimes replace a series UID while retaining its
+    # title, venue, weekday, and canonical URL. Dedup correctly recognizes the
+    # new UID as the same recurring event, but source precedence ties used to
+    # keep the older occurrence window forever. When two copies from the same
+    # source are recurring series, take the schedule with the furthest coverage
+    # (and, on a tie, the later start) so a fresh feed can extend the season.
+    elif (
+        a.get("source")
+        and a.get("source") == b.get("source")
+        and (a.get("recurring") or a.get("recurrences"))
+        and (b.get("recurring") or b.get("recurrences"))
+        and a.get("recurrences")
+        and b.get("recurrences")
+    ):
+        def _series_freshness(event: dict) -> tuple[datetime, datetime]:
+            floor = datetime.min.replace(tzinfo=timezone.utc)
+            return (
+                last_occurrence(event) or floor,
+                _parse_aware(event.get("startDate", "")) or floor,
+            )
+
+        freshest = max((a, b), key=_series_freshness)
+        if freshest is not winner:
+            for key in ("startDate", "endDate", "dayOfWeek", "recurrences"):
+                if freshest.get(key):
+                    merged[key] = freshest[key]
+
     return merged
 
 
@@ -1111,8 +1154,12 @@ def _venue_schedule_covers_event(venue_event: dict, ev: dict, day: str) -> bool:
     for entry in venue_event.get("schedule") or []:
         if entry.get("dayOfWeek") != day:
             continue
-        if dt is None or _matches_schedule_note(dt, entry.get("note", ""), day,
-                                                entry.get("anchor")):
+        if dt is None or (
+            _schedule_date_allowed(dt, entry)
+            and _matches_schedule_note(
+                dt, entry.get("note", ""), day, entry.get("anchor")
+            )
+        ):
             return True
     return False
 
@@ -1720,6 +1767,14 @@ def _parse_anchor(anchor: Optional[str]) -> Optional[datetime]:
         return None
 
 
+def _schedule_date_allowed(date: datetime, entry: dict) -> bool:
+    """Whether a schedule entry's optional seasonal bounds include ``date``."""
+    starts = _parse_anchor(entry.get("starts"))
+    until = _parse_anchor(entry.get("until"))
+    day = date.replace(hour=0, minute=0, second=0, microsecond=0)
+    return (starts is None or day >= starts) and (until is None or day <= until)
+
+
 def _matches_schedule_note(date: datetime, note: str, weekday_name: str,
                            anchor: Optional[str] = None) -> bool:
     """Does the schedule entry's note admit this date?
@@ -1771,7 +1826,11 @@ def expand_venues(weeks_ahead: int = 8) -> list[dict]:
             anchor = sched.get("anchor")
             d = today
             while d < end_window:
-                if d.isoweekday() % 7 == target_wday and d.strftime("%Y-%m-%d") not in exclude_dates:
+                if (
+                    d.isoweekday() % 7 == target_wday
+                    and d.strftime("%Y-%m-%d") not in exclude_dates
+                    and _schedule_date_allowed(d, sched)
+                ):
                     if _matches_schedule_note(d, note, day_name, anchor):
                         if time_range:
                             start_h, start_m = time_range[0]
@@ -2256,10 +2315,39 @@ def add_event(
                 _append_changelog("distinct_from", event["id"],
                                   f"pre-marked different from {other_id}")
 
+    active_match = find_duplicate_in(event, active)
     archive_match = find_duplicate_in(event, archive)
     if archive_match is not None and not force:
         archive_idx, conf = archive_match
         if conf == "certain":
+            # A source series can be archived under its old UID while a newer
+            # source has already added the current occurrence under another
+            # UID. Re-activating before checking active would create two pins
+            # for the same night on every scrape. Fold the refreshed series
+            # into the active copy and retire its archived predecessor.
+            if active_match is not None and active_match[1] == "certain":
+                active_idx = active_match[0]
+                existing = active[active_idx]
+                reason = _dedup_reason(existing, event, "certain")
+                active[active_idx] = merge_event(existing, event)
+                _enrich_event(active[active_idx])
+                save_active(active)
+                archived = archive.pop(archive_idx)
+                save_archive(archive)
+                _log_dedup("certain", existing, event, "certain", reason)
+                _clear_stale_rejected(event["id"])
+                _append_changelog(
+                    "merge_archived_series",
+                    event["id"],
+                    f"folded into active {existing['id']}",
+                )
+                return {
+                    "status": "duplicate",
+                    "confidence": "certain",
+                    "existing": active[active_idx],
+                    "retired_archive": archived["id"],
+                }
+
             # Only pull an event back out of the archive when the incoming
             # copy is actually upcoming. Stale scraped files re-listing past
             # dates must not ping-pong events between archive and active
@@ -2287,7 +2375,6 @@ def add_event(
             _append_changelog("reactivate", merged["id"], "from archive (certain)")
             return {"status": "reactivated", "confidence": conf, "event": merged}
 
-    active_match = find_duplicate_in(event, active)
     if active_match is not None:
         active_idx, conf = active_match
         existing = active[active_idx]
@@ -3447,12 +3534,13 @@ def validate_venue_schedule(schedule: list) -> list[str]:
 
     Each entry is an object with ``dayOfWeek`` (a full weekday name), an
     optional ``time`` the expander can parse ("9:00 PM – 1:00 AM" or a bare
-    "HH:MM"), an optional ``note`` string, and an optional ``anchor``
-    ("YYYY-MM-DD", the phase of an every-other-week schedule).
+    "HH:MM"), an optional ``note`` string, optional ``starts``/``until``
+    seasonal bounds, and an optional ``anchor`` ("YYYY-MM-DD", the phase of
+    an every-other-week schedule).
     """
     problems: list[str] = []
     if not isinstance(schedule, list) or not schedule:
-        return ["schedule must be a non-empty list of {dayOfWeek, time?, note?, anchor?} objects"]
+        return ["schedule must be a non-empty list of {dayOfWeek, time?, note?, starts?, until?, anchor?} objects"]
 
     for i, entry in enumerate(schedule):
         label = f"schedule[{i}]"
@@ -3477,6 +3565,15 @@ def validate_venue_schedule(schedule: list) -> list[str]:
         note = entry.get("note")
         if note is not None and not isinstance(note, str):
             problems.append(f"{label}: note must be a string (got {note!r})")
+
+        for bound in ("starts", "until"):
+            value = entry.get(bound)
+            if value is not None and (
+                not isinstance(value, str) or _parse_anchor(value) is None
+            ):
+                problems.append(
+                    f"{label}: {bound} must be a YYYY-MM-DD date (got {value!r})"
+                )
 
         anchor = entry.get("anchor")
         if anchor is not None:

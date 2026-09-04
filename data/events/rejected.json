@@ -1,1 +1,23 @@
-[]
+[
+  {
+    "id": "pr-festival-ma-festival-navideno-three-kings-celebration-1",
+    "name": "Festival Navideño & three kings celebration",
+    "startDate": "2026-12-12T19:00:00-05:00",
+    "endDate": "2026-12-12T23:30:00-05:00",
+    "dayOfWeek": "Saturday",
+    "location": "Florian Hall, 55 Hallet St, Boston, MA 02124, USA",
+    "lat": 42.282422,
+    "lng": -71.047645,
+    "description": "//www.eventbrite.com/e/1998537457334?aff=oddtdtcreator",
+    "url": "https://www.puertoricanfestivalofma.org/events-1/festival-navideno-three-kings-celebration-1",
+    "styles": [
+      "other"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "pr-festival-ma",
+    "_rejected_reason": "not Latin dance relevant (styles=['other'], no Latin terms)",
+    "_review_type": "non_latin",
+    "_rejected_at": "2026-09-04T17:53:19.223188+00:00"
+  }
+]

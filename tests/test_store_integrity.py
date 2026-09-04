@@ -480,6 +480,16 @@ def test_venues_json_anchor_is_validated():
     assert es.validate_venue_schedule([{"dayOfWeek": "Friday", "anchor": "next week"}])
 
 
+def test_venues_json_seasonal_bounds_are_validated():
+    ok = [{"dayOfWeek": "Tuesday", "starts": "2026-06-01", "until": "2026-09-30"}]
+    assert es.validate_venue_schedule(ok) == []
+    problems = es.validate_venue_schedule([
+        {"dayOfWeek": "Tuesday", "starts": "summer", "until": 20260930}
+    ])
+    assert len(problems) == 2
+    assert all("YYYY-MM-DD" in problem for problem in problems)
+
+
 # ── 14. stale startDate on a live series rolls forward at publish ─────
 
 def _series(**overrides):

@@ -866,3 +866,60 @@
 {"ts": "2026-08-27T22:02:47.441542+00:00", "action": "unblock", "event_id": "black-mamba-social", "details": "was: defunct"}
 {"ts": "2026-08-27T22:11:21.584241+00:00", "action": "edit", "event_id": "AB9A3E99-2637-4C54-9B88-3FD589F6CE1C", "details": "cleared _needs_manual_check: dancefam's page renders the UTC instant without converting, so its '12:30 AM - 5:00 AM' display is the bug. 8:30 PM - 1:00 AM is the only plausible reading for this event."}
 {"ts": "2026-08-28T15:23:02.486032+00:00", "action": "merge", "event_id": "jandl-20260821-boston-salsa-fest", "details": "folded into archived 1ee53ea9f8c2c3000235ffc8c5b0bc0abbf19b2d@dance-calendar (force-approve added it alongside instead of merging)"}
+{"ts": "2026-09-04T17:53:15.200271+00:00", "action": "add", "event_id": "90B09D86-A680-452E-9B0F-F2F78A22A27E", "details": ""}
+{"ts": "2026-09-04T17:53:16.247717+00:00", "action": "reactivate", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": "from archive (certain)"}
+{"ts": "2026-09-04T17:53:16.321254+00:00", "action": "add", "event_id": "0493050B-D22D-434D-A136-F6B8BF4C62A2", "details": ""}
+{"ts": "2026-09-04T17:53:16.429267+00:00", "action": "add", "event_id": "DB6EEA15-BBBF-4B11-9535-B155F849B584", "details": ""}
+{"ts": "2026-09-04T17:53:16.630344+00:00", "action": "add", "event_id": "44871B50-1FC1-446A-BBF7-05768DCFBBB8", "details": ""}
+{"ts": "2026-09-04T17:53:16.652152+00:00", "action": "reactivate", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": "from archive (certain)"}
+{"ts": "2026-09-04T17:53:16.798409+00:00", "action": "add", "event_id": "eb-1999343398927", "details": ""}
+{"ts": "2026-09-04T17:53:16.859999+00:00", "action": "add", "event_id": "eb-1999738598981", "details": ""}
+{"ts": "2026-09-04T17:53:17.738537+00:00", "action": "add", "event_id": "eb-1993711267069", "details": ""}
+{"ts": "2026-09-04T17:53:17.758781+00:00", "action": "add", "event_id": "eb-1998512589955", "details": ""}
+{"ts": "2026-09-04T17:53:18.819068+00:00", "action": "add", "event_id": "eb-1995337635581", "details": ""}
+{"ts": "2026-09-04T17:53:18.840738+00:00", "action": "add", "event_id": "eb-1998988732109", "details": ""}
+{"ts": "2026-09-04T17:53:18.863230+00:00", "action": "pending_review", "event_id": "eb-1998254740721", "details": "review dup of 0D2E7B82-58C2-4CA7-89C1-174364983C04: word_overlap(2/4)+within_24h"}
+{"ts": "2026-09-04T17:53:18.885896+00:00", "action": "add", "event_id": "eb-1999266992393", "details": ""}
+{"ts": "2026-09-04T17:53:18.910272+00:00", "action": "add", "event_id": "eb-1999236431986", "details": ""}
+{"ts": "2026-09-04T17:53:18.933745+00:00", "action": "add", "event_id": "eb-1999208211578", "details": ""}
+{"ts": "2026-09-04T17:53:19.036680+00:00", "action": "pending_review", "event_id": "eb-1999736029295", "details": "review dup of 5ED3301D-8CE8-45D1-8094-C380C699DA99: word_overlap(0/2)+within_24h+same_location+same_day"}
+{"ts": "2026-09-04T17:53:19.218006+00:00", "action": "add", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-09-10-20-45", "details": ""}
+{"ts": "2026-09-04T17:53:19.220989+00:00", "action": "reject_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-09-20-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-09-04T17:53:19.223870+00:00", "action": "reject_non_latin", "event_id": "pr-festival-ma-festival-navideno-three-kings-celebration-1", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-09-04T17:53:19.432815+00:00", "action": "archive", "event_id": "mato-salsa-night-at-the-grove-27-aug-2026", "details": ""}
+{"ts": "2026-09-04T17:53:19.432914+00:00", "action": "archive", "event_id": "7EE9F55F-DC66-4E39-B19F-BD3E19C6387B", "details": ""}
+{"ts": "2026-09-04T17:53:19.432964+00:00", "action": "archive", "event_id": "AB9A3E99-2637-4C54-9B88-3FD589F6CE1C", "details": ""}
+{"ts": "2026-09-04T17:53:19.433005+00:00", "action": "archive", "event_id": "eb-1996831355337", "details": ""}
+{"ts": "2026-09-04T17:53:19.433071+00:00", "action": "archive", "event_id": "7D289883-0E47-4FD6-9604-693C13FFD0A5", "details": ""}
+{"ts": "2026-09-04T17:53:19.433108+00:00", "action": "archive", "event_id": "fiesta-20260828-sol-de-mexico-milford", "details": ""}
+{"ts": "2026-09-04T17:53:19.433223+00:00", "action": "archive", "event_id": "823B2F4E-5C48-4CB4-A8A0-ED4279C959DE", "details": ""}
+{"ts": "2026-09-04T17:53:19.433261+00:00", "action": "archive", "event_id": "8CCA30E6-6C4B-4E0E-8A78-BCA2C5761DE2", "details": ""}
+{"ts": "2026-09-04T17:53:19.433322+00:00", "action": "archive", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": ""}
+{"ts": "2026-09-04T17:53:19.433365+00:00", "action": "archive", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": ""}
+{"ts": "2026-09-04T17:56:22.333214+00:00", "action": "add", "event_id": "dantes-salsa-20260904-0", "details": ""}
+{"ts": "2026-09-04T17:56:37.141728+00:00", "action": "reject", "event_id": "eb-1998254740721", "details": "comedy show, not a dance event"}
+{"ts": "2026-09-04T17:56:37.152195+00:00", "action": "reject", "event_id": "eb-1999736029295", "details": "class, not social dance"}
+{"ts": "2026-09-04T17:57:42.885326+00:00", "action": "block", "event_id": "eb-1995337635581", "details": "class_only: fitness class, not social dance"}
+{"ts": "2026-09-04T17:57:42.897811+00:00", "action": "block", "event_id": "eb-1999266992393", "details": "class_only: class, not social dance"}
+{"ts": "2026-09-04T17:57:42.907717+00:00", "action": "block", "event_id": "eb-1993711267069", "details": "not_dance: interactive music program, not a dance event"}
+{"ts": "2026-09-04T17:58:08.676157+00:00", "action": "add", "event_id": "eb-1998254740721", "details": ""}
+{"ts": "2026-09-04T17:58:08.832129+00:00", "action": "add", "event_id": "eb-1999736029295", "details": ""}
+{"ts": "2026-09-04T17:58:14.601036+00:00", "action": "block", "event_id": "eb-1998254740721", "details": "not_dance: comedy show, not a dance event"}
+{"ts": "2026-09-04T17:58:14.613360+00:00", "action": "block", "event_id": "eb-1999736029295", "details": "class_only: class, not social dance"}
+{"ts": "2026-09-04T17:59:23.780057+00:00", "action": "edit", "event_id": "0493050B-D22D-434D-A136-F6B8BF4C62A2", "details": "{\"lat\": 42.3720443, \"lng\": -71.0858265}"}
+{"ts": "2026-09-04T17:59:23.790044+00:00", "action": "edit", "event_id": "44871B50-1FC1-446A-BBF7-05768DCFBBB8", "details": "{\"lat\": 42.393693, \"lng\": -71.119445}"}
+{"ts": "2026-09-04T18:00:04.212246+00:00", "action": "block", "event_id": "eb-1999236431986", "details": "not_dance: performance-team audition, not social dance"}
+{"ts": "2026-09-04T18:02:32.829176+00:00", "action": "remove", "event_id": "lister-earlier-time-bachata-salsa-by-the-river", "details": "merge exact duplicate into matching Beatrice record"}
+{"ts": "2026-09-04T18:51:07.937614+00:00", "action": "reactivate", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": "from archive (certain)"}
+{"ts": "2026-09-04T18:51:08.474810+00:00", "action": "reactivate", "event_id": "6p0q976tmk0ub5vt98dhuugd5i_R20240803T233000@google.com", "details": "from archive (certain)"}
+{"ts": "2026-09-04T18:51:08.519456+00:00", "action": "reactivate", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": "from archive (certain)"}
+{"ts": "2026-09-04T18:51:08.756166+00:00", "action": "archive", "event_id": "3790430d888b0c93c24fc92d257af99149a9ca16@dance-calendar", "details": ""}
+{"ts": "2026-09-04T18:51:08.756385+00:00", "action": "archive", "event_id": "130F0122-6C01-443F-AD1D-5B40E8F046CF", "details": ""}
+{"ts": "2026-09-04T18:51:35.573847+00:00", "action": "edit", "event_id": "5ED3301D-8CE8-45D1-8094-C380C699DA99", "details": "{\"_location_override\": \"Jill Brown Rhone Park, 389 Massachusetts Ave, Cambridge, MA 02139\", \"location\": \"Jill Brown Rhone Park, 389 Massachusetts Ave, Cambridge, MA 02139\"}"}
+{"ts": "2026-09-04T18:51:41.296179+00:00", "action": "edit", "event_id": "5ED3301D-8CE8-45D1-8094-C380C699DA99", "details": "{\"endDate\": \"2026-09-06T21:00:00-04:00\", \"description\": \"Free Rueda de Casino lesson for all levels at 6:00 PM, followed by social dancing from 7:00 PM to 9:00 PM. Sundays at Jill Brown Rhone Park in Central Square.\", \"url\": \"https://www.facebook.com/events/1702605367827796/1735471407874525/\", \"urls\": [\"https://www.facebook.com/groups/1429334677328445/\"]}"}
+{"ts": "2026-09-04T18:51:52.348058+00:00", "action": "edit", "event_id": "m493k99gsroqpbockbf2e5cgi7@google.com", "details": "{\"startDate\": \"2026-09-03T21:30:00-04:00\", \"endDate\": \"2026-09-04T00:00:00-04:00\", \"dayOfWeek\": \"Thursday\", \"url\": \"https://kizboston.com/\", \"urls\": [\"https://www.facebook.com/Ceijaykiz\"], \"recurrences\": [\"2026-09-03T21:30:00-04:00\", \"2026-09-10T21:30:00-04:00\", \"2026-09-17T21:30:00-04:00\", \"2026-09-24T21:30:00-04:00\", \"2026-10-01T21:30:00-04:00\", \"2026-10-08T21:30:00-04:00\", \"2026-10-15T21:30:00-04:00\", \"2026-10-22T21:30:00-04:00\", \"2026-10-29T21:30:00-04:00\", \"2026-11-05T21:30:00-05:00\", \"2026-11-12T21:30:00-05:00\", \"2026-11-19T21:30:00-05:00\"]}"}
+{"ts": "2026-09-04T18:52:23.076884+00:00", "action": "edit", "event_id": "C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5", "details": "{\"description\": \"Lili Latin Dance's monthly Saz\\u00f3n Saturday social, with Salsa, Bachata, Merengue, a pre-social workshop, and occasional performances. Event programming may vary by month; check Lili's official Workshops/Events page for the latest details.\", \"url\": \"https://www.lili.dance/workshops\", \"urls\": [\"https://www.instagram.com/p/DZF_C5HpIe3/\"]}"}
+{"ts": "2026-09-04T18:52:28.978898+00:00", "action": "block", "event_id": "9802609C-4946-4E9E-8E83-D491FE8F00A5", "details": "duplicate_source: Duplicate of the maintained Timba y Descontrol venue schedule; the Beatrice record carries an outdated class order, price, and late-night end time."}
+{"ts": "2026-09-04T18:56:06.240276+00:00", "action": "edit", "event_id": "6p0q976tmk0ub5vt98dhuugd5i_R20240803T233000@google.com", "details": "{\"startDate\": \"2026-10-03T19:30:00-04:00\", \"endDate\": \"2026-10-03T23:30:00-04:00\", \"dayOfWeek\": \"Saturday\", \"recurrences\": [\"2026-10-03T19:30:00-04:00\", \"2026-11-07T19:30:00-05:00\"], \"url\": \"https://www.unabulla.com/boston\", \"urls\": [\"https://www.facebook.com/bostonguateque/\"]}"}
+{"ts": "2026-09-04T18:57:52.692978+00:00", "action": "venue_conflict_resolved", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-09-10-20-45", "details": "duplicate vs hub havana-club: This is the lesson component of Havana Club's normal Thursday bachata night and explicitly continues into the same social; one venue pin is correct."}
+{"ts": "2026-09-04T18:58:46.355611+00:00", "action": "approve_rejected", "event_id": "nlf-events-egleston-park-summer-socials-2026-09-20-14-00", "details": "promoted from rejected queue"}

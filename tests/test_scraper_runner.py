@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import functools
 import json
+import re
 import sys
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -411,6 +412,19 @@ def test_facebook_normalizes_the_default_raw_file(registry, monkeypatch):
     assert ev["styles"] == ["bachata"]
 
 
+def test_facebook_explicit_empty_raw_is_a_healthy_no_upcoming_result(registry, monkeypatch):
+    import scrape_facebook
+    monkeypatch.setattr(scrape_facebook, "SCRAPED_DIR", su.SCRAPED_DIR)
+    write_json(scrape_facebook.raw_input_path("bobas"), [])
+    write_json(su.scraped_path("bobas"), [future_event("bobas", name="Old listing")])
+
+    assert scrape_facebook.main(["bobas"]) == 0
+    assert read_json(su.scraped_path("bobas")) == []
+    health = su.load_scrape_health()["bobas"]
+    assert health["status"] == "skipped"
+    assert health["note"] == "browser confirmed no upcoming Facebook events"
+
+
 def test_facebook_yearless_date_rolls_forward_not_back():
     import scrape_facebook
     today = date(2026, 12, 20)
@@ -528,8 +542,8 @@ def test_scrape_eventbrite_fixture():
 
 def test_scrape_eventbrite_drops_non_dance_pages():
     import scrape_eventbrite as eb
-    html = fixture("eventbrite_event.html").replace("Bachata", "Pottery").replace("bachata", "pottery") \
-        .replace("Salsa room too.", "Glazing demo too.")
+    html = fixture("eventbrite_event.html").replace("Bachata", "Pottery").replace("bachata", "pottery")
+    html = re.sub(r"Salsa room\s+too\.", "Glazing demo too.", html)
     assert eb.parse_event_page(html, "https://www.eventbrite.com/e/x-tickets-1") is None
 
 

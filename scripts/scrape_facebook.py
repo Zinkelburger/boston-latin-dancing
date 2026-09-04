@@ -50,6 +50,7 @@ from atomic_io import read_json
 from scraper_utils import (
     NY_TZ,
     SCRAPED_DIR,
+    ScrapeResult,
     ScraperSkipped,
     detect_styles,
     extract_cost,
@@ -199,7 +200,9 @@ def raw_input_path(source_id: str) -> Path:
     return SCRAPED_DIR / f"{source_id}-raw.json"
 
 
-def fetch_source(source: dict, from_file_path: Path | None = None) -> list[dict]:
+def fetch_source(
+    source: dict, from_file_path: Path | None = None
+) -> list[dict] | ScrapeResult:
     """Normalize a source's raw events file; skip (untouched) when there is none."""
     source_id = source["id"]
     fb_url = source.get("facebook_events_url", "")
@@ -223,6 +226,18 @@ def fetch_source(source: dict, from_file_path: Path | None = None) -> list[dict]
         raise ScraperSkipped(f"no raw input at {path.name}; existing scrape left as is")
 
     print(f"Loading from file: {path}")
+    raw_events = read_json(path)
+    if raw_events == []:
+        # For browser-driven Facebook sources an explicit [] is meaningful:
+        # the agent reached the Events tab and found only Past events.  It is
+        # not the structural-zero signal used by HTML parsers, because this
+        # script does not parse Facebook markup itself.
+        return ScrapeResult(
+            events=[],
+            raw_found=0,
+            note="browser confirmed no upcoming Facebook events",
+            skipped=True,
+        )
     return from_file(path, source_id, defaults)
 
 

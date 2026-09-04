@@ -236,13 +236,15 @@
     "styles": [
       "salsa"
     ],
-    "cost": null,
-    "description": "Asere, qué bolá!? Dance group dedicated to spreading the love for Cuban music and dance.\n\nWeather permitting. Check WhatsApp.",
-    "recurrenceLabel": "Usually Tuesdays",
+    "cost": "$5",
+    "description": "Outdoor Cuban dance and music for all levels at Cambridge Common.\n\n6:00 PM beginner lesson\n7:00 PM intermediate class\n8:00 PM social dancing\n\nWeather permitting; running Tuesdays through September. Check Instagram or WhatsApp for weather updates.",
+    "recurrenceLabel": "Tuesdays through September (weather permitting)",
     "schedule": [
       {
         "dayOfWeek": "Tuesday",
-        "time": "6:00 PM – 8:00 PM"
+        "time": "6:00 PM – 9:00 PM",
+        "note": "Through September; weather permitting",
+        "until": "2026-09-30"
       }
     ],
     "slug": "timba-y-descontrol-timba-y"
