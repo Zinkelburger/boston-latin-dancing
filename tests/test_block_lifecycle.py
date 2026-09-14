@@ -49,9 +49,39 @@ class TestGeoFence:
         assert not _in_active(store, "evt-1")
 
     def test_event_without_coords_is_not_out_of_area(self, store):
-        # No coordinates -> can't be judged, must pass the guard (helper is pure,
-        # so this avoids the network geocoder in add_event).
+        # No coordinates and no state in the text -> can't be judged, must pass
+        # the guard (helper is pure, so this avoids the network geocoder).
         assert store._is_out_of_area(_event(lat=None, lng=None)) is False
+        assert store._is_out_of_area(_event(lat=None, lng=None, location="Public Garden")) is False
+        assert store._is_out_of_area(_event(lat=None, lng=None, location="Cambridge, Massachusetts")) is False
+
+    @pytest.mark.parametrize("location", [
+        "Dallas, TX",
+        "New York, NY",
+        "230 Fifth Rooftop Bar, 230 5th Ave, New York, NY 10001",
+        "San Diego, CA, USA",
+        "Orlando, FL, United States",
+    ])
+    def test_uncoordinated_event_in_far_state_is_out_of_area(self, store, location):
+        # The geocoder refuses hits >50km from Boston and leaves lat/lng empty,
+        # so the text is the only signal left. A trailing state code outside
+        # New England settles it.
+        assert store._is_out_of_area(_event(lat=None, lng=None, location=location)) is True
+
+    @pytest.mark.parametrize("location", [
+        "Lawrence, MA 01843",
+        "Providence, RI",
+        "Nashua, NH, USA",
+        "Meet me at the park, come on in",   # lower-case words are not state codes
+        "1 Eaton Street,Lawrence,01843,US",   # no state code at all
+    ])
+    def test_uncoordinated_new_england_or_stateless_event_passes(self, store, location):
+        assert store._is_out_of_area(_event(lat=None, lng=None, location=location)) is False
+
+    def test_uncoordinated_far_state_event_rejected_at_ingest(self, store):
+        result = store.add_event(_event(lat=None, lng=None, location="New York, NY"))
+        assert result["status"] == "rejected_out_of_area"
+        assert not _in_active(store, "evt-1")
 
     def test_rescrape_flipping_out_of_area_purges_stale_active_copy(self, store):
         store.save_active([_event()])

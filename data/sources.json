@@ -143,7 +143,8 @@
     "scraper": "scrape_ics.py",
     "enabled": true,
     "url": "https://calendar.google.com/calendar/ical/76db9d79f4cf645f26e28373c575d9fcb865a264521c8f0880044b4e7283ead7%40group.calendar.google.com/public/basic.ics",
-    "latin_by_default": true
+    "latin_by_default": true,
+    "group_series": true
   },
   {
     "id": "fiesta-dance-company",
@@ -384,16 +385,16 @@
     "id": "jandl-events",
     "type": "custom",
     "scraper": "scrape_jandl.py",
-    "name": "J&L Dance Studio",
+    "name": "Buena Vibra Dance Studio (formerly J&L Dance Studio)",
     "noise": {
-      "score": 18,
-      "note": "Sitewide upcoming-events bar mixes workshops, closures, and socials; scraper keeps danceable listings (socials, parties, underground, fests they promote)."
+      "score": 5,
+      "note": "Studio's own socials page; every dated row is a social. Rebranded from J&L Dance Studio in Sept 2026 — old announcement-bar scraper retired."
     },
-    "url": "https://jandldancestudio.com/events",
-    "website": "https://jandldancestudio.com",
+    "url": "https://buenavibradance.com/socials",
+    "website": "https://buenavibradance.com",
     "instagram_handle": "jl_dancestudio",
     "defaults": {
-      "location": "J&L Dance Studio, 75 Pleasant St #125, Malden, MA 02148"
+      "location": "Buena Vibra Dance Studio (formerly J&L), 75 Pleasant St, Suite 125, Malden, MA 02148"
     },
     "enabled": true,
     "latin_by_default": true

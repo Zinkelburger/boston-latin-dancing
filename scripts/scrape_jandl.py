@@ -1,29 +1,29 @@
 #!/usr/bin/env python3
-"""Scrape J&L Dance Studio's sitewide upcoming-events announcement bar.
+"""Scrape Buena Vibra Dance Studio's (formerly J&L Dance Studio) socials page.
 
-The studio lists official dates (socials, parties, fests they host or promote,
-studio closures, workshops) in a Squarespace announcement bar. There is no
-JSON-LD Event feed. We parse `websiteSettings.announcementBarSettings` from
-`/events?format=json` and keep listings you could show up and dance at —
-socials, parties, underground nights, festivals — not classes, workshops,
-beginner cycles, or "studio closed" notes.
+The studio rebranded in September 2026: jandldancestudio.com now redirects to
+buenavibradance.com, the sitewide announcement bar this scraper used to parse
+is gone, and there is no JSON-LD Event feed. Upcoming socials are announced on
+one static page, ``/socials``, as prose::
 
-Date-only listings use midnight local with start === end (do not invent hours),
-except J&L Underground Social, whose 7–11pm run-of-show is on the dedicated
-social page.
+    Upcoming Social Oct. 3rd
+    COST: $15 CASH ONLY
+    TIME: 7-11PM
+    MUSIC FORMAT: 70% BACHATA, 30% SALSA
+
+We read the dates off the "Upcoming Social" heading and the run-of-show from
+the labelled lines. Nothing here is a class, so every dated row is an event.
+Scrape health keys on the heading: a page that loads but has no "Upcoming
+Social" line is ``structure_missing``, not "no socials this month".
 """
 
 from __future__ import annotations
 
-import hashlib
 import html as html_lib
-import json
 import re
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
-
-from bs4 import BeautifulSoup
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from scraper_utils import (
@@ -40,45 +40,34 @@ from scraper_utils import (
 )
 
 SOURCE_ID = "jandl-events"
-EVENTS_URL = "https://jandldancestudio.com/events"
-UNDERGROUND_URL = "https://jandldancestudio.com/jl-underground-social"
-STUDIO = "J&L Dance Studio, 75 Pleasant St #125, Malden, MA 02148"
+SOCIALS_URL = "https://buenavibradance.com/socials"
+STUDIO = "Buena Vibra Dance Studio (formerly J&L), 75 Pleasant St, Suite 125, Malden, MA 02148"
 STUDIO_LAT = 42.4271
 STUDIO_LNG = -71.0662
+SOCIAL_NAME = "Buena Vibra Dance Social"
+ORGANIZER = "Buena Vibra Dance Studio"
+DEFAULT_HOURS = (19, 23)  # standing 7–11 PM run-of-show, used only if TIME: is absent
 
-_MONTH = MONTH_NAME_RE
-_DAY = DAY_NUM_RE
-# "August 17th" | "August 21-23" | "August 31st-September 8th" | "September 9th & 14th"
-DATE_HEAD_RE = re.compile(
-    rf"^\s*({_MONTH})\s+({_DAY})"
-    rf"(?:\s*[-–]\s*(?:({_MONTH})\s+)?({_DAY}))?"
-    rf"(?:\s*&\s*({_DAY}))?"
-    rf"\s*:?\s*(.*)$",
-    re.I | re.S,
-)
-PROMO_CODE_RE = re.compile(r"\s*[-–—]\s*code\s+(\S+)\s*$", re.I)
-SKIP_RE = re.compile(
-    r"studio\s+closed|\bclosed\b|beginner\s+cycles?|new\s+cycles?\s+begin",
+_MONTH_DAY = rf"{MONTH_NAME_RE}\.?\s+{DAY_NUM_RE}"
+UPCOMING_RE = re.compile(
+    rf"Upcoming\s+Socials?\s*:?\s*((?:{_MONTH_DAY}(?:\s*(?:,|&|and|\+|/)\s*)?)+)",
     re.I,
 )
-KEEP_RE = re.compile(
-    r"\b(practice\s+social|underground|party|parties|fest|festival|"
-    r"congress|weekender|practica|baile)\b",
+MONTH_DAY_RE = re.compile(rf"({MONTH_NAME_RE})\.?\s+({DAY_NUM_RE})", re.I)
+TIME_RE = re.compile(
+    r"TIME\s*:\s*(\d{1,2})(?::(\d{2}))?\s*(am|pm)?\s*[-–to]+\s*(\d{1,2})(?::(\d{2}))?\s*(am|pm)",
     re.I,
 )
-SOCIAL_RE = re.compile(r"\bsocials?\b", re.I)
-SOCIAL_FALSE_FRIEND_RE = re.compile(
-    r"social\s+dance\s+(safety|etiquette|technique|workshop)",
-    re.I,
-)
-WORKSHOP_RE = re.compile(r"\b(workshop|class|classes|technique|lesson|lessons|training)\b", re.I)
-STYLE_NIGHT_RE = re.compile(
-    r"\b(salsa|bachata|kizomba|merengue|zouk)\b.*\b(night|baile)\b|"
-    r"\b(night|baile)\b.*\b(salsa|bachata|kizomba|merengue|zouk)\b",
-    re.I,
-)
-OFFSITE_RE = re.compile(r"\b(fest|festival|congress|weekender)\b", re.I)
-STUDIO_HOSTED_RE = re.compile(r"j\s*&\s*l|underground|studio", re.I)
+COST_RE = re.compile(r"COST\s*:\s*(\$\s?\d+(?:\.\d{2})?(?:\s+cash(?:\s+only)?)?)", re.I)
+FORMAT_RE = re.compile(r"MUSIC\s+FORMAT\s*:\s*((?:\d+%\s*[A-Za-z]+[,\s]*)+)", re.I)
+STYLE_WORDS = ("bachata", "salsa", "kizomba", "merengue", "zouk", "cumbia")
+
+
+def page_text(html: str) -> str:
+    """Visible text of a Squarespace page, whitespace collapsed."""
+    text = re.sub(r"<(script|style).*?</\1>", " ", html, flags=re.I | re.S)
+    text = re.sub(r"<[^>]+>", " ", text)
+    return re.sub(r"\s+", " ", html_lib.unescape(text)).strip()
 
 
 def _ordinal_day(token: str) -> int:
@@ -95,246 +84,124 @@ def _month_num(token: str) -> int:
 def resolve_year(month: int, day: int, now: datetime) -> datetime | None:
     """Attach a year (shared rollover rule): dates more than a week in the
     past roll to next year, unless that lands more than ~6 months out — a
-    stale leftover on the bar. Returns a midnight Eastern datetime."""
+    stale leftover on the page. Returns a midnight Eastern datetime."""
     when = _resolve_year_date(month, day, now)
     if when is None:
         return None
     return datetime(when.year, when.month, when.day, tzinfo=NY_TZ)
 
 
-def parse_date_head(date_and_title: str, now: datetime) -> list[dict]:
-    """Return [{start, end, title}, ...] for one announcement line."""
-    m = DATE_HEAD_RE.match(date_and_title.strip())
+def parse_hours(text: str) -> tuple[tuple[int, int], tuple[int, int]] | None:
+    """``TIME: 7-11PM`` → ((19, 0), (23, 0)). A start with no am/pm borrows
+    the end's; an end that lands before the start crosses midnight."""
+    m = TIME_RE.search(text)
     if not m:
-        return []
-    month_a, day_a, month_b, day_b, day_and, rest = m.groups()
-    title = re.sub(r"\s+", " ", (rest or "").strip())
-    start_month = _month_num(month_a)
-    start_day = _ordinal_day(day_a)
-    start = resolve_year(start_month, start_day, now)
-    if start is None:
-        return []
-
-    # "Sep 9th & 14th" → two dated copies of the same title
-    if day_and and not day_b:
-        second = resolve_year(start_month, _ordinal_day(day_and), now)
-        out = [{"start": start, "end": start, "title": title}]
-        if second is not None:
-            out.append({"start": second, "end": second, "title": title})
-        return out
-
-    if day_b:
-        end_month = _month_num(month_b) if month_b else start_month
-        end_day = _ordinal_day(day_b)
-        end = resolve_year(end_month, end_day, now)
-        if end is None:
-            end = start
-        # Range that wraps the year (Dec 28–Jan 3) after start resolved to this Dec.
-        if end < start:
-            try:
-                end = datetime(start.year + 1, end_month, end_day, tzinfo=NY_TZ)
-            except ValueError:
-                end = start
-        # "August 21-23" names an inclusive last day; store it the way the
-        # calendar feeds do — iCalendar's DTEND for an all-day event is
-        # exclusive — so the UI can render one date range from either source.
-        if end > start:
-            end += timedelta(days=1)
-        return [{"start": start, "end": end, "title": title}]
-
-    return [{"start": start, "end": start, "title": title}]
-
-
-def is_danceable(title: str) -> bool:
-    """Keep listings you could show up and dance at; drop classes and closures."""
-    if not title or SKIP_RE.search(title):
-        return False
-    if SOCIAL_FALSE_FRIEND_RE.search(title):
-        return False
-    if KEEP_RE.search(title):
-        return True
-    if SOCIAL_RE.search(title) and not WORKSHOP_RE.search(title):
-        return True
-    if STYLE_NIGHT_RE.search(title) and not WORKSHOP_RE.search(title):
-        return True
-    return False
-
-
-def split_titles(title: str) -> list[str]:
-    """One bar line can pack several same-day items separated by semicolons."""
-    parts = [p.strip(" .") for p in title.split(";")]
-    return [p for p in parts if p]
-
-
-def strip_promo(title: str) -> tuple[str, str | None]:
-    m = PROMO_CODE_RE.search(title)
-    if not m:
-        return title.strip(), None
-    return title[: m.start()].strip(), m.group(1).strip()
-
-
-def slug_id(start: datetime, name: str) -> str:
-    slug = re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")[:40]
-    event_id = f"jandl-{start.strftime('%Y%m%d')}-{slug}"
-    if len(event_id) > 64:
-        event_id = f"jandl-{start.strftime('%Y%m%d')}-{hashlib.sha1(name.encode()).hexdigest()[:10]}"
-    return event_id
-
-
-def extract_announcement_html(page_json: dict) -> str:
-    settings = (page_json.get("websiteSettings") or {}).get("announcementBarSettings") or {}
-    return settings.get("text") or ""
-
-
-def parse_announcement_items(announcement_html: str, now: datetime) -> list[dict]:
-    """Parse dated list items from the announcement-bar HTML.
-
-    Returns raw dated rows (including workshops/closures) so scrape health can
-    tell 'bar is empty/unparseable' from 'nothing danceable this week'.
-    """
-    if not announcement_html:
-        return []
-    soup = BeautifulSoup(announcement_html, "html.parser")
-    items = []
-    for li in soup.find_all("li"):
-        text = html_lib.unescape(li.get_text(" ", strip=True))
-        text = re.sub(r"\s+", " ", text).strip()
-        items.extend(parse_date_head(text, now))
-    if items:
-        return items
-    # Fallback: no <li>, try paragraph lines.
-    for node in soup.find_all(["p", "div"]):
-        text = html_lib.unescape(node.get_text(" ", strip=True))
-        text = re.sub(r"\s+", " ", text).strip()
-        items.extend(parse_date_head(text, now))
-    return items
-
-
-def _is_offsite(name: str) -> bool:
-    return bool(OFFSITE_RE.search(name)) and not STUDIO_HOSTED_RE.search(name)
-
-
-def _is_underground(name: str) -> bool:
-    return bool(re.search(r"underground", name, re.I))
-
-
-def row_to_event(start: datetime, end: datetime, title: str, listing_url: str) -> dict | None:
-    name, promo = strip_promo(title)
-    if not name or not is_danceable(name):
         return None
+    sh, sm, sap, eh, em, eap = m.groups()
+    sap = (sap or eap).lower()
+    eap = eap.lower()
 
-    underground = _is_underground(name)
-    offsite = _is_offsite(name)
+    def to24(h: str, ap: str) -> int:
+        h = int(h) % 12
+        return h + 12 if ap == "pm" else h
 
-    if underground:
-        # Standing run-of-show is on the dedicated social page, not guessed.
-        start = start.replace(hour=19, minute=0, second=0, microsecond=0)
-        end = start.replace(hour=23, minute=0)
-        location = STUDIO
-        lat, lng = STUDIO_LAT, STUDIO_LNG
-        url = UNDERGROUND_URL
-        cost = "$15"
-        description = (
-            "Listed on J&L Dance Studio's upcoming-events bar.\n\n"
-            "J&L Underground Social at J&L Dance Studio, 75 Pleasant Street #125, "
-            "1st Floor, Malden, MA.\n"
-            "7:00pm–8:00pm Bachata Footwork Challenge (or beginner crash course).\n"
-            "8:00pm–11:00pm social dancing (bachata with salsa/kizomba/merengue).\n"
-            "$15 cash at the door."
-        )
-        styles = ["bachata", "salsa", "kizomba", "merengue"]
-    elif offsite:
-        # The bar gives a title and a link, never a venue. "Boston, MA" is the
-        # honest answer, but geocoding it pins the event on City Hall, so ship
-        # it without coordinates rather than inventing an address.
-        location = "Boston, MA"
-        lat = lng = None
-        url = listing_url
-        cost = None
-        description = (
-            f"Listed on J&L Dance Studio's upcoming-events bar as {name}. "
-            "This is an event J&L is promoting — venue is not the Malden studio."
-        )
-        if promo:
-            description += f" J&L promo code: {promo}."
-        styles = None
-    else:
-        # Date-only studio listing — do not invent hours.
-        location = STUDIO
-        lat, lng = STUDIO_LAT, STUDIO_LNG
-        url = listing_url
-        cost = None
-        description = (
-            f"Listed on J&L Dance Studio's upcoming-events bar: {name}.\n"
-            f"J&L Dance Studio, 75 Pleasant Street #125, Malden, MA."
-        )
-        styles = None
+    return (to24(sh, sap), int(sm or 0)), (to24(eh, eap), int(em or 0))
+
+
+def parse_socials_page(html: str, now: datetime) -> list[dict]:
+    """Return one raw row per date on the "Upcoming Social" heading.
+
+    Rows carry the page's run-of-show (hours, cost, music format) so the
+    caller never invents them; missing pieces are ``None``.
+    """
+    text = page_text(html)
+    m = UPCOMING_RE.search(text)
+    if not m:
+        return []
+    hours = parse_hours(text)
+    cost_m = COST_RE.search(text)
+    cost = re.sub(r"\s+", " ", cost_m.group(1)).strip() if cost_m else None
+    fmt_m = FORMAT_RE.search(text)
+    music_format = fmt_m.group(1).strip().rstrip(",").strip() if fmt_m else None
+
+    rows: list[dict] = []
+    seen: set[str] = set()
+    for month_tok, day_tok in MONTH_DAY_RE.findall(m.group(1)):
+        start = resolve_year(_month_num(month_tok), _ordinal_day(day_tok), now)
+        if start is None or start.isoformat() in seen:
+            continue
+        seen.add(start.isoformat())
+        rows.append({"date": start, "hours": hours, "cost": cost, "music_format": music_format})
+    return rows
+
+
+def _styles_from_format(music_format: str | None) -> list[str] | None:
+    if not music_format:
+        return None
+    found = [s for s in STYLE_WORDS if re.search(rf"\b{s}\b", music_format, re.I)]
+    return found or None
+
+
+def slug_id(start: datetime) -> str:
+    return f"jandl-{start.strftime('%Y%m%d')}-buena-vibra-social"
+
+
+def row_to_event(row: dict, listing_url: str) -> dict:
+    day: datetime = row["date"]
+    (sh, sm), (eh, em) = row["hours"] or ((DEFAULT_HOURS[0], 0), (DEFAULT_HOURS[1], 0))
+    start = day.replace(hour=sh, minute=sm)
+    end = day.replace(hour=eh, minute=em)
+    if end <= start:
+        end += timedelta(days=1)
+
+    lines = [
+        f"Monthly social at {ORGANIZER} (formerly J&L Dance Studio / J&L Underground Social), "
+        "75 Pleasant Street, Suite 125, 1st Floor, Malden, MA.",
+    ]
+    if row["music_format"]:
+        lines.append(f"Music format: {row['music_format']}.")
+    if row["cost"]:
+        lines.append(f"Cost: {row['cost']}.")
+    lines.append(
+        "Ample street parking free after 7pm; CBD and Jackson Street garages $1.25/hour. "
+        "5 minute walk from Malden Center (Orange Line). All levels welcome."
+    )
 
     ev = make_event(
-        id=slug_id(start, name),
-        name="J&L Underground Social" if underground else name,
+        id=slug_id(start),
+        name=SOCIAL_NAME,
         start=start,
         end=end,
-        location=location,
-        lat=lat,
-        lng=lng,
-        description=description,
-        url=url,
-        styles=styles,
-        cost=cost,
+        location=STUDIO,
+        lat=STUDIO_LAT,
+        lng=STUDIO_LNG,
+        description="\n".join(lines),
+        url=listing_url,
+        styles=_styles_from_format(row["music_format"]),
+        cost=row["cost"],
         source=SOURCE_ID,
-        venue_unknown=offsite,
     )
-    ev["organizer"] = "J&L Dance Studio"
+    ev["organizer"] = ORGANIZER
     return ev
-
-
-def items_to_events(items: list[dict], listing_url: str) -> list[dict]:
-    events: list[dict] = []
-    seen: set[str] = set()
-    for item in items:
-        for title in split_titles(item["title"]):
-            ev = row_to_event(item["start"], item["end"], title, listing_url)
-            if not ev or ev["id"] in seen:
-                continue
-            seen.add(ev["id"])
-            events.append(ev)
-            print(f"  [keep] {ev['startDate'][:10]}  {ev['name']}")
-    return events
-
-
-def fetch_page_json(listing_url: str) -> dict:
-    resp = fetch(
-        listing_url,
-        browser=True,
-        params={"format": "json"},
-        headers={"Accept": "application/json, text/html;q=0.9"},
-        timeout=20,
-    )
-    try:
-        return resp.json()
-    except json.JSONDecodeError as e:
-        raise RuntimeError(f"Squarespace did not return JSON for {listing_url}") from e
 
 
 def fetch_events(listing_url: str, now: datetime | None = None) -> tuple[list[dict], int]:
     now = now or datetime.now(NY_TZ)
-    page = fetch_page_json(listing_url)
-    html = extract_announcement_html(page)
-    raw_items = parse_announcement_items(html, now)
-    print(f"Found {len(raw_items)} dated announcement item(s)")
-    for item in raw_items:
-        flag = "keep" if any(is_danceable(t) for t in split_titles(item["title"])) else "skip"
-        print(f"  [{flag}] {item['start'].strftime('%Y-%m-%d')}  {item['title']}")
-    events = items_to_events(raw_items, listing_url)
-    return events, len(raw_items)
+    html = fetch(listing_url, browser=True, timeout=20).text
+    rows = parse_socials_page(html, now)
+    print(f"Found {len(rows)} dated social(s) on the Upcoming Social heading")
+    events = [row_to_event(row, listing_url) for row in rows]
+    for ev in events:
+        print(f"  [keep] {ev['startDate'][:16]}  {ev['name']}  {ev.get('cost') or ''}")
+    return events, len(rows)
 
 
 def fetch_source(source: dict) -> ScrapeResult:
-    listing_url = source.get("url") or EVENTS_URL
-    print(f"Fetching J&L announcement bar from {listing_url}?format=json")
+    listing_url = source.get("url") or SOCIALS_URL
+    print(f"Fetching Buena Vibra socials page {listing_url}")
     events, raw_found = fetch_events(listing_url)
-    return ScrapeResult(events, raw_found=raw_found)
+    note = "" if raw_found else "page loaded but has no 'Upcoming Social' heading — layout changed?"
+    return ScrapeResult(events, raw_found=raw_found, note=note)
 
 
 def main(argv: list[str] | None = None) -> int:

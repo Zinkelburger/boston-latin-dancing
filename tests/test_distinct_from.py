@@ -7,7 +7,9 @@ known_duplicates.json (the verdict store distinct_from writes to).
 """
 
 import sys
+from datetime import datetime, timedelta
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import pytest
 
@@ -15,6 +17,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import event_store as es
 
+# Relative like the other fixtures: hardcoded dates rot into the past and
+# add_event then answers skipped_past instead of exercising dedup.
+_NY = ZoneInfo("America/New_York")
+_FEST = (datetime.now(_NY) + timedelta(days=30)).replace(hour=20, minute=0, second=0, microsecond=0)
+_FEST_START = _FEST.isoformat()
+_FEST_END = _FEST.replace(hour=23, minute=59).isoformat()
+_PRE_START = (_FEST - timedelta(days=1)).replace(hour=21).isoformat()
+_PRE_END = _FEST.replace(hour=1, minute=0).isoformat()
 
 
 
@@ -22,8 +32,8 @@ def _festival(**overrides):
     base = {
         "id": "bsf-main",
         "name": "Boston Salsa Festival",
-        "startDate": "2026-09-12T20:00:00-04:00",
-        "endDate": "2026-09-12T23:59:00-04:00",
+        "startDate": _FEST_START,
+        "endDate": _FEST_END,
         "location": "100 Main St, Boston, MA",
         "lat": 42.36,
         "lng": -71.06,
@@ -43,8 +53,8 @@ def _preparty(**overrides):
     return _festival(
         id="bsf-preparty",
         name="Pre-Party: Boston Salsa Festival",
-        startDate="2026-09-11T21:00:00-04:00",
-        endDate="2026-09-12T01:00:00-04:00",
+        startDate=_PRE_START,
+        endDate=_PRE_END,
         location="5 River St, Cambridge, MA",
         lat=42.37,
         lng=-71.10,

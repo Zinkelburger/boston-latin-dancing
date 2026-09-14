@@ -9,6 +9,7 @@ Usage: python3 scripts/scrape_ics.py [<source_id>]   (default: beatrice-calendar
 Outputs: data/scraped/<source_id>.json
 """
 
+import hashlib
 import re
 import sys
 from datetime import date, datetime, timedelta, timezone
@@ -32,6 +33,10 @@ from scraper_utils import (
 DEFAULT_SOURCE_ID = "beatrice-calendar"
 
 RRULE_HORIZON_WEEKS = 12
+
+# Per-date copies of the same weekly night collapse into one series record
+# once this many line up (same name, venue, weekday, clock time).
+SERIES_MIN_OCCURRENCES = 2
 
 
 def _ical_dt_to_datetime(dt_val) -> datetime | None:
@@ -86,15 +91,68 @@ def _fix_rrule_until(rule_str: str, tz=NY_TZ) -> str:
     return re.sub(r"UNTIL=(\d{8}T\d{6}|\d{8})(?![\dTZ])", _to_utc, rule_str)
 
 
+def _series_key(ev: dict) -> tuple[str, str, int, str]:
+    name = re.sub(r"\W+", " ", ev["name"].lower()).strip()
+    location = re.sub(r"\W+", " ", (ev.get("location") or "").lower()).strip()
+    start = datetime.fromisoformat(ev["startDate"]).astimezone(NY_TZ)
+    return (name, location, start.weekday(), start.strftime("%H:%M"))
+
+
+def group_series(events: list[dict], source_id: str) -> list[dict]:
+    """Collapse per-date copies of one weekly night into a single series record.
+
+    Some calendars enter a standing night as separate events rather than an
+    RRULE — eight "Friday Night Bachata @ Havana Club" VEVENTs, one per week,
+    each with its own UID. Ingested as-is, every one is a brand-new event
+    that lands in the review queue, and the queue refills as the calendar
+    rolls forward. Grouping them yields what an RRULE would have: one
+    recurring record with ``recurrences`` listing every date.
+
+    The series id is a stable hash of (name, venue, weekday, time), never a
+    member's UID — a UID belongs to one date and vanishes when that date
+    passes, which would mint a fresh id every week. Records that are already
+    recurring, and singletons, pass through untouched.
+    """
+    groups: dict[tuple, list[dict]] = {}
+    order: list[tuple] = []
+    for ev in events:
+        key = ("_solo", ev["id"]) if ev.get("recurring") or ev.get("recurrences") else _series_key(ev)
+        if key not in groups:
+            groups[key] = []
+            order.append(key)
+        groups[key].append(ev)
+
+    out: list[dict] = []
+    for key in order:
+        members = groups[key]
+        if key[0] == "_solo" or len(members) < SERIES_MIN_OCCURRENCES:
+            out.extend(members)
+            continue
+        members.sort(key=lambda e: e["startDate"])
+        series = dict(members[0])
+        digest = hashlib.sha1("|".join(map(str, key)).encode("utf-8")).hexdigest()[:12]
+        series["id"] = f"{source_id}-series-{digest}"
+        series["recurring"] = True
+        series["recurrences"] = [m["startDate"] for m in members]
+        # The first date's copy may be the thin one; borrow what any sibling has.
+        for field in ("description", "url", "cost"):
+            if not series.get(field):
+                series[field] = next((m[field] for m in members if m.get(field)), series.get(field))
+        out.append(series)
+    return out
+
+
 def parse_ics_feed(
     ics_text: str,
     source_id: str = DEFAULT_SOURCE_ID,
     now: datetime | None = None,
+    collapse_series: bool = False,
 ) -> list[dict]:
     """Parse an ICS feed and return a list of upcoming DanceEvent dicts.
 
     ``now`` (tz-aware) pins the "upcoming" window for tests; it defaults to
-    the current UTC time.
+    the current UTC time. ``collapse_series`` runs :func:`group_series` over
+    the result (sources.json ``"group_series": true``).
     """
     cal = Calendar.from_ical(ics_text)
     now = (now or datetime.now(timezone.utc)) - timedelta(days=1)
@@ -180,6 +238,11 @@ def parse_ics_feed(
             ev["recurrences"] = [s.isoformat() for s, _ in occurrences]
         events.append(ev)
 
+    if collapse_series:
+        before = len(events)
+        events = group_series(events, source_id)
+        if len(events) != before:
+            print(f"  Collapsed {before} entries into {len(events)} (per-date copies grouped into series)")
     return events
 
 
@@ -192,7 +255,9 @@ def fetch_source(source: dict) -> ScrapeResult:
     ics_text = fetch(ics_url, timeout=30).text
     print(f"[{source_id}] Fetched {len(ics_text)} bytes")
 
-    events = parse_ics_feed(ics_text, source_id=source_id)
+    events = parse_ics_feed(
+        ics_text, source_id=source_id, collapse_series=bool(source.get("group_series")),
+    )
     print(f"[{source_id}] Parsed {len(events)} future events")
 
     with_coords = sum(1 for e in events if e.get("lat") and e.get("lng"))

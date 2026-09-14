@@ -140,7 +140,10 @@ def test_archived_series_refresh_merges_into_existing_active_occurrence(store):
 
 def test_genuinely_finished_series_still_archives(store):
     """The guard must not keep a series alive after its last night."""
-    store.save_active([_series([_sunday(-3), _sunday(-2), _sunday(-1)])])
+    # Last night at least a week back: archive_past_events keeps a 24-hour
+    # grace window, so a series whose final Sunday was yesterday is (rightly)
+    # still live on Monday, and the test would flake one day in seven.
+    store.save_active([_series([_sunday(-4), _sunday(-3), _sunday(-2)])])
 
     archived = store.archive_past_events()
 

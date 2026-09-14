@@ -2165,17 +2165,44 @@ def _trusted_latin_sources() -> set:
     }
 
 
+# A location that ends in a US state code ("Dallas, TX", "New York, NY 10001",
+# "San Diego, CA, USA"). Upper-case only: a case-insensitive match would read
+# the last word of "come on in" as Indiana.
+_TRAILING_STATE_RE = re.compile(
+    r"(?:^|[,\s])"
+    r"(A[KLRZ]|C[AOT]|D[CE]|FL|GA|HI|I[ADLN]|K[SY]|LA|M[ADEINOST]|N[CDEHJMVY]"
+    r"|O[HKR]|PA|RI|S[CD]|T[NX]|UT|V[AT]|W[AIVY])"
+    r"(?:\s+\d{5}(?:-\d{4})?)?"
+    r"(?:,?\s*(?:US|USA|U\.S\.A?\.?|United States))?\s*$"
+)
+_NEW_ENGLAND_STATES = frozenset({"MA", "NH", "RI", "CT", "ME", "VT"})
+
+
+def _location_names_far_state(location: str) -> bool:
+    """True if ``location`` ends in a US state outside New England.
+
+    The text fallback for events the geocoder refused to place: it rejects a
+    hit more than MAX_DISTANCE_KM from Boston and leaves lat/lng empty, so a
+    calendar entry for "Dallas, TX" reaches ingest with no coordinates and
+    would otherwise land in the review queue every week.
+    """
+    m = _TRAILING_STATE_RE.search((location or "").strip())
+    return bool(m) and m.group(1) not in _NEW_ENGLAND_STATES
+
+
 def _is_out_of_area(event: dict) -> bool:
-    """True if the event's coordinates are clearly outside the Boston metro area.
+    """True if the event is clearly outside the Boston metro area.
 
     Feed sources (beatrice-calendar, eventbrite, etc.) supply explicit lat/lng,
     which bypass the geocoder's own distance rejection. This rule catches the
     whole class of out-of-area events at ingest, so they never need per-event
-    blocking. Events without coordinates can't be judged here and pass through.
+    blocking. An event without coordinates is judged on its location text
+    alone: a trailing non-New-England state code is out of area, anything
+    else passes through.
     """
     lat, lng = event.get("lat"), event.get("lng")
     if lat is None or lng is None:
-        return False
+        return _location_names_far_state(event.get("location") or "")
     return not _is_near_boston(lat, lng)
 
 
