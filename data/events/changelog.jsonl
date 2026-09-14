@@ -923,3 +923,285 @@
 {"ts": "2026-09-04T18:56:06.240276+00:00", "action": "edit", "event_id": "6p0q976tmk0ub5vt98dhuugd5i_R20240803T233000@google.com", "details": "{\"startDate\": \"2026-10-03T19:30:00-04:00\", \"endDate\": \"2026-10-03T23:30:00-04:00\", \"dayOfWeek\": \"Saturday\", \"recurrences\": [\"2026-10-03T19:30:00-04:00\", \"2026-11-07T19:30:00-05:00\"], \"url\": \"https://www.unabulla.com/boston\", \"urls\": [\"https://www.facebook.com/bostonguateque/\"]}"}
 {"ts": "2026-09-04T18:57:52.692978+00:00", "action": "venue_conflict_resolved", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-09-10-20-45", "details": "duplicate vs hub havana-club: This is the lesson component of Havana Club's normal Thursday bachata night and explicitly continues into the same social; one venue pin is correct."}
 {"ts": "2026-09-04T18:58:46.355611+00:00", "action": "approve_rejected", "event_id": "nlf-events-egleston-park-summer-socials-2026-09-20-14-00", "details": "promoted from rejected queue"}
+{"ts": "2026-09-14T20:44:12.288467+00:00", "action": "quarantine_new", "event_id": "ACFDF41C-8D66-402C-9AE9-FD0610D0AECE", "details": ""}
+{"ts": "2026-09-14T20:44:14.717285+00:00", "action": "quarantine_new", "event_id": "C9CAE836-FB31-4084-9A49-C29FA7B39B4B", "details": ""}
+{"ts": "2026-09-14T20:44:14.740174+00:00", "action": "quarantine_new", "event_id": "5F90AF62-ECCD-4488-9D03-B22A6C5F59DE", "details": ""}
+{"ts": "2026-09-14T20:44:14.759941+00:00", "action": "pending_review", "event_id": "53AC7485-D946-4CD6-BC98-C0375DCBD433", "details": "review dup of mato-salsa-night-at-the-grove-24-sep-2026: word_overlap(2/3)+same_location"}
+{"ts": "2026-09-14T20:44:14.781298+00:00", "action": "merge_archived_series", "event_id": "17B59BFA-7A09-43FF-AC91-5FE0FCC569F7", "details": "folded into active jandl-20261003-j-l-underground-social"}
+{"ts": "2026-09-14T20:44:14.798616+00:00", "action": "quarantine_new", "event_id": "24B35DF9-A95C-484E-BD02-8541376BBB5A", "details": ""}
+{"ts": "2026-09-14T20:44:15.603927+00:00", "action": "merge_archived_series", "event_id": "_6crjic1k6co68e1o71h30opp6dhj4d36ccsj4p1i6krm2php74oj8eb175hm2c9m81i62rj3ckmm6obccln68obi_R20260616T220000@google.com", "details": "folded into active _6crjic1k6co68e1o71h30opp6dhj4d36ccsj4p1i6krm2php74oj8eb175hm2c9m81i62rj3ckmm6obccln68obi_R20260616T220000@google.com"}
+{"ts": "2026-09-14T20:44:15.633268+00:00", "action": "quarantine_new", "event_id": "C77130B0-73C6-4597-9875-A786F4EA78D4", "details": ""}
+{"ts": "2026-09-14T20:44:15.689975+00:00", "action": "reactivate", "event_id": "8CCA30E6-6C4B-4E0E-8A78-BCA2C5761DE2", "details": "from archive (certain)"}
+{"ts": "2026-09-14T20:44:15.706992+00:00", "action": "quarantine_new", "event_id": "3E9BE4C2-2D1C-4F89-8C5E-7DDC9F911A00", "details": ""}
+{"ts": "2026-09-14T20:44:15.727456+00:00", "action": "pending_review", "event_id": "A182D62F-04B8-4A49-ACD3-2022AD66E6C5", "details": "review dup of mato-salsa-night-at-the-grove-24-sep-2026: word_overlap(2/3)+same_location"}
+{"ts": "2026-09-14T20:44:15.804746+00:00", "action": "quarantine_new", "event_id": "eb-2000530615925", "details": ""}
+{"ts": "2026-09-14T20:44:15.821958+00:00", "action": "quarantine_new", "event_id": "eb-2000220483310", "details": ""}
+{"ts": "2026-09-14T20:44:15.866066+00:00", "action": "quarantine_new", "event_id": "eb-2000162886035", "details": ""}
+{"ts": "2026-09-14T20:44:15.883571+00:00", "action": "quarantine_new", "event_id": "eb-1998801431889", "details": ""}
+{"ts": "2026-09-14T20:44:15.900427+00:00", "action": "quarantine_new", "event_id": "eb-2000672130198", "details": ""}
+{"ts": "2026-09-14T20:44:15.930619+00:00", "action": "quarantine_new", "event_id": "eb-2000213523493", "details": ""}
+{"ts": "2026-09-14T20:44:15.947549+00:00", "action": "quarantine_new", "event_id": "eb-1999208401145", "details": ""}
+{"ts": "2026-09-14T20:44:15.965486+00:00", "action": "quarantine_new", "event_id": "eb-1999871365088", "details": ""}
+{"ts": "2026-09-14T20:44:16.060139+00:00", "action": "quarantine_new", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-09-17-20-45", "details": ""}
+{"ts": "2026-09-14T20:44:16.064038+00:00", "action": "reject_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-09-20-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-09-14T20:44:16.066522+00:00", "action": "reject_non_latin", "event_id": "nlf-events-next-level-open-house-season-9-1", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-09-14T20:44:16.068741+00:00", "action": "reject_non_latin", "event_id": "pr-festival-ma-festival-navideno-three-kings-celebration-1", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-09-14T20:44:17.303295+00:00", "action": "quarantine_new", "event_id": "d9s0i8d42dfq8gnjvts7ngj7k8@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:17.320728+00:00", "action": "quarantine_new", "event_id": "3p3qtfn70na8iq6lr8t9m3q7us@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:17.356028+00:00", "action": "quarantine_new", "event_id": "7ikr3fpblv53r0h3imsc9c19to@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:17.373431+00:00", "action": "quarantine_new", "event_id": "tcpp7fo326lcdilndunqh7bpnc@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:17.389562+00:00", "action": "quarantine_new", "event_id": "bnlrioh11as2kiih0pliphju5k@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:17.406976+00:00", "action": "quarantine_new", "event_id": "hng53nohnu1bv9v46eul9oqacc@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:19.504729+00:00", "action": "quarantine_new", "event_id": "h1s8tcn0kr93sn5ghb9a1bfmbs@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:19.520252+00:00", "action": "quarantine_new", "event_id": "hgkmrtsmanjqnlm4cmv2akum3o@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:19.536482+00:00", "action": "quarantine_new", "event_id": "fs470hl1oajnmsrjc7a8lbnk78@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:19.552607+00:00", "action": "quarantine_new", "event_id": "ud3la8rkf42f62ta790a57os6o@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:19.569585+00:00", "action": "quarantine_new", "event_id": "4b7pftjmfu1r4l86jaop49n5js@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:19.585175+00:00", "action": "quarantine_new", "event_id": "0a1bepshes6s6o9smocspvvc88@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:19.606353+00:00", "action": "quarantine_new", "event_id": "hrtgsa1h7o8aptbfmtl9s5iufg@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:19.636864+00:00", "action": "quarantine_new", "event_id": "qcn8bn6hfc07dueqfgc5a2ier0@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:19.652163+00:00", "action": "quarantine_new", "event_id": "mu7r23l3fdn8f9bgc23rpt4gkk@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:19.667621+00:00", "action": "quarantine_new", "event_id": "4eae3hjrtmnrghulr8b7b0g014@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:19.683274+00:00", "action": "quarantine_new", "event_id": "3idtl54ae5jr1c3hj5ba2dial4@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:19.698944+00:00", "action": "quarantine_new", "event_id": "bmrd2ev53cb19m0n7bqvfkk7gs@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:19.720708+00:00", "action": "quarantine_new", "event_id": "usunkpg48pvjkauigr7b8ff4s4@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:19.735787+00:00", "action": "quarantine_new", "event_id": "esk7d6r15e9h5hqgfb2vl7j79s@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:19.751353+00:00", "action": "quarantine_new", "event_id": "7rkqml1vrije9kk1bdsp1riglk@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:19.768177+00:00", "action": "quarantine_new", "event_id": "kj4ju9tj5gvtc5po7amf7nlf4g@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:20.604874+00:00", "action": "quarantine_new", "event_id": "ai8ep10ivibu10km0kk5ag4c0o@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:20.620959+00:00", "action": "quarantine_new", "event_id": "ju1ge6hq6rom6oia51lbhuinu4@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:20.636887+00:00", "action": "quarantine_new", "event_id": "6b96rsnqa302mqre9t59em9ipg@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:20.653678+00:00", "action": "quarantine_new", "event_id": "h1e4fvc4un4fok90o5f2i88928@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:20.685006+00:00", "action": "quarantine_new", "event_id": "t2ik2r1l9vjjh4f34o4l0mris8@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:20.701930+00:00", "action": "quarantine_new", "event_id": "5vpsvv083qinekd3sfear8kfet@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:20.717734+00:00", "action": "quarantine_new", "event_id": "2kd264aron5uuke3h0ijhmn5js@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:20.733646+00:00", "action": "quarantine_new", "event_id": "kv236g7abots1vnin8kqdov110@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:21.703855+00:00", "action": "quarantine_new", "event_id": "hofc6ai1j7fgh40kncq7oi18sc@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:21.736022+00:00", "action": "quarantine_new", "event_id": "ofulgra00lnd0ftd7nvipvkbq0@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:21.752309+00:00", "action": "quarantine_new", "event_id": "3ko4qkifo4bepdftf1gge7qsso@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:21.768952+00:00", "action": "quarantine_new", "event_id": "2f6fq4cg3k5ge82l76se7b0pac@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:21.797379+00:00", "action": "quarantine_new", "event_id": "eb6hbvk052htqs6jj7lbsckqfo@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:21.814054+00:00", "action": "quarantine_new", "event_id": "qkckfuef86v6f032jjb1jfgf1o@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:21.830763+00:00", "action": "quarantine_new", "event_id": "9rs929h3sgaovolujacq89e1h4@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:21.846271+00:00", "action": "quarantine_new", "event_id": "e2gk2jnaasv9obbc3c60h3usj0@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:21.862683+00:00", "action": "quarantine_new", "event_id": "hga712qikj5bs88jfipl8v5e1o@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:21.878257+00:00", "action": "quarantine_new", "event_id": "c3ml36kire6a74gktbl2mqkbr4@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:21.897328+00:00", "action": "quarantine_new", "event_id": "vsj2vu8r6caipad60qd83o5vqs@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:21.913501+00:00", "action": "quarantine_new", "event_id": "tp1ibqup89osnmcfg858vu3768@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:21.930540+00:00", "action": "quarantine_new", "event_id": "fnht1iun7hd7g7cnsmtndag9io@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:21.946341+00:00", "action": "quarantine_new", "event_id": "3qebdvl061jvl68jrl48093lk8@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:21.965168+00:00", "action": "quarantine_new", "event_id": "fh0adau8areq1nn3bb0huk8dkk@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:21.998487+00:00", "action": "quarantine_new", "event_id": "tf78ruilmeplbln4licmmjcsks@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:22.016207+00:00", "action": "quarantine_new", "event_id": "3nnlrd2fb78861bih3q8g6vo28@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:22.032072+00:00", "action": "quarantine_new", "event_id": "b9v58n7069hskptuh6oo81njp4@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:22.064478+00:00", "action": "quarantine_new", "event_id": "ph19vthgfuuebj4pka3eek4gpk@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:22.079905+00:00", "action": "quarantine_new", "event_id": "vq92pe81g4atdf6c8njpksi728@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:22.097127+00:00", "action": "quarantine_new", "event_id": "fmoajbs9opnb8b404tdavbc100@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:22.113906+00:00", "action": "quarantine_new", "event_id": "anb3veqrg1cq89gd4g2g71sguk@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:22.806709+00:00", "action": "quarantine_new", "event_id": "iuok8hvsdr0echm6cba9c4hfl4@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:22.825421+00:00", "action": "quarantine_new", "event_id": "6us3psncn7dkllgmnc0qknp8es@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:22.842511+00:00", "action": "quarantine_new", "event_id": "s7o9748d88g4johvnv7g1khnv4@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:22.858375+00:00", "action": "quarantine_new", "event_id": "r00f9r114jcnk14ck3k1dp3v7g@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:22.875105+00:00", "action": "quarantine_new", "event_id": "fbirtro3getsc91e0c7f8tca50@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:22.891466+00:00", "action": "quarantine_new", "event_id": "78uhis7pd33gp56rqvrv1l2bmg@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:22.907402+00:00", "action": "quarantine_new", "event_id": "4rvnlnl11nk56rl206hv8s4j04@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:22.923935+00:00", "action": "quarantine_new", "event_id": "6u8qtdjerldpivgkpdmbn4u5ts@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:22.940314+00:00", "action": "quarantine_new", "event_id": "v77pd72gsfccf6uf1mo17uq5as@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:22.956341+00:00", "action": "quarantine_new", "event_id": "0vn8h4ed8u8pvnhvlbj2ooaemk@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:22.972574+00:00", "action": "quarantine_new", "event_id": "rr5mkk4ols07h530pmkiceatq0@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:23.913031+00:00", "action": "quarantine_new", "event_id": "7qnbpqpjmlcpl9h0adi305potk@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:23.935898+00:00", "action": "quarantine_new", "event_id": "1u0d97chqv68v8l9bulqojv8fk@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:23.956223+00:00", "action": "quarantine_new", "event_id": "ovinff4n4d8q3uf1n4knidio7g@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:23.972713+00:00", "action": "quarantine_new", "event_id": "egu2bm1o4ggtb9v3ddi9tut1rc@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:23.989444+00:00", "action": "quarantine_new", "event_id": "ihdlub43p7cro5pkbfbopoir5c@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:25.006503+00:00", "action": "quarantine_new", "event_id": "hav4qli2lfpicv1m0qvr79r6ck@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:25.037752+00:00", "action": "quarantine_new", "event_id": "ffapcujsms6cv2piu92u4qd0bk@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:25.056041+00:00", "action": "quarantine_new", "event_id": "24l8fhrsqr31ov0b82ra1vrt9g@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:25.073396+00:00", "action": "quarantine_new", "event_id": "fc3rq3t1dmql0mq8efdebctpok@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:25.093387+00:00", "action": "pending_review", "event_id": "q3b3gdaf68ptmm9iefb4kuc1hs@google.com", "details": "review dup of 90B09D86-A680-452E-9B0F-F2F78A22A27E: word_overlap(0/5)+within_24h+same_location+same_day"}
+{"ts": "2026-09-14T20:44:25.109251+00:00", "action": "quarantine_new", "event_id": "gtfvks9t8oj44reqhcvs05me4k@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:25.126155+00:00", "action": "quarantine_new", "event_id": "3nt2pbj3matnv0s7jf5379hnps@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:25.142310+00:00", "action": "quarantine_new", "event_id": "p72uepnh7hperjbj3701uj24kc@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:25.161287+00:00", "action": "pending_review", "event_id": "1msf14rt5djm194rq2lnbea928@google.com", "details": "review dup of C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5: word_overlap(0/2)+within_24h+same_location+same_day"}
+{"ts": "2026-09-14T20:44:25.176265+00:00", "action": "quarantine_new", "event_id": "kp355pg408kpnreg80oabllvuc@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:25.193471+00:00", "action": "quarantine_new", "event_id": "a0bv08c4mjs7336f6nmauumncc@google.com", "details": ""}
+{"ts": "2026-09-14T20:44:25.211537+00:00", "action": "quarantine_new", "event_id": "tambo-salsa-fb-20261030-0", "details": ""}
+{"ts": "2026-09-14T20:44:25.228239+00:00", "action": "archive", "event_id": "0D2E7B82-58C2-4CA7-89C1-174364983C04", "details": ""}
+{"ts": "2026-09-14T20:44:25.228318+00:00", "action": "archive", "event_id": "92e81fecab09b574610defbe21d157c83a289704@dance-calendar", "details": ""}
+{"ts": "2026-09-14T20:44:25.228393+00:00", "action": "archive", "event_id": "E69B54FA-330F-42FD-B113-B6331D4DF842", "details": ""}
+{"ts": "2026-09-14T20:44:25.228445+00:00", "action": "archive", "event_id": "40604F5D-9503-41AB-B87C-8AA21BC364F4", "details": ""}
+{"ts": "2026-09-14T20:44:25.228490+00:00", "action": "archive", "event_id": "837D1E85-F1BF-4DB6-B03D-710CE18620B3", "details": ""}
+{"ts": "2026-09-14T20:44:25.228519+00:00", "action": "archive", "event_id": "fiesta-20260911-agave-mexican-grill-cantina-marlborough", "details": ""}
+{"ts": "2026-09-14T20:44:25.228554+00:00", "action": "archive", "event_id": "eb-1998309494491", "details": ""}
+{"ts": "2026-09-14T20:44:25.228623+00:00", "action": "archive", "event_id": "eb-1998486474844", "details": ""}
+{"ts": "2026-09-14T20:44:25.228650+00:00", "action": "archive", "event_id": "7C868F69-F754-4064-ADF6-BC8A5FC6F4DF", "details": ""}
+{"ts": "2026-09-14T20:44:25.228694+00:00", "action": "archive", "event_id": "0493050B-D22D-434D-A136-F6B8BF4C62A2", "details": ""}
+{"ts": "2026-09-14T20:44:25.228720+00:00", "action": "archive", "event_id": "DB6EEA15-BBBF-4B11-9535-B155F849B584", "details": ""}
+{"ts": "2026-09-14T20:44:25.228745+00:00", "action": "archive", "event_id": "44871B50-1FC1-446A-BBF7-05768DCFBBB8", "details": ""}
+{"ts": "2026-09-14T20:44:25.228771+00:00", "action": "archive", "event_id": "eb-1999343398927", "details": ""}
+{"ts": "2026-09-14T20:44:25.228802+00:00", "action": "archive", "event_id": "eb-1999208211578", "details": ""}
+{"ts": "2026-09-14T20:44:25.228827+00:00", "action": "archive", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-09-10-20-45", "details": ""}
+{"ts": "2026-09-14T20:44:25.228852+00:00", "action": "archive", "event_id": "dantes-salsa-20260904-0", "details": ""}
+{"ts": "2026-09-14T20:55:08.245082+00:00", "action": "quarantine_new", "event_id": "sensualeros-boston-series-a227772d8b85", "details": ""}
+{"ts": "2026-09-14T20:55:08.267499+00:00", "action": "pending_review", "event_id": "sensualeros-boston-series-2db8e232ec42", "details": "review dup of 90B09D86-A680-452E-9B0F-F2F78A22A27E: word_overlap(0/5)+within_24h+same_location+same_day"}
+{"ts": "2026-09-14T20:55:08.356135+00:00", "action": "quarantine_new", "event_id": "sensualeros-boston-series-2c3260e1b0fb", "details": ""}
+{"ts": "2026-09-14T20:55:09.432521+00:00", "action": "pending_review", "event_id": "jandl-20261003-buena-vibra-social", "details": "review dup of 17B59BFA-7A09-43FF-AC91-5FE0FCC569F7: word_overlap(1/3)+within_24h+same_location+same_day"}
+{"ts": "2026-09-14T20:57:28.382548+00:00", "action": "reject", "event_id": "d9s0i8d42dfq8gnjvts7ngj7k8@google.com", "details": "out of area (non-New-England); ingest now rejects these automatically"}
+{"ts": "2026-09-14T20:57:28.385106+00:00", "action": "reject", "event_id": "3p3qtfn70na8iq6lr8t9m3q7us@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.387476+00:00", "action": "reject", "event_id": "7ikr3fpblv53r0h3imsc9c19to@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.390664+00:00", "action": "reject", "event_id": "tcpp7fo326lcdilndunqh7bpnc@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.392622+00:00", "action": "reject", "event_id": "bnlrioh11as2kiih0pliphju5k@google.com", "details": "out of area (non-New-England); ingest now rejects these automatically"}
+{"ts": "2026-09-14T20:57:28.394250+00:00", "action": "reject", "event_id": "hng53nohnu1bv9v46eul9oqacc@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.395747+00:00", "action": "reject", "event_id": "h1s8tcn0kr93sn5ghb9a1bfmbs@google.com", "details": "out of area (non-New-England); ingest now rejects these automatically"}
+{"ts": "2026-09-14T20:57:28.397312+00:00", "action": "reject", "event_id": "hgkmrtsmanjqnlm4cmv2akum3o@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.398871+00:00", "action": "reject", "event_id": "fs470hl1oajnmsrjc7a8lbnk78@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.400391+00:00", "action": "reject", "event_id": "ud3la8rkf42f62ta790a57os6o@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.402082+00:00", "action": "reject", "event_id": "4b7pftjmfu1r4l86jaop49n5js@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.404123+00:00", "action": "reject", "event_id": "0a1bepshes6s6o9smocspvvc88@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.405723+00:00", "action": "reject", "event_id": "hrtgsa1h7o8aptbfmtl9s5iufg@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.407257+00:00", "action": "reject", "event_id": "qcn8bn6hfc07dueqfgc5a2ier0@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.408815+00:00", "action": "reject", "event_id": "mu7r23l3fdn8f9bgc23rpt4gkk@google.com", "details": "out of area (non-New-England); ingest now rejects these automatically"}
+{"ts": "2026-09-14T20:57:28.410347+00:00", "action": "reject", "event_id": "4eae3hjrtmnrghulr8b7b0g014@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.411989+00:00", "action": "reject", "event_id": "3idtl54ae5jr1c3hj5ba2dial4@google.com", "details": "out of area (non-New-England); ingest now rejects these automatically"}
+{"ts": "2026-09-14T20:57:28.413484+00:00", "action": "reject", "event_id": "bmrd2ev53cb19m0n7bqvfkk7gs@google.com", "details": "out of area (non-New-England); ingest now rejects these automatically"}
+{"ts": "2026-09-14T20:57:28.414865+00:00", "action": "reject", "event_id": "usunkpg48pvjkauigr7b8ff4s4@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.416336+00:00", "action": "reject", "event_id": "esk7d6r15e9h5hqgfb2vl7j79s@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.417738+00:00", "action": "reject", "event_id": "7rkqml1vrije9kk1bdsp1riglk@google.com", "details": "out of area (non-New-England); ingest now rejects these automatically"}
+{"ts": "2026-09-14T20:57:28.419099+00:00", "action": "reject", "event_id": "kj4ju9tj5gvtc5po7amf7nlf4g@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.420554+00:00", "action": "reject", "event_id": "ai8ep10ivibu10km0kk5ag4c0o@google.com", "details": "out of area (non-New-England); ingest now rejects these automatically"}
+{"ts": "2026-09-14T20:57:28.421984+00:00", "action": "reject", "event_id": "ju1ge6hq6rom6oia51lbhuinu4@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.423490+00:00", "action": "reject", "event_id": "6b96rsnqa302mqre9t59em9ipg@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.425063+00:00", "action": "reject", "event_id": "h1e4fvc4un4fok90o5f2i88928@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.426488+00:00", "action": "reject", "event_id": "t2ik2r1l9vjjh4f34o4l0mris8@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.427897+00:00", "action": "reject", "event_id": "2kd264aron5uuke3h0ijhmn5js@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.429294+00:00", "action": "reject", "event_id": "kv236g7abots1vnin8kqdov110@google.com", "details": "out of area (non-New-England); ingest now rejects these automatically"}
+{"ts": "2026-09-14T20:57:28.430721+00:00", "action": "reject", "event_id": "hofc6ai1j7fgh40kncq7oi18sc@google.com", "details": "out of area (non-New-England); ingest now rejects these automatically"}
+{"ts": "2026-09-14T20:57:28.432130+00:00", "action": "reject", "event_id": "ofulgra00lnd0ftd7nvipvkbq0@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.433531+00:00", "action": "reject", "event_id": "3ko4qkifo4bepdftf1gge7qsso@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.434903+00:00", "action": "reject", "event_id": "2f6fq4cg3k5ge82l76se7b0pac@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.436259+00:00", "action": "reject", "event_id": "eb6hbvk052htqs6jj7lbsckqfo@google.com", "details": "out of area (non-New-England); ingest now rejects these automatically"}
+{"ts": "2026-09-14T20:57:28.437553+00:00", "action": "reject", "event_id": "qkckfuef86v6f032jjb1jfgf1o@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.438860+00:00", "action": "reject", "event_id": "9rs929h3sgaovolujacq89e1h4@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.440277+00:00", "action": "reject", "event_id": "e2gk2jnaasv9obbc3c60h3usj0@google.com", "details": "out of area (non-New-England); ingest now rejects these automatically"}
+{"ts": "2026-09-14T20:57:28.441597+00:00", "action": "reject", "event_id": "hga712qikj5bs88jfipl8v5e1o@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.442959+00:00", "action": "reject", "event_id": "vsj2vu8r6caipad60qd83o5vqs@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.444353+00:00", "action": "reject", "event_id": "tp1ibqup89osnmcfg858vu3768@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.445774+00:00", "action": "reject", "event_id": "3qebdvl061jvl68jrl48093lk8@google.com", "details": "out of area (non-New-England); ingest now rejects these automatically"}
+{"ts": "2026-09-14T20:57:28.447089+00:00", "action": "reject", "event_id": "tf78ruilmeplbln4licmmjcsks@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.448392+00:00", "action": "reject", "event_id": "3nnlrd2fb78861bih3q8g6vo28@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.449763+00:00", "action": "reject", "event_id": "ph19vthgfuuebj4pka3eek4gpk@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.451179+00:00", "action": "reject", "event_id": "vq92pe81g4atdf6c8njpksi728@google.com", "details": "out of area (non-New-England); ingest now rejects these automatically"}
+{"ts": "2026-09-14T20:57:28.452515+00:00", "action": "reject", "event_id": "fmoajbs9opnb8b404tdavbc100@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.453939+00:00", "action": "reject", "event_id": "anb3veqrg1cq89gd4g2g71sguk@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.455196+00:00", "action": "reject", "event_id": "iuok8hvsdr0echm6cba9c4hfl4@google.com", "details": "out of area (non-New-England); ingest now rejects these automatically"}
+{"ts": "2026-09-14T20:57:28.456594+00:00", "action": "reject", "event_id": "6us3psncn7dkllgmnc0qknp8es@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.457836+00:00", "action": "reject", "event_id": "s7o9748d88g4johvnv7g1khnv4@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.459084+00:00", "action": "reject", "event_id": "r00f9r114jcnk14ck3k1dp3v7g@google.com", "details": "out of area (non-New-England); ingest now rejects these automatically"}
+{"ts": "2026-09-14T20:57:28.460363+00:00", "action": "reject", "event_id": "fbirtro3getsc91e0c7f8tca50@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.461593+00:00", "action": "reject", "event_id": "78uhis7pd33gp56rqvrv1l2bmg@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.462845+00:00", "action": "reject", "event_id": "4rvnlnl11nk56rl206hv8s4j04@google.com", "details": "out of area (non-New-England); ingest now rejects these automatically"}
+{"ts": "2026-09-14T20:57:28.464153+00:00", "action": "reject", "event_id": "6u8qtdjerldpivgkpdmbn4u5ts@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.465386+00:00", "action": "reject", "event_id": "v77pd72gsfccf6uf1mo17uq5as@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.466665+00:00", "action": "reject", "event_id": "0vn8h4ed8u8pvnhvlbj2ooaemk@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.467909+00:00", "action": "reject", "event_id": "rr5mkk4ols07h530pmkiceatq0@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.469185+00:00", "action": "reject", "event_id": "7qnbpqpjmlcpl9h0adi305potk@google.com", "details": "out of area (non-New-England); ingest now rejects these automatically"}
+{"ts": "2026-09-14T20:57:28.470386+00:00", "action": "reject", "event_id": "1u0d97chqv68v8l9bulqojv8fk@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.471796+00:00", "action": "reject", "event_id": "ovinff4n4d8q3uf1n4knidio7g@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.472979+00:00", "action": "reject", "event_id": "egu2bm1o4ggtb9v3ddi9tut1rc@google.com", "details": "out of area (non-New-England); ingest now rejects these automatically"}
+{"ts": "2026-09-14T20:57:28.474167+00:00", "action": "reject", "event_id": "ihdlub43p7cro5pkbfbopoir5c@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.475309+00:00", "action": "reject", "event_id": "hav4qli2lfpicv1m0qvr79r6ck@google.com", "details": "out of area (non-New-England); ingest now rejects these automatically"}
+{"ts": "2026-09-14T20:57:28.476436+00:00", "action": "reject", "event_id": "ffapcujsms6cv2piu92u4qd0bk@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.477637+00:00", "action": "reject", "event_id": "24l8fhrsqr31ov0b82ra1vrt9g@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.478816+00:00", "action": "reject", "event_id": "fc3rq3t1dmql0mq8efdebctpok@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.481065+00:00", "action": "reject", "event_id": "q3b3gdaf68ptmm9iefb4kuc1hs@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.482423+00:00", "action": "reject", "event_id": "gtfvks9t8oj44reqhcvs05me4k@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.483610+00:00", "action": "reject", "event_id": "3nt2pbj3matnv0s7jf5379hnps@google.com", "details": "per-date calendar copy superseded by the grouped series record (scrape_ics group_series)"}
+{"ts": "2026-09-14T20:57:28.484743+00:00", "action": "reject", "event_id": "p72uepnh7hperjbj3701uj24kc@google.com", "details": "out of area (non-New-England); ingest now rejects these automatically"}
+{"ts": "2026-09-14T20:57:28.485885+00:00", "action": "reject", "event_id": "eb-2000530615925", "details": "instruction only: Bachata & Zouk fusion class series"}
+{"ts": "2026-09-14T20:57:28.486956+00:00", "action": "reject", "event_id": "eb-2000220483310", "details": "instruction only: 5-week choreo challenge"}
+{"ts": "2026-09-14T20:57:28.488164+00:00", "action": "reject", "event_id": "eb-2000213523493", "details": "audition for a choreo team, not a social"}
+{"ts": "2026-09-14T20:57:28.489276+00:00", "action": "reject", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-09-17-20-45", "details": "class listing for Havana Club Thursdays (already a venue hub); date-stamped id, expect it back weekly"}
+{"ts": "2026-09-14T20:57:28.490481+00:00", "action": "reject", "event_id": "eb-1998801431889", "details": "house-music DJ night (deep/funky/Latin house), not a Latin dance social"}
+{"ts": "2026-09-14T20:57:28.491621+00:00", "action": "reject", "event_id": "5F90AF62-ECCD-4488-9D03-B22A6C5F59DE", "details": "duplicate of eb-1999738598981 (La Casa de la Bachata @ Cocomango, Sat Oct 17); the Beatrice copy carries a wrong Sep 17 date - its own description says Oct 17"}
+{"ts": "2026-09-14T20:57:28.492787+00:00", "action": "reject", "event_id": "24B35DF9-A95C-484E-BD02-8541376BBB5A", "details": "duplicate of eb-1999208401145 (Sabor Latino @ El Barco, Thu Sep 24, organizer Eventbrite)"}
+{"ts": "2026-09-14T20:57:28.493960+00:00", "action": "reject", "event_id": "c3ml36kire6a74gktbl2mqkbr4@google.com", "details": "duplicate of d3953ee79b4effa6b332abf32cb4e01ba180f56e@occurrence-1@dance-calendar (Saborcito @ The Anchor, Mondays)"}
+{"ts": "2026-09-14T20:57:28.495140+00:00", "action": "reject", "event_id": "a0bv08c4mjs7336f6nmauumncc@google.com", "details": "duplicate of 8CCA30E6-6C4B-4E0E-8A78-BCA2C5761DE2 (Flow Friday at The Anchor, weekly)"}
+{"ts": "2026-09-14T20:57:28.496332+00:00", "action": "reject", "event_id": "fnht1iun7hd7g7cnsmtndag9io@google.com", "details": "duplicate of tambo-salsa-fb-20261030-0 (Tambo Halloween party, organizer Facebook event)"}
+{"ts": "2026-09-14T20:57:28.498290+00:00", "action": "reject", "event_id": "1msf14rt5djm194rq2lnbea928@google.com", "details": "distinct event from Sazon Saturday; same event as ACFDF41C-8D66-402C-9AE9-FD0610D0AECE (Traffic Light Edition at PKL) which is approved"}
+{"ts": "2026-09-14T20:57:28.500157+00:00", "action": "reject", "event_id": "53AC7485-D946-4CD6-BC98-C0375DCBD433", "details": "Beatrice lists Tue Sep 29 but the series is \"last Thursday of every month\" (Luma) and Lawn on D itself lists Thu Sep 24 and Oct 29 only; no Tuesday date on any organizer page"}
+{"ts": "2026-09-14T20:57:28.501995+00:00", "action": "reject", "event_id": "A182D62F-04B8-4A49-ACD3-2022AD66E6C5", "details": "Beatrice lists Tue Sep 22 but the series is \"last Thursday of every month\" (Luma) and Lawn on D itself lists Thu Sep 24 and Oct 29 only; no Tuesday date on any organizer page"}
+{"ts": "2026-09-14T20:57:28.521899+00:00", "action": "add", "event_id": "ACFDF41C-8D66-402C-9AE9-FD0610D0AECE", "details": ""}
+{"ts": "2026-09-14T20:57:28.523597+00:00", "action": "approve", "event_id": "ACFDF41C-8D66-402C-9AE9-FD0610D0AECE", "details": ""}
+{"ts": "2026-09-14T20:57:28.546560+00:00", "action": "add", "event_id": "C9CAE836-FB31-4084-9A49-C29FA7B39B4B", "details": ""}
+{"ts": "2026-09-14T20:57:28.548391+00:00", "action": "approve", "event_id": "C9CAE836-FB31-4084-9A49-C29FA7B39B4B", "details": ""}
+{"ts": "2026-09-14T20:57:28.569477+00:00", "action": "add", "event_id": "eb-1999208401145", "details": ""}
+{"ts": "2026-09-14T20:57:28.571199+00:00", "action": "approve", "event_id": "eb-1999208401145", "details": ""}
+{"ts": "2026-09-14T20:57:28.593102+00:00", "action": "add", "event_id": "C77130B0-73C6-4597-9875-A786F4EA78D4", "details": ""}
+{"ts": "2026-09-14T20:57:28.594102+00:00", "action": "approve", "event_id": "C77130B0-73C6-4597-9875-A786F4EA78D4", "details": ""}
+{"ts": "2026-09-14T20:57:28.612846+00:00", "action": "add", "event_id": "3E9BE4C2-2D1C-4F89-8C5E-7DDC9F911A00", "details": ""}
+{"ts": "2026-09-14T20:57:28.619821+00:00", "action": "approve", "event_id": "3E9BE4C2-2D1C-4F89-8C5E-7DDC9F911A00", "details": ""}
+{"ts": "2026-09-14T20:57:28.639751+00:00", "action": "add", "event_id": "eb-2000162886035", "details": ""}
+{"ts": "2026-09-14T20:57:28.640749+00:00", "action": "approve", "event_id": "eb-2000162886035", "details": ""}
+{"ts": "2026-09-14T20:57:28.660425+00:00", "action": "add", "event_id": "eb-2000672130198", "details": ""}
+{"ts": "2026-09-14T20:57:28.661499+00:00", "action": "approve", "event_id": "eb-2000672130198", "details": ""}
+{"ts": "2026-09-14T20:57:28.682101+00:00", "action": "add", "event_id": "eb-1999871365088", "details": ""}
+{"ts": "2026-09-14T20:57:28.683296+00:00", "action": "approve", "event_id": "eb-1999871365088", "details": ""}
+{"ts": "2026-09-14T20:57:28.702930+00:00", "action": "add", "event_id": "5vpsvv083qinekd3sfear8kfet@google.com", "details": ""}
+{"ts": "2026-09-14T20:57:28.704154+00:00", "action": "approve", "event_id": "5vpsvv083qinekd3sfear8kfet@google.com", "details": ""}
+{"ts": "2026-09-14T20:57:28.727662+00:00", "action": "add", "event_id": "fh0adau8areq1nn3bb0huk8dkk@google.com", "details": ""}
+{"ts": "2026-09-14T20:57:28.728633+00:00", "action": "approve", "event_id": "fh0adau8areq1nn3bb0huk8dkk@google.com", "details": ""}
+{"ts": "2026-09-14T20:57:28.746806+00:00", "action": "add", "event_id": "b9v58n7069hskptuh6oo81njp4@google.com", "details": ""}
+{"ts": "2026-09-14T20:57:28.747935+00:00", "action": "approve", "event_id": "b9v58n7069hskptuh6oo81njp4@google.com", "details": ""}
+{"ts": "2026-09-14T20:57:28.767387+00:00", "action": "add", "event_id": "kp355pg408kpnreg80oabllvuc@google.com", "details": ""}
+{"ts": "2026-09-14T20:57:28.768300+00:00", "action": "approve", "event_id": "kp355pg408kpnreg80oabllvuc@google.com", "details": ""}
+{"ts": "2026-09-14T20:57:28.788247+00:00", "action": "add", "event_id": "tambo-salsa-fb-20261030-0", "details": ""}
+{"ts": "2026-09-14T20:57:28.789662+00:00", "action": "approve", "event_id": "tambo-salsa-fb-20261030-0", "details": ""}
+{"ts": "2026-09-14T20:57:28.809114+00:00", "action": "add", "event_id": "sensualeros-boston-series-a227772d8b85", "details": ""}
+{"ts": "2026-09-14T20:57:28.809927+00:00", "action": "approve", "event_id": "sensualeros-boston-series-a227772d8b85", "details": ""}
+{"ts": "2026-09-14T20:57:28.828779+00:00", "action": "add", "event_id": "sensualeros-boston-series-2c3260e1b0fb", "details": ""}
+{"ts": "2026-09-14T20:57:28.830162+00:00", "action": "approve", "event_id": "sensualeros-boston-series-2c3260e1b0fb", "details": ""}
+{"ts": "2026-09-14T20:57:28.832742+00:00", "action": "reject", "event_id": "sensualeros-boston-series-2db8e232ec42", "details": "distinct event (Rumba y Clave is a one-off at Rumba y Timbal studio); re-added with distinct_from"}
+{"ts": "2026-09-14T20:57:57.063739+00:00", "action": "distinct_from", "event_id": "sensualeros-boston-series-2db8e232ec42", "details": "pre-marked different from 90B09D86-A680-452E-9B0F-F2F78A22A27E"}
+{"ts": "2026-09-14T20:57:57.081666+00:00", "action": "add", "event_id": "sensualeros-boston-series-2db8e232ec42", "details": ""}
+{"ts": "2026-09-14T20:57:57.083295+00:00", "action": "edit", "event_id": "sensualeros-boston-series-2db8e232ec42", "details": "{\"recurrences\": null}"}
+{"ts": "2026-09-14T20:57:57.102880+00:00", "action": "approve", "event_id": "jandl-20261003-buena-vibra-social", "details": ""}
+{"ts": "2026-09-14T20:57:57.104338+00:00", "action": "edit", "event_id": "ACFDF41C-8D66-402C-9AE9-FD0610D0AECE", "details": "{\"special\": true}"}
+{"ts": "2026-09-14T20:57:57.105962+00:00", "action": "edit", "event_id": "C9CAE836-FB31-4084-9A49-C29FA7B39B4B", "details": "{\"special\": true}"}
+{"ts": "2026-09-14T20:57:57.107505+00:00", "action": "edit", "event_id": "eb-2000672130198", "details": "{\"special\": true, \"_needs_manual_check\": {\"reason\": \"Eventbrite lists Sat Oct 24 6:00-11:00 AM at ZUMIX; a morning Latin dance fundraiser is implausible (likely 6-11 PM). Confirm with organizer Aprende y Prospera.\", \"flagged_at\": \"2026-09-14T21:10:00+00:00\"}}"}
+{"ts": "2026-09-14T20:57:57.109070+00:00", "action": "edit", "event_id": "C77130B0-73C6-4597-9875-A786F4EA78D4", "details": "{\"url\": \"https://www.facebook.com/SaborLatinoBoston/events\"}"}
+{"ts": "2026-09-14T20:57:57.110867+00:00", "action": "edit", "event_id": "3E9BE4C2-2D1C-4F89-8C5E-7DDC9F911A00", "details": "{\"url\": \"https://www.facebook.com/SaborLatinoBoston/events\"}"}
+{"ts": "2026-09-14T20:57:57.112591+00:00", "action": "edit", "event_id": "5vpsvv083qinekd3sfear8kfet@google.com", "details": "{\"styles\": [\"bachata\", \"zouk\"]}"}
+{"ts": "2026-09-14T20:57:57.114026+00:00", "action": "edit", "event_id": "fh0adau8areq1nn3bb0huk8dkk@google.com", "details": "{\"styles\": [\"salsa\", \"bachata\"]}"}
+{"ts": "2026-09-14T20:57:57.115383+00:00", "action": "edit", "event_id": "b9v58n7069hskptuh6oo81njp4@google.com", "details": "{\"styles\": [\"salsa\", \"bachata\", \"other\"], \"url\": \"https://fuegothursdays.com/\", \"description\": \"Fuego Thursdays at Sanctuary, MetroWest's Latin dance night: reggaeton, salsa, bachata and cumbia. Sanctuary Cultural Arts Center, 82 Main St, Maynard.\"}"}
+{"ts": "2026-09-14T20:57:57.116795+00:00", "action": "edit", "event_id": "sensualeros-boston-series-2c3260e1b0fb", "details": "{\"styles\": [\"salsa\"], \"url\": \"https://www.facebook.com/FuegoyCandelaSalsa/events\"}"}
+{"ts": "2026-09-14T20:57:57.137423+00:00", "action": "add", "event_id": "pr-festival-ma-festival-navideno-three-kings-celebration-1", "details": ""}
+{"ts": "2026-09-14T20:57:57.138172+00:00", "action": "approve_rejected", "event_id": "pr-festival-ma-festival-navideno-three-kings-celebration-1", "details": "promoted from rejected queue"}
+{"ts": "2026-09-14T20:57:57.139924+00:00", "action": "edit", "event_id": "pr-festival-ma-festival-navideno-three-kings-celebration-1", "details": "{\"startDate\": \"2026-12-12T19:30:00-05:00\", \"endDate\": \"2026-12-12T23:30:00-05:00\", \"special\": true, \"description\": \"A joyful celebration of Puerto Rican holiday traditions. Enjoy musica tipica, delicious food, dancing, and the special arrival of Los Tres Reyes. Presented by the Puerto Rican Festival of Massachusetts at Florian Hall.\", \"urls\": [\"https://www.eventbrite.com/e/festival-navideno-y-tres-reyes-tickets-1998537457334\"]}"}
+{"ts": "2026-09-14T20:57:57.140687+00:00", "action": "dismiss_rejected", "event_id": "nlf-events-egleston-park-summer-socials-2026-09-20-14-00", "details": "duplicate of 4qc656kur2gocnolf5ns78ag18@google.com (Egleston Park Summer Social, Beatrice) which is active"}
+{"ts": "2026-09-14T20:57:57.141379+00:00", "action": "dismiss_rejected", "event_id": "nlf-events-next-level-open-house-season-9-1", "details": "team open house / choreography class, not a social"}
+{"ts": "2026-09-14T20:57:57.142585+00:00", "action": "venue_edit", "event_id": "jl-underground", "details": "{\"cost\": {\"after\": \"$15 cash\", \"before\": \"$15\"}, \"description\": {\"after\": \"Monthly social at Buena Vibra Dance Studio (the studio formerly known as J&L Dance Studio; the social was the J&L Underground Social), 75 Pleasant Street, Suite 125, 1st Floor, Malden.\\n\\n7:00pm-11:00pm. Music format about 70% bachata, 30% salsa. $15 cash only at the door.\\n\\nAmple street parking free after 7pm; CBD and Jackson Street garages $1.25/hour. 5 minute walk from Malden Center (Orange Line). All levels welcome.\", \"before\": \"Energy, fun, and an exciting mix of Bachata with sprinkles of Salsa, Kizomba, and Merengue.\\n\\nResident DJ: DJ Luis Talavera D\\u00edaz\\n\\n7:00pm \\u2013 8:00pm Bachata Footwork Challenge\\n8:00pm \\u2013 11:00pm Social Dancing\\n\\n$15 cash at the door. 1st Saturday of each month.\"}, \"location\": {\"after\": \"Buena Vibra Dance Studio (formerly J&L), 75 Pleasant St, Suite 125, Malden, MA 02148\", \"before\": \"J&L Dance Studio, 75 Pleasant St, Malden, MA 02148\"}, \"name\": {\"after\": \"Buena Vibra Dance Social (formerly J&L Underground)\", \"before\": \"J&L Underground Bachata Social\"}, \"url\": {\"after\": \"https://buenavibradance.com/socials\", \"before\": \"https://jandldancestudio.com/jl-underground-social\"}}"}
+{"ts": "2026-09-14T20:58:17.563663+00:00", "action": "edit", "event_id": "C9CAE836-FB31-4084-9A49-C29FA7B39B4B", "details": "{\"location\": \"1 Eaton St, Lawrence, MA 01843\"}"}
+{"ts": "2026-09-14T20:58:20.234322+00:00", "action": "edit", "event_id": "kp355pg408kpnreg80oabllvuc@google.com", "details": "{\"location\": \"Boston Public Garden, 4 Charles St, Boston, MA 02116\"}"}
+{"ts": "2026-09-14T20:58:22.443569+00:00", "action": "edit", "event_id": "17B59BFA-7A09-43FF-AC91-5FE0FCC569F7", "details": "{\"name\": \"Buena Vibra Dance Social (formerly J&L Underground Social)\", \"location\": \"Buena Vibra Dance Studio (formerly J&L), 75 Pleasant St, Suite 125, Malden, MA 02148\", \"url\": \"https://buenavibradance.com/socials\", \"cost\": \"$15 cash\", \"styles\": [\"bachata\", \"salsa\"]}"}
+{"ts": "2026-09-14T20:58:56.869535+00:00", "action": "edit", "event_id": "1D5D663C-16A8-44ED-8F01-28CD53AF9276", "details": "{\"special\": true}"}
+{"ts": "2026-09-14T20:58:56.871710+00:00", "action": "edit", "event_id": "FC29C1F2-096C-48C6-ABC1-038BEC368F24", "details": "{\"special\": true}"}
+{"ts": "2026-09-14T20:58:57.931749+00:00", "action": "pending_review", "event_id": "1msf14rt5djm194rq2lnbea928@google.com", "details": "review dup of ACFDF41C-8D66-402C-9AE9-FD0610D0AECE: word_overlap(6/6)+within_24h+same_day"}
+{"ts": "2026-09-14T20:59:20.517007+00:00", "action": "approve", "event_id": "1msf14rt5djm194rq2lnbea928@google.com", "details": ""}
+{"ts": "2026-09-14T21:01:44.672692+00:00", "action": "edit", "event_id": "1ee53ea9f8c2c3000235ffc8c5b0bc", "details": "dropped dead alt url https://jandldancestudio.com/events (studio site moved; 404)"}
+{"ts": "2026-09-14T21:02:37.639642+00:00", "action": "edit", "event_id": "15F245C1-03AD-4AC3-ADB5-9CE4CDE011AC", "details": "{\"urls\": [\"https://facebook.com/events/s/bachata-salsa-by-the-river/1522894889342446/\"]}"}
+{"ts": "2026-09-14T21:04:01.203370+00:00", "action": "edit", "event_id": "sensualeros-boston-series-a227772d8b85", "details": "{\"url\": \"https://havanaclubsalsa.com\"}"}
+{"ts": "2026-09-14T21:04:01.205334+00:00", "action": "edit", "event_id": "sensualeros-boston-series-2db8e232ec42", "details": "{\"url\": \"https://havanaclubsalsa.com\"}"}
+{"ts": "2026-09-14T21:04:01.207233+00:00", "action": "edit", "event_id": "C77130B0-73C6-4597-9875-A786F4EA78D4", "details": "{\"url\": \"https://www.eventbrite.com/o/sabor-latino-boston-63775846633\"}"}
+{"ts": "2026-09-14T21:04:01.209029+00:00", "action": "edit", "event_id": "3E9BE4C2-2D1C-4F89-8C5E-7DDC9F911A00", "details": "{\"url\": \"https://www.eventbrite.com/o/sabor-latino-boston-63775846633\"}"}
+{"ts": "2026-09-14T21:04:01.210907+00:00", "action": "edit", "event_id": "5vpsvv083qinekd3sfear8kfet@google.com", "details": "{\"url\": \"https://allevents.in/allston/bz-crossover-social-9-19-2026/200030671138053\"}"}
+{"ts": "2026-09-14T21:04:35.076911+00:00", "action": "edit", "event_id": "eb-2000672130198", "details": "{\"startDate\": \"2026-10-24T18:00:00-04:00\", \"endDate\": \"2026-10-24T23:00:00-04:00\", \"_needs_manual_check\": {\"reason\": \"Eventbrite lists Sat Oct 24 6:00-11:00 AM, but its own copy calls it 'Latin Night - A Night of Music, Movement...'; published as 6-11 PM. Confirm the time with organizer Aprende y Prospera.\", \"flagged_at\": \"2026-09-14T21:20:00+00:00\"}}"}
+{"ts": "2026-09-14T21:04:35.084065+00:00", "action": "distinct_from", "event_id": "A182D62F-04B8-4A49-ACD3-2022AD66E6C5", "details": "pre-marked different from km2rk04276t62f3jsl5ssradcg@google.com"}
+{"ts": "2026-09-14T21:04:35.085457+00:00", "action": "distinct_from", "event_id": "A182D62F-04B8-4A49-ACD3-2022AD66E6C5", "details": "pre-marked different from mato-salsa-night-at-the-grove-29-oct-2026"}
+{"ts": "2026-09-14T21:04:35.108305+00:00", "action": "add", "event_id": "A182D62F-04B8-4A49-ACD3-2022AD66E6C5", "details": ""}
+{"ts": "2026-09-14T21:04:35.110494+00:00", "action": "edit", "event_id": "A182D62F-04B8-4A49-ACD3-2022AD66E6C5", "details": "{\"urls\": [\"https://luma.com/x0o9o1lr\"]}"}
+{"ts": "2026-09-14T21:04:35.115900+00:00", "action": "distinct_from", "event_id": "53AC7485-D946-4CD6-BC98-C0375DCBD433", "details": "pre-marked different from km2rk04276t62f3jsl5ssradcg@google.com"}
+{"ts": "2026-09-14T21:04:35.116882+00:00", "action": "distinct_from", "event_id": "53AC7485-D946-4CD6-BC98-C0375DCBD433", "details": "pre-marked different from mato-salsa-night-at-the-grove-29-oct-2026"}
+{"ts": "2026-09-14T21:04:35.139083+00:00", "action": "add", "event_id": "53AC7485-D946-4CD6-BC98-C0375DCBD433", "details": ""}
+{"ts": "2026-09-14T21:04:35.141302+00:00", "action": "edit", "event_id": "53AC7485-D946-4CD6-BC98-C0375DCBD433", "details": "{\"urls\": [\"https://luma.com/x0o9o1lr\"]}"}
+{"ts": "2026-09-14T21:04:35.144553+00:00", "action": "verify_attest", "event_id": "sensualeros-boston-series-2c3260e1b0fb", "details": "needs_review: https://www.facebook.com/FuegoyCandelaSalsa/events"}
+{"ts": "2026-09-14T21:05:29.165366+00:00", "action": "edit", "event_id": "FB894180-B298-4F21-B5A2-E916571B31EE", "details": "replaced dead url jandldancestudio.com/jl-underground-social with buenavibradance.com/socials (studio rebranded)"}

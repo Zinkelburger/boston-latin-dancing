@@ -102,19 +102,19 @@
   },
   {
     "id": "jl-underground",
-    "name": "J&L Underground Bachata Social",
-    "location": "J&L Dance Studio, 75 Pleasant St, Malden, MA 02148",
+    "name": "Buena Vibra Dance Social (formerly J&L Underground)",
+    "location": "Buena Vibra Dance Studio (formerly J&L), 75 Pleasant St, Suite 125, Malden, MA 02148",
     "lat": 42.4271,
     "lng": -71.0662,
-    "url": "https://jandldancestudio.com/jl-underground-social",
+    "url": "https://buenavibradance.com/socials",
     "styles": [
       "bachata",
       "salsa",
       "kizomba",
       "merengue"
     ],
-    "cost": "$15",
-    "description": "Energy, fun, and an exciting mix of Bachata with sprinkles of Salsa, Kizomba, and Merengue.\n\nResident DJ: DJ Luis Talavera Díaz\n\n7:00pm – 8:00pm Bachata Footwork Challenge\n8:00pm – 11:00pm Social Dancing\n\n$15 cash at the door. 1st Saturday of each month.",
+    "cost": "$15 cash",
+    "description": "Monthly social at Buena Vibra Dance Studio (the studio formerly known as J&L Dance Studio; the social was the J&L Underground Social), 75 Pleasant Street, Suite 125, 1st Floor, Malden.\n\n7:00pm-11:00pm. Music format about 70% bachata, 30% salsa. $15 cash only at the door.\n\nAmple street parking free after 7pm; CBD and Jackson Street garages $1.25/hour. 5 minute walk from Malden Center (Orange Line). All levels welcome.",
     "schedule": [
       {
         "dayOfWeek": "Saturday",

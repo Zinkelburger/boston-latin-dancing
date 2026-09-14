@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-09-04T19:00:01.096089+00:00",
+  "generated_at": "2026-09-14T21:05:43.323825+00:00",
   "conflicts": [],
   "suppressed": [
     {
       "id": "8EDCCA4B-FCFA-4CD9-ABA3-8074966ACFCB",
       "event": {
         "name": "Bachata Room ",
-        "window": "Wed Sep 9, 9:00 PM – 12:00 AM",
+        "window": "Wed Sep 16, 9:00 PM – 12:00 AM",
         "location": "La Fabrica , 450 Massachusetts Ave, Cambridge, MA 02139, United States",
         "styles": [
           "bachata",
@@ -161,36 +161,31 @@
       "if_you_do_nothing": "stays suppressed"
     },
     {
-      "id": "jandl-20261003-j-l-underground-social",
+      "id": "17B59BFA-7A09-43FF-AC91-5FE0FCC569F7",
       "event": {
-        "name": "J&L Underground Social",
+        "name": "Buena Vibra Dance Social (formerly J&L Underground Social)",
         "window": "Sat Oct 3, 7:00 PM – 11:00 PM",
-        "location": "J&L Dance Studio, 75 Pleasant St #125, Malden, MA 02148",
+        "location": "Buena Vibra Dance Studio (formerly J&L), 75 Pleasant St, Suite 125, Malden, MA 02148",
         "styles": [
           "bachata",
-          "salsa",
-          "kizomba",
-          "merengue"
+          "salsa"
         ],
-        "cost": "$15",
-        "source": "jandl-events",
-        "url": "https://jandldancestudio.com/jl-underground-social",
-        "recurring": false,
-        "schedule_in_description": [
-          "7:00pm–8:00pm Bachata Footwork Challenge (or beginner crash course).",
-          "8:00pm–11:00pm social dancing (bachata with salsa/kizomba/merengue)."
-        ],
-        "description": "Listed on J&L Dance Studio's upcoming-events bar. J&L Underground Social at J&L Dance Studio, 75 Pleasant Street #125, 1st Floor, Malden, MA. 7:00pm–8:00pm Bachata Footwork Challenge (or beginner crash course). 8:00pm–11:00pm social dancing (bachata with salsa/kizomba/merengue). $15 cash at the door."
+        "cost": "$15 cash",
+        "source": "beatrice-calendar",
+        "url": "https://buenavibradance.com/socials",
+        "recurring": true,
+        "schedule_in_description": [],
+        "description": "EACH 1ST SATURDAY OF THE MONTH… J&L Underground Social will be bringing you a night of energy, fun, and the best mix of Bachata (with some sprinkles of Kizomba, Salsa, and Merengue ) to keep you dancing all night! Location: J&L Dance Studio, 75 Pleasant Street #125 - 1st Floor, Malden, MA Class: 7pm-8pm Bachata Footwork Challenge (modified for all levels) with Jenna & Luis OR Bachata for Beginners… [truncated — event_get for full text]"
       },
       "hub": {
         "id": "jl-underground",
-        "name": "J&L Underground Bachata Social",
+        "name": "Buena Vibra Dance Social (formerly J&L Underground)",
         "window": "Saturdays, 7:00 PM – 11:00 PM",
         "note": "1st Saturday of each month",
-        "cost": "$15",
-        "url": "https://jandldancestudio.com/jl-underground-social",
+        "cost": "$15 cash",
+        "url": "https://buenavibradance.com/socials",
         "also_runs": [],
-        "description": "Energy, fun, and an exciting mix of Bachata with sprinkles of Salsa, Kizomba, and Merengue. Resident DJ: DJ Luis Talavera Díaz 7:00pm – 8:00pm Bachata Footwork Challenge 8:00pm – 11:00pm Social Dancin… [truncated — event_get for full text]"
+        "description": "Monthly social at Buena Vibra Dance Studio (the studio formerly known as J&L Dance Studio; the social was the J&L Underground Social), 75 Pleasant Street, Suite 125, 1st Floor, Malden. 7:00pm-11:00pm.… [truncated — event_get for full text]"
       },
       "times_overlap": true,
       "matched_on": "canonical venue alias",
@@ -198,67 +193,33 @@
       "if_you_do_nothing": "stays suppressed"
     },
     {
-      "id": "0493050B-D22D-434D-A136-F6B8BF4C62A2",
+      "id": "sensualeros-boston-series-a227772d8b85",
       "event": {
-        "name": "Mambo City Salsa Social - Sept 6th 7pm - 575 Cambridge St, Cambridge, MA",
-        "window": "Sun Sep 6, 7:00 PM – 11:00 PM",
-        "location": "Filarmonica Santo Antonio Cultural Center",
-        "styles": [
-          "salsa"
-        ],
-        "cost": "$15",
-        "source": "beatrice-calendar",
-        "url": "https://facebook.com/events/s/mambo-city-salsa-social-sept-6/1075399254858891/",
-        "recurring": false,
-        "schedule_in_description": [],
-        "description": "Mambo City Salsa Social Sunday Night, Join Rob Suave & Special Guest DJ's in the heart of Cambridge at the beautiful Filarmonica Santo Antonio dance space located at 575 Cambridge St, Cambridge, MA. 7pm-11pm. $15 (cash & Venmo only). Huge dance floor, full bar, great people...Come Dance!!!"
-      },
-      "hub": {
-        "id": "mambo-city",
-        "name": "Mambo City Salsa Social",
-        "window": "Sundays, 7:00 PM – 11:00 PM",
-        "note": "1st Sunday of each month",
-        "cost": "$15",
-        "url": "https://www.facebook.com/rob.suave.96",
-        "also_runs": [],
-        "description": "The hottest Salsa/Mambo in the heart of Cambridge! Plenty of room for dancing, socializing, and MAMBO! Resident DJ: DJ Rob Suave 7:00pm – 11:00pm Social Dancing 1st Sunday of each month."
-      },
-      "times_overlap": true,
-      "matched_on": "venue name 'Mambo City Salsa Social' appears in the event",
-      "currently": "suppressed — folded into the venue hub, no separate pin",
-      "if_you_do_nothing": "stays suppressed"
-    },
-    {
-      "id": "nlf-events-intermediate-bachata-w-tina-2026-09-10-20-45",
-      "event": {
-        "name": "Intermediate Bachata w/ Tina",
-        "window": "Thu Sep 10, 8:45 PM – 9:45 PM",
-        "location": "Havana Club, 288 Green St, Cambridge, MA 02139, USA",
+        "name": "Friday Night Bachata/Salsa @ Havana Club",
+        "window": "Fri Sep 18, 9:00 PM – 2:00 AM",
+        "location": "288 Green St, Central Sq, Cambridge, MA",
         "styles": [
           "bachata",
           "salsa"
         ],
-        "cost": "$15 at the door",
-        "source": "nlf-events",
-        "url": "https://www.nextlevelfusiondance.com/event-details/intermediate-bachata-w-tina-2026-09-10-20-45",
-        "recurring": false,
-        "schedule_in_description": [
-          "45 - 9:45 PM",
-          "Followed by Social Dancing until 12:30 AM"
-        ],
-        "description": "45 - 9:45 PM Followed by Social Dancing until 12:30 AM $15 at the door, no partner needed 288 Green St, Cambridge, MA 02139 See Havana Club website for details: https://havanaclubsalsa.com/thursdays"
+        "cost": "$15",
+        "source": "sensualeros-boston",
+        "url": "https://havanaclubsalsa.com",
+        "recurring": true,
+        "schedule_in_description": [],
+        "description": "Price: $15 (lesson + party + coat check)"
       },
       "hub": {
         "id": "havana-club",
         "name": "Havana Club",
-        "window": "Thursdays, 9:00 PM – 12:00 AM",
-        "note": "80% Bachata, 20% Salsa (21+)",
+        "window": "Fridays, 9:00 PM – 2:00 AM",
+        "note": "70% Bachata, 25% Salsa, 5% Merengue (21+)",
         "cost": "$15",
         "url": "https://havanaclubsalsa.com",
         "also_runs": [
           "Mon",
           "Tue",
-          "Fri",
+          "Thu",
           "Sat",
           "Sun"
         ],
@@ -267,13 +228,45 @@
       "times_overlap": true,
       "matched_on": "venue name 'Havana Club' appears in the event",
       "currently": "suppressed — folded into the venue hub, no separate pin",
-      "if_you_do_nothing": "stays suppressed",
-      "resolved": {
-        "hub": "havana-club",
-        "decision": "duplicate",
-        "at": "2026-09-04T18:57:52.690004+00:00",
-        "note": "This is the lesson component of Havana Club's normal Thursday bachata night and explicitly continues into the same social; one venue pin is correct."
-      }
+      "if_you_do_nothing": "stays suppressed"
+    },
+    {
+      "id": "sensualeros-boston-series-2db8e232ec42",
+      "event": {
+        "name": "Saturday Night Bachata/Salsa @ Havana Club",
+        "window": "Sat Sep 19, 9:00 PM – 2:00 AM",
+        "location": "288 Green St, Central Sq, Cambridge, MA",
+        "styles": [
+          "bachata",
+          "salsa"
+        ],
+        "cost": "$15",
+        "source": "sensualeros-boston",
+        "url": "https://havanaclubsalsa.com",
+        "recurring": true,
+        "schedule_in_description": [],
+        "description": "Price: $15 (lesson + party + coat check)"
+      },
+      "hub": {
+        "id": "havana-club",
+        "name": "Havana Club",
+        "window": "Saturdays, 9:00 PM – 2:00 AM",
+        "note": "70% Bachata, 25% Salsa, 5% Merengue (21+)",
+        "cost": "$15",
+        "url": "https://havanaclubsalsa.com",
+        "also_runs": [
+          "Mon",
+          "Tue",
+          "Thu",
+          "Fri",
+          "Sun"
+        ],
+        "description": "Boston's hot spot for Bachata and Salsa dancing in Cambridge. Lessons + social dancing every night. Amazing venue, inexpensive parking garage next door, public transportation one block away on Mass Av… [truncated — event_get for full text]"
+      },
+      "times_overlap": true,
+      "matched_on": "venue name 'Havana Club' appears in the event",
+      "currently": "suppressed — folded into the venue hub, no separate pin",
+      "if_you_do_nothing": "stays suppressed"
     }
   ]
 }
