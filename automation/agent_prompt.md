@@ -29,6 +29,21 @@ your main job, along with the other judgment calls it can't make.
    NEEDS REDESIGN: <source>") so the human knows to rebuild it. `fetch_error` is
    usually just the site being down — note it but don't alarm.
 
+   Also check **Facebook signals**: the refresh renders every Facebook page
+   with headless Chrome and, besides the Events tab, reads the newest post,
+   the album titles and the text Facebook OCRs out of flyer images. Dated
+   claims that are not Facebook Events land in `data/facebook-signals.json`,
+   and `event_doctor()` lists every future date there that has no event on the
+   map under `facebook_signals`. Tambó announces its Friday socials only as
+   albums, and Fuego y Candela posted its season as a flyer — this is how those
+   reach you. For each unmatched date: open the page, and if the flyer, post
+   or album title states that date as a dance night, add the event with
+   `event_add` (organizer's Facebook page as the link, `defaults` from
+   `data/sources.json` for venue and cost). A date that is only the post's
+   own timestamp, or a past album, is not an event — say so in the summary.
+   A `capture error` item means a render failed; the last good envelope is
+   still in use, so note it and move on unless it repeats week after week.
+
 2. **Check the rejected queue (usually empty).** `event_list(status="rejected")`.
    Non-Latin scraped events are now **dropped at ingest**, not queued — this
    queue only fills when a human pulls an event off the map with `event_remove`.

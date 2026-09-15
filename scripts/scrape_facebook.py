@@ -5,17 +5,15 @@ Generic Facebook events scraper for any page with an Events tab.
 Works for BOBAS, Dante's Salsa Inferno, or any FB page listed in sources.json
 with type "facebook".
 
-No browser MCP? Headless Chrome renders the public events tabs without login:
+When a Chrome/Chromium binary is on PATH (or named by BLD_CHROME) the raw
+evidence is captured automatically: ``fetch_facebook.py`` renders the page's
+Events tab, newest post, album list and flyer text headlessly, writes the
+envelope to data/scraped/<source_id>-raw.json and the dated signals to
+data/facebook-signals.json, and this script then normalizes it. Set
+BLD_FACEBOOK_BROWSER=0 to skip the capture and only normalize an existing
+envelope. ``--from-file`` also skips the capture.
 
-  google-chrome --headless=new --disable-gpu --no-sandbox \
-    --virtual-time-budget=15000 --dump-dom <facebook_events_url> > page.html
-
-Strip tags and read the event cards ("Upcoming"/"Past" sections, card text like
-"Fri, Jul 10 <name> · Cambridge"); individual event pages give exact date/time
-in og: meta tags and visible text. Build the raw JSON below from that, then run
-this script.
-
-Designed to be run by an agent with browser MCP (or the headless fallback):
+Without Chrome, an agent with a browser produces the raw file by hand:
 
   1. Navigate to the page's facebook_events_url
   2. Close the login dialog (click the X)
@@ -52,6 +50,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import fetch_facebook
 from atomic_io import read_json
 from scraper_utils import (
     NY_TZ,
@@ -284,6 +283,17 @@ def fetch_source(
     print(f"FB URL: {fb_url}")
 
     path = from_file_path or raw_input_path(source_id)
+    capture_note = ""
+    if from_file_path is None and fetch_facebook.browser_capture_enabled():
+        try:
+            envelope = fetch_facebook.write_capture(source)
+            capture_note = f"headless capture: {envelope['status']}"
+            print(f"Headless capture wrote {path.name} ({envelope['status']})")
+        except Exception as exc:  # noqa: BLE001 — keep the last good envelope
+            capture_note = f"headless capture failed ({type(exc).__name__}: {exc})"[:200]
+            print(f"WARNING: {capture_note}; using existing {path.name} if any", file=sys.stderr)
+            if not path.exists():
+                raise
     if not path.exists():
         print(
             f"No raw events file at {path}.\n"
@@ -313,18 +323,19 @@ def fetch_source(
         raise ValueError("Facebook capture must be an evidence envelope")
 
     status, raw_events, checked_at = validate_capture(capture, source)
+    suffix = f"; {capture_note}" if capture_note else ""
     if status == "no_upcoming":
         return ScrapeResult(
             events=[],
             raw_found=0,
-            note=f"browser evidence confirmed no upcoming Facebook events at {checked_at.isoformat()}",
+            note=f"browser evidence confirmed no upcoming Facebook events at {checked_at.isoformat()}{suffix}",
             skipped=True,
         )
     events = _parse_raw_events(raw_events, source_id, defaults)
     return ScrapeResult(
         events=events,
         raw_found=len(raw_events),
-        note=f"browser evidence captured at {checked_at.isoformat()}",
+        note=f"browser evidence captured at {checked_at.isoformat()}{suffix}",
     )
 
 

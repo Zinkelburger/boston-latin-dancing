@@ -149,7 +149,9 @@ tool or the refresh summary's `scrapers_need_redesign`; the weekly agent flags
 any `structure_missing` source at the top of its summary. State lives in the
 gitignored `data/scraper-health.json`, rewritten every run.
 
-Facebook sources are **not** auto-runnable — they require a browser (Step 2).
+Facebook sources capture their own evidence with headless Chrome when one is
+installed (`scripts/fetch_facebook.py`, run by `scrape_facebook.py`); Step 2 is
+the manual fallback for a machine without Chrome or a page that fails to render.
 
 All registered sources (including disabled ones) are in `data/sources.json`.
 

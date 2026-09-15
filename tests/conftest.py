@@ -18,11 +18,16 @@ Nothing here may reach the network. ``geocode`` is stubbed to a miss and
 response monkeypatches them at test level, which takes precedence.
 """
 
+import os
 import sys
 from pathlib import Path
 
 import pytest
 import requests
+
+# The Facebook scraper launches headless Chrome when it finds one; a test
+# must never do that. Set before the scripts are imported.
+os.environ["BLD_FACEBOOK_BROWSER"] = "0"
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 

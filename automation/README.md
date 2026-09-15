@@ -19,6 +19,14 @@ check the host dashboard.
 cron to archive past events between Tuesdays) — quarantine means it can never
 put junk on the map.
 
+Facebook pages are part of the deterministic refresh: `scrape_facebook.py`
+renders each page with headless Chrome (`scripts/fetch_facebook.py`), reads
+the Events tab into the evidence envelope, and reads the newest post, album
+titles and OCR'd flyer text into `data/facebook-signals.json`. Dates stated
+there without a matching event show up as `facebook_signals` warnings in
+`npm run doctor`, which the weekly agent works through (see
+`agent_prompt.md`, step 1).
+
 ## One-time VPS setup
 
 ```bash
@@ -37,6 +45,14 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 
 # 3. Repo .env — needed by fetch_submissions.py
 printf 'BLD_ADMIN_TOKEN=<token>\n' > .env
+
+# 3b. Chrome for the Facebook capture (scripts/fetch_facebook.py). Any of
+#     google-chrome / chromium / chromium-browser on PATH works, or point
+#     BLD_CHROME at the binary. Without it the Facebook scrapers only
+#     normalize whatever envelope is already in data/scraped/ and the doctor
+#     flags the evidence stale after 14 days.
+apt install chromium        # Debian/Ubuntu; ~1 min per weekly run for 6 pages
+python3 scripts/fetch_facebook.py --all --dry-run   # smoke test: prints each envelope
 
 # 4. Cursor CLI for the weekly agent
 curl https://cursor.com/install -fsSL | bash

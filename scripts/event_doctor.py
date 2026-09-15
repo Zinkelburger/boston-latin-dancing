@@ -6,7 +6,8 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from datetime import datetime, timedelta, timezone
+import re
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -18,17 +19,110 @@ from event_store import (
     TRIPWIRE_MIN_PREVIOUS,
     TRIPWIRE_MIN_RATIO,
     _live_event_count,
+    _occurrence_instants,
     load_active,
     load_pending,
     load_rejected,
     preview_publish,
 )
+from fetch_facebook import SIGNALS_PATH, load_signals
 from scrape_facebook import raw_input_path, validate_capture
-from scraper_utils import ROOT, load_scrape_health, load_sources, scraper_commands
+from scraper_utils import NY_TZ, ROOT, load_scrape_health, load_sources, scraper_commands
 from verify_events import REPORT_PATH
 
 LEGACY_PUBLIC_EVENTS_JSON = ROOT / "public" / "events.json"
 GOOD_VERIFICATION_STATUSES = {"confirmed", "reachable_only"}
+# Words that identify an organizer in an event's name/location: "tambó",
+# "inferno", "candela" — never these.
+_SIGNAL_STOPWORDS = {
+    "salsa", "bachata", "social", "socials", "boston", "dance", "dancing", "latin",
+    "society", "club", "night", "nights", "party", "with", "from", "page", "the",
+    "cambridge", "massachusetts", "street", "outdoor", "and", "profile",
+}
+_WORD_RE = re.compile(r"[a-záéíóúñü']{4,}", re.I)
+
+
+def _source_tokens(source: dict) -> set[str]:
+    text = " ".join([source.get("name", ""), source.get("id", "").replace("-", " ")])
+    tokens = {w.lower() for w in _WORD_RE.findall(text)} - _SIGNAL_STOPWORDS
+    street = re.search(r"\b\d{1,5} [A-Za-z]+", (source.get("defaults") or {}).get("location", ""))
+    if street:
+        tokens.add(street.group(0).lower())
+    return tokens
+
+
+def _event_days(event: dict) -> set[str]:
+    return {dt.astimezone(NY_TZ).date().isoformat() for dt in _occurrence_instants(event)}
+
+
+def _event_matches_source(event: dict, source: dict, tokens: set[str], signal: str = "") -> bool:
+    """Same day is not enough: the event must belong to the organizer, or share
+    a distinctive word with what the page said ("Salsa at The Grove")."""
+    sid = source.get("id")
+    if event.get("source") == sid or sid in (event.get("sources") or []):
+        return True
+    haystack = " ".join([
+        str(event.get("name", "")), str(event.get("location", "")),
+        str(event.get("organizer", "")), " ".join(event.get("urls") or []), str(event.get("url", "")),
+    ]).lower()
+    if (source.get("facebook_events_url") or "").split("/events")[0].lower() in haystack:
+        return True
+    if any(tok in haystack for tok in tokens):
+        return True
+    signal_words = {w.lower() for w in _WORD_RE.findall(signal)} - _SIGNAL_STOPWORDS
+    name_words = {w.lower() for w in _WORD_RE.findall(str(event.get("name", "")))}
+    return bool(signal_words & name_words)
+
+
+def _dated_signals(entry: dict) -> list[tuple[str, str]]:
+    """(date, description) for every date a source's post, albums or flyers state."""
+    out: list[tuple[str, str]] = []
+    post = entry.get("latest_post") or {}
+    for day in post.get("dates") or []:
+        out.append((day, f"post: {post.get('text', '')[:160]}"))
+    for album in entry.get("albums") or []:
+        for day in album.get("dates") or []:
+            out.append((day, f"album: {album.get('title', '')}"))
+    for flyer in entry.get("flyers") or []:
+        for day in flyer.get("dates") or []:
+            out.append((day, f"flyer: {flyer.get('text', '')[:160]}"))
+    return out
+
+
+def facebook_signal_issues(
+    signals: dict, sources: list[dict], events: list[dict], today: date,
+) -> tuple[list[dict], list[dict]]:
+    """Dated claims on a Facebook page with no event on the map for that day.
+
+    A Tambó album titled with next Friday's date, or a flyer listing the
+    season's Saturdays, is the organizer saying when they dance. Those dates
+    are not auto-published (no event object exists), so they are surfaced
+    here for a human to confirm and add. Past dates are history, not issues.
+    """
+    issues: list[dict] = []
+    matched: list[dict] = []
+    by_id = {s.get("id"): s for s in sources if s.get("type") == "facebook" and s.get("enabled")}
+    for source_id, entry in sorted(signals.items()):
+        source = by_id.get(source_id)
+        if source is None or not isinstance(entry, dict):
+            continue
+        for error in entry.get("errors") or []:
+            issues.append({"source_id": source_id, "problem": f"capture error: {error}"})
+        tokens = _source_tokens(source)
+        seen: set[str] = set()
+        for day, what in _dated_signals(entry):
+            if day < today.isoformat() or day in seen:
+                continue
+            seen.add(day)
+            hits = [e for e in events
+                    if day in _event_days(e) and _event_matches_source(e, source, tokens, what)]
+            if hits:
+                matched.append({"source_id": source_id, "date": day, "signal": what,
+                                "event_id": hits[0].get("id"), "event": hits[0].get("name")})
+            else:
+                issues.append({"source_id": source_id, "date": day, "signal": what,
+                               "problem": "dated Facebook signal with no event on the map"})
+    return issues, matched
 
 
 def _parse_aware(value: object) -> datetime | None:
@@ -186,6 +280,19 @@ def run_doctor(
         "warning" if rejected else "ok",
         "Review rejected entries for new or unexplained decisions." if rejected else "Rejected audit queue is empty.",
         [_item(event) for event in rejected],
+    )
+
+    signal_issues, signal_matches = facebook_signal_issues(
+        load_signals(SIGNALS_PATH), sources, active + pending, now_utc.astimezone(NY_TZ).date(),
+    )
+    record(
+        "facebook_signals",
+        "warning" if signal_issues else "ok",
+        "Open each page: a flyer, album or post names a dance date the map does not have. "
+        "Add the event (organizer page as the link) or note why it is not one."
+        if signal_issues else "Every future date stated on a Facebook page has a matching event.",
+        signal_issues,
+        evidence=signal_matches,
     )
 
     missing_coords = [event for event in active if event.get("lat") is None or event.get("lng") is None]

@@ -1,0 +1,310 @@
+{
+  "bobas": {
+    "checked_at": "2026-09-15T09:19:18-04:00",
+    "source_url": "https://www.facebook.com/profile.php?id=61551665503735&sk=events",
+    "status": "no_upcoming",
+    "upcoming_events": [],
+    "latest_post": {
+      "text": "Boston Outdoor Bachata And Salsa created an event . 5d · Shared with This is a public event, so your post will be visible to anyone on Facebook. Fri, Sep 11 BOBAS Fri 6:30-9pm Hatch Shell on the Esplanade 62 people interested",
+      "dates": [
+        "2026-09-11"
+      ]
+    },
+    "albums": [],
+    "flyers": [],
+    "errors": []
+  },
+  "dantes-inferno-fb": {
+    "checked_at": "2026-09-15T09:19:48-04:00",
+    "source_url": "https://www.facebook.com/DantesSalsaInferno/events",
+    "status": "no_upcoming",
+    "upcoming_events": [],
+    "latest_post": {
+      "text": "Dante's Salsa Inferno created an event . August 31 at 3:52 PM · Shared with This is a public event, so your post will be visible to anyone on Facebook. Fri, Sep 4 Dante's Salsa Inferno Sept 4th Salsa/Bachata Social!! The Dante Alighieri Society of Massachusetts Dance · 251 people",
+      "dates": [
+        "2026-08-31",
+        "2026-09-04"
+      ]
+    },
+    "albums": [
+      {
+        "title": "Dante's Salsa Inferno - 08/02/24",
+        "items": 37,
+        "dates": [
+          "2024-08-02"
+        ]
+      },
+      {
+        "title": "Dante's Salsa Inferno - 03/03/23",
+        "items": 142,
+        "dates": [
+          "2023-03-03"
+        ]
+      },
+      {
+        "title": "Dante's Salsa Inferno - 07/30/21",
+        "items": 99,
+        "dates": [
+          "2021-07-30"
+        ]
+      },
+      {
+        "title": "Dante's Salsa Inferno - 05/03/19",
+        "items": 58,
+        "dates": [
+          "2019-05-03"
+        ]
+      },
+      {
+        "title": "Dante's Salsa & Bachata Fridays - 01/25/19",
+        "items": 62,
+        "dates": [
+          "2019-01-25"
+        ]
+      }
+    ],
+    "flyers": [
+      {
+        "text": "Sept 4th, 2026 Dante's SALSA INFERN 8:30pm 9:30pm Beginner Salsa Class 9:30pm-1:00am 1:00am 9:30pm Social Dancing (Salsa, Bachata) Dante Alighieri Society 41 Hampshire St Camb Cambridge, MA 02139",
+        "dates": [
+          "2026-09-04"
+        ]
+      },
+      {
+        "text": "Dante's SALSA INFERNO E RNO NO DANTES ON FRIDAY!! Dante Alighieri Society 41 Hampshire St Cambridge, MA 02139",
+        "dates": []
+      }
+    ],
+    "errors": []
+  },
+  "dantes-salsa": {
+    "checked_at": "2026-09-15T09:19:33-04:00",
+    "source_url": "https://www.facebook.com/FuegoyCandelaSalsa/events",
+    "status": "no_upcoming",
+    "upcoming_events": [],
+    "latest_post": {
+      "text": "Fuego y Candela Salsa Socials September 3 at 1:51 AM · Shared with Public Performance by: Querencia… See more 0:00 / 2:40",
+      "dates": [
+        "2026-09-03"
+      ]
+    },
+    "albums": [
+      {
+        "title": "Fuego y Candela 15-Year Anniversary Salsa Extravaganza!",
+        "items": 99,
+        "dates": []
+      },
+      {
+        "title": "Fuego y Candela 14-Year Anniversary Salsa Extravaganza!",
+        "items": 83,
+        "dates": []
+      },
+      {
+        "title": "Fuego y Candela 13-Year Anniversary Salsa Extravaganza!",
+        "items": 165,
+        "dates": []
+      },
+      {
+        "title": "Fuego y Candela 11-Year Anniversary Salsa Extravaganza!",
+        "items": 190,
+        "dates": []
+      },
+      {
+        "title": "Fuego y Candela 10-Year Anniversary Salsa Extravaganza Friday!",
+        "items": 160,
+        "dates": []
+      }
+    ],
+    "flyers": [
+      {
+        "text": "FUEGO Y CANDELA 2026 Schedule October 1oth- Saturday November 14th Saturday December 19th- Saturday *all dates are subject to change*",
+        "dates": [
+          "2026-10-10",
+          "2026-11-14",
+          "2026-12-19"
+        ]
+      }
+    ],
+    "errors": []
+  },
+  "lowell-sitp": {
+    "checked_at": "2026-09-15T09:20:40-04:00",
+    "source_url": "https://www.facebook.com/LowellSITP/events",
+    "status": "no_upcoming",
+    "upcoming_events": [],
+    "latest_post": {
+      "text": "Lowell Salsa In The Park is with Metamovements Latin Dance Company and 4 others . July 24 · Shared with Public Thank you Lowell SITP! … See more +37",
+      "dates": [
+        "2026-07-24"
+      ]
+    },
+    "albums": [
+      {
+        "title": "Summer 2019 - 8.11.19",
+        "items": 46,
+        "dates": []
+      },
+      {
+        "title": "Summer 2019 - 6.22.19",
+        "items": 41,
+        "dates": []
+      }
+    ],
+    "flyers": [],
+    "errors": []
+  },
+  "sabor-latino": {
+    "checked_at": "2026-09-15T09:20:23-04:00",
+    "source_url": "https://www.facebook.com/SaborLatinoBoston/events",
+    "status": "captured",
+    "upcoming_events": [
+      {
+        "name": "Saborcito @ The Anchor - Salsa & Bachata Dancing",
+        "date": "September 21, 2026",
+        "url": "https://www.facebook.com/events/2073153546944008/"
+      }
+    ],
+    "latest_post": {
+      "text": "Sabor Latino Boston is at The Anchor Boston . 2d · Charlestown, Massachusetts · Shared with Public Only a few more Mondays left of the season! Come join us at Saborcito tomorrow and every Monday until October 12. … See more 0:00 / 0:24",
+      "dates": [
+        "2026-10-12"
+      ]
+    },
+    "albums": [
+      {
+        "title": "El Barco - May 13, 2026",
+        "items": 56,
+        "dates": [
+          "2026-05-13"
+        ]
+      },
+      {
+        "title": "Instagram Photos",
+        "items": 168,
+        "dates": []
+      },
+      {
+        "title": "Saborcito 6-13-22",
+        "items": 48,
+        "dates": []
+      },
+      {
+        "title": "Saborcito Brunch 10-31-11",
+        "items": 98,
+        "dates": []
+      }
+    ],
+    "flyers": [
+      {
+        "text": "SABOR LATINO UPCOMING EVENTS SEPTEMBER 10 El Barco Back ay SEPTEMBER 14 林 林 Saborcito Mondays SEPTEMBER 21 Saborcito Mondays SEPTEMBER 22 Salsa at The Grove Lawn on D SEPTEMBER 24 El Barco Back Bay 林 SEPTEMBER 28 Saborcito Mondays SEPTEMBER 29 Salsa at The Grove Lawn on D 林 OCTOBER 5 Saborcito Mondays OCTOBER 8 El Barco Back Bay 12 曲 Saborcito Mondays 22 final Monday El Barco Back Bay Classes at each event taught by Salsa Control",
+        "dates": [
+          "2026-09-10",
+          "2026-09-14",
+          "2026-09-21",
+          "2026-09-22",
+          "2026-09-24",
+          "2026-09-28",
+          "2026-09-29",
+          "2026-10-05",
+          "2026-10-08"
+        ]
+      },
+      {
+        "text": "SABORE EL LATINOI 50DaltonSt,Boston 50 BACK BARCO BAY Dalton St, Boston SALSADIR Sept 10th 8-11pm Salsa Class & Party $12 (free taco to the first 25 ADMIT ONE",
+        "dates": [
+          "2026-09-10"
+        ]
+      },
+      {
+        "text": "SABOR LATINO Salsa & Bachata Night Pop Popup! up! Aug 12th 8-11pm Salsa class & Party $10 (Free taco to the first25) EL BACK BACKBAy BARCO BAY 50 Dalton St. Boston",
+        "dates": [
+          "2026-08-12"
+        ]
+      },
+      {
+        "text": "SABORCITO SALSA & BACHATA CANCELLED FOR USA WORLD CUP WATCH PARTY JULY 6",
+        "dates": [
+          "2026-07-06"
+        ]
+      },
+      {
+        "text": "SABOR LATINO Salsa & Bachata Night Popu up! July 8th 8-11pm Salsa class & Party $10 (Free taco to the first25) EL BACKAy BACK BARCO BAY 50 Dalton St, Boston",
+        "dates": [
+          "2026-07-08"
+        ]
+      }
+    ],
+    "errors": []
+  },
+  "tambo-salsa-fb": {
+    "checked_at": "2026-09-15T09:20:05-04:00",
+    "source_url": "https://www.facebook.com/Tambosalsa/events",
+    "status": "captured",
+    "upcoming_events": [
+      {
+        "name": "Halloween Salsa/Bachata Costume Party, Friday 10/30",
+        "date": "October 30, 2026",
+        "url": "https://www.facebook.com/events/1796270331376772/"
+      }
+    ],
+    "latest_post": {
+      "text": "Album Tambo Salsa Social 2026/09/11 Tambó Salsa added 49 new photos. 11h · Shared with Public +45",
+      "dates": [
+        "2026-09-11"
+      ]
+    },
+    "albums": [
+      {
+        "title": "Tambo Salsa Social 2026/09/11",
+        "items": 49,
+        "dates": [
+          "2026-09-11"
+        ]
+      },
+      {
+        "title": "Tambo Salsa Social 2026/07/31",
+        "items": 107,
+        "dates": [
+          "2026-07-31"
+        ]
+      },
+      {
+        "title": "Tambo Salsa Social 2026/07/10",
+        "items": 49,
+        "dates": [
+          "2026-07-10"
+        ]
+      },
+      {
+        "title": "Tambo Salsa Social 2026/06/24",
+        "items": 79,
+        "dates": [
+          "2026-06-24"
+        ]
+      },
+      {
+        "title": "Tambo Salsa Social 2026/06/12",
+        "items": 69,
+        "dates": [
+          "2026-06-12"
+        ]
+      },
+      {
+        "title": "Tambo Salsa Social 2026/05/29",
+        "items": 99,
+        "dates": [
+          "2026-05-29"
+        ]
+      },
+      {
+        "title": "Tambo Salsa Social 2026/04/24",
+        "items": 64,
+        "dates": [
+          "2026-04-24"
+        ]
+      }
+    ],
+    "flyers": [],
+    "errors": []
+  }
+}

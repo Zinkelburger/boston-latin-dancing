@@ -627,8 +627,9 @@ def event_scrape(source_id: Optional[str] = None, quarantine_new: bool = False) 
     quarantine_new=True routes brand-new events to pending.json for review instead of active.
 
     Uses the same runner (and scraper list) as the cron pipeline, so a source
-    that works here works there. Facebook sources require browser MCP and are
-    not auto-runnable.
+    that works here works there. Facebook sources capture their own evidence
+    with headless Chrome when one is installed (see scripts/fetch_facebook.py);
+    without Chrome they only normalize a hand-written envelope.
     """
     results = run_scrapers(only=source_id, timeout=SCRAPE_TIMEOUT_SECONDS)
     if source_id and not results:

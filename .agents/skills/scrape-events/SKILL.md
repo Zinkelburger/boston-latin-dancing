@@ -42,9 +42,13 @@ Treat `data/sources.json` as the authoritative source list.
    structurally missing sources, additions, refreshed duplicates, rejections,
    and pending review items.
 
-3. Refresh every enabled Facebook source through a real browser. Save one
-   evidence envelope per source, then ingest that source. Follow
-   `references/facebook.md` exactly; a bare `[]` is ambiguous and unhealthy.
+3. Facebook sources refresh themselves inside `event_scrape()` when Chrome is
+   installed: headless Chrome reads the Events tab into the evidence envelope
+   and the newest post, album titles and flyer text into
+   `data/facebook-signals.json`. Check the doctor's `facebook_signals`
+   warnings for dated claims with no event. Without Chrome, refresh each
+   source through a real browser and save one envelope per source. Follow
+   `references/facebook.md`; a bare `[]` is ambiguous and unhealthy.
 
 4. Run the unified preflight:
 
