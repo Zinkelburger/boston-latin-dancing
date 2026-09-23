@@ -1,88 +1,51 @@
 {
-  "checked_at": "2026-09-23T00:16:24.503038+00:00",
+  "checked_at": "2026-09-23T16:09:22.738949+00:00",
   "totals": {
     "events": 49,
-    "with_multiple_sources": 14,
-    "disagreements": 2,
-    "location_agreed": 27,
-    "location_unknown": 22
+    "with_multiple_sources": 13,
+    "disagreements": 1,
+    "location_agreed": 25,
+    "location_unknown": 24
   },
   "disagreements": [
     {
-      "event_id": "A182D62F-04B8-4A49-ACD3-2022AD66E6C5",
-      "event_name": "Salsa Dancing at The Grove at Lawn on D Presented by Salsa y Control",
-      "our_location": "Lawn On D, 420 D St, Boston, MA  02210, United States",
-      "our_date": "2026-09-22",
+      "event_id": "eb-1999738598981",
+      "event_name": "BOSTON BACHATA PARTY Cocomango Speakeasy Cambridge | La Casa de la Bachata",
+      "our_location": "Cocomango Speakeasy, 50 Cambridgepark Drive, Cambridge, MA 02140, Cambridge, MA",
+      "our_date": "2026-10-17",
       "source_count": 2,
       "claims": [
         {
-          "url": "https://www.salsaycontrol.com/events",
-          "location": null,
-          "date": null,
-          "instant": null,
-          "via": null,
-          "city_level": false,
-          "error": "no structured data"
-        },
-        {
-          "url": "https://luma.com/x0o9o1lr",
-          "location": "The Grove at the Lawn on D, The Grove at the Lawn on D, Boston, Massachusetts",
-          "date": "2026-07-30",
-          "instant": "2026-07-30T19:00:00.000-04:00",
+          "url": "https://www.eventbrite.com/e/boston-bachata-party-cocomango-speakeasy-cambridge-la-casa-de-la-bachata-tickets-1999738598981",
+          "location": "Cocomango Speakeasy, 50 Cambridgepark Drive, Cambridge, MA 02140, Cambridge, MA",
+          "date": "2026-10-17",
+          "instant": "2026-10-17T21:00:00-04:00",
           "via": "json-ld",
           "city_level": false,
+          "error": null
+        },
+        {
+          "url": "https://facebook.com/events/s/boston-bachata-party-cocomango/1252515136999918/",
+          "location": "Cambridge",
+          "date": "2026-10-10",
+          "instant": null,
+          "via": "facebook-preview",
+          "city_level": true,
           "error": null
         }
       ],
       "location": {
         "verdict": "agree",
         "notes": [
-          "luma.com/x0o9o1lr (json-ld): agree — 0m apart"
+          "eventbrite.com/e/boston-bachata-party-cocoman (json-ld): agree — same address text",
+          "facebook.com/events/s/boston-bachata-party-co (facebook-preview): agree — same address text"
         ]
       },
       "date": {
         "verdict": "disagree",
         "notes": [
-          "luma.com/x0o9o1lr (json-ld): says 2026-07-30"
-        ]
-      }
-    },
-    {
-      "event_id": "53AC7485-D946-4CD6-BC98-C0375DCBD433",
-      "event_name": "Salsa Dancing at The Grove at Lawn on D Presented by Salsa y Control",
-      "our_location": "Lawn On D, 420 D St, Boston, MA  02210, United States",
-      "our_date": "2026-09-29",
-      "source_count": 2,
-      "claims": [
-        {
-          "url": "https://www.salsaycontrol.com/events",
-          "location": null,
-          "date": null,
-          "instant": null,
-          "via": null,
-          "city_level": false,
-          "error": "no structured data"
-        },
-        {
-          "url": "https://luma.com/x0o9o1lr",
-          "location": "The Grove at the Lawn on D, The Grove at the Lawn on D, Boston, Massachusetts",
-          "date": "2026-07-30",
-          "instant": "2026-07-30T19:00:00.000-04:00",
-          "via": "json-ld",
-          "city_level": false,
-          "error": null
-        }
-      ],
-      "location": {
-        "verdict": "agree",
-        "notes": [
-          "luma.com/x0o9o1lr (json-ld): agree — 0m apart"
-        ]
-      },
-      "date": {
-        "verdict": "disagree",
-        "notes": [
-          "luma.com/x0o9o1lr (json-ld): says 2026-07-30"
+          "eventbrite.com/e/boston-bachata-party-cocoman (json-ld): says 2026-10-17",
+          "facebook.com/events/s/boston-bachata-party-co (facebook-preview): says 2026-10-10"
         ]
       }
     }
@@ -787,7 +750,7 @@
       "event_name": "BOSTON BACHATA PARTY Cocomango Speakeasy Cambridge | La Casa de la Bachata",
       "our_location": "Cocomango Speakeasy, 50 Cambridgepark Drive, Cambridge, MA 02140, Cambridge, MA",
       "our_date": "2026-10-17",
-      "source_count": 1,
+      "source_count": 2,
       "claims": [
         {
           "url": "https://www.eventbrite.com/e/boston-bachata-party-cocomango-speakeasy-cambridge-la-casa-de-la-bachata-tickets-1999738598981",
@@ -797,18 +760,29 @@
           "via": "json-ld",
           "city_level": false,
           "error": null
+        },
+        {
+          "url": "https://facebook.com/events/s/boston-bachata-party-cocomango/1252515136999918/",
+          "location": "Cambridge",
+          "date": "2026-10-10",
+          "instant": null,
+          "via": "facebook-preview",
+          "city_level": true,
+          "error": null
         }
       ],
       "location": {
         "verdict": "agree",
         "notes": [
-          "eventbrite.com/e/boston-bachata-party-cocoman (json-ld): agree — same address text"
+          "eventbrite.com/e/boston-bachata-party-cocoman (json-ld): agree — same address text",
+          "facebook.com/events/s/boston-bachata-party-co (facebook-preview): agree — same address text"
         ]
       },
       "date": {
-        "verdict": "agree",
+        "verdict": "disagree",
         "notes": [
-          "eventbrite.com/e/boston-bachata-party-cocoman (json-ld): says 2026-10-17"
+          "eventbrite.com/e/boston-bachata-party-cocoman (json-ld): says 2026-10-17",
+          "facebook.com/events/s/boston-bachata-party-co (facebook-preview): says 2026-10-10"
         ]
       }
     },
@@ -934,15 +908,6 @@
       "source_count": 2,
       "claims": [
         {
-          "url": "https://www.facebook.com/events/1418706253534766/",
-          "location": "Boston",
-          "date": "2026-09-24",
-          "instant": null,
-          "via": "facebook-preview",
-          "city_level": true,
-          "error": null
-        },
-        {
           "url": "https://www.eventbrite.com/o/sabor-latino-boston-63775846633",
           "location": null,
           "date": null,
@@ -950,6 +915,15 @@
           "via": null,
           "city_level": false,
           "error": "no structured data"
+        },
+        {
+          "url": "https://www.facebook.com/events/1418706253534766/",
+          "location": "Boston",
+          "date": "2026-09-24",
+          "instant": null,
+          "via": "facebook-preview",
+          "city_level": true,
+          "error": null
         }
       ],
       "location": {
@@ -1294,7 +1268,7 @@
       "event_name": "Salsa Dancing at The Grove at Lawn on D Presented by Salsa y Control",
       "our_location": "Lawn On D, 420 D St, Boston, MA  02210, United States",
       "our_date": "2026-09-22",
-      "source_count": 2,
+      "source_count": 1,
       "claims": [
         {
           "url": "https://www.salsaycontrol.com/events",
@@ -1304,28 +1278,15 @@
           "via": null,
           "city_level": false,
           "error": "no structured data"
-        },
-        {
-          "url": "https://luma.com/x0o9o1lr",
-          "location": "The Grove at the Lawn on D, The Grove at the Lawn on D, Boston, Massachusetts",
-          "date": "2026-07-30",
-          "instant": "2026-07-30T19:00:00.000-04:00",
-          "via": "json-ld",
-          "city_level": false,
-          "error": null
         }
       ],
       "location": {
-        "verdict": "agree",
-        "notes": [
-          "luma.com/x0o9o1lr (json-ld): agree — 0m apart"
-        ]
+        "verdict": "unknown",
+        "notes": []
       },
       "date": {
-        "verdict": "disagree",
-        "notes": [
-          "luma.com/x0o9o1lr (json-ld): says 2026-07-30"
-        ]
+        "verdict": "unknown",
+        "notes": []
       }
     },
     {
@@ -1333,7 +1294,7 @@
       "event_name": "Salsa Dancing at The Grove at Lawn on D Presented by Salsa y Control",
       "our_location": "Lawn On D, 420 D St, Boston, MA  02210, United States",
       "our_date": "2026-09-29",
-      "source_count": 2,
+      "source_count": 1,
       "claims": [
         {
           "url": "https://www.salsaycontrol.com/events",
@@ -1343,28 +1304,15 @@
           "via": null,
           "city_level": false,
           "error": "no structured data"
-        },
-        {
-          "url": "https://luma.com/x0o9o1lr",
-          "location": "The Grove at the Lawn on D, The Grove at the Lawn on D, Boston, Massachusetts",
-          "date": "2026-07-30",
-          "instant": "2026-07-30T19:00:00.000-04:00",
-          "via": "json-ld",
-          "city_level": false,
-          "error": null
         }
       ],
       "location": {
-        "verdict": "agree",
-        "notes": [
-          "luma.com/x0o9o1lr (json-ld): agree — 0m apart"
-        ]
+        "verdict": "unknown",
+        "notes": []
       },
       "date": {
-        "verdict": "disagree",
-        "notes": [
-          "luma.com/x0o9o1lr (json-ld): says 2026-07-30"
-        ]
+        "verdict": "unknown",
+        "notes": []
       }
     },
     {
@@ -1488,9 +1436,9 @@
       }
     },
     {
-      "event_id": "eb-2001023303567",
+      "event_id": "qdl15rphrtsop45q6jp901t3g8@google.com",
       "event_name": "6th Annual Salsa & Bachata Halloween Party",
-      "our_location": "41 Hampshire St, 41 Hampshire Street, Cambridge, MA 02139, Cambridge, MA",
+      "our_location": "41 Hamshire St, Cambridge, MA",
       "our_date": "2026-10-31",
       "source_count": 1,
       "claims": [
@@ -1507,7 +1455,7 @@
       "location": {
         "verdict": "agree",
         "notes": [
-          "eventbrite.com/e/6th-annual-salsa-bachata-hal (json-ld): agree — same address text"
+          "eventbrite.com/e/6th-annual-salsa-bachata-hal (json-ld): agree — same street number (41)"
         ]
       },
       "date": {
@@ -1518,21 +1466,12 @@
       }
     },
     {
-      "event_id": "lous-51c627f6",
-      "event_name": "Latin DANCE NIGHT",
-      "our_location": "Lou's, 13 Brattle St, Cambridge, MA 02138",
+      "event_id": "eb-2001409938001",
+      "event_name": "October Latin Dance Night at Lou's | Lessons & Social Dancing",
+      "our_location": "Lou's, 13 Brattle Street, Cambridge, MA 02138, Cambridge, MA",
       "our_date": "2026-10-14",
       "source_count": 2,
       "claims": [
-        {
-          "url": "https://www.wearelous.com/lous-live/salsa-night-october",
-          "location": null,
-          "date": "2026-10-14",
-          "instant": "2026-10-14T19:00:00-0400",
-          "via": "json-ld",
-          "city_level": false,
-          "error": null
-        },
         {
           "url": "https://www.eventbrite.com/e/october-latin-dance-night-at-lous-lessons-social-dancing-tickets-2001409938001",
           "location": "Lou's, 13 Brattle Street, Cambridge, MA 02138, Cambridge, MA",
@@ -1541,19 +1480,28 @@
           "via": "json-ld",
           "city_level": false,
           "error": null
+        },
+        {
+          "url": "https://www.wearelous.com/lous-live/salsa-night-october",
+          "location": null,
+          "date": "2026-10-14",
+          "instant": "2026-10-14T19:00:00-0400",
+          "via": "json-ld",
+          "city_level": false,
+          "error": null
         }
       ],
       "location": {
         "verdict": "agree",
         "notes": [
-          "eventbrite.com/e/october-latin-dance-night-at (json-ld): agree — same street number (13)"
+          "eventbrite.com/e/october-latin-dance-night-at (json-ld): agree — same address text"
         ]
       },
       "date": {
         "verdict": "agree",
         "notes": [
-          "wearelous.com/lous-live/salsa-night-october (json-ld): says 2026-10-14",
-          "eventbrite.com/e/october-latin-dance-night-at (json-ld): says 2026-10-14"
+          "eventbrite.com/e/october-latin-dance-night-at (json-ld): says 2026-10-14",
+          "wearelous.com/lous-live/salsa-night-october (json-ld): says 2026-10-14"
         ]
       }
     },

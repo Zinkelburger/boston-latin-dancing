@@ -723,7 +723,10 @@
     "_verified_at": "2026-09-23T00:14:29.743093+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
-    "_verification_url": "https://www.eventbrite.com/e/boston-bachata-party-cocomango-speakeasy-cambridge-la-casa-de-la-bachata-tickets-1999738598981"
+    "_verification_url": "https://www.eventbrite.com/e/boston-bachata-party-cocomango-speakeasy-cambridge-la-casa-de-la-bachata-tickets-1999738598981",
+    "urls": [
+      "https://facebook.com/events/s/boston-bachata-party-cocomango/1252515136999918/"
+    ]
   },
   {
     "id": "6p0q976tmk0ub5vt98dhuugd5i_R20240803T233000@google.com",
@@ -983,7 +986,8 @@
     "_verified_at": "2026-09-23T00:15:39.940797+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
-    "_verification_url": "https://www.eventbrite.com/o/rumbaland-121144221749"
+    "_verification_url": "https://www.eventbrite.com/o/rumbaland-121144221749",
+    "special": true
   },
   {
     "id": "b9v58n7069hskptuh6oo81njp4@google.com",
@@ -1305,12 +1309,12 @@
     "_verification_url": "https://facebook.com/events/s/lili-latin-dance-presents-sazo/1635044534939952/"
   },
   {
-    "id": "eb-2001023303567",
+    "id": "qdl15rphrtsop45q6jp901t3g8@google.com",
     "name": "6th Annual Salsa & Bachata Halloween Party",
-    "startDate": "2026-10-31T21:00:00-04:00",
-    "endDate": "2026-11-01T01:30:00-05:00",
+    "startDate": "2026-11-01T01:00:00+00:00",
+    "endDate": "2026-11-01T05:30:00+00:00",
     "dayOfWeek": "Saturday",
-    "location": "41 Hampshire St, 41 Hampshire Street, Cambridge, MA 02139, Cambridge, MA",
+    "location": "41 Hampshire St, Cambridge, MA 02139",
     "lat": 42.3728,
     "lng": -71.0994077,
     "description": "Dance Lesson, Costumes, and dancing all night!!\n\nOrganizer: Bachata Room",
@@ -1319,14 +1323,14 @@
       "bachata",
       "salsa"
     ],
-    "cost": "$23.18",
+    "cost": "$20",
     "recurring": false,
-    "source": "eventbrite-boston-latin",
-    "special": true,
-    "_verified_at": "2026-09-23T00:14:47.878208+00:00",
+    "source": "sensualeros-boston",
+    "_verified_at": "2026-09-23T16:09:27.264985+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
-    "_verification_url": "https://www.eventbrite.com/e/6th-annual-salsa-bachata-halloween-party-tickets-2001023303567"
+    "_verification_url": "https://www.eventbrite.com/e/6th-annual-salsa-bachata-halloween-party-tickets-2001023303567",
+    "special": true
   },
   {
     "id": "eb-2001409938001",
@@ -1347,10 +1351,10 @@
     "cost": "$15",
     "recurring": false,
     "source": "eventbrite-boston-latin",
-    "_verified_at": "2026-09-23T00:14:48.083261+00:00",
+    "_verified_at": "2026-09-23T16:09:27.609323+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD matches (date checked)",
-    "_verification_url": "https://www.wearelous.com/lous-live/salsa-night-october",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
+    "_verification_url": "https://www.eventbrite.com/e/october-latin-dance-night-at-lous-lessons-social-dancing-tickets-2001409938001",
     "urls": [
       "https://www.wearelous.com/lous-live/salsa-night-october"
     ]

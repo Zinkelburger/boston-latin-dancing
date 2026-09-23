@@ -306,5 +306,27 @@
     "blocked_notes": "team open house / choreography intro, not a social",
     "location": "Spontaneous Celebrations, 45 Danforth St, Jamaica Plain, MA 02130, USA",
     "block_key": "next level open house season 9|spontaneous celebrations 45 danforth st jamaica plain ma 02130 usa"
+  },
+  {
+    "id": "2A3E11A0-311F-44FE-80A9-8E530EFF32D9",
+    "name": "BOSTON BACHATA PARTY @ Cocomango Speakeasy Cambridge | La Casa de la Bachata™",
+    "source": "beatrice-calendar",
+    "blocked_reason": "Same as eb-1999738598981 (Oct 17 per Eventbrite JSON-LD and FB description; FB header says Oct 10)",
+    "blocked_category": "duplicate_source",
+    "blocked_at": "2026-09-23T16:08:39.633504+00:00",
+    "blocked_notes": "Same as eb-1999738598981 (Oct 17 per Eventbrite JSON-LD and FB description; FB header says Oct 10)",
+    "location": "Cocomango Speakeasy (inside TopMix Bar), 50 Cambridgepark Dr, Cambridge, MA 02140",
+    "block_key": "boston bachata party cocomango speakeasy cambridge la casa de la bachata|cocomango speakeasy inside topmix bar 50 cambridgepark dr cambridge ma 02140"
+  },
+  {
+    "id": "9usj003ag8e2ub9ipnhmf8mbo8@google.com",
+    "name": "October Latin Dance Night at Lou's",
+    "source": "sensualeros-boston",
+    "blocked_reason": "Same as eb-2001409938001; Lou's own page says Oct 14, Sensualeros had Oct 4",
+    "blocked_category": "duplicate_source",
+    "blocked_at": "2026-09-23T16:08:40.869048+00:00",
+    "blocked_notes": "Same as eb-2001409938001; Lou's own page says Oct 14, Sensualeros had Oct 4",
+    "location": "Lou’s, 13A Brattle St",
+    "block_key": "october latin dance night at lous|lou s 13a brattle st"
   }
 ]

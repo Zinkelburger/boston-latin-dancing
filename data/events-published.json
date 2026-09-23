@@ -461,6 +461,7 @@
     ],
     "cost": "$20",
     "recurring": false,
+    "special": true,
     "slug": "rumbaland-6-tale-of-the-tape-fh0adau8",
     "organizer": "Sensualeros Boston Events"
   },
@@ -900,6 +901,9 @@
     ],
     "cost": "$22.11",
     "recurring": false,
+    "urls": [
+      "https://facebook.com/events/s/boston-bachata-party-cocomango/1252515136999918/"
+    ],
     "slug": "boston-bachata-party-cocomango-speakeasy-cambridge-la-casa-d-eb-19997",
     "organizer": "Eventbrite Boston Latin Dance"
   },
@@ -1039,12 +1043,12 @@
     "organizer": "Sensualeros Boston Events"
   },
   {
-    "id": "eb-2001023303567",
+    "id": "qdl15rphrtsop45q6jp901t3g8@google.com",
     "name": "6th Annual Salsa & Bachata Halloween Party",
-    "startDate": "2026-10-31T21:00:00-04:00",
-    "endDate": "2026-11-01T01:30:00-05:00",
+    "startDate": "2026-11-01T01:00:00+00:00",
+    "endDate": "2026-11-01T05:30:00+00:00",
     "dayOfWeek": "Saturday",
-    "location": "41 Hampshire St, 41 Hampshire Street, Cambridge, MA 02139, Cambridge, MA",
+    "location": "41 Hampshire St, Cambridge, MA 02139",
     "lat": 42.3728,
     "lng": -71.0994077,
     "description": "Dance Lesson, Costumes, and dancing all night!!\n\nOrganizer: Bachata Room",
@@ -1053,11 +1057,11 @@
       "bachata",
       "salsa"
     ],
-    "cost": "$23.18",
+    "cost": "$20",
     "recurring": false,
     "special": true,
-    "slug": "6th-annual-salsa-bachata-halloween-party-eb-20010",
-    "organizer": "Eventbrite Boston Latin Dance"
+    "slug": "6th-annual-salsa-bachata-halloween-party-qdl15rph",
+    "organizer": "Sensualeros Boston Events"
   },
   {
     "id": "a37202a6a3b3ec4c12d49d8e184bab76048a3b2e@dance-calendar",

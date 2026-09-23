@@ -434,26 +434,6 @@
     "notes": "Facebook preview matches (date checked); by Lili Latin Dance and Liliana Minja Jimenez"
   },
   {
-    "event_id": "eb-2001023303567",
-    "event_name": "6th Annual Salsa & Bachata Halloween Party",
-    "url_type": "direct",
-    "source_url": "https://www.eventbrite.com/e/6th-annual-salsa-bachata-halloween-party-tickets-2001023303567",
-    "verified_at": "2026-09-23T00:14:47.878208+00:00",
-    "source_location": "41 Hampshire St, 41 Hampshire Street, Cambridge, MA 02139",
-    "our_location": "41 Hampshire St, 41 Hampshire Street, Cambridge, MA 02139, Cambridge, MA",
-    "status": "confirmed",
-    "notes": "JSON-LD matches (date + location checked)"
-  },
-  {
-    "event_id": "lous-51c627f6",
-    "event_name": "Latin DANCE NIGHT",
-    "url_type": "direct",
-    "source_url": "https://www.wearelous.com/lous-live/salsa-night-october",
-    "verified_at": "2026-09-23T00:14:48.083261+00:00",
-    "status": "confirmed",
-    "notes": "JSON-LD matches (date checked)"
-  },
-  {
     "event_id": "eb-1999323753166",
     "event_name": "Reggaeton Fest",
     "url_type": "direct",
@@ -509,5 +489,27 @@
     "verified_at": "2026-09-23T00:15:39.940797+00:00",
     "status": "reachable_only",
     "notes": "Page accessible, no JSON-LD found — date/location NOT verified"
+  },
+  {
+    "event_id": "qdl15rphrtsop45q6jp901t3g8@google.com",
+    "event_name": "6th Annual Salsa & Bachata Halloween Party",
+    "url_type": "direct",
+    "source_url": "https://www.eventbrite.com/e/6th-annual-salsa-bachata-halloween-party-tickets-2001023303567",
+    "verified_at": "2026-09-23T16:09:27.264985+00:00",
+    "source_location": "41 Hampshire St, 41 Hampshire Street, Cambridge, MA 02139",
+    "our_location": "41 Hamshire St, Cambridge, MA",
+    "status": "confirmed",
+    "notes": "JSON-LD matches (date + location checked)"
+  },
+  {
+    "event_id": "eb-2001409938001",
+    "event_name": "October Latin Dance Night at Lou's | Lessons & Social Dancing",
+    "url_type": "direct",
+    "source_url": "https://www.eventbrite.com/e/october-latin-dance-night-at-lous-lessons-social-dancing-tickets-2001409938001",
+    "verified_at": "2026-09-23T16:09:27.609323+00:00",
+    "source_location": "Lou's, 13 Brattle Street, Cambridge, MA 02138",
+    "our_location": "Lou's, 13 Brattle Street, Cambridge, MA 02138, Cambridge, MA",
+    "status": "confirmed",
+    "notes": "JSON-LD matches (date + location checked)"
   }
 ]
