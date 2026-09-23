@@ -4,7 +4,7 @@
 The no-judgment half of the pipeline. Existing events get refreshed
 (certain-confidence merges only) and past events get archived, but
 brand-new events are QUARANTINED into pending.json — nothing appears on
-the map until the weekly agent run (automation/agent_review.sh) approves it.
+the map until the weekly review (automation/agent_prompt.md) approves it.
 
 Which scrapers run is decided by data/sources.json alone (every enabled
 entry with a ``scraper`` field, plus the submissions fetcher) via
