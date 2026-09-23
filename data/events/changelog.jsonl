@@ -1205,3 +1205,78 @@
 {"ts": "2026-09-14T21:04:35.141302+00:00", "action": "edit", "event_id": "53AC7485-D946-4CD6-BC98-C0375DCBD433", "details": "{\"urls\": [\"https://luma.com/x0o9o1lr\"]}"}
 {"ts": "2026-09-14T21:04:35.144553+00:00", "action": "verify_attest", "event_id": "sensualeros-boston-series-2c3260e1b0fb", "details": "needs_review: https://www.facebook.com/FuegoyCandelaSalsa/events"}
 {"ts": "2026-09-14T21:05:29.165366+00:00", "action": "edit", "event_id": "FB894180-B298-4F21-B5A2-E916571B31EE", "details": "replaced dead url jandldancestudio.com/jl-underground-social with buenavibradance.com/socials (studio rebranded)"}
+{"ts": "2026-09-23T00:11:03.708893+00:00", "action": "quarantine_new", "event_id": "449124DD-8C15-4701-B9D7-70913838F6E1", "details": ""}
+{"ts": "2026-09-23T00:11:03.783216+00:00", "action": "quarantine_new", "event_id": "EF9DDA0D-59C2-4A5B-A6DA-F111C3F6B443", "details": ""}
+{"ts": "2026-09-23T00:11:03.867865+00:00", "action": "quarantine_new", "event_id": "291FF95C-AC47-4C2F-B9FF-CF4E724097F4", "details": ""}
+{"ts": "2026-09-23T00:11:04.025734+00:00", "action": "quarantine_new", "event_id": "7AE11AF6-D9F8-480E-991B-6685A056F97D", "details": ""}
+{"ts": "2026-09-23T00:11:04.730737+00:00", "action": "quarantine_new", "event_id": "2A3E11A0-311F-44FE-80A9-8E530EFF32D9", "details": ""}
+{"ts": "2026-09-23T00:11:04.753725+00:00", "action": "pending_review", "event_id": "570AD6DF-B09E-4B62-8F48-96DB1C7D9EFC", "details": "review dup of eb-2000162886035: substring_name+within_24h+same_day"}
+{"ts": "2026-09-23T00:11:04.771538+00:00", "action": "quarantine_new", "event_id": "eb-2001023303567", "details": ""}
+{"ts": "2026-09-23T00:11:04.861892+00:00", "action": "quarantine_new", "event_id": "eb-2000919495073", "details": ""}
+{"ts": "2026-09-23T00:11:04.883004+00:00", "action": "quarantine_new", "event_id": "eb-2001409938001", "details": ""}
+{"ts": "2026-09-23T00:11:04.901646+00:00", "action": "quarantine_new", "event_id": "eb-1999323753166", "details": ""}
+{"ts": "2026-09-23T00:11:04.945069+00:00", "action": "quarantine_new", "event_id": "eb-2001271489899", "details": ""}
+{"ts": "2026-09-23T00:11:05.033593+00:00", "action": "quarantine_new", "event_id": "lous-51c627f6", "details": ""}
+{"ts": "2026-09-23T00:11:05.089055+00:00", "action": "quarantine_new", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-09-24-20-45", "details": ""}
+{"ts": "2026-09-23T00:11:05.094864+00:00", "action": "reject_non_latin", "event_id": "nlf-events-next-level-open-house-season-9-1", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-09-23T00:11:05.098128+00:00", "action": "reject_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-10-18-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-09-23T00:11:05.264840+00:00", "action": "quarantine_new", "event_id": "sensualeros-boston-series-1662ca9a83e4", "details": ""}
+{"ts": "2026-09-23T00:11:05.321788+00:00", "action": "quarantine_new", "event_id": "gppklpjppa5nbn96398jpidto8@google.com", "details": ""}
+{"ts": "2026-09-23T00:11:05.341979+00:00", "action": "quarantine_new", "event_id": "2k6dlt6erqub3hbcepvt63broo@google.com", "details": ""}
+{"ts": "2026-09-23T00:11:05.511601+00:00", "action": "quarantine_new", "event_id": "rj6katt3br41q5sesibkn1clf0@google.com", "details": ""}
+{"ts": "2026-09-23T00:11:05.566491+00:00", "action": "quarantine_new", "event_id": "f4sme30p0iuds5sc509iv2sfco@google.com", "details": ""}
+{"ts": "2026-09-23T00:11:05.589114+00:00", "action": "pending_review", "event_id": "1p8a05bmkjkppkm3lbgsv4baao@google.com", "details": "review dup of eb-2000162886035: substring_name+within_24h+same_day"}
+{"ts": "2026-09-23T00:11:05.647157+00:00", "action": "archive", "event_id": "90B09D86-A680-452E-9B0F-F2F78A22A27E", "details": ""}
+{"ts": "2026-09-23T00:11:05.647245+00:00", "action": "archive", "event_id": "eb-1998512589955", "details": ""}
+{"ts": "2026-09-23T00:11:05.647290+00:00", "action": "archive", "event_id": "eb-1998988732109", "details": ""}
+{"ts": "2026-09-23T00:11:05.647345+00:00", "action": "archive", "event_id": "ACFDF41C-8D66-402C-9AE9-FD0610D0AECE", "details": ""}
+{"ts": "2026-09-23T00:11:05.647398+00:00", "action": "archive", "event_id": "eb-1999871365088", "details": ""}
+{"ts": "2026-09-23T00:11:05.647443+00:00", "action": "archive", "event_id": "5vpsvv083qinekd3sfear8kfet@google.com", "details": ""}
+{"ts": "2026-09-23T00:11:05.647481+00:00", "action": "archive", "event_id": "kp355pg408kpnreg80oabllvuc@google.com", "details": ""}
+{"ts": "2026-09-23T00:12:41.694901+00:00", "action": "add", "event_id": "449124DD-8C15-4701-B9D7-70913838F6E1", "details": ""}
+{"ts": "2026-09-23T00:12:41.697078+00:00", "action": "approve", "event_id": "449124DD-8C15-4701-B9D7-70913838F6E1", "details": ""}
+{"ts": "2026-09-23T00:12:41.699164+00:00", "action": "edit", "event_id": "449124DD-8C15-4701-B9D7-70913838F6E1", "details": "{\"special\": true, \"styles\": [\"salsa\"]}"}
+{"ts": "2026-09-23T00:12:41.719796+00:00", "action": "add", "event_id": "EF9DDA0D-59C2-4A5B-A6DA-F111C3F6B443", "details": ""}
+{"ts": "2026-09-23T00:12:41.721631+00:00", "action": "approve", "event_id": "EF9DDA0D-59C2-4A5B-A6DA-F111C3F6B443", "details": ""}
+{"ts": "2026-09-23T00:12:41.725242+00:00", "action": "edit", "event_id": "EF9DDA0D-59C2-4A5B-A6DA-F111C3F6B443", "details": "{\"special\": true}"}
+{"ts": "2026-09-23T00:12:41.749512+00:00", "action": "add", "event_id": "291FF95C-AC47-4C2F-B9FF-CF4E724097F4", "details": ""}
+{"ts": "2026-09-23T00:12:41.751473+00:00", "action": "approve", "event_id": "291FF95C-AC47-4C2F-B9FF-CF4E724097F4", "details": ""}
+{"ts": "2026-09-23T00:12:41.756875+00:00", "action": "edit", "event_id": "291FF95C-AC47-4C2F-B9FF-CF4E724097F4", "details": "{\"location\": \"Rumba y Timbal Dance Studio, 7 Temple Street, Cambridge, MA 02139\", \"cost\": \"$15 cash; $10 Rumba y Timbal students\"}"}
+{"ts": "2026-09-23T00:12:41.758000+00:00", "action": "reject", "event_id": "gppklpjppa5nbn96398jpidto8@google.com", "details": "duplicate of Beatrice copy 291FF95C (same Rumba y Clave social, Oct 17)"}
+{"ts": "2026-09-23T00:12:41.781819+00:00", "action": "add", "event_id": "7AE11AF6-D9F8-480E-991B-6685A056F97D", "details": ""}
+{"ts": "2026-09-23T00:12:41.783111+00:00", "action": "approve", "event_id": "7AE11AF6-D9F8-480E-991B-6685A056F97D", "details": ""}
+{"ts": "2026-09-23T00:12:41.784758+00:00", "action": "reject", "event_id": "f4sme30p0iuds5sc509iv2sfco@google.com", "details": "duplicate of Beatrice copy 7AE11AF6 (Sazon Saturday Oct 3)"}
+{"ts": "2026-09-23T00:12:41.786193+00:00", "action": "reject", "event_id": "2A3E11A0-311F-44FE-80A9-8E530EFF32D9", "details": "wrong date: description says Sat Oct 17, already active as eb-1999738598981"}
+{"ts": "2026-09-23T00:12:41.814804+00:00", "action": "approve", "event_id": "570AD6DF-B09E-4B62-8F48-96DB1C7D9EFC", "details": ""}
+{"ts": "2026-09-23T00:12:41.958312+00:00", "action": "merge", "event_id": "1p8a05bmkjkppkm3lbgsv4baao@google.com", "details": "force-merged review dup of 570AD6DF-B09E-4B62-8F48-96DB1C7D9EFC"}
+{"ts": "2026-09-23T00:12:41.960363+00:00", "action": "approve", "event_id": "1p8a05bmkjkppkm3lbgsv4baao@google.com", "details": ""}
+{"ts": "2026-09-23T00:12:41.981619+00:00", "action": "add", "event_id": "eb-2001023303567", "details": ""}
+{"ts": "2026-09-23T00:12:41.983093+00:00", "action": "approve", "event_id": "eb-2001023303567", "details": ""}
+{"ts": "2026-09-23T00:12:41.986252+00:00", "action": "edit", "event_id": "eb-2001023303567", "details": "{\"special\": true}"}
+{"ts": "2026-09-23T00:12:41.988222+00:00", "action": "reject", "event_id": "eb-2000919495073", "details": "sit-down jazz quartet set at a restaurant, not a dance event"}
+{"ts": "2026-09-23T00:12:42.008792+00:00", "action": "add", "event_id": "lous-51c627f6", "details": ""}
+{"ts": "2026-09-23T00:12:42.010965+00:00", "action": "approve", "event_id": "lous-51c627f6", "details": ""}
+{"ts": "2026-09-23T00:12:42.014954+00:00", "action": "edit", "event_id": "lous-51c627f6", "details": "{\"cost\": \"$20 lesson + social; $15 social only\", \"urls\": [\"https://www.eventbrite.com/e/october-latin-dance-night-at-lous-lessons-social-dancing-tickets-2001409938001\"]}"}
+{"ts": "2026-09-23T00:12:42.016859+00:00", "action": "reject", "event_id": "eb-2001409938001", "details": "duplicate of lous-51c627f6 (organizer page for the same Oct 14 night)"}
+{"ts": "2026-09-23T00:12:42.040703+00:00", "action": "add", "event_id": "eb-1999323753166", "details": ""}
+{"ts": "2026-09-23T00:12:42.041849+00:00", "action": "approve", "event_id": "eb-1999323753166", "details": ""}
+{"ts": "2026-09-23T00:12:42.044913+00:00", "action": "edit", "event_id": "eb-1999323753166", "details": "{\"special\": true, \"styles\": [\"salsa\", \"merengue\", \"other\"]}"}
+{"ts": "2026-09-23T00:12:42.047413+00:00", "action": "reject", "event_id": "eb-2001271489899", "details": "instruction only: timba musicality class"}
+{"ts": "2026-09-23T00:12:42.049085+00:00", "action": "reject", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-09-24-20-45", "details": "instruction only; the social after it is the Havana Thursdays hub"}
+{"ts": "2026-09-23T00:12:42.050294+00:00", "action": "reject", "event_id": "sensualeros-boston-series-1662ca9a83e4", "details": "West Coast Swing, not Latin"}
+{"ts": "2026-09-23T00:12:42.053684+00:00", "action": "reject", "event_id": "2k6dlt6erqub3hbcepvt63broo@google.com", "details": "already under way at review time (Tue Sep 22 8 PM); series covered by Senior Zouk Social record"}
+{"ts": "2026-09-23T00:12:42.076760+00:00", "action": "add", "event_id": "rj6katt3br41q5sesibkn1clf0@google.com", "details": ""}
+{"ts": "2026-09-23T00:12:42.077859+00:00", "action": "approve", "event_id": "rj6katt3br41q5sesibkn1clf0@google.com", "details": ""}
+{"ts": "2026-09-23T00:12:42.081019+00:00", "action": "edit", "event_id": "rj6katt3br41q5sesibkn1clf0@google.com", "details": "{\"location\": \"Tamb\\u00f3 Salsa at Dante's, 41 Hampshire St, Cambridge, MA 02139\", \"url\": \"https://www.facebook.com/tambosalsa\", \"cost\": \"$20 class + social; $15 social only\", \"description\": \"Tamb\\u00f3 Salsa Social at Dante Alighieri Society. Class 8:45\\u20139:30 PM, social 9:30 PM\\u20131 AM. Special performances by Clara & Al, Mambo Pa Ti team.\"}"}
+{"ts": "2026-09-23T00:13:02.801800+00:00", "action": "block", "event_id": "sensualeros-boston-series-1662ca9a83e4", "details": "not_latin: West Coast Swing weekly at Westie 616 (Sensualeros calendar)"}
+{"ts": "2026-09-23T00:13:13.868334+00:00", "action": "edit", "event_id": "570AD6DF-B09E-4B62-8F48-96DB1C7D9EFC", "details": "{\"location\": \"Cocomango Speakeasy (inside TopMix Bar), 50 Cambridgepark Dr, Cambridge, MA 02140\", \"cost\": \"$20 online; $25 at the door\"}"}
+{"ts": "2026-09-23T00:13:13.871064+00:00", "action": "edit", "event_id": "rj6katt3br41q5sesibkn1clf0@google.com", "details": "{\"url\": \"https://www.facebook.com/Tambosalsa\"}"}
+{"ts": "2026-09-23T00:14:09.459831+00:00", "action": "edit", "event_id": "eb-2000672130198", "details": "{\"startDate\": \"2026-10-24T18:00:00-04:00\", \"endDate\": \"2026-10-24T23:00:00-04:00\"}"}
+{"ts": "2026-09-23T00:14:19.181522+00:00", "action": "block", "event_id": "nlf-events-next-level-open-house-season-9-1", "details": "not_dance: team open house / choreography intro, not a social"}
+{"ts": "2026-09-23T00:14:19.185035+00:00", "action": "dismiss_rejected", "event_id": "nlf-events-egleston-park-summer-socials-2026-10-18-14-00", "details": "duplicate of active Egleston Park Summer Social (4qc656kur2gocnolf5ns78ag18)"}
+{"ts": "2026-09-23T00:15:39.698067+00:00", "action": "edit", "event_id": "24B35DF9-A95C-484E-BD02-8541376BBB5A", "details": "{\"url\": \"https://www.facebook.com/events/1418706253534766/\", \"urls\": [\"https://www.eventbrite.com/o/sabor-latino-boston-63775846633\"]}"}
+{"ts": "2026-09-23T00:15:39.704323+00:00", "action": "edit", "event_id": "fh0adau8areq1nn3bb0huk8dkk@google.com", "details": "{\"url\": \"https://www.eventbrite.com/o/rumbaland-121144221749\"}"}
+{"ts": "2026-09-23T00:15:39.710059+00:00", "action": "verify_attest", "event_id": "sensualeros-boston-series-2c3260e1b0fb", "details": "confirmed: https://www.facebook.com/FuegoyCandelaSalsa/events"}
+{"ts": "2026-09-23T00:15:39.715210+00:00", "action": "verify_attest", "event_id": "rj6katt3br41q5sesibkn1clf0@google.com", "details": "confirmed: https://www.facebook.com/Tambosalsa"}
+{"ts": "2026-09-23T00:16:37.347097+00:00", "action": "edit", "event_id": "A182D62F-04B8-4A49-ACD3-2022AD66E6C5", "details": "{\"urls\": []}"}
+{"ts": "2026-09-23T00:16:37.350842+00:00", "action": "edit", "event_id": "53AC7485-D946-4CD6-BC98-C0375DCBD433", "details": "{\"urls\": []}"}

@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-09-14T21:05:51.510469+00:00",
+  "checked_at": "2026-09-23T00:16:02.392493+00:00",
   "scope": "all",
   "totals": {
     "urls": 202,
@@ -530,7 +530,7 @@
     {
       "url": "https://harvardsquare.com/12th-annual-salsa-squared-in-harvard-square/",
       "status": 200,
-      "final_url": null,
+      "final_url": "https://harvardsquare.com/news/12th-annual-salsa-squared-in-harvard-square/",
       "verdict": "ok",
       "note": "HTTP 200",
       "appears_in": [
@@ -1201,16 +1201,6 @@
       ]
     },
     {
-      "url": "https://www.eventbrite.com/e/sabor-latino-el-barco-salsabachata-night-tickets-1999208401145",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Sabor Latino! @ El Barco - Salsa/Bachata Night"
-      ]
-    },
-    {
       "url": "https://www.eventbrite.com/e/saborcito-the-anchor-salsa-bachata-dancing-tickets-1989160742327",
       "status": 200,
       "final_url": null,
@@ -1497,6 +1487,16 @@
       ]
     },
     {
+      "url": "https://www.facebook.com/events/1418706253534766/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Sabor Latino Pop Up Salsa Night @ El Barco)",
+      "appears_in": [
+        "event: Sabor Latino! @ El Barco - Salsa/Bachata Night (alt)"
+      ]
+    },
+    {
       "url": "https://www.facebook.com/events/1694392281858453",
       "status": 200,
       "final_url": null,
@@ -1559,7 +1559,7 @@
     {
       "url": "https://www.facebook.com/events/2073153546944008/",
       "status": 200,
-      "final_url": "https://www.facebook.com/events/2073153546944008/2073153590277337/",
+      "final_url": "https://www.facebook.com/events/2073153546944008/2073153600277336/",
       "verdict": "ok",
       "note": "live (Saborcito @ The Anchor - Salsa & Bachata Dancing)",
       "appears_in": [
@@ -1620,7 +1620,7 @@
     {
       "url": "https://www.facebook.com/share/p/14XJ6zMt3gB/?mibextid=wwXIfr",
       "status": 200,
-      "final_url": "https://www.facebook.com/groups/salsainboston/permalink/26784092907885992/?mibextid=wwXIfr&rdid=1CFUgKSACeyLA36a&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fp%2F14XJ6zMt3gB%2F%3Fmibextid%3DwwXIfr",
+      "final_url": "https://www.facebook.com/groups/salsainboston/permalink/26784092907885992/?mibextid=wwXIfr&rdid=q9iwZ5kQT8Vo86FO&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2Fp%2F14XJ6zMt3gB%2F%3Fmibextid%3DwwXIfr",
       "verdict": "ok",
       "note": "live (Salsa in Boston)",
       "appears_in": [

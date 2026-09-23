@@ -284,5 +284,27 @@
     "blocked_notes": "Duplicate of the maintained Timba y Descontrol venue schedule; the Beatrice record carries an outdated class order, price, and late-night end time.",
     "location": "Cambridge Common, Waterhouse St & Massachusetts Ave, Cambridge, MA 02138, USA",
     "block_key": "timba y descontrol cuban salsa lessons social|cambridge common waterhouse st massachusetts ave cambridge ma 02138 usa"
+  },
+  {
+    "id": "sensualeros-boston-series-1662ca9a83e4",
+    "name": "West Coast Swing @ Westie 616",
+    "source": "sensualeros-boston",
+    "blocked_reason": "West Coast Swing weekly at Westie 616 (Sensualeros calendar)",
+    "blocked_category": "not_latin",
+    "blocked_at": "2026-09-23T00:13:02.797637+00:00",
+    "blocked_notes": "West Coast Swing weekly at Westie 616 (Sensualeros calendar)",
+    "location": "351 Summer St, Somerville, MA 02144",
+    "block_key": "west coast swing westie 616|351 summer st somerville ma 02144"
+  },
+  {
+    "id": "nlf-events-next-level-open-house-season-9-1",
+    "name": "Next Level Open House Season 9",
+    "source": "nlf-events",
+    "blocked_reason": "team open house / choreography intro, not a social",
+    "blocked_category": "not_dance",
+    "blocked_at": "2026-09-23T00:14:19.156555+00:00",
+    "blocked_notes": "team open house / choreography intro, not a social",
+    "location": "Spontaneous Celebrations, 45 Danforth St, Jamaica Plain, MA 02130, USA",
+    "block_key": "next level open house season 9|spontaneous celebrations 45 danforth st jamaica plain ma 02130 usa"
   }
 ]

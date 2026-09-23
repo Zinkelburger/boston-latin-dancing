@@ -16,7 +16,7 @@
     "cost": "$45.28",
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-09-14T20:59:21.155934+00:00",
+    "_verified_at": "2026-09-23T00:14:19.185872+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.eventbrite.com/e/arts-at-the-armory-spotlight-series-presents-tito-puente-jr-tickets-1984583543803"
@@ -47,7 +47,7 @@
       "2026-09-06T17:00:00-04:00",
       "2026-10-04T17:00:00-04:00"
     ],
-    "_verified_at": "2026-09-14T20:59:21.325631+00:00",
+    "_verified_at": "2026-09-23T00:14:19.443855+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (location checked)",
     "_verification_url": "https://www.listerevents.com/event-details/earlier-time-bachata-salsa-by-the-river",
@@ -62,8 +62,8 @@
   {
     "id": "m493k99gsroqpbockbf2e5cgi7@google.com",
     "name": "Kiz Thursday",
-    "startDate": "2026-09-17T21:30:00-04:00",
-    "endDate": "2026-09-18T00:00:00-04:00",
+    "startDate": "2026-09-24T21:30:00-04:00",
+    "endDate": "2026-09-25T00:00:00-04:00",
     "dayOfWeek": "Thursday",
     "location": "Moves & Vibes Dancing Academy, 44 5th St, Cambridge, MA 02141, EE. UU.",
     "lat": 42.3716703,
@@ -77,7 +77,6 @@
     "recurring": true,
     "source": "beatrice-calendar",
     "recurrences": [
-      "2026-09-17T21:30:00-04:00",
       "2026-09-24T21:30:00-04:00",
       "2026-10-01T21:30:00-04:00",
       "2026-10-08T21:30:00-04:00",
@@ -88,9 +87,10 @@
       "2026-11-12T21:30:00-05:00",
       "2026-11-19T21:30:00-05:00",
       "2026-11-26T21:30:00-05:00",
-      "2026-12-03T21:30:00-05:00"
+      "2026-12-03T21:30:00-05:00",
+      "2026-12-10T21:30:00-05:00"
     ],
-    "_verified_at": "2026-09-14T20:59:21.532227+00:00",
+    "_verified_at": "2026-09-23T00:14:20.868402+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://kizboston.com/",
@@ -116,7 +116,7 @@
     "cost": "Free",
     "recurring": false,
     "source": "lister-events",
-    "_verified_at": "2026-09-14T20:59:23.290246+00:00",
+    "_verified_at": "2026-09-23T00:14:22.025240+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.listerevents.com/event-details/earlier-time-bachata-salsa-by-the-river-2"
@@ -124,8 +124,8 @@
   {
     "id": "_6crjic1k6co68e1o71h30opp6dhj4d36ccsj4p1i6krm2php74oj8eb175hm2c9m81i62rj3ckmm6obccln68obi_R20260616T220000@google.com",
     "name": "SUSHI CON SALSA",
-    "startDate": "2026-09-15T18:00:00-04:00",
-    "endDate": "2026-09-15T21:00:00-04:00",
+    "startDate": "2026-10-20T18:00:00-04:00",
+    "endDate": "2026-10-20T21:00:00-04:00",
     "dayOfWeek": "Tuesday",
     "location": "11 William E Mullins Way, Boston, MA 02118",
     "lat": 42.345422,
@@ -139,12 +139,11 @@
     "cost": "Free",
     "recurring": true,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-09-14T20:59:23.416457+00:00",
+    "_verified_at": "2026-09-23T00:14:22.269220+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://ma.to/venue/shoreleavebos",
     "recurrences": [
-      "2026-09-15T18:00:00-04:00",
       "2026-10-20T18:00:00-04:00",
       "2026-11-17T18:00:00-05:00"
     ],
@@ -156,8 +155,8 @@
   {
     "id": "4qc656kur2gocnolf5ns78ag18@google.com",
     "name": "Egleston Park Summer Social",
-    "startDate": "2026-09-20T14:00:00-04:00",
-    "endDate": "2026-09-20T18:00:00-04:00",
+    "startDate": "2026-10-18T14:00:00-04:00",
+    "endDate": "2026-10-18T18:00:00-04:00",
     "dayOfWeek": "Sunday",
     "location": "Egleston Square Peace Garden, 3129 Washington St, Jamaica Plain, MA 02130, USA",
     "lat": 42.3144971,
@@ -172,11 +171,10 @@
     "recurring": true,
     "source": "beatrice-calendar",
     "recurrences": [
-      "2026-09-20T14:00:00-04:00",
       "2026-10-18T14:00:00-04:00",
       "2026-11-15T14:00:00-05:00"
     ],
-    "_verified_at": "2026-09-14T20:59:23.692205+00:00",
+    "_verified_at": "2026-09-23T00:14:22.536753+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (location checked)",
     "_verification_url": "https://www.nextlevelfusiondance.com/event-details/egleston-park-summer-socials-2026-09-20-14-00"
@@ -198,7 +196,7 @@
     "cost": "$200",
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-09-14T20:59:23.832735+00:00",
+    "_verified_at": "2026-09-23T00:14:23.992300+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "Facebook preview matches (date checked); by Baile Y Arte",
     "_verification_url": "https://facebook.com/events/s/zouk-weekender-bubble-with-iag/1275347797524181/",
@@ -221,7 +219,7 @@
     "cost": "Free",
     "recurring": false,
     "source": "sensualeros-boston",
-    "_verified_at": "2026-09-14T20:59:24.393102+00:00",
+    "_verified_at": "2026-09-23T00:14:24.618053+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://ma.to/event/salsa-night-at-the-grove-24-sep-2026"
@@ -243,7 +241,7 @@
     "cost": "Free",
     "recurring": false,
     "source": "mato-lawn-on-d",
-    "_verified_at": "2026-09-14T20:59:24.643440+00:00",
+    "_verified_at": "2026-09-23T00:14:24.939099+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://ma.to/event/salsa-night-at-the-grove-29-oct-2026"
@@ -262,10 +260,10 @@
     "styles": [
       "salsa"
     ],
-    "cost": null,
+    "cost": "Free",
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-09-14T20:59:24.865366+00:00",
+    "_verified_at": "2026-09-23T00:14:25.261886+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.vivoperformingarts.org/live-performances/lets-dance-boston-2026/",
@@ -289,7 +287,7 @@
     "recurring": false,
     "source": "beatrice-calendar",
     "dayOfWeek": "Thursday",
-    "_verified_at": "2026-09-14T20:59:24.991393+00:00",
+    "_verified_at": "2026-09-23T00:14:25.433294+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.vivoperformingarts.org/live-performances/lets-dance-boston-2026/",
@@ -298,8 +296,8 @@
   {
     "id": "phfsfa6ctj6jq4nikphf3mql0l@google.com",
     "name": "The Timba Messenger at Wally's ",
-    "startDate": "2026-09-17T22:00:00-04:00",
-    "endDate": "2026-09-18T00:00:00-04:00",
+    "startDate": "2026-09-24T22:00:00-04:00",
+    "endDate": "2026-09-25T00:00:00-04:00",
     "dayOfWeek": "Thursday",
     "location": "Wally's Cafe Jazz Club, 427 Massachusetts Ave, Boston, MA 02118, EE. UU.",
     "lat": 42.3406735,
@@ -313,7 +311,6 @@
     "recurring": true,
     "source": "timba-messengers",
     "recurrences": [
-      "2026-09-17T22:00:00-04:00",
       "2026-09-24T22:00:00-04:00",
       "2026-10-01T22:00:00-04:00",
       "2026-10-08T22:00:00-04:00",
@@ -324,9 +321,10 @@
       "2026-11-12T22:00:00-05:00",
       "2026-11-19T22:00:00-05:00",
       "2026-11-26T22:00:00-05:00",
-      "2026-12-03T22:00:00-05:00"
+      "2026-12-03T22:00:00-05:00",
+      "2026-12-10T22:00:00-05:00"
     ],
-    "_verified_at": "2026-09-14T20:59:25.082898+00:00",
+    "_verified_at": "2026-09-23T00:14:25.569677+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.thetimbamessengers.com"
@@ -349,7 +347,7 @@
     "cost": null,
     "recurring": false,
     "source": "fiesta-dance-company",
-    "_verified_at": "2026-09-14T20:59:25.349672+00:00",
+    "_verified_at": "2026-09-23T00:14:25.934909+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://fiestadancecompany.com/upcoming-socials"
@@ -373,7 +371,7 @@
     "recurring": false,
     "source": "fiesta-dance-company",
     "special": true,
-    "_verified_at": "2026-09-14T20:59:25.423007+00:00",
+    "_verified_at": "2026-09-23T00:14:26.059797+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://fiestadancecompany.com/upcoming-socials"
@@ -381,8 +379,8 @@
   {
     "id": "d3953ee79b4effa6b332abf32cb4e01ba180f56e@occurrence-1@dance-calendar",
     "name": "Saborcito @ The Anchor: Salsa & Bachata Dancing",
-    "startDate": "2026-09-14T18:00:00-04:00",
-    "endDate": "2026-09-14T21:00:00-04:00",
+    "startDate": "2026-09-28T18:00:00-04:00",
+    "endDate": "2026-09-28T21:00:00-04:00",
     "dayOfWeek": "Monday",
     "location": "1 Shipyard Park, charlestown, MA 02129, charlestown, MA",
     "lat": 42.3731772,
@@ -397,12 +395,10 @@
     "recurring": true,
     "source": "beatrice-calendar",
     "recurrences": [
-      "2026-09-14T18:00:00-04:00",
-      "2026-09-21T18:00:00-04:00",
       "2026-09-28T18:00:00-04:00",
       "2026-10-05T18:00:00-04:00"
     ],
-    "_verified_at": "2026-09-14T20:59:25.505126+00:00",
+    "_verified_at": "2026-09-23T00:14:26.204910+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (location checked)",
     "_verification_url": "https://www.eventbrite.com/e/saborcito-the-anchor-salsa-bachata-dancing-tickets-1989160742327",
@@ -415,8 +411,8 @@
   {
     "id": "8EDCCA4B-FCFA-4CD9-ABA3-8074966ACFCB",
     "name": "Bachata Room ",
-    "startDate": "2026-09-16T21:00:00-04:00",
-    "endDate": "2026-09-17T00:00:00-04:00",
+    "startDate": "2026-09-23T21:00:00-04:00",
+    "endDate": "2026-09-24T00:00:00-04:00",
     "dayOfWeek": "Wednesday",
     "location": "La Fabrica , 450 Massachusetts Ave, Cambridge, MA 02139, United States",
     "lat": 42.3636315,
@@ -432,7 +428,6 @@
     "recurring": true,
     "source": "sensualeros-boston",
     "recurrences": [
-      "2026-09-16T21:00:00-04:00",
       "2026-09-23T21:00:00-04:00",
       "2026-09-30T21:00:00-04:00",
       "2026-10-07T21:00:00-04:00",
@@ -443,9 +438,10 @@
       "2026-11-11T21:00:00-05:00",
       "2026-11-18T21:00:00-05:00",
       "2026-11-25T21:00:00-05:00",
-      "2026-12-02T21:00:00-05:00"
+      "2026-12-02T21:00:00-05:00",
+      "2026-12-09T21:00:00-05:00"
     ],
-    "_verified_at": "2026-09-14T20:59:25.629470+00:00",
+    "_verified_at": "2026-09-23T00:14:26.426491+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.bachataroomboston.com",
@@ -484,7 +480,7 @@
       "2026-11-16T20:00:00-05:00",
       "2026-11-23T20:00:00-05:00"
     ],
-    "_verified_at": "2026-09-14T20:59:25.878714+00:00",
+    "_verified_at": "2026-09-23T00:14:26.806770+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://havanaclubsalsa.com",
@@ -523,7 +519,7 @@
       "2026-11-17T20:00:00-05:00",
       "2026-11-24T20:00:00-05:00"
     ],
-    "_verified_at": "2026-09-14T20:59:26.170398+00:00",
+    "_verified_at": "2026-09-23T00:14:27.323913+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://havanaclubsalsa.com",
@@ -562,7 +558,7 @@
       "2026-11-12T20:45:00-05:00",
       "2026-11-19T20:45:00-05:00"
     ],
-    "_verified_at": "2026-09-14T20:59:26.263835+00:00",
+    "_verified_at": "2026-09-23T00:14:27.899269+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://havanaclubsalsa.com",
@@ -595,7 +591,7 @@
       "2026-11-07T19:00:00-05:00",
       "2026-12-05T19:00:00-05:00"
     ],
-    "_verified_at": "2026-09-14T20:59:26.354089+00:00",
+    "_verified_at": "2026-09-23T00:14:28.230245+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://buenavibradance.com/socials",
@@ -606,8 +602,8 @@
   {
     "id": "5ED3301D-8CE8-45D1-8094-C380C699DA99",
     "name": "Rueda in the Pahk",
-    "startDate": "2026-09-13T18:00:00-04:00",
-    "endDate": "2026-09-13T22:00:00-04:00",
+    "startDate": "2026-09-27T18:00:00-04:00",
+    "endDate": "2026-09-27T22:00:00-04:00",
     "dayOfWeek": "Sunday",
     "location": "Jill Brown Rhone Park, 389 Massachusetts Ave, Cambridge, MA 02139",
     "lat": 42.3630579,
@@ -621,8 +617,6 @@
     "recurring": true,
     "source": "beatrice-calendar",
     "recurrences": [
-      "2026-09-13T18:00:00-04:00",
-      "2026-09-20T18:00:00-04:00",
       "2026-09-27T18:00:00-04:00",
       "2026-10-04T18:00:00-04:00",
       "2026-10-11T18:00:00-04:00",
@@ -632,9 +626,11 @@
       "2026-11-08T18:00:00-05:00",
       "2026-11-15T18:00:00-05:00",
       "2026-11-22T18:00:00-05:00",
-      "2026-11-29T18:00:00-05:00"
+      "2026-11-29T18:00:00-05:00",
+      "2026-12-06T18:00:00-05:00",
+      "2026-12-13T18:00:00-05:00"
     ],
-    "_verified_at": "2026-09-14T20:59:26.421344+00:00",
+    "_verified_at": "2026-09-23T00:14:28.369874+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Event page live, upstream date 2026-09-06 — recurring series, not compared against our first occurrence",
     "_verification_url": "https://www.facebook.com/events/1702605367827796/1735471407874525/",
@@ -647,8 +643,8 @@
   {
     "id": "C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5",
     "name": "Sazón Saturday",
-    "startDate": "2026-09-19T18:00:00-04:00",
-    "endDate": "2026-09-19T22:00:00-04:00",
+    "startDate": "2026-10-17T18:00:00-04:00",
+    "endDate": "2026-10-17T22:00:00-04:00",
     "location": "Lili Latin Dance, 423 W Broadway, Ste 202, South Boston, MA 02127",
     "lat": 42.336527,
     "lng": -71.047731,
@@ -663,12 +659,11 @@
     "recurring": true,
     "source": "beatrice-calendar",
     "dayOfWeek": "Saturday",
-    "_verified_at": "2026-09-14T20:59:26.955113+00:00",
+    "_verified_at": "2026-09-23T00:14:28.737767+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.lili.dance/workshops",
     "recurrences": [
-      "2026-09-19T18:00:00-04:00",
       "2026-10-17T18:00:00-04:00",
       "2026-11-21T18:00:00-05:00"
     ],
@@ -697,37 +692,15 @@
     "source": "beatrice-calendar",
     "recurrences": [
       "2026-10-13T20:00:00-04:00",
-      "2026-11-10T20:00:00-05:00"
+      "2026-11-10T20:00:00-05:00",
+      "2026-12-08T20:00:00-05:00"
     ],
-    "_verified_at": "2026-09-14T20:59:27.224457+00:00",
+    "_verified_at": "2026-09-23T00:14:29.091866+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://forms.gle/kvUf8nb8iqrYuUKaA",
     "archivedAt": "2026-08-27T20:36:35.379076+00:00",
     "reactivatedAt": "2026-08-27T21:15:23.143506+00:00"
-  },
-  {
-    "id": "90B09D86-A680-452E-9B0F-F2F78A22A27E",
-    "name": "Rumba y Clave: Salsa & Bachata Social",
-    "startDate": "2026-09-19T23:00:00+00:00",
-    "endDate": "2026-09-20T02:00:00+00:00",
-    "dayOfWeek": "Saturday",
-    "location": "Rumba Y Timbal Dance Company",
-    "lat": 42.3668113,
-    "lng": -71.104309,
-    "description": "✨ Rumba y Clave: Salsa & Bachata Social ✨\n\nOur goal is simple: great music and nonstop dancing all night.\n\n🎶 Music by DJ CLAVE\n💃 50% Salsa | 50% Bachata\n\n🎟️ Entry — Cash Only\n$15 — General Admission\n$10 — Rumba y Timbal Students\n\n📍 Location:\nRumba y Timbal Dance Studio\n7 Temple Street, Cambridge, MA 02139\n\n🚇 Central Square stop (MBTA Red Line)\n🅿️ Parking available nearby\n💃 Partners welcome (not required)\n👟 Dress comfortably for dancing\n✨ Open to all levels\n\nEnjoy a beautiful hardwood dance floor designed for smooth movement, along with a large, open space that gives you plenty of room to dance without feeling crowded.\n\nCome dance, connect, and be part of Rumba y Clave! 💃🕺\n\nNote: Although the map may display 136 Bishop Allen Drive, the correct entrance address is 7 Temple Street. The buildings are very close together, so the map pin can be slightly inaccurate. The studio is located in the corner building at Bishop Allen Drive and Temple Street — please enter from the Temple Street side and use 7 Temple Street in your GPS.\n\nSource: https://facebook.com/events/s/rumba-y-clave-salsa-bachata-so/1933190690701433/",
-    "url": "https://facebook.com/events/s/rumba-y-clave-salsa-bachata-so/1933190690701433/",
-    "styles": [
-      "bachata",
-      "salsa"
-    ],
-    "cost": "Admission\n$10",
-    "recurring": false,
-    "source": "beatrice-calendar",
-    "_verified_at": "2026-09-14T20:59:27.866730+00:00",
-    "_verified_status": "confirmed",
-    "_verified_notes": "Facebook preview matches (date checked); by DJ CLAVE",
-    "_verification_url": "https://facebook.com/events/s/rumba-y-clave-salsa-bachata-so/1933190690701433/"
   },
   {
     "id": "eb-1999738598981",
@@ -747,54 +720,10 @@
     "cost": "$22.11",
     "recurring": false,
     "source": "eventbrite-boston-latin",
-    "_verified_at": "2026-09-14T20:59:28.411623+00:00",
+    "_verified_at": "2026-09-23T00:14:29.743093+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.eventbrite.com/e/boston-bachata-party-cocomango-speakeasy-cambridge-la-casa-de-la-bachata-tickets-1999738598981"
-  },
-  {
-    "id": "eb-1998512589955",
-    "name": "Dystopia Boston",
-    "startDate": "2026-09-18T23:00:00-04:00",
-    "endDate": "2026-09-19T02:00:00-04:00",
-    "dayOfWeek": "Friday",
-    "location": "Icon Nightclub, 100 Warrenton Street, Boston, MA 02116, Boston, MA",
-    "lat": 42.3506611,
-    "lng": -71.0662113,
-    "description": "Reimagining Latin Nightlife\n\nOrganizer: DYSTOPIA EVENTS",
-    "url": "https://www.eventbrite.com/e/dystopia-boston-tickets-1998512589955",
-    "styles": [
-      "other"
-    ],
-    "cost": "$18.81",
-    "recurring": false,
-    "source": "eventbrite-boston-latin",
-    "_verified_at": "2026-09-14T20:59:28.515537+00:00",
-    "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD matches (date + location checked)",
-    "_verification_url": "https://www.eventbrite.com/e/dystopia-boston-tickets-1998512589955"
-  },
-  {
-    "id": "eb-1998988732109",
-    "name": "LOCA HABIBI - THE RETURN",
-    "startDate": "2026-09-19T22:00:00-04:00",
-    "endDate": "2026-09-20T02:00:00-04:00",
-    "dayOfWeek": "Saturday",
-    "location": "Bijou Nightclub & Lounge, 51 Stuart Street, Boston, MA 02116, Boston, MA",
-    "lat": 42.3512385,
-    "lng": -71.0641941,
-    "description": "The biggest Arab / Latin Experience in Boston!\n\nOrganizer: SAHARA NIGHTS",
-    "url": "https://www.eventbrite.com/e/loca-habibi-the-return-tickets-1998988732109",
-    "styles": [
-      "other"
-    ],
-    "cost": "$33.84",
-    "recurring": false,
-    "source": "eventbrite-boston-latin",
-    "_verified_at": "2026-09-14T20:59:29.084173+00:00",
-    "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD matches (date + location checked)",
-    "_verification_url": "https://www.eventbrite.com/e/loca-habibi-the-return-tickets-1998988732109"
   },
   {
     "id": "6p0q976tmk0ub5vt98dhuugd5i_R20240803T233000@google.com",
@@ -817,7 +746,7 @@
       "2026-10-03T19:30:00-04:00",
       "2026-11-07T19:30:00-05:00"
     ],
-    "_verified_at": "2026-09-14T20:59:29.194295+00:00",
+    "_verified_at": "2026-09-23T00:14:29.885281+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.unabulla.com/boston",
@@ -830,8 +759,8 @@
   {
     "id": "8CCA30E6-6C4B-4E0E-8A78-BCA2C5761DE2",
     "name": "Flow Friday at The Anchor: Bachata Class & Social",
-    "startDate": "2026-09-18T19:00:00-04:00",
-    "endDate": "2026-09-18T23:00:00-04:00",
+    "startDate": "2026-09-25T19:00:00-04:00",
+    "endDate": "2026-09-25T23:00:00-04:00",
     "location": "The Anchor, 1 Shipyard Park, Charlestown, MA 02129",
     "lat": 42.3731772,
     "lng": -71.0526574,
@@ -848,13 +777,12 @@
       "https://www.facebook.com/events/1393051752744141/",
       "message:%3C1E.1C.17072.DF12F8A6@i-0d57859519e2973e8.mta1vrest.sd.prd.sparkpost%3E"
     ],
-    "_verified_at": "2026-09-14T20:59:29.488726+00:00",
+    "_verified_at": "2026-09-23T00:14:30.225963+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (location checked)",
     "_verification_url": "https://www.eventbrite.com/e/flow-friday-at-the-anchor-tickets-1997187023149",
     "archivedAt": "2026-09-04T17:53:19.432723+00:00",
     "recurrences": [
-      "2026-09-18T19:00:00-04:00",
       "2026-09-25T19:00:00-04:00",
       "2026-10-02T19:00:00-04:00",
       "2026-10-09T19:00:00-04:00",
@@ -865,33 +793,10 @@
       "2026-11-13T19:00:00-05:00",
       "2026-11-20T19:00:00-05:00",
       "2026-11-27T19:00:00-05:00",
-      "2026-12-04T19:00:00-05:00"
+      "2026-12-04T19:00:00-05:00",
+      "2026-12-11T19:00:00-05:00"
     ],
     "reactivatedAt": "2026-09-14T20:44:15.685398+00:00"
-  },
-  {
-    "id": "ACFDF41C-8D66-402C-9AE9-FD0610D0AECE",
-    "name": "Salsa & Bachata Night: Traffic Light Edition",
-    "startDate": "2026-09-20T01:00:00+00:00",
-    "endDate": "2026-09-20T04:00:00+00:00",
-    "dayOfWeek": "Saturday",
-    "location": "64 C St, South Boston, MA 02127, United States",
-    "lat": 42.3370827,
-    "lng": -71.0557947,
-    "description": "🚨 Traffic Light Edition: Salsa & Bachata Night! 🚦💃🕺\nBoston’s #1 social is back! Get ready for an unforgettable night on September 19th at 9:00 PM at PKL.\nEnjoy live music by Champola Band (featuring Alejandro & Nearlet) and DJ Angel Javier spinning the best beats on the decks 🔥.\nWhat's your status? Pick your wristband at the door:\n🟢 Green: Single & ready to dance.\n🟡 Yellow: Just here to dance.\n🔴 Red: Taken (but ready to hit the dance floor!).\nCome dance, meet new people, and set the floor on fire! Tag your dance partner below 👇",
-    "url": "https://facebook.com/events/s/salsa-bachata-night-traffic-li/1398917465509486/",
-    "styles": [
-      "bachata",
-      "salsa"
-    ],
-    "cost": null,
-    "recurring": false,
-    "source": "beatrice-calendar",
-    "special": true,
-    "_verified_at": "2026-09-14T20:59:29.901803+00:00",
-    "_verified_status": "confirmed",
-    "_verified_notes": "Facebook preview matches (date checked); by Noise Boston",
-    "_verification_url": "https://facebook.com/events/s/salsa-bachata-night-traffic-li/1398917465509486/"
   },
   {
     "id": "C9CAE836-FB31-4084-9A49-C29FA7B39B4B",
@@ -913,33 +818,39 @@
     "recurring": false,
     "source": "beatrice-calendar",
     "special": true,
-    "_verified_at": "2026-09-14T20:59:30.569074+00:00",
+    "_verified_at": "2026-09-23T00:14:30.724378+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "Facebook preview matches (date checked); by Elvis Lora and 2 others",
     "_verification_url": "https://facebook.com/events/s/utopia-dance-company-4th-year-/1873361657408089/"
   },
   {
-    "id": "eb-1999208401145",
+    "id": "24B35DF9-A95C-484E-BD02-8541376BBB5A",
     "name": "Sabor Latino! @ El Barco - Salsa/Bachata Night",
-    "startDate": "2026-09-24T20:00:00-04:00",
-    "endDate": "2026-09-24T23:00:00-04:00",
+    "startDate": "2026-09-25T00:00:00+00:00",
+    "endDate": "2026-09-25T03:00:00+00:00",
     "dayOfWeek": "Thursday",
-    "location": "El Barco | Tacos x Tequilas, 50 Dalton Street, Boston, MA 02115, Boston, MA",
-    "lat": 42.3474,
-    "lng": -71.0812,
-    "description": "Get ready to spice up your dance moves with Salsa y Control at our Sabor Latino Pop Up Salsa Night! BeginnerLesson & SocialDancing included\n\nOrganizer: Sabor Latino Boston",
-    "url": "https://www.eventbrite.com/e/sabor-latino-el-barco-salsabachata-night-tickets-1999208401145",
+    "location": "50 Dalton Street, Boston, MA 02115, Boston, MA",
+    "lat": 42.3472132,
+    "lng": -71.0854097,
+    "description": "Get ready to spice up your dance moves with Salsa y Control at our Sabor Latino Pop Up Salsa Night! BeginnerLesson & SocialDancing included\n\nSource: https://www.eventbrite.com/e/sabor-latino-el-barco-salsabachata-night-tickets-1991805539988",
+    "url": "https://www.facebook.com/events/1418706253534766/",
     "styles": [
       "bachata",
       "salsa"
     ],
     "cost": "$12.51",
     "recurring": false,
-    "source": "eventbrite-boston-latin",
-    "_verified_at": "2026-09-14T20:59:31.108554+00:00",
-    "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD matches (date + location checked)",
-    "_verification_url": "https://www.eventbrite.com/e/sabor-latino-el-barco-salsabachata-night-tickets-1999208401145"
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-09-23T00:15:39.715887+00:00",
+    "_verified_status": "reachable_only",
+    "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified (verified via urls[] alternate; primary facebook_event link not checkable)",
+    "_verification_url": "https://www.eventbrite.com/o/sabor-latino-boston-63775846633",
+    "urls": [
+      "https://www.eventbrite.com/o/sabor-latino-boston-63775846633"
+    ],
+    "_dropped_urls": [
+      "https://www.eventbrite.com/e/sabor-latino-el-barco-salsabachata-night-tickets-1991805539988"
+    ]
   },
   {
     "id": "C77130B0-73C6-4597-9875-A786F4EA78D4",
@@ -963,7 +874,7 @@
       "https://www.eventbrite.com/e/sabor-latino-el-barco-salsabachata-night-tickets-1991805539988",
       "https://www.facebook.com/SaborLatinoBoston/events"
     ],
-    "_verified_at": "2026-09-14T21:05:30.071167+00:00",
+    "_verified_at": "2026-09-23T00:14:31.969960+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.eventbrite.com/o/sabor-latino-boston-63775846633"
@@ -990,32 +901,35 @@
       "https://www.eventbrite.com/e/sabor-latino-el-barco-salsabachata-night-tickets-1991805539988",
       "https://www.facebook.com/SaborLatinoBoston/events"
     ],
-    "_verified_at": "2026-09-14T21:05:30.657673+00:00",
+    "_verified_at": "2026-09-23T00:14:32.710886+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.eventbrite.com/o/sabor-latino-boston-63775846633"
   },
   {
-    "id": "eb-2000162886035",
-    "name": "El Bonche's Cuban Saturday Night - Sept 26",
-    "startDate": "2026-09-26T19:30:00-04:00",
-    "endDate": "2026-09-27T01:00:00-04:00",
+    "id": "570AD6DF-B09E-4B62-8F48-96DB1C7D9EFC",
+    "name": "El Bonche's Cuban Saturday Night - SEPT. 26",
+    "startDate": "2026-09-26T23:30:00+00:00",
+    "endDate": "2026-09-27T05:00:00+00:00",
     "dayOfWeek": "Saturday",
-    "location": "Cocomango Speakeasy, 50 Cambridgepark Drive, Cambridge, MA 02140, Cambridge, MA",
+    "location": "Cocomango Speakeasy (inside TopMix Bar), 50 Cambridgepark Dr, Cambridge, MA 02140",
     "lat": 42.3940903,
     "lng": -71.143837,
-    "description": "A Cuban Saturday night with Timba, Cuban music, Reparto & more! DJ Catalan Timbero + DJ Fer.\n\nOrganizer: El Bonche in Boston",
+    "description": "🇨🇺 CUBAN SATURDAY NIGHT 🇨🇺\n\nSaturday, September 26, 2026\n🕢 7:30PM-1AM\n\nGet ready for a full night of Cuban music, dancing, and Bonche! 💃🏽🕺🏽🔥\n\nJoin El Bonche in Boston at Cocomango Speakeasy (inside TopMix Bar in Cambridge), for a Saturday night filled with Cuban rhythms, dancing, good music, and good people.\n\nCome dance all night, hang out with friends, and enjoy the music and good vibes!\n\n📍 Cocomango Speakeasy @ TopMix Bar\n(50 Cambridgepark Dr, Cambridge, MA)\n\n🎟️ $20 online\n🚪 $25 at the door\n\nPayment via:\nVenmo: @elboncheinboston\nZelle/Paypal: elboncheinboston@gmail.com\nEventbrite\n\nBring your friends and come dance with us! ❤️‍🔥\n\n\nPresented by El Bonche in Boston\n\nDonde hay ritmo, hay Bonche.\n",
     "url": "https://www.eventbrite.com/e/el-bonches-cuban-saturday-night-sept-26-tickets-2000162886035",
     "styles": [
       "salsa"
     ],
-    "cost": "$23.18",
+    "cost": "$20 online; $25 at the door",
     "recurring": false,
-    "source": "eventbrite-boston-latin",
-    "_verified_at": "2026-09-14T20:59:31.218287+00:00",
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-09-23T00:14:32.880952+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
-    "_verification_url": "https://www.eventbrite.com/e/el-bonches-cuban-saturday-night-sept-26-tickets-2000162886035"
+    "_verification_url": "https://www.eventbrite.com/e/el-bonches-cuban-saturday-night-sept-26-tickets-2000162886035",
+    "urls": [
+      "https://facebook.com/events/s/el-bonches-cuban-saturday-nigh/1650105796494540/"
+    ]
   },
   {
     "id": "eb-2000672130198",
@@ -1039,55 +953,14 @@
       "reason": "Eventbrite lists Sat Oct 24 6:00-11:00 AM, but its own copy calls it 'Latin Night - A Night of Music, Movement...'; published as 6-11 PM. Confirm the time with organizer Aprende y Prospera.",
       "flagged_at": "2026-09-14T21:20:00+00:00"
     },
-    "_verified_at": "2026-09-14T21:05:30.997085+00:00",
+    "_verified_at": "2026-09-23T00:14:33.060651+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
-    "_verification_url": "https://www.eventbrite.com/e/latin-dance-fundraiser-with-dj-johnny-giraldo-tickets-2000672130198"
-  },
-  {
-    "id": "eb-1999871365088",
-    "name": "THURSDAY NIGHT VIBES  | Disco • Funk • Salsa • R&B with DJ Ballack",
-    "startDate": "2026-09-17T21:00:00-04:00",
-    "endDate": "2026-09-18T00:00:00-04:00",
-    "dayOfWeek": "Thursday",
-    "location": "Reunion BBQ, 439 Tremont St, 439 Tremont St, Boston, MA 02116, Boston, MA",
-    "lat": 42.3468371,
-    "lng": -71.0691398,
-    "description": "Grab your friends, order a cocktail, and let DJ Ballack take you from R&B and funk into disco and Latin rhythms.\n\nOrganizer: Reunion BBQ",
-    "url": "https://www.eventbrite.com/e/thursday-night-vibes-disco-funk-salsa-rb-with-dj-ballack-tickets-1999871365088",
-    "styles": [
-      "salsa"
-    ],
-    "cost": "Free",
-    "recurring": false,
-    "source": "eventbrite-boston-latin",
-    "_verified_at": "2026-09-14T20:59:31.445808+00:00",
-    "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD matches (date + location checked)",
-    "_verification_url": "https://www.eventbrite.com/e/thursday-night-vibes-disco-funk-salsa-rb-with-dj-ballack-tickets-1999871365088"
-  },
-  {
-    "id": "5vpsvv083qinekd3sfear8kfet@google.com",
-    "name": "BZ Crossover Social",
-    "startDate": "2026-09-20T01:00:00+00:00",
-    "endDate": "2026-09-20T05:00:00+00:00",
-    "dayOfWeek": "Saturday",
-    "location": "Salsa y Control Dance Studio, 161 Harvard Ave, Allston, MA 02134",
-    "lat": 42.3527,
-    "lng": -71.1318,
-    "description": "",
-    "url": "https://allevents.in/allston/bz-crossover-social-9-19-2026/200030671138053",
-    "styles": [
-      "bachata",
-      "zouk"
-    ],
-    "cost": null,
-    "recurring": false,
-    "source": "sensualeros-boston",
-    "_verified_at": "2026-09-14T21:05:30.758538+00:00",
-    "_verified_status": "confirmed",
-    "_verified_notes": "JSON-LD matches (date + location checked)",
-    "_verification_url": "https://allevents.in/allston/bz-crossover-social-9-19-2026/200030671138053"
+    "_verification_url": "https://www.eventbrite.com/e/latin-dance-fundraiser-with-dj-johnny-giraldo-tickets-2000672130198",
+    "_time_override": {
+      "startDate": "2026-10-24T18:00:00-04:00",
+      "endDate": "2026-10-24T23:00:00-04:00"
+    }
   },
   {
     "id": "fh0adau8areq1nn3bb0huk8dkk@google.com",
@@ -1099,7 +972,7 @@
     "lat": 42.3474,
     "lng": -71.0812,
     "description": "Price: $20",
-    "url": null,
+    "url": "https://www.eventbrite.com/o/rumbaland-121144221749",
     "styles": [
       "salsa",
       "bachata"
@@ -1107,10 +980,10 @@
     "cost": "$20",
     "recurring": false,
     "source": "sensualeros-boston",
-    "_verified_at": "2026-09-14T20:59:31.558356+00:00",
-    "_verified_status": "no_source",
-    "_verified_notes": "No URL. Search suggestion: \"Rumbaland 6: Tale of the Tape El Barco, 50 Dalton St, Boston, MA 02115 boston\"",
-    "_verification_url": null
+    "_verified_at": "2026-09-23T00:15:39.940797+00:00",
+    "_verified_status": "reachable_only",
+    "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
+    "_verification_url": "https://www.eventbrite.com/o/rumbaland-121144221749"
   },
   {
     "id": "b9v58n7069hskptuh6oo81njp4@google.com",
@@ -1131,32 +1004,10 @@
     "cost": "$5 cover",
     "recurring": false,
     "source": "sensualeros-boston",
-    "_verified_at": "2026-09-14T20:59:31.560727+00:00",
+    "_verified_at": "2026-09-23T00:14:33.244508+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://fuegothursdays.com/"
-  },
-  {
-    "id": "kp355pg408kpnreg80oabllvuc@google.com",
-    "name": "Bachata, Breakfast, and Blankets",
-    "startDate": "2026-09-19T15:00:00+00:00",
-    "endDate": "2026-09-19T18:00:00+00:00",
-    "dayOfWeek": "Saturday",
-    "location": "Boston Public Garden, 4 Charles St, Boston, MA 02116",
-    "lat": 42.3540368,
-    "lng": -71.0696551,
-    "description": "Price: Free",
-    "url": null,
-    "styles": [
-      "bachata"
-    ],
-    "cost": "Free",
-    "recurring": false,
-    "source": "sensualeros-boston",
-    "_verified_at": "2026-09-14T20:59:42.030450+00:00",
-    "_verified_status": "no_source",
-    "_verified_notes": "No URL. Search suggestion: \"Bachata, Breakfast, and Blankets Boston Public Garden, 4 Charles St, Boston, MA 02116 boston\"",
-    "_verification_url": null
   },
   {
     "id": "fnht1iun7hd7g7cnsmtndag9io@google.com",
@@ -1176,7 +1027,7 @@
     "cost": "$20",
     "recurring": false,
     "source": "sensualeros-boston",
-    "_verified_at": "2026-09-14T20:59:42.032664+00:00",
+    "_verified_at": "2026-09-23T00:14:43.642571+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "Facebook preview matches (date checked); by Tambó Salsa",
     "_verification_url": "https://www.facebook.com/events/1796270331376772/"
@@ -1184,8 +1035,8 @@
   {
     "id": "sensualeros-boston-series-a227772d8b85",
     "name": "Friday Night Bachata/Salsa @ Havana Club",
-    "startDate": "2026-09-19T01:00:00+00:00",
-    "endDate": "2026-09-19T06:00:00+00:00",
+    "startDate": "2026-09-26T01:00:00+00:00",
+    "endDate": "2026-09-26T06:00:00+00:00",
     "dayOfWeek": "Friday",
     "location": "288 Green St, Central Sq, Cambridge, MA",
     "lat": 42.3646071,
@@ -1200,16 +1051,16 @@
     "recurring": true,
     "source": "sensualeros-boston",
     "recurrences": [
-      "2026-09-19T01:00:00+00:00",
       "2026-09-26T01:00:00+00:00",
       "2026-10-03T01:00:00+00:00",
       "2026-10-10T01:00:00+00:00",
       "2026-10-17T01:00:00+00:00",
       "2026-10-24T01:00:00+00:00",
       "2026-10-31T01:00:00+00:00",
-      "2026-11-07T02:00:00+00:00"
+      "2026-11-07T02:00:00+00:00",
+      "2026-11-14T02:00:00+00:00"
     ],
-    "_verified_at": "2026-09-14T21:05:29.607641+00:00",
+    "_verified_at": "2026-09-23T00:14:44.221212+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://havanaclubsalsa.com"
@@ -1236,27 +1087,27 @@
       "2026-11-15T01:30:00+00:00",
       "2026-12-20T01:30:00+00:00"
     ],
-    "_verified_at": "2026-09-14T21:04:35.141809+00:00",
-    "_verified_status": "needs_review",
-    "_verified_notes": "Headless Chrome dump 2026-09-14: Fuego y Candela Facebook Events tab shows Past only, no Upcoming. Dates (Sat Oct 10, Nov 14, Dec 19, 9:30 PM, $20/$15) come from the Sensualeros community calendar and match the hub's 2nd-Saturday cadence. Not confirmable from the organizer yet.",
+    "_verified_at": "2026-09-23T00:15:39.705068+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Headless Chrome capture 2026-09-22: organizer flyer \"FUEGO Y CANDELA 2026 Schedule: October 10th Saturday, November 14th Saturday, December 19th Saturday\" matches our dates.",
     "_verification_url": "https://www.facebook.com/FuegoyCandelaSalsa/events",
     "_verification_attestation": {
-      "attested_at": "2026-09-14T21:04:35.141809+00:00",
-      "expires_at": "2026-09-21T21:04:35.141809+00:00",
+      "attested_at": "2026-09-23T00:15:39.705068+00:00",
+      "expires_at": "2026-10-07T00:15:39.705068+00:00",
       "source_url": "https://www.facebook.com/FuegoyCandelaSalsa/events",
-      "status": "needs_review",
-      "notes": "Headless Chrome dump 2026-09-14: Fuego y Candela Facebook Events tab shows Past only, no Upcoming. Dates (Sat Oct 10, Nov 14, Dec 19, 9:30 PM, $20/$15) come from the Sensualeros community calendar and match the hub's 2nd-Saturday cadence. Not confirmable from the organizer yet.",
-      "observed_start": null,
+      "status": "confirmed",
+      "notes": "Headless Chrome capture 2026-09-22: organizer flyer \"FUEGO Y CANDELA 2026 Schedule: October 10th Saturday, November 14th Saturday, December 19th Saturday\" matches our dates.",
+      "observed_start": "2026-10-10",
       "observed_end": null,
-      "observed_location": null,
+      "observed_location": "Dante Alighieri Society, 41 Hampshire St, Cambridge",
       "fingerprint": "9d157803b71d7e4d9f184744437fa2402ee5db141307bbd3c5031d85aa9a9d45"
     }
   },
   {
     "id": "sensualeros-boston-series-2db8e232ec42",
     "name": "Saturday Night Bachata/Salsa @ Havana Club",
-    "startDate": "2026-09-20T01:00:00+00:00",
-    "endDate": "2026-09-20T06:00:00+00:00",
+    "startDate": "2026-09-27T01:00:00+00:00",
+    "endDate": "2026-09-27T06:00:00+00:00",
     "dayOfWeek": "Saturday",
     "location": "288 Green St, Central Sq, Cambridge, MA",
     "lat": 42.3646071,
@@ -1271,16 +1122,16 @@
     "recurring": true,
     "source": "sensualeros-boston",
     "recurrences": [
-      "2026-09-20T01:00:00+00:00",
       "2026-09-27T01:00:00+00:00",
       "2026-10-04T01:00:00+00:00",
       "2026-10-11T01:00:00+00:00",
       "2026-10-18T01:00:00+00:00",
       "2026-10-25T01:00:00+00:00",
       "2026-11-01T01:00:00+00:00",
-      "2026-11-08T02:00:00+00:00"
+      "2026-11-08T02:00:00+00:00",
+      "2026-11-15T02:00:00+00:00"
     ],
-    "_verified_at": "2026-09-14T21:05:29.822972+00:00",
+    "_verified_at": "2026-09-23T00:14:44.338010+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://havanaclubsalsa.com"
@@ -1288,7 +1139,7 @@
   {
     "id": "pr-festival-ma-festival-navideno-three-kings-celebration-1",
     "name": "Festival Navideño & three kings celebration",
-    "startDate": "2026-12-12T19:30:00-05:00",
+    "startDate": "2026-12-12T19:00:00-05:00",
     "endDate": "2026-12-12T23:30:00-05:00",
     "dayOfWeek": "Saturday",
     "location": "Florian Hall, 55 Hallet St, Boston, MA 02124, USA",
@@ -1306,7 +1157,7 @@
     "urls": [
       "https://www.eventbrite.com/e/festival-navideno-y-tres-reyes-tickets-1998537457334"
     ],
-    "_verified_at": "2026-09-14T20:59:42.625744+00:00",
+    "_verified_at": "2026-09-23T00:14:45.048640+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.puertoricanfestivalofma.org/events-1/festival-navideno-three-kings-celebration-1"
@@ -1328,24 +1179,25 @@
     "cost": "Free",
     "recurring": false,
     "source": "beatrice-calendar",
-    "urls": [
-      "https://luma.com/x0o9o1lr"
-    ],
-    "_verified_at": "2026-09-14T21:05:30.854076+00:00",
+    "urls": [],
+    "_verified_at": "2026-09-23T00:14:45.451837+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
-    "_verification_url": "https://www.salsaycontrol.com/events"
+    "_verification_url": "https://www.salsaycontrol.com/events",
+    "_dropped_urls": [
+      "https://luma.com/x0o9o1lr"
+    ]
   },
   {
     "id": "53AC7485-D946-4CD6-BC98-C0375DCBD433",
     "name": "Salsa Dancing at The Grove at Lawn on D Presented by Salsa y Control",
     "startDate": "2026-09-29T23:00:00+00:00",
-    "endDate": "2026-09-29T23:00:00+00:00",
+    "endDate": "2026-09-30T02:00:00+00:00",
     "dayOfWeek": "Tuesday",
     "location": "Lawn On D, 420 D St, Boston, MA  02210, United States",
     "lat": 42.34445,
     "lng": -71.04488,
-    "description": "",
+    "description": "💃 Salsa Nights at The Grove 💃\n\n​Join us on the last Thursday of every month for Salsa Nights at The Grove, Boston’s vibrant outdoor gathering space in the Seaport! Whether you’re brand new to salsa or already confident on the dance floor, this is a welcoming, high-energy night designed for all levels.\n\n​Come learn, dance, and connect under the lights in an unforgettable open-air setting.\n\n​🔥 What to Expect\n\n​• 7:00–8:00 PM — Beginner-friendly salsa instruction led by Salsa y Control instructors Andres Giraldo & Kelly Bachovchin\n\n​• 8:00–9:30 PM — Open social dancing with music, movement, and community vibes\n\n​• 9:30 PM onward — Wind down and mingle at The Grove\n\n​• No partner required — come solo, with friends, or a date\n\n​• Food and drinks available for purchase throughout the evening\n\n​🌟 Event Details\n\n​📅 When: Last Thursday of Every Month (June–October)\n⏰ Time: 7:00 PM – 9:30 PM (plus post-dance mingling)\n📍 Location: The Lawn on D Pavilion, 420 D Street, Boston, MA 02210 (Seaport District)\n\n​Upcoming Dates:\n• June 25\n• July 30\n• August 27\n• September 24\n• October 29\n\n​🎟 Admission is FREE\n\n​Important Info:\n\n​• All levels welcome — no experience necessary.\n\n​• Comfortable shoes are recommended for dancing outdoors.\n\n​• No partner required.\n\n​• Events are weather permitting, and updates will be shared via Luma if needed.\n\n​Whether you're learning your first steps or dancing the night away, Salsa Nights at The Grove bring together music, movement, and community all summer long.\n\n​Grab a friend, grab a drink, and hit the dance floor!\n\nSource: https://luma.com/x0o9o1lr",
     "url": "https://www.salsaycontrol.com/events",
     "styles": [
       "salsa"
@@ -1353,12 +1205,215 @@
     "cost": "Free",
     "recurring": false,
     "source": "beatrice-calendar",
-    "urls": [
-      "https://luma.com/x0o9o1lr"
-    ],
-    "_verified_at": "2026-09-14T21:05:30.921291+00:00",
+    "urls": [],
+    "_verified_at": "2026-09-23T00:14:45.630267+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
-    "_verification_url": "https://www.salsaycontrol.com/events"
+    "_verification_url": "https://www.salsaycontrol.com/events",
+    "_dropped_urls": [
+      "https://luma.com/x0o9o1lr"
+    ]
+  },
+  {
+    "id": "449124DD-8C15-4701-B9D7-70913838F6E1",
+    "name": "Fiesta en la Plaza presents One Night in Alosha",
+    "startDate": "2026-10-04T17:30:00+00:00",
+    "endDate": "2026-10-04T20:30:00+00:00",
+    "dayOfWeek": "Sunday",
+    "location": "City Hall Plz, Boston, MA, United States",
+    "lat": 42.3603228,
+    "lng": -71.0590984,
+    "description": "🧡 FREE EVENT\n\nFor the fourth consecutive year, City Hall Plaza will celebrate Latin Heritage Month in Boston. This year, Dunamis, Akeem's Alchemy and Ágora will host \"Fiesta en La Plaza presents One Night in Alosha,\" an immersive celebration of the diasporic connection to Afro-Latin culture, featuring fantasy, Afrofuturism, music, theater, and dance from the Afro-Latin diaspora.\n\nJoin us for a free, family-friendly celebration of Latin American culture. This year will feature Jorge Arce's Raíz de Plena, Manolo Mairena's Salsa Band, Salsa y Control, Samba Viva, interactive installations and a live taping of the award-winning fiction podcast, \"My Blood The Ink.\"\n\nThis event is made possible thanks to the generous support of our funders, the Mayor's Office of Arts and Culture and Mass Cultural Council.",
+    "url": "https://facebook.com/events/s/fiesta-en-la-plaza-presents-on/1093260436739517/",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "special": true,
+    "_verified_at": "2026-09-23T00:14:45.753349+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Facebook preview matches (date checked); by Ágora Cultural Architects",
+    "_verification_url": "https://facebook.com/events/s/fiesta-en-la-plaza-presents-on/1093260436739517/"
+  },
+  {
+    "id": "EF9DDA0D-59C2-4A5B-A6DA-F111C3F6B443",
+    "name": "SALSA ROMANTICA VS SALSA BRAVA cruise",
+    "startDate": "2026-09-26T22:00:00+00:00",
+    "endDate": "2026-09-27T01:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "60 ROWES WHARF, BOSTON, MA, 02110",
+    "lat": 42.3562,
+    "lng": -71.0502,
+    "description": "🗓: Saturday, September 26, 2026 6:00pm \n📍: 60 ROWES WHARF, BOSTON, MA, 02110 \n🎟: https://www.boletosexpress.com/salsa-romantica-vs-salsa-brava-/89559/ \n📞: +1 800-530-4202 ",
+    "url": "https://facebook.com/events/s/salsa-romantica-vs-salsa-brava/894119310110770/",
+    "styles": [
+      "salsa"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "special": true,
+    "_verified_at": "2026-09-23T00:14:46.229665+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Facebook preview matches (date checked); by BoletosExpress.com",
+    "_verification_url": "https://facebook.com/events/s/salsa-romantica-vs-salsa-brava/894119310110770/"
+  },
+  {
+    "id": "291FF95C-AC47-4C2F-B9FF-CF4E724097F4",
+    "name": "Rumba y Clave: Salsa & Bachata Social",
+    "startDate": "2026-10-17T23:00:00+00:00",
+    "endDate": "2026-10-18T02:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "Rumba y Timbal Dance Studio, 7 Temple Street, Cambridge, MA 02139",
+    "lat": 42.3668113,
+    "lng": -71.104309,
+    "description": "✨ Rumba y Clave: Salsa & Bachata Social ✨\n\nOur goal is simple: great music and nonstop dancing all night.\n\n🎶 Music by DJ CLAVE\n💃 50% Salsa | 50% Bachata\n\n🎟️ Entry — Cash Only\n$15 — General Admission\n$10 — Rumba y Timbal Students\n\n📍 Location:\nRumba y Timbal Dance Studio\n7 Temple Street, Cambridge, MA 02139\n\n🚇 Central Square stop (MBTA Red Line)\n🅿️ Parking available nearby\n💃 Partners welcome (not required)\n👟 Dress comfortably for dancing\n✨ Open to all levels\n\nEnjoy a beautiful hardwood dance floor designed for smooth movement, along with a large, open space that gives you plenty of room to dance without feeling crowded.\n\nCome dance, connect, and be part of Rumba y Clave! 💃🕺\n\nNote: Although the map may display 136 Bishop Allen Drive, the correct entrance address is 7 Temple Street. The buildings are very close together, so the map pin can be slightly inaccurate. The studio is located in the corner building at Bishop Allen Drive and Temple Street — please enter from the Temple Street side and use 7 Temple Street in your GPS.",
+    "url": "https://facebook.com/events/s/rumba-y-clave-salsa-bachata-so/2616999995380882/",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "$15 cash; $10 Rumba y Timbal students",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-09-23T00:14:46.681374+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Facebook preview matches (date checked); by DJ CLAVE",
+    "_verification_url": "https://facebook.com/events/s/rumba-y-clave-salsa-bachata-so/2616999995380882/"
+  },
+  {
+    "id": "7AE11AF6-D9F8-480E-991B-6685A056F97D",
+    "name": "Lili Latin Dance PResents: Sazon Saturday 10/3/2026",
+    "startDate": "2026-10-03T22:00:00+00:00",
+    "endDate": "2026-10-04T02:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "423 West Broadway, Boston, MA, United States, Massachusetts 02127",
+    "lat": 42.336602,
+    "lng": -71.0477603,
+    "description": "Lili Latin Dance is happy to make official our monthly social, Sazon Saturday! This month want to celebrate YOU! The social is FREE!\n\n6:00-6:55 PM:  Beginner Salsa Class\n7:00-10:00 PM: Social Dance\n\nTravel: You can take the redline to Broadway, then walk to our studio (about 15 minute walk) or take the #9 bus. For parking, it is not metered and you just have to read the signs. In the ticket link you will see a parking map! :)",
+    "url": "https://facebook.com/events/s/lili-latin-dance-presents-sazo/1635044534939952/",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-09-23T00:14:47.111454+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Facebook preview matches (date checked); by Lili Latin Dance and Liliana Minja Jimenez",
+    "_verification_url": "https://facebook.com/events/s/lili-latin-dance-presents-sazo/1635044534939952/"
+  },
+  {
+    "id": "eb-2001023303567",
+    "name": "6th Annual Salsa & Bachata Halloween Party",
+    "startDate": "2026-10-31T21:00:00-04:00",
+    "endDate": "2026-11-01T01:30:00-05:00",
+    "dayOfWeek": "Saturday",
+    "location": "41 Hampshire St, 41 Hampshire Street, Cambridge, MA 02139, Cambridge, MA",
+    "lat": 42.3728,
+    "lng": -71.0994077,
+    "description": "Dance Lesson, Costumes, and dancing all night!!\n\nOrganizer: Bachata Room",
+    "url": "https://www.eventbrite.com/e/6th-annual-salsa-bachata-halloween-party-tickets-2001023303567",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "$23.18",
+    "recurring": false,
+    "source": "eventbrite-boston-latin",
+    "special": true,
+    "_verified_at": "2026-09-23T00:14:47.878208+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
+    "_verification_url": "https://www.eventbrite.com/e/6th-annual-salsa-bachata-halloween-party-tickets-2001023303567"
+  },
+  {
+    "id": "lous-51c627f6",
+    "name": "Latin DANCE NIGHT",
+    "startDate": "2026-10-14T19:00:00.399000-04:00",
+    "endDate": "2026-10-14T23:00:00.399000-04:00",
+    "dayOfWeek": "Wednesday",
+    "location": "Lou's, 13 Brattle St, Cambridge, MA 02138",
+    "lat": 42.3736,
+    "lng": -71.1212,
+    "description": "JOIN US FOR Latin NIGHT\nDance Lessons & Open Dance\nDance, drink, and move to the rhythm at Lou’s in Harvard Square.\nJoin us for a night of salsa, bachata, merengue, and good vibes at Lou’s in Harvard Square.\nStart the night with a beginner-friendly salsa dance lesson, then stick around for an evening of social dancing with DJ Condori. Whether you’re an experienced dancer or just looking to learn something new, everyone is welcome. No partner required.\nGrab a drink, hit the dance floor, and get moving.\nMusic:\nDJ Condori\n7:00–8:00 PM\n— Salsa Dance Lesson\n8:00–11:00 PM+\n— Social Dancing: Salsa, Bachata & Merengue\nAdmission:\n$20 — Dance Lesson + Social Dancing\n$15 — Social Dancing Only\nGet Tickets",
+    "url": "https://www.wearelous.com/lous-live/salsa-night-october",
+    "styles": [
+      "bachata",
+      "salsa",
+      "merengue"
+    ],
+    "cost": "$20 lesson + social; $15 social only",
+    "recurring": false,
+    "source": "lous-live",
+    "artist": "Latin DANCE NIGHT",
+    "venueId": "lous-live",
+    "urls": [
+      "https://www.eventbrite.com/e/october-latin-dance-night-at-lous-lessons-social-dancing-tickets-2001409938001"
+    ],
+    "_verified_at": "2026-09-23T00:14:48.083261+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD matches (date checked)",
+    "_verification_url": "https://www.wearelous.com/lous-live/salsa-night-october"
+  },
+  {
+    "id": "eb-1999323753166",
+    "name": "Reggaeton Fest",
+    "startDate": "2026-10-10T13:00:00-04:00",
+    "endDate": "2026-10-10T18:00:00-04:00",
+    "dayOfWeek": "Saturday",
+    "location": "Gloucester Street, Gloucester Street, Boston, MA 02115, Boston, MA",
+    "lat": 42.3487675,
+    "lng": -71.0839453,
+    "description": "Take over the streets and listen to dembow, reggaeton, salsa, merengue and more all afternoon.\n\nOrganizer: LGBTQ Nightlife - Events",
+    "url": "https://www.eventbrite.com/e/reggaeton-fest-tickets-1999323753166",
+    "styles": [
+      "salsa",
+      "merengue",
+      "other"
+    ],
+    "cost": "$12.09",
+    "recurring": false,
+    "source": "eventbrite-boston-latin",
+    "special": true,
+    "_verified_at": "2026-09-23T00:14:48.261863+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
+    "_verification_url": "https://www.eventbrite.com/e/reggaeton-fest-tickets-1999323753166"
+  },
+  {
+    "id": "rj6katt3br41q5sesibkn1clf0@google.com",
+    "name": "Tambó Salsa Social",
+    "startDate": "2026-09-26T00:30:00+00:00",
+    "endDate": "2026-09-26T05:00:00+00:00",
+    "dayOfWeek": "Friday",
+    "location": "Tambó Salsa at Dante's, 41 Hampshire St, Cambridge, MA 02139",
+    "lat": 42.365,
+    "lng": -71.091,
+    "description": "Tambó Salsa Social at Dante Alighieri Society. Class 8:45–9:30 PM, social 9:30 PM–1 AM. Special performances by Clara & Al, Mambo Pa Ti team.",
+    "url": "https://www.facebook.com/Tambosalsa",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$20 class + social; $15 social only",
+    "recurring": false,
+    "source": "sensualeros-boston",
+    "_verified_at": "2026-09-23T00:15:39.711009+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Headless Chrome capture 2026-09-22: flyer \"September 25th TAMBO SALSA SOCIAL, class 8:45-9:30pm, social 9:30pm-1am, $20 class/social, $15 social, at Dantes 41 Hampshire St\".",
+    "_verification_url": "https://www.facebook.com/Tambosalsa",
+    "_verification_attestation": {
+      "attested_at": "2026-09-23T00:15:39.711009+00:00",
+      "expires_at": "2026-09-30T00:15:39.711009+00:00",
+      "source_url": "https://www.facebook.com/Tambosalsa",
+      "status": "confirmed",
+      "notes": "Headless Chrome capture 2026-09-22: flyer \"September 25th TAMBO SALSA SOCIAL, class 8:45-9:30pm, social 9:30pm-1am, $20 class/social, $15 social, at Dantes 41 Hampshire St\".",
+      "observed_start": "2026-09-25T20:45:00-04:00",
+      "observed_end": null,
+      "observed_location": "Dante's, 41 Hampshire St, Cambridge",
+      "fingerprint": "2a523493a785e834c54a683731b92c8e2accd539ec61be037c65c1fe590b1ba6"
+    }
   }
 ]
