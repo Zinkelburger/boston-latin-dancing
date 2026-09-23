@@ -1280,3 +1280,13 @@
 {"ts": "2026-09-23T00:15:39.715210+00:00", "action": "verify_attest", "event_id": "rj6katt3br41q5sesibkn1clf0@google.com", "details": "confirmed: https://www.facebook.com/Tambosalsa"}
 {"ts": "2026-09-23T00:16:37.347097+00:00", "action": "edit", "event_id": "A182D62F-04B8-4A49-ACD3-2022AD66E6C5", "details": "{\"urls\": []}"}
 {"ts": "2026-09-23T00:16:37.350842+00:00", "action": "edit", "event_id": "53AC7485-D946-4CD6-BC98-C0375DCBD433", "details": "{\"urls\": []}"}
+{"ts": "2026-09-23T16:07:41.930598+00:00", "action": "quarantine_new", "event_id": "2A3E11A0-311F-44FE-80A9-8E530EFF32D9", "details": ""}
+{"ts": "2026-09-23T16:07:43.069119+00:00", "action": "quarantine_new", "event_id": "eb-2000919495073", "details": ""}
+{"ts": "2026-09-23T16:07:43.151786+00:00", "action": "quarantine_new", "event_id": "eb-2001271489899", "details": ""}
+{"ts": "2026-09-23T16:07:43.304569+00:00", "action": "quarantine_new", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-09-24-20-45", "details": ""}
+{"ts": "2026-09-23T16:07:43.308904+00:00", "action": "reject_non_latin", "event_id": "nlf-events-egleston-park-summer-socials-2026-10-18-14-00", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-09-23T16:07:43.554344+00:00", "action": "pending_review", "event_id": "7cv8ljdj358a81q7gesp89gds4@google.com", "details": "review dup of C9CAE836-FB31-4084-9A49-C29FA7B39B4B: exact_name+within_24h+same_day"}
+{"ts": "2026-09-23T16:07:43.627455+00:00", "action": "quarantine_new", "event_id": "2k6dlt6erqub3hbcepvt63broo@google.com", "details": ""}
+{"ts": "2026-09-23T16:07:43.723150+00:00", "action": "pending_review", "event_id": "1p8a05bmkjkppkm3lbgsv4baao@google.com", "details": "review dup of 570AD6DF-B09E-4B62-8F48-96DB1C7D9EFC: substring_name+within_24h+same_day"}
+{"ts": "2026-09-23T16:07:43.742290+00:00", "action": "quarantine_new", "event_id": "9usj003ag8e2ub9ipnhmf8mbo8@google.com", "details": ""}
+{"ts": "2026-09-23T16:07:43.781515+00:00", "action": "pending_review", "event_id": "qdl15rphrtsop45q6jp901t3g8@google.com", "details": "review dup of eb-2001023303567: exact_name+within_24h+same_day"}

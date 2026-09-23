@@ -833,7 +833,7 @@
     "lat": 42.3472132,
     "lng": -71.0854097,
     "description": "Get ready to spice up your dance moves with Salsa y Control at our Sabor Latino Pop Up Salsa Night! BeginnerLesson & SocialDancing included\n\nSource: https://www.eventbrite.com/e/sabor-latino-el-barco-salsabachata-night-tickets-1991805539988",
-    "url": "https://www.facebook.com/events/1418706253534766/",
+    "url": "https://www.eventbrite.com/o/sabor-latino-boston-63775846633",
     "styles": [
       "bachata",
       "salsa"
@@ -846,7 +846,7 @@
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified (verified via urls[] alternate; primary facebook_event link not checkable)",
     "_verification_url": "https://www.eventbrite.com/o/sabor-latino-boston-63775846633",
     "urls": [
-      "https://www.eventbrite.com/o/sabor-latino-boston-63775846633"
+      "https://www.facebook.com/events/1418706253534766/"
     ],
     "_dropped_urls": [
       "https://www.eventbrite.com/e/sabor-latino-el-barco-salsabachata-night-tickets-1991805539988"
@@ -1205,7 +1205,6 @@
     "cost": "Free",
     "recurring": false,
     "source": "beatrice-calendar",
-    "urls": [],
     "_verified_at": "2026-09-23T00:14:45.630267+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
@@ -1330,33 +1329,31 @@
     "_verification_url": "https://www.eventbrite.com/e/6th-annual-salsa-bachata-halloween-party-tickets-2001023303567"
   },
   {
-    "id": "lous-51c627f6",
-    "name": "Latin DANCE NIGHT",
-    "startDate": "2026-10-14T19:00:00.399000-04:00",
-    "endDate": "2026-10-14T23:00:00.399000-04:00",
+    "id": "eb-2001409938001",
+    "name": "October Latin Dance Night at Lou's | Lessons & Social Dancing",
+    "startDate": "2026-10-14T19:00:00-04:00",
+    "endDate": "2026-10-14T23:00:00-04:00",
     "dayOfWeek": "Wednesday",
-    "location": "Lou's, 13 Brattle St, Cambridge, MA 02138",
+    "location": "Lou's, 13 Brattle Street, Cambridge, MA 02138, Cambridge, MA",
     "lat": 42.3736,
     "lng": -71.1212,
-    "description": "JOIN US FOR Latin NIGHT\nDance Lessons & Open Dance\nDance, drink, and move to the rhythm at Lou’s in Harvard Square.\nJoin us for a night of salsa, bachata, merengue, and good vibes at Lou’s in Harvard Square.\nStart the night with a beginner-friendly salsa dance lesson, then stick around for an evening of social dancing with DJ Condori. Whether you’re an experienced dancer or just looking to learn something new, everyone is welcome. No partner required.\nGrab a drink, hit the dance floor, and get moving.\nMusic:\nDJ Condori\n7:00–8:00 PM\n— Salsa Dance Lesson\n8:00–11:00 PM+\n— Social Dancing: Salsa, Bachata & Merengue\nAdmission:\n$20 — Dance Lesson + Social Dancing\n$15 — Social Dancing Only\nGet Tickets",
-    "url": "https://www.wearelous.com/lous-live/salsa-night-october",
+    "description": "Dance Salsa, Bachata, Merengue at Lou’s in Harvard Square.\n\nOrganizer: Lou's Harvard Square",
+    "url": "https://www.eventbrite.com/e/october-latin-dance-night-at-lous-lessons-social-dancing-tickets-2001409938001",
     "styles": [
       "bachata",
       "salsa",
       "merengue"
     ],
-    "cost": "$20 lesson + social; $15 social only",
+    "cost": "$15",
     "recurring": false,
-    "source": "lous-live",
-    "artist": "Latin DANCE NIGHT",
-    "venueId": "lous-live",
-    "urls": [
-      "https://www.eventbrite.com/e/october-latin-dance-night-at-lous-lessons-social-dancing-tickets-2001409938001"
-    ],
+    "source": "eventbrite-boston-latin",
     "_verified_at": "2026-09-23T00:14:48.083261+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date checked)",
-    "_verification_url": "https://www.wearelous.com/lous-live/salsa-night-october"
+    "_verification_url": "https://www.wearelous.com/lous-live/salsa-night-october",
+    "urls": [
+      "https://www.wearelous.com/lous-live/salsa-night-october"
+    ]
   },
   {
     "id": "eb-1999323753166",

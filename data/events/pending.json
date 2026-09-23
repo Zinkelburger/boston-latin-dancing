@@ -1,1 +1,188 @@
-[]
+[
+  {
+    "id": "2A3E11A0-311F-44FE-80A9-8E530EFF32D9",
+    "name": "BOSTON BACHATA PARTY @ Cocomango Speakeasy Cambridge | La Casa de la Bachata™",
+    "startDate": "2026-10-11T01:00:00+00:00",
+    "endDate": "2026-10-11T04:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "CocoMango Speakeasy",
+    "lat": null,
+    "lng": null,
+    "description": "Boston, come dance with us. 🇩🇴\n\nLa Casa de la Bachata™ is coming to Cambridge for an intimate night of traditional bachata at CocoMango Speakeasy.\n\n🎧 DJ Spinnaz 🎧 DJ Bubu\n🪗 Traditional Bachata • Típico • Salsa • Dembow\n🍸 Cocktails\n💎 VIP Available\n\n📍 CocoMango Speakeasy • Cambridge, MA\n📅 Saturday, October 17\n🎓 CLASS - 9 PM - 10 PM 🪩PARTY - 10 PM–2 AM\n\nCome solo or bring your crew - beginners and experienced dancers are welcome.\n\nCapacity is limited to only 200 guests. Get your tickets early.\n\nFor questions, please DM us on instagram @lacasadelabachata",
+    "url": "https://facebook.com/events/s/boston-bachata-party-cocomango/1252515136999918/",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_quarantined_new": true,
+    "_quarantined_at": "2026-09-23T16:07:41.930592+00:00"
+  },
+  {
+    "id": "eb-2000919495073",
+    "name": "Niccole Meza Quartet",
+    "startDate": "2026-10-08T19:00:00-04:00",
+    "endDate": "2026-10-08T20:30:00-04:00",
+    "dayOfWeek": "Thursday",
+    "location": "The Mad Monkfish, 524 Massachusetts Avenue, Cambridge, MA 02139, Cambridge, MA",
+    "lat": 42.3641827,
+    "lng": -71.1020338,
+    "description": "Venezuelan trumpeter whose music brings together jazz, Latin rhythms, and influences from across the Americas.\n\nOrganizer: Jamme K. Chantler",
+    "url": "https://www.eventbrite.com/e/niccole-meza-quartet-tickets-2000919495073",
+    "styles": [
+      "other"
+    ],
+    "cost": "$12.51",
+    "recurring": false,
+    "source": "eventbrite-boston-latin",
+    "_quarantined_new": true,
+    "_quarantined_at": "2026-09-23T16:07:43.069114+00:00"
+  },
+  {
+    "id": "eb-2001271489899",
+    "name": "Timba Musicality & Animations - 10/4",
+    "startDate": "2026-10-04T16:00:00-04:00",
+    "endDate": "2026-10-04T18:00:00-04:00",
+    "dayOfWeek": "Sunday",
+    "location": "620 Massachusetts Ave, 620 Massachusetts Avenue, Cambridge, MA 02139, Cambridge, MA",
+    "lat": 42.3648982,
+    "lng": -71.1035623,
+    "description": "Continuing our Timba Musicality + Animations Series!  Work on ear training, musicality, animations & movement through Cuban dance. Oct. 4!\n\nOrganizer: El Bonche in Boston",
+    "url": "https://www.eventbrite.com/e/timba-musicality-animations-104-tickets-2001271489899",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$17.85",
+    "recurring": false,
+    "source": "eventbrite-boston-latin",
+    "_quarantined_new": true,
+    "_quarantined_at": "2026-09-23T16:07:43.151782+00:00"
+  },
+  {
+    "id": "nlf-events-intermediate-bachata-w-tina-2026-09-24-20-45",
+    "name": "Intermediate Bachata w/ Tina",
+    "startDate": "2026-09-24T20:45:00-04:00",
+    "endDate": "2026-09-24T21:45:00-04:00",
+    "dayOfWeek": "Thursday",
+    "location": "Havana Club, 288 Green St, Cambridge, MA 02139, USA",
+    "lat": 42.3646071,
+    "lng": -71.1043523,
+    "description": "45 - 9:45  PM\nFollowed by Social Dancing until 12:30 AM\n$15 at the door, no partner needed\n288 Green St, Cambridge, MA 02139\nSee Havana Club website for details:\nhttps://havanaclubsalsa.com/thursdays",
+    "url": "https://www.nextlevelfusiondance.com/event-details/intermediate-bachata-w-tina-2026-09-24-20-45",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "$15 at the door",
+    "recurring": false,
+    "source": "nlf-events",
+    "_quarantined_new": true,
+    "_quarantined_at": "2026-09-23T16:07:43.304563+00:00"
+  },
+  {
+    "id": "7cv8ljdj358a81q7gesp89gds4@google.com",
+    "name": "Utopia Dance Company 4th Year Anniversary Celebration Latin Dance Social",
+    "startDate": "2026-10-24T23:00:00+00:00",
+    "endDate": "2026-10-25T03:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "1 Eaton Street",
+    "lat": null,
+    "lng": null,
+    "description": "Price: $25 Advance, $30 at the Door",
+    "url": null,
+    "styles": [
+      "other"
+    ],
+    "cost": "$25 Advance",
+    "recurring": false,
+    "source": "sensualeros-boston",
+    "_dedup_candidate_of": "C9CAE836-FB31-4084-9A49-C29FA7B39B4B",
+    "_dedup_confidence": "review",
+    "_dedup_reason": "exact_name+within_24h+same_day"
+  },
+  {
+    "id": "2k6dlt6erqub3hbcepvt63broo@google.com",
+    "name": "Boston Senior Zouk Social",
+    "startDate": "2026-09-23T00:00:00+00:00",
+    "endDate": "2026-09-23T03:00:00+00:00",
+    "dayOfWeek": "Tuesday",
+    "location": "Multicultural Arts Center, 41 2nd St, Cambridge, MA 02141",
+    "lat": 42.3699327,
+    "lng": -71.0796219,
+    "description": "Price: $15 | Sliding scale available if needed",
+    "url": null,
+    "styles": [
+      "zouk"
+    ],
+    "cost": "$15",
+    "recurring": false,
+    "source": "sensualeros-boston",
+    "_quarantined_new": true,
+    "_quarantined_at": "2026-09-23T16:07:43.627449+00:00"
+  },
+  {
+    "id": "1p8a05bmkjkppkm3lbgsv4baao@google.com",
+    "name": "Cuban Saturday Night",
+    "startDate": "2026-09-26T23:30:00+00:00",
+    "endDate": "2026-09-27T05:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "Cocomango Speakeasy - inside TopMix Bar (50 Cambridgepark Dr, Cambridge, MA)",
+    "lat": null,
+    "lng": null,
+    "description": "Price: $20 in advance, $25 at the door",
+    "url": null,
+    "styles": [
+      "other"
+    ],
+    "cost": "$25 at the door",
+    "recurring": false,
+    "source": "sensualeros-boston",
+    "_dedup_candidate_of": "570AD6DF-B09E-4B62-8F48-96DB1C7D9EFC",
+    "_dedup_confidence": "review",
+    "_dedup_reason": "substring_name+within_24h+same_day"
+  },
+  {
+    "id": "9usj003ag8e2ub9ipnhmf8mbo8@google.com",
+    "name": "October Latin Dance Night at Lou's",
+    "startDate": "2026-10-04T23:00:00+00:00",
+    "endDate": "2026-10-05T03:00:00+00:00",
+    "dayOfWeek": "Sunday",
+    "location": "Lou’s, 13A Brattle St",
+    "lat": 42.3736,
+    "lng": -71.1212,
+    "description": "Price: $15 social dancing $20 with class",
+    "url": null,
+    "styles": [
+      "other"
+    ],
+    "cost": "$15",
+    "recurring": false,
+    "source": "sensualeros-boston",
+    "_quarantined_new": true,
+    "_quarantined_at": "2026-09-23T16:07:43.742284+00:00"
+  },
+  {
+    "id": "qdl15rphrtsop45q6jp901t3g8@google.com",
+    "name": "6th Annual Salsa & Bachata Halloween Party",
+    "startDate": "2026-11-01T01:00:00+00:00",
+    "endDate": "2026-11-01T05:30:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "41 Hamshire St, Cambridge, MA",
+    "lat": null,
+    "lng": null,
+    "description": "Price: $20",
+    "url": null,
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "$20",
+    "recurring": false,
+    "source": "sensualeros-boston",
+    "_dedup_candidate_of": "eb-2001023303567",
+    "_dedup_confidence": "review",
+    "_dedup_reason": "exact_name+within_24h+same_day"
+  }
+]

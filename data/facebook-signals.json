@@ -1,21 +1,24 @@
 {
   "bobas": {
-    "checked_at": "2026-09-22T20:09:10-04:00",
+    "checked_at": "2026-09-23T12:03:10-04:00",
     "source_url": "https://www.facebook.com/profile.php?id=61551665503735&sk=events",
     "status": "no_upcoming",
     "upcoming_events": [],
     "latest_post": {
-      "text": "Boston Outdoor Bachata And Salsa created an event . 6d · Shared with This is a public event, so your post will be visible to anyone on Facebook. Fri, Sep 18 BOBAS Fri 6-9pm Hatch Shell on the Esplanade 82 people interested",
+      "text": "Boston Outdoor Bachata And Salsa created an event . September 15 at 9:33 PM · Shared with This is a public event, so your post will be visible to anyone on Facebook. Fri, Sep 18 BOBAS Fri 6-9pm Hatch Shell on the Esplanade 82 people interested",
       "dates": [
+        "2026-09-15",
         "2026-09-18"
       ]
     },
     "albums": [],
     "flyers": [],
-    "errors": []
+    "errors": [
+      "albums: chrome timed out after 60s rendering https://www.facebook.com/profile.php?id=61551665503735&sk=photos_albums"
+    ]
   },
   "dantes-inferno-fb": {
-    "checked_at": "2026-09-22T20:09:27-04:00",
+    "checked_at": "2026-09-23T12:05:02-04:00",
     "source_url": "https://www.facebook.com/DantesSalsaInferno/events",
     "status": "no_upcoming",
     "upcoming_events": [],
@@ -73,7 +76,7 @@
     "errors": []
   },
   "dantes-salsa": {
-    "checked_at": "2026-09-22T20:09:19-04:00",
+    "checked_at": "2026-09-23T12:04:37-04:00",
     "source_url": "https://www.facebook.com/FuegoyCandelaSalsa/events",
     "status": "no_upcoming",
     "upcoming_events": [],
@@ -123,7 +126,7 @@
     "errors": []
   },
   "lowell-sitp": {
-    "checked_at": "2026-09-22T20:10:49-04:00",
+    "checked_at": "2026-09-23T12:07:09-04:00",
     "source_url": "https://www.facebook.com/LowellSITP/events",
     "status": "no_upcoming",
     "upcoming_events": [],
@@ -149,7 +152,7 @@
     "errors": []
   },
   "sabor-latino": {
-    "checked_at": "2026-09-22T20:10:03-04:00",
+    "checked_at": "2026-09-23T12:06:13-04:00",
     "source_url": "https://www.facebook.com/SaborLatinoBoston/events",
     "status": "captured",
     "upcoming_events": [
@@ -165,7 +168,7 @@
       }
     ],
     "latest_post": {
-      "text": "Sabor Latino Boston 4d · ﻿ Salsa · Yuri Buenaventura · Shared with Public We’ve got lots of salsa/bachata social events coming up for you in the next two months! Be sure to come check it out! … See more",
+      "text": "Sabor Latino Boston 4 days ago 4d · ﻿ Salsa · Yuri Buenaventura · Shared with Public We’ve got lots of salsa/bachata social events coming up for you in the next two months! Be sure to come check it out! … See more",
       "dates": []
     },
     "albums": [
@@ -228,7 +231,7 @@
     "errors": []
   },
   "tambo-salsa-fb": {
-    "checked_at": "2026-09-22T20:09:37-04:00",
+    "checked_at": "2026-09-23T12:05:26-04:00",
     "source_url": "https://www.facebook.com/Tambosalsa/events",
     "status": "captured",
     "upcoming_events": [
