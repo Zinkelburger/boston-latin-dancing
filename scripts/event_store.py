@@ -945,6 +945,19 @@ def merge_event(a: dict, b: dict) -> dict:
                 if freshest.get(key):
                     merged[key] = freshest[key]
 
+    # A time the reviewer corrected by hand outranks the source's, the same way
+    # a location override does. Eventbrite listed a Saturday-night fundraiser at
+    # 6 AM; the weekly review fixed it and the next same-id refresh above put
+    # the 6 AM start straight back.
+    for side in (winner, loser):
+        override = side.get("_time_override")
+        if override:
+            merged.update(override)
+            merged["_time_override"] = override
+            if side.get("dayOfWeek"):
+                merged["dayOfWeek"] = side["dayOfWeek"]
+            break
+
     return merged
 
 
@@ -2968,6 +2981,13 @@ def edit_event(event_id: str, updates: dict) -> dict:
     for k, v in updates.items():
         if k != "id":
             active[idx][k] = v
+
+    # Record a hand-corrected time so re-scrapes cannot revert it (merge_event
+    # honours it). One-offs only: a series' startDate has to keep advancing.
+    if ("startDate" in updates or "endDate" in updates) and not active[idx].get("recurring"):
+        active[idx]["_time_override"] = {
+            k: active[idx][k] for k in ("startDate", "endDate") if active[idx].get(k)
+        }
 
     if before:
         kept = {_url_key(u) for u in _event_url_list(active[idx])}
