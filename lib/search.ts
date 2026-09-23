@@ -112,6 +112,20 @@ export function findActiveInstance(
   });
 }
 
+/**
+ * Earlier dates of the series `event` belongs to, newest first: the history
+ * table on archived events and search-only venue records. Empty for a live
+ * listing, whose own dates already say everything.
+ */
+export function pastInstancesOf(event: DanceEvent, events: DanceEvent[], limit = 8): DanceEvent[] {
+  if (!event.archived && !event.searchOnly) return [];
+  return events
+    .filter(e => e.archived && e.id !== event.id && e.startDate)
+    .filter(e => isSeriesInstance(event, e))
+    .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime())
+    .slice(0, limit);
+}
+
 type Fields = { name: string; loc: string; org: string; desc: string; styles: string; day: string };
 
 /** Lowercased searchable fields for an event. `styles` includes both the raw

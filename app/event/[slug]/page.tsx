@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import allEvents from '@/data/events-published.json';
-import type { DanceEvent } from '@/types/event';
+import type { DanceEvent, PageEvent } from '@/types/event';
 import Link from 'next/link';
 import { SITE_URL } from '@/lib/constants';
 import { formatEventTimeRange, getRecurrenceLabel, occurrenceEndDate } from '@/lib/recurrences';
 import { displayStartIso, hasStartDate } from '@/lib/dates';
-import { findActiveInstance } from '@/lib/search';
+import { findActiveInstance, pastInstancesOf } from '@/lib/search';
 import { stripHtml } from '@/lib/strip-html';
 import { cleanDisplayText } from '@/lib/display-text';
 import EventJsonLd from './EventJsonLd';
@@ -26,6 +26,25 @@ export function generateStaticParams(): Params[] {
   // chance to answer it — there is no server to redirect at request time.
   const live = events.flatMap(e => (e.slug ? [e.slug] : []));
   return [...new Set([...live, ...retiredSlugs()])].map(slug => ({ slug }));
+}
+
+/**
+ * The map's view of this page's event. The browser only ever downloads
+ * upcoming events, so the archive-derived parts — the live listing a past
+ * event has become, and the series' earlier dates — are resolved here at
+ * build time. Dated candidates win for "Next up", so the link can name a date.
+ */
+function pageEventFor(event: DanceEvent): PageEvent {
+  const next = findActiveInstance(event, events);
+  return {
+    event,
+    nextInstance: next && hasStartDate(next) ? next : null,
+    pastInstances: pastInstancesOf(event, events).map(({ id, name, startDate }) => ({
+      id,
+      name,
+      startDate,
+    })),
+  };
 }
 
 /** "Sat, Sep 6" for the next occurrence; '' for dateless venue records. */
@@ -231,7 +250,7 @@ export default async function EventPage({ params }: { params: Promise<Params> })
             {event.cost && <p>{event.cost}</p>}
             {cleanDesc && <p>{cleanDesc}</p>}
           </div>
-          <MapView initialEventSlug={slug} />
+          <MapView pageEvent={pageEventFor(event)} />
         </div>
       ) : (
         <main className="min-h-screen bg-gray-50">

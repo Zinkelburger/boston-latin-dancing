@@ -59,6 +59,22 @@ export interface DanceEvent {
   special?: boolean;
 }
 
+/** One row of a series' "Past dates" table: all it needs of an archived event. */
+export type PastInstance = Pick<DanceEvent, 'id' | 'name' | 'startDate'>;
+
+/**
+ * What an /event/<slug> page hands the map about its own event. Archived
+ * events never reach the browser's event list, so the page resolves their
+ * history at build time and passes it along with the event itself.
+ */
+export interface PageEvent {
+  event: DanceEvent;
+  /** The dated live listing an archived event has become, for "Next up". */
+  nextInstance: DanceEvent | null;
+  /** Earlier dates of the series, newest first (archived and search-only events). */
+  pastInstances: PastInstance[];
+}
+
 export interface RecurringSchedule {
   dayOfWeek: DayOfWeek;
   time: string;

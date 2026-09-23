@@ -3,6 +3,9 @@ import type { DanceStyle } from '@/types/event';
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://bostonsalsa.org';
 export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.bostonsalsa.org';
 
+/** Static JSON the map fetches: every published event that is not archived. */
+export const UPCOMING_EVENTS_PATH = '/events-upcoming.json';
+
 export const STYLE_COLORS: Record<DanceStyle, string> = {
   bachata: '#e11d48',
   salsa: '#f59e0b',

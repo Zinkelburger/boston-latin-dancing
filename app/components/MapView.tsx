@@ -6,15 +6,14 @@ import type { MapRef } from 'react-map-gl/maplibre';
 import type { MapLayerMouseEvent } from 'maplibre-gl';
 import type { Feature, FeatureCollection, Point } from 'geojson';
 
-import allEvents from '@/data/events-published.json';
-import type { DanceEvent, DanceStyle } from '@/types/event';
+import type { DanceEvent, DanceStyle, PageEvent } from '@/types/event';
 import { STYLE_COLORS } from '@/lib/constants';
 import FilterBar from './FilterBar';
 import EventPopup from './EventPopup';
 import SearchBar from './SearchBar';
 import FeedView from './FeedView';
 import { useEventFilters } from './useEventFilters';
-import { isSeriesInstance, normalizeEventName } from '@/lib/search';
+import { useUpcomingEvents } from './useUpcomingEvents';
 import type { MapViewState } from './EventMap';
 import PinOverlay, { type PinProps } from './PinOverlay';
 
@@ -92,13 +91,16 @@ function staggerCoordinates(
   return offsets;
 }
 
-export default function MapView({ initialEventSlug }: { initialEventSlug?: string } = {}) {
+/**
+ * `pageEvent` is the event an /event/<slug> page is about. It opens straight
+ * away, without waiting for the event list to download, and it is the only
+ * way an archived event reaches the map: the fetched list holds upcoming
+ * events and search-only venue records only.
+ */
+export default function MapView({ pageEvent }: { pageEvent?: PageEvent } = {}) {
   const mapRef = useRef<MapRef>(null);
-  const allEventsTyped = useMemo(() => allEvents as DanceEvent[], []);
-  const events = useMemo(
-    () => allEventsTyped.filter(e => !e.archived && !e.searchOnly),
-    [allEventsTyped],
-  );
+  const upcoming = useUpcomingEvents();
+  const events = useMemo(() => upcoming.filter(e => !e.searchOnly), [upcoming]);
 
   const { controls, applyFilters, effectiveFromMs, effectiveToMs, ensureEventVisible } =
     useEventFilters();
@@ -169,9 +171,11 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
 
   const eventsBySlug = useMemo(() => {
     const map = new Map<string, DanceEvent>();
-    for (const e of allEventsTyped) if (e.slug) map.set(e.slug, e);
+    const pageOwn = pageEvent?.event;
+    if (pageOwn?.slug) map.set(pageOwn.slug, pageOwn);
+    for (const e of upcoming) if (e.slug && !map.has(e.slug)) map.set(e.slug, e);
     return map;
-  }, [allEventsTyped]);
+  }, [upcoming, pageEvent]);
 
   // Deep-link handling runs once: resolve the slug from the hash (or the
   // initial prop) on arrival and open that event. Guarded so later filter/date
@@ -187,7 +191,7 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
   const didDeepLinkRef = useRef(false);
   useEffect(() => {
     if (didDeepLinkRef.current) return;
-    const slug = slugFromHash(window.location.hash) ?? initialEventSlug;
+    const slug = slugFromHash(window.location.hash) ?? pageEvent?.event.slug;
     if (!slug) return;
     const ev = eventsBySlug.get(slug);
     // Wait for events to load before consuming the one-shot guard.
@@ -206,7 +210,7 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
       }
       openEvent(ev, undefined, { replace: true });
     }
-  }, [eventsBySlug, initialEventSlug, ensureEventVisible, flyToEvent, openEvent]);
+  }, [eventsBySlug, pageEvent, ensureEventVisible, flyToEvent, openEvent]);
 
   // Back closes the popup (its history entry is popped); Forward reopens it
   // from the hash the entry carries. State is set directly here — the history
@@ -231,25 +235,18 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
 
   const mappableEvents = useMemo(() => events.filter(isMappable), [events]);
 
-  // Search also covers ghosts — archived events and dateless search-only venue
-  // records. They open as a translucent dot, never a pin. Archived instances
-  // collapse to the most recent per name, and drop out entirely when an active
-  // event with the same name (or a search-only venue record for the same
-  // series) already holds the search slot.
-  const searchableEvents = useMemo(() => {
-    const activeNames = new Set(events.map(e => normalizeEventName(e.name)));
-    const searchOnly = allEventsTyped.filter(e => e.searchOnly && e.lat != null && e.lng != null);
-    const archivedByName = new Map<string, DanceEvent>();
-    for (const e of allEventsTyped) {
-      if (!e.archived || e.lat == null || e.lng == null) continue;
-      const key = normalizeEventName(e.name);
-      if (activeNames.has(key)) continue;
-      if (searchOnly.some(s => isSeriesInstance(s, e))) continue;
-      const prev = archivedByName.get(key);
-      if (!prev || e.startDate > prev.startDate) archivedByName.set(key, e);
-    }
-    return [...mappableEvents, ...searchOnly, ...archivedByName.values()];
-  }, [allEventsTyped, events, mappableEvents]);
+  // Search also covers dateless search-only venue records, which open as a
+  // translucent dot, never a pin. Past events are not searchable: the browser
+  // never gets the archive (see useUpcomingEvents).
+  const searchableEvents = useMemo(
+    () => [...mappableEvents, ...upcoming.filter(e => e.searchOnly && isMappable(e))],
+    [upcoming, mappableEvents],
+  );
+
+  // Only the page's own event comes with its history; anything opened from
+  // the map is a live listing (or venue record) that needs none.
+  const activeHistory =
+    activeEvent && pageEvent && activeEvent.id === pageEvent.event.id ? pageEvent : null;
 
   const filteredEvents = useMemo(
     () => applyFilters(mappableEvents),
@@ -432,6 +429,8 @@ export default function MapView({ initialEventSlug }: { initialEventSlug?: strin
           displayDate={activeDisplayDate}
           fromMs={effectiveFromMs}
           toMs={effectiveToMs}
+          nextInstance={activeHistory?.nextInstance}
+          pastInstances={activeHistory?.pastInstances}
         />
       )}
     </div>

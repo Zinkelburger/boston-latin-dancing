@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { DanceEvent } from '@/types/event';
-import { findActiveInstance } from '@/lib/search';
+import { findActiveInstance, pastInstancesOf } from '@/lib/search';
 
 let seq = 0;
 function ev(overrides: Partial<DanceEvent>): DanceEvent {
@@ -79,5 +79,54 @@ describe('findActiveInstance', () => {
     const alsoOld = ev({ name: 'Fuego y Candela', archived: true });
     const noPage = ev({ name: 'Fuego y Candela', slug: undefined });
     expect(findActiveInstance(old, [old, alsoOld, noPage])).toBeUndefined();
+  });
+});
+
+describe('pastInstancesOf', () => {
+  it('is empty for a live listing', () => {
+    const live = ev({ name: 'Fuego y Candela' });
+    const old = ev({ name: 'Fuego y Candela', archived: true });
+    expect(pastInstancesOf(live, [live, old])).toEqual([]);
+  });
+
+  it('lists archived instances of the series, newest first, excluding itself', () => {
+    const current = ev({
+      name: 'Fuego y Candela',
+      archived: true,
+      startDate: '2026-08-01T23:00:00Z',
+    });
+    const older = ev({
+      name: 'Fuego y Candela',
+      archived: true,
+      startDate: '2026-06-01T23:00:00Z',
+    });
+    const newer = ev({
+      name: 'Fuego y Candela',
+      archived: true,
+      startDate: '2026-07-01T23:00:00Z',
+    });
+    const live = ev({ name: 'Fuego y Candela' });
+    const unrelated = ev({ name: 'Bachata Tuesdays', archived: true });
+    expect(pastInstancesOf(current, [current, older, newer, live, unrelated])).toEqual([
+      newer,
+      older,
+    ]);
+  });
+
+  it("ties a search-only venue record to its organizer's differently named editions", () => {
+    const hub = ev({
+      name: 'Fuego y Candela',
+      searchOnly: true,
+      organizer: 'Fuego',
+      startDate: '',
+    });
+    const special = ev({ name: '15-Year Anniversary', archived: true, organizer: 'Fuego' });
+    expect(pastInstancesOf(hub, [hub, special])).toEqual([special]);
+  });
+
+  it('keeps at most `limit` rows', () => {
+    const current = ev({ name: 'Fuego y Candela', archived: true });
+    const others = Array.from({ length: 5 }, () => ev({ name: 'Fuego y Candela', archived: true }));
+    expect(pastInstancesOf(current, [current, ...others], 3)).toHaveLength(3);
   });
 });

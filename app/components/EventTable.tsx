@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { DanceEvent, RecurringSchedule } from '@/types/event';
+import type { DanceEvent, PastInstance, RecurringSchedule } from '@/types/event';
 import {
   formatRecurrenceDate,
   recurrenceTimeRange,
@@ -99,7 +99,7 @@ export function PastDatesTable({
   className,
 }: {
   current: DanceEvent;
-  pastInstances: DanceEvent[];
+  pastInstances: PastInstance[];
   title?: string;
   className?: string;
 }) {

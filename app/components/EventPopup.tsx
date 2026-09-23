@@ -1,8 +1,7 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import allEvents from '@/data/events-published.json';
-import type { DanceEvent } from '@/types/event';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import type { DanceEvent, PastInstance } from '@/types/event';
 import { SITE_URL, STYLE_LABELS, STYLE_PILL_CLASS } from '@/lib/constants';
 import {
   extraScheduleNote,
@@ -13,7 +12,6 @@ import {
   resolveDisplayOccurrence,
   shouldShowNextOccurrence,
 } from '@/lib/recurrences';
-import { findActiveInstance, isSeriesInstance } from '@/lib/search';
 import { displayStartIso, hasStartDate } from '@/lib/dates';
 import { cleanDisplayText } from '@/lib/display-text';
 import { collectEventLinks } from '@/lib/link-label';
@@ -55,6 +53,10 @@ type Props = {
   /** Active filter window — used to pick first in-range occurrence on map. */
   fromMs?: number;
   toMs?: number;
+  /** The dated live listing an archived event has become, for "Next up". */
+  nextInstance?: DanceEvent | null;
+  /** Earlier dates of the series, shown on archived and search-only events. */
+  pastInstances?: PastInstance[];
 };
 
 function toGcalDate(iso: string): string {
@@ -82,6 +84,8 @@ export default function EventPopup({
   displayDate,
   fromMs,
   toMs,
+  nextInstance = null,
+  pastInstances = [],
 }: Props) {
   const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -127,25 +131,6 @@ export default function EventPopup({
   const recurrenceLabel = getRecurrenceLabel(event);
   const scheduleNote = extraScheduleNote(event);
   const nextIso = shouldShowNextOccurrence(event) ? nextOccurrenceIso(event) : null;
-
-  // The live listing this archived event has become, for the "Next up" link.
-  // Dated candidates win over dateless venue records, so the link can always
-  // name a date.
-  const nextInstance = useMemo(() => {
-    const next = findActiveInstance(event, allEvents as DanceEvent[]);
-    return next && hasStartDate(next) ? next : null;
-  }, [event]);
-
-  // Past instances of this series (archived events with matching names) —
-  // the history record shown on archived and search-only events.
-  const pastInstances = useMemo(() => {
-    if (!event.archived && !event.searchOnly) return [];
-    return (allEvents as DanceEvent[])
-      .filter(e => e.archived && e.id !== event.id && e.startDate)
-      .filter(e => isSeriesInstance(event, e))
-      .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime())
-      .slice(0, 8);
-  }, [event]);
 
   return (
     <div
