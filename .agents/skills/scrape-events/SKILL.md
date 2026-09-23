@@ -3,14 +3,14 @@ name: scrape-events
 description: >-
   Scrape dance events from all sources and update the map. Use when asked to
   refresh events, scrape Facebook pages, run the pipeline, check for new events,
-  update public/events.json, review the quarantine or pending queue, or update
+  update data/events-published.json, review the quarantine or pending queue, or update
   the map.
 ---
 
 # Scrape events and update the map
 
 Use the Boston Latin Dance MCP tools for lifecycle operations. Never manually
-edit `data/events-published.json` or `public/events.json`; they are generated.
+edit `data/events-published.json`; it is generated.
 Treat `data/sources.json` as the authoritative source list.
 
 ## Route to the right reference

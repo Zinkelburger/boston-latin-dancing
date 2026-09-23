@@ -19,18 +19,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import atomic_io
-from event_store import (
-    normalize_name,
-    _content_words,
-    _locations_same,
-    dedup_confidence,
-    DEDUP_LOG,
-    ACTIVE_JSON,
-    PENDING_JSON,
-    PUBLIC_EVENTS_JSON,
-    load_active,
-    load_pending,
-)
+from event_store import dedup_confidence, load_active, load_pending
+from event_store.locations import locations_same
+from event_store.names import content_words, normalize_name
+from event_store.paths import ACTIVE_JSON, DEDUP_LOG, PUBLIC_EVENTS_JSON
 
 
 def load_events(path: Path) -> list[dict]:
@@ -48,8 +40,8 @@ def report(events: list[dict]) -> list[dict]:
 
         name_a = normalize_name(a.get("name", ""))
         name_b = normalize_name(b.get("name", ""))
-        words_a = _content_words(name_a)
-        words_b = _content_words(name_b)
+        words_a = content_words(name_a)
+        words_b = content_words(name_b)
         overlap = words_a & words_b
 
         pairs.append({
@@ -63,7 +55,7 @@ def report(events: list[dict]) -> list[dict]:
             "a_loc": a.get("location") or "",
             "b_loc": b.get("location") or "",
             "shared_words": sorted(overlap) if overlap else [],
-            "same_location": _locations_same(a, b),
+            "same_location": locations_same(a, b),
         })
 
     conf_order = {"certain": 0, "review": 1}

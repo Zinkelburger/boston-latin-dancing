@@ -15,22 +15,21 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import atomic_io
 from dedup_report import report as duplicate_report
 from event_store import (
-    PUBLIC_EVENTS_JSON,
     TRIPWIRE_MIN_PREVIOUS,
     TRIPWIRE_MIN_RATIO,
-    _live_event_count,
-    _occurrence_instants,
     load_active,
     load_pending,
     load_rejected,
     preview_publish,
 )
+from event_store.occurrences import occurrence_instants
+from event_store.paths import PUBLIC_EVENTS_JSON
+from event_store.publishing import live_event_count
 from fetch_facebook import SIGNALS_PATH, load_signals
 from scrape_facebook import raw_input_path, validate_capture
-from scraper_utils import NY_TZ, ROOT, load_scrape_health, load_sources, scraper_commands
+from scraper_utils import NY_TZ, load_scrape_health, load_sources, scraper_commands
 from verify_events import REPORT_PATH
 
-LEGACY_PUBLIC_EVENTS_JSON = ROOT / "public" / "events.json"
 GOOD_VERIFICATION_STATUSES = {"confirmed", "reachable_only"}
 # Words that identify an organizer in an event's name/location: "tambó",
 # "inferno", "candela" — never these.
@@ -52,7 +51,7 @@ def _source_tokens(source: dict) -> set[str]:
 
 
 def _event_days(event: dict) -> set[str]:
-    return {dt.astimezone(NY_TZ).date().isoformat() for dt in _occurrence_instants(event)}
+    return {dt.astimezone(NY_TZ).date().isoformat() for dt in occurrence_instants(event)}
 
 
 def _event_matches_source(event: dict, source: dict, tokens: set[str], signal: str = "") -> bool:
@@ -381,7 +380,7 @@ def run_doctor(
         )
 
         previous_text = PUBLIC_EVENTS_JSON.read_text() if PUBLIC_EVENTS_JSON.exists() else None
-        previous_live = _live_event_count(previous_text)
+        previous_live = live_event_count(previous_text)
         new_live = sum(1 for event in preview["published"] if not event.get("archived"))
         tripped = previous_live >= TRIPWIRE_MIN_PREVIOUS and new_live < previous_live * TRIPWIRE_MIN_RATIO
         record(
@@ -393,10 +392,7 @@ def run_doctor(
         )
 
         drift: list[dict] = []
-        for label, path in (
-            ("data", PUBLIC_EVENTS_JSON),
-            ("public", LEGACY_PUBLIC_EVENTS_JSON),
-        ):
+        for label, path in (("data", PUBLIC_EVENTS_JSON),):
             try:
                 stored = atomic_io.read_json(path)
             except FileNotFoundError:

@@ -52,7 +52,7 @@ DEFAULT_START_HOUR = 20
 ASSUMED_HOURS = 3
 
 # "Every other week" parity when the submitter gave no start date. Must match
-# event_store._matches_schedule_note so the pipeline and the frontend agree on
+# event_store.schedule.matches_schedule_note so the pipeline and the frontend agree on
 # which weeks a biweekly series falls on.
 EVERY_OTHER_REF = datetime(2026, 1, 2)
 

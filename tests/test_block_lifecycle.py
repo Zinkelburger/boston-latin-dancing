@@ -14,6 +14,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import event_store as es
+from event_store import locations, paths
 
 
 
@@ -51,9 +52,9 @@ class TestGeoFence:
     def test_event_without_coords_is_not_out_of_area(self, store):
         # No coordinates and no state in the text -> can't be judged, must pass
         # the guard (helper is pure, so this avoids the network geocoder).
-        assert store._is_out_of_area(_event(lat=None, lng=None)) is False
-        assert store._is_out_of_area(_event(lat=None, lng=None, location="Public Garden")) is False
-        assert store._is_out_of_area(_event(lat=None, lng=None, location="Cambridge, Massachusetts")) is False
+        assert locations.is_out_of_area(_event(lat=None, lng=None)) is False
+        assert locations.is_out_of_area(_event(lat=None, lng=None, location="Public Garden")) is False
+        assert locations.is_out_of_area(_event(lat=None, lng=None, location="Cambridge, Massachusetts")) is False
 
     @pytest.mark.parametrize("location", [
         "Dallas, TX",
@@ -66,7 +67,7 @@ class TestGeoFence:
         # The geocoder refuses hits >50km from Boston and leaves lat/lng empty,
         # so the text is the only signal left. A trailing state code outside
         # New England settles it.
-        assert store._is_out_of_area(_event(lat=None, lng=None, location=location)) is True
+        assert locations.is_out_of_area(_event(lat=None, lng=None, location=location)) is True
 
     @pytest.mark.parametrize("location", [
         "Lawrence, MA 01843",
@@ -76,7 +77,7 @@ class TestGeoFence:
         "1 Eaton Street,Lawrence,01843,US",   # no state code at all
     ])
     def test_uncoordinated_new_england_or_stateless_event_passes(self, store, location):
-        assert store._is_out_of_area(_event(lat=None, lng=None, location=location)) is False
+        assert locations.is_out_of_area(_event(lat=None, lng=None, location=location)) is False
 
     def test_uncoordinated_far_state_event_rejected_at_ingest(self, store):
         result = store.add_event(_event(lat=None, lng=None, location="New York, NY"))
@@ -162,7 +163,7 @@ class TestIngestCounters:
             _event(id="evt-blocked"),
             _event(id="evt-far", lat=25.8, lng=-80.2, location="Miami, FL"),
         ]
-        (store.SCRAPED_DIR / "test.json").write_text(json.dumps(scraped))
+        (paths.SCRAPED_DIR / "test.json").write_text(json.dumps(scraped))
 
         result = store.ingest_scraped(source_id="test")
         assert result["added"] == 1

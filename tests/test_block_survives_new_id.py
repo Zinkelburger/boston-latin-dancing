@@ -15,6 +15,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import event_store as es
+from event_store import paths
 
 
 
@@ -111,7 +112,7 @@ class TestBlockSurvivesNewId:
         store.save_active([_weekly_class("2026-07-30-20-45")])
         store.block_event(
             "nlf-events-intermediate-bachata-w-tina-2026-07-30-20-45", "class_only")
-        (store.SCRAPED_DIR / "nlf-events.json").write_text(
+        (paths.SCRAPED_DIR / "nlf-events.json").write_text(
             json.dumps([_weekly_class("2026-08-06-20-45")]))
         result = store.ingest_scraped(source_id="nlf-events", quarantine_new=True)
         assert result["blocked"] == 1

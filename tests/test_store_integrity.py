@@ -31,21 +31,24 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import atomic_io
 import event_store as es
+from event_store import known_duplicates, locations, paths, publishing, schedule, slugs, sources, storage
+import recurrence_utils
 import scraper_utils
 import slug_registry as sr
+import source_signal
 
 NY = ZoneInfo("America/New_York")
 
 
 @pytest.fixture
 def store(store, tmp_path, monkeypatch):
-    monkeypatch.setattr(es, "VENUES_JSON", tmp_path / "venues.json")
-    monkeypatch.setattr(es, "SOURCES_JSON", tmp_path / "sources.json")
+    monkeypatch.setattr(paths, "VENUES_JSON", tmp_path / "venues.json")
+    monkeypatch.setattr(paths, "SOURCES_JSON", tmp_path / "sources.json")
     atomic_io.write_json(tmp_path / "venues.json", [])
-    monkeypatch.setattr(es, "_load_source_names", lambda: {})
-    monkeypatch.setattr(es, "noisy_source_ids", lambda: set())
-    monkeypatch.setattr(es, "unreliable_source_ids", lambda: set())
-    monkeypatch.setattr(es, "_trusted_latin_sources", lambda: set())
+    monkeypatch.setattr(sources, "load_source_names", lambda: {})
+    monkeypatch.setattr(source_signal, "noisy_source_ids", lambda: set())
+    monkeypatch.setattr(source_signal, "unreliable_source_ids", lambda: set())
+    monkeypatch.setattr(sources, "trusted_latin_sources", lambda: set())
     return es
 
 
@@ -86,7 +89,7 @@ def _other(**overrides):
 
 
 def _lock_depth() -> int:
-    key = str(es.STORE_LOCK.with_name(es.STORE_LOCK.name + ".lock"))
+    key = str(paths.STORE_LOCK.with_name(paths.STORE_LOCK.name + ".lock"))
     entry = atomic_io._locks.get(key)
     return entry.depth if entry else 0
 
@@ -94,13 +97,13 @@ def _lock_depth() -> int:
 # ── 1. strict reads ───────────────────────────────────────────────────
 
 def test_corrupt_store_raises_instead_of_reading_as_empty(store):
-    store.ACTIVE_JSON.write_text('[{"id": "evt-1", "name": "half a rec')
+    paths.ACTIVE_JSON.write_text('[{"id": "evt-1", "name": "half a rec')
     with pytest.raises(atomic_io.CorruptJSONError):
         store.load_active()
 
 
 def test_empty_store_file_is_corrupt_not_empty(store):
-    store.ARCHIVE_JSON.write_text("")
+    paths.ARCHIVE_JSON.write_text("")
     with pytest.raises(atomic_io.CorruptJSONError):
         store.load_archive()
 
@@ -113,40 +116,40 @@ def test_missing_store_file_is_empty(store):
 
 def test_add_event_never_overwrites_a_corrupt_store(store):
     broken = '[{"id": "evt-old", "name": "Real event that must survive"'
-    store.ACTIVE_JSON.write_text(broken)
+    paths.ACTIVE_JSON.write_text(broken)
     with pytest.raises(atomic_io.CorruptJSONError):
         store.add_event(_event())
-    assert store.ACTIVE_JSON.read_text() == broken
+    assert paths.ACTIVE_JSON.read_text() == broken
 
 
 def test_corrupt_known_duplicates_raises(store):
-    store.KNOWN_DUPLICATES_JSON.write_text("{not json")
+    paths.KNOWN_DUPLICATES_JSON.write_text("{not json")
     with pytest.raises(atomic_io.CorruptJSONError):
-        store._known_duplicate_verdict({"id": "a"}, {"id": "b"})
+        known_duplicates.known_duplicate_verdict({"id": "a"}, {"id": "b"})
 
 
 # ── 2. atomic writes ──────────────────────────────────────────────────
 
 def test_save_is_atomic_and_leaves_no_temp_file(store):
     store.save_active([_event()])
-    leftovers = [p for p in store.EVENTS_DIR.iterdir() if p.suffix == ".tmp"]
+    leftovers = [p for p in paths.EVENTS_DIR.iterdir() if p.suffix == ".tmp"]
     assert leftovers == []
-    text = store.ACTIVE_JSON.read_text()
+    text = paths.ACTIVE_JSON.read_text()
     assert text.endswith("\n")
     assert json.loads(text)[0]["id"] == "evt-1"
 
 
 def test_changelog_is_appended_one_line_per_entry(store):
-    store._append_changelog("add", "a")
-    store._append_changelog("add", "b")
-    lines = store.CHANGELOG.read_text().splitlines()
+    storage.append_changelog("add", "a")
+    storage.append_changelog("add", "b")
+    lines = paths.CHANGELOG.read_text().splitlines()
     assert [json.loads(l)["event_id"] for l in lines] == ["a", "b"]
 
 
 def test_known_duplicates_written_atomically(store):
-    store._persist_known_duplicate("a", "b", "same")
-    assert not list(store.KNOWN_DUPLICATES_JSON.parent.glob("*.tmp"))
-    assert store.KNOWN_DUPLICATES_JSON.read_text().endswith("\n")
+    known_duplicates.persist_known_duplicate("a", "b", "same")
+    assert not list(paths.KNOWN_DUPLICATES_JSON.parent.glob("*.tmp"))
+    assert paths.KNOWN_DUPLICATES_JSON.read_text().endswith("\n")
 
 
 # ── 3. one store-wide lock ────────────────────────────────────────────
@@ -162,7 +165,7 @@ def lock_spy(store, monkeypatch):
             seen.setdefault(_name, []).append(_lock_depth())
             return _real(data)
 
-        monkeypatch.setattr(store, name, wrapped)
+        monkeypatch.setattr(storage, name, wrapped)
     real_write = atomic_io.write_json
 
     def spy_write(path, data, **kw):
@@ -188,7 +191,7 @@ def test_lifecycle_functions_write_under_the_store_lock(store, lock_spy):
     store.approve_rejected("evt-1")
     store.block_event("evt-1", "other", "no")
     store.unblock_event("evt-1")
-    store._persist_known_duplicate("x", "y", "different")
+    known_duplicates.persist_known_duplicate("x", "y", "different")
     store.forget_known_duplicate("x", "y")
     _assert_all_locked(lock_spy)
     assert _lock_depth() == 0, "lock leaked after the calls returned"
@@ -226,22 +229,22 @@ def test_store_lock_is_reentrant_and_released(store):
 def test_store_lock_uses_one_sidecar_for_every_file(store):
     with store.store_lock():
         pass
-    assert store.STORE_LOCK.with_name("store.lock").exists()
+    assert paths.STORE_LOCK.with_name("store.lock").exists()
 
 
 # ── 4. no known-duplicates cache ──────────────────────────────────────
 
 def test_verdicts_written_by_another_process_are_not_erased(store):
-    store._persist_known_duplicate("a", "b", "same")
+    known_duplicates.persist_known_duplicate("a", "b", "same")
     # Another process (the pipeline) records its own verdict meanwhile.
-    other = atomic_io.read_json(store.KNOWN_DUPLICATES_JSON)
+    other = atomic_io.read_json(paths.KNOWN_DUPLICATES_JSON)
     other.append({"id_a": "c", "id_b": "d", "verdict": "different", "reviewed_at": "x"})
-    atomic_io.write_json(store.KNOWN_DUPLICATES_JSON, other)
+    atomic_io.write_json(paths.KNOWN_DUPLICATES_JSON, other)
 
-    store._persist_known_duplicate("e", "f", "same")
+    known_duplicates.persist_known_duplicate("e", "f", "same")
     pairs = {(p["id_a"], p["id_b"]) for p in store.list_known_duplicates()}
     assert pairs == {("a", "b"), ("c", "d"), ("e", "f")}
-    assert store._known_duplicate_verdict({"id": "d"}, {"id": "c"}) == "skip"
+    assert known_duplicates.known_duplicate_verdict({"id": "d"}, {"id": "c"}) == "skip"
     assert not hasattr(store, "_known_duplicates_cache")
 
 
@@ -272,7 +275,7 @@ def test_approve_pending_rolls_back_a_fresh_verdict_when_landing_fails(store):
 
     result = store.approve_pending("evt-2")
     assert result["status"] == "not_approved"
-    assert store._known_duplicate_verdict({"id": "evt-1"}, {"id": "evt-2"}) is None
+    assert known_duplicates.known_duplicate_verdict({"id": "evt-1"}, {"id": "evt-2"}) is None
     assert len(store.load_pending()) == 1
 
 
@@ -310,8 +313,8 @@ def test_remove_active_lands_in_rejected_before_leaving_active(store, monkeypatc
     store.add_event(_event())
     order: list[str] = []
     real_rej, real_act = store.save_rejected, store.save_active
-    monkeypatch.setattr(store, "save_rejected", lambda d: (order.append("rejected"), real_rej(d)))
-    monkeypatch.setattr(store, "save_active", lambda d: (order.append("active"), real_act(d)))
+    monkeypatch.setattr(storage, "save_rejected", lambda d: (order.append("rejected"), real_rej(d)))
+    monkeypatch.setattr(storage, "save_active", lambda d: (order.append("active"), real_act(d)))
     store.remove_active_event("evt-1", reason="gone")
     assert order == ["rejected", "active"]
 
@@ -322,8 +325,8 @@ def test_reactivate_writes_active_before_archive(store, monkeypatch):
     store.save_archive([old])
     order: list[str] = []
     real_arc, real_act = store.save_archive, store.save_active
-    monkeypatch.setattr(store, "save_archive", lambda d: (order.append("archive"), real_arc(d)))
-    monkeypatch.setattr(store, "save_active", lambda d: (order.append("active"), real_act(d)))
+    monkeypatch.setattr(storage, "save_archive", lambda d: (order.append("archive"), real_arc(d)))
+    monkeypatch.setattr(storage, "save_active", lambda d: (order.append("active"), real_act(d)))
     result = store.add_event(_event())
     assert result["status"] == "reactivated"
     assert order == ["active", "archive"]
@@ -344,9 +347,9 @@ def test_publish_writes_nothing_to_stdout(store, capsys):
 
 
 def test_event_store_has_no_stdout_print():
-    src = (Path(es.__file__)).read_text()
-    for m in re.finditer(r"^\s*print\((.*)$", src, flags=re.M):
-        assert "file=sys.stderr" in m.group(1), m.group(0)
+    for module in Path(es.__file__).parent.glob("*.py"):
+        for m in re.finditer(r"^\s*print\((.*)$", module.read_text(), flags=re.M):
+            assert "file=sys.stderr" in m.group(1), f"{module.name}: {m.group(0)}"
 
 
 # ── 10. tripwire trips before anything is written ─────────────────────
@@ -369,20 +372,18 @@ def test_tripwire_leaves_every_output_untouched(store):
     _fill_active(store, es.TRIPWIRE_MIN_PREVIOUS + 5)
     first = store.publish_guarded()
     assert first["tripped"] is False
-    published_before = store.PUBLIC_EVENTS_JSON.read_text()
+    published_before = paths.PUBLIC_EVENTS_JSON.read_text()
     registry_before = sr.REGISTRY_PATH.read_text()
-    conflicts_before = store.VENUE_CONFLICTS_JSON.read_text()
-    legacy_before = (store.ROOT / "public" / "events.json").read_text()
+    conflicts_before = paths.VENUE_CONFLICTS_JSON.read_text()
 
     store.save_active(store.load_active()[:3])
     result = store.publish_guarded()
     assert result["status"] == "tripwire" and result["tripped"] is True
     assert result["published_live_events"] == 3
 
-    assert store.PUBLIC_EVENTS_JSON.read_text() == published_before
+    assert paths.PUBLIC_EVENTS_JSON.read_text() == published_before
     assert sr.REGISTRY_PATH.read_text() == registry_before
-    assert store.VENUE_CONFLICTS_JSON.read_text() == conflicts_before
-    assert (store.ROOT / "public" / "events.json").read_text() == legacy_before
+    assert paths.VENUE_CONFLICTS_JSON.read_text() == conflicts_before
 
 
 def test_tripwire_uses_the_caller_snapshot_when_given(store):
@@ -390,7 +391,7 @@ def test_tripwire_uses_the_caller_snapshot_when_given(store):
     baseline = json.dumps([{"id": f"b{i}"} for i in range(es.TRIPWIRE_MIN_PREVIOUS)])
     result = store.publish_guarded(previous_snapshot=baseline)
     assert result["tripped"] is True
-    assert not store.PUBLIC_EVENTS_JSON.exists()
+    assert not paths.PUBLIC_EVENTS_JSON.exists()
 
 
 # ── 11. errors propagate instead of dropping events ───────────────────
@@ -401,32 +402,32 @@ def test_malformed_sources_json_aborts_instead_of_untrusting_everyone(tmp_path, 
     (data_dir / "sources.json").write_text("[{bad json")
     monkeypatch.setattr(scraper_utils, "SOURCES_PATH", data_dir / "sources.json")
     with pytest.raises(atomic_io.CorruptJSONError):
-        es._trusted_latin_sources()
+        sources.trusted_latin_sources()
 
 
 def test_corrupt_slug_registry_stops_slug_resolution(store):
     sr.REGISTRY_PATH.write_text("{corrupt")
     events = [{"id": "aaaaaaaa-1", "slug": "x-aaaaaaaa"}, {"id": "aaaaaaaa-2", "slug": "x-aaaaaaaa"}]
     with pytest.raises(atomic_io.CorruptJSONError):
-        es._resolve_slug_collisions(events)
+        slugs.resolve_slug_collisions(events)
 
 
 # ── 12. location aliases live in data ─────────────────────────────────
 
 def test_location_aliases_load_from_data_file():
-    assert es.LOCATION_ALIASES_JSON.name == "location-aliases.json"
-    raw = atomic_io.read_json(es.LOCATION_ALIASES_JSON)
+    assert paths.LOCATION_ALIASES_JSON.name == "location-aliases.json"
+    raw = atomic_io.read_json(paths.LOCATION_ALIASES_JSON)
     assert isinstance(raw, dict) and any(not k.startswith("_") for k in raw)
-    assert es._canonical_location("Rumba y Timbal") == "rumba-y-timbal"
-    assert es._canonical_location("Somewhere at 7 Temple St, Boston") == "rumba-y-timbal"
-    assert es._canonical_location("A place nobody aliased") is None
+    assert locations.canonical_location("Rumba y Timbal") == "rumba-y-timbal"
+    assert locations.canonical_location("Somewhere at 7 Temple St, Boston") == "rumba-y-timbal"
+    assert locations.canonical_location("A place nobody aliased") is None
 
 
 def test_location_aliases_loader_flattens_and_skips_notes(tmp_path):
     path = tmp_path / "aliases.json"
     atomic_io.write_json(path, {"_notes": ["ignored"], "my-hall": ["My Hall", " the hall "]})
-    assert es._load_location_aliases(path) == {"my hall": "my-hall", "the hall": "my-hall"}
-    assert es._load_location_aliases(tmp_path / "missing.json") == {}
+    assert locations.load_location_aliases(path) == {"my hall": "my-hall", "the hall": "my-hall"}
+    assert locations.load_location_aliases(tmp_path / "missing.json") == {}
 
 
 # ── 13. every-other-week anchor ───────────────────────────────────────
@@ -436,16 +437,16 @@ def _fridays(start: datetime, n: int) -> list[datetime]:
 
 
 def test_default_phase_is_unchanged_without_anchor():
-    ref = es._EVERY_OTHER_DEFAULT_ANCHOR
-    on = [d for d in _fridays(ref, 4) if es._matches_schedule_note(d, "Every other Friday", "Friday")]
+    ref = schedule._EVERY_OTHER_DEFAULT_ANCHOR
+    on = [d for d in _fridays(ref, 4) if schedule.matches_schedule_note(d, "Every other Friday", "Friday")]
     assert on == [ref, ref + timedelta(weeks=2)]
 
 
 def test_anchor_flips_the_phase():
-    ref = es._EVERY_OTHER_DEFAULT_ANCHOR
+    ref = schedule._EVERY_OTHER_DEFAULT_ANCHOR
     opposite = (ref + timedelta(weeks=1)).strftime("%Y-%m-%d")
     on = [d for d in _fridays(ref, 4)
-          if es._matches_schedule_note(d, "Every other Friday", "Friday", anchor=opposite)]
+          if schedule.matches_schedule_note(d, "Every other Friday", "Friday", anchor=opposite)]
     assert on == [ref + timedelta(weeks=1), ref + timedelta(weeks=3)]
 
 
@@ -456,7 +457,7 @@ def test_venue_with_opposite_phase_expands_on_its_own_weeks(store):
     week_after = next_friday + timedelta(weeks=1)
     venue = {"name": "Alt Hall", "location": "1 Pier Rd, Boston, MA", "lat": 42.36,
              "lng": -71.05, "url": "https://example.com", "styles": ["salsa"]}
-    atomic_io.write_json(store.VENUES_JSON, [
+    atomic_io.write_json(paths.VENUES_JSON, [
         dict(venue, id="phase-a", schedule=[{"dayOfWeek": "Friday", "time": "9:00 PM – 1:00 AM",
                                               "note": "Every other Friday",
                                               "anchor": next_friday.strftime("%Y-%m-%d")}]),
@@ -498,7 +499,7 @@ def _series(**overrides):
     ev = _event(
         id="series-1", name="Rueda in the Pahk",
         startDate=first.isoformat(), endDate=(first + timedelta(hours=2)).isoformat(),
-        recurring=True, dayOfWeek=es.DAYS_LIST[first.isoweekday() % 7],
+        recurring=True, dayOfWeek=recurrence_utils.DAYS_LIST[first.isoweekday() % 7],
         recurrences=[d.isoformat() for d in occurrences],
     )
     ev.update(overrides)
@@ -510,7 +511,7 @@ def test_publish_rolls_a_stale_series_forward(store):
     result = store.publish()
     assert result["series_rolled_forward"] == 1
 
-    published = atomic_io.read_json(store.PUBLIC_EVENTS_JSON)
+    published = atomic_io.read_json(paths.PUBLIC_EVENTS_JSON)
     live = [e for e in published if not e.get("archived")]
     assert len(live) == 1
     rec = live[0]
@@ -534,7 +535,7 @@ def test_publish_leaves_a_current_series_alone(store):
     store.save_active([ev])
     result = store.publish()
     assert result["series_rolled_forward"] == 0
-    published = atomic_io.read_json(store.PUBLIC_EVENTS_JSON)
+    published = atomic_io.read_json(paths.PUBLIC_EVENTS_JSON)
     assert "firstStartDate" not in published[0]
     assert published[0]["startDate"] == first.isoformat()
 
@@ -543,13 +544,13 @@ def test_publish_leaves_a_current_series_alone(store):
 
 def test_truncate_description_cuts_at_a_word_boundary():
     text = " ".join(f"word{i}" for i in range(120))
-    cut = es._truncate_description(text, 300)
+    cut = publishing._truncate_description(text, 300)
     assert len(cut) <= 300
     assert cut.endswith("…")
     assert not cut[:-1].endswith("word") or cut[:-1].split()[-1].startswith("word")
     assert cut[:-1] == text[:len(cut) - 1]           # a prefix, not a rewrite
     assert text[len(cut) - 1] == " "                 # cut on a space
-    assert es._truncate_description("short", 300) == "short"
+    assert publishing._truncate_description("short", 300) == "short"
 
 
 def test_publish_truncates_archived_descriptions_only(store):
@@ -560,10 +561,10 @@ def test_publish_truncates_archived_descriptions_only(store):
     store.save_archive([archived])
     store.save_active([_event(description=long_text)])
     store.publish()
-    published = atomic_io.read_json(store.PUBLIC_EVENTS_JSON)
+    published = atomic_io.read_json(paths.PUBLIC_EVENTS_JSON)
     by_id = {e["id"]: e for e in published}
     assert by_id["old-1"]["archived"] is True
-    assert len(by_id["old-1"]["description"]) <= es.ARCHIVED_DESCRIPTION_LIMIT
+    assert len(by_id["old-1"]["description"]) <= publishing.ARCHIVED_DESCRIPTION_LIMIT
     assert by_id["old-1"]["description"].endswith("…")
     assert by_id["evt-1"]["description"] == long_text
 
@@ -580,7 +581,7 @@ def test_add_event_reads_each_store_at_most_once(store, monkeypatch):
             counts[_name] = counts.get(_name, 0) + 1
             return _real()
 
-        monkeypatch.setattr(store, name, counted)
+        monkeypatch.setattr(storage, name, counted)
     assert store.add_event(_event())["status"] == "added"
     assert all(n <= 1 for n in counts.values()), counts
     assert counts["load_active"] == 1 and counts["load_archive"] == 1
@@ -596,7 +597,7 @@ def test_archive_event_moves_one_event_and_logs(store):
     assert result["event"]["id"] == "evt-1" and result["event"]["archivedAt"]
     assert [e["id"] for e in store.load_active()] == ["evt-2"]
     assert [e["id"] for e in store.load_archive()] == ["evt-1"]
-    log = [json.loads(l) for l in store.CHANGELOG.read_text().splitlines()]
+    log = [json.loads(l) for l in paths.CHANGELOG.read_text().splitlines()]
     assert {"action": "archive", "event_id": "evt-1", "details": "venue closed"}.items() <= log[-1].items()
     assert store.archive_event("nope")["status"] == "not_found"
 
@@ -625,12 +626,12 @@ def test_add_venue_validates_dedups_and_appends_atomically(store):
     ok = store.add_venue(venue)
     assert ok["status"] == "added" and ok["problems"] == []
     assert ok["venue"]["id"] == "test-hall"
-    assert atomic_io.read_json(store.VENUES_JSON)[0]["name"] == "Test Hall"
-    assert not list(store.VENUES_JSON.parent.glob(".venues.json.*.tmp"))
+    assert atomic_io.read_json(paths.VENUES_JSON)[0]["name"] == "Test Hall"
+    assert not list(paths.VENUES_JSON.parent.glob(".venues.json.*.tmp"))
 
     again = store.add_venue(dict(venue, name="test hall"))
     assert again["status"] == "exists"
-    assert len(atomic_io.read_json(store.VENUES_JSON)) == 1
+    assert len(atomic_io.read_json(paths.VENUES_JSON)) == 1
 
 
 def test_edit_venue_validates_dry_runs_and_regeocodes(store, monkeypatch):
@@ -644,20 +645,20 @@ def test_edit_venue_validates_dry_runs_and_regeocodes(store, monkeypatch):
         "styles": ["salsa"],
         "schedule": [{"dayOfWeek": "Friday", "time": "9:00 PM – 1:00 AM"}],
     }
-    atomic_io.write_json(store.VENUES_JSON, [venue])
-    monkeypatch.setattr(store, "geocode", lambda location: (42.40, -71.10))
+    atomic_io.write_json(paths.VENUES_JSON, [venue])
+    monkeypatch.setattr(scraper_utils, "geocode", lambda location: (42.40, -71.10))
 
     dry = store.edit_venue("test-hall", {"location": "2 New St, Boston, MA"}, dry_run=True)
     assert dry["status"] == "dry_run"
     assert (dry["venue"]["lat"], dry["venue"]["lng"]) == (42.40, -71.10)
-    assert atomic_io.read_json(store.VENUES_JSON) == [venue]
+    assert atomic_io.read_json(paths.VENUES_JSON) == [venue]
 
     updated = store.edit_venue("test-hall", {"location": "2 New St, Boston, MA"})
     assert updated["status"] == "updated"
-    saved = atomic_io.read_json(store.VENUES_JSON)[0]
+    saved = atomic_io.read_json(paths.VENUES_JSON)[0]
     assert saved["location"] == "2 New St, Boston, MA"
     assert (saved["lat"], saved["lng"]) == (42.40, -71.10)
-    assert '"venue_edit"' in store.CHANGELOG.read_text()
+    assert '"venue_edit"' in paths.CHANGELOG.read_text()
 
 
 def test_edit_venue_rejects_identity_invalid_schedule_and_ungeocodable_location(store, monkeypatch):
@@ -671,30 +672,30 @@ def test_edit_venue_rejects_identity_invalid_schedule_and_ungeocodable_location(
         "styles": ["salsa"],
         "schedule": [{"dayOfWeek": "Friday", "time": "9:00 PM"}],
     }
-    atomic_io.write_json(store.VENUES_JSON, [venue])
+    atomic_io.write_json(paths.VENUES_JSON, [venue])
     assert store.edit_venue("missing", {})["status"] == "not_found"
     assert store.edit_venue("test-hall", {"id": "renamed"})["status"] == "invalid"
     assert store.edit_venue("test-hall", {"lat": 42.4})["status"] == "invalid"
     assert store.edit_venue("test-hall", {"schedule": []})["status"] == "invalid"
-    monkeypatch.setattr(store, "geocode", lambda location: None)
+    monkeypatch.setattr(scraper_utils, "geocode", lambda location: None)
     failed = store.edit_venue("test-hall", {"location": "Unknown"})
     assert failed["status"] == "invalid"
-    assert atomic_io.read_json(store.VENUES_JSON) == [venue]
+    assert atomic_io.read_json(paths.VENUES_JSON) == [venue]
 
 
 def test_publish_preview_does_not_geocode_write_or_log(store, tmp_path, monkeypatch):
     store.save_active([_event(lat=None, lng=None)])
     store.save_archive([])
-    monkeypatch.setattr(store, "VENUES_JSON", tmp_path / "venues.json")
-    atomic_io.write_json(store.VENUES_JSON, [])
-    monkeypatch.setattr(store, "geocode", lambda location: pytest.fail("preview attempted geocoding"))
+    monkeypatch.setattr(paths, "VENUES_JSON", tmp_path / "venues.json")
+    atomic_io.write_json(paths.VENUES_JSON, [])
+    monkeypatch.setattr(scraper_utils, "geocode", lambda location: pytest.fail("preview attempted geocoding"))
 
     preview = store.preview_publish()
 
     assert preview["missing"][0]["id"] == "evt-1"
-    assert not store.PUBLIC_EVENTS_JSON.exists()
-    assert not store.DEDUP_LOG.exists()
-    assert not store.VENUE_CONFLICTS_JSON.exists()
+    assert not paths.PUBLIC_EVENTS_JSON.exists()
+    assert not paths.DEDUP_LOG.exists()
+    assert not paths.VENUE_CONFLICTS_JSON.exists()
 
 
 def test_add_source_validates_and_rejects_duplicate_ids(store):
@@ -704,10 +705,10 @@ def test_add_source_validates_and_rejects_duplicate_ids(store):
 
     src = {"id": "x", "type": "web", "scraper": "generic", "name": "X", "url": "https://example.com"}
     assert store.add_source(src)["status"] == "added"
-    stored = atomic_io.read_json(store.SOURCES_JSON)
+    stored = atomic_io.read_json(paths.SOURCES_JSON)
     assert stored[0]["enabled"] is True
     assert store.add_source(src)["status"] == "exists"
-    assert len(atomic_io.read_json(store.SOURCES_JSON)) == 1
+    assert len(atomic_io.read_json(paths.SOURCES_JSON)) == 1
     queries = {"id": "y", "type": "search", "scraper": "generic", "name": "Y", "search_queries": ["salsa"]}
     assert store.add_source(queries)["status"] == "added"
 

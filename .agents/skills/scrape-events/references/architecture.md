@@ -6,7 +6,7 @@ Source configuration in `data/sources.json` drives scraper commands. Raw and
 normalized scraper files live under `data/scraped/`. Ingest validates and merges
 records into the event lifecycle files under `data/events/`. Publishing combines
 eligible active and historical data, resolves recurring venues, and writes
-`data/events-published.json` and `public/events.json` atomically.
+`data/events-published.json` atomically.
 
 The generated files are outputs, not editing surfaces.
 
@@ -39,7 +39,7 @@ schema/call tests.
 ## Important modules
 
 - `scripts/scraper_utils.py`: scraper runner, health, normalization helpers.
-- `scripts/event_store.py`: lifecycle mutations, ingest, dedup, guarded publish.
+- `scripts/event_store/`: lifecycle mutations (`ingest`, `curation`, `archive`, `blocklist`), dedup, and guarded publish (`publishing`).
 - `scripts/verify_events.py`: automated checks and browser attestations.
 - `scripts/event_doctor.py`: read-only consolidated preflight.
 - `mcp-server/server.py`: tool surface; stdout is reserved for protocol messages.

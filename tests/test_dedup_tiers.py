@@ -21,7 +21,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import event_store as es
 import recurrence_utils
-from event_store import collapse_recurring_series, dedup_confidence, last_occurrence, normalize_name
+import scraper_utils
+from event_store import collapse_recurring_series, dedup_confidence, last_occurrence
+from event_store import dedup, names, occurrences, sources
+from event_store.names import normalize_name
 
 NY = ZoneInfo("America/New_York")
 
@@ -79,7 +82,7 @@ def test_different_styles_at_the_same_venue_and_weekday_are_review_not_certain()
                     startDate=_thursday(2).isoformat(),
                     endDate=(_thursday(2) + timedelta(hours=4)).isoformat(),
                     styles=["salsa"], source="beatrice-calendar", url="https://example.com/b")
-    assert es._series_signals_conflict(bachata, salsa) is True
+    assert dedup._series_signals_conflict(bachata, salsa) is True
     assert dedup_confidence(bachata, salsa) == "review"
     assert dedup_confidence(salsa, bachata) == "review"
 
@@ -96,7 +99,7 @@ def test_same_series_from_two_calendars_is_still_certain():
              endDate=(later + timedelta(hours=3)).isoformat(),
              location="Wally's Cafe, 427 Massachusetts Ave, Boston",
              source="timba-messengers", url="https://example.com/timba")
-    assert es._series_signals_conflict(a, b) is False
+    assert dedup._series_signals_conflict(a, b) is False
     assert dedup_confidence(a, b) == "certain"
 
 
@@ -107,8 +110,8 @@ def test_start_times_hours_apart_demote_to_review():
                    startDate=(late_start + timedelta(minutes=30)).isoformat(),
                    endDate=(late_start + timedelta(hours=4)).isoformat(),
                    source="beatrice-calendar", url="https://example.com/b")
-    assert es._wall_clock_minutes(early) == 21 * 60
-    assert es._wall_clock_minutes(late) == 23 * 60 + 30
+    assert occurrences.wall_clock_minutes(early) == 21 * 60
+    assert occurrences.wall_clock_minutes(late) == 23 * 60 + 30
     assert dedup_confidence(early, late) == "review"
 
 
@@ -118,7 +121,7 @@ def test_a_style_named_on_one_side_only_does_not_conflict():
                     startDate=_thursday(2).isoformat(),
                     endDate=(_thursday(2) + timedelta(hours=4)).isoformat(),
                     source="beatrice-calendar", url="https://example.com/b")
-    assert es._series_signals_conflict(named, plain) is False
+    assert dedup._series_signals_conflict(named, plain) is False
     assert dedup_confidence(named, plain) == "certain"
 
 
@@ -128,7 +131,7 @@ def test_superset_of_styles_is_the_same_night():
                   startDate=_thursday(2).isoformat(),
                   endDate=(_thursday(2) + timedelta(hours=4)).isoformat(),
                   source="beatrice-calendar", url="https://example.com/b")
-    assert es._series_signals_conflict(both, one) is False
+    assert dedup._series_signals_conflict(both, one) is False
 
 
 def test_recurring_titles_with_different_named_weekdays_are_not_duplicates():
@@ -143,7 +146,7 @@ def test_recurring_titles_with_different_named_weekdays_are_not_duplicates():
         source="beatrice-calendar",
         url="https://example.com/monday",
     )
-    assert es._named_weekdays_conflict(thursday, monday)
+    assert dedup._named_weekdays_conflict(thursday, monday)
     assert dedup_confidence(thursday, monday) is None
     assert dedup_confidence(monday, thursday) is None
 
@@ -168,7 +171,7 @@ def test_last_occurrence_is_the_latest_instant_not_the_largest_string():
 def test_occurrence_instants_dedupe_the_same_moment_in_two_spellings():
     d = datetime(2026, 9, 9, 21, 0, tzinfo=NY)
     ev = {"startDate": d.isoformat(), "recurrences": [_iso_utc(d), d.isoformat()]}
-    assert es._occurrence_instants(ev) == [d]
+    assert occurrences.occurrence_instants(ev) == [d]
 
 
 def test_collapse_emits_one_eastern_spelling_per_instant():
@@ -191,7 +194,7 @@ def test_collapse_emits_one_eastern_spelling_per_instant():
 def test_naive_timestamps_are_read_as_boston_time():
     ev = {"startDate": "2026-09-09T21:00:00"}
     assert last_occurrence(ev) == datetime(2026, 9, 9, 21, 0, tzinfo=NY)
-    assert es._eastern_iso(datetime(2026, 9, 10, 1, 0, tzinfo=ZoneInfo("UTC"))) == \
+    assert occurrences.eastern_iso(datetime(2026, 9, 10, 1, 0, tzinfo=ZoneInfo("UTC"))) == \
         "2026-09-09T21:00:00-04:00"
 
 
@@ -199,32 +202,32 @@ def test_naive_timestamps_are_read_as_boston_time():
 
 def test_weekday_helper_exists_once():
     assert not hasattr(es, "_get_day_of_week")
-    assert es._event_day_of_week({"startDate": "2026-09-10T01:00:00+00:00"}) == "Wednesday"
-    assert es._event_day_of_week({"dayOfWeek": "Friday", "startDate": "2026-09-09T21:00:00-04:00"}) \
+    assert occurrences.event_day_of_week({"startDate": "2026-09-10T01:00:00+00:00"}) == "Wednesday"
+    assert occurrences.event_day_of_week({"dayOfWeek": "Friday", "startDate": "2026-09-09T21:00:00-04:00"}) \
         == "Friday"
 
 
 def test_calendar_constants_are_shared_with_recurrence_utils():
-    assert es.DAYS_LIST is recurrence_utils.DAYS_LIST
-    assert es.NY_TZ is recurrence_utils.NY_TZ
-    assert es.parse_date is recurrence_utils.parse_date
+    assert occurrences.DAYS_LIST is recurrence_utils.DAYS_LIST
+    assert occurrences.NY_TZ is recurrence_utils.NY_TZ
+    assert occurrences.parse_date is recurrence_utils.parse_date
     assert not hasattr(recurrence_utils, "_parse_date")
 
 
 def test_series_matching_uses_the_shared_word_helpers():
     # Same stopword set as dedup: "at"/"the" carry nothing on either path.
-    assert es._names_are_same_series("salsa at the docks social", "salsa docks social")
+    assert names.names_are_same_series("salsa at the docks social", "salsa docks social")
     # And the same 1-edit fuzzy tolerance for 3+ letter tokens.
-    assert es._names_are_same_series("kizz thursday social", "kiz thursday social")
-    assert not es._names_are_same_series("bachata night", "kizomba night")
+    assert names.names_are_same_series("kizz thursday social", "kiz thursday social")
+    assert not names.names_are_same_series("bachata night", "kizomba night")
 
 
 def test_fuzzy_floor_matches_its_comment():
-    assert es._FUZZY_MIN_LEN == 3
-    assert es._shared_word_count({"kiz", "thursday"}, {"kizz", "thursday"}) == 2
-    assert es._shared_word_count({"dj", "night"}, {"da", "night"}) == 1
+    assert names._FUZZY_MIN_LEN == 3
+    assert names.shared_word_count({"kiz", "thursday"}, {"kizz", "thursday"}) == 2
+    assert names.shared_word_count({"dj", "night"}, {"da", "night"}) == 1
 
 
 def test_source_names_come_from_load_sources(monkeypatch):
-    monkeypatch.setattr(es, "load_sources", lambda: [{"id": "x", "name": "X Cal"}, {"id": "y"}])
-    assert es._load_source_names() == {"x": "X Cal"}
+    monkeypatch.setattr(scraper_utils, "load_sources", lambda: [{"id": "x", "name": "X Cal"}, {"id": "y"}])
+    assert sources.load_source_names() == {"x": "X Cal"}

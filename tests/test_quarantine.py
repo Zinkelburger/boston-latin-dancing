@@ -13,7 +13,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
-import event_store as es
+from event_store import sources
 
 
 
@@ -131,7 +131,7 @@ def test_rescrape_of_approved_event_merges_instead_of_redropping(store):
 
 def test_trusted_source_bypasses_keyword_check(store, monkeypatch):
     # Curated Latin sources are trusted: a keyword-less event still gets in.
-    monkeypatch.setattr(es, "_trusted_latin_sources", lambda: {"beatrice-calendar"})
+    monkeypatch.setattr(sources, "trusted_latin_sources", lambda: {"beatrice-calendar"})
     ev = _event(name="Thursday Night Social", description="weekly social",
                 styles=["other"], source="beatrice-calendar")
     assert store.add_event(dict(ev))["status"] == "added"

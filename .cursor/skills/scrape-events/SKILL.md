@@ -3,14 +3,14 @@ name: scrape-events
 description: >-
   Scrape dance events from all sources and update the map. Use when asked to
   refresh events, scrape Facebook pages (BOBAS, etc.), run the pipeline,
-  check for new events, update public/events.json, review the quarantine/pending
+  check for new events, update data/events-published.json, review the quarantine/pending
   queue, or "update the map".
 ---
 
 # Update the Map
 
 Use the **boston-latin-dance MCP tools** for all event operations. Never manually
-edit `public/events.json` — it's a build artifact.
+edit `data/events-published.json` — it's a build artifact.
 
 ## What belongs on the map
 
@@ -288,7 +288,7 @@ This is why general municipal calendars are safe to scrape: their scraper
 keyword-filters at scrape time (see `filter_latin_events` / type
 `keyword-calendar`), and anything that slips through is dropped at ingest.
 
-### Latin relevance rule (`scripts/event_store.py` → `scraper_utils.py`)
+### Latin relevance rule (`scripts/event_store/classify.py` → `scraper_utils.py`)
 
 An event passes automatically if **any** of:
 - It comes from a curated source with `"latin_by_default": true` (trusted — never keyword-checked)
@@ -482,8 +482,8 @@ Call the MCP tool:
 event_publish()
 ```
 
-This regenerates `data/events-published.json` and `public/events.json` from the
-active event store + expanded venues. The Next.js app reads `events-published.json`.
+This regenerates `data/events-published.json` from the active event store +
+expanded venues. The Next.js app reads it at build time.
 
 ### Active count vs published count
 
@@ -491,7 +491,7 @@ These numbers **will differ** — a smaller published count is normal, not data 
 
 Example from a recent scrape: **55 active → 51 published**.
 
-What happens during publish (`scripts/event_store.py` → `publish()`):
+What happens during publish (`scripts/event_store/publishing.py` → `publish()`):
 
 1. **Expand venues** — `data/venues.json` weekly schedules become dated events
    (Havana Club, Dante's, Bachata Room, etc.)
@@ -532,7 +532,7 @@ npx next build
 Ask the user to confirm, then:
 
 ```bash
-git add public/events.json data/events-published.json data/events/ data/venues.json scripts/ mcp-server/ data/sources.json
+git add data/events-published.json data/events/ data/venues.json scripts/ mcp-server/ data/sources.json
 git commit -m "Update events $(date +%Y-%m-%d)"
 git push
 ```
@@ -553,7 +553,7 @@ calendar day. There is exactly **one rule** — follow it everywhere:
 `recurrence_utils.py` is the reference implementation. All scrapers now follow
 it: `scrape_ics.py`, `scrape_facebook.py`, `scrape_fiesta_dance.py`,
 `fetch_submissions.py`, `make_event()`, and venue expansion in
-`event_store.py` (`expand_venues`) all localize naive times as `NY_TZ`.
+`event_store/venues.py` (`expand_venues`) all localize naive times as `NY_TZ`.
 
 ### How ICS timestamps work
 
@@ -688,8 +688,7 @@ data/sources.json           Config: URLs, source IDs, defaults, enabled flags
 data/scraped/*.json         Intermediate scraped data
 data/geocode-cache.json     Nominatim results cache
 data/events-published.json  BUILD ARTIFACT (imported by Next.js app)
-public/events.json          Legacy copy of events-published.json
-scripts/event_store.py      Core lifecycle logic (dedup, archive, publish, rejected queue)
+scripts/event_store/        Core lifecycle package (dedup, archive, publish, review queues)
 scripts/verify_events.py   Event verification engine
 scripts/scraper_utils.py    Geocoding, style detection, VENUE_COORDS, dayOfWeek (America/New_York)
 scripts/dedup_report.py     Read-only scan for suspicious pairs in published/active
@@ -714,7 +713,7 @@ mcp-server/server.py        MCP tool definitions
 | `event_dismiss_rejected` | Permanently drop a rejected event |
 | `event_scrape` | Run scrapers + ingest + archive |
 | `event_ingest` | Ingest from data/scraped/ without re-scraping |
-| `event_publish` | Regenerate events-published.json + public/events.json |
+| `event_publish` | Regenerate events-published.json |
 | `venue_list` | List permanent venues |
 | `venue_add` | Add a new permanent venue |
 | `source_list` | List registered sources |

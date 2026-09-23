@@ -53,7 +53,7 @@ fi
 
 # The registry is written by publish(); it must ship with the data it
 # describes, or the build has no alias pages for the URLs this run retired.
-git add public/events.json data/events-published.json data/events/ \
+git add data/events-published.json data/events/ \
         data/venues.json data/sources.json data/known_duplicates.json \
         data/link-check.json data/slug-registry.json data/facebook-signals.json
 if git diff --cached --quiet; then

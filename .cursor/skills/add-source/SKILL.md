@@ -221,7 +221,7 @@ source_add(
 
 ### 4B.4: Wire into the pipeline
 
-1. Add to `SOURCE_PRIORITY` in `scripts/event_store.py`:
+1. Add to `SOURCE_PRIORITY` in `scripts/event_store/sources.py`:
 
    ```python
    SOURCE_PRIORITY = {
@@ -255,7 +255,7 @@ Check:
   dropped at ingest, not queued — for a noisy general calendar, keyword-filter
   at scrape time with `filter_latin_events`; adding one is config-only via the
   generic `scrape_tribe_calendar.py` / `scrape_keyword_calendar.py`, no new code)
-- `public/events.json` includes the new events
+- `data/events-published.json` includes the new events
 
 ### 4B.6: Done
 

@@ -11,6 +11,7 @@
 """
 
 import event_store as es
+from event_store import urls, venue_conflicts
 
 FB_SHARE = "https://facebook.com/events/s/battle-of-the-beats-2026-bosto/1613687936940528/"
 FB_EVENT = "https://www.facebook.com/events/1299596699048505/"
@@ -36,19 +37,19 @@ def _event(**overrides):
 # ── url_rank ──────────────────────────────────────────────────────────
 
 def test_share_wrapper_ranks_worst():
-    assert es.url_rank(FB_SHARE) > es.url_rank(FB_EVENT) > es.url_rank(CANONICAL)
+    assert urls.url_rank(FB_SHARE) > urls.url_rank(FB_EVENT) > urls.url_rank(CANONICAL)
 
 
 def test_share_slash_form_also_ranked_as_wrapper():
-    assert es.url_rank("https://www.facebook.com/share/1EjEyfCyhA") == es.url_rank(FB_SHARE)
+    assert urls.url_rank("https://www.facebook.com/share/1EjEyfCyhA") == urls.url_rank(FB_SHARE)
 
 
 def test_organizer_page_beats_instagram():
-    assert es.url_rank(CANONICAL) < es.url_rank("https://www.instagram.com/timbadescontrol/")
+    assert urls.url_rank(CANONICAL) < urls.url_rank("https://www.instagram.com/timbadescontrol/")
 
 
 def test_missing_url_ranks_last():
-    assert es.url_rank("") > es.url_rank(FB_SHARE)
+    assert urls.url_rank("") > urls.url_rank(FB_SHARE)
 
 
 # ── merge never downgrades the primary link ───────────────────────────
@@ -165,7 +166,7 @@ HAVANA_HUB = {
 
 
 def _kept_ids(active):
-    kept, _venues, _report = es._suppress_venue_covered_events([HAVANA_HUB], active)
+    kept, _venues, _report = venue_conflicts.suppress_venue_covered_events([HAVANA_HUB], active)
     return {e["id"] for e in kept}
 
 

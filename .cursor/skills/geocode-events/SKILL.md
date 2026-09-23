@@ -73,4 +73,4 @@ If geocoding fails for an event:
 
 ## After Fixing
 
-Re-run `npm run publish-events` to regenerate `public/events.json`.
+Re-run `npm run publish-events` to regenerate `data/events-published.json`.

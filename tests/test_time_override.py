@@ -14,6 +14,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import event_store as es
+from event_store import publishing
 
 
 SOURCE_START = "2026-10-24T06:00:00-04:00"
@@ -60,7 +61,7 @@ def test_override_is_recorded_but_never_published(store):
     stored = store.load_active()[0]
     assert stored["_time_override"] == {"startDate": FIXED_START, "endDate": FIXED_END}
 
-    store._strip_internal_fields(stored, {})
+    publishing._strip_internal_fields(stored, {})
     assert "_time_override" not in stored
 
 

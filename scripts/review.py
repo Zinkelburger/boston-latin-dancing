@@ -18,11 +18,13 @@ from textwrap import fill, indent
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from event_store import (
-    load_active, save_active, load_pending, save_pending,
-    merge_event, _persist_known_duplicate, _append_changelog,
-    _enrich_event, dedup_confidence, find_duplicate_in, _dedup_reason,
-    store_lock,
+    dedup_confidence, find_duplicate_in, load_active, load_pending, merge_event,
+    save_active, save_pending, store_lock,
 )
+from event_store.classify import enrich_event
+from event_store.dedup import dedup_reason
+from event_store.known_duplicates import persist_known_duplicate
+from event_store.storage import append_changelog
 
 
 def _short(text: str, width: int = 60) -> str:
@@ -106,7 +108,7 @@ def cmd_show(event_id: str):
         marker = " " if pval == aval else "*"
         print(f"{marker} {field:<12} {pval:<{col_w}} | {aval:<{col_w}}")
 
-    print(f"\n  Reason: {ev.get('_dedup_reason', '?')}")
+    print(f"\n  Reason: {ev.get('dedup_reason', '?')}")
     print(f"  Confidence: {ev.get('_dedup_confidence', '?')}")
 
 
@@ -138,18 +140,18 @@ def _cmd_merge(event_id: str):
         ev.pop(key, None)
 
     merged = merge_event(active[active_idx], ev)
-    _enrich_event(merged)
+    enrich_event(merged)
     active[active_idx] = merged
     save_active(active)
 
     # Record as known duplicate
-    _persist_known_duplicate(conflict_id, event_id, "same")
+    persist_known_duplicate(conflict_id, event_id, "same")
 
     # Remove from pending
     pending.pop(ev_idx)
     save_pending(pending)
 
-    _append_changelog("merge", event_id, f"merged into {conflict_id} via review CLI")
+    append_changelog("merge", event_id, f"merged into {conflict_id} via review CLI")
 
     print(f"Merged '{ev['name']}' into active event '{merged['name']}'")
     print(f"Recorded as known duplicate. Removed from pending.")
@@ -176,10 +178,10 @@ def _cmd_add(event_id: str):
 
     # Record as known different so future dedup skips them
     if conflict_id:
-        _persist_known_duplicate(conflict_id, event_id, "different")
+        persist_known_duplicate(conflict_id, event_id, "different")
 
     # Add to active
-    _enrich_event(ev)
+    enrich_event(ev)
     active = load_active()
     active.append(ev)
     save_active(active)
@@ -188,7 +190,7 @@ def _cmd_add(event_id: str):
     pending.pop(ev_idx)
     save_pending(pending)
 
-    _append_changelog("add", event_id, "force-added via review CLI (not a duplicate)")
+    append_changelog("add", event_id, "force-added via review CLI (not a duplicate)")
 
     print(f"Added '{ev['name']}' to active.json")
     if conflict_id:
@@ -212,13 +214,13 @@ def _cmd_dismiss(event_id: str):
 
     # Record as known duplicate so future scrapes auto-merge
     if conflict_id:
-        _persist_known_duplicate(conflict_id, event_id, "same")
+        persist_known_duplicate(conflict_id, event_id, "same")
 
     # Remove from pending
     pending.pop(ev_idx)
     save_pending(pending)
 
-    _append_changelog("dismiss", event_id, "dismissed via review CLI (duplicate, no new info)")
+    append_changelog("dismiss", event_id, "dismissed via review CLI (duplicate, no new info)")
 
     print(f"Dismissed '{ev['name']}' from pending.")
     if conflict_id:
@@ -226,7 +228,7 @@ def _cmd_dismiss(event_id: str):
 
 
 def cmd_mark_different(id_a: str, id_b: str):
-    _persist_known_duplicate(id_a, id_b, "different")
+    persist_known_duplicate(id_a, id_b, "different")
     print(f"Recorded '{id_a}' and '{id_b}' as DIFFERENT events.")
     print("Future dedup will skip this pair.")
 
@@ -250,7 +252,7 @@ def cmd_audit():
 
             conf = dedup_confidence(ev_a, ev_b)
             if conf is not None:
-                reason = _dedup_reason(ev_a, ev_b, conf)
+                reason = dedup_reason(ev_a, ev_b, conf)
                 found.append((ev_a, ev_b, conf, reason))
 
     if not found:

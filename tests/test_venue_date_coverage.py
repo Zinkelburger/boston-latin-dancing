@@ -11,7 +11,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
-from event_store import _venue_schedule_covers_event
+from event_store.venue_conflicts import venue_schedule_covers_event
 
 
 def _dante_hub(schedule):
@@ -46,28 +46,28 @@ def test_nth_friday_dates_are_covered():
         "2026-08-21T21:00:00-04:00",
         "2026-08-28T20:45:00-04:00",
     ]:
-        assert _venue_schedule_covers_event(hub, _scraped(start), "Friday")
+        assert venue_schedule_covers_event(hub, _scraped(start), "Friday")
 
 
 def test_fifth_friday_is_not_covered():
     hub = _dante_hub(NTH_SCHEDULE)
     # July 31, 2026 is a 5th Friday — the hub never generates it.
-    assert not _venue_schedule_covers_event(hub, _scraped("2026-07-31T20:30:00-04:00"), "Friday")
+    assert not venue_schedule_covers_event(hub, _scraped("2026-07-31T20:30:00-04:00"), "Friday")
 
 
 def test_wrong_weekday_is_not_covered():
     hub = _dante_hub(NTH_SCHEDULE)
-    assert not _venue_schedule_covers_event(hub, _scraped("2026-08-01T21:00:00-04:00"), "Saturday")
+    assert not venue_schedule_covers_event(hub, _scraped("2026-08-01T21:00:00-04:00"), "Saturday")
 
 
 def test_noteless_schedule_covers_every_matching_weekday():
     hub = _dante_hub([{"dayOfWeek": "Friday", "time": "8:30 PM – 1:00 AM"}])
-    assert _venue_schedule_covers_event(hub, _scraped("2026-07-31T20:30:00-04:00"), "Friday")
+    assert venue_schedule_covers_event(hub, _scraped("2026-07-31T20:30:00-04:00"), "Friday")
 
 
 def test_undated_event_falls_back_to_weekday_match():
     hub = _dante_hub(NTH_SCHEDULE)
-    assert _venue_schedule_covers_event(hub, {"id": "x", "name": "n", "startDate": ""}, "Friday")
+    assert venue_schedule_covers_event(hub, {"id": "x", "name": "n", "startDate": ""}, "Friday")
 
 
 def test_seasonal_schedule_does_not_cover_dates_after_until():
@@ -78,9 +78,9 @@ def test_seasonal_schedule_does_not_cover_dates_after_until():
             "until": "2026-09-30",
         }
     ])
-    assert _venue_schedule_covers_event(
+    assert venue_schedule_covers_event(
         hub, _scraped("2026-09-25T20:30:00-04:00"), "Friday"
     )
-    assert not _venue_schedule_covers_event(
+    assert not venue_schedule_covers_event(
         hub, _scraped("2026-10-02T20:30:00-04:00"), "Friday"
     )

@@ -1,7 +1,7 @@
 ---
 description: Event deduplication system — two-tier confidence and review workflow
 globs:
-  - scripts/event_store.py
+  - scripts/event_store/**
   - scripts/dedup_report.py
   - data/events/*.json
   - data/events/*.jsonl
@@ -10,7 +10,7 @@ globs:
 
 # Event Deduplication
 
-All dedup logic lives in `scripts/event_store.py`. There are two tiers:
+All dedup logic lives in `scripts/event_store/dedup.py` (human verdicts in `known_duplicates.py`). There are two tiers:
 
 | Tier | Criteria | Action |
 |---|---|---|

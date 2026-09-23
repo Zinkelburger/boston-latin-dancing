@@ -3,6 +3,7 @@ editions) get flagged for the frontend's Big-events filter, explicit
 overrides win, and manual flags survive dedup merges."""
 
 import event_store as es
+from event_store import classify, publishing
 
 
 def _event(**overrides):
@@ -21,19 +22,19 @@ def _event(**overrides):
 
 def test_festival_one_off_gets_flagged():
     ev = _event()
-    es._derive_special(ev)
+    classify.derive_special(ev)
     assert ev["special"] is True
 
 
 def test_annual_edition_gets_flagged():
     ev = _event(name="12th Annual Salsa Squared")
-    es._derive_special(ev)
+    classify.derive_special(ev)
     assert ev["special"] is True
 
 
 def test_benefit_in_name_gets_flagged():
     ev = _event(name="Baila por Venezuela Benefit Dance")
-    es._derive_special(ev)
+    classify.derive_special(ev)
     assert ev["special"] is True
 
 
@@ -46,63 +47,63 @@ def test_benefit_concert_in_description_gets_flagged():
             "dance. All proceeds benefit humanitarian relief efforts."
         ),
     )
-    es._derive_special(ev)
+    classify.derive_special(ev)
     assert ev["special"] is True
 
 
 def test_plain_social_not_flagged():
     ev = _event(name="Salsa & Bachata Social w/ Fiesta Dance Co")
-    es._derive_special(ev)
+    classify.derive_special(ev)
     assert "special" not in ev
 
 
 def test_guest_dj_night_not_flagged():
     # Special *edition* of a series (ft./takeover) is not a big event.
     ev = _event(name="Salsa Night ft. DJ Mambo")
-    es._derive_special(ev)
+    classify.derive_special(ev)
     assert "special" not in ev
 
 
 def test_recurring_series_never_flagged_by_heuristic():
     ev = _event(name="Festival Fridays Weekly Social", recurring=True)
-    es._derive_special(ev)
+    classify.derive_special(ev)
     assert "special" not in ev
 
 
 def test_festival_pre_party_not_flagged():
     # A satellite party carries the festival's name but is a regular social.
     ev = _event(name="Pre-Party: Boston Salsa Festival 2026")
-    es._derive_special(ev)
+    classify.derive_special(ev)
     assert "special" not in ev
 
 
 def test_after_party_not_flagged():
     ev = _event(name="Boston Salsa Festival Afterparty")
-    es._derive_special(ev)
+    classify.derive_special(ev)
     assert "special" not in ev
 
 
 def test_explicit_true_wins_on_satellite_party():
     ev = _event(name="Pre-Party: Boston Salsa Festival 2026", special=True)
-    es._derive_special(ev)
+    classify.derive_special(ev)
     assert ev["special"] is True
 
 
 def test_explicit_true_wins_without_keyword():
     ev = _event(name="Salsa at the Shell", special=True)
-    es._derive_special(ev)
+    classify.derive_special(ev)
     assert ev["special"] is True
 
 
 def test_explicit_false_suppresses_heuristic_and_ships_absent():
     ev = _event(special=False)
-    es._derive_special(ev)
+    classify.derive_special(ev)
     assert "special" not in ev
 
 
 def test_strip_internal_fields_derives_special():
     ev = _event()
-    es._strip_internal_fields(ev, {})
+    publishing._strip_internal_fields(ev, {})
     assert ev["special"] is True
 
 

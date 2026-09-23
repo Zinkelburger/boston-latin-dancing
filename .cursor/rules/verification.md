@@ -187,7 +187,7 @@ These organizer pages may yield new events or help verify existing ones:
 
 ## Internal fields
 
-All verification metadata uses `_` prefix and is stripped from `public/events.json`:
+All verification metadata uses `_` prefix and is stripped from `data/events-published.json`:
 - `_verified_at` — ISO timestamp of last verification
 - `_verified_status` — latest status from verification
 - `_verified_notes` — human-readable notes including independent source

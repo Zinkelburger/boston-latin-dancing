@@ -226,7 +226,7 @@ your main job, along with the other judgment calls it can't make.
    sanity-check the reported count against the previous one.
 
 10. **Commit and push.** Only the pipeline-owned files:
-   `git add public/events.json data/events-published.json data/events/ data/venues.json data/sources.json data/known_duplicates.json data/link-check.json`
+   `git add data/events-published.json data/events/ data/venues.json data/sources.json data/known_duplicates.json data/link-check.json`
    then commit with message `Weekly agent review $(date +%Y-%m-%d)` and push.
 
 11. **Write the summary.** Overwrite `automation/logs/last-agent-summary.md`
@@ -236,7 +236,7 @@ your main job, along with the other judgment calls it can't make.
 
 ## Hard rules
 
-- Never hand-edit `public/events.json`, `data/events-published.json`, or the
+- Never hand-edit `data/events-published.json` or the
   files under `data/events/` — MCP tools only.
 - Never `git push --force`, never delete data files, never rewrite history.
 - Never commit `.env`, logs, or scratch files.

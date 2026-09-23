@@ -2,7 +2,7 @@
   "_notes": [
     "Maps variant location strings to one canonical venue key so events at the same physical venue dedup even when sources name it differently.",
     "Shape: {\"canonical-key\": [\"alias\", ...]}. Aliases are lowercased and matched first exactly, then as substrings, in file order.",
-    "Keys starting with an underscore are ignored by the loader (scripts/event_store.py: _load_location_aliases).",
+    "Keys starting with an underscore are ignored by the loader (scripts/event_store/locations.py: load_location_aliases).",
     "moves-vibes: Moves & Vibes (Cambridge) is scraped as 'Dance Co', 'Dancing Academy' and 'Dance and Entertainment Co', with the street as both '5th' and 'Fifth'.",
     "la-fabrica-central: appears with and without the accent. The bare '450 Massachusetts Ave' is deliberately NOT aliased: special one-off editions are listed by address only and must not be swallowed into the series.",
     "el-barco: appears by name and as a bare address.",

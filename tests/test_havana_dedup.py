@@ -5,14 +5,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
-from event_store import (
-    collapse_recurring_series,
-    dedup_confidence,
-    deduplicate,
-    merge_event,
-    pick_winner,
-    source_rank,
-)
+from event_store import collapse_recurring_series, dedup_confidence, deduplicate, merge_event
+from event_store.sources import pick_winner, source_rank
 
 
 def _venue_hub(**overrides):

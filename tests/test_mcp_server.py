@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import event_store as es  # noqa: E402
+from event_store import paths  # noqa: E402
 import run_pipeline  # noqa: E402
 import scraper_utils  # noqa: E402
 
@@ -51,8 +52,7 @@ srv = _load_mcp_server()
 
 @pytest.fixture
 def store(store, tmp_path, monkeypatch):
-    monkeypatch.setattr(es, "VENUES_JSON", tmp_path / "venues.json")
-    monkeypatch.setattr(srv, "VENUES_JSON", tmp_path / "venues.json")
+    monkeypatch.setattr(paths, "VENUES_JSON", tmp_path / "venues.json")
     # The MCP tools geocode new events; give them a fixed Boston point.
     monkeypatch.setattr(scraper_utils, "geocode", lambda location: (42.36, -71.06))
     monkeypatch.setattr(srv, "geocode", lambda location: (42.36, -71.06))
@@ -110,7 +110,7 @@ def test_every_tool_is_wrapped():
 
 
 def test_corrupt_json_error_passes_through_verbatim(store, monkeypatch, capsys):
-    bad = store.ACTIVE_JSON
+    bad = paths.ACTIVE_JSON
     exc = srv.CorruptJSONError(bad, ValueError("Expecting value: line 1 column 1"))
 
     def boom():
@@ -393,10 +393,10 @@ def test_source_add_rejects_malformed_config(store, monkeypatch):
 
 
 def test_venue_list_reports_corrupt_file(store):
-    srv.VENUES_JSON.write_text("{not json")
+    paths.VENUES_JSON.write_text("{not json")
     result = _call(srv.venue_list)
     assert result["type"] == "CorruptJSONError"
-    assert str(srv.VENUES_JSON) in result["error"]
+    assert str(paths.VENUES_JSON) in result["error"]
 
 
 def test_no_stdout_prints_in_module():
@@ -409,7 +409,7 @@ def test_no_stdout_prints_in_module():
 
 def test_location_override_goes_through_edit_event(store, monkeypatch):
     store.save_active([_event(lat=None, lng=None)])
-    monkeypatch.setattr(store, "geocode", lambda location: (42.37, -71.10))
+    monkeypatch.setattr(scraper_utils, "geocode", lambda location: (42.37, -71.10))
 
     result = _call(srv.event_set_location_override, event_id="evt-1", location="288 Green St, Cambridge, MA")
     assert result == {"status": "override_set", "event_id": "evt-1",
@@ -418,5 +418,5 @@ def test_location_override_goes_through_edit_event(store, monkeypatch):
     assert saved["_location_override"] == "288 Green St, Cambridge, MA"
     assert (saved["lat"], saved["lng"]) == (42.37, -71.10)
     # The changelog entry comes from the store, not a private helper.
-    assert '"edit"' in store.CHANGELOG.read_text()
+    assert '"edit"' in paths.CHANGELOG.read_text()
     assert _call(srv.event_set_location_override, event_id="ghost", location="x")["type"] == "NotFound"

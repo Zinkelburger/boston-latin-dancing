@@ -18,6 +18,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import event_store as es
+from event_store import publishing, urls
 
 
 
@@ -60,7 +61,7 @@ def test_cleared_alt_link_survives_a_rescrape(store):
     store.add_event(_event(), skip_latin_check=True)   # source hands it back
 
     stored = store.load_active()[0]
-    assert DEAD not in store._event_url_list(stored)
+    assert DEAD not in urls.event_url_list(stored)
     assert stored["url"] == GOOD
 
 
@@ -71,7 +72,7 @@ def test_removal_is_recorded_but_never_published(store):
     stored = store.load_active()[0]
     assert stored["_dropped_urls"] == [DEAD]
 
-    store._strip_internal_fields(stored, {})
+    publishing._strip_internal_fields(stored, {})
     assert "_dropped_urls" not in stored
 
 
@@ -83,7 +84,7 @@ def test_putting_a_link_back_overrides_the_removal(store):
     store.add_event(_event(), skip_latin_check=True)
 
     stored = store.load_active()[0]
-    assert DEAD in store._event_url_list(stored)
+    assert DEAD in urls.event_url_list(stored)
     assert not stored.get("_dropped_urls")
 
 
@@ -103,4 +104,4 @@ def test_unrelated_edits_do_not_drop_links(store):
 
     stored = store.load_active()[0]
     assert not stored.get("_dropped_urls")
-    assert DEAD in store._event_url_list(stored)
+    assert DEAD in urls.event_url_list(stored)

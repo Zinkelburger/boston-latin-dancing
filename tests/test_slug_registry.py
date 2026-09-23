@@ -11,7 +11,7 @@ import json
 
 import pytest
 
-import event_store as es
+from event_store import slugs
 import slug_registry as sr
 
 
@@ -226,14 +226,14 @@ class TestSlugCollisions:
     def test_every_event_keeps_its_own_url(self, monkeypatch, tmp_path):
         monkeypatch.setattr(sr, "REGISTRY_PATH", tmp_path / "missing.json")
         events = self._events()
-        es._resolve_slug_collisions(events)
-        slugs = [e["slug"] for e in events]
-        assert len(set(slugs)) == len(slugs)
+        slugs.resolve_slug_collisions(events)
+        shipped = [e["slug"] for e in events]
+        assert len(set(shipped)) == len(shipped)
 
     def test_untouched_slug_is_left_alone(self, monkeypatch, tmp_path):
         monkeypatch.setattr(sr, "REGISTRY_PATH", tmp_path / "missing.json")
         events = self._events()
-        es._resolve_slug_collisions(events)
+        slugs.resolve_slug_collisions(events)
         assert events[2]["slug"] == "other-night-unique-e"
 
     def test_registered_id_keeps_the_public_url(self, monkeypatch, tmp_path):
@@ -243,13 +243,13 @@ class TestSlugCollisions:
         }}))
         monkeypatch.setattr(sr, "REGISTRY_PATH", registry)
         events = self._events()
-        es._resolve_slug_collisions(events)
+        slugs.resolve_slug_collisions(events)
         keeper = next(e for e in events if e["id"] == "fiesta-20260807-agave")
         assert keeper["slug"] == "salsa-social-fiesta-2"
 
     def test_new_slugs_are_stable_across_runs(self, monkeypatch, tmp_path):
         monkeypatch.setattr(sr, "REGISTRY_PATH", tmp_path / "missing.json")
         first, second = self._events(), self._events()
-        es._resolve_slug_collisions(first)
-        es._resolve_slug_collisions(second)
+        slugs.resolve_slug_collisions(first)
+        slugs.resolve_slug_collisions(second)
         assert [e["slug"] for e in first] == [e["slug"] for e in second]

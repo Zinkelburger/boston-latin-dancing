@@ -20,6 +20,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import event_store as es
+from event_store import paths, venue_conflicts
 
 
 HAVANA_HUB = {
@@ -56,7 +57,7 @@ def _event(**overrides):
 
 
 def _run(active, hub=HAVANA_HUB):
-    kept, _venues, report = es._suppress_venue_covered_events([hub], active)
+    kept, _venues, report = venue_conflicts.suppress_venue_covered_events([hub], active)
     return {e["id"] for e in kept}, report
 
 
@@ -217,9 +218,9 @@ def store(store, tmp_path, monkeypatch):
     venues = tmp_path / "venues.json"
     venues.write_text(json.dumps([{"id": "havana-club", "name": "Havana Club",
                                    "schedule": HAVANA_HUB["schedule"]}]))
-    monkeypatch.setattr(es, "VENUES_JSON", venues)
+    monkeypatch.setattr(paths, "VENUES_JSON", venues)
     es.save_active([_event()])
-    es._write_venue_conflicts({"conflicts": [{"id": "botb", "hub": {"id": "havana-club"},
+    venue_conflicts.write_venue_conflicts({"conflicts": [{"id": "botb", "hub": {"id": "havana-club"},
                                               "event": {"name": "Battle of the Beats"}}],
                                "suppressed": []})
     return es
@@ -236,7 +237,7 @@ def test_resolve_records_the_decision_on_the_event(store):
 def test_resolve_replaces_tells_the_hub_to_skip_that_date(store):
     result = store.resolve_venue_conflict("botb", "replaces")
     assert result["hub_date_excluded"] == "2026-08-15"
-    venues = json.loads(store.VENUES_JSON.read_text())
+    venues = json.loads(paths.VENUES_JSON.read_text())
     assert venues[0]["excludeDates"] == ["2026-08-15"]
 
 

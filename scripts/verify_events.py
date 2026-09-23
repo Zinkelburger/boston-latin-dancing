@@ -40,16 +40,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from atomic_io import read_json, write_json
 from link_meta import link_meta, looks_like_render_timestamp
 from scraper_utils import DEV_UA
-from event_store import (
-    ACTIVE_JSON,
-    EVENTS_DIR,
-    NY_TZ,
-    load_active,
-    parse_date,
-    save_active,
-    store_lock,
-    _append_changelog,
-)
+from event_store import load_active, save_active, store_lock
+from event_store.paths import EVENTS_DIR
+from event_store.storage import append_changelog
+from recurrence_utils import NY_TZ, parse_date
 
 
 def _ny_calendar_day(iso_str: str) -> Optional[str]:
@@ -185,7 +179,7 @@ def attest_event(
         report = [row for row in report if row.get("event_id") != event_id]
         report.append(entry)
         write_json(REPORT_PATH, report)
-        _append_changelog("verify_attest", event_id, f"{status}: {source_url}")
+        append_changelog("verify_attest", event_id, f"{status}: {source_url}")
         return {"status": "attested", "event_id": event_id, "attestation": attestation, "report": entry}
 
 

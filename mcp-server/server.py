@@ -6,7 +6,7 @@ Local stdio-based MCP server for managing the event pipeline:
   - Add/edit/archive events
   - Approve/reject submissions
   - Run scrapers and ingest results
-  - Publish public/events.json
+  - Publish data/events-published.json
 
 Run: .venv/bin/python mcp-server/server.py   (from the repo root)
 
@@ -33,9 +33,6 @@ from atomic_io import CorruptJSONError  # noqa: E402
 from event_doctor import run_doctor  # noqa: E402
 from event_store import (  # noqa: E402
     VALID_BLOCK_CATEGORIES,
-    VENUES_JSON,  # re-exported for callers/tests that redirect the store path
-    _looks_like_class,
-    _special_edition_mismatch,
     add_event,
     add_source,
     add_venue,
@@ -58,7 +55,6 @@ from event_store import (  # noqa: E402
     load_rejected,
     load_venues,
     load_venue_conflicts,
-    parse_date,
     publish_guarded,
     reject_pending,
     remove_active_event,
@@ -66,6 +62,8 @@ from event_store import (  # noqa: E402
     unblock_event,
     validate_venue_schedule,
 )
+from event_store.classify import looks_like_class, special_edition_mismatch  # noqa: E402
+from recurrence_utils import parse_date  # noqa: E402
 from run_pipeline import run_scrapers  # noqa: E402
 from scraper_utils import (  # noqa: E402
     detect_styles,
@@ -224,10 +222,10 @@ def event_list(
                 candidate = active_by_id.get(e["_dedup_candidate_of"])
                 # Approving across this line would fold a special edition into
                 # its recurring series (blocked without force) — surface it.
-                if candidate is not None and _special_edition_mismatch(e, candidate):
+                if candidate is not None and special_edition_mismatch(e, candidate):
                     row["special_edition_mismatch"] = True
             # Advisory: reads like a class/workshop rather than a social dance.
-            if _looks_like_class(e):
+            if looks_like_class(e):
                 row["looks_like_class"] = True
         summary.append(row)
 
@@ -337,7 +335,7 @@ def event_add(
                     "id": existing["id"],
                     "name": existing.get("name"),
                     "confidence": confidence,
-                    "special_edition_mismatch": _special_edition_mismatch(event, existing),
+                    "special_edition_mismatch": special_edition_mismatch(event, existing),
                 }
                 if distinct_ids and existing["id"] in distinct_ids:
                     report["would"] = f"add as distinct from {existing['id']}"
@@ -408,7 +406,7 @@ def event_approve(event_id: str, force: bool = False, dry_run: bool = False) -> 
         candidate_id = pending.get("_dedup_candidate_of")
         if candidate_id:
             candidate = _find(load_active(), candidate_id)
-            mismatch = candidate is not None and _special_edition_mismatch(pending, candidate)
+            mismatch = candidate is not None and special_edition_mismatch(pending, candidate)
             report["merge_into"] = candidate_id
             report["dedup_reason"] = pending.get("_dedup_reason", "")
             report["special_edition_mismatch"] = mismatch
@@ -418,7 +416,7 @@ def event_approve(event_id: str, force: bool = False, dry_run: bool = False) -> 
                 report["would"] = f"merge into {candidate_id} and record the pair as the same forever"
         else:
             report["would"] = "move to active"
-        if _looks_like_class(pending):
+        if looks_like_class(pending):
             report["looks_like_class"] = True
         return _dump(report)
 
@@ -706,7 +704,7 @@ def event_doctor(
 
 @tool
 def event_publish() -> str:
-    """Regenerate public/events.json from active events + expanded venues.
+    """Regenerate data/events-published.json from active events + expanded venues.
 
     This is the build step that produces the file the frontend reads.
     Always run this after making changes to see them on the map.

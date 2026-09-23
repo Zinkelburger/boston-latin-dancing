@@ -18,7 +18,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
-import event_store as es
+from event_store import paths
 import verify_events as ve
 
 
@@ -167,7 +167,7 @@ def test_jsonld_scheduled_status_overrides_page_text(monkeypatch):
 
 
 def test_publish_excludes_irregular_venue_placeholders(store, tmp_path, monkeypatch):
-    monkeypatch.setattr(es, "VENUES_JSON", tmp_path / "venues.json")
+    monkeypatch.setattr(paths, "VENUES_JSON", tmp_path / "venues.json")
     (tmp_path / "venues.json").write_text(json.dumps([
         {
             "id": "irregular-venue",

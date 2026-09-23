@@ -7,7 +7,7 @@ carry the flag today.
 
 import json
 
-import event_store as es
+from event_store import paths
 import scraper_utils as su
 import source_signal as ss
 
@@ -16,7 +16,7 @@ def _sources(tmp_path, monkeypatch, entries):
     path = tmp_path / "sources.json"
     path.write_text(json.dumps(entries), encoding="utf-8")
     monkeypatch.setattr(su, "SOURCES_PATH", path)
-    monkeypatch.setattr(es, "SOURCES_JSON", path)
+    monkeypatch.setattr(paths, "SOURCES_JSON", path)
     return path
 
 
@@ -35,7 +35,7 @@ def test_ingest_skips_unreliable_source(store, tmp_path, monkeypatch):
         {"id": "flaky-cal", "type": "ics", "scraper": "scrape_ics.py", "name": "Flaky",
          "url": "https://example.com/a.ics", "enabled": True, "unreliable": True},
     ])
-    (store.SCRAPED_DIR / "flaky-cal.json").write_text(json.dumps([
+    (paths.SCRAPED_DIR / "flaky-cal.json").write_text(json.dumps([
         {
             "id": "fake-flaky-1",
             "name": "Fake Cuban Party",

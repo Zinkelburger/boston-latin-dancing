@@ -14,7 +14,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from dedup_report import load_events, print_report, report
-from event_store import ACTIVE_JSON, PUBLIC_EVENTS_JSON
+from event_store.paths import ACTIVE_JSON, PUBLIC_EVENTS_JSON
 
 
 def main():

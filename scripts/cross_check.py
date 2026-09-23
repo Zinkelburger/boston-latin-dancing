@@ -40,7 +40,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from atomic_io import write_json
 from link_meta import (jsonld_location, jsonld_start, link_meta,
                        looks_like_render_timestamp)
-from event_store import EVENTS_DIR, NY_TZ, load_active, parse_date
+from event_store import load_active
+from event_store.paths import EVENTS_DIR
+from recurrence_utils import NY_TZ, parse_date
 from scraper_utils import geocode
 
 REPORT_PATH = EVENTS_DIR / "source-agreement.json"

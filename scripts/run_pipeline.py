@@ -34,13 +34,13 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from event_store import (  # noqa: E402
-    PUBLIC_EVENTS_JSON,
     archive_past_events,
     ingest_scraped,
     load_pending,
     load_rejected,
     publish_guarded,
 )
+from event_store.paths import PUBLIC_EVENTS_JSON  # noqa: E402
 from scraper_utils import load_scrape_health, scraper_commands  # noqa: E402
 
 STDERR_TAIL_CHARS = 600

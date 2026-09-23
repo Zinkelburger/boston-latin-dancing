@@ -3,8 +3,7 @@ description: Rules for managing boston-latin-dance events, venues, and the scrap
 globs:
   - "data/events/**"
   - "data/venues.json"
-  - "public/events.json"
-  - "scripts/event_store.py"
+  - "scripts/event_store/**"
   - "mcp-server/**"
 ---
 
@@ -12,8 +11,8 @@ globs:
 
 ## Golden Rule
 
-**Never manually edit `public/events.json` or `data/events-published.json`** — they are generated build artifacts.
-Regenerate them by calling the `event_publish` MCP tool or running `npm run publish-events`.
+**Never manually edit `data/events-published.json`** — it is a generated build artifact.
+Regenerate it by calling the `event_publish` MCP tool or running `npm run publish-events`.
 
 ## Data Architecture
 
@@ -24,10 +23,9 @@ data/events/pending.json     ← unreviewed user submissions + review-tier dedup
 data/events/rejected.json    ← non-Latin events flagged for agent review (styles=other, no keywords)
 data/venues.json             ← permanent weekly venues (Havana Club, Dante's, etc.)
 data/events-published.json   ← BUILD ARTIFACT imported by the Next.js app
-public/events.json           ← legacy copy of events-published.json (same content)
 ```
 
-The Next.js app imports from `data/events-published.json` (via `@/data/events-published.json`), not directly from `public/events.json`.
+The Next.js app reads `data/events-published.json` at build time; the browser only gets the upcoming events (`/events-upcoming.json`).
 
 ## How to Add Events
 
@@ -45,7 +43,7 @@ Do NOT append to JSON files manually.
 2. `event_list(status="rejected")` — review non-Latin events flagged during ingest
 3. `event_verify(stale_days=7)` — verify events against sources **before** publishing
 4. Review pending dedup pairs — `event_list(status="pending")` for items with `_dedup_candidate_of`
-5. `event_publish` — regenerates events-published.json + public/events.json (expand venues, suppress covered, collapse series)
+5. `event_publish` — regenerates events-published.json (expand venues, suppress covered, collapse series)
 
 Or scrape a single source: `event_scrape` with `source_id` argument.
 
@@ -184,7 +182,7 @@ rows onto the map without a human override of the flag.
 
 ## Source Priority (lower rank = wins a dedup merge)
 
-`SOURCE_PRIORITY` in `scripts/event_store.py` is the authority; this is a summary.
+`SOURCE_PRIORITY` in `scripts/event_store/sources.py` is the authority; this is a summary.
 Venue hubs (records with a `schedule[]`, expanded from `data/venues.json`) always
 win. Then:
 
@@ -220,7 +218,7 @@ The winner keeps its description and primary `url`; the loser's URLs go to
 
 ## Important Files
 
-- `scripts/event_store.py` — core lifecycle logic (shared by MCP server)
+- `scripts/event_store/` — core lifecycle package (shared by MCP server)
 - `scripts/scraper_utils.py` — geocoding, style detection, cost extraction
 - `mcp-server/server.py` — MCP tool definitions
 - `data/events/changelog.jsonl` — append-only audit log of all mutations
