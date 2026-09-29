@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-29T22:23:40.299513+00:00",
+  "generated_at": "2026-09-29T22:29:24.579486+00:00",
   "conflicts": [],
   "suppressed": [
     {
@@ -265,6 +265,37 @@
       },
       "times_overlap": true,
       "matched_on": "venue name 'Havana Club' appears in the event",
+      "currently": "suppressed — folded into the venue hub, no separate pin",
+      "if_you_do_nothing": "stays suppressed"
+    },
+    {
+      "id": "uqttmh5u8pmtluo2kf9dssdt5c@google.com",
+      "event": {
+        "name": "Mambo City Salsa Social",
+        "window": "Sun Oct 4, 7:00 PM – 11:00 PM",
+        "location": "Filarmonica Santo Antonio Cultural Center, 575 Cambridge St, Cambridge, MA 02141",
+        "styles": [
+          "salsa"
+        ],
+        "cost": "$15",
+        "source": "sensualeros-boston",
+        "url": "https://www.facebook.com/rob.suave.96",
+        "recurring": false,
+        "schedule_in_description": [],
+        "description": "Price: $15 (cash & Venmo only)"
+      },
+      "hub": {
+        "id": "mambo-city",
+        "name": "Mambo City Salsa Social",
+        "window": "Sundays, 7:00 PM – 11:00 PM",
+        "note": "1st Sunday of each month",
+        "cost": "$15",
+        "url": "https://www.facebook.com/rob.suave.96",
+        "also_runs": [],
+        "description": "The hottest Salsa/Mambo in the heart of Cambridge! Plenty of room for dancing, socializing, and MAMBO! Resident DJ: DJ Rob Suave 7:00pm – 11:00pm Social Dancing 1st Sunday of each month."
+      },
+      "times_overlap": true,
+      "matched_on": "venue name 'Mambo City Salsa Social' appears in the event",
       "currently": "suppressed — folded into the venue hub, no separate pin",
       "if_you_do_nothing": "stays suppressed"
     }

@@ -328,5 +328,60 @@
     "blocked_notes": "Same as eb-2001409938001; Lou's own page says Oct 14, Sensualeros had Oct 4",
     "location": "Lou’s, 13A Brattle St",
     "block_key": "october latin dance night at lous|lou s 13a brattle st"
+  },
+  {
+    "id": "nlf-events-egleston-park-summer-socials-2026-10-18-14-00",
+    "name": "Egleston Park Summer Socials",
+    "source": "nlf-events",
+    "blocked_reason": "NLF listing of the active Egleston Park Summer Social series (4qc656kur2gocnolf5ns78ag18@google.com, Beatrice). NLF mints a new id per date and was re-queued as non-Latin every week; the name+venue key ('socials', plural) does not match the active series.",
+    "blocked_category": "duplicate_source",
+    "blocked_at": "2026-09-29T22:25:32.441184+00:00",
+    "blocked_notes": "NLF listing of the active Egleston Park Summer Social series (4qc656kur2gocnolf5ns78ag18@google.com, Beatrice). NLF mints a new id per date and was re-queued as non-Latin every week; the name+venue key ('socials', plural) does not match the active series.",
+    "location": "Egleston Square Peace Garden, 3129 Washington St, Jamaica Plain, MA 02130, USA",
+    "block_key": "egleston park summer socials|egleston square peace garden 3129 washington st jamaica plain ma 02130 usa"
+  },
+  {
+    "id": "eb-2000919495073",
+    "name": "Niccole Meza Quartet",
+    "source": "eventbrite-boston-latin",
+    "blocked_reason": "Niccole Meza Quartet — sit-down jazz concert at The Mad Monkfish; rejected 2026-09-23 and re-queued",
+    "blocked_category": "not_dance",
+    "blocked_at": "2026-09-29T22:25:48.705307+00:00",
+    "blocked_notes": "Niccole Meza Quartet — sit-down jazz concert at The Mad Monkfish; rejected 2026-09-23 and re-queued",
+    "location": "The Mad Monkfish, 524 Massachusetts Avenue, Cambridge, MA 02139, Cambridge, MA",
+    "block_key": "niccole meza quartet|the mad monkfish 524 massachusetts avenue cambridge ma 02139 cambridge ma"
+  },
+  {
+    "id": "eb-2002347694857",
+    "name": "Sensual Bachata Techniques and Body Movement - First Class is 50% OFF",
+    "source": "eventbrite-boston-latin",
+    "blocked_reason": "Moves & Vibes 'Sensual Bachata Techniques and Body Movement' — weekly Level 1 class series, no social",
+    "blocked_category": "class_only",
+    "blocked_at": "2026-09-29T22:25:51.868316+00:00",
+    "blocked_notes": "Moves & Vibes 'Sensual Bachata Techniques and Body Movement' — weekly Level 1 class series, no social",
+    "location": "Moves & Vibes Dance and Entertainment Co, 44 Fifth street, Cambridge, MA 02141, Cambridge, MA",
+    "block_key": "sensual bachata techniques and body movement first class is 50 off|moves vibes"
+  },
+  {
+    "id": "nlf-events-intermediate-bachata-w-tina-2026-10-01-20-45",
+    "name": "Intermediate Bachata w/ Tina",
+    "source": "nlf-events",
+    "blocked_reason": "NLF weekly class before Havana Club Thursdays (the social is already on the map via the Havana hub). Re-blocked so the name+venue key reflects the current location string.",
+    "blocked_category": "class_only",
+    "blocked_at": "2026-09-29T22:25:53.208867+00:00",
+    "blocked_notes": "NLF weekly class before Havana Club Thursdays (the social is already on the map via the Havana hub). Re-blocked so the name+venue key reflects the current location string.",
+    "location": "Havana Club, 288 Green St, Cambridge, MA 02139, USA",
+    "block_key": "intermediate bachata w tina|havana club 288 green st cambridge ma 02139 usa"
+  },
+  {
+    "id": "7g1pi57eljj3dosvags4clo3s4@google.com",
+    "name": "Rose's Birthday Bash: The 2nd Annual Gothic Ball Salsa Social",
+    "source": "sensualeros-boston",
+    "blocked_reason": "Rose's Birthday Bash Gothic Ball Salsa Social — Bella Vita Dance Company, Manchester NH (outside Boston metro)",
+    "blocked_category": "out_of_area",
+    "blocked_at": "2026-09-29T22:25:54.957421+00:00",
+    "blocked_notes": "Rose's Birthday Bash Gothic Ball Salsa Social — Bella Vita Dance Company, Manchester NH (outside Boston metro)",
+    "location": "Bella Vita Dance Company, 859 Hanover St, Manchester, NH 03104-5419",
+    "block_key": "roses birthday bash the annual gothic ball salsa social|bella vita dance company 859 hanover st manchester nh 03104 5419"
   }
 ]

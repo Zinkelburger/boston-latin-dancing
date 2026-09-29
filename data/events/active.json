@@ -19,7 +19,8 @@
     "_verified_at": "2026-09-23T00:14:19.185872+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
-    "_verification_url": "https://www.eventbrite.com/e/arts-at-the-armory-spotlight-series-presents-tito-puente-jr-tickets-1984583543803"
+    "_verification_url": "https://www.eventbrite.com/e/arts-at-the-armory-spotlight-series-presents-tito-puente-jr-tickets-1984583543803",
+    "special": true
   },
   {
     "id": "15F245C1-03AD-4AC3-ADB5-9CE4CDE011AC",
@@ -116,7 +117,7 @@
     "cost": "Free",
     "recurring": false,
     "source": "sensualeros-boston",
-    "_verified_at": "2026-09-23T00:14:22.025240+00:00",
+    "_verified_at": "2026-09-29T22:29:03.844964+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.listerevents.com/event-details/earlier-time-bachata-salsa-by-the-river-2"
@@ -198,7 +199,7 @@
     "cost": "Free",
     "recurring": false,
     "source": "sensualeros-boston",
-    "_verified_at": "2026-09-23T00:14:24.939099+00:00",
+    "_verified_at": "2026-09-29T22:29:06.047522+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://ma.to/event/salsa-night-at-the-grove-29-oct-2026"
@@ -605,7 +606,7 @@
     "cost": "$22.11",
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-09-23T00:14:29.743093+00:00",
+    "_verified_at": "2026-09-29T22:29:06.710000+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.eventbrite.com/e/boston-bachata-party-cocomango-speakeasy-cambridge-la-casa-de-la-bachata-tickets-1999738598981",
@@ -1039,10 +1040,17 @@
     "recurring": false,
     "source": "beatrice-calendar",
     "special": true,
-    "_verified_at": "2026-09-23T00:14:46.229665+00:00",
+    "_verified_at": "2026-09-29T22:28:49.832192+00:00",
     "_verified_status": "confirmed",
-    "_verified_notes": "Facebook preview matches (date checked); by BoletosExpress.com",
-    "_verification_url": "https://facebook.com/events/s/salsa-romantica-vs-salsa-brava/894119310110770/"
+    "_verified_notes": "JSON-LD matches (date + location checked) (verified via urls[] alternate; primary facebook_event link not checkable)",
+    "_verification_url": "https://www.boletosexpress.com/salsa-romantica-vs-salsa-brava-/89559/",
+    "urls": [
+      "https://www.boletosexpress.com/salsa-romantica-vs-salsa-brava-/89559/"
+    ],
+    "_needs_manual_check": {
+      "reason": "Date conflict: BoletosExpress ticket page header and Beatrice calendar now say Sat Oct 10 2026 6pm (what we publish), but the Facebook event 894119310110770 and the ticket page's own body copy still say Sat Sep 26. Possibly postponed; confirm with BoletosExpress (+1 800-530-4202) that the cruise runs Oct 10 and did not already happen Sep 26.",
+      "flagged_at": "2026-09-29T22:35:00+00:00"
+    }
   },
   {
     "id": "291FF95C-AC47-4C2F-B9FF-CF4E724097F4",
@@ -1164,5 +1172,282 @@
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.eventbrite.com/e/reggaeton-fest-tickets-1999323753166"
+  },
+  {
+    "id": "dantes-inferno-fb-20261002-0",
+    "name": "Dante's Salsa Inferno Oct 2nd Salsa/Bachata Social!!",
+    "startDate": "2026-10-02T20:30:00-04:00",
+    "endDate": "2026-10-03T01:00:00-04:00",
+    "dayOfWeek": "Friday",
+    "location": "The Dante Alighieri Society of Massachusetts, 41 Hampshire St, Cambridge, MA 02139-1547",
+    "lat": 42.3679,
+    "lng": -71.0885,
+    "description": "Dante's Salsa Social is a unique and energetic night of MUSIC, DANCE, and COMMUNITY! Get ready to heat up the dance floor! The Dante Alighieri has plenty of dance space, its own p",
+    "url": "https://www.facebook.com/events/942767162234508/",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "$20",
+    "recurring": false,
+    "source": "dantes-inferno-fb",
+    "_verified_at": "2026-09-29T22:26:55.697111+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Facebook preview matches (date checked); by Dante's Salsa Inferno and 3 others",
+    "_verification_url": "https://www.facebook.com/events/942767162234508/"
+  },
+  {
+    "id": "bobas-20261001-0",
+    "name": "BOBAS Thursday 6-9pm",
+    "startDate": "2026-10-01T18:00:00-04:00",
+    "endDate": "2026-10-01T21:00:00-04:00",
+    "dayOfWeek": "Thursday",
+    "location": "Hatch Shell on the Esplanade, Boston, MA",
+    "lat": 42.357256,
+    "lng": -71.073702,
+    "description": "*** BOBAS this Thursday 6:00-9:00pm *** We are looking for alternative venues for rainy days. Please see the post on our page for more details. *** The weather looks great but p",
+    "url": "https://www.facebook.com/events/1095778452844743/",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": true,
+    "source": "bobas",
+    "_verified_at": "2026-09-29T22:26:56.127907+00:00",
+    "_verified_status": "reachable_only",
+    "_verified_notes": "Event page live, upstream date 2026-10-01 — recurring series, not compared against our first occurrence",
+    "_verification_url": "https://www.facebook.com/events/1095778452844743/"
+  },
+  {
+    "id": "697D2CD8-9C8D-4CEC-8E3C-4EA21D5ECC40",
+    "name": "Amigas Queer Salsa Social",
+    "startDate": "2026-10-02T23:00:00+00:00",
+    "endDate": "2026-10-03T00:00:00+00:00",
+    "dayOfWeek": "Friday",
+    "location": "Cambridge Common, 5–7 Garden St, Cambridge, MA  02138, United States",
+    "lat": 42.3763,
+    "lng": -71.1217,
+    "description": "",
+    "url": null,
+    "styles": [
+      "salsa"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-09-29T22:26:56.980100+00:00",
+    "_verified_status": "no_source",
+    "_verified_notes": "No URL. Search suggestion: \"Amigas Queer Salsa Social Cambridge Common, 5–7 Garden St, Cambridge, MA  02138, United States boston\"",
+    "_verification_url": null
+  },
+  {
+    "id": "ade9e534ea63f404f9e2a7339ef50ad7d32fadab@dance-calendar",
+    "name": "Noche Latina October Social Party + DJ Eloi",
+    "startDate": "2026-10-11T00:00:00+00:00",
+    "endDate": "2026-10-11T02:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "735 William T Morrissey Boulevard, Boston, MA 02122, Boston, MA",
+    "lat": 42.2953653,
+    "lng": -71.0488803,
+    "description": "Good people. Great music. Stronger connections. Fall in love with dance all over again because life is just better when you dance!\n\nSource: https://www.eventbrite.com/e/noche-latina-october-social-party-dj-eloi-tickets-2001901830264",
+    "url": "https://www.eventbrite.com/e/noche-latina-october-social-party-dj-eloi-tickets-2001901830264",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-09-29T22:26:56.983034+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
+    "_verification_url": "https://www.eventbrite.com/e/noche-latina-october-social-party-dj-eloi-tickets-2001901830264"
+  },
+  {
+    "id": "eb-2002180696360",
+    "name": "777 Fridays: Haunted Carnival (Elite Affairs)",
+    "startDate": "2026-10-30T22:00:00-04:00",
+    "endDate": "2026-10-31T02:00:00-04:00",
+    "dayOfWeek": "Friday",
+    "location": "Venu Nightclub, 100 Warrenton Street, Boston, MA 02116, Boston, MA",
+    "lat": 42.3506611,
+    "lng": -71.0662113,
+    "description": "Friday is the place to be for Afrobeats, Hip Hop, Dancehall & Latin at Venu Nightclub. Bring out the BEST Halloween costume!\n\nOrganizer: Elite Affairs Ent",
+    "url": "https://www.eventbrite.com/e/777-fridays-haunted-carnival-elite-affairs-tickets-2002180696360",
+    "styles": [
+      "other"
+    ],
+    "cost": "Free",
+    "recurring": false,
+    "source": "eventbrite-boston-latin",
+    "_verified_at": "2026-09-29T22:26:58.198722+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
+    "_verification_url": "https://www.eventbrite.com/e/777-fridays-haunted-carnival-elite-affairs-tickets-2002180696360"
+  },
+  {
+    "id": "66vt7rdc2ek70viop57s43fc64@google.com",
+    "name": "SALSA & BACHATA HALLOWEEN",
+    "startDate": "2026-10-25T01:00:00+00:00",
+    "endDate": "2026-10-25T04:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "PKL – 64 C St, South Boston, MA",
+    "lat": 42.3352,
+    "lng": -71.0464,
+    "description": "Price: 25",
+    "url": null,
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "sensualeros-boston",
+    "_verified_at": "2026-09-29T22:26:59.045204+00:00",
+    "_verified_status": "no_source",
+    "_verified_notes": "No URL. Search suggestion: \"SALSA & BACHATA HALLOWEEN PKL – 64 C St, South Boston, MA boston\"",
+    "_verification_url": null
+  },
+  {
+    "id": "uqttmh5u8pmtluo2kf9dssdt5c@google.com",
+    "name": "Mambo City Salsa Social",
+    "startDate": "2026-10-04T23:00:00+00:00",
+    "endDate": "2026-10-05T03:00:00+00:00",
+    "dayOfWeek": "Sunday",
+    "location": "Filarmonica Santo Antonio Cultural Center, 575 Cambridge St, Cambridge, MA 02141",
+    "lat": 42.3720443,
+    "lng": -71.0858265,
+    "description": "Price: $15 (cash & Venmo only)",
+    "url": "https://www.facebook.com/rob.suave.96",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$15",
+    "recurring": false,
+    "source": "sensualeros-boston",
+    "_location_override": "Filarmonica Santo Antonio Cultural Center, 575 Cambridge St, Cambridge, MA 02141",
+    "_verified_at": "2026-09-29T22:29:48.326374+00:00",
+    "_verified_status": "needs_browser",
+    "_verified_notes": "Facebook page — agent should check Events tab for upcoming events",
+    "_verification_url": "https://www.facebook.com/rob.suave.96"
+  },
+  {
+    "id": "C0867F94-AE20-427A-B5DB-C39D8E7ED2F4",
+    "name": "JP FIGHTS BACK x Next Level Fusion Latin Social Dance Party",
+    "startDate": "2026-10-03T22:00:00+00:00",
+    "endDate": "2026-10-04T01:30:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "Spontaneous Celebrations, 45 Danforth St, Jamaica Plain, MA 02130",
+    "lat": 42.3175834,
+    "lng": -71.1056469,
+    "description": "JPFB Fall Fundraiser\nJP Fights Back 2nd Fundraiser Party  Latin Dance Music Party with Next Level Fusion!  Saturday, October 3, 6 - 9:30 pm Spontaneous Celebrations 45 Danforth St., JP  Buy tickets or become a sponsor: General Admission: Sliding scale $15, $25, $50, $100 Able to contribute more? Join the Sponsor Committee!  Beneficiaries: South Street Youth Center Heal the Hood youth programming Association of Haitian Women in Boston: AFAB  Thank you for supporting JP Fights Back and our community! See you at the party!\n\nSource: https://www.instagram.com/p/Ddu5_cpuawz/\n\nhttps://www.paypal.com/ncp/payment/CRA3JHLC83QWJ",
+    "url": "https://www.instagram.com/p/Ddu5_cpuawz/",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": "$15",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_location_override": "Spontaneous Celebrations, 45 Danforth St, Jamaica Plain, MA 02130",
+    "special": true,
+    "_verified_at": "2026-09-29T22:26:59.051586+00:00",
+    "_verified_status": "unverifiable",
+    "_verified_notes": "Instagram link — cannot scrape programmatically. Manual check recommended.",
+    "_verification_url": "https://www.instagram.com/p/Ddu5_cpuawz/"
+  },
+  {
+    "id": "ncr3c1lq7nbiq074ee82a2s9nc@google.com",
+    "name": "Bachata on Blast Presents: Savi Rodriguez",
+    "startDate": "2026-10-11T02:00:00+00:00",
+    "endDate": "2026-10-11T06:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "Cocomango Speakeasy (inside TopMix Bar), 50 Cambridgepark Dr, Cambridge, MA 02140",
+    "lat": 42.3940903,
+    "lng": -71.143837,
+    "description": "Price: From $25",
+    "url": null,
+    "styles": [
+      "bachata"
+    ],
+    "cost": "$25",
+    "recurring": false,
+    "source": "sensualeros-boston",
+    "_location_override": "Cocomango Speakeasy (inside TopMix Bar), 50 Cambridgepark Dr, Cambridge, MA 02140",
+    "_verified_at": "2026-09-29T22:26:59.053983+00:00",
+    "_verified_status": "no_source",
+    "_verified_notes": "No URL. Search suggestion: \"Bachata on Blast Presents: Savi Rodriguez Cocomango Speakeasy (inside TopMix Bar), 50 Cambridgepark Dr, Cambridge, MA 02140 boston\"",
+    "_verification_url": null
+  },
+  {
+    "id": "fiesta-617b9920a493",
+    "name": "Salsa & Bachata Social w/ Fiesta Dance Co",
+    "startDate": "2026-10-31T00:00:00-04:00",
+    "endDate": "2026-10-31T00:00:00-04:00",
+    "dayOfWeek": "Saturday",
+    "location": "Agave Mexican Grill & Cantina, 197A Boston Post Rd W, Marlborough, MA 01752",
+    "lat": 42.3404499,
+    "lng": -71.5909618,
+    "description": "Salsa & Bachata social hosted by Fiesta Dance Company at Halloween Event.\n\nOrganized by Fiesta Dance Company\nWebsite: https://fiestadancecompany.com/upcoming-socials\nInstagram: https://www.instagram.com/fiestadancecompany/",
+    "url": "https://fiestadancecompany.com/upcoming-socials",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "fiesta-dance-company",
+    "_location_override": "Agave Mexican Grill & Cantina, 197A Boston Post Rd W, Marlborough, MA 01752",
+    "_verified_at": "2026-09-29T22:26:59.055953+00:00",
+    "_verified_status": "reachable_only",
+    "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
+    "_verification_url": "https://fiestadancecompany.com/upcoming-socials"
+  },
+  {
+    "id": "fiesta-20261106-agave-mexican-grill-cantina-marlborough",
+    "name": "Salsa & Bachata Social w/ Fiesta Dance Co",
+    "startDate": "2026-11-06T00:00:00-05:00",
+    "endDate": "2026-11-06T00:00:00-05:00",
+    "dayOfWeek": "Friday",
+    "location": "Agave Mexican Grill & Cantina, 197A Boston Post Rd W, Marlborough, MA 01752",
+    "lat": 42.3404499,
+    "lng": -71.5909618,
+    "description": "Salsa & Bachata social hosted by Fiesta Dance Company at Agave Mexican Grill & Cantina.\n\nOrganized by Fiesta Dance Company\nWebsite: https://fiestadancecompany.com/upcoming-socials\nInstagram: https://www.instagram.com/fiestadancecompany/",
+    "url": "https://fiestadancecompany.com/upcoming-socials",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "fiesta-dance-company",
+    "_verified_at": "2026-09-29T22:26:59.125210+00:00",
+    "_verified_status": "reachable_only",
+    "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
+    "_verification_url": "https://fiestadancecompany.com/upcoming-socials"
+  },
+  {
+    "id": "fiesta-20261128-sol-de-mexico-milford",
+    "name": "Salsa & Bachata Social w/ Fiesta Dance Co",
+    "startDate": "2026-11-28T00:00:00-05:00",
+    "endDate": "2026-11-28T00:00:00-05:00",
+    "dayOfWeek": "Saturday",
+    "location": "Sol de Mexico, 350 E Main St, Milford, MA 01757",
+    "lat": 42.1530123,
+    "lng": -71.4913262,
+    "description": "Salsa & Bachata social hosted by Fiesta Dance Company at Sol de Mexico.\n\nOrganized by Fiesta Dance Company\nWebsite: https://fiestadancecompany.com/upcoming-socials\nInstagram: https://www.instagram.com/fiestadancecompany/",
+    "url": "https://fiestadancecompany.com/upcoming-socials",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "fiesta-dance-company",
+    "_verified_at": "2026-09-29T22:26:59.192705+00:00",
+    "_verified_status": "reachable_only",
+    "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
+    "_verification_url": "https://fiestadancecompany.com/upcoming-socials"
   }
 ]

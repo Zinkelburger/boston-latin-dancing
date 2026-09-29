@@ -1339,3 +1339,46 @@
 {"ts": "2026-09-29T22:23:38.076703+00:00", "action": "archive", "event_id": "fh0adau8areq1nn3bb0huk8dkk@google.com", "details": ""}
 {"ts": "2026-09-29T22:23:38.076738+00:00", "action": "archive", "event_id": "A182D62F-04B8-4A49-ACD3-2022AD66E6C5", "details": ""}
 {"ts": "2026-09-29T22:23:38.076766+00:00", "action": "archive", "event_id": "rj6katt3br41q5sesibkn1clf0@google.com", "details": ""}
+{"ts": "2026-09-29T22:25:32.443206+00:00", "action": "block", "event_id": "nlf-events-egleston-park-summer-socials-2026-10-18-14-00", "details": "duplicate_source: NLF listing of the active Egleston Park Summer Social series (4qc656kur2gocnolf5ns78ag18@google.com, Beatrice). NLF mints a new id per date and was re-queued as non-Latin every week; the name+venue key ('socials', plural) does not match the active series."}
+{"ts": "2026-09-29T22:25:32.963650+00:00", "action": "add", "event_id": "dantes-inferno-fb-20261002-0", "details": ""}
+{"ts": "2026-09-29T22:25:32.965695+00:00", "action": "approve", "event_id": "dantes-inferno-fb-20261002-0", "details": ""}
+{"ts": "2026-09-29T22:25:33.415422+00:00", "action": "add", "event_id": "bobas-20261001-0", "details": ""}
+{"ts": "2026-09-29T22:25:33.416756+00:00", "action": "approve", "event_id": "bobas-20261001-0", "details": ""}
+{"ts": "2026-09-29T22:25:34.360390+00:00", "action": "add", "event_id": "697D2CD8-9C8D-4CEC-8E3C-4EA21D5ECC40", "details": ""}
+{"ts": "2026-09-29T22:25:34.361719+00:00", "action": "approve", "event_id": "697D2CD8-9C8D-4CEC-8E3C-4EA21D5ECC40", "details": ""}
+{"ts": "2026-09-29T22:25:35.353682+00:00", "action": "add", "event_id": "ade9e534ea63f404f9e2a7339ef50ad7d32fadab@dance-calendar", "details": ""}
+{"ts": "2026-09-29T22:25:35.355118+00:00", "action": "approve", "event_id": "ade9e534ea63f404f9e2a7339ef50ad7d32fadab@dance-calendar", "details": ""}
+{"ts": "2026-09-29T22:25:35.810236+00:00", "action": "add", "event_id": "eb-2002180696360", "details": ""}
+{"ts": "2026-09-29T22:25:35.811624+00:00", "action": "approve", "event_id": "eb-2002180696360", "details": ""}
+{"ts": "2026-09-29T22:25:36.752674+00:00", "action": "add", "event_id": "66vt7rdc2ek70viop57s43fc64@google.com", "details": ""}
+{"ts": "2026-09-29T22:25:36.754053+00:00", "action": "approve", "event_id": "66vt7rdc2ek70viop57s43fc64@google.com", "details": ""}
+{"ts": "2026-09-29T22:25:37.599161+00:00", "action": "add", "event_id": "uqttmh5u8pmtluo2kf9dssdt5c@google.com", "details": ""}
+{"ts": "2026-09-29T22:25:37.600485+00:00", "action": "approve", "event_id": "uqttmh5u8pmtluo2kf9dssdt5c@google.com", "details": ""}
+{"ts": "2026-09-29T22:25:40.594626+00:00", "action": "add", "event_id": "C0867F94-AE20-427A-B5DB-C39D8E7ED2F4", "details": ""}
+{"ts": "2026-09-29T22:25:40.596284+00:00", "action": "approve", "event_id": "C0867F94-AE20-427A-B5DB-C39D8E7ED2F4", "details": ""}
+{"ts": "2026-09-29T22:25:41.493922+00:00", "action": "add", "event_id": "ncr3c1lq7nbiq074ee82a2s9nc@google.com", "details": ""}
+{"ts": "2026-09-29T22:25:41.495487+00:00", "action": "approve", "event_id": "ncr3c1lq7nbiq074ee82a2s9nc@google.com", "details": ""}
+{"ts": "2026-09-29T22:25:41.974064+00:00", "action": "add", "event_id": "fiesta-617b9920a493", "details": ""}
+{"ts": "2026-09-29T22:25:41.975968+00:00", "action": "approve", "event_id": "fiesta-617b9920a493", "details": ""}
+{"ts": "2026-09-29T22:25:42.443626+00:00", "action": "add", "event_id": "fiesta-20261106-agave-mexican-grill-cantina-marlborough", "details": ""}
+{"ts": "2026-09-29T22:25:42.444679+00:00", "action": "approve", "event_id": "fiesta-20261106-agave-mexican-grill-cantina-marlborough", "details": ""}
+{"ts": "2026-09-29T22:25:42.943857+00:00", "action": "add", "event_id": "fiesta-20261128-sol-de-mexico-milford", "details": ""}
+{"ts": "2026-09-29T22:25:42.945072+00:00", "action": "approve", "event_id": "fiesta-20261128-sol-de-mexico-milford", "details": ""}
+{"ts": "2026-09-29T22:25:43.920635+00:00", "action": "reject", "event_id": "dantes-salsa-20261002-0", "details": "duplicate of dantes-inferno-fb-20261002-0 (same Facebook event 942767162234508); not blocked because the name+venue key would also block the approved copy"}
+{"ts": "2026-09-29T22:25:45.473227+00:00", "action": "reject", "event_id": "i8am1avf5unm60ck00fv9q4ovk@google.com", "details": "duplicate of dantes-inferno-fb-20261002-0 (Sensualeros listing of the same Oct 2 Dante's Salsa Inferno)"}
+{"ts": "2026-09-29T22:25:46.773015+00:00", "action": "reject", "event_id": "sabor-latino-20261005-0", "details": "duplicate: Oct 5 is already a recurrence of active series d3953ee79b4e...@occurrence-1 (Saborcito @ The Anchor), which already carries this Facebook URL 2073153546944008 in urls"}
+{"ts": "2026-09-29T22:25:47.721815+00:00", "action": "reject", "event_id": "eb-1993623278894", "details": "instruction: 'Caribbean social/dance class learning everything from konpa to Bachata' \u2014 a 2h class, no social dancing listed"}
+{"ts": "2026-09-29T22:25:48.708768+00:00", "action": "block", "event_id": "eb-2000919495073", "details": "not_dance: Niccole Meza Quartet \u2014 sit-down jazz concert at The Mad Monkfish; rejected 2026-09-23 and re-queued"}
+{"ts": "2026-09-29T22:25:51.872053+00:00", "action": "block", "event_id": "eb-2002347694857", "details": "class_only: Moves & Vibes 'Sensual Bachata Techniques and Body Movement' \u2014 weekly Level 1 class series, no social"}
+{"ts": "2026-09-29T22:25:53.212540+00:00", "action": "block", "event_id": "nlf-events-intermediate-bachata-w-tina-2026-10-01-20-45", "details": "class_only: NLF weekly class before Havana Club Thursdays (the social is already on the map via the Havana hub). Re-blocked so the name+venue key reflects the current location string."}
+{"ts": "2026-09-29T22:25:54.961246+00:00", "action": "block", "event_id": "7g1pi57eljj3dosvags4clo3s4@google.com", "details": "out_of_area: Rose's Birthday Bash Gothic Ball Salsa Social \u2014 Bella Vita Dance Company, Manchester NH (outside Boston metro)"}
+{"ts": "2026-09-29T22:26:05.387370+00:00", "action": "edit", "event_id": "C0867F94-AE20-427A-B5DB-C39D8E7ED2F4", "details": "{\"_location_override\": \"Spontaneous Celebrations, 45 Danforth St, Jamaica Plain, MA 02130\", \"location\": \"Spontaneous Celebrations, 45 Danforth St, Jamaica Plain, MA 02130\"}"}
+{"ts": "2026-09-29T22:26:06.154499+00:00", "action": "edit", "event_id": "ncr3c1lq7nbiq074ee82a2s9nc@google.com", "details": "{\"_location_override\": \"Cocomango Speakeasy (inside TopMix Bar), 50 Cambridgepark Dr, Cambridge, MA 02140\", \"location\": \"Cocomango Speakeasy (inside TopMix Bar), 50 Cambridgepark Dr, Cambridge, MA 02140\"}"}
+{"ts": "2026-09-29T22:26:07.056585+00:00", "action": "edit", "event_id": "fiesta-617b9920a493", "details": "{\"_location_override\": \"Agave Mexican Grill & Cantina, 197A Boston Post Rd W, Marlborough, MA 01752\", \"location\": \"Agave Mexican Grill & Cantina, 197A Boston Post Rd W, Marlborough, MA 01752\"}"}
+{"ts": "2026-09-29T22:26:08.604044+00:00", "action": "edit", "event_id": "uqttmh5u8pmtluo2kf9dssdt5c@google.com", "details": "{\"_location_override\": \"Filarmonica Santo Antonio Cultural Center, 575 Cambridge St, Cambridge, MA 02141\", \"location\": \"Filarmonica Santo Antonio Cultural Center, 575 Cambridge St, Cambridge, MA 02141\"}"}
+{"ts": "2026-09-29T22:26:09.650275+00:00", "action": "edit", "event_id": "ade9e534ea63f404f9e2a7339ef50ad7d32fadab@dance-calendar", "details": "{\"styles\": [\"salsa\", \"bachata\"]}"}
+{"ts": "2026-09-29T22:26:12.274008+00:00", "action": "edit", "event_id": "C0867F94-AE20-427A-B5DB-C39D8E7ED2F4", "details": "{\"special\": true, \"styles\": [\"salsa\", \"bachata\"]}"}
+{"ts": "2026-09-29T22:26:47.123283+00:00", "action": "edit", "event_id": "a37202a6a3b3ec4c12d49d8e184bab76048a3b2e@dance-calendar", "details": "{\"special\": true}"}
+{"ts": "2026-09-29T22:28:47.580953+00:00", "action": "edit", "event_id": "EF9DDA0D-59C2-4A5B-A6DA-F111C3F6B443", "details": "{\"urls\": [\"https://www.boletosexpress.com/salsa-romantica-vs-salsa-brava-/89559/\"], \"_needs_manual_check\": {\"reason\": \"Date conflict: BoletosExpress ticket page header and Beatrice calendar now say Sat Oct 10 2026 6pm (what we publish), but the Facebook event 894119310110770 and the ticket page's own body copy still say Sat Sep 26. Possibly postponed; confirm with BoletosExpress (+1 800-530-4202) that the cruise runs Oct 10 and did not already happen Sep 26.\", \"flagged_at\": \"2026-09-29T22:35:00+00:00\"}}"}
+{"ts": "2026-09-29T22:29:21.744323+00:00", "action": "known_duplicate", "event_id": "fiesta-617b9920a493", "details": "different from fiesta-20261106-agave-mexican-grill-cantina-marlborough: Oct 31 Halloween social vs Nov 6 social, both listed separately on fiestadancecompany.com/upcoming-socials"}
+{"ts": "2026-09-29T22:29:24.424153+00:00", "action": "edit", "event_id": "uqttmh5u8pmtluo2kf9dssdt5c@google.com", "details": "{\"url\": \"https://www.facebook.com/rob.suave.96\"}"}
