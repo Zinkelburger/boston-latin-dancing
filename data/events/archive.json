@@ -3587,5 +3587,267 @@
     "_verified_notes": "No URL. Search suggestion: \"Bachata, Breakfast, and Blankets Boston Public Garden, 4 Charles St, Boston, MA 02116 boston\"",
     "_verification_url": null,
     "archivedAt": "2026-09-23T00:11:05.647015+00:00"
+  },
+  {
+    "id": "548F5048-49C0-4DB4-9299-79E38B708BEF",
+    "name": "\"Zouk Weekender Bubble\" with Iago + Ninna 2026",
+    "startDate": "2026-09-26T00:00:00-04:00",
+    "endDate": "2026-09-28T00:00:00-04:00",
+    "dayOfWeek": "Saturday",
+    "location": "Distillery Gallery",
+    "lat": 42.34,
+    "lng": -71.055,
+    "description": "Zouk Weekender Bubble with Iago & Ninna – Boston 2026\n\nJosé Cuadra, Boston Zouk on the Docks, and Queer Dance Boston are excited to bring back one of your favorite artist couples in a brand-new format!\n\nIntroducing the “Zouk Weekender Bubble” — an exclusive experience where only pass holders will participate in workshops, socials, and personalized training with Iago & Ninna. This intimate setting is designed to maximize learning, connection, and growth.\n\nWhat to expect:\n\nZouk workshops with Iago & Ninna\nSocial dancing events\nPersonalized training opportunities in a focused, immersive environment\n\nMore details will be announced as the event date approaches—stay tuned!\n\nSaturday:\n4 hours of workshops and social\n\nSunday:\n4 hours of workshops and social\n\nPasses: \nEarly Bird Full Pass: $200\nDay of Full Pass: $225\nEarly Bird Saturday Pass: $150\nDay of Saturday Pass: $165\nEarly Bird Sunday Pass: $150\nDay of Sunday Pass: $165\n\nBuy Tickets: \nhttps://www.danceplace.com/li/nx/buQFYY9xaRDWgIUa",
+    "url": "https://facebook.com/events/s/zouk-weekender-bubble-with-iag/1275347797524181/",
+    "styles": [
+      "zouk"
+    ],
+    "cost": "$200",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-09-23T00:14:23.992300+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Facebook preview matches (date checked); by Baile Y Arte",
+    "_verification_url": "https://facebook.com/events/s/zouk-weekender-bubble-with-iag/1275347797524181/",
+    "special": true,
+    "archivedAt": "2026-09-29T22:23:38.076330+00:00"
+  },
+  {
+    "id": "km2rk04276t62f3jsl5ssradcg@google.com",
+    "name": "Salsa Dancing at The Grove at Lawn on D Presented by Salsa y Control",
+    "startDate": "2026-09-24T23:00:00+00:00",
+    "endDate": "2026-09-25T01:30:00+00:00",
+    "dayOfWeek": "Thursday",
+    "location": "The Lawn on D Pavilion, 420 D Street, Boston, MA 02210 (Seaport District)",
+    "lat": 42.34445,
+    "lng": -71.04488,
+    "description": "Price: Free",
+    "url": "https://ma.to/event/salsa-night-at-the-grove-24-sep-2026",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": false,
+    "source": "sensualeros-boston",
+    "_verified_at": "2026-09-23T00:14:24.618053+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
+    "_verification_url": "https://ma.to/event/salsa-night-at-the-grove-24-sep-2026",
+    "archivedAt": "2026-09-29T22:23:38.076330+00:00"
+  },
+  {
+    "id": "1D5D663C-16A8-44ED-8F01-28CD53AF9276",
+    "name": "Let’s Dance Boston Day 1: Salsa",
+    "startDate": "2026-09-23T22:00:00+00:00",
+    "endDate": "2026-09-24T01:00:00+00:00",
+    "dayOfWeek": "Wednesday",
+    "location": "Dewey Square Park, I-93 S, Boston, MA  02110, United States",
+    "lat": 42.3527443,
+    "lng": -71.0553933,
+    "description": "When the claves and the cowbells set the beat, and the horns join in, you won’t be able to resist joining the fun! Let’s Dance Boston steps off with an evening of energetic live salsa music. Johnny Giraldo from Allston’s Salsa y Control studio leads a dance lesson before Angel Subero & Latin Logic take the stage while you dance the night away!\n\nSource: https://www.vivoperformingarts.org/live-performances/lets-dance-boston-2026",
+    "url": "https://www.vivoperformingarts.org/live-performances/lets-dance-boston-2026/",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-09-23T00:14:25.261886+00:00",
+    "_verified_status": "reachable_only",
+    "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
+    "_verification_url": "https://www.vivoperformingarts.org/live-performances/lets-dance-boston-2026/",
+    "special": true,
+    "archivedAt": "2026-09-29T22:23:38.076330+00:00"
+  },
+  {
+    "id": "FC29C1F2-096C-48C6-ABC1-038BEC368F24",
+    "name": "Let's Dance Boston Day 2: Latin Afro-Caribbean",
+    "startDate": "2026-09-24T22:00:00+00:00",
+    "endDate": "2026-09-25T01:00:00+00:00",
+    "location": "Dewey Square Park, I-93 S, Boston, MA 02110, United States",
+    "lat": 42.3527443,
+    "lng": -71.0553933,
+    "description": "From Haiti to Cuba to the Dominican Republic and beyond: experience music and dance styles from across the Caribbean! Sample Kompa, Merengue, Bachata, and more with lessons from EJ Dance Studio and music by El Grupo Chevere!",
+    "url": "https://www.vivoperformingarts.org/live-performances/lets-dance-boston-2026/",
+    "styles": [
+      "bachata",
+      "merengue"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "dayOfWeek": "Thursday",
+    "_verified_at": "2026-09-23T00:14:25.433294+00:00",
+    "_verified_status": "reachable_only",
+    "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
+    "_verification_url": "https://www.vivoperformingarts.org/live-performances/lets-dance-boston-2026/",
+    "special": true,
+    "archivedAt": "2026-09-29T22:23:38.076330+00:00"
+  },
+  {
+    "id": "fiesta-20260925-sol-de-mexico-milford",
+    "name": "Salsa & Bachata Social w/ Fiesta Dance Co",
+    "startDate": "2026-09-25T00:00:00-04:00",
+    "endDate": "2026-09-25T00:00:00-04:00",
+    "dayOfWeek": "Friday",
+    "location": "Sol de Mexico, 350 E Main St, Milford, MA 01757",
+    "lat": 42.1530123,
+    "lng": -71.4913262,
+    "description": "Salsa & Bachata social hosted by Fiesta Dance Company at Sol de Mexico.\n\nOrganized by Fiesta Dance Company\nWebsite: https://fiestadancecompany.com/upcoming-socials\nInstagram: https://www.instagram.com/fiestadancecompany/",
+    "url": "https://fiestadancecompany.com/upcoming-socials",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "fiesta-dance-company",
+    "_verified_at": "2026-09-23T00:14:25.934909+00:00",
+    "_verified_status": "reachable_only",
+    "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
+    "_verification_url": "https://fiestadancecompany.com/upcoming-socials",
+    "archivedAt": "2026-09-29T22:23:38.076330+00:00"
+  },
+  {
+    "id": "24B35DF9-A95C-484E-BD02-8541376BBB5A",
+    "name": "Sabor Latino! @ El Barco - Salsa/Bachata Night",
+    "startDate": "2026-09-25T00:00:00+00:00",
+    "endDate": "2026-09-25T03:00:00+00:00",
+    "dayOfWeek": "Thursday",
+    "location": "50 Dalton Street, Boston, MA 02115, Boston, MA",
+    "lat": 42.3472132,
+    "lng": -71.0854097,
+    "description": "Get ready to spice up your dance moves with Salsa y Control at our Sabor Latino Pop Up Salsa Night! BeginnerLesson & SocialDancing included\n\nSource: https://www.eventbrite.com/e/sabor-latino-el-barco-salsabachata-night-tickets-1991805539988",
+    "url": "https://www.eventbrite.com/o/sabor-latino-boston-63775846633",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "$12.51",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-09-23T00:15:39.715887+00:00",
+    "_verified_status": "reachable_only",
+    "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified (verified via urls[] alternate; primary facebook_event link not checkable)",
+    "_verification_url": "https://www.eventbrite.com/o/sabor-latino-boston-63775846633",
+    "urls": [
+      "https://www.facebook.com/events/1418706253534766/"
+    ],
+    "_dropped_urls": [
+      "https://www.eventbrite.com/e/sabor-latino-el-barco-salsabachata-night-tickets-1991805539988"
+    ],
+    "archivedAt": "2026-09-29T22:23:38.076330+00:00"
+  },
+  {
+    "id": "570AD6DF-B09E-4B62-8F48-96DB1C7D9EFC",
+    "name": "El Bonche's Cuban Saturday Night - SEPT. 26",
+    "startDate": "2026-09-26T23:30:00+00:00",
+    "endDate": "2026-09-27T05:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "Cocomango Speakeasy (inside TopMix Bar), 50 Cambridgepark Dr, Cambridge, MA 02140",
+    "lat": 42.3940903,
+    "lng": -71.143837,
+    "description": "🇨🇺 CUBAN SATURDAY NIGHT 🇨🇺\n\nSaturday, September 26, 2026\n🕢 7:30PM-1AM\n\nGet ready for a full night of Cuban music, dancing, and Bonche! 💃🏽🕺🏽🔥\n\nJoin El Bonche in Boston at Cocomango Speakeasy (inside TopMix Bar in Cambridge), for a Saturday night filled with Cuban rhythms, dancing, good music, and good people.\n\nCome dance all night, hang out with friends, and enjoy the music and good vibes!\n\n📍 Cocomango Speakeasy @ TopMix Bar\n(50 Cambridgepark Dr, Cambridge, MA)\n\n🎟️ $20 online\n🚪 $25 at the door\n\nPayment via:\nVenmo: @elboncheinboston\nZelle/Paypal: elboncheinboston@gmail.com\nEventbrite\n\nBring your friends and come dance with us! ❤️‍🔥\n\n\nPresented by El Bonche in Boston\n\nDonde hay ritmo, hay Bonche.\n",
+    "url": "https://www.eventbrite.com/e/el-bonches-cuban-saturday-night-sept-26-tickets-2000162886035",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$20 online; $25 at the door",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-09-23T00:14:32.880952+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
+    "_verification_url": "https://www.eventbrite.com/e/el-bonches-cuban-saturday-night-sept-26-tickets-2000162886035",
+    "urls": [
+      "https://facebook.com/events/s/el-bonches-cuban-saturday-nigh/1650105796494540/"
+    ],
+    "archivedAt": "2026-09-29T22:23:38.076330+00:00"
+  },
+  {
+    "id": "fh0adau8areq1nn3bb0huk8dkk@google.com",
+    "name": "Rumbaland 6: Tale of the Tape",
+    "startDate": "2026-09-27T01:00:00+00:00",
+    "endDate": "2026-09-27T05:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "El Barco, 50 Dalton St, Boston, MA 02115",
+    "lat": 42.3474,
+    "lng": -71.0812,
+    "description": "Price: $20",
+    "url": "https://www.eventbrite.com/o/rumbaland-121144221749",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": "$20",
+    "recurring": false,
+    "source": "sensualeros-boston",
+    "_verified_at": "2026-09-23T00:15:39.940797+00:00",
+    "_verified_status": "reachable_only",
+    "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
+    "_verification_url": "https://www.eventbrite.com/o/rumbaland-121144221749",
+    "special": true,
+    "archivedAt": "2026-09-29T22:23:38.076330+00:00"
+  },
+  {
+    "id": "A182D62F-04B8-4A49-ACD3-2022AD66E6C5",
+    "name": "Salsa Dancing at The Grove at Lawn on D Presented by Salsa y Control",
+    "startDate": "2026-09-22T23:00:00+00:00",
+    "endDate": "2026-09-22T23:00:00+00:00",
+    "dayOfWeek": "Tuesday",
+    "location": "Lawn On D, 420 D St, Boston, MA  02210, United States",
+    "lat": 42.34445,
+    "lng": -71.04488,
+    "description": "",
+    "url": "https://www.salsaycontrol.com/events",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "urls": [],
+    "_verified_at": "2026-09-23T00:14:45.451837+00:00",
+    "_verified_status": "reachable_only",
+    "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
+    "_verification_url": "https://www.salsaycontrol.com/events",
+    "_dropped_urls": [
+      "https://luma.com/x0o9o1lr"
+    ],
+    "archivedAt": "2026-09-29T22:23:38.076330+00:00"
+  },
+  {
+    "id": "rj6katt3br41q5sesibkn1clf0@google.com",
+    "name": "Tambó Salsa Social",
+    "startDate": "2026-09-26T00:30:00+00:00",
+    "endDate": "2026-09-26T05:00:00+00:00",
+    "dayOfWeek": "Friday",
+    "location": "Tambó Salsa at Dante's, 41 Hampshire St, Cambridge, MA 02139",
+    "lat": 42.365,
+    "lng": -71.091,
+    "description": "Tambó Salsa Social at Dante Alighieri Society. Class 8:45–9:30 PM, social 9:30 PM–1 AM. Special performances by Clara & Al, Mambo Pa Ti team.",
+    "url": "https://www.facebook.com/Tambosalsa",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$20 class + social; $15 social only",
+    "recurring": false,
+    "source": "sensualeros-boston",
+    "_verified_at": "2026-09-23T00:15:39.711009+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Headless Chrome capture 2026-09-22: flyer \"September 25th TAMBO SALSA SOCIAL, class 8:45-9:30pm, social 9:30pm-1am, $20 class/social, $15 social, at Dantes 41 Hampshire St\".",
+    "_verification_url": "https://www.facebook.com/Tambosalsa",
+    "_verification_attestation": {
+      "attested_at": "2026-09-23T00:15:39.711009+00:00",
+      "expires_at": "2026-09-30T00:15:39.711009+00:00",
+      "source_url": "https://www.facebook.com/Tambosalsa",
+      "status": "confirmed",
+      "notes": "Headless Chrome capture 2026-09-22: flyer \"September 25th TAMBO SALSA SOCIAL, class 8:45-9:30pm, social 9:30pm-1am, $20 class/social, $15 social, at Dantes 41 Hampshire St\".",
+      "observed_start": "2026-09-25T20:45:00-04:00",
+      "observed_end": null,
+      "observed_location": "Dante's, 41 Hampshire St, Cambridge",
+      "fingerprint": "2a523493a785e834c54a683731b92c8e2accd539ec61be037c65c1fe590b1ba6"
+    },
+    "archivedAt": "2026-09-29T22:23:38.076330+00:00"
   }
 ]

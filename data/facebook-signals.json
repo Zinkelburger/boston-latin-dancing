@@ -1,30 +1,41 @@
 {
   "bobas": {
-    "checked_at": "2026-09-23T12:03:10-04:00",
+    "checked_at": "2026-09-29T18:20:51-04:00",
     "source_url": "https://www.facebook.com/profile.php?id=61551665503735&sk=events",
-    "status": "no_upcoming",
-    "upcoming_events": [],
+    "status": "captured",
+    "upcoming_events": [
+      {
+        "name": "BOBAS Thursday 6-9pm",
+        "date": "October 1, 2026",
+        "url": "https://www.facebook.com/events/1095778452844743/"
+      }
+    ],
     "latest_post": {
-      "text": "Boston Outdoor Bachata And Salsa created an event . September 15 at 9:33 PM · Shared with This is a public event, so your post will be visible to anyone on Facebook. Fri, Sep 18 BOBAS Fri 6-9pm Hatch Shell on the Esplanade 82 people interested",
+      "text": "Boston Outdoor Bachata And Salsa created an event . about an hour ago 1h · Shared with This is a public event, so your post will be visible to anyone on Facebook. Thu, Oct 1 at 6:00 PM EDT BOBAS Thursday 6-9pm Hatch Shell on the Esplanade 2 people going",
       "dates": [
-        "2026-09-15",
-        "2026-09-18"
+        "2026-10-01"
       ]
     },
     "albums": [],
     "flyers": [],
-    "errors": [
-      "albums: chrome timed out after 60s rendering https://www.facebook.com/profile.php?id=61551665503735&sk=photos_albums"
-    ]
+    "errors": []
   },
   "dantes-inferno-fb": {
-    "checked_at": "2026-09-23T12:05:02-04:00",
+    "checked_at": "2026-09-29T18:21:33-04:00",
     "source_url": "https://www.facebook.com/DantesSalsaInferno/events",
-    "status": "no_upcoming",
-    "upcoming_events": [],
+    "status": "captured",
+    "upcoming_events": [
+      {
+        "name": "Dante's Salsa Inferno Oct 2nd Salsa/Bachata Social!!",
+        "date": "October 2, 2026",
+        "url": "https://www.facebook.com/events/942767162234508/"
+      }
+    ],
     "latest_post": {
-      "text": "Dante's Salsa Inferno 5d · Shared with Public Due to another planned event using the space, there will not be Dante's Salsa Inferno this Friday!… See more Dante's Salsa Inferno Salsa Club Send message",
-      "dates": []
+      "text": "Dante's Salsa Inferno created an event . a day ago 1d · Shared with This is a public event, so your post will be visible to anyone on Facebook. Fri, Oct 2 at 8:30 PM EDT Dante's Salsa Inferno Oct 2nd Salsa/Bachata Social!! The Dante Alighieri Society of Massachusetts 41 people interested",
+      "dates": [
+        "2026-10-02"
+      ]
     },
     "albums": [
       {
@@ -67,19 +78,21 @@
       {
         "text": "Dante's SALSA A INFERNO ALSAINFERNO RNO NO DANTES ON FRIDAY!! Dante Alighieri Society 41 Hampshire St Cambridge, MA 02139",
         "dates": []
-      },
-      {
-        "text": "Dante's SALSA INFERNO E RNO NO DANTES ON FRIDAY!! Dante Alighieri Society 41 Hampshire St Cambridge, MA 02139",
-        "dates": []
       }
     ],
     "errors": []
   },
   "dantes-salsa": {
-    "checked_at": "2026-09-23T12:04:37-04:00",
+    "checked_at": "2026-09-29T18:21:10-04:00",
     "source_url": "https://www.facebook.com/FuegoyCandelaSalsa/events",
-    "status": "no_upcoming",
-    "upcoming_events": [],
+    "status": "captured",
+    "upcoming_events": [
+      {
+        "name": "Dante's Salsa Inferno Oct 2nd Salsa/Bachata Social!!",
+        "date": "October 2, 2026",
+        "url": "https://www.facebook.com/events/942767162234508/"
+      }
+    ],
     "latest_post": {
       "text": "Fuego y Candela Salsa Socials September 3 at 1:51 AM · Shared with Public Performance by: Querencia… See more 0:00 / 2:39",
       "dates": [
@@ -126,7 +139,7 @@
     "errors": []
   },
   "lowell-sitp": {
-    "checked_at": "2026-09-23T12:07:09-04:00",
+    "checked_at": "2026-09-29T18:23:13-04:00",
     "source_url": "https://www.facebook.com/LowellSITP/events",
     "status": "no_upcoming",
     "upcoming_events": [],
@@ -152,24 +165,21 @@
     "errors": []
   },
   "sabor-latino": {
-    "checked_at": "2026-09-23T12:06:13-04:00",
+    "checked_at": "2026-09-29T18:22:30-04:00",
     "source_url": "https://www.facebook.com/SaborLatinoBoston/events",
     "status": "captured",
     "upcoming_events": [
       {
         "name": "Saborcito @ The Anchor - Salsa & Bachata Dancing",
-        "date": "September 28, 2026",
+        "date": "October 5, 2026",
         "url": "https://www.facebook.com/events/2073153546944008/"
-      },
-      {
-        "name": "Sabor Latino Pop Up Salsa Night @ El Barco",
-        "date": "September 24, 2026",
-        "url": "https://www.facebook.com/events/1418706253534766/"
       }
     ],
     "latest_post": {
-      "text": "Sabor Latino Boston 4 days ago 4d · ﻿ Salsa · Yuri Buenaventura · Shared with Public We’ve got lots of salsa/bachata social events coming up for you in the next two months! Be sure to come check it out! … See more",
-      "dates": []
+      "text": "Sabor Latino Boston September 18 at 2:53 PM · ﻿ Salsa · Yuri Buenaventura · Shared with Public We’ve got lots of salsa/bachata social events coming up for you in the next two months! Be sure to come check it out! … See more",
+      "dates": [
+        "2026-09-18"
+      ]
     },
     "albums": [
       {
@@ -231,7 +241,7 @@
     "errors": []
   },
   "tambo-salsa-fb": {
-    "checked_at": "2026-09-23T12:05:26-04:00",
+    "checked_at": "2026-09-29T18:21:55-04:00",
     "source_url": "https://www.facebook.com/Tambosalsa/events",
     "status": "captured",
     "upcoming_events": [
@@ -242,8 +252,9 @@
       }
     ],
     "latest_post": {
-      "text": "Tambó Salsa is with Al Rivera at Tambó Salsa . 5d · Cambridge · ﻿ Bailemos Otra Vez · José Alberto \"El Canario\" · Shared with Public Tambo Friday, September 25th 8:30pm - 1am Rhode Island is going to be in the house!! … See more",
+      "text": "Tambó Salsa is with Al Rivera at Tambó Salsa . September 17 at 12:16 PM · Cambridge, MA · ﻿ Bailemos Otra Vez · José Alberto \"El Canario\" · Shared with Public Tambo Friday, September 25th 8:30pm - 1am Rhode Island is going to be in the house!! … See more",
       "dates": [
+        "2026-09-17",
         "2026-09-25"
       ]
     },
