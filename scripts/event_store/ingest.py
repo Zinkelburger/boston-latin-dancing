@@ -250,6 +250,23 @@ def add_event(
     if quarantine_new:
         pending = storage.load_pending()
         idx = next((i for i, p in enumerate(pending) if p.get("id") == event["id"]), None)
+        if idx is None:
+            # A second source listing a night already waiting for review (two
+            # Facebook pages scraping one Facebook event) folds into that row,
+            # or the reviewer sees the same event twice and has to reject one.
+            queued_match = find_duplicate_in(event, pending)
+            if queued_match is not None and queued_match[1] == "certain":
+                q_idx = queued_match[0]
+                queued = pending[q_idx]
+                merged = merge_event(queued, event)
+                for key, value in queued.items():
+                    if key.startswith(("_quarantined", "_dedup_")):
+                        merged[key] = value
+                pending[q_idx] = merged
+                storage.save_pending(pending)
+                log_dedup("certain", queued, event, "certain",
+                          dedup_reason(queued, event, "certain"))
+                return {"status": "duplicate", "confidence": "certain", "existing": merged}
         event["_quarantined_new"] = True
         if idx is not None:
             # Keep the first-seen timestamp so queue age reflects reality.

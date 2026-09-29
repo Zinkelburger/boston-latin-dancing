@@ -1,6 +1,6 @@
 """Headless Facebook capture: parsing rendered pages into evidence and signals."""
 
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 import pytest
 
@@ -255,10 +255,16 @@ def test_envelope_normalizes_through_the_facebook_scraper(monkeypatch, tmp_path)
     assert signals["tambo-salsa-fb"]["albums"][0]["dates"] == ["2026-09-25"]
 
 
+def _recent_checked_at() -> str:
+    """An envelope a day old. These tests run against the real clock, and a
+    hard-coded date aged past the 14-day evidence limit and failed them."""
+    return (datetime.now().astimezone() - timedelta(days=1)).isoformat(timespec="seconds")
+
+
 def test_scraper_runs_capture_first_and_keeps_old_envelope_when_it_fails(monkeypatch, tmp_path, capsys):
     raw = tmp_path / "tambo-salsa-fb-raw.json"
     ff.write_json(raw, {
-        "schema_version": 1, "checked_at": "2026-09-14T16:42:37-04:00",
+        "schema_version": 1, "checked_at": _recent_checked_at(),
         "source_url": "https://www.facebook.com/Tambosalsa/events",
         "status": "no_upcoming", "events": [],
     })
@@ -278,7 +284,7 @@ def test_scraper_runs_capture_first_and_keeps_old_envelope_when_it_fails(monkeyp
 def test_scraper_skips_capture_for_an_explicit_file(monkeypatch, tmp_path):
     raw = tmp_path / "hand.json"
     ff.write_json(raw, {
-        "schema_version": 1, "checked_at": "2026-09-14T16:42:37-04:00",
+        "schema_version": 1, "checked_at": _recent_checked_at(),
         "source_url": "https://www.facebook.com/Tambosalsa/events",
         "status": "no_upcoming", "events": [],
     })

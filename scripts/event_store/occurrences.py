@@ -105,6 +105,17 @@ def dates_within(a: dict, b: dict, hours: float) -> Optional[bool]:
     return abs((date_a - date_b).total_seconds()) < hours * 3600
 
 
+def occurrences_within(a: dict, b: dict, hours: float) -> Optional[bool]:
+    """dates_within over every occurrence: True if any dated occurrence of one
+    event is within `hours` of any occurrence of the other, False if none is,
+    None if either side has no parseable date. A weekly series and a one-off
+    listing of one of its nights are a week apart by startDate alone."""
+    occ_a, occ_b = occurrence_instants(a), occurrence_instants(b)
+    if not occ_a or not occ_b:
+        return None
+    limit = hours * 3600
+    return any(abs((x - y).total_seconds()) < limit for x in occ_a for y in occ_b)
+
 def weekday_of(iso_str: str) -> Optional[str]:
     """Boston weekday name for an ISO timestamp, or None if unparseable."""
     dt = parse_aware(iso_str)

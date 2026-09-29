@@ -209,3 +209,57 @@ def test_block_finds_quarantined_event(store):
     again = store.add_event(_event(), quarantine_new=True)
     assert again["status"] == "blocked"
     assert store.load_pending() == []
+
+
+def test_second_source_copy_merges_into_the_queued_one(store):
+    # Two Facebook sources scraped the same Facebook event (Dante's Salsa
+    # Inferno, 2026-09-29). Neither copy was active yet, so each was checked
+    # against active/archive only and both queued as brand-new rows.
+    url = "https://www.facebook.com/events/942767162234508/"
+    store.add_event(_event(id="dantes-inferno-fb-1", url=url, source="dantes-inferno-fb"),
+                    quarantine_new=True)
+    result = store.add_event(_event(id="dantes-salsa-1", url=url, source="dantes-salsa"),
+                             quarantine_new=True)
+    assert result["status"] == "duplicate"
+    pending = store.load_pending()
+    assert len(pending) == 1
+    assert pending[0]["_quarantined_new"] is True
+    assert store.load_active() == []
+
+
+def test_occurrence_of_an_active_series_with_its_url_is_not_new(store):
+    # Saborcito @ The Anchor (2026-09-29): the active weekly series already
+    # listed Oct 5 in recurrences[] and carried the Facebook event URL, but its
+    # startDate was the week before, so the same-URL check compared only the
+    # two startDates, saw a week apart, and queued Oct 5 as brand-new.
+    url = "https://www.facebook.com/events/2073153546944008/"
+    week1, week2 = _at(7), _at(14)
+    store.add_event(_event(
+        id="series-1", name="Saborcito @ The Anchor", recurring=True,
+        startDate=week1.isoformat(), endDate=(week1 + timedelta(hours=3)).isoformat(),
+        recurrences=[week1.isoformat(), week2.isoformat()],
+        url="https://www.eventbrite.com/e/saborcito-1", urls=[url]))
+    result = store.add_event(_event(
+        id="sabor-latino-1", name="Saborcito @ The Anchor - Salsa & Bachata",
+        startDate=week2.isoformat(), endDate=(week2 + timedelta(hours=3)).isoformat(),
+        url=url, source="sabor-latino"), quarantine_new=True)
+    assert result["status"] == "duplicate"
+    assert store.load_pending() == []
+    active = store.load_active()
+    assert len(active) == 1
+    # Still the weekly series, whichever source's record won the merge.
+    assert active[0]["recurring"] is True
+    assert active[0]["recurrences"] == [week1.isoformat(), week2.isoformat()]
+    assert active[0]["startDate"] == week1.isoformat()
+
+
+def test_shared_organizer_url_on_other_dates_still_stays_separate(store):
+    # The guard the date check exists for: a series page URL shared by
+    # distinct dated socials (Fiesta's /upcoming-socials) must not merge them.
+    url = "https://example.com/upcoming-socials"
+    store.add_event(_event(id="fiesta-1", url=url))
+    later = _at(28)
+    result = store.add_event(_event(
+        id="fiesta-2", url=url, startDate=later.isoformat(),
+        endDate=(later + timedelta(hours=3)).isoformat()), quarantine_new=True)
+    assert result["status"] == "quarantined_new"

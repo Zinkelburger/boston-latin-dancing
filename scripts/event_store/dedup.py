@@ -25,6 +25,7 @@ from .occurrences import (
     dates_within,
     event_day_of_week,
     last_occurrence,
+    occurrences_within,
     parse_aware,
     same_calendar_day,
     wall_clock_minutes,
@@ -95,8 +96,10 @@ def dedup_confidence(a: dict, b: dict) -> Optional[str]:
         # compared). Series whose occurrences all share one organizer URL
         # (e.g. Fiesta's /upcoming-socials page) must not merge distinct
         # dates into one record — each occurrence stays its own event and
-        # collapse_recurring_series groups them at publish.
-        if dates_within(a, b, 24) is not False:
+        # collapse_recurring_series groups them at publish. Occurrences count,
+        # not just startDates: a series listing the night in recurrences[] is
+        # that night.
+        if occurrences_within(a, b, 24) is not False:
             return "certain"
 
     name_a_raw = a.get("name")
@@ -241,10 +244,21 @@ def log_dedup(action: str, kept: dict, candidate: dict, confidence: str, reason:
     atomic_io.append_line(paths.DEDUP_LOG, json.dumps(entry))
 
 
+def _is_series(event: dict) -> bool:
+    return bool(event.get("recurring") or event.get("recurrences"))
+
+
 def merge_event(a: dict, b: dict) -> dict:
     """Merge two events, keeping the higher-precedence record as the base."""
     winner, loser = pick_winner(a, b)
     merged = dict(winner)
+    # A single night folded into its recurring series keeps the series'
+    # schedule whichever side wins on source precedence. Taking the one-off's
+    # dates would drop recurrences[] and turn a weekly night into one date.
+    if _is_series(loser) and not _is_series(winner):
+        for key in ("recurring", "recurrences", "startDate", "endDate", "dayOfWeek"):
+            if loser.get(key) is not None:
+                merged[key] = loser[key]
 
     # Preserve location overrides set by verification or manual fix.
     if winner.get("_location_override"):

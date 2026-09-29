@@ -56,6 +56,13 @@ claude -p "$(cat "$REPO_DIR/automation/agent_prompt.md")" \
   --output-format stream-json --verbose \
   >>"$RUN_LOG" 2>&1 || STATUS=$?
 
+# refresh.sh refuses to run on a dirty tree, so a file the agent left
+# modified skips next week's refresh. Say so where the tray shows it.
+DIRTY="$(git status --porcelain --untracked-files=no)"
+if [[ -n "$DIRTY" ]]; then
+  emit warning "working tree left dirty; next refresh will refuse to run: $(echo "$DIRTY" | tr '\n' ' ')"
+fi
+
 emit phase "done"
 emit exit "$STATUS"
 

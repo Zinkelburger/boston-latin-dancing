@@ -225,9 +225,13 @@ your main job, along with the other judgment calls it can't make.
    do NOT commit; investigate and report. Even when it publishes normally,
    sanity-check the reported count against the previous one.
 
-10. **Commit and push.** Only the pipeline-owned files:
-   `git add data/events-published.json data/events/ data/venues.json data/sources.json data/known_duplicates.json data/link-check.json`
+10. **Commit and push.** Only the pipeline-owned files — the same list
+   `automation/refresh.sh` commits:
+   `git add data/events-published.json data/events/ data/venues.json data/sources.json data/known_duplicates.json data/link-check.json data/slug-registry.json data/facebook-signals.json`
    then commit with message `Weekly agent review $(date +%Y-%m-%d)` and push.
+   Afterwards `git status --short` must be empty: the next refresh refuses to
+   run on a dirty tree, so anything left modified silently skips a week. If a
+   file is still modified, say which one and why at the top of the summary.
 
 11. **Write the summary.** Overwrite `automation/logs/last-agent-summary.md`
    with: queues cleared (counts + notable decisions), verification outcomes,
