@@ -11,9 +11,8 @@ only when the page, read as the site's own crawler would read it:
   - answers (HTTP 2xx/3xx after redirects),
   - is not a Facebook share wrapper (those point at whatever was shared),
   - identifies itself (a title or description; a login wall says nothing),
-  - names the event: a distinctive word from the event's name or venue
-    appears in what the page says about itself, and
-  - if it states a date, states one of the event's dates.
+  - names the event itself (sharing a venue is not enough), and
+  - if it states a date for that event, states an actual recorded occurrence.
 
 Usage:
   python3 scripts/link_guard.py <event_id> <url>
@@ -22,7 +21,6 @@ Usage:
 import json
 import re
 import sys
-from datetime import date
 from pathlib import Path
 from typing import Callable, Optional
 
@@ -48,10 +46,20 @@ def _event_days(event: dict) -> set[str]:
 
 def _identifying_words(event: dict) -> set[str]:
     words = distinctive_words(content_words(normalize_name(event.get("name", ""))))
-    venue = normalize_name((event.get("location") or "").split(",")[0])
-    words |= {w for w in distinctive_words(content_words(venue))
-              if w not in _ADDRESS_NOISE and not w.isdigit()}
-    return {w for w in words if len(w) >= 4}
+    return {w for w in words if w not in _ADDRESS_NOISE and not w.isdigit()}
+
+
+def _names_event(text: str, event: dict) -> bool:
+    name = normalize_name(event.get("name", ""))
+    page_words = set(normalize_name(text).split())
+    words = _identifying_words(event)
+    if words:
+        name_words = content_words(name) - _ADDRESS_NOISE
+        return (len(words & page_words) >= max(1, len(words) * 0.6)
+                and len(name_words & page_words) >= max(1, len(name_words) * 0.6))
+    # Generic names still need their complete name, with multiple words.
+    # Empty/one-word names cannot establish identity by themselves.
+    return len(content_words(name)) >= 2 and f" {name} " in f" {normalize_name(text)} "
 
 
 def _page_text(meta: dict) -> str:
@@ -82,15 +90,7 @@ def stated_days(meta: dict) -> list[str]:
 
 
 def _dates_fit(event: dict, days: list[str]) -> bool:
-    ours = _event_days(event)
-    if ours & set(days):
-        return True
-    # A weekly series stores a window of dates; a page for one of its nights
-    # beyond that window is still the series, as long as the weekday agrees.
-    if event.get("recurring") or event.get("recurrences"):
-        our_weekdays = {date.fromisoformat(d).weekday() for d in ours}
-        return any(date.fromisoformat(d).weekday() in our_weekdays for d in days)
-    return False
+    return bool(_event_days(event) & set(days))
 
 
 def check_link_for_event(url: str, event: dict,
@@ -114,7 +114,7 @@ def check_link_for_event(url: str, event: dict,
         "stated_dates": stated_days(meta),
         "final_url": meta.get("final_url"),
     }
-    if status is None or status >= 400:
+    if status is None or not 200 <= status < 400:
         return {"accepted": False, "page": page,
                 "reason": f"the page does not load ({meta.get('error') or f'HTTP {status}'})"}
 
@@ -124,19 +124,27 @@ def check_link_for_event(url: str, event: dict,
             "the page says nothing about itself (login wall, deleted, or a bare app page), "
             "so nobody can tell which event it is")}
 
-    words = _identifying_words(event)
-    page_words = set(text.split())
-    if words and not (words & page_words):
+    # Bind the name and date to the SAME Event object. Calendar pages often
+    # list several events; another event's date is not corroboration.
+    structured = meta.get("jsonld_events") or []
+    matching = [ld for ld in structured if _names_event(str(ld.get("name", "")), event)]
+    if (structured and not matching) or (not structured and not _names_event(text, event)):
         return {"accepted": False, "page": page, "reason": (
-            f"the page never names this event: none of {sorted(words)} appear in its "
-            f"title or description ({page['title'][:80]!r})")}
+            f"the page never names this event clearly enough in its event data, "
+            f"title or description ({page['title'][:80]!r}); a shared venue is not enough")}
+
+    if structured:
+        page["stated_dates"] = stated_days({"jsonld_events": matching,
+                                             "facebook_event": meta.get("facebook_event")})
 
     if page["stated_dates"] and not _dates_fit(event, page["stated_dates"]):
         return {"accepted": False, "page": page, "reason": (
             f"the page is for {', '.join(page['stated_dates'])}, but this event is on "
             f"{', '.join(sorted(_event_days(event))[:4])} — it is a different night")}
 
-    return {"accepted": True, "page": page, "reason": "page loads, names the event, and its date fits"}
+    return {"accepted": True, "page": page, "reason": (
+        "page loads, names the event, and its date fits" if page["stated_dates"] else
+        "page loads and names the event; no machine-readable date was available")}
 
 
 def main() -> int:

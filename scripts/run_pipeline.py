@@ -15,6 +15,7 @@ Usage:
   python3 scripts/run_pipeline.py --skip-scrape   # ingest/archive/publish only
   python3 scripts/run_pipeline.py --scrape-only   # every scraper, no ingest/publish
   python3 scripts/run_pipeline.py --scrape-only --only lous-live
+  python3 scripts/run_pipeline.py --no-publish    # stage a weekly review, no generated files
 
 Exit codes:
   0  ok (summary JSON on stdout)
@@ -93,6 +94,8 @@ def main() -> int:
                         help="ingest/archive/publish only, without re-running scrapers")
     parser.add_argument("--scrape-only", action="store_true",
                         help="run the scrapers and stop; no ingest, archive, or publish")
+    parser.add_argument("--no-publish", action="store_true",
+                        help="scrape, ingest and archive for review without publishing")
     parser.add_argument("--only", metavar="SOURCE_ID",
                         help="run a single scraper (source id from data/sources.json)")
     parser.add_argument("--timeout", type=int, default=180,
@@ -133,6 +136,21 @@ def main() -> int:
 
     ingest_result = ingest_scraped(quarantine_new=True)
     archived = archive_past_events()
+
+    if args.no_publish:
+        failed = bool(scrapers_failed or scrapers_suspect)
+        summary = {
+            "status": "failed" if failed else "ready_for_review",
+            "scrapers": scrape_results,
+            "scrapers_failed": scrapers_failed,
+            "scrapers_need_redesign": scrapers_suspect,
+            "ingest": ingest_result,
+            "archived": len(archived),
+            "published": False,
+        }
+        print(json.dumps(summary, indent=2, default=str))
+        _alert_suspect(scrapers_suspect)
+        return 1 if failed else 0
 
     publish_result = publish_guarded(previous_snapshot=snapshot)
     tripped = publish_result["tripped"]

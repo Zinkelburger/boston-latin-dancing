@@ -2,8 +2,7 @@
 # Weekly review. Everything that needs no judgment is a script; the agent only
 # answers the questions scripts/weekly_review.py writes.
 #
-#   refresh  automation/refresh.sh: scrape → ingest (new events quarantined) →
-#            archive → publish → commit → push
+#   refresh  automation/refresh.sh --review: scrape → ingest (quarantine) → archive
 #   prepare  weekly_review.py prepare: verify, link check, cross-check,
 #            deterministic fixes, then the worklist of questions
 #   agent    headless Claude with ONLY the review tools (review_next /
@@ -49,12 +48,18 @@ step() { # step <kind> <command...>: run, streaming output into the log; returns
 emit phase "start"
 emit info "model: $MODEL"
 
+# A failed/dirty refresh is not permission to edit or deploy the existing tree.
+# Check even with BLD_SKIP_REFRESH, which only skips fetching sources.
+if [[ -n "$(git status --porcelain)" ]]; then
+  emit warning "working tree dirty; resolve or commit the existing changes before reviewing"
+  emit phase "done"; emit exit 1; exit 1
+fi
+
 if [[ "${BLD_SKIP_REFRESH:-0}" != "1" ]]; then
   emit phase "refresh"
-  # A failed refresh (dirty tree, tripwire, scraper crash) still leaves last
-  # week's queues worth reviewing; it is reported, not fatal.
-  if ! step refresh "$REPO_DIR/automation/refresh.sh"; then
-    emit warning "refresh failed or tripwired; reviewing the existing queues anyway"
+  if ! step refresh "$REPO_DIR/automation/refresh.sh" --review; then
+    emit warning "refresh failed or tripwired; stopping before review, publish or commit"
+    emit phase "done"; emit exit 1; exit 1
   fi
 fi
 
@@ -81,6 +86,11 @@ else
     </dev/null >>"$RUN_LOG" 2>&1 || STATUS=$?
 fi
 step info "$PY" scripts/weekly_review.py status || true
+
+if [[ "$STATUS" -ne 0 ]]; then
+  emit warning "agent failed (exit $STATUS); review state is preserved, nothing further published or committed"
+  emit phase "done"; emit exit "$STATUS"; exit "$STATUS"
+fi
 
 emit phase "finish"
 FINISH=0

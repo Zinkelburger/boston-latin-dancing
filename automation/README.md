@@ -9,23 +9,30 @@ The weekly review (`claude_review.sh`, a systemd user timer on the desktop,
 Wednesdays at noon — see `desktop/README.md`) is built so the agent only makes
 judgment calls, and every one is a multiple-choice question:
 
-1. `refresh.sh` — scrape, ingest, archive, publish, commit, push.
+1. `refresh.sh --review` — scrape, ingest and archive without publishing or
+   committing. The existing map stays intact until the review passes its checks.
+   A dirty checkout or failed refresh stops the run before the agent starts.
 2. `scripts/weekly_review.py prepare` — verify every event against its
    source, check every link, cross-check each event's sources, and apply the
    fixes with one right answer (drop past queue rows, archive an event whose
-   own page says EventCancelled, swap a dead link for a live alternate, shed
+   own page says EventCancelled, swap a dead link for an event-matching live alternate, shed
    dead alternates). It then writes `automation/logs/worklist.json`: one
    question per judgment call, with its evidence and allowed answers.
 3. The agent (`agent_prompt.md`) loops `review_next` → `review_answer` using
    the MCP server's review profile (`BLD_MCP_PROFILE=review`, five tools)
    plus web search. It has no shell, file or git access. Every answer is
    validated before it changes anything. A URL must pass
-   `scripts/link_guard.py`: the page loads, names the event, and states the
-   event's date if it states one. An address must geocode inside greater
+   `scripts/link_guard.py`: the page loads and names the event itself; sharing
+   a venue is insufficient. Structured event names and dates must belong to the
+   same record. A dated series link must match a recorded occurrence, not merely
+   the same weekday. Pages without a machine-readable date are reported as such.
+   An address must geocode inside greater
    Boston. An invalid answer is refused with the reason.
-4. `scripts/weekly_review.py finish` — tripwire-guarded publish, link check,
-   doctor, and `automation/logs/last-agent-summary.md` generated from the
-   answers.
+4. `scripts/weekly_review.py finish` — verify the final active events, check
+   links and run the doctor **before** the tripwire-guarded publish. Unanswered
+   questions, doctor blockers or broken links stop publication with exit 1;
+   the tripwire returns 2. An agent process failure also stops deployment.
+   `automation/logs/last-agent-summary.md` records the decisions and blockers.
 5. `commit_pipeline.sh` commits the pipeline-owned files (the one list, shared
    with `refresh.sh`) and pushes.
 
@@ -37,6 +44,13 @@ tool.
 `git push` **is** the deploy — the static host rebuilds the site on push. If a
 push produces a broken build, the host keeps serving the previous deploy;
 check the host dashboard.
+
+A blocked review preserves its local changes for inspection and leaves the
+published files untouched. It may leave a dirty tree, which intentionally blocks
+the next scheduled run. Resolve the reported issues through the event-store or
+MCP APIs, resume the saved worklist with `review_next`, and run
+`python3 scripts/weekly_review.py finish` again. Commit/deploy only after it
+succeeds; do not delete queued records or commit unrelated edits to clear the gate.
 
 `refresh.sh` is safe to run standalone any time — quarantine means it can
 never put junk on the map.

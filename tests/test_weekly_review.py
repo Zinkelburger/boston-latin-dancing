@@ -102,11 +102,11 @@ def test_the_right_page_is_accepted():
     assert verdict["accepted"] is True
 
 
-def test_a_series_page_for_a_later_week_is_accepted():
+def test_a_series_page_for_a_later_recorded_week_is_accepted():
     event = _event(recurring=True, recurrences=[_at(7).isoformat(), _at(14).isoformat()],
                    startDate=_at(7).isoformat())
     verdict = link_guard.check_link_for_event(
-        "https://example.com/x", event, fetch=lambda u: _page(date=_at(63).isoformat()))
+        "https://example.com/x", event, fetch=lambda u: _page(date=_at(14).isoformat()))
     assert verdict["accepted"] is True
 
 
@@ -120,7 +120,8 @@ def test_past_queue_rows_are_dropped_without_a_question(store):
     assert done[0]["event"] == "Tropical Fiesta Social"
 
 
-def test_a_dead_link_is_replaced_by_a_live_alternate(store):
+def test_a_dead_link_is_replaced_by_a_live_alternate(store, monkeypatch):
+    monkeypatch.setattr(link_guard, "link_meta", lambda u: _page())
     store.save_active([_event(url="https://dead.example/a", urls=["https://live.example/b"])])
     actions, still = wr.fix_dead_links({"broken": [{"url": "https://dead.example/a"}],
                                         "ok": [{"url": "https://live.example/b"}]})
@@ -321,3 +322,176 @@ def test_per_date_copies_of_a_series_are_not_big_event_questions(store):
     store.save_active([_event(id="a"), _event(id="b", startDate=_at(17).isoformat(),
                                               endDate=_at(17, 23).isoformat())])
     assert not [i for i in _worklist()["items"] if i["kind"] == "big_event"]
+
+
+@pytest.mark.parametrize('params', [{'big_event': 'perhaps'}, {'big_event': False, 'styles': [123]}])
+def test_invalid_approval_does_not_move_or_modify_event(store, params):
+    pending = [_event(_quarantined_new=True)]
+    store.save_pending(pending)
+    item = _item_for(_worklist(), 'new_event')
+    result = wr.answer(item['id'], 'approve', **params)
+    assert result['ok'] is False
+    assert store.load_active() == []
+    assert store.load_pending() == pending
+
+
+def test_distinct_approval_uses_the_requested_address(store):
+    store.save_active([_event(id='series')])
+    store.save_pending([_event(id='other', name='Tropical Fiesta Anniversary',
+                              lat=None, lng=None, location='TBA',
+                              url='https://example.com/other', _dedup_candidate_of='series')])
+    item = _item_for(_worklist(), 'possible_duplicate')
+    assert wr.answer(item['id'], 'different', big_event=True)['ok'] is False
+    assert len(store.load_pending()) == 1
+    result = wr.answer(item['id'], 'different', big_event=True,
+                       location='45 Danforth St, Jamaica Plain, MA')
+    assert result['ok'] is True
+    added = next(e for e in store.load_active() if e['id'] == 'other')
+    assert added['location'].startswith('45 Danforth')
+    assert added['lat'] == COORDS[0]
+    assert store.load_pending() == []
+
+
+def test_failed_distinct_approval_keeps_the_pending_record(store, monkeypatch):
+    store.save_active([_event(id='series')])
+    pending = [_event(id='other', _dedup_candidate_of='series')]
+    store.save_pending(pending)
+    item = _item_for(_worklist(), 'possible_duplicate')
+    monkeypatch.setattr(wr, 'add_event', lambda *a, **kw: {'status': 'rejected', 'message': 'cannot add'})
+    assert wr.answer(item['id'], 'different', big_event=False)['ok'] is False
+    assert store.load_pending() == pending
+
+
+def test_same_venue_is_not_the_same_event():
+    verdict = link_guard.check_link_for_event('https://example.com/other', _event(),
+        fetch=lambda u: _page('Havana Club Brunch', date=_at(10).isoformat()))
+    assert verdict['accepted'] is False
+
+
+def test_calendar_cannot_mix_one_events_name_with_another_events_date():
+    meta = _page('Calendar')
+    meta['jsonld_events'] = [
+        {'name': 'Tropical Fiesta Social', 'startDate': _at(11).isoformat()},
+        {'name': 'Unrelated Brunch', 'startDate': _at(10).isoformat()},
+    ]
+    verdict = link_guard.check_link_for_event('https://example.com/calendar', _event(), fetch=lambda u: meta)
+    assert verdict['accepted'] is False
+
+
+def test_event_without_identifying_words_cannot_accept_an_arbitrary_page():
+    verdict = link_guard.check_link_for_event('https://example.com/other',
+        _event(name='Salsa', location=''), fetch=lambda u: _page('Unrelated Brunch'))
+    assert verdict['accepted'] is False
+
+
+def test_series_link_must_match_an_actual_occurrence():
+    event = _event(recurring=True, recurrences=[_at(7).isoformat(), _at(14).isoformat()],
+                   startDate=_at(7).isoformat())
+    verdict = link_guard.check_link_for_event('https://example.com/other', event,
+        fetch=lambda u: _page(date=_at(63).isoformat()))
+    assert verdict['accepted'] is False
+
+
+def test_finish_refuses_unanswered_work_without_publishing(store, monkeypatch):
+    store.save_pending([_event(_quarantined_new=True)])
+    _worklist()
+    monkeypatch.setattr(wr, 'publish_guarded', lambda: pytest.fail('must not publish'))
+    assert wr.finish(run_checks=False) == 1
+    assert 'Not published' in wr.SUMMARY_PATH.read_text()
+
+
+def test_finish_checks_current_state_before_publish(store, monkeypatch, tmp_path):
+    import check_links
+    import event_doctor
+    import verify_events
+
+    wr.save_worklist({'items': []})
+    calls = []
+    monkeypatch.setattr(verify_events, 'verify_all', lambda **kw: calls.append('verify'))
+    monkeypatch.setattr(check_links, 'REPORT_PATH', tmp_path / 'links.json')
+    monkeypatch.setattr(check_links, 'check_all', lambda **kw: {})
+    monkeypatch.setattr(event_doctor, 'run_doctor', lambda **kw: {
+        'ok': False, 'status': 'blocked', 'checks': {'verification': {
+            'status': 'blocker', 'count': 1, 'message': 'Newly approved event has no evidence'}}})
+    monkeypatch.setattr(wr, 'publish_guarded', lambda: pytest.fail('must not publish'))
+    assert wr.finish() == 1
+    assert calls == ['verify']
+    assert 'Newly approved event' in wr.SUMMARY_PATH.read_text()
+
+
+def test_rejected_approval_restores_address_edits(store, monkeypatch):
+    pending = [_event(lat=None, lng=None, location='TBA', _quarantined_new=True)]
+    store.save_pending(pending)
+    item = _item_for(_worklist(), 'new_event')
+    monkeypatch.setattr(wr, 'approve_pending', lambda *a: {'status': 'not_approved', 'message': 'not allowed'})
+    result = wr.answer(item['id'], 'approve', big_event=False, location='45 Danforth St, Jamaica Plain, MA')
+    assert result['ok'] is False
+    assert store.load_pending() == pending
+
+
+def test_working_alternate_for_another_event_is_not_promoted(store, monkeypatch):
+    store.save_active([_event(url='https://dead.example/a', urls=['https://live.example/brunch'])])
+    monkeypatch.setattr(link_guard, 'link_meta', lambda u: _page('Havana Club Brunch'))
+    _, still = wr.fix_dead_links({'broken': [{'url': 'https://dead.example/a'}],
+                                  'ok': [{'url': 'https://live.example/brunch'}]})
+    assert store.load_active()[0]['url'] == 'https://dead.example/a'
+    assert still
+
+
+def test_matching_structured_event_on_a_calendar_is_accepted():
+    meta = _page('Calendar')
+    meta['jsonld_events'] = [
+        {'name': 'Tropical Fiesta Social', 'startDate': _at(10).isoformat()},
+        {'name': 'Unrelated Brunch', 'startDate': _at(11).isoformat()},
+    ]
+    assert link_guard.check_link_for_event('https://example.com/calendar', _event(),
+                                           fetch=lambda u: meta)['accepted'] is True
+
+
+@pytest.mark.parametrize('tripped', [False, True])
+def test_finish_publishes_only_after_checks_and_preserves_tripwire(store, monkeypatch, tmp_path, tripped):
+    import check_links
+    import event_doctor
+    import verify_events
+
+    wr.save_worklist({'items': []})
+    calls = []
+    monkeypatch.setattr(verify_events, 'verify_all', lambda **kw: calls.append('verify'))
+    monkeypatch.setattr(check_links, 'REPORT_PATH', tmp_path / 'links.json')
+    monkeypatch.setattr(check_links, 'check_all', lambda **kw: calls.append('links') or {})
+    monkeypatch.setattr(event_doctor, 'run_doctor', lambda **kw: calls.append('doctor') or {'ok': True})
+    monkeypatch.setattr(wr, 'publish_guarded', lambda: calls.append('publish') or {'tripped': tripped})
+    assert wr.finish() == (2 if tripped else 0)
+    assert calls == ['verify', 'links', 'doctor', 'publish']
+
+
+def test_venue_word_in_event_name_does_not_identify_a_different_event():
+    verdict = link_guard.check_link_for_event('https://example.com/brunch',
+        _event(name='Salsa at Havana'), fetch=lambda u: _page('Havana Club Brunch', date=_at(10).isoformat()))
+    assert verdict['accepted'] is False
+
+
+def test_summary_lists_verification_blockers_as_action_needed():
+    text = wr.render_summary({'items': []}, {'blocked': True, 'message': 'Doctor blocked'}, {
+        'status': 'blocked', 'checks': {'verification': {'status': 'blocker', 'message': 'Needs evidence',
+        'items': [{'name': 'Party with no link', 'problem': 'no_source'}]}}})
+    needs = text.split('## Needs you')[1].split('## Decisions')[0]
+    assert 'Party with no link' in needs and 'no_source' in needs
+    assert '- Nothing.' not in needs
+
+
+def test_finish_returns_tripwire_exit_without_touching_published_files(store, monkeypatch, tmp_path):
+    import check_links
+    import event_doctor
+    import verify_events
+
+    wr.save_worklist({'items': []})
+    monkeypatch.setattr(verify_events, 'verify_all', lambda **kw: None)
+    monkeypatch.setattr(check_links, 'REPORT_PATH', tmp_path / 'links.json')
+    monkeypatch.setattr(check_links, 'check_all', lambda **kw: {})
+    monkeypatch.setattr(event_doctor, 'run_doctor', lambda **kw: {
+        'ok': False, 'status': 'blocked', 'checks': {'publish_tripwire': {
+            'status': 'blocker', 'message': 'live count collapsed'}}})
+    monkeypatch.setattr(wr, 'publish_guarded', lambda: pytest.fail('must not publish'))
+    assert wr.finish() == 2
+    assert 'live count collapsed' in wr.SUMMARY_PATH.read_text()

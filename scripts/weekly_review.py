@@ -21,7 +21,7 @@ Usage:
   python3 scripts/weekly_review.py status
   python3 scripts/weekly_review.py finish
 
-Exit codes for finish: 0 publish ok (commit), 2 tripwire (do NOT commit).
+Exit codes for finish: 0 publish ok (commit), 1 incomplete/blocked, 2 tripwire.
 """
 
 from __future__ import annotations
@@ -203,8 +203,8 @@ def archive_structured_cancellations(report: list[dict]) -> list[dict]:
 
 
 def fix_dead_links(link_report: dict) -> tuple[list[dict], set[str]]:
-    """Dead alternate links are removed; a dead primary is replaced by a live
-    alternate. Returns (actions, still-broken primary urls)."""
+    """Remove dead alternates; promote only a live, event-matching alternate.
+    Returns (actions, still-broken primary urls)."""
     broken = {url_key(r["url"]) for r in link_report.get("broken", [])}
     alive = {url_key(r["url"]) for r in link_report.get("ok", [])}
     actions: list[dict] = []
@@ -216,7 +216,8 @@ def fix_dead_links(link_report: dict) -> tuple[list[dict], set[str]]:
         live = [u for u in links if url_key(u) not in broken]
         primary = event.get("url")
         if primary and url_key(primary) in broken:
-            replacement = next((u for u in live if url_key(u) in alive), None)
+            replacement = next((u for u in live if url_key(u) in alive
+                                and check_link_for_event(u, event)["accepted"]), None)
             if replacement is None:
                 # Nothing proven live to promote: keep the primary for the
                 # question, but still shed dead alternates.
@@ -260,7 +261,7 @@ def _approve_details(event: dict) -> dict[str, str]:
     details = {"big_event": "true or false — required. " + BIG_EVENT_RULE,
                "styles": "optional, comma-separated from " + ", ".join(STYLES)
                          + ". Replace 'other' with the real styles when the night is salsa/bachata/etc."}
-    if event.get("lat") is None:
+    if event.get("lat") is None or event.get("lng") is None:
         details["location"] = ("REQUIRED: this event has no map position. Give the full street "
                                "address with town, e.g. '45 Danforth St, Jamaica Plain, MA'.")
     return details
@@ -617,6 +618,8 @@ def _styles(value) -> Optional[list[str]]:
     if value in (None, "", []):
         return None
     parts = value if isinstance(value, list) else str(value).split(",")
+    if any(not isinstance(p, str) for p in parts):
+        raise Refused("`styles` must be a list of style names or comma-separated text.")
     styles = [p.strip().lower() for p in parts if p.strip()]
     bad = [s for s in styles if s not in STYLES]
     if bad:
@@ -675,7 +678,7 @@ def _landed_id(result: dict) -> Optional[str]:
 
 
 def _finish_approval(result: dict, params: dict, event: dict) -> dict:
-    if result.get("status") in ("not_found", "not_approved", "blocked_special_edition", "error"):
+    if result.get("status") not in ("added", "duplicate", "merged", "reactivated", "merged_into_archive"):
         raise Refused(result.get("message") or f"approval failed: {result.get('status')}")
     landed = _landed_id(result)
     updates: dict = {"_big_event_reviewed": True}
@@ -692,7 +695,38 @@ def _finish_approval(result: dict, params: dict, event: dict) -> dict:
 def _require_big_event(event: dict, params: dict) -> None:
     if not _is_series(event) and params.get("big_event") is None:
         raise Refused("`big_event` is required (true or false). " + BIG_EVENT_RULE)
+    if params.get("big_event") is not None:
+        _bool(params["big_event"], "big_event")
     _styles(params.get("styles"))
+
+
+def _approval_updates(event: dict, params: dict) -> dict:
+    """Validate the whole approval before moving a record out of its queue."""
+    _require_big_event(event, params)
+    updates = {}
+    if params.get("location"):
+        updates.update(_locate(event, params["location"]))
+    elif event.get("lat") is None or event.get("lng") is None:
+        raise Refused("this event has no map position. Answer again with "
+                      "location='<street address, town>'.")
+    if params.get("url"):
+        _check_link(params["url"], {**event, **updates})
+        updates["urls"] = [u for u in event_url_list(event) if u != params["url"]]
+        updates["url"] = params["url"]
+    return updates
+
+
+def _approve_with_updates(event: dict, updates: dict) -> dict:
+    """Restore queue edits when the store refuses an approval."""
+    with store_lock():
+        if updates:
+            _pool_row(load_pending, storage.save_pending, event["id"], updates)
+        result = approve_pending(event["id"])
+        if result.get("status") not in ("added", "duplicate", "merged", "reactivated", "merged_into_archive"):
+            rows = load_pending()
+            storage.save_pending([event if row.get("id") == event["id"] else row for row in rows])
+            raise Refused(result.get("message") or f"approval failed: {result.get('status')}")
+        return result
 
 
 def _find(pool: list[dict], event_id: str) -> dict:
@@ -711,28 +745,11 @@ def _apply_new_event(item: dict, choice: str, params: dict) -> dict:
         allowed = [c["id"] for c in item["evidence"].get("same_night", [])]
         if same_as not in allowed:
             raise Refused(f"`same_as` must be one of {allowed}.")
-        _pool_row(load_pending, storage.save_pending, event["id"], {"_dedup_candidate_of": same_as})
-        result = approve_pending(event["id"])
-        if result.get("status") == "blocked_special_edition":
-            _pool_row(load_pending, storage.save_pending, event["id"], {"_dedup_candidate_of": None})
-            raise Refused("one is a special edition and the other the regular series; they stay "
-                          "separate. Answer approve instead.")
+        _approve_with_updates(event, {"_dedup_candidate_of": same_as})
         return {"status": "merged", "into": same_as}
     # approve
-    _require_big_event(event, params)
-    updates = {}
-    if params.get("location"):
-        updates.update(_locate(event, params["location"]))
-    elif event.get("lat") is None:
-        raise Refused("this event has no map position. Answer again with "
-                      "location='<street address, town>'.")
-    if params.get("url"):
-        _check_link(params["url"], {**event, **updates})
-        updates["urls"] = [u for u in event_url_list(event) if u != params["url"]]
-        updates["url"] = params["url"]
-    if updates:
-        _pool_row(load_pending, storage.save_pending, event["id"], updates)
-    return _finish_approval(approve_pending(event["id"]), params, event)
+    updates = _approval_updates(event, params)
+    return _finish_approval(_approve_with_updates(event, updates), params, event)
 
 
 def _apply_possible_duplicate(item: dict, choice: str, params: dict) -> dict:
@@ -748,13 +765,15 @@ def _apply_possible_duplicate(item: dict, choice: str, params: dict) -> dict:
             raise Refused(result.get("message") or result.get("status"))
         return {"status": "merged", "into": event.get("_dedup_candidate_of")}
     # different
-    _require_big_event(event, params)
+    updates = _approval_updates(event, params)
     candidate = event["_dedup_candidate_of"]
-    reject_pending(event["id"], "distinct event")
     clean = {k: v for k, v in event.items() if not k.startswith(("_dedup", "_quarantined"))}
+    clean.update(updates)
     result = add_event(clean, distinct_from=[candidate])
     if result.get("status") not in ("added", "duplicate", "merged", "reactivated"):
         raise Refused(f"could not add it: {result.get('message') or result.get('status')}")
+    # Destination first: a failed add must leave the reviewable source intact.
+    reject_pending(event["id"], "distinct event")
     return _finish_approval(result, params, event)
 
 
@@ -789,8 +808,8 @@ def _apply_facebook_signal(item: dict, choice: str, params: dict) -> dict:
         raise Refused(f"source {source_id} is no longer registered.")
     defaults = source.get("defaults") or {}
     if not defaults.get("location"):
-        raise Refused("this organizer has no default venue; answer not_an_event and note the "
-                      "date for a human.")
+        raise Refused("this organizer has no default venue; use review_skip and note the "
+                      "address a human needs to check.")
     if not params.get("start_time"):
         raise Refused("`start_time` is required, e.g. '8:30 PM', from the flyer or post.")
     hour, minute = _time_of_day(params["start_time"], "start_time")
@@ -810,8 +829,8 @@ def _apply_facebook_signal(item: dict, choice: str, params: dict) -> dict:
         url=_organizer_page(source), styles=defaults.get("styles"), cost=defaults.get("cost"),
         source=source_id)
     if event.get("lat") is None:
-        raise Refused(f"the organizer's venue '{defaults['location']}' does not geocode; answer "
-                      "not_an_event and note it for a human.")
+        raise Refused(f"the organizer's venue '{defaults['location']}' does not geocode; use "
+                      "review_skip so a human can fix the address.")
     event["_big_event_reviewed"] = True
     result = add_event(event, skip_latin_check=True)
     if result.get("status") not in ("added", "duplicate", "merged", "reactivated"):
@@ -1097,8 +1116,15 @@ def render_summary(worklist: dict, publish: dict, doctor: Optional[dict]) -> str
     for m in human.get("manual_checks", []):
         needs.append(f"- **{m.get('name')}**: {m.get('reason')}")
     for u in human.get("unverified", []):
-        if u["status"] in ("cancelled", "page_gone", "date_mismatch"):
-            needs.append(f"- **{u['event']}** (recurring, {u['status']}): {u['notes']}")
+        needs.append(f"- **{u['event']}** ({u['status']}): {u['notes']}")
+    if doctor:
+        for check in doctor.get("checks", {}).values():
+            if check.get("status") != "blocker":
+                continue
+            needs.append(f"- {check.get('message')}")
+            for row in check.get("items", []):
+                needs.append(f"- **{row.get('name') or row.get('id') or row.get('source_id', 'Check')}**: "
+                             f"{row.get('problem') or row.get('notes') or row}")
     for sid in human.get("scrapers_unreachable", []):
         needs.append(f"- Scraper `{sid}` could not reach its page last run (usually transient).")
     lines += ["## Needs you", *(needs or ["- Nothing."]), ""]
@@ -1122,7 +1148,7 @@ def render_summary(worklist: dict, publish: dict, doctor: Optional[dict]) -> str
         lines.append("")
 
     lines.append("## Published")
-    if publish.get("tripped"):
+    if publish.get("tripped") or publish.get("blocked"):
         lines.append(f"- Not published: {publish.get('message')}")
     else:
         lines.append(f"- {publish.get('published_live_events')} live events "
@@ -1138,18 +1164,35 @@ def render_summary(worklist: dict, publish: dict, doctor: Optional[dict]) -> str
 
 def finish(run_checks: bool = True) -> int:
     worklist = load_worklist()
-    publish = publish_guarded()
     doctor = None
-    if not publish.get("tripped") and run_checks:
+    reason = None
+    if not WORKLIST_PATH.exists():
+        reason = "No prepared worklist; run prepare first."
+    elif any(not i.get("answer") and not i.get("skipped") for i in worklist.get("items", [])):
+        reason = "Review has unanswered questions. Resume the review before publishing."
+    if reason is None and run_checks:
         import check_links
+        import verify_events
         from event_doctor import run_doctor
 
-        atomic_io.write_json(check_links.REPORT_PATH, check_links.check_all(only_live=True))
-        doctor = run_doctor(include_publish_preview=False)
+        # Approvals and edits happened after prepare. Verify that final state,
+        # then gate publication; a post-publish warning cannot protect the map.
+        verify_events.verify_all()
+        links = check_links.check_all(only_live=True)
+        atomic_io.write_json(check_links.REPORT_PATH, links)
+        doctor = run_doctor()
+        if not doctor.get("ok"):
+            reason = "Doctor blockers remain; resolve them before publishing."
+        elif links.get("broken"):
+            reason = "Broken links remain; resolve them before publishing."
+    publish = {"blocked": True, "message": reason} if reason else publish_guarded()
+    if reason and doctor and doctor.get("checks", {}).get("publish_tripwire", {}).get("status") == "blocker":
+        publish["tripped"] = True
+        publish["message"] = doctor["checks"]["publish_tripwire"]["message"]
     SUMMARY_PATH.parent.mkdir(parents=True, exist_ok=True)
     SUMMARY_PATH.write_text(render_summary(worklist, publish, doctor), encoding="utf-8")
     print(SUMMARY_PATH.read_text(encoding="utf-8"))
-    return 2 if publish.get("tripped") else 0
+    return 2 if publish.get("tripped") else 1 if publish.get("blocked") else 0
 
 
 def main() -> int:

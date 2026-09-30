@@ -4,6 +4,7 @@
 # uncertain waits in the queues for the weekly agent run.
 #
 # git push is the deploy: the static-site host rebuilds on push.
+# --review stages scrape/ingest/archive only; the weekly finish owns deployment.
 #
 # Cron usage (see automation/README.md):
 #   flock -n /tmp/bld-refresh.lock /path/to/repo/automation/refresh.sh
@@ -13,6 +14,13 @@ REPO_DIR="${BLD_REPO_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 cd "$REPO_DIR"
 
 log() { printf '[%s] %s\n' "$(date -Is)" "$*"; }
+
+PIPELINE_ARGS=()
+case "${1:-}" in
+  --review) PIPELINE_ARGS+=(--no-publish) ;;
+  "") ;;
+  *) log "ERROR: unknown argument: $1"; exit 1 ;;
+esac
 
 # Never fight a human or a broken previous run: bail if the tree is dirty.
 if [[ -n "$(git status --porcelain)" ]]; then
@@ -33,7 +41,7 @@ fi
 # they were a fresh scrape. Name the reason in the log rather than relying on
 # a bare `set -e` death.
 set +e
-.venv/bin/python scripts/run_pipeline.py
+.venv/bin/python scripts/run_pipeline.py "${PIPELINE_ARGS[@]}"
 pipeline_rc=$?
 set -e
 if [[ "$pipeline_rc" -eq 2 ]]; then
@@ -42,6 +50,11 @@ if [[ "$pipeline_rc" -eq 2 ]]; then
 elif [[ "$pipeline_rc" -ne 0 ]]; then
   log "ERROR: run_pipeline.py exited $pipeline_rc; not committing."
   exit "$pipeline_rc"
+fi
+
+if [[ "${1:-}" == "--review" ]]; then
+  log "refresh staged for review; nothing published or committed"
+  exit 0
 fi
 
 # Link check reports, it does not gate. A link dying upstream is not a reason
