@@ -168,7 +168,8 @@ class RunState:
                         self.started = None
                 self.phase = text
                 label = {"start": "Run started", "refresh": "Scrape & refresh",
-                         "agent": "Claude review", "done": "Finished"}.get(text, text)
+                         "prepare": "Checks & questions", "agent": "Claude review",
+                         "finish": "Publish & push", "done": "Finished"}.get(text, text)
                 return f'<h3 style="margin:10px 0 2px 0">{html.escape(label)}</h3>'
             if kind == "refresh":
                 self.last_action = short(text, 80)
@@ -229,7 +230,8 @@ class RunState:
         if self.phase in ("idle", "done") or self.started is None:
             return ""
         mins = int((datetime.now().astimezone() - self.started).total_seconds() // 60)
-        phase = {"refresh": "scraping", "agent": "Claude reviewing"}.get(self.phase, self.phase)
+        phase = {"refresh": "scraping", "prepare": "checking links", "agent": "Claude reviewing",
+                 "finish": "publishing"}.get(self.phase, self.phase)
         line = f"{phase} · {mins} min"
         if self.phase == "agent":
             line += f" · {self.tool_calls} steps"

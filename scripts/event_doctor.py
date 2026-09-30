@@ -23,6 +23,7 @@ from event_store import (
     preview_publish,
 )
 from event_store.occurrences import occurrence_instants
+from event_store import paths
 from event_store.paths import PUBLIC_EVENTS_JSON
 from event_store.publishing import live_event_count
 from fetch_facebook import SIGNALS_PATH, load_signals
@@ -54,23 +55,38 @@ def _event_days(event: dict) -> set[str]:
     return {dt.astimezone(NY_TZ).date().isoformat() for dt in occurrence_instants(event)}
 
 
-def _event_matches_source(event: dict, source: dict, tokens: set[str], signal: str = "") -> bool:
-    """Same day is not enough: the event must belong to the organizer, or share
-    a distinctive word with what the page said ("Salsa at The Grove")."""
+def _source_match_rank(event: dict, source: dict, tokens: set[str], signal: str = "") -> int | None:
+    """How strongly an event belongs to the organizer whose page made a dated
+    claim; lower is stronger, None is no match. Same day is not enough: the
+    event must belong to the organizer, or share a distinctive word with what
+    the page said ("Salsa at The Grove").
+
+    Ranked because several events can share the day: Fuego y Candela's Dec 19
+    flyer was credited to "Sazón Saturday", another night at the same hall,
+    because that event happened to come first in the list.
+    """
     sid = source.get("id")
     if event.get("source") == sid or sid in (event.get("sources") or []):
-        return True
-    haystack = " ".join([
-        str(event.get("name", "")), str(event.get("location", "")),
-        str(event.get("organizer", "")), " ".join(event.get("urls") or []), str(event.get("url", "")),
-    ]).lower()
-    if (source.get("facebook_events_url") or "").split("/events")[0].lower() in haystack:
-        return True
-    if any(tok in haystack for tok in tokens):
-        return True
+        return 0
+    links = " ".join((event.get("urls") or []) + [str(event.get("url", ""))]).lower()
+    page = (source.get("facebook_events_url") or "").split("/events")[0].lower()
+    if page and page in links:
+        return 1
+    name = str(event.get("name", "")).lower()
+    if any(tok in name for tok in tokens):
+        return 2
     signal_words = {w.lower() for w in _WORD_RE.findall(signal)} - _SIGNAL_STOPWORDS
     name_words = {w.lower() for w in _WORD_RE.findall(str(event.get("name", "")))}
-    return bool(signal_words & name_words)
+    if signal_words & name_words:
+        return 3
+    rest = " ".join([str(event.get("location", "")), str(event.get("organizer", ""))]).lower()
+    if any(tok in rest for tok in tokens):
+        return 4
+    return None
+
+
+def _event_matches_source(event: dict, source: dict, tokens: set[str], signal: str = "") -> bool:
+    return _source_match_rank(event, source, tokens, signal) is not None
 
 
 def _dated_signals(entry: dict) -> list[tuple[str, str]]:
@@ -88,8 +104,15 @@ def _dated_signals(entry: dict) -> list[tuple[str, str]]:
     return out
 
 
+def load_signal_dismissals() -> set[tuple[str, str]]:
+    """(source_id, date) pairs a reviewer ruled are not dance nights."""
+    rows = atomic_io.read_json(paths.SIGNAL_DISMISSALS_JSON, default=[])
+    return {(r.get("source_id"), r.get("date")) for r in rows if isinstance(r, dict)}
+
+
 def facebook_signal_issues(
     signals: dict, sources: list[dict], events: list[dict], today: date,
+    dismissed: frozenset | set = frozenset(),
 ) -> tuple[list[dict], list[dict]]:
     """Dated claims on a Facebook page with no event on the map for that day.
 
@@ -110,11 +133,17 @@ def facebook_signal_issues(
         tokens = _source_tokens(source)
         seen: set[str] = set()
         for day, what in _dated_signals(entry):
-            if day < today.isoformat() or day in seen:
+            if day < today.isoformat() or day in seen or (source_id, day) in dismissed:
                 continue
             seen.add(day)
-            hits = [e for e in events
-                    if day in _event_days(e) and _event_matches_source(e, source, tokens, what)]
+            ranked = []
+            for e in events:
+                if day not in _event_days(e):
+                    continue
+                rank = _source_match_rank(e, source, tokens, what)
+                if rank is not None:
+                    ranked.append((rank, e))
+            hits = [e for _, e in sorted(ranked, key=lambda pair: pair[0])]
             if hits:
                 matched.append({"source_id": source_id, "date": day, "signal": what,
                                 "event_id": hits[0].get("id"), "event": hits[0].get("name")})
@@ -283,6 +312,7 @@ def run_doctor(
 
     signal_issues, signal_matches = facebook_signal_issues(
         load_signals(SIGNALS_PATH), sources, active + pending, now_utc.astimezone(NY_TZ).date(),
+        load_signal_dismissals(),
     )
     record(
         "facebook_signals",

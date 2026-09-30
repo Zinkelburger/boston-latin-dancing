@@ -375,3 +375,22 @@ def test_doctor_records_facebook_signals_check(monkeypatch, tmp_path):
     assert check["status"] == "warning"
     assert check["items"][0]["date"] == "2026-09-25"
     assert any(w["check"] == "facebook_signals" for w in result["warnings"])
+
+
+def test_signal_is_credited_to_the_organizers_event_not_another_night_at_the_hall():
+    # 2026-09-29: Fuego y Candela's Dec 19 flyer date was credited to "Sazón
+    # Saturday", a different night at the same hall, because it came first.
+    signals = {"dantes-salsa": {
+        "latest_post": None, "albums": [], "errors": [],
+        "flyers": [{"text": "FUEGO Y CANDELA 2026 Schedule December 19th Saturday", "dates": ["2026-12-19"]}],
+    }}
+    hall = "The Dante Alighieri Society of Massachusetts, 41 Hampshire St, Cambridge, MA 02139"
+    events = [{
+        "id": "sazon", "name": "Sazón Saturday", "source": "beatrice-calendar",
+        "location": hall, "startDate": "2026-12-19T20:00:00-05:00",
+    }, {
+        "id": "fuego-series", "name": "Fuego y Candela Social", "source": "sensualeros-boston",
+        "location": hall, "startDate": "2026-12-19T20:30:00-05:00",
+    }]
+    _, matched = doctor.facebook_signal_issues(signals, [FUEGO], events, TODAY)
+    assert [(m["date"], m["event_id"]) for m in matched] == [("2026-12-19", "fuego-series")]

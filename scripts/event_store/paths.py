@@ -20,6 +20,9 @@ DEDUP_LOG = EVENTS_DIR / "dedup-log.jsonl"
 # Publish-time review queue: scraped events that collide with a venue hub but
 # are not obviously the hub's regular night. Regenerated every publish.
 VENUE_CONFLICTS_JSON = EVENTS_DIR / "venue-conflicts.json"
+# Facebook-signal dates a reviewer ruled are not dance nights (a post's own
+# timestamp, a past album). Keyed by source + date so they are asked once.
+SIGNAL_DISMISSALS_JSON = EVENTS_DIR / "facebook-signal-dismissals.json"
 
 VENUES_JSON = DATA_DIR / "venues.json"
 KNOWN_DUPLICATES_JSON = DATA_DIR / "known_duplicates.json"

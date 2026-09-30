@@ -5,11 +5,34 @@ commit → push. Existing events get refreshed (certain-confidence merges
 only) and past events archived, but **brand-new events are quarantined
 into the pending queue** — nothing unreviewed ever reaches the map.
 
-The weekly review of those queues (new events, dedup pairs, the rejected
-queue, verification against sources) follows `agent_prompt.md`. On the desktop
-it runs as a systemd user timer, Wednesdays at noon, via `claude_review.sh`,
-with a tray app to watch it — see `desktop/README.md`. It can also be run by
-hand from Claude Code.
+The weekly review (`claude_review.sh`, a systemd user timer on the desktop,
+Wednesdays at noon — see `desktop/README.md`) is built so the agent only makes
+judgment calls, and every one is a multiple-choice question:
+
+1. `refresh.sh` — scrape, ingest, archive, publish, commit, push.
+2. `scripts/weekly_review.py prepare` — verify every event against its
+   source, check every link, cross-check each event's sources, and apply the
+   fixes with one right answer (drop past queue rows, archive an event whose
+   own page says EventCancelled, swap a dead link for a live alternate, shed
+   dead alternates). It then writes `automation/logs/worklist.json`: one
+   question per judgment call, with its evidence and allowed answers.
+3. The agent (`agent_prompt.md`) loops `review_next` → `review_answer` using
+   the MCP server's review profile (`BLD_MCP_PROFILE=review`, five tools)
+   plus web search. It has no shell, file or git access. Every answer is
+   validated before it changes anything. A URL must pass
+   `scripts/link_guard.py`: the page loads, names the event, and states the
+   event's date if it states one. An address must geocode inside greater
+   Boston. An invalid answer is refused with the reason.
+4. `scripts/weekly_review.py finish` — tripwire-guarded publish, link check,
+   doctor, and `automation/logs/last-agent-summary.md` generated from the
+   answers.
+5. `commit_pipeline.sh` commits the pipeline-owned files (the one list, shared
+   with `refresh.sh`) and pushes.
+
+By hand: run the three `weekly_review.py` steps yourself, and answer with
+`python3 -c 'import sys; sys.path.insert(0,"scripts"); import weekly_review as w; print(w.next_item())'`
+or from any MCP client. Without `BLD_MCP_PROFILE` the server exposes every
+tool.
 
 `git push` **is** the deploy — the static host rebuilds the site on push. If a
 push produces a broken build, the host keeps serving the previous deploy;
@@ -23,8 +46,9 @@ renders each page with headless Chrome (`scripts/fetch_facebook.py`), reads
 the Events tab into the evidence envelope, and reads the newest post, album
 titles and OCR'd flyer text into `data/facebook-signals.json`. Dates stated
 there without a matching event show up as `facebook_signals` warnings in
-`npm run doctor`, which the weekly review works through (see
-`agent_prompt.md`, step 1).
+`npm run doctor`. The weekly review turns each one into a question: add the
+event at the organizer's venue, or dismiss the date for good
+(`data/events/facebook-signal-dismissals.json`).
 
 ## One-time VPS setup
 

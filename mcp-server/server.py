@@ -17,6 +17,7 @@ print to stdout — diagnostics go through _log() to stderr.
 import functools
 import hashlib
 import json
+import os
 import sys
 import traceback
 from pathlib import Path
@@ -76,6 +77,14 @@ from verify_events import attest_event, verify_all  # noqa: E402
 
 mcp = _Server("boston-latin-dance")
 
+# BLD_MCP_PROFILE=review (set by automation/claude-mcp.json for the scheduled
+# review) exposes only the question-and-answer tools below plus event_get.
+# The unattended agent then cannot edit an event field by hand, attach an
+# unchecked link, publish, or reach any tool whose misuse needs judgment the
+# worklist already encodes. Unset, every tool is available (by-hand use).
+PROFILE = os.environ.get("BLD_MCP_PROFILE", "full")
+REVIEW_TOOLS = frozenset({"review_next", "review_answer", "review_skip", "review_link_check", "event_get"})
+
 SCRAPE_TIMEOUT_SECONDS = 180
 
 
@@ -118,6 +127,8 @@ def tool(fn: Callable[..., str]) -> Callable[..., str]:
             _log(f"{fn.__name__}: {type(exc).__name__}: {exc}\n{traceback.format_exc()}")
             return _error(str(exc) or type(exc).__name__, type(exc).__name__)
 
+    if PROFILE == "review" and fn.__name__ not in REVIEW_TOOLS:
+        return wrapper
     return mcp.tool()(wrapper)
 
 
@@ -980,6 +991,86 @@ def event_set_location_override(event_id: str, location: str) -> str:
         "geocoded": after.get("lat") is not None
         and (after.get("lat"), after.get("lng")) != (before.get("lat"), before.get("lng")),
     })
+
+
+# ── Weekly review (question and answer) ───────────────────────────────
+
+
+@tool
+def review_next() -> str:
+    """The next open question of this week's review, with all its evidence.
+
+    Each question lists its allowed answers in `choices` and any extra fields a
+    choice needs in `details`. Answer with review_answer. When the result says
+    done, stop: publishing and committing happen automatically afterwards.
+    """
+    import weekly_review
+    return _dump(weekly_review.next_item())
+
+
+@tool
+def review_answer(
+    item_id: str,
+    choice: str,
+    note: str = "",
+    big_event: Optional[bool] = None,
+    location: Optional[str] = None,
+    url: Optional[str] = None,
+    same_as: Optional[str] = None,
+    styles: Optional[str] = None,
+    start_time: Optional[str] = None,
+    end_time: Optional[str] = None,
+    name: Optional[str] = None,
+) -> str:
+    """Answer one review question. Nothing changes unless the answer is valid.
+
+    Args:
+        item_id: the `id` of the question from review_next.
+        choice: exactly one key of the question's `choices`.
+        note: one sentence on what you saw. Required for keep_ours / keep /
+            flag_manual answers, useful everywhere (it goes in the summary).
+        big_event: true/false where `details` asks for it.
+        location: full street address with town, only where `details` asks.
+        url: a link, only where `details` asks. It is fetched and refused
+            unless the page loads, names the event and (if it states a date)
+            is for this event's date. Try it first with review_link_check.
+        same_as: for already_listed — the id of the matching event shown.
+        styles: comma-separated, e.g. "salsa,bachata".
+        start_time / end_time: e.g. "8:30 PM" (facebook_signal add_event).
+        name: optional event name (facebook_signal add_event).
+
+    A refused answer returns ok=false with the reason; the question stays
+    open, so answer it again correctly or skip it.
+    """
+    import weekly_review
+    return _dump(weekly_review.answer(
+        item_id, choice, note=note, big_event=big_event, location=location, url=url,
+        same_as=same_as, styles=styles, start_time=start_time, end_time=end_time, name=name))
+
+
+@tool
+def review_skip(item_id: str, note: str) -> str:
+    """Leave a question for the human, saying what they need to check. Use only
+    when the evidence genuinely cannot settle it."""
+    import weekly_review
+    return _dump(weekly_review.skip(item_id, note))
+
+
+@tool
+def review_link_check(event_id: str, url: str) -> str:
+    """Would this URL be accepted as a link for this event? Read-only.
+
+    Fetches the page the way the site's crawler sees it and reports its title,
+    the dates it states, and whether it passes: it must load, name the event,
+    and (if it states a date) be for this event's date. Facebook share links
+    (facebook.com/share/..., /events/s/...) are always refused — open them and
+    use the real facebook.com/events/<number>/ URL.
+    """
+    from link_guard import check_link_for_event
+    event = _find(load_active(), event_id) or _find(load_pending(), event_id)
+    if event is None:
+        return _error(f"Event '{event_id}' is not active or pending.", "NotFound")
+    return _dump(check_link_for_event(url, event))
 
 
 # ── Entry point ───────────────────────────────────────────────────────

@@ -54,6 +54,7 @@ def _isolate_store(tmp_path, monkeypatch):
     monkeypatch.setattr(paths, "CHANGELOG", events_dir / "changelog.jsonl")
     monkeypatch.setattr(paths, "DEDUP_LOG", events_dir / "dedup-log.jsonl")
     monkeypatch.setattr(paths, "VENUE_CONFLICTS_JSON", events_dir / "venue-conflicts.json")
+    monkeypatch.setattr(paths, "SIGNAL_DISMISSALS_JSON", events_dir / "facebook-signal-dismissals.json")
     monkeypatch.setattr(paths, "SCRAPED_DIR", scraped_dir)
     monkeypatch.setattr(paths, "KNOWN_DUPLICATES_JSON", tmp_path / "known_duplicates.json")
     monkeypatch.setattr(paths, "PUBLIC_EVENTS_JSON", tmp_path / "events-published.json")

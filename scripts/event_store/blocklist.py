@@ -33,6 +33,26 @@ def block_key(event: dict) -> Optional[str]:
     return f"{name}|{loc}"
 
 
+def scoped_block_key(event: dict) -> Optional[str]:
+    """block_key limited to one source, for duplicate_source blocks.
+
+    "This source's copy duplicates an event we already list" says nothing
+    about the other sources' copies. An unscoped key made blocking the
+    redundant copy of Dante's Oct 2 also block the copy that was on the map,
+    so the reviewer could only reject it and see it again the next week.
+    """
+    key = block_key(event)
+    source = event.get("source")
+    return f"{source}::{key}" if key and source else None
+
+
+def is_blocked(event: dict, blocked_ids: set, keys: set) -> bool:
+    """The one ingest-time blocklist test: by id, name+venue, or source-scoped key."""
+    if event.get("id") in blocked_ids:
+        return True
+    return any(k and k in keys for k in (block_key(event), scoped_block_key(event)))
+
+
 def blocked_keys(blocked: list[dict]) -> set:
     """Name+venue keys for the blocklist, tolerating pre-existing records."""
     keys = set()
@@ -67,7 +87,8 @@ def add_to_blocked(event: dict, category: str, notes: str = "") -> dict:
         "blocked_notes": notes,
         "location": event.get("location", ""),
         # Frozen at block time so the block survives the source re-minting ids.
-        "block_key": block_key(event),
+        "block_key": (scoped_block_key(event) or block_key(event))
+        if category == "duplicate_source" else block_key(event),
     }
 
     for i, existing in enumerate(blocked):

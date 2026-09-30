@@ -2,7 +2,8 @@
   "mcpServers": {
     "boston-latin-dance": {
       "command": ".venv/bin/python",
-      "args": ["mcp-server/server.py"]
+      "args": ["mcp-server/server.py"],
+      "env": {"BLD_MCP_PROFILE": "review"}
     }
   }
 }

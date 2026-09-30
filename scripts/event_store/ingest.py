@@ -78,16 +78,12 @@ def add_event(
                 blocked_ids = {b["id"] for b in _blocked}
             if blocked_keys is None:
                 blocked_keys = blocklist.blocked_keys(_blocked)
-        if event.get("id") in blocked_ids:
-            return {"status": "blocked", "message": "event is permanently blocked"}
         # Sources that mint a fresh id per occurrence (nlf-events-<slug>-<date>,
         # Eventbrite eb-<numeric>) would otherwise slip past the id check every
         # week, so a blocked weekly class reappears in the queue forever.
         # Matching on name+venue makes the block actually stick.
-        key = blocklist.block_key(event)
-        if key and key in blocked_keys:
-            return {"status": "blocked",
-                    "message": "event is permanently blocked (name+venue match)"}
+        if blocklist.is_blocked(event, blocked_ids, blocked_keys):
+            return {"status": "blocked", "message": "event is permanently blocked"}
 
         if is_out_of_area(event):
             # A previously-added event whose coords now fall out of bounds must

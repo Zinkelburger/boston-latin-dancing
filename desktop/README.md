@@ -7,8 +7,10 @@ or not the app is open.
 ```
 bld-review.timer ──► bld-review.service ──► automation/claude_review.sh
  (Wed 12:00 Boston,                            1. automation/refresh.sh (scrape → publish → push)
-  catches up after                             2. claude -p automation/agent_prompt.md
-  sleep/power-off)                                 (Opus 5.5, site MCP tools, headless)
+  catches up after                             2. weekly_review.py prepare (checks → questions)
+  sleep/power-off)                             3. claude -p automation/agent_prompt.md
+                                                  (answers questions; 5 review tools + web search)
+                                               4. weekly_review.py finish → commit_pipeline.sh
                                                         │
                                                         ▼
                                   automation/logs/review-<timestamp>.jsonl
@@ -57,10 +59,13 @@ session, use `loginctl enable-linger $USER`.
 ## Things to know
 
 - `refresh.sh` refuses to run on a dirty working tree. Commit or stash before
-  the scheduled time. Otherwise the refresh step fails and the agent starts by
-  investigating it.
-- Claude runs with permission checks bypassed, as your user, with push access
-  to `main`. The only guardrails are the hard rules in
-  `automation/agent_prompt.md`. Read the Activity log after each run.
+  the scheduled time. Otherwise the refresh step is skipped, and the review
+  continues on last week's data. The run warns in the Activity log if it
+  leaves the tree dirty itself.
+- Claude runs with permission checks bypassed, so the guardrail is its tool
+  list. It gets web search/fetch and the MCP review profile's five tools. It
+  has no shell, no file edits and no git. Publishing and pushing are done by
+  the script after it finishes. Any model works; Haiku 4.5 cleared a real
+  worklist correctly in testing. Set `BLD_AGENT_MODEL` in the Settings tab.
 - By hand: `systemctl --user start bld-review` (same as Run now), or
   `journalctl --user -u bld-review` for systemd's view of the run.

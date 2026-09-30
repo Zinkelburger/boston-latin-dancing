@@ -117,3 +117,30 @@ class TestBlockSurvivesNewId:
         result = store.ingest_scraped(source_id="nlf-events", quarantine_new=True)
         assert result["blocked"] == 1
         assert result.get("quarantined_new", 0) == 0
+
+
+class TestDuplicateSourceBlockIsScopedToItsSource:
+    """Blocking one source's redundant copy must not block the copy on the map
+    (Dante's Oct 2, 2026-09-29: three sources, one name+venue key)."""
+
+    def _copy(self, source, n):
+        return _weekly_class(n, id=f"{source}-{n}", name="Dante's Salsa Inferno",
+                             source=source, styles=["salsa"])
+
+    def test_the_blocked_source_stays_blocked(self, store):
+        store.save_pending([self._copy("dantes-salsa", "1")])
+        store.block_event("dantes-salsa-1", "duplicate_source")
+        result = store.add_event(self._copy("dantes-salsa", "2"), skip_latin_check=True)
+        assert result["status"] == "blocked"
+
+    def test_another_sources_copy_is_not_blocked(self, store):
+        store.save_pending([self._copy("dantes-salsa", "1")])
+        store.block_event("dantes-salsa-1", "duplicate_source")
+        result = store.add_event(self._copy("dantes-inferno-fb", "1"), skip_latin_check=True)
+        assert result["status"] != "blocked"
+
+    def test_other_categories_still_block_every_source(self, store):
+        store.save_pending([self._copy("dantes-salsa", "1")])
+        store.block_event("dantes-salsa-1", "class_only")
+        result = store.add_event(self._copy("dantes-inferno-fb", "1"), skip_latin_check=True)
+        assert result["status"] == "blocked"
