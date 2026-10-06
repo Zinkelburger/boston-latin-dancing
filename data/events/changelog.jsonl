@@ -1382,3 +1382,108 @@
 {"ts": "2026-09-29T22:28:47.580953+00:00", "action": "edit", "event_id": "EF9DDA0D-59C2-4A5B-A6DA-F111C3F6B443", "details": "{\"urls\": [\"https://www.boletosexpress.com/salsa-romantica-vs-salsa-brava-/89559/\"], \"_needs_manual_check\": {\"reason\": \"Date conflict: BoletosExpress ticket page header and Beatrice calendar now say Sat Oct 10 2026 6pm (what we publish), but the Facebook event 894119310110770 and the ticket page's own body copy still say Sat Sep 26. Possibly postponed; confirm with BoletosExpress (+1 800-530-4202) that the cruise runs Oct 10 and did not already happen Sep 26.\", \"flagged_at\": \"2026-09-29T22:35:00+00:00\"}}"}
 {"ts": "2026-09-29T22:29:21.744323+00:00", "action": "known_duplicate", "event_id": "fiesta-617b9920a493", "details": "different from fiesta-20261106-agave-mexican-grill-cantina-marlborough: Oct 31 Halloween social vs Nov 6 social, both listed separately on fiestadancecompany.com/upcoming-socials"}
 {"ts": "2026-09-29T22:29:24.424153+00:00", "action": "edit", "event_id": "uqttmh5u8pmtluo2kf9dssdt5c@google.com", "details": "{\"url\": \"https://www.facebook.com/rob.suave.96\"}"}
+{"ts": "2026-10-06T17:33:16.344786+00:00", "action": "quarantine_new", "event_id": "F70A561A-F4BC-402E-87BE-46C950F63265", "details": ""}
+{"ts": "2026-10-06T17:33:17.147729+00:00", "action": "pending_review", "event_id": "eb-2002983077303", "details": "review dup of 5ED3301D-8CE8-45D1-8094-C380C699DA99: word_overlap(0/2)+within_24h+same_location+same_day"}
+{"ts": "2026-10-06T17:33:17.206868+00:00", "action": "quarantine_new", "event_id": "eb-1993623278894", "details": ""}
+{"ts": "2026-10-06T17:33:17.250119+00:00", "action": "quarantine_new", "event_id": "eb-2002462772056", "details": ""}
+{"ts": "2026-10-06T17:33:17.294740+00:00", "action": "quarantine_new", "event_id": "eb-2002988535629", "details": ""}
+{"ts": "2026-10-06T17:33:17.449190+00:00", "action": "quarantine_new", "event_id": "eb-2002987921793", "details": ""}
+{"ts": "2026-10-06T17:33:17.540244+00:00", "action": "quarantine_new", "event_id": "eb-2002642031225", "details": ""}
+{"ts": "2026-10-06T17:33:17.589616+00:00", "action": "quarantine_new", "event_id": "eb-2002919491115", "details": ""}
+{"ts": "2026-10-06T17:33:17.903727+00:00", "action": "pending_review", "event_id": "mcgpq2apqb8fq431n68fvod0bs@google.com", "details": "review dup of 5d78e60be8a128af1c0a11dd80079db6ef84bcc9@dance-calendar: substring_name+within_24h+same_day"}
+{"ts": "2026-10-06T17:33:18.018136+00:00", "action": "quarantine_new", "event_id": "8up66jtm4r55nkrn9bced3n8vo@google.com", "details": ""}
+{"ts": "2026-10-06T17:33:18.347681+00:00", "action": "quarantine_new", "event_id": "vi01gq08i2g1606ofrss1cr5vo@google.com", "details": ""}
+{"ts": "2026-10-06T17:33:18.664607+00:00", "action": "quarantine_new", "event_id": "u98kap6gonhh7d8qo7c1jd8c2s@google.com", "details": ""}
+{"ts": "2026-10-06T17:33:18.743129+00:00", "action": "quarantine_new", "event_id": "5ts4rr2atql5c1d3qclf055f7g@google.com", "details": ""}
+{"ts": "2026-10-06T17:33:18.900216+00:00", "action": "pending_review", "event_id": "tambo-salsa-fb-20261009-0", "details": "review dup of 8CCA30E6-6C4B-4E0E-8A78-BCA2C5761DE2: word_overlap(2/4)+within_24h+same_day"}
+{"ts": "2026-10-06T17:33:18.991143+00:00", "action": "archive", "event_id": "15F245C1-03AD-4AC3-ADB5-9CE4CDE011AC", "details": ""}
+{"ts": "2026-10-06T17:33:18.991498+00:00", "action": "archive", "event_id": "ha7lfditggqs7i24fj06d7bfd8@google.com", "details": ""}
+{"ts": "2026-10-06T17:33:18.992031+00:00", "action": "archive", "event_id": "53AC7485-D946-4CD6-BC98-C0375DCBD433", "details": ""}
+{"ts": "2026-10-06T17:33:18.992201+00:00", "action": "archive", "event_id": "449124DD-8C15-4701-B9D7-70913838F6E1", "details": ""}
+{"ts": "2026-10-06T17:33:18.992347+00:00", "action": "archive", "event_id": "7AE11AF6-D9F8-480E-991B-6685A056F97D", "details": ""}
+{"ts": "2026-10-06T17:33:18.992474+00:00", "action": "archive", "event_id": "dantes-inferno-fb-20261002-0", "details": ""}
+{"ts": "2026-10-06T17:33:18.992574+00:00", "action": "archive", "event_id": "bobas-20261001-0", "details": ""}
+{"ts": "2026-10-06T17:33:18.992669+00:00", "action": "archive", "event_id": "697D2CD8-9C8D-4CEC-8E3C-4EA21D5ECC40", "details": ""}
+{"ts": "2026-10-06T17:33:18.992780+00:00", "action": "archive", "event_id": "uqttmh5u8pmtluo2kf9dssdt5c@google.com", "details": ""}
+{"ts": "2026-10-06T17:33:18.992882+00:00", "action": "archive", "event_id": "C0867F94-AE20-427A-B5DB-C39D8E7ED2F4", "details": ""}
+{"ts": "2026-10-06T17:33:39.313998+00:00", "action": "archive", "event_id": "eb-1999323753166", "details": "cancelled: the event page says EventCancelled"}
+{"ts": "2026-10-06T17:34:08.733776+00:00", "action": "add", "event_id": "F70A561A-F4BC-402E-87BE-46C950F63265", "details": ""}
+{"ts": "2026-10-06T17:34:08.735907+00:00", "action": "approve", "event_id": "F70A561A-F4BC-402E-87BE-46C950F63265", "details": ""}
+{"ts": "2026-10-06T17:34:08.740228+00:00", "action": "edit", "event_id": "F70A561A-F4BC-402E-87BE-46C950F63265", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"bachata\"]}"}
+{"ts": "2026-10-06T17:34:08.742862+00:00", "action": "review_answer", "event_id": "F70A561A-F4BC-402E-87BE-46C950F63265", "details": "new_event: approve Halloween-themed Saz\u00f3n night at Lili Latin Dance: a free bachata lesson 5\u20135:55pm, then social dancing until 8pm, so a class followed by a social."}
+{"ts": "2026-10-06T17:34:16.605035+00:00", "action": "add", "event_id": "eb-1993623278894", "details": ""}
+{"ts": "2026-10-06T17:34:16.606918+00:00", "action": "approve", "event_id": "eb-1993623278894", "details": ""}
+{"ts": "2026-10-06T17:34:16.611370+00:00", "action": "edit", "event_id": "eb-1993623278894", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"bachata\", \"other\"]}"}
+{"ts": "2026-10-06T17:34:16.613506+00:00", "action": "review_answer", "event_id": "eb-1993623278894", "details": "new_event: approve The Eventbrite page bills this as a combined Caribbean social and dance class (konpa to bachata), 6\u20138pm on Blue Hill Ave. It's thin, but it's billed as a social, so I approved it."}
+{"ts": "2026-10-06T17:34:18.996458+00:00", "action": "add", "event_id": "eb-2002462772056", "details": ""}
+{"ts": "2026-10-06T17:34:18.998512+00:00", "action": "approve", "event_id": "eb-2002462772056", "details": ""}
+{"ts": "2026-10-06T17:34:19.002401+00:00", "action": "edit", "event_id": "eb-2002462772056", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\"]}"}
+{"ts": "2026-10-06T17:34:19.004469+00:00", "action": "review_answer", "event_id": "eb-2002462772056", "details": "new_event: approve Salsa night at Nahant Country Club: a lesson at 7pm, then social dancing 8\u201310pm. Nahant is in the greater Boston area."}
+{"ts": "2026-10-06T17:34:22.575640+00:00", "action": "add", "event_id": "eb-2002988535629", "details": ""}
+{"ts": "2026-10-06T17:34:22.577921+00:00", "action": "approve", "event_id": "eb-2002988535629", "details": ""}
+{"ts": "2026-10-06T17:34:22.581274+00:00", "action": "edit", "event_id": "eb-2002988535629", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\"]}"}
+{"ts": "2026-10-06T17:34:22.583561+00:00", "action": "review_answer", "event_id": "eb-2002988535629", "details": "new_event: approve El Bonche's Cuban Saturday dance night at Cocomango Speakeasy, Halloween edition. It's a different organizer and venue from the same-night Havana Club and Bachata Room parties. I set the style to Cuban salsa."}
+{"ts": "2026-10-06T17:34:24.629951+00:00", "action": "block", "event_id": "eb-2002987921793", "details": "class_only: A 2-hour rumba guaguanc\u00f3 and comparsa workshop with Yonathan Cartier, with no social dancing mentioned."}
+{"ts": "2026-10-06T17:34:24.634586+00:00", "action": "review_answer", "event_id": "eb-2002987921793", "details": "new_event: class_only A 2-hour rumba guaguanc\u00f3 and comparsa workshop with Yonathan Cartier, with no social dancing mentioned."}
+{"ts": "2026-10-06T17:34:28.439405+00:00", "action": "add", "event_id": "eb-2002642031225", "details": ""}
+{"ts": "2026-10-06T17:34:28.441730+00:00", "action": "approve", "event_id": "eb-2002642031225", "details": ""}
+{"ts": "2026-10-06T17:34:28.446113+00:00", "action": "edit", "event_id": "eb-2002642031225", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\", \"other\"]}"}
+{"ts": "2026-10-06T17:34:28.448385+00:00", "action": "review_answer", "event_id": "eb-2002642031225", "details": "new_event: approve SABROSO Halloween is a salsa-vs-reggaeton dance night at C\u00f3smica and Spy Bar on Berkeley St, from a different organizer (MORENO) than the same-night PKL party. I counted it as a holiday-theme bar night."}
+{"ts": "2026-10-06T17:34:30.640751+00:00", "action": "add", "event_id": "eb-2002919491115", "details": ""}
+{"ts": "2026-10-06T17:34:30.643266+00:00", "action": "approve", "event_id": "eb-2002919491115", "details": ""}
+{"ts": "2026-10-06T17:34:30.648794+00:00", "action": "edit", "event_id": "eb-2002919491115", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\", \"bachata\", \"merengue\"]}"}
+{"ts": "2026-10-06T17:34:30.651145+00:00", "action": "review_answer", "event_id": "eb-2002919491115", "details": "new_event: approve A free Latin social run by a Hult student club, with a salsa lesson, performances and social dancing."}
+{"ts": "2026-10-06T17:34:33.080457+00:00", "action": "add", "event_id": "8up66jtm4r55nkrn9bced3n8vo@google.com", "details": ""}
+{"ts": "2026-10-06T17:34:33.082360+00:00", "action": "approve", "event_id": "8up66jtm4r55nkrn9bced3n8vo@google.com", "details": ""}
+{"ts": "2026-10-06T17:34:33.087468+00:00", "action": "edit", "event_id": "8up66jtm4r55nkrn9bced3n8vo@google.com", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\", \"bachata\"]}"}
+{"ts": "2026-10-06T17:34:33.090311+00:00", "action": "review_answer", "event_id": "8up66jtm4r55nkrn9bced3n8vo@google.com", "details": "new_event: approve Friday salsa/bachata social at Tamb\u00f3 Salsa in Cambridge: $20 for lesson and party, or $15 for the party only."}
+{"ts": "2026-10-06T17:34:40.552346+00:00", "action": "add", "event_id": "u98kap6gonhh7d8qo7c1jd8c2s@google.com", "details": ""}
+{"ts": "2026-10-06T17:34:40.554078+00:00", "action": "approve", "event_id": "u98kap6gonhh7d8qo7c1jd8c2s@google.com", "details": ""}
+{"ts": "2026-10-06T17:34:40.558490+00:00", "action": "edit", "event_id": "u98kap6gonhh7d8qo7c1jd8c2s@google.com", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"zouk\"]}"}
+{"ts": "2026-10-06T17:34:40.561023+00:00", "action": "review_answer", "event_id": "u98kap6gonhh7d8qo7c1jd8c2s@google.com", "details": "new_event: approve Zouk social at the Multicultural Arts Center in Cambridge, 8\u201311pm, $15."}
+{"ts": "2026-10-06T17:35:16.267569+00:00", "action": "add", "event_id": "5ts4rr2atql5c1d3qclf055f7g@google.com", "details": ""}
+{"ts": "2026-10-06T17:35:16.269394+00:00", "action": "approve", "event_id": "5ts4rr2atql5c1d3qclf055f7g@google.com", "details": ""}
+{"ts": "2026-10-06T17:35:16.273600+00:00", "action": "edit", "event_id": "5ts4rr2atql5c1d3qclf055f7g@google.com", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\", \"bachata\"]}"}
+{"ts": "2026-10-06T17:35:16.276124+00:00", "action": "review_answer", "event_id": "5ts4rr2atql5c1d3qclf055f7g@google.com", "details": "new_event: approve Sunday afternoon salsa/bachata tardeo, 2\u20137pm, at Foxglove Terrace, the rooftop of the Atlas Hotel at 40 Western Ave, Allston. The address comes from hotel listings."}
+{"ts": "2026-10-06T17:35:22.448726+00:00", "action": "block", "event_id": "eb-2002983077303", "details": "class_only: Not the same as Rueda in the Pahk: different organizer and venue. The EJ Dance Studio pop-up is four back-to-back classes (bachata L1/L2, kizomba, konpa) from 6 to 10pm with no social listed."}
+{"ts": "2026-10-06T17:35:22.452091+00:00", "action": "review_answer", "event_id": "eb-2002983077303", "details": "possible_duplicate: class_only Not the same as Rueda in the Pahk: different organizer and venue. The EJ Dance Studio pop-up is four back-to-back classes (bachata L1/L2, kizomba, konpa) from 6 to 10pm with no social listed."}
+{"ts": "2026-10-06T17:35:24.618973+00:00", "action": "approve", "event_id": "mcgpq2apqb8fq431n68fvod0bs@google.com", "details": ""}
+{"ts": "2026-10-06T17:35:24.622075+00:00", "action": "review_answer", "event_id": "mcgpq2apqb8fq431n68fvod0bs@google.com", "details": "possible_duplicate: same Same event: La Casa de la Bachata at CocoMango Speakeasy, Sat Oct 17, 9PM\u20132AM, at a similar price."}
+{"ts": "2026-10-06T17:35:28.795357+00:00", "action": "distinct_from", "event_id": "tambo-salsa-fb-20261009-0", "details": "pre-marked different from 8CCA30E6-6C4B-4E0E-8A78-BCA2C5761DE2"}
+{"ts": "2026-10-06T17:35:28.849464+00:00", "action": "reject", "event_id": "tambo-salsa-fb-20261009-0", "details": "distinct event"}
+{"ts": "2026-10-06T17:35:28.853412+00:00", "action": "edit", "event_id": "8up66jtm4r55nkrn9bced3n8vo@google.com", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\", \"bachata\"]}"}
+{"ts": "2026-10-06T17:35:28.855725+00:00", "action": "review_answer", "event_id": "tambo-salsa-fb-20261009-0", "details": "possible_duplicate: different Different from Flow Friday at The Anchor in Charlestown: this is Tamb\u00f3's own Friday social at 35 Hampshire St, Cambridge. Note that it is the same event as 8up66jtm4r55nkrn9bced3n8vo@google.com (Sensualeros listing of the Tambo Social on Oct 9, approved earlier), so those two should be merged."}
+{"ts": "2026-10-06T17:35:56.907415+00:00", "action": "review_answer", "event_id": "66vt7rdc2ek70viop57s43fc64@google.com", "details": "no_link: none_found I searched Eventbrite, the ma.to PKL venue page (no upcoming events listed) and Noise Boston, the organizer that usually runs PKL salsa nights. None of them has a page for an Oct 24 Halloween salsa/bachata event."}
+{"ts": "2026-10-06T17:36:09.605590+00:00", "action": "review_answer", "event_id": "ncr3c1lq7nbiq074ee82a2s9nc@google.com", "details": "no_link: none_found Two web searches for Bachata on Blast / Savi Rodriguez at Cocomango on Oct 10 found no organizer or Eventbrite page."}
+{"ts": "2026-10-06T17:36:11.742065+00:00", "action": "edit", "event_id": "5d78e60be8a128af1c0a11dd80079db6ef84bcc9@dance-calendar", "details": "{\"_big_event_reviewed\": true}"}
+{"ts": "2026-10-06T17:36:11.744929+00:00", "action": "review_answer", "event_id": "5d78e60be8a128af1c0a11dd80079db6ef84bcc9@dance-calendar", "details": "big_event: no La Casa de la Bachata is a regular bachata party night at Cocomango, with no special lineup or theme."}
+{"ts": "2026-10-06T17:36:13.827612+00:00", "action": "edit", "event_id": "b9v58n7069hskptuh6oo81njp4@google.com", "details": "{\"_big_event_reviewed\": true}"}
+{"ts": "2026-10-06T17:36:13.830894+00:00", "action": "review_answer", "event_id": "b9v58n7069hskptuh6oo81njp4@google.com", "details": "big_event: no Fuego Thursdays is a regular weekly Latin night in Maynard with a $5 cover."}
+{"ts": "2026-10-06T17:36:15.899192+00:00", "action": "edit", "event_id": "fnht1iun7hd7g7cnsmtndag9io@google.com", "details": "{\"_big_event_reviewed\": true}"}
+{"ts": "2026-10-06T17:36:15.902120+00:00", "action": "review_answer", "event_id": "fnht1iun7hd7g7cnsmtndag9io@google.com", "details": "big_event: no A Halloween costume edition of Tamb\u00f3's regular Friday social at the regular price, so a holiday-theme night rather than a big event."}
+{"ts": "2026-10-06T17:36:17.596599+00:00", "action": "edit", "event_id": "eb-2001409938001", "details": "{\"_big_event_reviewed\": true}"}
+{"ts": "2026-10-06T17:36:17.599556+00:00", "action": "review_answer", "event_id": "eb-2001409938001", "details": "big_event: no The monthly Latin dance night at Lou's in Harvard Square, with lessons and a social."}
+{"ts": "2026-10-06T17:36:20.132064+00:00", "action": "edit", "event_id": "ade9e534ea63f404f9e2a7339ef50ad7d32fadab@dance-calendar", "details": "{\"_big_event_reviewed\": true}"}
+{"ts": "2026-10-06T17:36:20.135250+00:00", "action": "review_answer", "event_id": "ade9e534ea63f404f9e2a7339ef50ad7d32fadab@dance-calendar", "details": "big_event: no Noche Latina is a monthly social party with a single guest DJ (DJ Eloi), so a regular night."}
+{"ts": "2026-10-06T17:36:22.034705+00:00", "action": "edit", "event_id": "eb-2002180696360", "details": "{\"_big_event_reviewed\": true}"}
+{"ts": "2026-10-06T17:36:22.038224+00:00", "action": "review_answer", "event_id": "eb-2002180696360", "details": "big_event: no A Halloween edition of the weekly 777 Fridays club night at Venu (Afrobeats, hip hop, dancehall and Latin), so a holiday-theme bar night."}
+{"ts": "2026-10-06T17:36:24.217741+00:00", "action": "edit", "event_id": "66vt7rdc2ek70viop57s43fc64@google.com", "details": "{\"_big_event_reviewed\": true}"}
+{"ts": "2026-10-06T17:36:24.220818+00:00", "action": "review_answer", "event_id": "66vt7rdc2ek70viop57s43fc64@google.com", "details": "big_event: no A Halloween-themed salsa/bachata night at PKL with no lineup or special billing listed, so a holiday-theme night."}
+{"ts": "2026-10-06T17:36:28.797707+00:00", "action": "edit", "event_id": "ncr3c1lq7nbiq074ee82a2s9nc@google.com", "details": "{\"_big_event_reviewed\": true}"}
+{"ts": "2026-10-06T17:36:28.800915+00:00", "action": "review_answer", "event_id": "ncr3c1lq7nbiq074ee82a2s9nc@google.com", "details": "big_event: no A bachata night at Cocomango with one featured guest (Savi Rodriguez) and the venue's usual pricing. I found no evidence of a stacked lineup or scene-wide billing, so I treated it as a single-guest night."}
+{"ts": "2026-10-06T19:10:20.722476+00:00", "action": "reject", "event_id": "vi01gq08i2g1606ofrss1cr5vo@google.com", "details": "duplicate of eb-2002919491115 (Hult Eventbrite listing of Salsa-ween, Fri Oct 16); Sensualeros copy has no address and a different time"}
+{"ts": "2026-10-06T19:10:33.926387+00:00", "action": "block", "event_id": "vi01gq08i2g1606ofrss1cr5vo@google.com", "details": "duplicate_source: duplicate of eb-2002919491115 (Hult Eventbrite listing of Salsa-ween, Fri Oct 16); Sensualeros copy has no address and a different time"}
+{"ts": "2026-10-06T19:13:34.878649+00:00", "action": "edit", "event_id": "F70A561A-F4BC-402E-87BE-46C950F63265", "details": "{\"no_link_searched_at\": \"2026-10-06T19:13:34.872470+00:00\"}"}
+{"ts": "2026-10-06T19:13:34.883185+00:00", "action": "edit", "event_id": "66vt7rdc2ek70viop57s43fc64@google.com", "details": "{\"_needs_manual_check\": {\"reason\": \"no link found online; find the organizer's page for this event and set it, or take the event off the map\", \"flagged_at\": \"2026-10-06T19:13:34.872470+00:00\"}}"}
+{"ts": "2026-10-06T19:13:34.886972+00:00", "action": "edit", "event_id": "ncr3c1lq7nbiq074ee82a2s9nc@google.com", "details": "{\"_needs_manual_check\": {\"reason\": \"no link found online; find the organizer's page for this event and set it, or take the event off the map\", \"flagged_at\": \"2026-10-06T19:13:34.872470+00:00\"}}"}
+{"ts": "2026-10-06T19:13:34.890302+00:00", "action": "edit", "event_id": "u98kap6gonhh7d8qo7c1jd8c2s@google.com", "details": "{\"_needs_manual_check\": {\"reason\": \"no link found online; find the organizer's page for this event and set it, or take the event off the map\", \"flagged_at\": \"2026-10-06T19:13:34.872470+00:00\"}}"}
+{"ts": "2026-10-06T19:13:34.893949+00:00", "action": "edit", "event_id": "5ts4rr2atql5c1d3qclf055f7g@google.com", "details": "{\"_needs_manual_check\": {\"reason\": \"no link found online; find the organizer's page for this event and set it, or take the event off the map\", \"flagged_at\": \"2026-10-06T19:13:34.872470+00:00\"}}"}
+{"ts": "2026-10-06T19:35:16.067319+00:00", "action": "edit", "event_id": "ncr3c1lq7nbiq074ee82a2s9nc@google.com", "details": "{\"url\": \"https://dancefam.org/event/2650\", \"urls\": []}"}
+{"ts": "2026-10-06T19:35:16.071080+00:00", "action": "edit", "event_id": "ncr3c1lq7nbiq074ee82a2s9nc@google.com", "details": "{\"_needs_manual_check\": null}"}
+{"ts": "2026-10-06T19:35:16.255926+00:00", "action": "edit", "event_id": "5ts4rr2atql5c1d3qclf055f7g@google.com", "details": "{\"url\": \"https://posh.vip/e/tardeo-salsa-bachata\", \"urls\": []}"}
+{"ts": "2026-10-06T19:35:16.259783+00:00", "action": "edit", "event_id": "5ts4rr2atql5c1d3qclf055f7g@google.com", "details": "{\"_needs_manual_check\": null}"}
+{"ts": "2026-10-06T19:35:16.645050+00:00", "action": "edit", "event_id": "66vt7rdc2ek70viop57s43fc64@google.com", "details": "{\"url\": \"https://www.facebook.com/watch/?v=999687709808712\", \"urls\": []}"}
+{"ts": "2026-10-06T19:35:16.648984+00:00", "action": "edit", "event_id": "66vt7rdc2ek70viop57s43fc64@google.com", "details": "{\"_needs_manual_check\": null}"}
+{"ts": "2026-10-06T19:35:36.353107+00:00", "action": "source_add", "event_id": "zouk-bos-fb", "details": "Zouk BOS"}
+{"ts": "2026-10-06T19:36:25.224260+00:00", "action": "edit", "event_id": "u98kap6gonhh7d8qo7c1jd8c2s@google.com", "details": "{\"url\": \"https://www.facebook.com/events/1780839909912751/\", \"urls\": []}"}
+{"ts": "2026-10-06T19:36:25.227891+00:00", "action": "edit", "event_id": "u98kap6gonhh7d8qo7c1jd8c2s@google.com", "details": "{\"_needs_manual_check\": null}"}

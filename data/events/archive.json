@@ -3849,5 +3849,288 @@
       "fingerprint": "2a523493a785e834c54a683731b92c8e2accd539ec61be037c65c1fe590b1ba6"
     },
     "archivedAt": "2026-09-29T22:23:38.076330+00:00"
+  },
+  {
+    "id": "15F245C1-03AD-4AC3-ADB5-9CE4CDE011AC",
+    "name": "Bachata & Salsa By The River",
+    "startDate": "2026-09-06T17:00:00-04:00",
+    "endDate": "2026-09-06T19:30:00-04:00",
+    "dayOfWeek": "Sunday",
+    "location": "Magazine Beach Park, 668 Memorial Dr, Cambridge, MA 02139",
+    "lat": 42.3584,
+    "lng": -71.1147,
+    "description": "Sep 6 and Oct 4 start at 5:00 PM (earlier than the summer 6:00 PM start).\n\nCome Dance!\n\nEveryone is welcome from total beginners to seasoned bachateros and salseros.\n\n***BBTR HAPPENS EVERY FIRST SUNDAY FROM MAY - OCTOBER 2026***\nTWO DANCE FLOORS — 100% Bachata and 100% Salsa.\n\nBeginner Bachata lesson, then social dancing until sunset. FREE.\nMagazine Beach Park Nature Center, 668 Memorial Dr, Cambridge.\n",
+    "url": "https://www.listerevents.com/event-details/earlier-time-bachata-salsa-by-the-river",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": true,
+    "source": "beatrice-calendar",
+    "recurrences": [
+      "2026-06-07T18:00:00-04:00",
+      "2026-06-14T18:00:00-04:00",
+      "2026-07-05T18:00:00-04:00",
+      "2026-08-02T18:00:00-04:00",
+      "2026-09-06T17:00:00-04:00",
+      "2026-10-04T17:00:00-04:00"
+    ],
+    "_verified_at": "2026-09-23T00:14:19.443855+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD matches (location checked)",
+    "_verification_url": "https://www.listerevents.com/event-details/earlier-time-bachata-salsa-by-the-river",
+    "urls": [
+      "https://facebook.com/events/s/bachata-salsa-by-the-river/1522894889342446/"
+    ],
+    "recurrenceLabel": "First Sunday of each month, May–Oct",
+    "_dropped_urls": [
+      "https://www.massaudubon.org/programs/magazine-beach/102437-bachata-by-the-river"
+    ],
+    "archivedAt": "2026-10-06T17:33:18.991030+00:00"
+  },
+  {
+    "id": "ha7lfditggqs7i24fj06d7bfd8@google.com",
+    "name": "Bachata & Salsa By The River: October",
+    "startDate": "2026-10-04T21:00:00+00:00",
+    "endDate": "2026-10-04T23:00:00+00:00",
+    "dayOfWeek": "Sunday",
+    "location": "Magazine Beach, 719 Memorial Dr, Cambridge, MA 02139",
+    "lat": 42.3584,
+    "lng": -71.1147,
+    "description": "Price: Free",
+    "url": "https://www.listerevents.com/event-details/earlier-time-bachata-salsa-by-the-river-2",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": false,
+    "source": "sensualeros-boston",
+    "_verified_at": "2026-09-29T22:29:03.844964+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
+    "_verification_url": "https://www.listerevents.com/event-details/earlier-time-bachata-salsa-by-the-river-2",
+    "archivedAt": "2026-10-06T17:33:18.991030+00:00"
+  },
+  {
+    "id": "53AC7485-D946-4CD6-BC98-C0375DCBD433",
+    "name": "Salsa Dancing at The Grove at Lawn on D Presented by Salsa y Control",
+    "startDate": "2026-09-29T23:00:00+00:00",
+    "endDate": "2026-09-30T02:00:00+00:00",
+    "dayOfWeek": "Tuesday",
+    "location": "Lawn On D, 420 D St, Boston, MA  02210, United States",
+    "lat": 42.34445,
+    "lng": -71.04488,
+    "description": "💃 Salsa Nights at The Grove 💃\n\n​Join us on the last Thursday of every month for Salsa Nights at The Grove, Boston’s vibrant outdoor gathering space in the Seaport! Whether you’re brand new to salsa or already confident on the dance floor, this is a welcoming, high-energy night designed for all levels.\n\n​Come learn, dance, and connect under the lights in an unforgettable open-air setting.\n\n​🔥 What to Expect\n\n​• 7:00–8:00 PM — Beginner-friendly salsa instruction led by Salsa y Control instructors Andres Giraldo & Kelly Bachovchin\n\n​• 8:00–9:30 PM — Open social dancing with music, movement, and community vibes\n\n​• 9:30 PM onward — Wind down and mingle at The Grove\n\n​• No partner required — come solo, with friends, or a date\n\n​• Food and drinks available for purchase throughout the evening\n\n​🌟 Event Details\n\n​📅 When: Last Thursday of Every Month (June–October)\n⏰ Time: 7:00 PM – 9:30 PM (plus post-dance mingling)\n📍 Location: The Lawn on D Pavilion, 420 D Street, Boston, MA 02210 (Seaport District)\n\n​Upcoming Dates:\n• June 25\n• July 30\n• August 27\n• September 24\n• October 29\n\n​🎟 Admission is FREE\n\n​Important Info:\n\n​• All levels welcome — no experience necessary.\n\n​• Comfortable shoes are recommended for dancing outdoors.\n\n​• No partner required.\n\n​• Events are weather permitting, and updates will be shared via Luma if needed.\n\n​Whether you're learning your first steps or dancing the night away, Salsa Nights at The Grove bring together music, movement, and community all summer long.\n\n​Grab a friend, grab a drink, and hit the dance floor!\n\nSource: https://luma.com/x0o9o1lr",
+    "url": "https://www.salsaycontrol.com/events",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-09-23T00:14:45.630267+00:00",
+    "_verified_status": "reachable_only",
+    "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
+    "_verification_url": "https://www.salsaycontrol.com/events",
+    "_dropped_urls": [
+      "https://luma.com/x0o9o1lr"
+    ],
+    "archivedAt": "2026-10-06T17:33:18.991030+00:00"
+  },
+  {
+    "id": "449124DD-8C15-4701-B9D7-70913838F6E1",
+    "name": "Fiesta en la Plaza presents One Night in Alosha",
+    "startDate": "2026-10-04T17:30:00+00:00",
+    "endDate": "2026-10-04T20:30:00+00:00",
+    "dayOfWeek": "Sunday",
+    "location": "City Hall Plz, Boston, MA, United States",
+    "lat": 42.3603228,
+    "lng": -71.0590984,
+    "description": "🧡 FREE EVENT\n\nFor the fourth consecutive year, City Hall Plaza will celebrate Latin Heritage Month in Boston. This year, Dunamis, Akeem's Alchemy and Ágora will host \"Fiesta en La Plaza presents One Night in Alosha,\" an immersive celebration of the diasporic connection to Afro-Latin culture, featuring fantasy, Afrofuturism, music, theater, and dance from the Afro-Latin diaspora.\n\nJoin us for a free, family-friendly celebration of Latin American culture. This year will feature Jorge Arce's Raíz de Plena, Manolo Mairena's Salsa Band, Salsa y Control, Samba Viva, interactive installations and a live taping of the award-winning fiction podcast, \"My Blood The Ink.\"\n\nThis event is made possible thanks to the generous support of our funders, the Mayor's Office of Arts and Culture and Mass Cultural Council.",
+    "url": "https://facebook.com/events/s/fiesta-en-la-plaza-presents-on/1093260436739517/",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "special": true,
+    "_verified_at": "2026-09-23T00:14:45.753349+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Facebook preview matches (date checked); by Ágora Cultural Architects",
+    "_verification_url": "https://facebook.com/events/s/fiesta-en-la-plaza-presents-on/1093260436739517/",
+    "archivedAt": "2026-10-06T17:33:18.991030+00:00"
+  },
+  {
+    "id": "7AE11AF6-D9F8-480E-991B-6685A056F97D",
+    "name": "Lili Latin Dance PResents: Sazon Saturday 10/3/2026",
+    "startDate": "2026-10-03T22:00:00+00:00",
+    "endDate": "2026-10-04T02:00:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "423 West Broadway, Boston, MA, United States, Massachusetts 02127",
+    "lat": 42.336602,
+    "lng": -71.0477603,
+    "description": "Lili Latin Dance is happy to make official our monthly social, Sazon Saturday! This month want to celebrate YOU! The social is FREE!\n\n6:00-6:55 PM:  Beginner Salsa Class\n7:00-10:00 PM: Social Dance\n\nTravel: You can take the redline to Broadway, then walk to our studio (about 15 minute walk) or take the #9 bus. For parking, it is not metered and you just have to read the signs. In the ticket link you will see a parking map! :)",
+    "url": "https://facebook.com/events/s/lili-latin-dance-presents-sazo/1635044534939952/",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-09-23T00:14:47.111454+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Facebook preview matches (date checked); by Lili Latin Dance and Liliana Minja Jimenez",
+    "_verification_url": "https://facebook.com/events/s/lili-latin-dance-presents-sazo/1635044534939952/",
+    "archivedAt": "2026-10-06T17:33:18.991030+00:00"
+  },
+  {
+    "id": "dantes-inferno-fb-20261002-0",
+    "name": "Dante's Salsa Inferno Oct 2nd Salsa/Bachata Social!!",
+    "startDate": "2026-10-02T20:30:00-04:00",
+    "endDate": "2026-10-03T01:00:00-04:00",
+    "dayOfWeek": "Friday",
+    "location": "The Dante Alighieri Society of Massachusetts, 41 Hampshire St, Cambridge, MA 02139-1547",
+    "lat": 42.3679,
+    "lng": -71.0885,
+    "description": "Dante's Salsa Social is a unique and energetic night of MUSIC, DANCE, and COMMUNITY! Get ready to heat up the dance floor! The Dante Alighieri has plenty of dance space, its own p",
+    "url": "https://www.facebook.com/events/942767162234508/",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "$20",
+    "recurring": false,
+    "source": "dantes-inferno-fb",
+    "_verified_at": "2026-09-29T22:26:55.697111+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Facebook preview matches (date checked); by Dante's Salsa Inferno and 3 others",
+    "_verification_url": "https://www.facebook.com/events/942767162234508/",
+    "archivedAt": "2026-10-06T17:33:18.991030+00:00"
+  },
+  {
+    "id": "bobas-20261001-0",
+    "name": "BOBAS Thursday 6-9pm",
+    "startDate": "2026-10-01T18:00:00-04:00",
+    "endDate": "2026-10-01T21:00:00-04:00",
+    "dayOfWeek": "Thursday",
+    "location": "Hatch Shell on the Esplanade, Boston, MA",
+    "lat": 42.357256,
+    "lng": -71.073702,
+    "description": "*** BOBAS this Thursday 6:00-9:00pm *** We are looking for alternative venues for rainy days. Please see the post on our page for more details. *** The weather looks great but p",
+    "url": "https://www.facebook.com/events/1095778452844743/",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": true,
+    "source": "bobas",
+    "_verified_at": "2026-09-29T22:26:56.127907+00:00",
+    "_verified_status": "reachable_only",
+    "_verified_notes": "Event page live, upstream date 2026-10-01 — recurring series, not compared against our first occurrence",
+    "_verification_url": "https://www.facebook.com/events/1095778452844743/",
+    "archivedAt": "2026-10-06T17:33:18.991030+00:00"
+  },
+  {
+    "id": "697D2CD8-9C8D-4CEC-8E3C-4EA21D5ECC40",
+    "name": "Amigas Queer Salsa Social",
+    "startDate": "2026-10-02T23:00:00+00:00",
+    "endDate": "2026-10-03T00:00:00+00:00",
+    "dayOfWeek": "Friday",
+    "location": "Cambridge Common, 5–7 Garden St, Cambridge, MA  02138, United States",
+    "lat": 42.3763,
+    "lng": -71.1217,
+    "description": "",
+    "url": null,
+    "styles": [
+      "salsa"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_verified_at": "2026-09-29T22:26:56.980100+00:00",
+    "_verified_status": "no_source",
+    "_verified_notes": "No URL. Search suggestion: \"Amigas Queer Salsa Social Cambridge Common, 5–7 Garden St, Cambridge, MA  02138, United States boston\"",
+    "_verification_url": null,
+    "archivedAt": "2026-10-06T17:33:18.991030+00:00"
+  },
+  {
+    "id": "uqttmh5u8pmtluo2kf9dssdt5c@google.com",
+    "name": "Mambo City Salsa Social",
+    "startDate": "2026-10-04T23:00:00+00:00",
+    "endDate": "2026-10-05T03:00:00+00:00",
+    "dayOfWeek": "Sunday",
+    "location": "Filarmonica Santo Antonio Cultural Center, 575 Cambridge St, Cambridge, MA 02141",
+    "lat": 42.3720443,
+    "lng": -71.0858265,
+    "description": "Price: $15 (cash & Venmo only)",
+    "url": "https://www.facebook.com/rob.suave.96",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$15",
+    "recurring": false,
+    "source": "sensualeros-boston",
+    "_location_override": "Filarmonica Santo Antonio Cultural Center, 575 Cambridge St, Cambridge, MA 02141",
+    "_verified_at": "2026-09-29T22:29:48.326374+00:00",
+    "_verified_status": "needs_browser",
+    "_verified_notes": "Facebook page — agent should check Events tab for upcoming events",
+    "_verification_url": "https://www.facebook.com/rob.suave.96",
+    "archivedAt": "2026-10-06T17:33:18.991030+00:00"
+  },
+  {
+    "id": "C0867F94-AE20-427A-B5DB-C39D8E7ED2F4",
+    "name": "JP FIGHTS BACK x Next Level Fusion Latin Social Dance Party",
+    "startDate": "2026-10-03T22:00:00+00:00",
+    "endDate": "2026-10-04T01:30:00+00:00",
+    "dayOfWeek": "Saturday",
+    "location": "Spontaneous Celebrations, 45 Danforth St, Jamaica Plain, MA 02130",
+    "lat": 42.3175834,
+    "lng": -71.1056469,
+    "description": "JPFB Fall Fundraiser\nJP Fights Back 2nd Fundraiser Party  Latin Dance Music Party with Next Level Fusion!  Saturday, October 3, 6 - 9:30 pm Spontaneous Celebrations 45 Danforth St., JP  Buy tickets or become a sponsor: General Admission: Sliding scale $15, $25, $50, $100 Able to contribute more? Join the Sponsor Committee!  Beneficiaries: South Street Youth Center Heal the Hood youth programming Association of Haitian Women in Boston: AFAB  Thank you for supporting JP Fights Back and our community! See you at the party!\n\nSource: https://www.instagram.com/p/Ddu5_cpuawz/\n\nhttps://www.paypal.com/ncp/payment/CRA3JHLC83QWJ",
+    "url": "https://www.instagram.com/p/Ddu5_cpuawz/",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": "$15",
+    "recurring": false,
+    "source": "beatrice-calendar",
+    "_location_override": "Spontaneous Celebrations, 45 Danforth St, Jamaica Plain, MA 02130",
+    "special": true,
+    "_verified_at": "2026-09-29T22:26:59.051586+00:00",
+    "_verified_status": "unverifiable",
+    "_verified_notes": "Instagram link — cannot scrape programmatically. Manual check recommended.",
+    "_verification_url": "https://www.instagram.com/p/Ddu5_cpuawz/",
+    "archivedAt": "2026-10-06T17:33:18.991030+00:00"
+  },
+  {
+    "id": "eb-1999323753166",
+    "name": "Reggaeton Fest",
+    "startDate": "2026-10-10T13:00:00-04:00",
+    "endDate": "2026-10-10T18:00:00-04:00",
+    "dayOfWeek": "Saturday",
+    "location": "Gloucester Street, Gloucester Street, Boston, MA 02115, Boston, MA",
+    "lat": 42.3487675,
+    "lng": -71.0839453,
+    "description": "Take over the streets and listen to dembow, reggaeton, salsa, merengue and more all afternoon.\n\nOrganizer: LGBTQ Nightlife - Events",
+    "url": "https://www.eventbrite.com/e/reggaeton-fest-tickets-1999323753166",
+    "styles": [
+      "salsa",
+      "merengue",
+      "other"
+    ],
+    "cost": "$12.09",
+    "recurring": false,
+    "source": "eventbrite-boston-latin",
+    "special": true,
+    "_verified_at": "2026-10-06T17:33:39.176639+00:00",
+    "_verified_status": "cancelled",
+    "_verified_notes": "JSON-LD eventStatus = EventCancelled",
+    "_verification_url": "https://www.eventbrite.com/e/reggaeton-fest-tickets-1999323753166",
+    "archivedAt": "2026-10-06T17:33:39.302116+00:00"
   }
 ]

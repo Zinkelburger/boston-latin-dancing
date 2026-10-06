@@ -383,5 +383,38 @@
     "blocked_notes": "Rose's Birthday Bash Gothic Ball Salsa Social — Bella Vita Dance Company, Manchester NH (outside Boston metro)",
     "location": "Bella Vita Dance Company, 859 Hanover St, Manchester, NH 03104-5419",
     "block_key": "roses birthday bash the annual gothic ball salsa social|bella vita dance company 859 hanover st manchester nh 03104 5419"
+  },
+  {
+    "id": "eb-2002987921793",
+    "name": "RUMBA GUAGUANCÓ & COMPARSA WORKSHOP FT. YONATHAN CARTIER - OCT. 11",
+    "source": "eventbrite-boston-latin",
+    "blocked_reason": "A 2-hour rumba guaguancó and comparsa workshop with Yonathan Cartier, with no social dancing mentioned.",
+    "blocked_category": "class_only",
+    "blocked_at": "2026-10-06T17:34:24.625170+00:00",
+    "blocked_notes": "A 2-hour rumba guaguancó and comparsa workshop with Yonathan Cartier, with no social dancing mentioned.",
+    "location": "620 Massachusetts Ave, 620 Massachusetts Avenue, Cambridge, MA 02139, Cambridge, MA",
+    "block_key": "rumba guaguancó comparsa workshop ft yonathan cartier oct 11|620 massachusetts ave 620 massachusetts avenue cambridge ma 02139 cambridge ma"
+  },
+  {
+    "id": "eb-2002983077303",
+    "name": "Cambridge Pop-Up Class: Bachata (L1, L2), Kizomba and Konpa",
+    "source": "eventbrite-boston-latin",
+    "blocked_reason": "Not the same as Rueda in the Pahk: different organizer and venue. The EJ Dance Studio pop-up is four back-to-back classes (bachata L1/L2, kizomba, konpa) from 6 to 10pm with no social listed.",
+    "blocked_category": "class_only",
+    "blocked_at": "2026-10-06T17:35:22.444134+00:00",
+    "blocked_notes": "Not the same as Rueda in the Pahk: different organizer and venue. The EJ Dance Studio pop-up is four back-to-back classes (bachata L1/L2, kizomba, konpa) from 6 to 10pm with no social listed.",
+    "location": "112 Bishop Allen Dr, 112 Bishop Allen Drive, Cambridge, MA 02139, Cambridge, MA",
+    "block_key": "cambridge popup class bachata l1 l2 kizomba and konpa|112 bishop allen dr 112 bishop allen drive cambridge ma 02139 cambridge ma"
+  },
+  {
+    "id": "vi01gq08i2g1606ofrss1cr5vo@google.com",
+    "name": "Salsa-ween: Free Latin Social",
+    "source": "sensualeros-boston",
+    "blocked_reason": "duplicate of eb-2002919491115 (Hult Eventbrite listing of Salsa-ween, Fri Oct 16); Sensualeros copy has no address and a different time",
+    "blocked_category": "duplicate_source",
+    "blocked_at": "2026-10-06T19:10:33.921733+00:00",
+    "blocked_notes": "duplicate of eb-2002919491115 (Hult Eventbrite listing of Salsa-ween, Fri Oct 16); Sensualeros copy has no address and a different time",
+    "location": "Hult International Business School",
+    "block_key": "sensualeros-boston::salsaween free latin social|hult international business school"
   }
 ]

@@ -399,5 +399,23 @@
     },
     "enabled": true,
     "latin_by_default": true
+  },
+  {
+    "id": "zouk-bos-fb",
+    "type": "facebook",
+    "name": "Zouk BOS",
+    "scraper": "scrape_facebook.py",
+    "enabled": true,
+    "noise": {
+      "score": 10,
+      "note": "Boston Brazilian Zouk community page (runs the Boston Senior Zouk Social); on-topic."
+    },
+    "facebook_events_url": "https://www.facebook.com/profile.php?id=100090589803309&sk=events",
+    "defaults": {
+      "styles": [
+        "zouk"
+      ]
+    },
+    "latin_by_default": true
   }
 ]

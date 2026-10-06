@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-09-29T22:29:24.579486+00:00",
+  "generated_at": "2026-10-06T19:37:55.911247+00:00",
   "conflicts": [],
   "suppressed": [
     {
       "id": "8EDCCA4B-FCFA-4CD9-ABA3-8074966ACFCB",
       "event": {
         "name": "Bachata Room ",
-        "window": "Wed Sep 30, 9:00 PM – 12:00 AM",
+        "window": "Wed Oct 7, 9:00 PM – 12:00 AM",
         "location": "La Fabrica , 450 Massachusetts Ave, Cambridge, MA 02139, United States",
         "styles": [
           "bachata",
@@ -42,7 +42,7 @@
       "id": "4BACCA44-811C-4F7E-99D8-7AC8DA46D5CC",
       "event": {
         "name": "Bachata Sensual Mondays @ Havana Club",
-        "window": "Mon Sep 28, 8:00 PM – 12:30 AM",
+        "window": "Mon Oct 5, 8:00 PM – 12:30 AM",
         "location": "Havana Club, 288 Green St, Cambridge, MA  02139, United States",
         "styles": [
           "bachata",
@@ -84,7 +84,7 @@
       "id": "D7362ECA-A6A7-4528-B752-3CBD6141CE81",
       "event": {
         "name": "Salsa/Bachata Tuesdays @ Havana",
-        "window": "Tue Sep 8, 8:00 PM – 11:30 PM",
+        "window": "Tue Oct 6, 8:00 PM – 11:30 PM",
         "location": "Havana Club, 288 Green St, Cambridge, MA  02139, United States",
         "styles": [
           "bachata",
@@ -126,7 +126,7 @@
       "id": "5984F5C6-9A2D-454E-AE0B-B201FC78B814",
       "event": {
         "name": "Havana Bachata Thursdays",
-        "window": "Thu Sep 3, 8:45 PM – 12:30 AM",
+        "window": "Thu Oct 8, 8:30 PM – 12:30 AM",
         "location": "288 Green St, Central Sq, Cambridge",
         "styles": [
           "bachata",
@@ -164,7 +164,7 @@
       "id": "17B59BFA-7A09-43FF-AC91-5FE0FCC569F7",
       "event": {
         "name": "Buena Vibra Dance Social (formerly J&L Underground Social)",
-        "window": "Sat Oct 3, 7:00 PM – 11:00 PM",
+        "window": "Sat Nov 7, 7:00 PM – 11:00 PM",
         "location": "Buena Vibra Dance Studio (formerly J&L), 75 Pleasant St, Suite 125, Malden, MA 02148",
         "styles": [
           "bachata",
@@ -196,7 +196,7 @@
       "id": "sensualeros-boston-series-a227772d8b85",
       "event": {
         "name": "Friday Night Bachata/Salsa @ Havana Club",
-        "window": "Fri Oct 2, 9:00 PM – 2:00 AM",
+        "window": "Fri Oct 9, 9:00 PM – 2:00 AM",
         "location": "288 Green St, Central Sq, Cambridge, MA",
         "styles": [
           "bachata",
@@ -234,7 +234,7 @@
       "id": "sensualeros-boston-series-2db8e232ec42",
       "event": {
         "name": "Saturday Night Bachata/Salsa @ Havana Club",
-        "window": "Sat Oct 3, 9:00 PM – 2:00 AM",
+        "window": "Sat Oct 10, 9:00 PM – 2:00 AM",
         "location": "288 Green St, Central Sq, Cambridge, MA",
         "styles": [
           "bachata",
@@ -265,37 +265,6 @@
       },
       "times_overlap": true,
       "matched_on": "venue name 'Havana Club' appears in the event",
-      "currently": "suppressed — folded into the venue hub, no separate pin",
-      "if_you_do_nothing": "stays suppressed"
-    },
-    {
-      "id": "uqttmh5u8pmtluo2kf9dssdt5c@google.com",
-      "event": {
-        "name": "Mambo City Salsa Social",
-        "window": "Sun Oct 4, 7:00 PM – 11:00 PM",
-        "location": "Filarmonica Santo Antonio Cultural Center, 575 Cambridge St, Cambridge, MA 02141",
-        "styles": [
-          "salsa"
-        ],
-        "cost": "$15",
-        "source": "sensualeros-boston",
-        "url": "https://www.facebook.com/rob.suave.96",
-        "recurring": false,
-        "schedule_in_description": [],
-        "description": "Price: $15 (cash & Venmo only)"
-      },
-      "hub": {
-        "id": "mambo-city",
-        "name": "Mambo City Salsa Social",
-        "window": "Sundays, 7:00 PM – 11:00 PM",
-        "note": "1st Sunday of each month",
-        "cost": "$15",
-        "url": "https://www.facebook.com/rob.suave.96",
-        "also_runs": [],
-        "description": "The hottest Salsa/Mambo in the heart of Cambridge! Plenty of room for dancing, socializing, and MAMBO! Resident DJ: DJ Rob Suave 7:00pm – 11:00pm Social Dancing 1st Sunday of each month."
-      },
-      "times_overlap": true,
-      "matched_on": "venue name 'Mambo City Salsa Social' appears in the event",
       "currently": "suppressed — folded into the venue hub, no separate pin",
       "if_you_do_nothing": "stays suppressed"
     }

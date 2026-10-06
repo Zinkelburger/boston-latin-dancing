@@ -1,17 +1,11 @@
 {
   "bobas": {
-    "checked_at": "2026-09-29T18:20:51-04:00",
+    "checked_at": "2026-10-06T13:31:30-04:00",
     "source_url": "https://www.facebook.com/profile.php?id=61551665503735&sk=events",
-    "status": "captured",
-    "upcoming_events": [
-      {
-        "name": "BOBAS Thursday 6-9pm",
-        "date": "October 1, 2026",
-        "url": "https://www.facebook.com/events/1095778452844743/"
-      }
-    ],
+    "status": "no_upcoming",
+    "upcoming_events": [],
     "latest_post": {
-      "text": "Boston Outdoor Bachata And Salsa created an event . about an hour ago 1h · Shared with This is a public event, so your post will be visible to anyone on Facebook. Thu, Oct 1 at 6:00 PM EDT BOBAS Thursday 6-9pm Hatch Shell on the Esplanade 2 people going",
+      "text": "Boston Outdoor Bachata And Salsa created an event . 6 days ago 6d · Shared with This is a public event, so your post will be visible to anyone on Facebook. Thu, Oct 1 BOBAS Thursday 6-9pm Hatch Shell on the Esplanade 63 people interested 1",
       "dates": [
         "2026-10-01"
       ]
@@ -21,19 +15,20 @@
     "errors": []
   },
   "dantes-inferno-fb": {
-    "checked_at": "2026-09-29T18:21:33-04:00",
+    "checked_at": "2026-10-06T13:31:54-04:00",
     "source_url": "https://www.facebook.com/DantesSalsaInferno/events",
     "status": "captured",
     "upcoming_events": [
       {
-        "name": "Dante's Salsa Inferno Oct 2nd Salsa/Bachata Social!!",
-        "date": "October 2, 2026",
-        "url": "https://www.facebook.com/events/942767162234508/"
+        "name": "Fuego y Candela Oct 10th Salsa Dance Social!",
+        "date": "October 10, 2026",
+        "url": "https://www.facebook.com/events/1803272690885156/"
       }
     ],
     "latest_post": {
-      "text": "Dante's Salsa Inferno created an event . a day ago 1d · Shared with This is a public event, so your post will be visible to anyone on Facebook. Fri, Oct 2 at 8:30 PM EDT Dante's Salsa Inferno Oct 2nd Salsa/Bachata Social!! The Dante Alighieri Society of Massachusetts 41 people interested",
+      "text": "Dante's Salsa Inferno created an event . September 28 at 2:57 PM · Shared with This is a public event, so your post will be visible to anyone on Facebook. Fri, Oct 2 Dante's Salsa Inferno Oct 2nd Salsa/Bachata Social!! The Dante Alighieri Society of Massachusetts Dance · 182 people",
       "dates": [
+        "2026-09-28",
         "2026-10-02"
       ]
     },
@@ -83,21 +78,19 @@
     "errors": []
   },
   "dantes-salsa": {
-    "checked_at": "2026-09-29T18:21:10-04:00",
+    "checked_at": "2026-10-06T13:31:40-04:00",
     "source_url": "https://www.facebook.com/FuegoyCandelaSalsa/events",
     "status": "captured",
     "upcoming_events": [
       {
-        "name": "Dante's Salsa Inferno Oct 2nd Salsa/Bachata Social!!",
-        "date": "October 2, 2026",
-        "url": "https://www.facebook.com/events/942767162234508/"
+        "name": "Fuego y Candela Oct 10th Salsa Dance Social!",
+        "date": "October 10, 2026",
+        "url": "https://www.facebook.com/events/1803272690885156/"
       }
     ],
     "latest_post": {
-      "text": "Fuego y Candela Salsa Socials September 3 at 1:51 AM · Shared with Public Performance by: Querencia… See more 0:00 / 2:39",
-      "dates": [
-        "2026-09-03"
-      ]
+      "text": "Fuego y Candela Salsa Socials 9 hours ago 9h · Shared with Public Leavin' it all on the dance floor!… See more 0:00 / 1:18",
+      "dates": []
     },
     "albums": [
       {
@@ -139,7 +132,7 @@
     "errors": []
   },
   "lowell-sitp": {
-    "checked_at": "2026-09-29T18:23:13-04:00",
+    "checked_at": "2026-10-06T13:33:02-04:00",
     "source_url": "https://www.facebook.com/LowellSITP/events",
     "status": "no_upcoming",
     "upcoming_events": [],
@@ -165,16 +158,10 @@
     "errors": []
   },
   "sabor-latino": {
-    "checked_at": "2026-09-29T18:22:30-04:00",
+    "checked_at": "2026-10-06T13:32:38-04:00",
     "source_url": "https://www.facebook.com/SaborLatinoBoston/events",
-    "status": "captured",
-    "upcoming_events": [
-      {
-        "name": "Saborcito @ The Anchor - Salsa & Bachata Dancing",
-        "date": "October 5, 2026",
-        "url": "https://www.facebook.com/events/2073153546944008/"
-      }
-    ],
+    "status": "no_upcoming",
+    "upcoming_events": [],
     "latest_post": {
       "text": "Sabor Latino Boston September 18 at 2:53 PM · ﻿ Salsa · Yuri Buenaventura · Shared with Public We’ve got lots of salsa/bachata social events coming up for you in the next two months! Be sure to come check it out! … See more",
       "dates": [
@@ -230,21 +217,20 @@
         "dates": [
           "2026-08-12"
         ]
-      },
-      {
-        "text": "SABORCITO SALSA & BACHATA CANCELLED FOR USA WORLD CUP WATCH PARTY JULY 6",
-        "dates": [
-          "2026-07-06"
-        ]
       }
     ],
     "errors": []
   },
   "tambo-salsa-fb": {
-    "checked_at": "2026-09-29T18:21:55-04:00",
+    "checked_at": "2026-10-06T13:32:08-04:00",
     "source_url": "https://www.facebook.com/Tambosalsa/events",
     "status": "captured",
     "upcoming_events": [
+      {
+        "name": "Tambo Salsa/Bachata Social, Friday Oct 9th",
+        "date": "October 9, 2026",
+        "url": "https://www.facebook.com/events/1466002282099481/"
+      },
       {
         "name": "Halloween Salsa/Bachata Costume Party, Friday 10/30",
         "date": "October 30, 2026",
@@ -252,13 +238,19 @@
       }
     ],
     "latest_post": {
-      "text": "Tambó Salsa is with Al Rivera at Tambó Salsa . September 17 at 12:16 PM · Cambridge, MA · ﻿ Bailemos Otra Vez · José Alberto \"El Canario\" · Shared with Public Tambo Friday, September 25th 8:30pm - 1am Rhode Island is going to be in the house!! … See more",
+      "text": "Tambó Salsa is at Tambó Salsa . 3 hours ago 3h · Cambridge · ﻿ Irimo · Dimension Latina · Shared with Public Tambo Friday, October 9th 8:30pm - 1am Mix of dancing and shows this Friday night!! … See more",
       "dates": [
-        "2026-09-17",
-        "2026-09-25"
+        "2026-10-09"
       ]
     },
     "albums": [
+      {
+        "title": "Tambo Salsa Social 2026/09/25",
+        "items": 57,
+        "dates": [
+          "2026-09-25"
+        ]
+      },
       {
         "title": "Tambo Salsa Social 2026/09/11",
         "items": 49,
@@ -300,18 +292,66 @@
         "dates": [
           "2026-05-29"
         ]
-      },
-      {
-        "title": "Tambo Salsa Social 2026/04/24",
-        "items": 64,
-        "dates": [
-          "2026-04-24"
-        ]
       }
     ],
+    "flyers": [],
+    "errors": []
+  },
+  "zouk-bos-fb": {
+    "checked_at": "2026-10-06T15:36:06-04:00",
+    "source_url": "https://www.facebook.com/profile.php?id=100090589803309&sk=events",
+    "status": "captured",
+    "upcoming_events": [
+      {
+        "name": "Boston Senior Zouk Social (10/6/2026)",
+        "date": "October 6, 2026",
+        "url": "https://www.facebook.com/events/1780839909912751/"
+      }
+    ],
+    "latest_post": {
+      "text": "Zouk BOS 6 days ago 6d · Shared with Public It’s the first October Senior Social Cooler weather just means more comfy cozy dances or higher energy dances We can’t wait to see you! B… See more 2",
+      "dates": []
+    },
+    "albums": [],
     "flyers": [
       {
-        "text": "September TAMBÓ 25th SALSA SOCIAL Class Class8:45 8:45-9:30pm 9:30pm Social 8:45-9:30om-Social9:30m Social9:30pm-lam 9:30pm $20 Class/Social $15 Just Social Special Performances by Clara & Al+ AI Mambo Pa Ti Team Heat Guest At Dantes 41 Hampshirest st, Cambridge JAIRiv Al Riv",
+        "text": "THEME: TROPICAL ISLAND CROSSOVER SOCIAL SATURDAY, SEPTEMBER 19 WORKSHOPS 10 PM| SOCIAL 10 PM 1 AM SYC STUDIOS, ALLSTON",
+        "dates": [
+          "2026-09-19"
+        ]
+      },
+      {
+        "text": "Zouk BOS BOSTON SENIOR ZOUK SOCIAL 服級品加錄品 Date: Tuesday, September 22 Time: 8-11 pm Location: Multicultural Arts Center (41 Second St, Cambridge, MA)",
+        "dates": [
+          "2026-09-22"
+        ]
+      },
+      {
+        "text": "BOS Julie Luis Julie|Luis & Claudia CROSSOVER SOCIAL TWO ROOMS SATURDAY, SEPTEMBER 19 19 WORKSHOPS9-10PM|S HOPS9-10PM|SOCIAL10PH PS9-10PM 10PM|SOCIA SOCIAL 10 1AM ONE EVENT SYC STUDIOS, ALLSTON",
+        "dates": [
+          "2026-09-19"
+        ]
+      },
+      {
+        "text": "BZ D BOS CROSSOVER SOCIAL TWO ROOMS ONE SOCIAL SATURDAY,SEPTEMBER SEPTEMBER 19 SATURDAY WORKSHOP 9-10 10 PM SOCIAL10PI -1AM SYC STUDIOS, ALLSTON",
+        "dates": [
+          "2026-09-19"
+        ]
+      },
+      {
+        "text": "PBOS BOS BOSTON SENIOR ZOUK SOCIAL 最品錄品細務品： Date: Tuesday, September 1 Time: 8-11 pm Location: Multicultural Arts Center (41 Second St, Cambridge, MA)",
+        "dates": [
+          "2026-09-01"
+        ]
+      },
+      {
+        "text": "BOS 品級品品務限品 BOSTON SENIOR ZOUK SOCIAL Date: Tuesday, August 18 Time: 8-11 pm Location: Multicultural Arts Center (41 Second St, Cambridge, MA)",
+        "dates": [
+          "2026-08-18"
+        ]
+      },
+      {
+        "text": "Zouk BOS moonlight 2 social SATURDAY, AÙGUŞT: 8 9PM- 9 MIDNIGHT SALSA Y CONTROL, ALLSTON,MA MΑл MA THEME: UNDER THE SEA",
         "dates": []
       }
     ],
