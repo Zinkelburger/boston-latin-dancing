@@ -157,6 +157,25 @@
     "flyers": [],
     "errors": []
   },
+  "noise-boston-fb": {
+    "checked_at": "2026-10-06T15:38:33-04:00",
+    "source_url": "https://www.facebook.com/noise.boston/events",
+    "status": "captured",
+    "upcoming_events": [
+      {
+        "name": "SALSA & BACHATA HALLOWEEN",
+        "date": "October 24, 2026",
+        "url": "https://www.facebook.com/events/1850560902580985/"
+      }
+    ],
+    "latest_post": {
+      "text": "Noise Boston is at PKL . 3 hours ago 3h · Boston · Shared with Public Bachata is Bachata . #bostonnightlife #noiseboston #latinosenboston #bachataboston #bachatadancing 0:00 / 0:31",
+      "dates": []
+    },
+    "albums": [],
+    "flyers": [],
+    "errors": []
+  },
   "sabor-latino": {
     "checked_at": "2026-10-06T13:32:38-04:00",
     "source_url": "https://www.facebook.com/SaborLatinoBoston/events",

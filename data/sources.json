@@ -417,5 +417,24 @@
       ]
     },
     "latin_by_default": true
+  },
+  {
+    "id": "noise-boston-fb",
+    "type": "facebook",
+    "name": "Noise Boston",
+    "scraper": "scrape_facebook.py",
+    "enabled": true,
+    "noise": {
+      "score": 9,
+      "note": "Organizer of salsa/bachata nights at PKL South Boston; often announces nights as posts/videos rather than Events (see facebook signals)."
+    },
+    "facebook_events_url": "https://www.facebook.com/noise.boston/events",
+    "defaults": {
+      "styles": [
+        "salsa",
+        "bachata"
+      ]
+    },
+    "latin_by_default": true
   }
 ]
