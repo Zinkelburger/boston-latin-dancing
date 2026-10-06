@@ -32,6 +32,8 @@ SOURCE_PRIORITY = {
     "harvardsquare": 14,
     "lous-live": 13,
     "jandl-events": 13,
+    "dancefam": 13,
+    "posh": 14,
     "": 20,
 }
 

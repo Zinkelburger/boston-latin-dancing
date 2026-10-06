@@ -1,0 +1,159 @@
+{
+ "search": [
+  {
+   "id": 2650,
+   "name": "Bachata on Blast Presents: Savi Rodriguez",
+   "start": "2026-10-11T02:00:00Z",
+   "location": "Cocomango Speakeasy",
+   "profitable": true,
+   "soldOut": false,
+   "price": 25,
+   "genres": [
+    {
+     "name": "Salsa",
+     "id": 2
+    },
+    {
+     "name": "Bachata ",
+     "id": 89
+    },
+    {
+     "name": "Dembow",
+     "id": 229
+    },
+    {
+     "name": "Tipico",
+     "id": 231
+    }
+   ],
+   "link": "https://pics.dancefam.org/file/DanceFamImages/socialEvent-2650/1D548490-3518-49D1-9E47-76804234AE98.png",
+   "shortBio": ""
+  },
+  {
+   "id": 2699,
+   "name": "Bachata On Blast",
+   "start": "2026-10-25T22:00:00Z",
+   "location": "105 Water St",
+   "profitable": true,
+   "soldOut": false,
+   "price": 15,
+   "genres": [
+    {
+     "name": "Salsa",
+     "id": 2
+    },
+    {
+     "name": "Bachata ",
+     "id": 89
+    },
+    {
+     "name": "Dembow",
+     "id": 229
+    },
+    {
+     "name": "Tipico",
+     "id": 231
+    }
+   ],
+   "link": "https://pics.dancefam.org/file/DanceFamImages/socialEvent-2699/IMG_3098.jpeg",
+   "shortBio": ""
+  },
+  {
+   "id": 2700,
+   "name": "El Patio del Tipico",
+   "start": "2026-11-15T22:00:00Z",
+   "location": "Dorchester Brewing Company",
+   "profitable": true,
+   "soldOut": false,
+   "price": 30,
+   "genres": [
+    {
+     "name": "Salsa",
+     "id": 2
+    },
+    {
+     "name": "Bachata ",
+     "id": 89
+    },
+    {
+     "name": "Dembow",
+     "id": 229
+    },
+    {
+     "name": "Tipico",
+     "id": 231
+    }
+   ],
+   "link": "https://pics.dancefam.org/file/DanceFamImages/socialEvent-2700/IMG_3131.jpeg",
+   "shortBio": ""
+  }
+ ],
+ "details": {
+  "2650": {
+   "id": 2650,
+   "name": "Bachata on Blast Presents: Savi Rodriguez",
+   "minPrice": 25,
+   "start": "2026-10-11T02:00:00Z",
+   "end": "2026-10-11T06:00:00Z",
+   "location": "Cocomango Speakeasy",
+   "address": {
+    "building": "50",
+    "street": "Cambridgepark Drive",
+    "city": "Cambridge",
+    "state": "Massachusetts",
+    "zip_code": "02140",
+    "country": "US",
+    "placeId": null,
+    "latitude": 42.394493,
+    "longitude": -71.14364
+   },
+   "socialId": 30,
+   "socialName": "BachaTipico Hangout",
+   "description": "<p>🚨BOSTON!! BachaTipico Hangout is bringing the heat with Bachata on Blast!🇩🇴🔥</p><p></p><p>📍 CocoMango Speakeasy</p><p>🗓️ Saturday October 10th, 10PM-2AM</p><p></p><p>🎤 FROM NEW YORK CITY TO BOSTON </p><p>SAVI RODRIGUEZ 🗽🔥</p><p></p><p>Savi represents a new generation keeping the genre alive while adding his own flavor to every song.</p><p></p><p>For the first time in Boston, get ready to experi"
+  },
+  "2699": {
+   "id": 2699,
+   "name": "Bachata On Blast",
+   "minPrice": 15,
+   "start": "2026-10-25T22:00:00Z",
+   "end": "2026-10-26T02:00:00Z",
+   "location": "105 Water St",
+   "address": {
+    "building": "105",
+    "street": "Water Street",
+    "city": "Worcester",
+    "state": "Massachusetts",
+    "zip_code": "01604",
+    "country": "US",
+    "placeId": null,
+    "latitude": 42.25619,
+    "longitude": -71.7961
+   },
+   "socialId": 30,
+   "socialName": "BachaTipico Hangout",
+   "description": "<p>🚨WORCESTER!! BachaTipico Hangout is bringing the heat to you with Bachata on Blast!🇩🇴🔥</p><p></p><p>🎸LIVE Bachata and Bacharengue by “La Solución de la Bachata”. </p><p>🇩🇴 A celebration of culture, rhythm, and community. </p><p></p><p>📍 Casa Blanca Lounge</p><p>🗓️ Sunday October 25th, 6-10PM</p><p></p><p>•Tables will be first come first serve and require a minimum consumption of $100. Bottle se"
+  },
+  "2700": {
+   "id": 2700,
+   "name": "El Patio del Tipico",
+   "minPrice": 30,
+   "start": "2026-11-15T22:00:00Z",
+   "end": "2026-11-16T02:00:00Z",
+   "location": "Dorchester Brewing Company",
+   "address": {
+    "building": "1250",
+    "street": "Massachusetts Avenue",
+    "city": "Boston",
+    "state": "Massachusetts",
+    "zip_code": "02125",
+    "country": "US",
+    "placeId": null,
+    "latitude": 42.32212,
+    "longitude": -71.06242
+   },
+   "socialId": 30,
+   "socialName": "BachaTipico Hangout",
+   "description": ""
+  }
+ }
+}

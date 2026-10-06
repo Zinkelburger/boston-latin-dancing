@@ -1,0 +1,45 @@
+{
+ "result": {
+  "data": {
+   "events": [
+    {
+     "description": "Boston’s #1 Latin day party returns. All Libras enter FREE. Bachata, brunch, luxury & Latino vibes at Grace by Nia. **Bachata Brunch Club returns to Grace by Nia for LIBRA AFFAIR**, our official October celebration dedicated to the charm, style, energy, and attitude of Libra season.\n\nAnd yes… **ALL LIBRAS ENTER FREE. ♎️**\n\nBachata Brunch Club was created to give Boston’s Latino community a place t",
+     "shortDescription": "Boston’s #1 Latin day party returns. All Libras enter FREE. Bachata, brunch, luxury & Latino vibes at Grace by Nia.",
+     "name": "Bachata Brunch Club: LIBRA AFFAIR ♎️",
+     "url": "bachata-brunch-club-libra-affair-",
+     "startUtc": "2026-10-11T18:00:00.000Z",
+     "endUtc": "2026-10-12T00:00:00.000Z",
+     "timezone": "America/New_York",
+     "venueName": "Grace By Nia",
+     "venueAddress": "60 Seaport Blvd #325, Boston, MA 02210, USA",
+     "startingTicketPriceCTA": "From $22.99"
+    },
+    {
+     "description": "Access to discounted ticket links and free entry! Posh rsvp not valid for entry. #   \n\nThis link updates every week — save it to stay in the loop.\n\nMore events + ticket deals: BasslineBoston.com\n\nDM \\__adrianagomez on IG for VIP\n\n---\n\n## 🎆 THIS WEEK IN BOSTON\n\n## *🔥 Matroda, San Holo, After Brunch, DJ Mandy, Happy Daze, and more!*\n\n### 🗓️ THURSDAY 10/8\n\n- **18+ Happy Daze** \\[open\\] @BigNightLive ",
+     "shortDescription": "Access to discounted ticket links and free entry! Posh rsvp not valid for entry.",
+     "name": "Boston Weekly Lineup (Discounts, Guestlists, Giveaways, 18+)",
+     "url": "boston-weekly-lineup-discounts-guestlists-giveaways-18-2026-12-14-4-45",
+     "startUtc": "2026-12-13T18:00:00.000Z",
+     "endUtc": "2026-12-14T04:45:00.000Z",
+     "timezone": "America/New_York",
+     "venueName": "Boston - Theater District, Seaport, Downtown, Gov Center, Cambridge, etc",
+     "venueAddress": "279 Tremont St, Boston, MA 02116, USA",
+     "startingTicketPriceCTA": "Free"
+    },
+    {
+     "description": "Ohio's Biggest Bachata Party @ SPAIN NIGHT CLUB  in Columbus, OH • International Dancers • bachata • salsa • tipico • dembow ### **🏙️ COLUMBUS BACHATA LOVERS 🇩🇴❤️‍🔥**\n\nLa Casa de la Bachata™ is officially coming to Columbus, Ohio, for the very first time.\n\nStart the night with a beginner-friendly ba",
+     "shortDescription": "Ohio's Biggest Bachata Party @ SPAIN NIGHT CLUB  in Columbus, OH • International Dancers • bachata • salsa • tipico • dembow",
+     "name": "COLUMBUS' BIGGEST BACHATA PARTY • La Casa de la Bachata™ @ Spain Night Club",
+     "url": "columbus-biggest-bachata-party-la-casa-de-la-bachata-spain-night-club",
+     "startUtc": "2026-11-21T02:00:00.000Z",
+     "endUtc": "2026-11-21T07:15:00.000Z",
+     "timezone": "America/New_York",
+     "venueName": "Spain Night Club",
+     "venueAddress": "6136 Busch Blvd, Columbus, OH 43229, USA",
+     "startingTicketPriceCTA": "From $14.74"
+    }
+   ],
+   "nextCursor": null
+  }
+ }
+}

@@ -436,5 +436,44 @@
       ]
     },
     "latin_by_default": true
+  },
+  {
+    "id": "dancefam",
+    "type": "custom",
+    "name": "DanceFam (dancefam.org)",
+    "scraper": "scrape_dancefam.py",
+    "enabled": true,
+    "url": "https://backend.dancefam.org/public/search/events?state=Massachusetts",
+    "website": "https://dancefam.org",
+    "state": "Massachusetts",
+    "noise": {
+      "score": 9,
+      "note": "Dance-social platform (bachata/salsa/kizomba/zouk); every listing is a social. Small: a few MA events at a time, mostly BachaTipico Hangout."
+    },
+    "latin_by_default": true
+  },
+  {
+    "id": "posh",
+    "type": "custom",
+    "name": "Posh (posh.vip) search",
+    "scraper": "scrape_posh.py",
+    "enabled": true,
+    "url": "https://posh.vip/api/web/v2/trpc/search.searchForEvents",
+    "website": "https://posh.vip",
+    "queries": [
+      "bachata boston",
+      "salsa boston",
+      "salsa cambridge",
+      "bachata cambridge",
+      "latin boston",
+      "kizomba",
+      "zouk boston",
+      "tardeo"
+    ],
+    "noise": {
+      "score": 5,
+      "note": "Ticketing platform search; mixes in club nights and promoter lineup posts. Scraper keeps MA addresses naming a Latin style."
+    },
+    "latin_by_default": false
   }
 ]
