@@ -572,6 +572,28 @@ def test_scrape_jsonld_fixture(monkeypatch):
     assert set(ev["styles"]) == {"salsa", "bachata"}
 
 
+def test_scrape_jsonld_wix_empty_listing_is_healthy_not_structure_missing(monkeypatch):
+    import scrape_jsonld
+    pages = {"https://www.listerevents.com/events": fixture("wix_listing_empty.html")}
+    monkeypatch.setattr(scrape_jsonld, "_fetch", lambda url, browser, timeout=20: pages[url])
+    monkeypatch.setattr(scrape_jsonld.time, "sleep", lambda s: None)
+    result = scrape_jsonld.fetch_source({"id": "lister-events", "url": "https://www.listerevents.com/events",
+                                         "link_pattern": "/event-details/"}, now=NOW)
+    assert result.events == [] and result.skipped
+    assert "confirmed no upcoming events" in result.note
+
+
+def test_scrape_jsonld_listing_without_links_or_empty_widget_is_structure_missing(monkeypatch):
+    import scrape_jsonld
+    page = "<html><body><div data-hook=\"EVENTS_ROOT_NODE\"></div></body></html>"
+    monkeypatch.setattr(scrape_jsonld, "_fetch", lambda url, browser, timeout=20: page)
+    monkeypatch.setattr(scrape_jsonld.time, "sleep", lambda s: None)
+    result = scrape_jsonld.fetch_source({"id": "lister-events", "url": "https://x.test/events",
+                                         "link_pattern": "/event-details/"}, now=NOW)
+    assert result.raw_found == 0 and not result.skipped
+    assert "redesign" in result.note
+
+
 def test_scrape_jsonld_unreachable_listing_raises(monkeypatch):
     import scrape_jsonld
     def down(url, browser, timeout=20):

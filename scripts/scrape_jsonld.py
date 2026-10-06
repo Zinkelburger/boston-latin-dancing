@@ -78,6 +78,12 @@ from scraper_utils import (
 
 DEFAULT_EXCLUDE_REGIONS = {"portland", "maine", "me 04"}
 _EVENT_TYPES = {"Event", "SocialEvent", "DanceEvent", "MusicEvent", "Festival"}
+# The Wix Events widget publishes how many events it rendered as a CSS custom
+# property on its section. "--eventsCount: 0" inside a page that carries the
+# widget root is the site positively saying it has nothing scheduled, which is
+# different from markup that no longer matches our parser.
+_WIX_WIDGET_RE = re.compile(r'data-hook="EVENTS_ROOT_NODE"')
+_WIX_ZERO_EVENTS_RE = re.compile(r"--eventsCount:\s*0\s*;")
 
 
 # ── JSON-LD extraction ───────────────────────────────────────────────
@@ -253,23 +259,32 @@ def _fetch(url: str, browser: bool, timeout: int = 20) -> str:
     return fetch(url, browser=browser, timeout=timeout).text
 
 
-def _collect_detail_links(listing_urls, link_pattern, browser) -> tuple[list[str], bool]:
+def listing_declares_no_events(page_html: str) -> bool:
+    """True when the listing's events widget itself reports zero events."""
+    return bool(_WIX_WIDGET_RE.search(page_html) and _WIX_ZERO_EVENTS_RE.search(page_html))
+
+
+def _collect_detail_links(listing_urls, link_pattern, browser) -> tuple[list[str], int, int]:
     """Detail-crawl mode: gather per-event links matching link_pattern.
 
-    Returns (links, any_listing_fetched) so the caller can tell a structure change
-    (page loaded, no links) from the site being unreachable.
+    Returns (links, listings_fetched, listings_declaring_empty) so the caller can
+    tell an organizer with nothing scheduled from a structure change (page
+    loaded, no links) and both from the site being unreachable.
     """
     seen: set[str] = set()
     links: list[str] = []
-    any_fetched = False
+    fetched = 0
+    declared_empty = 0
     for listing_url in listing_urls:
         print(f"  Listing page: {listing_url}")
         try:
             page = _fetch(listing_url, browser, timeout=15)
-            any_fetched = True
+            fetched += 1
         except Exception as exc:
             print(f"    Failed: {exc}")
             continue
+        if listing_declares_no_events(page):
+            declared_empty += 1
         soup = BeautifulSoup(page, "html.parser")
         listing_tail = listing_url.rstrip("/").split("/")[-1]
         for a in soup.find_all("a", href=True):
@@ -283,7 +298,7 @@ def _collect_detail_links(listing_urls, link_pattern, browser) -> tuple[list[str
                 seen.add(full)
                 links.append(full)
         time.sleep(0.4)
-    return links, any_fetched
+    return links, fetched, declared_empty
 
 
 def _event_id(url: str, prefix: str) -> str:
@@ -368,6 +383,7 @@ def fetch_source(source: dict, now: datetime | None = None) -> ScrapeResult:
 
     raw_objs: list[tuple[dict, str, object]] = []  # (jsonld_obj, page_url, soup|None)
     fetched = False
+    declared_empty = False
     last_error: Exception | None = None
 
     if source.get("jsonld_in_listing"):
@@ -392,7 +408,9 @@ def fetch_source(source: dict, now: datetime | None = None) -> ScrapeResult:
         link_pattern = source.get("link_pattern", "/event-details/")
         print(f"[{source_id}] Collecting '{link_pattern}' links from "
               f"{len(listing_urls)} listing page(s)")
-        links, fetched = _collect_detail_links(listing_urls, link_pattern, browser)
+        links, n_fetched, n_empty = _collect_detail_links(listing_urls, link_pattern, browser)
+        fetched = n_fetched > 0
+        declared_empty = fetched and n_empty == n_fetched and not links
         print(f"[{source_id}] Found {len(links)} event detail pages")
         for i, link in enumerate(links):
             try:
@@ -449,6 +467,11 @@ def fetch_source(source: dict, now: datetime | None = None) -> ScrapeResult:
 
     # Health: raw_found = JSON-LD events parsed BEFORE filtering. Zero on a page
     # that loaded means the JSON-LD is gone / markup changed → redesign needed.
+    if declared_empty:
+        # Every listing page's events widget said zero: an organizer with nothing
+        # scheduled. Healthy, and the empty file is the truth.
+        return ScrapeResult([], raw_found=0, skipped=True,
+                            note="the site's events widget confirmed no upcoming events")
     note = ""
     if not raw_objs:
         note = ("page loaded but no schema.org JSON-LD events found — the site's "
