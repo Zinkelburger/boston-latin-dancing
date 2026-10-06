@@ -1487,3 +1487,4 @@
 {"ts": "2026-10-06T19:35:36.353107+00:00", "action": "source_add", "event_id": "zouk-bos-fb", "details": "Zouk BOS"}
 {"ts": "2026-10-06T19:36:25.224260+00:00", "action": "edit", "event_id": "u98kap6gonhh7d8qo7c1jd8c2s@google.com", "details": "{\"url\": \"https://www.facebook.com/events/1780839909912751/\", \"urls\": []}"}
 {"ts": "2026-10-06T19:36:25.227891+00:00", "action": "edit", "event_id": "u98kap6gonhh7d8qo7c1jd8c2s@google.com", "details": "{\"_needs_manual_check\": null}"}
+{"ts": "2026-10-06T19:38:20.681853+00:00", "action": "source_add", "event_id": "noise-boston-fb", "details": "Noise Boston"}
