@@ -38,6 +38,7 @@ import requests
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from atomic_io import read_json, write_json
+from link_guard import check_link_for_event
 from link_meta import link_meta, looks_like_render_timestamp
 from scraper_utils import DEV_UA, publishes_without_link
 from event_store import load_active, save_active, store_lock
@@ -463,8 +464,15 @@ def verify_facebook_event(event: dict, url: str) -> dict:
     return result
 
 
-def flag_facebook_page(event: dict, url: str) -> dict:
-    return {
+def verify_facebook_page(event: dict, url: str) -> dict:
+    """A Facebook post, video or page, checked like any link we attach.
+
+    Organizers often announce a night in a post or video rather than an Event
+    (Noise Boston's PKL Halloween party, 2026-10-06): its preview text carries
+    the name, date and venue. The link guard that accepted the link at attach
+    time decides here too; only a page it cannot read needs a browser.
+    """
+    result = {
         "event_id": event["id"],
         "event_name": event["name"],
         "url_type": "facebook_page",
@@ -474,6 +482,13 @@ def flag_facebook_page(event: dict, url: str) -> dict:
         "our_location": event.get("location", ""),
         "verified_at": datetime.now(timezone.utc).isoformat(),
     }
+    verdict = check_link_for_event(url, event)
+    if verdict["accepted"]:
+        dated = bool((verdict.get("page") or {}).get("stated_dates"))
+        result["status"] = "confirmed" if dated else "reachable_only"
+        result["notes"] = ("Facebook post names the event and states its date" if dated
+                           else "Facebook post names the event; no date in its preview")
+    return result
 
 
 def flag_instagram(event: dict, url: str) -> dict:
@@ -594,7 +609,7 @@ def verify_event(event: dict) -> dict:
     elif url_type == "facebook_event":
         return verify_facebook_event(event, url)
     elif url_type == "facebook_page":
-        return flag_facebook_page(event, url)
+        return verify_facebook_page(event, url)
     elif url_type == "instagram":
         return flag_instagram(event, url)
     elif url_type == "social":

@@ -262,3 +262,32 @@ def test_collect_targets_skips_disabled_sources(tmp_path, monkeypatch):
     targets = cl.collect_targets()
     assert "https://example.com/on" in targets
     assert "https://example.com/off" not in targets
+
+
+def test_facebook_post_that_names_the_event_and_date_verifies(monkeypatch):
+    # PKL Halloween (2026-10-06): announced only as a Facebook video whose
+    # preview states name, date and venue. It used to sit at needs_browser.
+    import link_guard
+    import verify_events
+    event = {"id": "pkl", "name": "SALSA & BACHATA HALLOWEEN",
+             "startDate": "2099-10-24T21:00:00-04:00", "endDate": "2099-10-25T01:00:00-04:00",
+             "location": "PKL – 64 C St, South Boston, MA"}
+    caption = "SALSA & BACHATA HALLOWEEN! Saturday, October 24th 9:00 PM PKL – 64 C St, South Boston"
+    monkeypatch.setattr(link_guard, "link_meta", lambda url: {
+        "status": 200, "title": caption, "og_title": caption, "og_description": caption,
+        "canonical": "", "jsonld_events": [], "final_url": None, "error": None})
+    row = verify_events.verify_facebook_page(event, "https://www.facebook.com/watch/?v=1")
+    assert row["status"] in ("confirmed", "reachable_only")
+
+
+def test_facebook_page_that_does_not_name_the_event_still_needs_a_browser(monkeypatch):
+    import link_guard
+    import verify_events
+    event = {"id": "z", "name": "Boston Senior Zouk Social",
+             "startDate": "2099-10-06T20:00:00-04:00", "location": "Cambridge, MA"}
+    monkeypatch.setattr(link_guard, "link_meta", lambda url: {
+        "status": 200, "title": "Zouk BOS | Boston MA", "og_title": "Zouk BOS | Boston MA",
+        "og_description": "Supporting the Boston Brazilian Zouk community", "canonical": "",
+        "jsonld_events": [], "final_url": None, "error": None})
+    row = verify_events.verify_facebook_page(event, "https://www.facebook.com/profile.php?id=1&sk=events")
+    assert row["status"] == "needs_browser"
