@@ -39,7 +39,7 @@ import requests
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from atomic_io import read_json, write_json
 from link_meta import link_meta, looks_like_render_timestamp
-from scraper_utils import DEV_UA
+from scraper_utils import DEV_UA, publishes_without_link
 from event_store import load_active, save_active, store_lock
 from event_store.paths import EVENTS_DIR
 from event_store.storage import append_changelog
@@ -489,9 +489,28 @@ def flag_instagram(event: dict, url: str) -> dict:
     }
 
 
+# How long "searched, found no link" stands before the weekly review asks again.
+NO_LINK_SEARCH_VALID_DAYS = 14
+
+
 def flag_no_url(event: dict) -> dict:
     location = event.get("location", "")
     name = event.get("name", "")
+    searched = parse_date(event.get("no_link_searched_at") or "")
+    if (searched is not None and publishes_without_link(event.get("source"))
+            and datetime.now(timezone.utc) - searched.astimezone(timezone.utc)
+            <= timedelta(days=NO_LINK_SEARCH_VALID_DAYS)):
+        return {
+            "event_id": event["id"],
+            "event_name": event["name"],
+            "url_type": "no_url",
+            "source_url": None,
+            "status": "calendar_only",
+            "notes": (f"No link; listed by trusted calendar {event.get('source')} and a search on "
+                      f"{searched.date().isoformat()} found no organizer page."),
+            "our_location": location,
+            "verified_at": datetime.now(timezone.utc).isoformat(),
+        }
     search_hint = f"{name} {location} boston"
     return {
         "event_id": event["id"],
@@ -673,7 +692,7 @@ def print_report(report: list[dict]) -> None:
     status_order = [
         "cancelled", "page_gone", "date_mismatch", "location_mismatch",
         "needs_review", "needs_browser", "no_source", "unverifiable",
-        "reachable_only", "confirmed",
+        "calendar_only", "reachable_only", "confirmed",
     ]
 
     labels = {
@@ -686,6 +705,7 @@ def print_report(report: list[dict]) -> None:
         "needs_review": "NEEDS REVIEW",
         "needs_browser": "NEEDS BROWSER (Facebook)",
         "no_source": "NO SOURCE URL",
+        "calendar_only": "CALENDAR ONLY (trusted calendar, no link exists)",
         "unverifiable": "UNVERIFIABLE (social link)",
     }
 

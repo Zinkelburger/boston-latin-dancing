@@ -269,15 +269,17 @@ def _approve_details(event: dict) -> dict[str, str]:
 
 def new_event_items(pending: list[dict], active: list[dict]) -> list[dict]:
     items = []
-    for event in pending:
-        if event.get("_dedup_candidate_of"):
-            continue
-        nearby = _nearby_same_night(event, active)
+    # Two sources can list the same new night in one week, so a new event's
+    # twin may still be in this queue rather than on the map.
+    new = [e for e in pending if not e.get("_dedup_candidate_of")]
+    for event in new:
+        nearby = _nearby_same_night(event, active + new)
         choices = {"approve": "Put it on the map. " + DANCE_TEST, **BLOCKS}
         details = {"approve": _approve_details(event)}
         if nearby:
             choices["already_listed"] = ("It is the same night as one of evidence.same_night "
-                                         "(same organizer, same event). Merged into that one.")
+                                         "(same organizer, same event). Merged into that one; if that one "
+                                         "is also new this week, this copy is dropped.")
             details["already_listed"] = {"same_as": "the id of the matching event in evidence.same_night"}
         evidence = {"event": card(event), "same_night": nearby}
         if looks_like_class(event):
@@ -419,12 +421,18 @@ def verification_items(report: list[dict], active_by_id: dict) -> tuple[list[dic
                  "keep": "No, it is still on (the page moved, or the notice is about something "
                          "else). Flagged for a human; explain in note."}))
         elif status == "no_source":
+            none_found = (
+                "Searched and found nothing trustworthy. This calendar is trusted, so it stays "
+                "on the map without a link."
+                if scraper_utils.publishes_without_link(event.get("source")) else
+                "Searched and found nothing trustworthy. A human is asked to find the link; "
+                "publishing waits until they do.")
             items.append(_item(
                 "no_link", event["id"], event.get("name", ""),
                 "This event has no link. Find the organizer's page for it.", evidence,
                 {"set_link": "Found it: give the URL in `url`. It is fetched and must be a page "
                              "about this event on this date, or it is refused.",
-                 "none_found": "Searched and found nothing trustworthy. It stays without a link."},
+                 "none_found": none_found},
                 {"set_link": {"url": "the page's URL (use review_link_check first)"}}))
         else:
             notes.append({"event": event.get("name"), "when": _when(event),
@@ -745,6 +753,11 @@ def _apply_new_event(item: dict, choice: str, params: dict) -> dict:
         allowed = [c["id"] for c in item["evidence"].get("same_night", [])]
         if same_as not in allowed:
             raise Refused(f"`same_as` must be one of {allowed}.")
+        if any(e["id"] == same_as for e in load_pending()):
+            # Its twin is new this week too and gets its own answer; this copy
+            # goes, and this source's later copies with it.
+            return block_event(event["id"], "duplicate_source",
+                               params.get("note") or f"same night as {same_as}")
         _approve_with_updates(event, {"_dedup_candidate_of": same_as})
         return {"status": "merged", "into": same_as}
     # approve
@@ -912,7 +925,12 @@ def _drop_link(event: dict, url: str) -> dict:
 def _apply_no_link(item: dict, choice: str, params: dict) -> dict:
     event = _find(load_active(), item["subject"])
     if choice == "none_found":
-        return {"status": "left without a link"}
+        if scraper_utils.publishes_without_link(event.get("source")):
+            edit_event(event["id"], {"no_link_searched_at": datetime.now(timezone.utc).isoformat()})
+            return {"status": "left without a link (trusted calendar)"}
+        _flag_manual(event["id"], "no link found online; find the organizer's page for this event "
+                                  "and set it, or take the event off the map")
+        return {"status": "a human is asked for the link"}
     if not params.get("url"):
         raise Refused("`url` is required for set_link.")
     _set_primary_link(event, params["url"])

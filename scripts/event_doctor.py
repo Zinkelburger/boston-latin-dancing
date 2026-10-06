@@ -31,7 +31,7 @@ from scrape_facebook import raw_input_path, validate_capture
 from scraper_utils import NY_TZ, load_scrape_health, load_sources, scraper_commands
 from verify_events import REPORT_PATH
 
-GOOD_VERIFICATION_STATUSES = {"confirmed", "reachable_only"}
+GOOD_VERIFICATION_STATUSES = {"confirmed", "reachable_only", "calendar_only"}
 # Words that identify an organizer in an event's name/location: "tambó",
 # "inferno", "candela" — never these.
 _SIGNAL_STOPWORDS = {

@@ -201,6 +201,52 @@ def test_already_listed_only_accepts_an_offered_event(store):
     assert store.load_pending() == []
 
 
+def test_a_twin_still_in_the_queue_is_offered_and_answering_drops_this_copy(store):
+    # Salsa-ween (2026-10-06): Eventbrite and Sensualeros both listed it new the
+    # same week, so the twin was pending, never offered, and the agent had to skip.
+    store.save_pending([
+        _event(id="eb-twin", name="Salsa-ween: Free Latin Social", source="eventbrite-boston-latin",
+               _quarantined_new=True),
+        _event(id="cal-copy", name="Salsa-ween: Free Latin Social", url=None,
+               source="sensualeros-boston", _quarantined_new=True),
+    ])
+    worklist = _worklist()
+    item = next(i for i in worklist["items"] if i["subject"] == "cal-copy")
+    assert [c["id"] for c in item["evidence"]["same_night"]] == ["eb-twin"]
+    assert wr.answer(item["id"], "already_listed", same_as="eb-twin")["ok"] is True
+    assert [e["id"] for e in store.load_pending()] == ["eb-twin"]
+    assert store.load_blocked()[0]["blocked_category"] == "duplicate_source"
+
+
+def test_no_link_from_a_trusted_calendar_publishes_after_a_search(store):
+    import verify_events
+    store.save_active([_event(id="bea", url=None, source="beatrice-calendar")])
+    item = _item_for(_worklist(verification=[{"event_id": "bea", "status": "no_source"}]), "no_link")
+    assert "stays on the map" in item["choices"]["none_found"]
+    assert wr.answer(item["id"], "none_found")["ok"] is True
+    (event,) = store.load_active()
+    assert "_needs_manual_check" not in event
+    assert verify_events.flag_no_url(event)["status"] == "calendar_only"
+
+
+def test_no_link_from_another_calendar_goes_to_a_human(store):
+    import verify_events
+    store.save_active([_event(id="sen", url=None, source="sensualeros-boston")])
+    item = _item_for(_worklist(verification=[{"event_id": "sen", "status": "no_source"}]), "no_link")
+    assert "human is asked" in item["choices"]["none_found"]
+    assert wr.answer(item["id"], "none_found")["ok"] is True
+    (event,) = store.load_active()
+    assert "find the organizer's page" in event["_needs_manual_check"]["reason"]
+    assert verify_events.flag_no_url(event)["status"] == "no_source"
+
+
+def test_an_old_no_link_search_expires():
+    import verify_events
+    old = (datetime.now(NY) - timedelta(days=verify_events.NO_LINK_SEARCH_VALID_DAYS + 1)).isoformat()
+    event = _event(url=None, source="beatrice-calendar", no_link_searched_at=old)
+    assert verify_events.flag_no_url(event)["status"] == "no_source"
+
+
 def test_possible_duplicate_different_keeps_both(store):
     store.save_active([_event(id="series")])
     store.save_pending([_event(id="other", name="Tropical Fiesta Anniversary",

@@ -44,6 +44,13 @@ _GENERIC_DANCE_WORDS = frozenset({
     "night", "nights", "music", "live", "dj", "event", "events",
 })
 
+# A weekday in a title ("Flow Friday", "Tambo Social, Friday Oct 9th") is
+# shared by every event on that night, so two same-night events always "share"
+# it. Dates are already stripped by normalize_name; weekdays survive it.
+_WEEKDAY_WORDS = frozenset(
+    form for day in ("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday")
+    for form in (day, day + "s"))
+
 # Tokens shorter than this identify nothing on their own ("w" from "w/ Tina",
 # "co" from "Dance Co"), so they cannot serve as the distinguishing word.
 _DISTINCTIVE_MIN_LEN = 3
@@ -52,7 +59,8 @@ _DISTINCTIVE_MIN_LEN = 3
 def distinctive_words(words: set[str]) -> set[str]:
     """Words specific enough to identify a particular event."""
     return {w for w in words
-            if len(w) >= _DISTINCTIVE_MIN_LEN and w not in _GENERIC_DANCE_WORDS}
+            if len(w) >= _DISTINCTIVE_MIN_LEN
+            and w not in _GENERIC_DANCE_WORDS and w not in _WEEKDAY_WORDS}
 
 
 # Minimum token length eligible for fuzzy (1-edit) matching. One- and two-

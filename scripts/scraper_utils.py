@@ -907,6 +907,13 @@ def get_source(source_id: str) -> Optional[dict]:
     return None
 
 
+def publishes_without_link(source_id: Optional[str]) -> bool:
+    """A source trusted enough that its events may go on the map with no link,
+    once a search for one has come up empty (``publish_without_link``)."""
+    source = get_source(source_id) if source_id else None
+    return bool(source and source.get("publish_without_link"))
+
+
 # The user-submissions fetcher is not a website, so it has no sources.json
 # entry, but it produces data/scraped/submissions.json like any scraper and
 # must run with them. It is appended as a pseudo-source unless sources.json

@@ -102,3 +102,30 @@ class TestRealMatchesStillDetected:
              "location": "Havana Club, 288 Green St, Cambridge, MA 02139",
              "lat": 42.3654, "lng": -71.1030}
         assert dedup_confidence(a, b) == "review"
+
+
+class TestWeekdayIsNotEvidence:
+    def test_tambo_social_not_paired_with_flow_friday(self):
+        """2026-10-06: two Friday socials at different venues were sent to
+        review because both titles say "Friday", which every same-night event
+        shares. The only other overlap was {bachata, social}."""
+        tambo = {
+            "id": "tambo-salsa-fb-20261009-0", "name": "Tambo Salsa/Bachata Social, Friday Oct 9th",
+            "startDate": "2026-10-09T20:45:00-04:00",
+            "location": "Tambó Salsa, 35 Hampshire St, Cambridge, MA 02139-1547",
+            "lat": 42.3663, "lng": -71.0950,
+        }
+        flow = {
+            "id": "8CCA30E6", "name": "Flow Friday at The Anchor: Bachata Class & Social",
+            "startDate": "2026-10-09T19:00:00-04:00",
+            "location": "The Anchor, 1 Shipyard Park, Charlestown, MA 02129",
+            "lat": 42.3727, "lng": -71.0530,
+        }
+        assert dedup_confidence(tambo, flow) is None
+
+    def test_shared_real_name_still_matches_despite_weekday(self):
+        a = {"id": "a", "name": "Fuego Thursdays", "startDate": "2026-10-08T19:00:00-04:00",
+             "location": "Somewhere, Maynard, MA", "lat": 42.43, "lng": -71.45}
+        b = {"id": "b", "name": "Fuego Thursday Latin Night", "startDate": "2026-10-08T19:00:00-04:00",
+             "location": "Elsewhere, Natick, MA", "lat": 42.28, "lng": -71.36}
+        assert dedup_confidence(a, b) == "review"

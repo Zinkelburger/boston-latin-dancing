@@ -10,7 +10,8 @@
     },
     "url": "https://calendar.google.com/calendar/ical/31d111cd5f84b2c5cde57a9a175e4769da698d758828fb8de8b47158eefb819c%40group.calendar.google.com/public/basic.ics",
     "enabled": true,
-    "latin_by_default": true
+    "latin_by_default": true,
+    "publish_without_link": true
   },
   {
     "id": "lister-events",
