@@ -12,12 +12,16 @@ questions. Everything that needs no judgment is code.
            changes: unknown choices, missing details, a link that is not a page
            about the event, an address that will not geocode — all refused with
            the reason, and the question stays open.
+  recheck  verify the state the answers left (approvals add events) and turn
+           anything finish would block on into follow-up questions. Exits 3
+           when it added some, so the runner gives the agent one more pass.
   finish   publish (tripwire-guarded), re-check links, run the doctor, write
            automation/logs/last-agent-summary.md. automation/claude_review.sh
            then commits exactly the pipeline-owned files and pushes.
 
 Usage:
   python3 scripts/weekly_review.py prepare
+  python3 scripts/weekly_review.py recheck
   python3 scripts/weekly_review.py status
   python3 scripts/weekly_review.py finish
 
@@ -57,6 +61,7 @@ from event_store import (  # noqa: E402
     store_lock,
 )
 from event_store import paths, storage  # noqa: E402
+from event_store.archive import HOLD_CANCELLED, HOLD_NO_LINK  # noqa: E402
 from event_store.classify import derive_special, looks_like_class, special_edition_mismatch  # noqa: E402
 from event_store.ingest import add_event  # noqa: E402
 from event_store.locations import is_out_of_area, locations_same  # noqa: E402
@@ -196,7 +201,8 @@ def archive_structured_cancellations(report: list[dict]) -> list[dict]:
                 or row.get("notes") != STRUCTURED_CANCELLATION
                 or row.get("source_url") != event.get("url")):
             continue
-        archive_event(event["id"], reason="cancelled: the event page says EventCancelled")
+        archive_event(event["id"], reason="cancelled: the event page says EventCancelled",
+                      hold=HOLD_CANCELLED)
         done.append({"action": "archived a cancelled event", "event": event.get("name"),
                      "when": _when(event), "evidence": row.get("source_url")})
     return done
@@ -257,14 +263,40 @@ def _nearby_same_night(event: dict, pool: list[dict]) -> list[dict]:
     return out[:5]
 
 
-def _approve_details(event: dict) -> dict[str, str]:
+def _approve_details(event: dict, approve: str = "approve") -> dict[str, str]:
     details = {"big_event": "true or false — required. " + BIG_EVENT_RULE,
                "styles": "optional, comma-separated from " + ", ".join(STYLES)
                          + ". Replace 'other' with the real styles when the night is salsa/bachata/etc."}
     if event.get("lat") is None or event.get("lng") is None:
         details["location"] = ("REQUIRED: this event has no map position. Give the full street "
                                "address with town, e.g. '45 Danforth St, Jamaica Plain, MA'.")
+    if not event_url_list(event):
+        details["url"] = ("REQUIRED: this listing has no link. Search for the organizer's page for "
+                          "this night and give it here (try review_link_check first). If there is "
+                          f"none, answer {_no_link_choice(event, approve)} instead.")
     return details
+
+
+def _no_link_choice(event: dict, approve: str) -> str:
+    return (f"{approve}_without_link" if scraper_utils.publishes_without_link(event.get("source"))
+            else "no_link_yet")
+
+
+def _link_choices(event: dict, approve: str) -> tuple[dict[str, str], dict[str, dict]]:
+    """The way out for a new listing with no link, asked with the approval
+    rather than after it: an approved event without a link fails verification,
+    and finish refuses to publish (2026-10-07: BOBAS and Saborcito, approved
+    from the Sensualeros calendar, blocked the whole week's publish)."""
+    if event_url_list(event):
+        return {}, {}
+    choice = _no_link_choice(event, approve)
+    if choice == "no_link_yet":
+        return {choice: "It belongs, but a search found no organizer page and this source may "
+                        "not publish without one. It stays off the map this week; the question "
+                        "comes back if the source lists it again."}, {}
+    return ({choice: "It belongs, and a search found no organizer page. This calendar is trusted, "
+                     "so it goes on the map without a link. " + DANCE_TEST},
+            {choice: {k: v for k, v in _approve_details(event, approve).items() if k != "url"}})
 
 
 def new_event_items(pending: list[dict], active: list[dict]) -> list[dict]:
@@ -276,6 +308,9 @@ def new_event_items(pending: list[dict], active: list[dict]) -> list[dict]:
         nearby = _nearby_same_night(event, active + new)
         choices = {"approve": "Put it on the map. " + DANCE_TEST, **BLOCKS}
         details = {"approve": _approve_details(event)}
+        link_choices, link_details = _link_choices(event, "approve")
+        choices.update(link_choices)
+        details.update(link_details)
         if nearby:
             choices["already_listed"] = ("It is the same night as one of evidence.same_night "
                                          "(same organizer, same event). Merged into that one; if that one "
@@ -313,10 +348,14 @@ def possible_duplicate_items(pending: list[dict]) -> list[dict]:
             evidence["warning"] = ("One of these is a special edition (anniversary, festival, guest "
                                    "night) and the other is the regular series. Those stay separate: "
                                    "'same' will be refused.")
+        details = {"different": _approve_details(event, "different")}
+        link_choices, link_details = _link_choices(event, "different")
+        choices.update(link_choices)
+        details.update(link_details)
         items.append(_item(
             "possible_duplicate", event["id"], event.get("name", ""),
             "Is the new listing the same event as the one already on the map?",
-            evidence, choices, {"different": _approve_details(event)}))
+            evidence, choices, details))
     return items
 
 
@@ -425,8 +464,8 @@ def verification_items(report: list[dict], active_by_id: dict) -> tuple[list[dic
                 "Searched and found nothing trustworthy. This calendar is trusted, so it stays "
                 "on the map without a link."
                 if scraper_utils.publishes_without_link(event.get("source")) else
-                "Searched and found nothing trustworthy. A human is asked to find the link; "
-                "publishing waits until they do.")
+                "Searched and found nothing trustworthy. It comes off the map until its source "
+                "lists it with a link.")
             items.append(_item(
                 "no_link", event["id"], event.get("name", ""),
                 "This event has no link. Find the organizer's page for it.", evidence,
@@ -708,7 +747,7 @@ def _require_big_event(event: dict, params: dict) -> None:
     _styles(params.get("styles"))
 
 
-def _approval_updates(event: dict, params: dict) -> dict:
+def _approval_updates(event: dict, params: dict, choice: str) -> dict:
     """Validate the whole approval before moving a record out of its queue."""
     _require_big_event(event, params)
     updates = {}
@@ -721,6 +760,12 @@ def _approval_updates(event: dict, params: dict) -> dict:
         _check_link(params["url"], {**event, **updates})
         updates["urls"] = [u for u in event_url_list(event) if u != params["url"]]
         updates["url"] = params["url"]
+    elif not event_url_list(event):
+        if not choice.endswith("_without_link"):
+            raise Refused("this listing has no link. Give the organizer's page for this night in "
+                          "`url` (try review_link_check first), or if a search finds none, answer "
+                          f"{_no_link_choice(event, choice)}.")
+        updates["no_link_searched_at"] = datetime.now(timezone.utc).isoformat()
     return updates
 
 
@@ -760,8 +805,10 @@ def _apply_new_event(item: dict, choice: str, params: dict) -> dict:
                                params.get("note") or f"same night as {same_as}")
         _approve_with_updates(event, {"_dedup_candidate_of": same_as})
         return {"status": "merged", "into": same_as}
-    # approve
-    updates = _approval_updates(event, params)
+    if choice == "no_link_yet":
+        return reject_pending(event["id"], "no link found; asked again if its source lists it again")
+    # approve / approve_without_link
+    updates = _approval_updates(event, params, choice)
     return _finish_approval(_approve_with_updates(event, updates), params, event)
 
 
@@ -777,8 +824,10 @@ def _apply_possible_duplicate(item: dict, choice: str, params: dict) -> dict:
         if result.get("status") not in ("added", "duplicate", "merged", "reactivated", "merged_into_archive"):
             raise Refused(result.get("message") or result.get("status"))
         return {"status": "merged", "into": event.get("_dedup_candidate_of")}
-    # different
-    updates = _approval_updates(event, params)
+    if choice == "no_link_yet":
+        return reject_pending(event["id"], "no link found; asked again if its source lists it again")
+    # different / different_without_link
+    updates = _approval_updates(event, params, choice)
     candidate = event["_dedup_candidate_of"]
     clean = {k: v for k, v in event.items() if not k.startswith(("_dedup", "_quarantined"))}
     clean.update(updates)
@@ -884,7 +933,8 @@ def _apply_date_mismatch(item: dict, choice: str, params: dict) -> dict:
         edit_event(event["id"], _move_to_day(event, day))
         return {"status": "moved", "to": day}
     if choice == "not_happening":
-        return archive_event(event["id"], reason=params.get("note") or "not happening per source")
+        return archive_event(event["id"], reason=params.get("note") or "not happening per source",
+                             hold=HOLD_CANCELLED)
     note = _require_note(params)
     _flag_manual(event["id"], f"source says {item['evidence'].get('source_date')}, we list "
                               f"{item['evidence'].get('our_date')}: {note}")
@@ -903,7 +953,7 @@ def _apply_location_mismatch(item: dict, choice: str, params: dict) -> dict:
 def _apply_cancelled(item: dict, choice: str, params: dict) -> dict:
     event = _find(load_active(), item["subject"])
     if choice == "archive":
-        return archive_event(event["id"], reason="cancelled per source")
+        return archive_event(event["id"], reason="cancelled per source", hold=HOLD_CANCELLED)
     _flag_manual(event["id"], f"source looked cancelled or gone, reviewer kept it: {_require_note(params)}")
     return {"status": "kept; flagged for a human"}
 
@@ -928,9 +978,9 @@ def _apply_no_link(item: dict, choice: str, params: dict) -> dict:
         if scraper_utils.publishes_without_link(event.get("source")):
             edit_event(event["id"], {"no_link_searched_at": datetime.now(timezone.utc).isoformat()})
             return {"status": "left without a link (trusted calendar)"}
-        _flag_manual(event["id"], "no link found online; find the organizer's page for this event "
-                                  "and set it, or take the event off the map")
-        return {"status": "a human is asked for the link"}
+        # An unverifiable event must not hold up the whole week's publish.
+        archive_event(event["id"], reason="no link found online", hold=HOLD_NO_LINK)
+        return {"status": "off the map until its source lists a link"}
     if not params.get("url"):
         raise Refused("`url` is required for set_link.")
     _set_primary_link(event, params["url"])
@@ -948,7 +998,7 @@ def _apply_broken_link(item: dict, choice: str, params: dict) -> dict:
         _drop_link(event, item["evidence"]["dead_link"])
         return {"status": "link removed"}
     if choice == "archive":
-        return archive_event(event["id"], reason="link dead, event gone")
+        return archive_event(event["id"], reason="link dead, event gone", hold=HOLD_CANCELLED)
     _flag_manual(event["id"], f"dead link {item['evidence']['dead_link']}: {_require_note(params)}")
     return {"status": "flagged for a human"}
 
@@ -1180,6 +1230,36 @@ def render_summary(worklist: dict, publish: dict, doctor: Optional[dict]) -> str
     return "\n".join(lines) + "\n"
 
 
+def recheck(run_checks: bool = True) -> dict:
+    """After the agent: verify the state its answers left, and ask about
+    anything finish would otherwise block on.
+
+    Answers change the map (an approval adds an event nobody has verified yet),
+    and finish refuses to publish unless every event verifies. On 2026-10-07
+    every question was answered, then finish found two approved events with no
+    link and a cancelled event ingest had let back in, and the week went
+    unpublished. A problem found after the questions is a follow-up question,
+    not a failed run.
+    """
+    import verify_events
+
+    worklist = load_worklist()
+    if run_checks:
+        verify_events.verify_all()
+    report = atomic_io.read_json(verify_events.REPORT_PATH, default=[])
+    auto = archive_structured_cancellations(report)
+    active_by_id = {e["id"]: e for e in load_active() if not e.get("_needs_manual_check")}
+    items, notes = verification_items(report, active_by_id)
+    asked = {i["id"] for i in worklist.get("items", [])}
+    new = [i for i in items if i["id"] not in asked]
+    worklist.setdefault("items", []).extend(new)
+    worklist.setdefault("auto_actions", []).extend(auto)
+    worklist.setdefault("for_the_human", {})["unverified"] = notes
+    save_worklist(worklist)
+    return {"follow_up_questions": len(new), "by_id": [i["id"] for i in new],
+            "done_automatically": len(auto)}
+
+
 def finish(run_checks: bool = True) -> int:
     worklist = load_worklist()
     doctor = None
@@ -1215,7 +1295,7 @@ def finish(run_checks: bool = True) -> int:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("step", choices=["prepare", "status", "finish"])
+    ap.add_argument("step", choices=["prepare", "recheck", "status", "finish"])
     args = ap.parse_args()
     if args.step == "prepare":
         worklist = prepare()
@@ -1225,6 +1305,10 @@ def main() -> int:
         print(json.dumps({"questions": len(worklist["items"]), "by_kind": kinds,
                           "done_automatically": len(worklist["auto_actions"])}, indent=2))
         return 0
+    if args.step == "recheck":
+        result = recheck()
+        print(json.dumps(result, indent=2))
+        return 3 if result["follow_up_questions"] else 0
     if args.step == "status":
         worklist = load_worklist()
         print(_progress(worklist))

@@ -10,7 +10,9 @@ bld-review.timer ──► bld-review.service ──► automation/claude_review
   catches up after                             2. weekly_review.py prepare (checks → questions)
   sleep/power-off)                             3. claude -p automation/agent_prompt.md
                                                   (answers questions; 5 review tools + web search)
-                                               4. weekly_review.py finish → commit_pipeline.sh
+                                               4. weekly_review.py recheck (re-verify; follow-up
+                                                  questions → one more agent pass)
+                                               5. weekly_review.py finish → commit_pipeline.sh
                                                         │
                                                         ▼
                                   automation/logs/review-<timestamp>.jsonl

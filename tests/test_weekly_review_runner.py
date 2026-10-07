@@ -19,10 +19,24 @@ def _executable(path, body):
     (True, 0, 0, 0, ['git']),
     (False, 2, 0, 0, ['git', 'refresh']),
     (False, 0, 7, 0, ['git', 'refresh', 'prepare', 'agent', 'status']),
-    (False, 0, 0, 1, ['git', 'refresh', 'prepare', 'agent', 'status', 'finish', 'git']),
-    (False, 0, 0, 0, ['git', 'refresh', 'prepare', 'agent', 'status', 'finish', 'commit', 'git']),
+    (False, 0, 0, 1, ['git', 'refresh', 'prepare', 'agent', 'recheck', 'status', 'finish', 'git']),
+    (False, 0, 0, 0, ['git', 'refresh', 'prepare', 'agent', 'recheck', 'status', 'finish', 'commit', 'git']),
 ])
 def test_runner_stops_before_deployment_on_failure(tmp_path, dirty, refresh_rc, agent_rc, finish_rc, expected):
+    _run_runner(tmp_path, dirty, refresh_rc, agent_rc, finish_rc, 0, expected)
+
+
+@pytest.mark.parametrize('recheck_rc,expected', [
+    # 2026-10-07: problems found after every question was answered left the
+    # week unpublished; now they are follow-up questions for one more pass.
+    (3, ['git', 'refresh', 'prepare', 'agent', 'recheck', 'agent', 'status', 'finish', 'commit', 'git']),
+    (1, ['git', 'refresh', 'prepare', 'agent', 'recheck', 'status', 'finish', 'commit', 'git']),
+])
+def test_follow_up_questions_get_one_more_agent_pass(tmp_path, recheck_rc, expected):
+    _run_runner(tmp_path, False, 0, 0, 0, recheck_rc, expected)
+
+
+def _run_runner(tmp_path, dirty, refresh_rc, agent_rc, finish_rc, recheck_rc, expected):
     trace = tmp_path / 'calls'
     _executable(tmp_path / 'bin/git', 'echo git >> "$TRACE"\nif [[ "$DIRTY" == 1 ]]; then echo " M user-file"; fi\n')
     _executable(tmp_path / 'automation/refresh.sh', 'echo refresh >> "$TRACE"\nexit "$REFRESH_RC"\n')
@@ -31,12 +45,14 @@ def test_runner_stops_before_deployment_on_failure(tmp_path, dirty, refresh_rc, 
 if [[ "$1" == -c ]]; then exit 1; fi
 echo "$2" >> "$TRACE"
 if [[ "$2" == finish ]]; then exit "$FINISH_RC"; fi
+if [[ "$2" == recheck ]]; then exit "$RECHECK_RC"; fi
 ''')
     _executable(tmp_path / 'bin/claude', 'echo agent >> "$TRACE"\nexit "$AGENT_RC"\n')
     (tmp_path / 'automation/agent_prompt.md').write_text('Test review')
     env = {**os.environ, 'BLD_REPO_DIR': str(tmp_path), 'TRACE': str(trace),
            'PATH': f'{tmp_path / "bin"}:{os.environ["PATH"]}', 'DIRTY': str(int(dirty)),
            'REFRESH_RC': str(refresh_rc), 'AGENT_RC': str(agent_rc), 'FINISH_RC': str(finish_rc),
+           'RECHECK_RC': str(recheck_rc),
            'BLD_SKIP_REFRESH': '0'}
     result = subprocess.run(['bash', str(ROOT / 'automation/claude_review.sh')],
                             env=env, capture_output=True, text=True, timeout=20)

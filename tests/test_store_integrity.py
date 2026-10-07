@@ -721,3 +721,43 @@ def test_non_latin_event_lands_in_rejected_queue(store):
     assert result["status"] == "rejected_non_latin"
     assert [r["id"] for r in store.load_rejected()] == ["evt-1"]
     assert store.load_active() == []
+
+
+# ── archive holds (2026-10-07: Reggaeton Fest came back the day after it was
+# archived as cancelled, because Eventbrite still listed it) ───────────────
+
+def _archived_with_hold(store, hold, **overrides):
+    store.save_active([_event(_verified_at=_at(0).isoformat(), _verified_status="confirmed", **overrides)])
+    store.archive_event("evt-1", reason="test", hold=hold)
+
+
+def test_a_cancelled_event_is_not_reactivated(store):
+    _archived_with_hold(store, "cancelled")
+    result = store.add_event(_event())
+    assert result["status"] == "duplicate" and "held" in result["message"]
+    assert store.load_active() == [] and len(store.load_archive()) == 1
+
+
+def test_a_no_link_hold_lifts_only_when_the_source_gives_a_link(store):
+    _archived_with_hold(store, "no_link", url=None)
+    assert store.add_event(_event(url=None))["status"] == "duplicate"
+    result = store.add_event(_event(url="https://example.com/fiesta"))
+    assert result["status"] == "reactivated"
+    [event] = store.load_active()
+    assert "_archive_hold" not in event
+
+
+def test_a_reactivated_event_is_verified_again(store):
+    past = _at(-30)
+    store.save_archive([_event(startDate=past.isoformat(), endDate=(past + timedelta(hours=3)).isoformat(),
+                               _verified_at=_at(-1).isoformat(), _verified_status="cancelled")])
+    assert store.add_event(_event())["status"] == "reactivated"
+    [event] = store.load_active()
+    assert "_verified_at" not in event and "_verified_status" not in event
+
+
+def test_archive_refuses_an_unknown_hold(store):
+    store.save_active([_event()])
+    with pytest.raises(ValueError):
+        store.archive_event("evt-1", hold="maybe")
+    assert len(store.load_active()) == 1

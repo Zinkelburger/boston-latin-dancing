@@ -655,10 +655,16 @@ def verify_all(
 
     if stale_days is not None:
         cutoff = datetime.now(timezone.utc) - timedelta(days=stale_days)
+        # The doctor reads the report, not the event: an event with a recent
+        # _verified_at but no report row (one back from the archive) is
+        # unverified as far as publishing is concerned, so check it now.
+        existing = read_json(REPORT_PATH, default=[])
+        reported = {row.get("event_id") for row in existing if isinstance(row, dict)} \
+            if isinstance(existing, list) else set()
         filtered = []
         for e in active:
             last_check = e.get("_verified_at")
-            if not last_check:
+            if not last_check or e["id"] not in reported:
                 filtered.append(e)
                 continue
             try:

@@ -9,6 +9,17 @@ from .dedup import dedup_confidence, dedup_reason, log_dedup, merge_event
 from .occurrences import last_occurrence
 from .storage import append_changelog, clear_stale_rejected, locked
 
+# Why a hand-archived event must stay archived even though its source still
+# lists it with an upcoming date (ingest otherwise reactivates such a record):
+#   cancelled  the event is not happening. Reggaeton Fest (2026-10-07) was
+#              archived because Eventbrite said EventCancelled, then pulled
+#              straight back onto the map by the next scrape of that listing.
+#   no_link    nobody could find a page for it, and its source may not publish
+#              without one; it returns once the source lists it with a link.
+HOLD_CANCELLED = "cancelled"
+HOLD_NO_LINK = "no_link"
+ARCHIVE_HOLDS = (HOLD_CANCELLED, HOLD_NO_LINK)
+
 
 @locked
 def archive_past_events() -> list[dict]:
@@ -57,8 +68,10 @@ def archive_past_events() -> list[dict]:
 
 
 @locked
-def archive_event(event_id: str, reason: str = "") -> dict:
+def archive_event(event_id: str, reason: str = "", hold: Optional[str] = None) -> dict:
     """Move one active event to the archive by hand, whatever its dates.
+
+    ``hold`` (one of ARCHIVE_HOLDS) keeps ingest from reactivating it.
 
     Returns ``{"status": "archived", "event": ...}`` or ``{"status":
     "not_found", "event": None}``. The archive is written before active is,
@@ -70,8 +83,12 @@ def archive_event(event_id: str, reason: str = "") -> dict:
         return {"status": "not_found", "event": None,
                 "message": f"No active event with id '{event_id}'"}
 
+    if hold is not None and hold not in ARCHIVE_HOLDS:
+        raise ValueError(f"hold must be one of {ARCHIVE_HOLDS}, not {hold!r}")
     event = dict(active[idx])
     event["archivedAt"] = datetime.now(timezone.utc).isoformat()
+    if hold:
+        event["_archive_hold"] = hold
 
     archive = storage.load_archive()
     a_idx = next((i for i, ev in enumerate(archive) if ev.get("id") == event_id), None)

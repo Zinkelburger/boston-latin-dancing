@@ -8,6 +8,9 @@
 #   agent    headless Claude with ONLY the review tools (review_next /
 #            review_answer / review_skip / review_link_check / event_get, plus
 #            web search to find links). No shell, no file edits, no git.
+#   recheck  weekly_review.py recheck: verify what the answers left and turn
+#            anything finish would block on into follow-up questions; if there
+#            are any (exit 3), the agent gets one more pass to answer them
 #   finish   weekly_review.py finish: publish (tripwire-guarded), link check,
 #            doctor, summary; then commit_pipeline.sh commits and pushes
 #
@@ -69,21 +72,39 @@ if ! step prepare "$PY" scripts/weekly_review.py prepare; then
   emit phase "done"; emit exit 1; exit 1
 fi
 
-emit phase "agent"
-STATUS=0
-if "$PY" -c 'import sys; sys.path.insert(0,"scripts"); import weekly_review as w; sys.exit(0 if w.next_item().get("done") else 1)'; then
-  emit info "no questions this week; skipping the agent"
-else
-  # Unattended and permission-free, so the guardrail is the tool list: the MCP
-  # server runs with BLD_MCP_PROFILE=review (see claude-mcp.json) and the only
-  # built-ins are web search and fetch, for finding an organizer's page.
+run_agent() { # unattended and permission-free, so the guardrail is the tool list:
+  # the MCP server runs with BLD_MCP_PROFILE=review (see claude-mcp.json) and
+  # the only built-ins are web search and fetch, for finding an organizer's page.
   claude -p "$(cat "$REPO_DIR/automation/agent_prompt.md")" \
     --model "$MODEL" \
     --mcp-config "$REPO_DIR/automation/claude-mcp.json" --strict-mcp-config \
     --permission-mode bypassPermissions \
     --tools "WebSearch,WebFetch" \
     --output-format stream-json --verbose \
-    </dev/null >>"$RUN_LOG" 2>&1 || STATUS=$?
+    </dev/null >>"$RUN_LOG" 2>&1
+}
+
+emit phase "agent"
+STATUS=0
+if "$PY" -c 'import sys; sys.path.insert(0,"scripts"); import weekly_review as w; sys.exit(0 if w.next_item().get("done") else 1)'; then
+  emit info "no questions this week; skipping the agent"
+else
+  run_agent || STATUS=$?
+fi
+
+# Answers change the map. Whatever finish would block on becomes a follow-up
+# question now, answered in one more pass, instead of an unpublished week.
+if [[ "$STATUS" -eq 0 ]]; then
+  emit phase "recheck"
+  RECHECK=0
+  step recheck "$PY" scripts/weekly_review.py recheck || RECHECK=$?
+  if [[ "$RECHECK" -eq 3 ]]; then
+    emit phase "agent"
+    emit info "follow-up questions from the recheck; one more pass"
+    run_agent || STATUS=$?
+  elif [[ "$RECHECK" -ne 0 ]]; then
+    emit warning "recheck failed (exit $RECHECK); finish will still gate publishing"
+  fi
 fi
 step info "$PY" scripts/weekly_review.py status || true
 

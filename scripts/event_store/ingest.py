@@ -9,12 +9,14 @@ import source_signal
 from atomic_io import CorruptJSONError
 
 from . import blocklist, paths, sources, storage
+from .archive import HOLD_CANCELLED, HOLD_NO_LINK
 from .classify import enrich_event, is_latin_relevant
 from .dedup import dedup_reason, find_duplicate_in, log_dedup, merge_event
 from .known_duplicates import persist_known_duplicate
 from .locations import infer_location, is_out_of_area
 from .occurrences import last_occurrence
 from .sources import is_venue_schedule_record
+from .urls import event_url_list
 from .storage import (
     append_changelog,
     clear_stale_rejected,
@@ -172,10 +174,23 @@ def add_event(
                     "message": "already archived; incoming copy is not upcoming",
                 }
             archived = archive[archive_idx]
+            hold = archived.get("_archive_hold")
+            if hold == HOLD_CANCELLED or (hold == HOLD_NO_LINK and not event_url_list(event)):
+                return {
+                    "status": "duplicate",
+                    "confidence": conf,
+                    "message": f"archived and held ({hold}); not reactivated",
+                }
             reason = dedup_reason(archived, event, conf)
             merged = merge_event(archived, event)
             enrich_event(merged)
             merged["reactivatedAt"] = datetime.now(timezone.utc).isoformat()
+            # Back on the map is not the same record that was verified before
+            # it left: drop the old verification so the next stale-only check
+            # (weekly_review prepare) looks at it again, and drop the hold.
+            for key in ("_archive_hold", "_verified_at", "_verified_status",
+                        "_verified_notes", "_verification_url"):
+                merged.pop(key, None)
             # Destination first: land the record in active, then retire the
             # archived copy. archive_past_events() reconciles the same id.
             active.append(merged)

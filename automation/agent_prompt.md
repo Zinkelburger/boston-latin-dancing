@@ -27,8 +27,11 @@ them.
 - **Links.** Never guess a URL. When a question asks for one, search the web
   for the organizer's own page for that event. Check it with
   `review_link_check(event_id, url)` before answering. Only answer with a URL
-  that check accepts. If nothing is accepted, choose the "none found" or
-  "flag" option instead. A missing link is fine; a wrong link is not.
+  that check accepts. If nothing is accepted, choose the "none found",
+  "without link", "no link yet" or "flag" option instead. A missing link is
+  fine; a wrong link is not.
+- **Follow-up questions.** After your answers, a script re-checks the map and
+  may run you again with follow-up questions. Answer them the same way.
 - **Addresses.** Only give an address when `details` asks for one. Use the
   full street address with town, copied from the organizer's page.
 - **Don't know?** Call `review_skip(item_id, note)` and say what a human

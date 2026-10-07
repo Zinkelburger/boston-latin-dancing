@@ -229,15 +229,73 @@ def test_no_link_from_a_trusted_calendar_publishes_after_a_search(store):
     assert verify_events.flag_no_url(event)["status"] == "calendar_only"
 
 
-def test_no_link_from_another_calendar_goes_to_a_human(store):
-    import verify_events
+def test_no_link_from_another_calendar_comes_off_the_map_without_blocking(store):
+    # A flag for a human left the event on the map unverified, and finish then
+    # refused to publish the whole week over it.
     store.save_active([_event(id="sen", url=None, source="sensualeros-boston")])
     item = _item_for(_worklist(verification=[{"event_id": "sen", "status": "no_source"}]), "no_link")
-    assert "human is asked" in item["choices"]["none_found"]
+    assert "off the map" in item["choices"]["none_found"]
     assert wr.answer(item["id"], "none_found")["ok"] is True
-    (event,) = store.load_active()
-    assert "find the organizer's page" in event["_needs_manual_check"]["reason"]
-    assert verify_events.flag_no_url(event)["status"] == "no_source"
+    assert store.load_active() == []
+    [held] = store.load_archive()
+    assert held["_archive_hold"] == "no_link"
+
+
+# ── new listings without a link (2026-10-07: BOBAS, Saborcito) ─────────
+
+def test_a_linkless_new_listing_cannot_be_approved_without_a_link(store):
+    store.save_pending([_event(id="sen", url=None, source="sensualeros-boston", _quarantined_new=True)])
+    item = _item_for(_worklist(), "new_event")
+    assert "no_link_yet" in item["choices"] and "url" in item["details"]["approve"]
+    refused = wr.answer(item["id"], "approve", big_event=False)
+    assert refused["ok"] is False and "no_link_yet" in refused["error"]
+    assert wr.answer(item["id"], "no_link_yet", note="searched, nothing")["ok"] is True
+    assert store.load_active() == [] and store.load_pending() == []
+
+
+def test_a_linkless_new_listing_from_a_trusted_calendar_verifies_after_the_search(store):
+    import verify_events
+    store.save_pending([_event(id="bea", url=None, source="beatrice-calendar", _quarantined_new=True)])
+    item = _item_for(_worklist(), "new_event")
+    assert "approve_without_link" in item["choices"] and "no_link_yet" not in item["choices"]
+    assert wr.answer(item["id"], "approve", big_event=False)["ok"] is False
+    assert wr.answer(item["id"], "approve_without_link", big_event=False)["ok"] is True
+    [event] = store.load_active()
+    assert verify_events.flag_no_url(event)["status"] == "calendar_only"
+
+
+def test_a_linkless_possible_duplicate_offers_the_same_way_out(store):
+    store.save_active([_event(id="series")])
+    store.save_pending([_event(id="other", name="Tropical Fiesta Anniversary", url=None,
+                               source="sensualeros-boston", _dedup_candidate_of="series")])
+    item = _item_for(_worklist(), "possible_duplicate")
+    assert wr.answer(item["id"], "different", big_event=True)["ok"] is False
+    assert wr.answer(item["id"], "no_link_yet", note="no page")["ok"] is True
+    assert [e["id"] for e in store.load_active()] == ["series"]
+
+
+# ── recheck: whatever finish would block on becomes a question ────────
+
+def test_recheck_turns_new_verification_problems_into_follow_up_questions(store, tmp_path, monkeypatch):
+    import atomic_io
+    import verify_events
+    report_path = tmp_path / "verification-report.json"
+    monkeypatch.setattr(verify_events, "REPORT_PATH", report_path)
+    store.save_active([_event(id="sen", url=None, source="sensualeros-boston", _big_event_reviewed=True),
+                       _event(id="gone", name="Reggaeton Fest", url="https://eb.example/e",
+                              _big_event_reviewed=True)])
+    _worklist()
+    atomic_io.write_json(report_path, [
+        {"event_id": "sen", "status": "no_source", "notes": "No URL"},
+        {"event_id": "gone", "status": "cancelled", "source_url": "https://eb.example/e",
+         "notes": wr.STRUCTURED_CANCELLATION},
+    ])
+    result = wr.recheck(run_checks=False)
+    assert result == {"follow_up_questions": 1, "by_id": ["no_link:sen"], "done_automatically": 1}
+    assert wr.next_item()["item"]["id"] == "no_link:sen"
+    assert [e["_archive_hold"] for e in store.load_archive()] == ["cancelled"]
+    # Asking twice would hand the agent a question it already answered.
+    assert wr.recheck(run_checks=False)["follow_up_questions"] == 0
 
 
 def test_an_old_no_link_search_expires():
@@ -541,3 +599,22 @@ def test_finish_returns_tripwire_exit_without_touching_published_files(store, mo
     monkeypatch.setattr(wr, 'publish_guarded', lambda: pytest.fail('must not publish'))
     assert wr.finish() == 2
     assert 'live count collapsed' in wr.SUMMARY_PATH.read_text()
+
+
+def test_a_stale_only_check_covers_events_missing_from_the_report(store, tmp_path, monkeypatch):
+    # Reggaeton Fest came back from the archive still carrying yesterday's
+    # _verified_at, so prepare's 7-day check skipped it and only finish saw it.
+    import atomic_io
+    import verify_events
+    report_path = tmp_path / "verification-report.json"
+    monkeypatch.setattr(verify_events, "REPORT_PATH", report_path)
+    recent = datetime.now(NY).isoformat()
+    store.save_active([_event(id="reported", _verified_at=recent),
+                       _event(id="unreported", _verified_at=recent)])
+    atomic_io.write_json(report_path, [{"event_id": "reported", "status": "confirmed",
+                                        "verified_at": recent}])
+    checked = []
+    monkeypatch.setattr(verify_events, "verify_event", lambda e: checked.append(e["id"]) or {
+        "event_id": e["id"], "status": "confirmed", "verified_at": recent})
+    verify_events.verify_all(stale_days=7)
+    assert checked == ["unreported"]
