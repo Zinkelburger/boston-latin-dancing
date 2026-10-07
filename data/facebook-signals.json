@@ -1,13 +1,19 @@
 {
   "bobas": {
-    "checked_at": "2026-10-06T13:31:30-04:00",
+    "checked_at": "2026-10-07T12:33:32-04:00",
     "source_url": "https://www.facebook.com/profile.php?id=61551665503735&sk=events",
-    "status": "no_upcoming",
-    "upcoming_events": [],
+    "status": "captured",
+    "upcoming_events": [
+      {
+        "name": "BOBAS Thursday 6-9pm",
+        "date": "October 8, 2026",
+        "url": "https://www.facebook.com/events/2029224094463173/"
+      }
+    ],
     "latest_post": {
-      "text": "Boston Outdoor Bachata And Salsa created an event . 6 days ago 6d · Shared with This is a public event, so your post will be visible to anyone on Facebook. Thu, Oct 1 BOBAS Thursday 6-9pm Hatch Shell on the Esplanade 63 people interested 1",
+      "text": "Boston Outdoor Bachata And Salsa created an event . 22 hours ago 22h · Shared with This is a public event, so your post will be visible to anyone on Facebook. Thu, Oct 8 at 6:00 PM EDT BOBAS Thursday 6-9pm Hatch Shell on the Esplanade 38 people interested",
       "dates": [
-        "2026-10-01"
+        "2026-10-08"
       ]
     },
     "albums": [],
@@ -15,7 +21,7 @@
     "errors": []
   },
   "dantes-inferno-fb": {
-    "checked_at": "2026-10-06T13:31:54-04:00",
+    "checked_at": "2026-10-07T12:33:50-04:00",
     "source_url": "https://www.facebook.com/DantesSalsaInferno/events",
     "status": "captured",
     "upcoming_events": [
@@ -78,7 +84,7 @@
     "errors": []
   },
   "dantes-salsa": {
-    "checked_at": "2026-10-06T13:31:40-04:00",
+    "checked_at": "2026-10-07T12:33:41-04:00",
     "source_url": "https://www.facebook.com/FuegoyCandelaSalsa/events",
     "status": "captured",
     "upcoming_events": [
@@ -89,7 +95,7 @@
       }
     ],
     "latest_post": {
-      "text": "Fuego y Candela Salsa Socials 9 hours ago 9h · Shared with Public Leavin' it all on the dance floor!… See more 0:00 / 1:18",
+      "text": "Fuego y Candela Salsa Socials about an hour ago 1h · Shared with Public Lo que traigo es sabroso!!… See more 0:00 / 0:43",
       "dates": []
     },
     "albums": [
@@ -132,7 +138,7 @@
     "errors": []
   },
   "lowell-sitp": {
-    "checked_at": "2026-10-06T13:33:02-04:00",
+    "checked_at": "2026-10-07T12:34:42-04:00",
     "source_url": "https://www.facebook.com/LowellSITP/events",
     "status": "no_upcoming",
     "upcoming_events": [],
@@ -158,7 +164,7 @@
     "errors": []
   },
   "noise-boston-fb": {
-    "checked_at": "2026-10-06T15:38:33-04:00",
+    "checked_at": "2026-10-07T12:35:01-04:00",
     "source_url": "https://www.facebook.com/noise.boston/events",
     "status": "captured",
     "upcoming_events": [
@@ -169,7 +175,7 @@
       }
     ],
     "latest_post": {
-      "text": "Noise Boston is at PKL . 3 hours ago 3h · Boston · Shared with Public Bachata is Bachata . #bostonnightlife #noiseboston #latinosenboston #bachataboston #bachatadancing 0:00 / 0:31",
+      "text": "Noise Boston is at PKL . 3 hours ago 3h · Boston · Shared with Public Para que nunca se vaya . Salsa only at noise Boston .… See more 0:00 / 0:28",
       "dates": []
     },
     "albums": [],
@@ -177,7 +183,7 @@
     "errors": []
   },
   "sabor-latino": {
-    "checked_at": "2026-10-06T13:32:38-04:00",
+    "checked_at": "2026-10-07T12:34:21-04:00",
     "source_url": "https://www.facebook.com/SaborLatinoBoston/events",
     "status": "no_upcoming",
     "upcoming_events": [],
@@ -241,7 +247,7 @@
     "errors": []
   },
   "tambo-salsa-fb": {
-    "checked_at": "2026-10-06T13:32:08-04:00",
+    "checked_at": "2026-10-07T12:33:58-04:00",
     "source_url": "https://www.facebook.com/Tambosalsa/events",
     "status": "captured",
     "upcoming_events": [
@@ -257,7 +263,7 @@
       }
     ],
     "latest_post": {
-      "text": "Tambó Salsa is at Tambó Salsa . 3 hours ago 3h · Cambridge · ﻿ Irimo · Dimension Latina · Shared with Public Tambo Friday, October 9th 8:30pm - 1am Mix of dancing and shows this Friday night!! … See more",
+      "text": "Tambó Salsa is at Tambó Salsa . a day ago 1d · Cambridge · ﻿ Irimo · Dimension Latina · Shared with Public Tambo Friday, October 9th 8:30pm - 1am Mix of dancing and shows this Friday night!! … See more",
       "dates": [
         "2026-10-09"
       ]
@@ -317,19 +323,15 @@
     "errors": []
   },
   "zouk-bos-fb": {
-    "checked_at": "2026-10-06T15:36:06-04:00",
+    "checked_at": "2026-10-07T12:34:53-04:00",
     "source_url": "https://www.facebook.com/profile.php?id=100090589803309&sk=events",
-    "status": "captured",
-    "upcoming_events": [
-      {
-        "name": "Boston Senior Zouk Social (10/6/2026)",
-        "date": "October 6, 2026",
-        "url": "https://www.facebook.com/events/1780839909912751/"
-      }
-    ],
+    "status": "no_upcoming",
+    "upcoming_events": [],
     "latest_post": {
-      "text": "Zouk BOS 6 days ago 6d · Shared with Public It’s the first October Senior Social Cooler weather just means more comfy cozy dances or higher energy dances We can’t wait to see you! B… See more 2",
-      "dates": []
+      "text": "Zouk BOS September 29 at 6:02 PM · Shared with Public It’s the first October Senior Social Cooler weather just means more comfy cozy dances or higher energy dances We can’t wait to see you! B… See more 2",
+      "dates": [
+        "2026-09-29"
+      ]
     },
     "albums": [],
     "flyers": [

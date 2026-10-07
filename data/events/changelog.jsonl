@@ -1490,3 +1490,53 @@
 {"ts": "2026-10-06T19:38:20.681853+00:00", "action": "source_add", "event_id": "noise-boston-fb", "details": "Noise Boston"}
 {"ts": "2026-10-06T20:34:28.427104+00:00", "action": "source_add", "event_id": "dancefam", "details": "DanceFam (dancefam.org)"}
 {"ts": "2026-10-06T20:34:28.429856+00:00", "action": "source_add", "event_id": "posh", "details": "Posh (posh.vip) search"}
+{"ts": "2026-10-07T16:35:46.392592+00:00", "action": "quarantine_new", "event_id": "5529CD59-6699-43E5-98A8-28DACF6D23A2", "details": ""}
+{"ts": "2026-10-07T16:35:46.750515+00:00", "action": "reactivate", "event_id": "bobas-20261001-0", "details": "from archive (certain)"}
+{"ts": "2026-10-07T16:35:46.867984+00:00", "action": "quarantine_new", "event_id": "dancefam-2700", "details": ""}
+{"ts": "2026-10-07T16:35:47.690706+00:00", "action": "quarantine_new", "event_id": "eb-2002962671268", "details": ""}
+{"ts": "2026-10-07T16:35:47.996906+00:00", "action": "reactivate", "event_id": "eb-1999323753166", "details": "from archive (certain)"}
+{"ts": "2026-10-07T16:35:48.480037+00:00", "action": "quarantine_new", "event_id": "posh-bachata-brunch-club-libra-affair-", "details": ""}
+{"ts": "2026-10-07T16:35:48.504654+00:00", "action": "quarantine_new", "event_id": "posh-bachata-boo-halloween-bachata-brunch-club", "details": ""}
+{"ts": "2026-10-07T16:35:48.555935+00:00", "action": "quarantine_new", "event_id": "posh-callao-salsa-nigth-otoo-entre-hojas-y-sazon-", "details": ""}
+{"ts": "2026-10-07T16:35:48.581222+00:00", "action": "quarantine_new", "event_id": "posh-dead-fresh-a-hallowine-affair", "details": ""}
+{"ts": "2026-10-07T16:35:49.002213+00:00", "action": "quarantine_new", "event_id": "2t9lr8681qdeo3nh40c2lpoja0@google.com", "details": ""}
+{"ts": "2026-10-07T16:35:49.156120+00:00", "action": "quarantine_new", "event_id": "vd53so8p8ddfpsgetpl0grjbrk@google.com", "details": ""}
+{"ts": "2026-10-07T16:35:49.299439+00:00", "action": "archive", "event_id": "d3953ee79b4effa6b332abf32cb4e01ba180f56e@occurrence-1@dance-calendar", "details": ""}
+{"ts": "2026-10-07T16:35:49.299669+00:00", "action": "archive", "event_id": "bobas-20261001-0", "details": ""}
+{"ts": "2026-10-07T16:36:27.170962+00:00", "action": "block", "event_id": "5529CD59-6699-43E5-98A8-28DACF6D23A2", "details": "duplicate_source: Same BOBAS outdoor salsa/bachata social on the docks behind the Hatch Shell, Thu Oct 8 from 6 PM; Sensualeros calendar already lists it."}
+{"ts": "2026-10-07T16:36:27.173020+00:00", "action": "review_answer", "event_id": "5529CD59-6699-43E5-98A8-28DACF6D23A2", "details": "new_event: already_listed Same BOBAS outdoor salsa/bachata social on the docks behind the Hatch Shell, Thu Oct 8 from 6 PM; Sensualeros calendar already lists it."}
+{"ts": "2026-10-07T16:36:37.819868+00:00", "action": "add", "event_id": "dancefam-2700", "details": ""}
+{"ts": "2026-10-07T16:36:37.821311+00:00", "action": "approve", "event_id": "dancefam-2700", "details": ""}
+{"ts": "2026-10-07T16:36:37.824680+00:00", "action": "edit", "event_id": "dancefam-2700", "details": "{\"_big_event_reviewed\": true, \"special\": true, \"styles\": [\"bachata\", \"merengue\"]}"}
+{"ts": "2026-10-07T16:36:37.825774+00:00", "action": "review_answer", "event_id": "dancefam-2700", "details": "new_event: approve DanceFam page describes a bachata t\u00edpico social dance by BachaTipico Hangout at Dorchester Brewing, $30 tickets, a branded one-off."}
+{"ts": "2026-10-07T16:36:40.369078+00:00", "action": "add", "event_id": "eb-2002962671268", "details": ""}
+{"ts": "2026-10-07T16:36:40.370218+00:00", "action": "approve", "event_id": "eb-2002962671268", "details": ""}
+{"ts": "2026-10-07T16:36:40.372073+00:00", "action": "edit", "event_id": "eb-2002962671268", "details": "{\"_big_event_reviewed\": true}"}
+{"ts": "2026-10-07T16:36:40.373102+00:00", "action": "review_answer", "event_id": "eb-2002962671268", "details": "new_event: approve Latin nightlife club party (\"Reimagining Latin Nightlife\") at Icon Nightclub, 10 PM\u20132 AM, $15; a Halloween-season themed club night."}
+{"ts": "2026-10-07T16:36:43.166151+00:00", "action": "add", "event_id": "posh-bachata-brunch-club-libra-affair-", "details": ""}
+{"ts": "2026-10-07T16:36:43.167619+00:00", "action": "approve", "event_id": "posh-bachata-brunch-club-libra-affair-", "details": ""}
+{"ts": "2026-10-07T16:36:43.170261+00:00", "action": "edit", "event_id": "posh-bachata-brunch-club-libra-affair-", "details": "{\"_big_event_reviewed\": true}"}
+{"ts": "2026-10-07T16:36:43.171895+00:00", "action": "review_answer", "event_id": "posh-bachata-brunch-club-libra-affair-", "details": "new_event: approve Latin day party with bachata dancing at Grace by Nia in the Seaport, 2\u20138 PM. This is the brunch club's monthly edition, themed for Libra season."}
+{"ts": "2026-10-07T16:36:45.351648+00:00", "action": "add", "event_id": "posh-bachata-boo-halloween-bachata-brunch-club", "details": ""}
+{"ts": "2026-10-07T16:36:45.353003+00:00", "action": "approve", "event_id": "posh-bachata-boo-halloween-bachata-brunch-club", "details": ""}
+{"ts": "2026-10-07T16:36:45.355591+00:00", "action": "edit", "event_id": "posh-bachata-boo-halloween-bachata-brunch-club", "details": "{\"_big_event_reviewed\": true}"}
+{"ts": "2026-10-07T16:36:45.356740+00:00", "action": "review_answer", "event_id": "posh-bachata-boo-halloween-bachata-brunch-club", "details": "new_event: approve Halloween edition of the monthly Bachata Brunch Club at Grace by Nia: DJs, bachata dancing and a costume contest. It's a holiday-theme party, so not marked big."}
+{"ts": "2026-10-07T16:36:47.561663+00:00", "action": "add", "event_id": "posh-callao-salsa-nigth-otoo-entre-hojas-y-sazon-", "details": ""}
+{"ts": "2026-10-07T16:36:47.563182+00:00", "action": "approve", "event_id": "posh-callao-salsa-nigth-otoo-entre-hojas-y-sazon-", "details": ""}
+{"ts": "2026-10-07T16:36:47.565667+00:00", "action": "edit", "event_id": "posh-callao-salsa-nigth-otoo-entre-hojas-y-sazon-", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\"]}"}
+{"ts": "2026-10-07T16:36:47.567264+00:00", "action": "review_answer", "event_id": "posh-callao-salsa-nigth-otoo-entre-hojas-y-sazon-", "details": "new_event: approve Salsa brava dance night with DJ Moreno at La Fonda Colombiana in East Boston, $10 entry."}
+{"ts": "2026-10-07T16:36:51.874468+00:00", "action": "block", "event_id": "posh-dead-fresh-a-hallowine-affair", "details": "not_latin: Halloween club party in Brockton playing hip hop, dancehall, soca, kompa and afrobeats. Kizomba is only one item in a \"& more\" list, and no Latin genres are named."}
+{"ts": "2026-10-07T16:36:51.876676+00:00", "action": "review_answer", "event_id": "posh-dead-fresh-a-hallowine-affair", "details": "new_event: not_latin Halloween club party in Brockton playing hip hop, dancehall, soca, kompa and afrobeats. Kizomba is only one item in a \"& more\" list, and no Latin genres are named."}
+{"ts": "2026-10-07T16:37:05.935807+00:00", "action": "add", "event_id": "2t9lr8681qdeo3nh40c2lpoja0@google.com", "details": ""}
+{"ts": "2026-10-07T16:37:05.936830+00:00", "action": "approve", "event_id": "2t9lr8681qdeo3nh40c2lpoja0@google.com", "details": ""}
+{"ts": "2026-10-07T16:37:05.939482+00:00", "action": "edit", "event_id": "2t9lr8681qdeo3nh40c2lpoja0@google.com", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\", \"bachata\"]}"}
+{"ts": "2026-10-07T16:37:05.940443+00:00", "action": "review_answer", "event_id": "2t9lr8681qdeo3nh40c2lpoja0@google.com", "details": "new_event: approve Free BOBAS outdoor salsa/bachata social on the docks behind the Hatch Shell, Thu Oct 8. The Facebook copy was merged into this one, so this is the record kept. Used the Hatch Shell's address because the organizer gives only a maps link."}
+{"ts": "2026-10-07T16:37:09.741570+00:00", "action": "add", "event_id": "vd53so8p8ddfpsgetpl0grjbrk@google.com", "details": ""}
+{"ts": "2026-10-07T16:37:09.742263+00:00", "action": "approve", "event_id": "vd53so8p8ddfpsgetpl0grjbrk@google.com", "details": ""}
+{"ts": "2026-10-07T16:37:09.744472+00:00", "action": "edit", "event_id": "vd53so8p8ddfpsgetpl0grjbrk@google.com", "details": "{\"_big_event_reviewed\": true}"}
+{"ts": "2026-10-07T16:37:09.745494+00:00", "action": "review_answer", "event_id": "vd53so8p8ddfpsgetpl0grjbrk@google.com", "details": "new_event: approve Free Saborcito dance night at The Anchor beer garden in Charlestown, listed on the Sensualeros dance calendar. The listing is thin and doesn't name styles, so approved per the \"when unsure\" rule."}
+{"ts": "2026-10-07T18:20:40.016802+00:00", "action": "archive", "event_id": "eb-1999323753166", "details": "cancelled: the event page says EventCancelled"}
+{"ts": "2026-10-07T18:21:20.361874+00:00", "action": "archive", "event_id": "2t9lr8681qdeo3nh40c2lpoja0@google.com", "details": "no link found online"}
+{"ts": "2026-10-07T18:21:20.363259+00:00", "action": "review_answer", "event_id": "2t9lr8681qdeo3nh40c2lpoja0@google.com", "details": "no_link: none_found Searched the web; no organizer page for BOBAS on Oct 8 (only Salsa at the Shell in June and unrelated cruises)."}
+{"ts": "2026-10-07T18:21:20.370782+00:00", "action": "archive", "event_id": "vd53so8p8ddfpsgetpl0grjbrk@google.com", "details": "no link found online"}
+{"ts": "2026-10-07T18:21:20.372782+00:00", "action": "review_answer", "event_id": "vd53so8p8ddfpsgetpl0grjbrk@google.com", "details": "no_link: none_found Sabor Latino's Eventbrite Saborcito instances run Jul 20 - Sep 7; none for Oct 12. SalsaVida is an aggregator listing, not the organizer."}

@@ -1,11 +1,11 @@
 {
-  "checked_at": "2026-10-06T17:34:00.287490+00:00",
+  "checked_at": "2026-10-07T16:36:20.254973+00:00",
   "totals": {
-    "events": 40,
-    "with_multiple_sources": 11,
+    "events": 49,
+    "with_multiple_sources": 10,
     "disagreements": 1,
-    "location_agreed": 18,
-    "location_unknown": 22
+    "location_agreed": 26,
+    "location_unknown": 23
   },
   "disagreements": [
     {
@@ -125,12 +125,12 @@
       "claims": [
         {
           "url": "https://ma.to/venue/shoreleavebos",
-          "location": null,
-          "date": null,
-          "instant": null,
-          "via": null,
+          "location": "Tide Pool Lounge",
+          "date": "2026-10-08",
+          "instant": "2026-10-08T20:00:00.000-04:00",
+          "via": "json-ld",
           "city_level": false,
-          "error": "no structured data"
+          "error": null
         },
         {
           "url": "https://www.eventbrite.com/e/sushi-con-salsa-dance-sessions-vol1-tickets-1988719477492",
@@ -144,11 +144,15 @@
       ],
       "location": {
         "verdict": "unknown",
-        "notes": []
+        "notes": [
+          "ma.to/venue/shoreleavebos (json-ld): unknown — could not geocode both addresses"
+        ]
       },
       "date": {
         "verdict": "unknown",
-        "notes": []
+        "notes": [
+          "recurring series — upstream dates not compared"
+        ]
       }
     },
     {
@@ -264,46 +268,6 @@
       }
     },
     {
-      "event_id": "d3953ee79b4effa6b332abf32cb4e01ba180f56e@occurrence-1@dance-calendar",
-      "event_name": "Saborcito @ The Anchor: Salsa & Bachata Dancing",
-      "our_location": "1 Shipyard Park, charlestown, MA 02129, charlestown, MA",
-      "our_date": "2026-09-28",
-      "source_count": 2,
-      "claims": [
-        {
-          "url": "https://www.eventbrite.com/e/saborcito-the-anchor-salsa-bachata-dancing-tickets-1989160742327",
-          "location": "The Anchor, 1 Shipyard Park, charlestown, MA 02129, charlestown, MA",
-          "date": "2026-05-25",
-          "instant": "2026-05-25T18:00:00-04:00",
-          "via": "json-ld",
-          "city_level": false,
-          "error": null
-        },
-        {
-          "url": "https://www.facebook.com/events/2073153546944008/",
-          "location": "Boston",
-          "date": "2026-10-05",
-          "instant": null,
-          "via": "facebook-preview",
-          "city_level": true,
-          "error": null
-        }
-      ],
-      "location": {
-        "verdict": "agree",
-        "notes": [
-          "eventbrite.com/e/saborcito-the-anchor-salsa-b (json-ld): agree — same address text",
-          "facebook.com/events/2073153546944008/ (facebook-preview): agree — 1.6km apart, within the same town"
-        ]
-      },
-      "date": {
-        "verdict": "unknown",
-        "notes": [
-          "recurring series — upstream dates not compared"
-        ]
-      }
-    },
-    {
       "event_id": "8EDCCA4B-FCFA-4CD9-ABA3-8074966ACFCB",
       "event_name": "Bachata Room ",
       "our_location": "La Fabrica , 450 Massachusetts Ave, Cambridge, MA 02139, United States",
@@ -333,7 +297,7 @@
       "event_id": "4BACCA44-811C-4F7E-99D8-7AC8DA46D5CC",
       "event_name": "Bachata Sensual Mondays @ Havana Club",
       "our_location": "Havana Club, 288 Green St, Cambridge, MA  02139, United States",
-      "our_date": "2026-10-05",
+      "our_date": "2026-10-12",
       "source_count": 1,
       "claims": [
         {
@@ -542,7 +506,7 @@
       "event_name": "BOSTON BACHATA PARTY Cocomango Speakeasy Cambridge | La Casa de la Bachata",
       "our_location": "50 Cambridgepark Drive, Cambridge, MA 02140, Cambridge, MA",
       "our_date": "2026-10-17",
-      "source_count": 2,
+      "source_count": 3,
       "claims": [
         {
           "url": "https://www.eventbrite.com/e/boston-bachata-party-cocomango-speakeasy-cambridge-la-casa-de-la-bachata-tickets-1999738598981",
@@ -561,6 +525,15 @@
           "via": "facebook-preview",
           "city_level": true,
           "error": null
+        },
+        {
+          "url": "https://posh.vip/e/boston-bachata-party-cocomango-speakeasy-cambridge-la-casa-de-la-bachata",
+          "location": null,
+          "date": null,
+          "instant": null,
+          "via": null,
+          "city_level": false,
+          "error": "no structured data"
         }
       ],
       "location": {
@@ -1155,13 +1128,21 @@
       "event_name": "SALSA & BACHATA HALLOWEEN",
       "our_location": "PKL – 64 C St, South Boston, MA",
       "our_date": "2026-10-24",
-      "source_count": 0,
-      "claims": [],
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://www.facebook.com/watch/?v=999687709808712",
+          "location": null,
+          "date": null,
+          "instant": null,
+          "via": null,
+          "city_level": false,
+          "error": "no structured data"
+        }
+      ],
       "location": {
         "verdict": "unknown",
-        "notes": [
-          "no source urls"
-        ]
+        "notes": []
       },
       "date": {
         "verdict": "unknown",
@@ -1173,17 +1154,29 @@
       "event_name": "Bachata on Blast Presents: Savi Rodriguez",
       "our_location": "Cocomango Speakeasy (inside TopMix Bar), 50 Cambridgepark Dr, Cambridge, MA 02140",
       "our_date": "2026-10-10",
-      "source_count": 0,
-      "claims": [],
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://dancefam.org/event/2650",
+          "location": "Cocomango Speakeasy, 50 Cambridgepark Drive, Cambridge, Massachusetts, 02140",
+          "date": "2026-10-10",
+          "instant": "2026-10-11T02:00:00.000Z",
+          "via": "json-ld",
+          "city_level": false,
+          "error": null
+        }
+      ],
       "location": {
-        "verdict": "unknown",
+        "verdict": "agree",
         "notes": [
-          "no source urls"
+          "dancefam.org/event/2650 (json-ld): agree — same street number (50)"
         ]
       },
       "date": {
-        "verdict": "unknown",
-        "notes": []
+        "verdict": "agree",
+        "notes": [
+          "dancefam.org/event/2650 (json-ld): says 2026-10-10"
+        ]
       }
     },
     {
@@ -1262,6 +1255,290 @@
       "date": {
         "verdict": "unknown",
         "notes": []
+      }
+    },
+    {
+      "event_id": "F70A561A-F4BC-402E-87BE-46C950F63265",
+      "event_name": "Sazón Noche de Brujas",
+      "our_location": "Lili Latin Dance, 423 W Broadway, Ste 202, South Boston, MA  02127, United States",
+      "our_date": "2026-10-31",
+      "source_count": 0,
+      "claims": [],
+      "location": {
+        "verdict": "unknown",
+        "notes": [
+          "no source urls"
+        ]
+      },
+      "date": {
+        "verdict": "unknown",
+        "notes": []
+      }
+    },
+    {
+      "event_id": "eb-1993623278894",
+      "event_name": "Caribbean social/dance class learning everything from konpa to Bachata.",
+      "our_location": "614 Blue Hill Ave, 614 Blue Hill Avenue, Boston, MA 02121, Boston, MA",
+      "our_date": "2026-10-11",
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://www.eventbrite.com/e/caribbean-socialdance-class-learning-everything-from-konpa-to-bachata-tickets-1993623278894",
+          "location": "614 Blue Hill Ave, 614 Blue Hill Avenue, Boston, MA 02121, Boston, MA",
+          "date": "2026-10-11",
+          "instant": "2026-10-11T18:00:00-04:00",
+          "via": "json-ld",
+          "city_level": false,
+          "error": null
+        }
+      ],
+      "location": {
+        "verdict": "agree",
+        "notes": [
+          "eventbrite.com/e/caribbean-socialdance-class- (json-ld): agree — same address text"
+        ]
+      },
+      "date": {
+        "verdict": "agree",
+        "notes": [
+          "eventbrite.com/e/caribbean-socialdance-class- (json-ld): says 2026-10-11"
+        ]
+      }
+    },
+    {
+      "event_id": "eb-2002462772056",
+      "event_name": "Dance the Night Away! Salsa & More!",
+      "our_location": "Nahant Country Club Estate, 280 Nahant Road, Nahant, MA 01908, Nahant, MA",
+      "our_date": "2026-11-14",
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://www.eventbrite.com/e/dance-the-night-away-salsa-more-tickets-2002462772056",
+          "location": "Nahant Country Club Estate, 280 Nahant Road, Nahant, MA 01908, Nahant, MA",
+          "date": "2026-11-14",
+          "instant": "2026-11-14T18:00:00-05:00",
+          "via": "json-ld",
+          "city_level": false,
+          "error": null
+        }
+      ],
+      "location": {
+        "verdict": "agree",
+        "notes": [
+          "eventbrite.com/e/dance-the-night-away-salsa-m (json-ld): agree — same address text"
+        ]
+      },
+      "date": {
+        "verdict": "agree",
+        "notes": [
+          "eventbrite.com/e/dance-the-night-away-salsa-m (json-ld): says 2026-11-14"
+        ]
+      }
+    },
+    {
+      "event_id": "eb-2002988535629",
+      "event_name": "EL BONCHE'S HALLOWEEN CUBAN SATURDAY NIGHT",
+      "our_location": "Cocomango Speakeasy, 50 Cambridgepark Drive, Cambridge, MA 02140, Cambridge, MA",
+      "our_date": "2026-10-31",
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://www.eventbrite.com/e/el-bonches-halloween-cuban-saturday-night-tickets-2002988535629",
+          "location": "Cocomango Speakeasy, 50 Cambridgepark Drive, Cambridge, MA 02140, Cambridge, MA",
+          "date": "2026-10-31",
+          "instant": "2026-10-31T20:30:00-04:00",
+          "via": "json-ld",
+          "city_level": false,
+          "error": null
+        }
+      ],
+      "location": {
+        "verdict": "agree",
+        "notes": [
+          "eventbrite.com/e/el-bonches-halloween-cuban-s (json-ld): agree — same address text"
+        ]
+      },
+      "date": {
+        "verdict": "agree",
+        "notes": [
+          "eventbrite.com/e/el-bonches-halloween-cuban-s (json-ld): says 2026-10-31"
+        ]
+      }
+    },
+    {
+      "event_id": "eb-2002642031225",
+      "event_name": "SABROSO HALLOWEEN V.002",
+      "our_location": "Cósmica, 40 Berkeley Street, Boston, MA 02116, Boston, MA",
+      "our_date": "2026-10-24",
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://www.eventbrite.com/e/sabroso-halloween-v002-tickets-2002642031225",
+          "location": "Cósmica, 40 Berkeley Street, Boston, MA 02116, Boston, MA",
+          "date": "2026-10-24",
+          "instant": "2026-10-24T20:00:00-04:00",
+          "via": "json-ld",
+          "city_level": false,
+          "error": null
+        }
+      ],
+      "location": {
+        "verdict": "agree",
+        "notes": [
+          "eventbrite.com/e/sabroso-halloween-v002-ticke (json-ld): agree — same address text"
+        ]
+      },
+      "date": {
+        "verdict": "agree",
+        "notes": [
+          "eventbrite.com/e/sabroso-halloween-v002-ticke (json-ld): says 2026-10-24"
+        ]
+      }
+    },
+    {
+      "event_id": "eb-2002919491115",
+      "event_name": "Salsa-ween: Free Latin Social — Salsa, Bachata, Merengue",
+      "our_location": "Hult International Business School, 1 Education Street, Cambridge, MA 02141, Cambridge, MA",
+      "our_date": "2026-10-16",
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://www.eventbrite.com/e/salsa-ween-free-latin-social-salsa-bachata-merengue-tickets-2002919491115",
+          "location": "Hult International Business School, 1 Education Street, Cambridge, MA 02141, Cambridge, MA",
+          "date": "2026-10-16",
+          "instant": "2026-10-16T20:00:00-04:00",
+          "via": "json-ld",
+          "city_level": false,
+          "error": null
+        }
+      ],
+      "location": {
+        "verdict": "agree",
+        "notes": [
+          "eventbrite.com/e/salsa-ween-free-latin-social (json-ld): agree — same address text"
+        ]
+      },
+      "date": {
+        "verdict": "agree",
+        "notes": [
+          "eventbrite.com/e/salsa-ween-free-latin-social (json-ld): says 2026-10-16"
+        ]
+      }
+    },
+    {
+      "event_id": "8up66jtm4r55nkrn9bced3n8vo@google.com",
+      "event_name": "Tambo Salsa/Bachata Social",
+      "our_location": "Tambó Salsa, 35 Hampshire St, Cambridge, MA 02139-1547, United States",
+      "our_date": "2026-10-09",
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://www.facebook.com/events/1466002282099481/",
+          "location": "Cambridge",
+          "date": "2026-10-09",
+          "instant": null,
+          "via": "facebook-preview",
+          "city_level": true,
+          "error": null
+        }
+      ],
+      "location": {
+        "verdict": "agree",
+        "notes": [
+          "facebook.com/events/1466002282099481/ (facebook-preview): agree — same address text"
+        ]
+      },
+      "date": {
+        "verdict": "agree",
+        "notes": [
+          "facebook.com/events/1466002282099481/ (facebook-preview): says 2026-10-09"
+        ]
+      }
+    },
+    {
+      "event_id": "u98kap6gonhh7d8qo7c1jd8c2s@google.com",
+      "event_name": "Boston Senior Zouk Social",
+      "our_location": "Multicultural Arts Center (41 Second St, Cambridge, MA)",
+      "our_date": "2026-10-06",
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://www.facebook.com/events/1780839909912751/",
+          "location": "Cambridge",
+          "date": "2026-10-06",
+          "instant": null,
+          "via": "facebook-preview",
+          "city_level": true,
+          "error": null
+        }
+      ],
+      "location": {
+        "verdict": "agree",
+        "notes": [
+          "facebook.com/events/1780839909912751/ (facebook-preview): agree — same address text"
+        ]
+      },
+      "date": {
+        "verdict": "agree",
+        "notes": [
+          "facebook.com/events/1780839909912751/ (facebook-preview): says 2026-10-06"
+        ]
+      }
+    },
+    {
+      "event_id": "5ts4rr2atql5c1d3qclf055f7g@google.com",
+      "event_name": "Tardeo Salsa & Bachata",
+      "our_location": "Foxglove Terrace, The Atlas Hotel, 40 Western Ave, Allston, MA 02134",
+      "our_date": "2026-10-11",
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://posh.vip/e/tardeo-salsa-bachata",
+          "location": null,
+          "date": null,
+          "instant": null,
+          "via": null,
+          "city_level": false,
+          "error": "no structured data"
+        }
+      ],
+      "location": {
+        "verdict": "unknown",
+        "notes": []
+      },
+      "date": {
+        "verdict": "unknown",
+        "notes": []
+      }
+    },
+    {
+      "event_id": "eb-1999323753166",
+      "event_name": "Reggaeton Fest",
+      "our_location": "Gloucester Street, Gloucester Street, Boston, MA 02115, Boston, MA",
+      "our_date": "2026-10-10",
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://www.eventbrite.com/e/reggaeton-fest-tickets-1999323753166",
+          "location": "Gloucester Street, Gloucester Street, Boston, MA 02115, Boston, MA",
+          "date": "2026-10-10",
+          "instant": "2026-10-10T13:00:00-04:00",
+          "via": "json-ld",
+          "city_level": false,
+          "error": null
+        }
+      ],
+      "location": {
+        "verdict": "agree",
+        "notes": [
+          "eventbrite.com/e/reggaeton-fest-tickets-19993 (json-ld): agree — same address text"
+        ]
+      },
+      "date": {
+        "verdict": "agree",
+        "notes": [
+          "eventbrite.com/e/reggaeton-fest-tickets-19993 (json-ld): says 2026-10-10"
+        ]
       }
     }
   ]

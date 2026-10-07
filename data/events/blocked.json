@@ -416,5 +416,27 @@
     "blocked_notes": "duplicate of eb-2002919491115 (Hult Eventbrite listing of Salsa-ween, Fri Oct 16); Sensualeros copy has no address and a different time",
     "location": "Hult International Business School",
     "block_key": "sensualeros-boston::salsaween free latin social|hult international business school"
+  },
+  {
+    "id": "5529CD59-6699-43E5-98A8-28DACF6D23A2",
+    "name": "BOBAS Thursday 6-9pm",
+    "source": "beatrice-calendar",
+    "blocked_reason": "Same BOBAS outdoor salsa/bachata social on the docks behind the Hatch Shell, Thu Oct 8 from 6 PM; Sensualeros calendar already lists it.",
+    "blocked_category": "duplicate_source",
+    "blocked_at": "2026-10-07T16:36:27.169361+00:00",
+    "blocked_notes": "Same BOBAS outdoor salsa/bachata social on the docks behind the Hatch Shell, Thu Oct 8 from 6 PM; Sensualeros calendar already lists it.",
+    "location": "Hatch Shell on the Esplanade",
+    "block_key": "beatrice-calendar::bobas thursday 69pm|hatch shell"
+  },
+  {
+    "id": "posh-dead-fresh-a-hallowine-affair",
+    "name": "Dead Fresh: A Hallowine Affair",
+    "source": "posh",
+    "blocked_reason": "Halloween club party in Brockton playing hip hop, dancehall, soca, kompa and afrobeats. Kizomba is only one item in a \"& more\" list, and no Latin genres are named.",
+    "blocked_category": "not_latin",
+    "blocked_at": "2026-10-07T16:36:51.870458+00:00",
+    "blocked_notes": "Halloween club party in Brockton playing hip hop, dancehall, soca, kompa and afrobeats. Kizomba is only one item in a \"& more\" list, and no Latin genres are named.",
+    "location": "Pyramid Restaurant Bar and Grill Function Hall, 1040 Main St, Brockton, MA 02301",
+    "block_key": "dead fresh a hallowine affair|pyramid restaurant bar and grill function hall 1040 main st brockton ma 02301"
   }
 ]
