@@ -206,6 +206,11 @@ source_add(
 )
 ```
 
+When `url` is an API endpoint rather than a page a person can open (a POST-only
+search, a JSON backend), also pass `config_json='{"website": "https://<site>"}'`.
+The weekly link check opens `website` instead of `url`; a GET on an API that
+only answers the scraper's request returns an error and blocks publishing.
+
 For Facebook sources, also pass extra config:
 
 ```

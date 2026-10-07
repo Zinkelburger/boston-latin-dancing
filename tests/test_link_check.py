@@ -264,6 +264,21 @@ def test_collect_targets_skips_disabled_sources(tmp_path, monkeypatch):
     assert "https://example.com/off" not in targets
 
 
+
+def test_a_source_with_a_website_is_checked_by_its_website(tmp_path, monkeypatch):
+    # Posh (2026-10-07): its scraper url is a POST-only API; a GET is HTTP 400.
+    sources = tmp_path / "sources.json"
+    sources.write_text(json.dumps([
+        {"id": "posh", "url": "https://posh.example/api/search", "website": "https://posh.example"},
+    ]))
+    monkeypatch.setattr(cl, "PUBLISHED", tmp_path / "missing.json")
+    monkeypatch.setattr(cl, "VENUES", tmp_path / "missing-venues.json")
+    monkeypatch.setattr(cl, "SOURCES", sources)
+
+    targets = cl.collect_targets()
+    assert "https://posh.example" in targets
+    assert "https://posh.example/api/search" not in targets
+
 def test_facebook_post_that_names_the_event_and_date_verifies(monkeypatch):
     # PKL Halloween (2026-10-06): announced only as a Facebook video whose
     # preview states name, date and venue. It used to sit at needs_browser.

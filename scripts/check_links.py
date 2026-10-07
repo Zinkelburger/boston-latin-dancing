@@ -185,7 +185,12 @@ def collect_targets(only_live: bool = False) -> dict[str, list[str]]:
         for s in raw.get("sources", raw) if isinstance(raw, dict) else raw:
             if s.get("enabled") is False:
                 continue
-            add(s.get("url"), f"source: {s.get('id', '?')}")
+            # A scraper's `url` can be an API endpoint that only answers the
+            # scraper's own request (Posh's search is POST-only and a GET is
+            # HTTP 400, which blocked the 2026-10-07 publish). Scraper health
+            # already says whether that endpoint works; check the page a
+            # person would open.
+            add(s.get("website") or s.get("url"), f"source: {s.get('id', '?')}")
 
     return targets
 
