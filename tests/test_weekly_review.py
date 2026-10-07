@@ -618,3 +618,61 @@ def test_a_stale_only_check_covers_events_missing_from_the_report(store, tmp_pat
         "event_id": e["id"], "status": "confirmed", "verified_at": recent})
     verify_events.verify_all(stale_days=7)
     assert checked == ["unreported"]
+
+
+# ── links we already hold (2026-10-07: BOBAS's Facebook event was in our own
+# scrape while the agent searched the open web for it) ─────────────────────
+
+def _bobas_calendar_copy(**overrides):
+    fields = dict(id="cal-bobas", name="Sunset Salsa Bachata on the Docks (BOBAS)", url=None,
+                  source="sensualeros-boston", location="47 David G Mugar Way, Boston, MA")
+    return _event(**{**fields, **overrides})
+
+
+def _bobas_fb_copy():
+    return _event(id="bobas-next", name="BOBAS Thursday 6-9pm", source="bobas",
+                  location="Hatch Shell on the Esplanade, Boston, MA",
+                  url="https://www.facebook.com/events/2029224094463173/")
+
+
+def test_link_leads_put_a_same_night_scrape_first(store, monkeypatch):
+    import atomic_io
+    from event_store import paths
+    atomic_io.write_json(paths.SCRAPED_DIR / "bobas.json", [_bobas_fb_copy()])
+    monkeypatch.setattr(scraper_utils, "load_sources", lambda: [
+        {"id": "bobas", "name": "Boston Outdoor Bachata And Salsa (BOBAS)",
+         "facebook_events_url": "https://www.facebook.com/bobas.page/events"}])
+    leads = wr.link_leads(_bobas_calendar_copy())
+    assert [l["url"] for l in leads] == ["https://www.facebook.com/events/2029224094463173/",
+                                         "https://www.facebook.com/bobas.page"]
+    assert leads[0]["why"].startswith("bobas lists the same night")
+
+
+def test_a_held_link_that_passes_the_guard_is_attached_without_a_question(store, monkeypatch):
+    import atomic_io
+    import verify_events
+    from event_store import paths
+    atomic_io.write_json(paths.SCRAPED_DIR / "bobas.json", [_bobas_fb_copy()])
+    store.save_active([_bobas_calendar_copy()])
+    store.save_pending([_bobas_calendar_copy(id="cal-pending")])
+    monkeypatch.setattr(scraper_utils, "load_sources", lambda: [])
+    monkeypatch.setattr(verify_events, "verify_all", lambda **kw: [])
+    monkeypatch.setattr(link_guard, "link_meta", lambda u: _page(
+        "BOBAS Thursday 6-9pm", date=_at(10, 18).isoformat()))
+    done = wr.attach_links_we_hold([{"event_id": "cal-bobas", "status": "no_source"}])
+    assert len(done) == 2
+    assert store.load_active()[0]["url"] == "https://www.facebook.com/events/2029224094463173/"
+    assert store.load_pending()[0]["url"] == "https://www.facebook.com/events/2029224094463173/"
+
+
+def test_a_short_name_in_parentheses_names_the_event_only_with_a_fitting_date():
+    event = _bobas_calendar_copy()
+    url = "https://www.facebook.com/events/2029224094463173/"
+    same_night = link_guard.check_link_for_event(
+        url, event, fetch=lambda u: _page("BOBAS Thursday 6-9pm", date=_at(10, 18).isoformat()))
+    assert same_night["accepted"] is True
+    last_week = link_guard.check_link_for_event(
+        url, event, fetch=lambda u: _page("BOBAS Thursday 6-9pm", date=_at(3, 18).isoformat()))
+    assert last_week["accepted"] is False and "different night" in last_week["reason"]
+    undated = link_guard.check_link_for_event(url, event, fetch=lambda u: _page("BOBAS Thursday 6-9pm"))
+    assert undated["accepted"] is False and "short name" in undated["reason"]

@@ -761,3 +761,22 @@ def test_archive_refuses_an_unknown_hold(store):
     with pytest.raises(ValueError):
         store.archive_event("evt-1", hold="maybe")
     assert len(store.load_active()) == 1
+
+
+def test_next_weeks_night_is_not_folded_into_last_weeks_archived_night(store):
+    # BOBAS (2026-10-07): Facebook lists each Thursday as its own event with a
+    # series flag. Oct 8 matched the archived Oct 1 record "certain", the merge
+    # kept Oct 1, and the night was re-archived at once with its link lost.
+    nxt = _at(1)
+    last = nxt - timedelta(days=7)
+    day = nxt.strftime("%A")
+    store.save_archive([_event(id="bobas-last", recurring=True, dayOfWeek=day,
+                               url="https://www.facebook.com/events/1/",
+                               startDate=last.isoformat(), endDate=(last + timedelta(hours=3)).isoformat())])
+    result = store.add_event(_event(id="bobas-next", recurring=True, dayOfWeek=day,
+                                    url="https://www.facebook.com/events/2/",
+                                    startDate=nxt.isoformat(), endDate=(nxt + timedelta(hours=3)).isoformat()))
+    assert result["status"] == "added"
+    [event] = store.load_active()
+    assert event["id"] == "bobas-next" and event["url"] == "https://www.facebook.com/events/2/"
+    assert [e["id"] for e in store.load_archive()] == ["bobas-last"]

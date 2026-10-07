@@ -24,8 +24,12 @@ them.
   benefits with dancing all belong. A thin listing is not a reason to reject:
   when unsure, approve. Reject classes, sit-down concerts and non-Latin events
   with the matching block choice.
-- **Links.** Never guess a URL. When a question asks for one, search the web
-  for the organizer's own page for that event. Check it with
+- **Links.** Never guess a URL. When a question asks for one, start with
+  `evidence.link_leads`: pages our own scrapers hold for the same night, the
+  organizer's pages, and pages for other nights of the same event (those show
+  where the organizer posts; open them to find this night's page). Web search
+  does not index Facebook events, so a lead is often the only way to one. Then
+  search the web for the organizer's own page for that event. Check it with
   `review_link_check(event_id, url)` before answering. Only answer with a URL
   that check accepts. If nothing is accepted, choose the "none found",
   "without link", "no link yet" or "flag" option instead. A missing link is

@@ -52,6 +52,7 @@ from event_store import (  # noqa: E402
     edit_event,
     load_active,
     load_archive,
+    load_blocked,
     load_pending,
     load_rejected,
     load_venue_conflicts,
@@ -69,7 +70,7 @@ from event_store.names import content_words, distinctive_words, normalize_name  
 from event_store.occurrences import last_occurrence, occurrence_instants, parse_aware, weekday_of  # noqa: E402
 from event_store.storage import append_changelog  # noqa: E402
 from event_store.urls import event_url_list, url_key  # noqa: E402
-from link_guard import check_link_for_event  # noqa: E402
+from link_guard import _SHARE_WRAPPER_RE, check_link_for_event  # noqa: E402
 from recurrence_utils import NY_TZ  # noqa: E402
 
 WORKLIST_PATH = ROOT / "automation" / "logs" / "worklist.json"
@@ -246,6 +247,118 @@ def fix_dead_links(link_report: dict) -> tuple[list[dict], set[str]]:
     return actions, still
 
 
+# ── Links we already hold ─────────────────────────────────────────────
+#
+# A calendar copy often arrives with no link while another scraper holds the
+# very page it needs: BOBAS's Oct 8 night (2026-10-07) was on the Sensualeros
+# calendar with no URL, while the BOBAS Facebook scraper had its Facebook event
+# the same morning. The agent then searched the open web, which does not index
+# Facebook events, found nothing, and the night came off the map.
+
+def _days(event: dict) -> set:
+    return {dt.astimezone(NY_TZ).date() for dt in occurrence_instants(event)}
+
+
+def _name_words(text: str) -> set[str]:
+    return distinctive_words(content_words(normalize_name(text or "")))
+
+
+def _word_meets(x: str, b: set[str]) -> bool:
+    """In b, or the stem of a word in b or stemmed by one ("sabor" / "saborcito")."""
+    return x in b or any(len(x) >= 5 and len(y) >= 5 and (x.startswith(y) or y.startswith(x))
+                         for y in b)
+
+
+def _words_meet(a: set[str], b: set[str]) -> bool:
+    return any(_word_meets(x, b) for x in a)
+
+
+def _scraped_events() -> list[dict]:
+    rows: list[dict] = []
+    for path in sorted(paths.SCRAPED_DIR.glob("*.json")):
+        if path.name.endswith("-raw.json"):
+            continue
+        data = atomic_io.read_json(path, default=[])
+        rows += [e for e in data if isinstance(e, dict)] if isinstance(data, list) else []
+    return rows
+
+
+def link_leads(event: dict) -> list[dict]:
+    """Pages we already hold that may be this event's link, best first:
+    same-night copies from any source (scraped files and every store pool),
+    the organizer's registered pages, then earlier or later nights of the same
+    name (they show where the organizer posts). Each still has to pass the
+    link guard; these are leads, not answers."""
+    days, words = _days(event), _name_words(event.get("name", ""))
+    same_night, organizer, other_nights = [], [], []
+    pool = (_scraped_events() + load_active() + load_pending() + load_archive()
+            + load_blocked())
+    for other in pool:
+        if other.get("id") == event.get("id"):
+            continue
+        urls = [u for u in event_url_list(other)
+                if u.startswith("http") and not _SHARE_WRAPPER_RE.search(u)]
+        if not urls:
+            continue
+        other_words = _name_words(other.get("name", ""))
+        named = _words_meet(words, other_words)
+        try:
+            shared = bool(days & _days(other))
+        except Exception:  # noqa: BLE001 - a malformed scraped row is just not a lead
+            continue
+        source = other.get("source") or "?"
+        if shared and (named or locations_same(event, other)):
+            same_night += [{"url": u, "why": f"{source} lists the same night: {other.get('name')}"}
+                           for u in urls]
+        elif words and all(_word_meets(w, other_words) for w in words):
+            other_nights += [{"url": u, "why": f"another night of {other.get('name')} ({source})"}
+                             for u in urls]
+    for source in scraper_utils.load_sources():
+        if source.get("enabled") is False or source.get("id") == event.get("source"):
+            continue
+        source_words = _name_words(source.get("name", "")) | _name_words(source.get("id", "").replace("-", " "))
+        if not _words_meet(words, source_words):
+            continue
+        for url in (_organizer_page(source), source.get("website")):
+            if url:
+                organizer.append({"url": url, "why": f"organizer page ({source.get('name')})"})
+    seen, leads = set(), []
+    for lead in same_night + organizer + other_nights:
+        key = url_key(lead["url"])
+        if key not in seen:
+            seen.add(key)
+            leads.append(lead)
+    return leads[:8]
+
+
+def attach_links_we_hold(report: list[dict]) -> list[dict]:
+    """Give a link-less event a page we already hold for it, when one passes
+    the link guard. Same-night copies and organizer pages only: another
+    night's page is a lead for the agent, never an automatic link."""
+    import verify_events
+
+    done = []
+    no_source = {r.get("event_id") for r in report if r.get("status") == "no_source"}
+    targets = [("active", e) for e in load_active()
+               if e["id"] in no_source and not e.get("_needs_manual_check")]
+    targets += [("pending", e) for e in load_pending() if not event_url_list(e)]
+    for pool, event in targets:
+        for lead in link_leads(event):
+            if lead["why"].startswith("another night"):
+                continue
+            if not check_link_for_event(lead["url"], event)["accepted"]:
+                continue
+            if pool == "active":
+                edit_event(event["id"], {"url": lead["url"]})
+                verify_events.verify_all(event_id=event["id"])
+            else:
+                _pool_row(load_pending, storage.save_pending, event["id"], {"url": lead["url"]})
+            done.append({"action": "attached a link we already hold", "event": event.get("name"),
+                         "when": _when(event), "url": lead["url"], "why": lead["why"]})
+            break
+    return done
+
+
 # ── Questions ─────────────────────────────────────────────────────────
 
 def _nearby_same_night(event: dict, pool: list[dict]) -> list[dict]:
@@ -317,6 +430,8 @@ def new_event_items(pending: list[dict], active: list[dict]) -> list[dict]:
                                          "is also new this week, this copy is dropped.")
             details["already_listed"] = {"same_as": "the id of the matching event in evidence.same_night"}
         evidence = {"event": card(event), "same_night": nearby}
+        if not event_url_list(event):
+            evidence["link_leads"] = link_leads(event)
         if looks_like_class(event):
             evidence["warning"] = "The listing reads like a class. Check the description for social dancing."
         items.append(_item(
@@ -338,6 +453,8 @@ def possible_duplicate_items(pending: list[dict]) -> list[dict]:
             continue
         evidence = {"new_listing": card(event), "already_listed": card(existing),
                     "why_they_look_alike": event.get("_dedup_reason", "")}
+        if not event_url_list(event):
+            evidence["link_leads"] = link_leads(event)
         choices = {
             "same": "The same night of the same event. Merged, and future copies merge automatically.",
             "different": "Two different events (another night, another organizer, or one is a "
@@ -466,9 +583,11 @@ def verification_items(report: list[dict], active_by_id: dict) -> tuple[list[dic
                 if scraper_utils.publishes_without_link(event.get("source")) else
                 "Searched and found nothing trustworthy. It comes off the map until its source "
                 "lists it with a link.")
+            evidence["link_leads"] = link_leads(event)
             items.append(_item(
                 "no_link", event["id"], event.get("name", ""),
-                "This event has no link. Find the organizer's page for it.", evidence,
+                "This event has no link. Find the organizer's page for it. Start with "
+                "evidence.link_leads.", evidence,
                 {"set_link": "Found it: give the URL in `url`. It is fetched and must be a page "
                              "about this event on this date, or it is refused.",
                  "none_found": none_found},
@@ -636,6 +755,8 @@ def prepare(run_checks: bool = True) -> dict:
         verify_events.verify_all(stale_days=7)
         verification = atomic_io.read_json(verify_events.REPORT_PATH, default=[])
         auto += archive_structured_cancellations(verification)
+        auto += attach_links_we_hold(verification)
+        verification = atomic_io.read_json(verify_events.REPORT_PATH, default=[])
         link_report = check_links.check_all(only_live=True)
         atomic_io.write_json(check_links.REPORT_PATH, link_report)
     fixes, still_broken = fix_dead_links(link_report)
@@ -1248,6 +1369,9 @@ def recheck(run_checks: bool = True) -> dict:
         verify_events.verify_all()
     report = atomic_io.read_json(verify_events.REPORT_PATH, default=[])
     auto = archive_structured_cancellations(report)
+    if run_checks:
+        auto += attach_links_we_hold(report)
+        report = atomic_io.read_json(verify_events.REPORT_PATH, default=[])
     active_by_id = {e["id"]: e for e in load_active() if not e.get("_needs_manual_check")}
     items, notes = verification_items(report, active_by_id)
     asked = {i["id"] for i in worklist.get("items", [])}

@@ -306,3 +306,21 @@ def test_facebook_page_that_does_not_name_the_event_still_needs_a_browser(monkey
         "jsonld_events": [], "final_url": None, "error": None})
     row = verify_events.verify_facebook_page(event, "https://www.facebook.com/profile.php?id=1&sk=events")
     assert row["status"] == "needs_browser"
+
+
+def test_a_dropped_connection_is_retried_and_never_called_page_gone(monkeypatch):
+    # Kiz Thursday (2026-10-07): one connection reset became page_gone, which
+    # asks whether the event was cancelled and blocked the publish.
+    import requests
+    import verify_events
+    calls = []
+
+    def reset(*args, **kwargs):
+        calls.append(1)
+        raise requests.ConnectionError("Connection reset by peer")
+
+    monkeypatch.setattr(verify_events.requests, "get", reset)
+    monkeypatch.setattr(verify_events.time, "sleep", lambda s: None)
+    row = verify_events.verify_direct({"id": "kiz", "name": "Kiz Thursday"}, "https://example.com/kiz")
+    assert row["status"] == "unreachable"
+    assert len(calls) == verify_events.FETCH_ATTEMPTS

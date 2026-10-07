@@ -29,6 +29,7 @@ import hashlib
 import json
 import re
 import sys
+import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Optional
@@ -263,6 +264,19 @@ def _location_from_jsonld(event_ld: dict) -> Optional[str]:
     return None
 
 
+FETCH_ATTEMPTS = 3
+
+
+def _get_with_retry(url: str, pause: float = 3.0) -> requests.Response:
+    """GET, retrying connection errors and timeouts (not HTTP errors)."""
+    for attempt in range(1, FETCH_ATTEMPTS):
+        try:
+            return requests.get(url, headers=UA, timeout=15, allow_redirects=True)
+        except (requests.ConnectionError, requests.Timeout):
+            time.sleep(pause * attempt)
+    return requests.get(url, headers=UA, timeout=15, allow_redirects=True)
+
+
 def verify_direct(event: dict, url: str) -> dict:
     """Fetch a direct URL and compare against event data."""
     result = {
@@ -274,10 +288,13 @@ def verify_direct(event: dict, url: str) -> dict:
     }
 
     try:
-        resp = requests.get(url, headers=UA, timeout=15, allow_redirects=True)
+        resp = _get_with_retry(url)
     except requests.RequestException as e:
-        result["status"] = "page_gone"
-        result["notes"] = f"Request failed: {e}"
+        # A reset or timeout says nothing about the page. Calling it page_gone
+        # asked "cancelled?" about Kiz Thursday (2026-10-07) and blocked the
+        # publish over one dropped connection.
+        result["status"] = "unreachable"
+        result["notes"] = f"Request failed after {FETCH_ATTEMPTS} tries: {e}"
         return result
 
     if resp.status_code == 404:
@@ -712,7 +729,7 @@ def print_report(report: list[dict]) -> None:
 
     status_order = [
         "cancelled", "page_gone", "date_mismatch", "location_mismatch",
-        "needs_review", "needs_browser", "no_source", "unverifiable",
+        "needs_review", "needs_browser", "unreachable", "no_source", "unverifiable",
         "calendar_only", "reachable_only", "confirmed",
     ]
 
@@ -725,6 +742,7 @@ def print_report(report: list[dict]) -> None:
         "page_gone": "PAGE GONE (404)",
         "needs_review": "NEEDS REVIEW",
         "needs_browser": "NEEDS BROWSER (Facebook)",
+        "unreachable": "UNREACHABLE (connection failed after retries)",
         "no_source": "NO SOURCE URL",
         "calendar_only": "CALENDAR ONLY (trusted calendar, no link exists)",
         "unverifiable": "UNVERIFIABLE (social link)",

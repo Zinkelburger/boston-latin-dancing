@@ -166,8 +166,9 @@ def add_event(
             # copy is actually upcoming. Stale scraped files re-listing past
             # dates must not ping-pong events between archive and active
             # (reactivate here, re-archive in archive_past_events) every run.
+            cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
             incoming_dt = last_occurrence(event)
-            if incoming_dt is None or incoming_dt < datetime.now(timezone.utc) - timedelta(hours=24):
+            if incoming_dt is None or incoming_dt < cutoff:
                 return {
                     "status": "duplicate",
                     "confidence": conf,
@@ -183,24 +184,32 @@ def add_event(
                 }
             reason = dedup_reason(archived, event, conf)
             merged = merge_event(archived, event)
-            enrich_event(merged)
-            merged["reactivatedAt"] = datetime.now(timezone.utc).isoformat()
-            # Back on the map is not the same record that was verified before
-            # it left: drop the old verification so the next stale-only check
-            # (weekly_review prepare) looks at it again, and drop the hold.
-            for key in ("_archive_hold", "_verified_at", "_verified_status",
-                        "_verified_notes", "_verification_url"):
-                merged.pop(key, None)
-            # Destination first: land the record in active, then retire the
-            # archived copy. archive_past_events() reconciles the same id.
-            active.append(merged)
-            storage.save_active(active)
-            archive.pop(archive_idx)
-            storage.save_archive(archive)
-            log_dedup("reactivate", archived, event, conf, reason)
-            clear_stale_rejected(merged["id"])
-            append_changelog("reactivate", merged["id"], "from archive (certain)")
-            return {"status": "reactivated", "confidence": conf, "event": merged}
+            # If the merge kept the archived record's own past night, the
+            # incoming copy is a different night, not this one coming back: it
+            # falls through and is added as a new event. A Facebook page lists
+            # each week as its own event with a series flag; BOBAS's Oct 8 night
+            # (2026-10-07) folded into the archived Oct 1 record, was re-archived
+            # as past at once, and its link was lost.
+            merged_last = last_occurrence(merged)
+            if merged_last is None or merged_last >= cutoff:
+                enrich_event(merged)
+                merged["reactivatedAt"] = datetime.now(timezone.utc).isoformat()
+                # Back on the map is not the same record that was verified before
+                # it left: drop the old verification so the next stale-only check
+                # (weekly_review prepare) looks at it again, and drop the hold.
+                for key in ("_archive_hold", "_verified_at", "_verified_status",
+                            "_verified_notes", "_verification_url"):
+                    merged.pop(key, None)
+                # Destination first: land the record in active, then retire the
+                # archived copy. archive_past_events() reconciles the same id.
+                active.append(merged)
+                storage.save_active(active)
+                archive.pop(archive_idx)
+                storage.save_archive(archive)
+                log_dedup("reactivate", archived, event, conf, reason)
+                clear_stale_rejected(merged["id"])
+                append_changelog("reactivate", merged["id"], "from archive (certain)")
+                return {"status": "reactivated", "confidence": conf, "event": merged}
 
     if active_match is not None:
         active_idx, conf = active_match

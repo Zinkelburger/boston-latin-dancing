@@ -62,6 +62,19 @@ def _names_event(text: str, event: dict) -> bool:
     return len(content_words(name)) >= 2 and f" {name} " in f" {normalize_name(text)} "
 
 
+def _names_alias(text: str, event: dict) -> bool:
+    """The page uses the short name the event goes by, given in parentheses in
+    ours: "Sunset Salsa Bachata on the Docks (BOBAS)" and a Facebook event
+    titled "BOBAS Thursday 6-9pm" (2026-10-07). On its own that is weak, so the
+    caller also requires the page to state a date that fits."""
+    page = f" {normalize_name(text)} "
+    for alias in re.findall(r"\(([^)]+)\)", event.get("name", "")):
+        alias = normalize_name(alias)
+        if distinctive_words(content_words(alias)) and f" {alias} " in page:
+            return True
+    return False
+
+
 def _page_text(meta: dict) -> str:
     parts = [meta.get("title", ""), meta.get("og_title", ""), meta.get("og_description", "")]
     for ld in meta.get("jsonld_events") or []:
@@ -128,14 +141,23 @@ def check_link_for_event(url: str, event: dict,
     # list several events; another event's date is not corroboration.
     structured = meta.get("jsonld_events") or []
     matching = [ld for ld in structured if _names_event(str(ld.get("name", "")), event)]
+    by_alias = False
     if (structured and not matching) or (not structured and not _names_event(text, event)):
-        return {"accepted": False, "page": page, "reason": (
-            f"the page never names this event clearly enough in its event data, "
-            f"title or description ({page['title'][:80]!r}); a shared venue is not enough")}
+        matching = [ld for ld in structured if _names_alias(str(ld.get("name", "")), event)]
+        by_alias = bool(matching) if structured else _names_alias(text, event)
+        if not by_alias:
+            return {"accepted": False, "page": page, "reason": (
+                f"the page never names this event clearly enough in its event data, "
+                f"title or description ({page['title'][:80]!r}); a shared venue is not enough")}
 
     if structured:
         page["stated_dates"] = stated_days({"jsonld_events": matching,
                                              "facebook_event": meta.get("facebook_event")})
+
+    if by_alias and not page["stated_dates"]:
+        return {"accepted": False, "page": page, "reason": (
+            "the page uses only the event's short name and states no date, so it could be "
+            "any night of it")}
 
     if page["stated_dates"] and not _dates_fit(event, page["stated_dates"]):
         return {"accepted": False, "page": page, "reason": (
