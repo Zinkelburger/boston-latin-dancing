@@ -1540,3 +1540,8 @@
 {"ts": "2026-10-07T18:21:20.363259+00:00", "action": "review_answer", "event_id": "2t9lr8681qdeo3nh40c2lpoja0@google.com", "details": "no_link: none_found Searched the web; no organizer page for BOBAS on Oct 8 (only Salsa at the Shell in June and unrelated cruises)."}
 {"ts": "2026-10-07T18:21:20.370782+00:00", "action": "archive", "event_id": "vd53so8p8ddfpsgetpl0grjbrk@google.com", "details": "no link found online"}
 {"ts": "2026-10-07T18:21:20.372782+00:00", "action": "review_answer", "event_id": "vd53so8p8ddfpsgetpl0grjbrk@google.com", "details": "no_link: none_found Sabor Latino's Eventbrite Saborcito instances run Jul 20 - Sep 7; none for Oct 12. SalsaVida is an aggregator listing, not the organizer."}
+{"ts": "2026-10-07T18:51:35.251992+00:00", "action": "quarantine_new", "event_id": "bobas-20261008-0", "details": ""}
+{"ts": "2026-10-07T18:51:42.628964+00:00", "action": "add", "event_id": "bobas-20261008-0", "details": ""}
+{"ts": "2026-10-07T18:51:42.629777+00:00", "action": "approve", "event_id": "bobas-20261008-0", "details": ""}
+{"ts": "2026-10-07T18:51:42.631948+00:00", "action": "edit", "event_id": "bobas-20261008-0", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\", \"bachata\"]}"}
+{"ts": "2026-10-07T18:51:42.633127+00:00", "action": "review_answer", "event_id": "bobas-20261008-0", "details": "new_event: approve BOBAS's own Facebook event for Thu Oct 8, 6-9pm, Hatch Shell docks. Lost on the 10-07 run when ingest folded it into the archived Oct 1 night."}

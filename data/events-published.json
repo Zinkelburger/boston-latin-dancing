@@ -38,6 +38,27 @@
     "recurrenceLabel": "Every Wednesday · 9:00 PM – 12:00 AM"
   },
   {
+    "id": "bobas-20261008-0",
+    "name": "BOBAS Thursday 6-9pm",
+    "startDate": "2026-10-08T18:00:00-04:00",
+    "endDate": "2026-10-08T21:00:00-04:00",
+    "dayOfWeek": "Thursday",
+    "location": "Hatch Shell on the Esplanade, Boston, MA",
+    "lat": 42.357256,
+    "lng": -71.073702,
+    "description": "*** BOBAS this Thursday 6:00-9:00pm *** We are looking for alternative venues for rainy days. Please see the post on our page for more details. *** The weather looks great but p",
+    "url": "https://www.facebook.com/events/2029224094463173/",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": "Free",
+    "recurring": true,
+    "slug": "bobas-thursday-6-9pm-69567645",
+    "recurrenceLabel": "Every Thursday",
+    "organizer": "Boston Outdoor Bachata And Salsa (BOBAS)"
+  },
+  {
     "id": "C77130B0-73C6-4597-9875-A786F4EA78D4",
     "name": "Sabor Latino! @ El Barco - Salsa/Bachata Night",
     "startDate": "2026-10-08T20:00:00-04:00",
@@ -4940,29 +4961,6 @@
     "searchOnly": true,
     "slug": "fuego-y-candela-salsa-social-fuego-y-",
     "organizer": "Fuego y Candela Salsa Socials"
-  },
-  {
-    "id": "bobas",
-    "name": "BOBAS: Sunset Salsa & Bachata on the Docks",
-    "startDate": "",
-    "endDate": "",
-    "dayOfWeek": "Tuesday",
-    "location": "Hatch Shell on the Esplanade, Boston, MA",
-    "lat": 42.357256,
-    "lng": -71.073702,
-    "description": "Boston Outdoor Bachata And Salsa. Outdoor social dancing on the docks behind the Hatch Shell — bachata on one side, salsa on the other.\n\nFree, weather permitting. Check Facebook.",
-    "url": "https://www.facebook.com/groups/576206842396498",
-    "styles": [
-      "bachata",
-      "salsa"
-    ],
-    "cost": "Free",
-    "recurring": true,
-    "nextDateApproximate": true,
-    "recurrenceLabel": "Usually Tuesdays",
-    "searchOnly": true,
-    "slug": "bobas-sunset-salsa-bachata-on-the-docks-bobas",
-    "organizer": "Boston Outdoor Bachata And Salsa (BOBAS)"
   },
   {
     "id": "black-mamba-social",

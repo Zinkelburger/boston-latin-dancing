@@ -1,9 +1,9 @@
 {
-  "checked_at": "2026-10-07T18:22:58.753793+00:00",
+  "checked_at": "2026-10-07T18:53:37.782706+00:00",
   "scope": "live",
   "totals": {
-    "urls": 71,
-    "ok": 70,
+    "urls": 75,
+    "ok": 74,
     "broken": 0,
     "unverifiable": 1
   },
@@ -30,7 +30,7 @@
     {
       "url": "https://www.facebook.com/groups/576206842396498",
       "status": 200,
-      "final_url": null,
+      "final_url": "https://www.facebook.com/login/?next=https%3A%2F%2Fwww.facebook.com%2Fgroups%2F576206842396498",
       "verdict": "unverifiable",
       "note": "no page title — login wall or deleted, cannot distinguish",
       "appears_in": [
@@ -109,6 +109,16 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: Bachata on Blast Presents: Savi Rodriguez"
+      ]
+    },
+    {
+      "url": "https://dancefam.org/event/2700",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: El Patio del Tipico"
       ]
     },
     {
@@ -274,6 +284,46 @@
       ]
     },
     {
+      "url": "https://posh.vip/e/bachata-boo-halloween-bachata-brunch-club",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: BACHATA BOO 👻 — Halloween Bachata Brunch Club"
+      ]
+    },
+    {
+      "url": "https://posh.vip/e/bachata-brunch-club-libra-affair-",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Bachata Brunch Club: LIBRA AFFAIR ♎️"
+      ]
+    },
+    {
+      "url": "https://posh.vip/e/boston-bachata-party-cocomango-speakeasy-cambridge-la-casa-de-la-bachata",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: BOSTON BACHATA PARTY Cocomango Speakeasy Cambridge | La Casa de la Bachata (alt)"
+      ]
+    },
+    {
+      "url": "https://posh.vip/e/callao-salsa-nigth-otoo-entre-hojas-y-sazon-",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Callao - Salsa Nigth - 🍁Otoño Entre Hojas Y Sazon 🍁❤️‍🔥"
+      ]
+    },
+    {
       "url": "https://posh.vip/e/tardeo-salsa-bachata",
       "status": 200,
       "final_url": null,
@@ -375,6 +425,16 @@
       ]
     },
     {
+      "url": "https://www.eventbrite.com/e/dystopia-night-of-the-sinners-boston-tickets-2002962671268",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Dystopia: Night of the Sinners - Boston"
+      ]
+    },
+    {
       "url": "https://www.eventbrite.com/e/el-bonches-halloween-cuban-saturday-night-tickets-2002988535629",
       "status": 200,
       "final_url": null,
@@ -432,16 +492,6 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: October Latin Dance Night at Lou's | Lessons & Social Dancing"
-      ]
-    },
-    {
-      "url": "https://www.eventbrite.com/e/saborcito-the-anchor-salsa-bachata-dancing-tickets-1989160742327",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Saborcito @ The Anchor: Salsa & Bachata Dancing"
       ]
     },
     {
@@ -587,16 +637,6 @@
       "note": "live (Halloween Salsa/Bachata Costume Party, Friday 10/30)",
       "appears_in": [
         "event: Halloween Salsa/Bachata Costume Party"
-      ]
-    },
-    {
-      "url": "https://www.facebook.com/events/2073153546944008/",
-      "status": 200,
-      "final_url": "https://www.facebook.com/events/2073153546944008/2073153603610669/",
-      "verdict": "ok",
-      "note": "live (Saborcito @ The Anchor - Salsa & Bachata Dancing)",
-      "appears_in": [
-        "event: Saborcito @ The Anchor: Salsa & Bachata Dancing (alt)"
       ]
     },
     {
