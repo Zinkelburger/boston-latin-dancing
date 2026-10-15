@@ -1,10 +1,10 @@
 {
-  "checked_at": "2026-10-14T16:08:39.585245+00:00",
+  "checked_at": "2026-10-15T17:56:58.928738+00:00",
   "scope": "live",
   "totals": {
-    "urls": 76,
-    "ok": 74,
-    "broken": 1,
+    "urls": 69,
+    "ok": 68,
+    "broken": 0,
     "unverifiable": 1
   },
   "needs_manual_check": [
@@ -17,18 +17,7 @@
       "flagged_at": "2026-09-14T21:20:00+00:00"
     }
   ],
-  "broken": [
-    {
-      "url": "https://facebook.com/events/s/boston-bachata-party-cocomango/1252515136999918/",
-      "status": 200,
-      "final_url": "https://www.facebook.com/events/s/boston-bachata-party-cocomango/1252515136999918/",
-      "verdict": "broken",
-      "note": "share wrapper resolves to no event (no page title)",
-      "appears_in": [
-        "event: BOSTON BACHATA PARTY Cocomango Speakeasy Cambridge | La Casa de la Bachata (alt)"
-      ]
-    }
-  ],
+  "broken": [],
   "unverifiable": [
     {
       "url": "https://www.facebook.com/groups/576206842396498",
@@ -37,6 +26,7 @@
       "verdict": "unverifiable",
       "note": "no page title — login wall or deleted, cannot distinguish",
       "appears_in": [
+        "event: BOBAS: Sunset Salsa & Bachata on the Docks",
         "venue: BOBAS: Sunset Salsa & Bachata on the Docks"
       ]
     }
@@ -104,16 +94,6 @@
       ]
     },
     {
-      "url": "https://dancefam.org/event/2650",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Bachata on Blast Presents: Savi Rodriguez"
-      ]
-    },
-    {
       "url": "https://dancefam.org/event/2700",
       "status": 200,
       "final_url": null,
@@ -144,16 +124,6 @@
       ]
     },
     {
-      "url": "https://facebook.com/events/s/salsa-romantica-vs-salsa-brava/894119310110770/",
-      "status": 200,
-      "final_url": "https://www.facebook.com/events/s/salsa-romantica-vs-salsa-brava/894119310110770/",
-      "verdict": "ok",
-      "note": "live (SALSA ROMANTICA VS SALSA BRAVA)",
-      "appears_in": [
-        "event: SALSA ROMANTICA VS SALSA BRAVA cruise (alt)"
-      ]
-    },
-    {
       "url": "https://facebook.com/events/s/utopia-dance-company-4th-year-/1873361657408089/",
       "status": 200,
       "final_url": "https://www.facebook.com/events/s/utopia-dance-company-4th-year-/1873361657408089/",
@@ -180,7 +150,6 @@
       "verdict": "ok",
       "note": "HTTP 200",
       "appears_in": [
-        "event: Fiesta Dance 4 Year Anniversary Social",
         "event: Salsa & Bachata Social w/ Fiesta Dance Co"
       ]
     },
@@ -192,16 +161,6 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: Senior Zouk Social"
-      ]
-    },
-    {
-      "url": "https://fuegothursdays.com/",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Fuego Thursdays"
       ]
     },
     {
@@ -286,16 +245,6 @@
       ]
     },
     {
-      "url": "https://posh.vip/e/bachata-brunch-club-libra-affair-",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Bachata Brunch Club: LIBRA AFFAIR ♎️"
-      ]
-    },
-    {
       "url": "https://posh.vip/e/boston-bachata-party-cocomango-speakeasy-cambridge-la-casa-de-la-bachata",
       "status": 200,
       "final_url": null,
@@ -306,23 +255,13 @@
       ]
     },
     {
-      "url": "https://posh.vip/e/callao-salsa-nigth-otoo-entre-hojas-y-sazon-",
+      "url": "https://sanctuarymaynard.com/shows/fuego-thursdays-dance-night-reggaeton-salsa-bachata-cumbia-november-12-2026-747557/",
       "status": 200,
       "final_url": null,
       "verdict": "ok",
       "note": "HTTP 200",
       "appears_in": [
-        "event: Callao - Salsa Nigth - 🍁Otoño Entre Hojas Y Sazon 🍁❤️‍🔥"
-      ]
-    },
-    {
-      "url": "https://posh.vip/e/tardeo-salsa-bachata",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Tardeo Salsa & Bachata"
+        "event: Fuego Thursdays"
       ]
     },
     {
@@ -344,16 +283,6 @@
       "appears_in": [
         "event: Bachata Room",
         "venue: Bachata Room"
-      ]
-    },
-    {
-      "url": "https://www.boletosexpress.com/salsa-romantica-vs-salsa-brava-/89559/",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: SALSA ROMANTICA VS SALSA BRAVA cruise"
       ]
     },
     {
@@ -397,16 +326,6 @@
       ]
     },
     {
-      "url": "https://www.eventbrite.com/e/caribbean-socialdance-class-learning-everything-from-konpa-to-bachata-tickets-1993623278894",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Caribbean social/dance class learning everything from konpa to Bachata."
-      ]
-    },
-    {
       "url": "https://www.eventbrite.com/e/dance-the-night-away-salsa-more-tickets-2002462772056",
       "status": 200,
       "final_url": null,
@@ -433,7 +352,7 @@
       "verdict": "ok",
       "note": "HTTP 200",
       "appears_in": [
-        "event: EL BONCHE'S HALLOWEEN CUBAN SATURDAY NIGHT"
+        "event: Cuban Saturday Night: Halloween Edition"
       ]
     },
     {
@@ -464,16 +383,6 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: Latin Dance Fundraiser with DJ Johnny Giraldo"
-      ]
-    },
-    {
-      "url": "https://www.eventbrite.com/e/noche-latina-october-social-party-dj-eloi-tickets-2001901830264",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Noche Latina October Social Party + DJ Eloi"
       ]
     },
     {
@@ -514,6 +423,16 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: SUSHI CON SALSA (alt)"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/o/rumbaland-121144221749",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Rumbaland vol. 7"
       ]
     },
     {
@@ -582,6 +501,16 @@
       ]
     },
     {
+      "url": "https://www.facebook.com/events/1112582757836226/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (BOBAS Wednesday 6-9pm)",
+      "appears_in": [
+        "event: Sunset Salsa Bachata on the Docks (BOBAS)"
+      ]
+    },
+    {
       "url": "https://www.facebook.com/events/1393051752744141/",
       "status": 200,
       "final_url": null,
@@ -592,13 +521,23 @@
       ]
     },
     {
-      "url": "https://www.facebook.com/events/1466002282099481/",
+      "url": "https://www.facebook.com/events/1415577184111634/",
       "status": 200,
       "final_url": null,
       "verdict": "ok",
-      "note": "live (Tambo Salsa/Bachata Social, Friday Oct 9th)",
+      "note": "live (Moonlight Zouk Social 🧛‍♀️👻 (10/24/26))",
       "appears_in": [
-        "event: Tambo Salsa/Bachata Social"
+        "event: Moonlight Zouk Social"
+      ]
+    },
+    {
+      "url": "https://www.facebook.com/events/1636500777937928/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Boston Senior Zouk Social (10/20/2026))",
+      "appears_in": [
+        "event: Senior Zouk Social (alt)"
       ]
     },
     {
@@ -612,16 +551,6 @@
       ]
     },
     {
-      "url": "https://www.facebook.com/events/1780839909912751/",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "live (Boston Senior Zouk Social (10/6/2026))",
-      "appears_in": [
-        "event: Senior Zouk Social (alt)"
-      ]
-    },
-    {
       "url": "https://www.facebook.com/events/1796270331376772/",
       "status": 200,
       "final_url": null,
@@ -629,16 +558,6 @@
       "note": "live (Halloween Salsa/Bachata Costume Party, Friday 10/30)",
       "appears_in": [
         "event: Halloween Salsa/Bachata Costume Party"
-      ]
-    },
-    {
-      "url": "https://www.facebook.com/events/2029224094463173/",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "live (BOBAS Thursday 6-9pm)",
-      "appears_in": [
-        "event: BOBAS Thursday 6-9pm"
       ]
     },
     {
@@ -760,6 +679,16 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: Dante's Salsa Fridays (alt)"
+      ]
+    },
+    {
+      "url": "https://www.thebostoncalendar.com/events/bachataween-social",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Bachatween Social"
       ]
     },
     {

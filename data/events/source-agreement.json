@@ -1,11 +1,11 @@
 {
-  "checked_at": "2026-10-14T16:06:03.713435+00:00",
+  "checked_at": "2026-10-15T15:26:14.838445+00:00",
   "totals": {
-    "events": 41,
+    "events": 43,
     "with_multiple_sources": 9,
     "disagreements": 0,
-    "location_agreed": 21,
-    "location_unknown": 20
+    "location_agreed": 22,
+    "location_unknown": 21
   },
   "disagreements": [],
   "checked": [
@@ -251,7 +251,7 @@
       "event_id": "D7362ECA-A6A7-4528-B752-3CBD6141CE81",
       "event_name": "Salsa/Bachata Tuesdays @ Havana",
       "our_location": "Havana Club, 288 Green St, Cambridge, MA  02139, United States",
-      "our_date": "2026-10-13",
+      "our_date": "2026-10-20",
       "source_count": 1,
       "claims": [
         {
@@ -407,7 +407,7 @@
       "event_id": "2ar83v9imef7dkgkonbfvc5t4q@google.com",
       "event_name": "Senior Zouk Social",
       "our_location": "Multicultural Arts Center, 41 Second St, Cambridge, MA 02141, USA",
-      "our_date": "2026-10-13",
+      "our_date": "2026-11-10",
       "source_count": 1,
       "claims": [
         {
@@ -1070,9 +1070,9 @@
       }
     },
     {
-      "event_id": "eb-2002988535629",
-      "event_name": "EL BONCHE'S HALLOWEEN CUBAN SATURDAY NIGHT",
-      "our_location": "Cocomango Speakeasy, 50 Cambridgepark Drive, Cambridge, MA 02140, Cambridge, MA",
+      "event_id": "j9isl9bkqbo5s3vgnol0uislqc@google.com",
+      "event_name": "Cuban Saturday Night: Halloween Edition",
+      "our_location": "Cocomango Speakeasy (50 Cambridgepark Dr, Cambridge, MA)",
       "our_date": "2026-10-31",
       "source_count": 1,
       "claims": [
@@ -1089,7 +1089,7 @@
       "location": {
         "verdict": "agree",
         "notes": [
-          "eventbrite.com/e/el-bonches-halloween-cuban-s (json-ld): agree — same address text"
+          "eventbrite.com/e/el-bonches-halloween-cuban-s (json-ld): agree — same street number (50)"
         ]
       },
       "date": {
@@ -1243,6 +1243,66 @@
       "date": {
         "verdict": "unknown",
         "notes": []
+      }
+    },
+    {
+      "event_id": "i03kau2g53ji88lq7n45ueea48@google.com",
+      "event_name": "Sunset Salsa Bachata on the Docks (BOBAS)",
+      "our_location": "Docks behind the Hatch Shell stage https://maps.app.goo.gl/ERYQSY3Qy9Pbk5ew6",
+      "our_date": "2026-10-14",
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://www.facebook.com/events/1112582757836226/",
+          "location": "Boston",
+          "date": "2026-10-14",
+          "instant": null,
+          "via": "facebook-preview",
+          "city_level": true,
+          "error": null
+        }
+      ],
+      "location": {
+        "verdict": "unknown",
+        "notes": [
+          "facebook.com/events/1112582757836226/ (facebook-preview): unknown — could not geocode both addresses"
+        ]
+      },
+      "date": {
+        "verdict": "unknown",
+        "notes": [
+          "recurring series — upstream dates not compared"
+        ]
+      }
+    },
+    {
+      "event_id": "a0gs5jl2q68tecul9dmk1hnomo@google.com",
+      "event_name": "Fuego Thursdays",
+      "our_location": "Sanctuary Cultural Arts Center, 82 Main St, Maynard, MA 01754",
+      "our_date": "2026-11-12",
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://sanctuarymaynard.com/shows/fuego-thursdays-dance-night-reggaeton-salsa-bachata-cumbia-november-12-2026-747557/",
+          "location": "Sanctuary, 82 Main Street, Maynard, MA, 01754",
+          "date": "2026-11-12",
+          "instant": "2026-11-13T00:00:00.000Z",
+          "via": "json-ld",
+          "city_level": false,
+          "error": null
+        }
+      ],
+      "location": {
+        "verdict": "agree",
+        "notes": [
+          "sanctuarymaynard.com/shows/fuego-thursdays-da (json-ld): agree — same street number (82)"
+        ]
+      },
+      "date": {
+        "verdict": "agree",
+        "notes": [
+          "sanctuarymaynard.com/shows/fuego-thursdays-da (json-ld): says 2026-11-12"
+        ]
       }
     }
   ]
