@@ -26,7 +26,7 @@ from typing import Callable, Optional
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from event_store.names import content_words, distinctive_words, normalize_name  # noqa: E402
+from event_store.names import content_words, distinctive_words, normalize_name, shared_word_count  # noqa: E402
 from event_store.occurrences import occurrence_instants  # noqa: E402
 from event_store.urls import _SHARE_WRAPPER_RE  # noqa: E402
 from link_meta import jsonld_start, link_meta, looks_like_render_timestamp  # noqa: E402
@@ -54,9 +54,12 @@ def _names_event(text: str, event: dict) -> bool:
     page_words = set(normalize_name(text).split())
     words = _identifying_words(event)
     if words:
+        # One-letter spelling variants count, as they do in dedup: our
+        # calendar's "Bachatween Social" is the organizer's "BachataWeen
+        # Social" (2026-10-14), and the date check below still applies.
         name_words = content_words(name) - _ADDRESS_NOISE
-        return (len(words & page_words) >= max(1, len(words) * 0.6)
-                and len(name_words & page_words) >= max(1, len(name_words) * 0.6))
+        return (shared_word_count(words, page_words) >= max(1, len(words) * 0.6)
+                and shared_word_count(name_words, page_words) >= max(1, len(name_words) * 0.6))
     # Generic names still need their complete name, with multiple words.
     # Empty/one-word names cannot establish identity by themselves.
     return len(content_words(name)) >= 2 and f" {name} " in f" {normalize_name(text)} "

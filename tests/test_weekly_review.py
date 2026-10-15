@@ -283,6 +283,7 @@ def test_recheck_turns_new_verification_problems_into_follow_up_questions(store,
     monkeypatch.setattr(verify_events, "REPORT_PATH", report_path)
     store.save_active([_event(id="sen", url=None, source="sensualeros-boston", _big_event_reviewed=True),
                        _event(id="gone", name="Reggaeton Fest", url="https://eb.example/e",
+                              location="191 Highland Ave, Somerville, MA", lat=42.3876, lng=-71.0995,
                               _big_event_reviewed=True)])
     _worklist()
     atomic_io.write_json(report_path, [
@@ -676,3 +677,80 @@ def test_a_short_name_in_parentheses_names_the_event_only_with_a_fitting_date():
     assert last_week["accepted"] is False and "different night" in last_week["reason"]
     undated = link_guard.check_link_for_event(url, event, fetch=lambda u: _page("BOBAS Thursday 6-9pm"))
     assert undated["accepted"] is False and "short name" in undated["reason"]
+
+
+# ── 2026-10-14: two doctor blockers no question had asked about ───────
+
+def test_a_one_letter_spelling_variant_still_names_the_event():
+    # Our calendar spelled it "Bachatween Social"; the organizer's Eventbrite
+    # page says "BachataWeen Social". The agent found the right page and the
+    # guard refused it, so the event stayed pending and blocked the publish.
+    event = _event(name="Bachatween Social")
+    verdict = link_guard.check_link_for_event(
+        "https://www.eventbrite.com/e/2003259282440", event,
+        fetch=lambda u: _page("BachataWeen Social", date=_at(10).isoformat()))
+    assert verdict["accepted"] is True
+
+
+def _lookalike_pair(store):
+    # Havana Club's Saturday night and Rumba y Clave at Rumba y Timbal: a
+    # block apart, the same night, two different events.
+    store.save_active([
+        _event(id="havana-sat", name="Saturday Night Bachata/Salsa @ Havana Club",
+               _big_event_reviewed=True),
+        _event(id="rumba-clave", name="Rumba y Clave: Salsa & Bachata Social",
+               url="https://example.com/rumba", startDate=_at(10, 19).isoformat(),
+               endDate=_at(10, 22).isoformat(), _big_event_reviewed=True),
+    ])
+
+
+def test_lookalike_events_on_the_map_are_asked_about_before_finish(store):
+    from dedup_report import report
+    _lookalike_pair(store)
+    assert report(store.load_active())  # the doctor would block on this pair
+    item = _item_for(_worklist(), "active_duplicate")
+    assert wr.answer(item["id"], "different", note="two studios, two events")["ok"] is True
+    assert report(store.load_active()) == []
+    assert {e["id"] for e in store.load_active()} == {"havana-sat", "rumba-clave"}
+
+
+def test_same_answer_merges_the_pair_on_the_map(store):
+    from dedup_report import report
+    _lookalike_pair(store)
+    item = _item_for(_worklist(), "active_duplicate")
+    assert wr.answer(item["id"], "same", note="one night")["ok"] is True
+    active = store.load_active()
+    assert len(active) == 1 and report(active) == []
+
+
+def test_recheck_asks_about_a_lookalike_pair_an_answer_created(store, tmp_path, monkeypatch):
+    import atomic_io
+    import verify_events
+    monkeypatch.setattr(verify_events, "REPORT_PATH", tmp_path / "verification-report.json")
+    _worklist()
+    _lookalike_pair(store)
+    atomic_io.write_json(verify_events.REPORT_PATH, [])
+    result = wr.recheck(run_checks=False)
+    assert result["follow_up_questions"] == 1
+    assert wr.next_item()["item"]["id"].startswith("active_duplicate:")
+    assert wr.recheck(run_checks=False)["follow_up_questions"] == 0
+
+
+def test_recheck_moves_a_skipped_new_event_out_of_pending(store, tmp_path, monkeypatch):
+    # A skip hands the event to a human, but anything left in pending blocks
+    # every publish. It waits in the rejected audit queue instead, and comes
+    # back as a new question when its source lists it again.
+    import atomic_io
+    import verify_events
+    monkeypatch.setattr(verify_events, "REPORT_PATH", tmp_path / "verification-report.json")
+    atomic_io.write_json(verify_events.REPORT_PATH, [])
+    store.save_pending([_event(id="new", url=None, _quarantined_new=True)])
+    item = _item_for(_worklist(), "new_event")
+    assert wr.skip(item["id"], "the guard refused the organizer page")["ok"] is True
+    result = wr.recheck(run_checks=False)
+    assert store.load_pending() == []
+    rejected = store.load_rejected()
+    assert [e["id"] for e in rejected] == ["new"]
+    assert "guard refused" in rejected[0]["_rejected_reason"]
+    assert "_quarantined_new" not in rejected[0]
+    assert result["done_automatically"] == 1

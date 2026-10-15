@@ -63,8 +63,11 @@ from event_store import (  # noqa: E402
 )
 from event_store import paths, storage  # noqa: E402
 from event_store.archive import HOLD_CANCELLED, HOLD_NO_LINK  # noqa: E402
+from dedup_report import report as duplicate_report  # noqa: E402
 from event_store.classify import derive_special, looks_like_class, special_edition_mismatch  # noqa: E402
+from event_store.dedup import merge_event  # noqa: E402
 from event_store.ingest import add_event  # noqa: E402
+from event_store.known_duplicates import persist_known_duplicate  # noqa: E402
 from event_store.locations import is_out_of_area, locations_same  # noqa: E402
 from event_store.names import content_words, distinctive_words, normalize_name  # noqa: E402
 from event_store.occurrences import last_occurrence, occurrence_instants, parse_aware, weekday_of  # noqa: E402
@@ -476,6 +479,28 @@ def possible_duplicate_items(pending: list[dict]) -> list[dict]:
     return items
 
 
+def active_duplicate_items(active: list[dict]) -> list[dict]:
+    """Two events already on the map that look like one. The doctor refuses to
+    publish while any such pair stands, so it is a question here rather than a
+    surprise at finish (2026-10-14: Havana Club's Saturday night and Rumba y
+    Clave, a block apart on the same night, held the whole week)."""
+    by_id = {e["id"]: e for e in active}
+    items = []
+    for pair in duplicate_report(active):
+        a, b = by_id[pair["a_id"]], by_id[pair["b_id"]]
+        items.append(_item(
+            "active_duplicate", a["id"], f"{a.get('name', '')} / {b.get('name', '')}",
+            "Both of these are on the map and they look alike. Are they the same event?",
+            {"a": card(a), "b": card(b), "same_place": pair["same_location"],
+             "shared_name_words": pair["shared_words"]},
+            {"same": "The same night of the same event listed twice. Merged into one, and "
+                     "future copies merge automatically.",
+             "different": "Two different events (another organizer, another room, another "
+                          "night). Both stay on the map and the pair is not asked about again."},
+            key=f"{a['id']}|{b['id']}"))
+    return items
+
+
 def rejected_items(rejected: list[dict]) -> list[dict]:
     return [_item(
         "rejected", e["id"], e.get("name", ""),
@@ -717,6 +742,7 @@ def build_worklist(verification: list[dict], link_report: dict, cross_report: di
         rejected_items(load_rejected())
         + new_event_items(pending, active)
         + possible_duplicate_items(pending)
+        + active_duplicate_items(active)
         + venue_conflict_items()
         + facebook_signal_items()
         + verify_items
@@ -960,6 +986,26 @@ def _apply_possible_duplicate(item: dict, choice: str, params: dict) -> dict:
     return _finish_approval(result, params, event)
 
 
+def _apply_active_duplicate(item: dict, choice: str, params: dict) -> dict:
+    a_id, b_id = item["evidence"]["a"]["id"], item["evidence"]["b"]["id"]
+    with store_lock():
+        active = load_active()
+        a, b = _find(active, a_id), _find(active, b_id)
+        if choice == "different":
+            persist_known_duplicate(a_id, b_id, "different")
+            return {"status": "kept_both"}
+        if special_edition_mismatch(a, b):
+            raise Refused("one is a special edition and the other the regular series; they stay "
+                          "separate. Answer different.")
+        merged = merge_event(a, b)
+        gone = b_id if merged["id"] == a_id else a_id
+        storage.save_active([merged if e["id"] == merged["id"] else e
+                             for e in active if e["id"] != gone])
+        persist_known_duplicate(a_id, b_id, "same")
+    append_changelog("merge", gone, f"same event as {merged['id']} (weekly review)")
+    return {"status": "merged", "into": merged["id"]}
+
+
 def _apply_rejected(item: dict, choice: str, params: dict) -> dict:
     event = _find(load_rejected(), item["subject"])
     if choice == "restore":
@@ -1178,6 +1224,7 @@ def _apply_big_event(item: dict, choice: str, params: dict) -> dict:
 APPLY: dict[str, Callable[[dict, str, dict], dict]] = {
     "new_event": _apply_new_event,
     "possible_duplicate": _apply_possible_duplicate,
+    "active_duplicate": _apply_active_duplicate,
     "rejected": _apply_rejected,
     "venue_conflict": _apply_venue_conflict,
     "facebook_signal": _apply_facebook_signal,
@@ -1271,7 +1318,8 @@ def _answer_line(item: dict) -> str:
 
 _KIND_HEADINGS = [
     ("rejected", "Rejected queue"), ("new_event", "New events"),
-    ("possible_duplicate", "Possible duplicates"), ("venue_conflict", "Venue conflicts"),
+    ("possible_duplicate", "Possible duplicates"),
+    ("active_duplicate", "Look-alike events on the map"), ("venue_conflict", "Venue conflicts"),
     ("facebook_signal", "Facebook signals"), ("date_mismatch", "Date mismatches"),
     ("location_mismatch", "Location mismatches"), ("cancelled", "Cancelled or gone"),
     ("no_link", "Events without a link"), ("broken_link", "Dead links"),
@@ -1351,6 +1399,34 @@ def render_summary(worklist: dict, publish: dict, doctor: Optional[dict]) -> str
     return "\n".join(lines) + "\n"
 
 
+def park_skipped(worklist: dict) -> list[dict]:
+    """A skipped question hands its event to a human, but an event left in
+    pending blocks every publish (2026-10-14: Bachatween Social, skipped over a
+    link-guard refusal, held the whole week). It waits in the rejected audit
+    queue instead, which the doctor only warns about; ingest moves it back to
+    pending, and so to a new question, when its source lists it again."""
+    notes = {i["subject"]: i["skipped"]["note"] for i in worklist.get("items", [])
+             if i.get("skipped") and not i.get("answer")
+             and i["kind"] in ("new_event", "possible_duplicate")}
+    done = []
+    with store_lock():
+        pending = load_pending()
+        keep = []
+        for event in pending:
+            note = notes.get(event["id"])
+            if note is None:
+                keep.append(event)
+                continue
+            clean = {k: v for k, v in event.items() if not k.startswith(("_dedup", "_quarantined"))}
+            storage.queue_rejected(clean, f"review skipped: {note}", review_type="skipped_review")
+            append_changelog("reject", event["id"], f"review skipped: {note}")
+            done.append({"action": "moved a skipped question's event to the rejected queue",
+                         "event": event.get("name", ""), "why": note})
+        if done:
+            storage.save_pending(keep)
+    return done
+
+
 def recheck(run_checks: bool = True) -> dict:
     """After the agent: verify the state its answers left, and ask about
     anything finish would otherwise block on.
@@ -1372,8 +1448,11 @@ def recheck(run_checks: bool = True) -> dict:
     if run_checks:
         auto += attach_links_we_hold(report)
         report = atomic_io.read_json(verify_events.REPORT_PATH, default=[])
-    active_by_id = {e["id"]: e for e in load_active() if not e.get("_needs_manual_check")}
+    auto += park_skipped(worklist)
+    active = load_active()
+    active_by_id = {e["id"]: e for e in active if not e.get("_needs_manual_check")}
     items, notes = verification_items(report, active_by_id)
+    items += active_duplicate_items(active)
     asked = {i["id"] for i in worklist.get("items", [])}
     new = [i for i in items if i["id"] not in asked]
     worklist.setdefault("items", []).extend(new)
