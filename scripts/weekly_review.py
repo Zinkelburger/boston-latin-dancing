@@ -56,6 +56,7 @@ from event_store import (  # noqa: E402
     load_pending,
     load_rejected,
     load_venue_conflicts,
+    preview_publish,
     publish_guarded,
     reject_pending,
     resolve_venue_conflict,
@@ -783,7 +784,7 @@ def prepare(run_checks: bool = True) -> dict:
         auto += archive_structured_cancellations(verification)
         auto += attach_links_we_hold(verification)
         verification = atomic_io.read_json(verify_events.REPORT_PATH, default=[])
-        link_report = check_links.check_all(only_live=True)
+        link_report = check_links.check_all(only_live=True, events=preview_publish()["published"])
         atomic_io.write_json(check_links.REPORT_PATH, link_report)
     fixes, still_broken = fix_dead_links(link_report)
     auto += fixes
@@ -1479,7 +1480,9 @@ def finish(run_checks: bool = True) -> int:
         # Approvals and edits happened after prepare. Verify that final state,
         # then gate publication; a post-publish warning cannot protect the map.
         verify_events.verify_all()
-        links = check_links.check_all(only_live=True)
+        # Check what this publish would ship, not the last published file,
+        # or a link fixed since then blocks the publish that ships the fix.
+        links = check_links.check_all(only_live=True, events=preview_publish()["published"])
         atomic_io.write_json(check_links.REPORT_PATH, links)
         doctor = run_doctor()
         if not doctor.get("ok"):

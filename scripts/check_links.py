@@ -154,8 +154,15 @@ def fetch(url: str) -> dict:
 
 # ── collecting every URL we ship ──────────────────────────────────────
 
-def collect_targets(only_live: bool = False) -> dict[str, list[str]]:
-    """Map each URL to the human-readable places it appears."""
+def collect_targets(only_live: bool = False,
+                    events: Optional[list[dict]] = None) -> dict[str, list[str]]:
+    """Map each URL to the human-readable places it appears.
+
+    ``events`` is the event list to check; by default, the last published file.
+    The weekly review passes what it is about to publish instead: on 2026-10-15
+    it removed a dead alternate from active.json, but the check kept reading the
+    Oct 7 published file, found the link still there, and refused to publish
+    the very fix that would have removed it."""
     targets: dict[str, list[str]] = {}
 
     def add(url: Optional[str], where: str) -> None:
@@ -165,8 +172,10 @@ def collect_targets(only_live: bool = False) -> dict[str, list[str]]:
         if where not in targets[url]:
             targets[url].append(where)
 
-    if PUBLISHED.exists():
-        for ev in json.loads(PUBLISHED.read_text(encoding="utf-8")):
+    if events is None and PUBLISHED.exists():
+        events = json.loads(PUBLISHED.read_text(encoding="utf-8"))
+    if events:
+        for ev in events:
             if only_live and ev.get("archived"):
                 continue
             label = f"event: {ev.get('name', ev.get('id', '?'))}"
@@ -244,8 +253,8 @@ def _guard_against_a_blocked_host(results: list[dict]) -> None:
                              f"{len(group)} links — treating as blocked, not dead")
 
 
-def check_all(only_live: bool = False) -> dict:
-    targets = collect_targets(only_live)
+def check_all(only_live: bool = False, events: Optional[list[dict]] = None) -> dict:
+    targets = collect_targets(only_live, events)
     urls = sorted(targets)
     with ThreadPoolExecutor(max_workers=WORKERS) as pool:
         results = list(pool.map(fetch, urls))

@@ -324,3 +324,23 @@ def test_a_dropped_connection_is_retried_and_never_called_page_gone(monkeypatch)
     row = verify_events.verify_direct({"id": "kiz", "name": "Kiz Thursday"}, "https://example.com/kiz")
     assert row["status"] == "unreachable"
     assert len(calls) == verify_events.FETCH_ATTEMPTS
+
+
+def test_collect_targets_checks_the_events_it_is_given(tmp_path, monkeypatch):
+    # 2026-10-15: a dead alternate removed from active.json was still in the
+    # Oct 7 published file, so checking that file blocked the publish that
+    # would have removed it.
+    published = tmp_path / "events-published.json"
+    published.write_text(json.dumps([
+        {"id": "a", "name": "Party", "url": "https://example.com/a",
+         "urls": ["https://dead.example/share"]},
+    ]))
+    monkeypatch.setattr(cl, "PUBLISHED", published)
+    monkeypatch.setattr(cl, "VENUES", tmp_path / "missing-venues.json")
+    monkeypatch.setattr(cl, "SOURCES", tmp_path / "missing-sources.json")
+
+    targets = cl.collect_targets(only_live=True, events=[
+        {"id": "a", "name": "Party", "url": "https://example.com/a", "urls": []},
+    ])
+    assert "https://example.com/a" in targets
+    assert "https://dead.example/share" not in targets

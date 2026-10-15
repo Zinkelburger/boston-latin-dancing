@@ -570,6 +570,36 @@ def test_finish_publishes_only_after_checks_and_preserves_tripwire(store, monkey
     assert calls == ['verify', 'links', 'doctor', 'publish']
 
 
+def test_finish_link_checks_what_it_would_publish_not_the_last_published_file(store, monkeypatch, tmp_path):
+    # 2026-10-15: prepare removed a dead alternate from active.json, but finish
+    # link-checked the Oct 7 published file, which still had it, and refused to
+    # publish the fix. Every later week would have been blocked the same way.
+    import check_links
+    import event_doctor
+    import verify_events
+
+    store.save_active([_event(urls=[])])
+    stale = tmp_path / 'events-published.json'
+    stale.write_text('[{"id": "evt-1", "name": "Tropical Fiesta Social", '
+                     '"url": "https://example.com/fiesta", "urls": ["https://dead.example/share"]}]')
+    monkeypatch.setattr(check_links, 'PUBLISHED', stale)
+    monkeypatch.setattr(check_links, 'VENUES', tmp_path / 'missing-venues.json')
+    monkeypatch.setattr(check_links, 'SOURCES', tmp_path / 'missing-sources.json')
+    monkeypatch.setattr(check_links, 'REPORT_PATH', tmp_path / 'links.json')
+    monkeypatch.setattr(check_links, 'manual_check_queue', lambda: [])
+    fetched = []
+    monkeypatch.setattr(check_links, 'fetch', lambda u: fetched.append(u) or {
+        'url': u, 'status': 200, 'final_url': u, 'verdict': check_links.OK, 'note': ''})
+    monkeypatch.setattr(verify_events, 'verify_all', lambda **kw: None)
+    monkeypatch.setattr(event_doctor, 'run_doctor', lambda **kw: {'ok': True})
+    monkeypatch.setattr(wr, 'publish_guarded', lambda: {'tripped': False})
+
+    wr.save_worklist({'items': []})
+    assert wr.finish() == 0
+    assert 'https://example.com/fiesta' in fetched
+    assert 'https://dead.example/share' not in fetched
+
+
 def test_venue_word_in_event_name_does_not_identify_a_different_event():
     verdict = link_guard.check_link_for_event('https://example.com/brunch',
         _event(name='Salsa at Havana'), fetch=lambda u: _page('Havana Club Brunch', date=_at(10).isoformat()))
