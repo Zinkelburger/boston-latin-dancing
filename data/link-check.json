@@ -1,22 +1,13 @@
 {
-  "checked_at": "2026-10-15T17:56:58.928738+00:00",
+  "checked_at": "2026-10-15T18:11:47.731620+00:00",
   "scope": "live",
   "totals": {
-    "urls": 69,
-    "ok": 68,
+    "urls": 70,
+    "ok": 69,
     "broken": 0,
     "unverifiable": 1
   },
-  "needs_manual_check": [
-    {
-      "id": "eb-2000672130198",
-      "name": "Latin Dance Fundraiser with DJ Johnny Giraldo",
-      "startDate": "2026-10-24T18:00:00-04:00",
-      "url": "https://www.eventbrite.com/e/latin-dance-fundraiser-with-dj-johnny-giraldo-tickets-2000672130198",
-      "reason": "Eventbrite lists Sat Oct 24 6:00-11:00 AM, but its own copy calls it 'Latin Night - A Night of Music, Movement...'; published as 6-11 PM. Confirm the time with organizer Aprende y Prospera.",
-      "flagged_at": "2026-09-14T21:20:00+00:00"
-    }
-  ],
+  "needs_manual_check": [],
   "broken": [],
   "unverifiable": [
     {
@@ -599,6 +590,16 @@
       "note": "live (Liliana Jimenez on Instagram: \"Our official monthly social i)",
       "appears_in": [
         "event: Sazón Saturday (alt)"
+      ]
+    },
+    {
+      "url": "https://www.instagram.com/p/DeHwUBylUKM/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Liliana Jimenez on Instagram: \"Surprise! Another FREE social)",
+      "appears_in": [
+        "event: Sazón Noche de Brujas"
       ]
     },
     {
