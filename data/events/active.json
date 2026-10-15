@@ -634,10 +634,7 @@
     "recurring": false,
     "source": "eventbrite-boston-latin",
     "special": true,
-    "_needs_manual_check": {
-      "reason": "Eventbrite lists Sat Oct 24 6:00-11:00 AM, but its own copy calls it 'Latin Night - A Night of Music, Movement...'; published as 6-11 PM. Confirm the time with organizer Aprende y Prospera.",
-      "flagged_at": "2026-09-14T21:20:00+00:00"
-    },
+    "_needs_manual_check": null,
     "_verified_at": "2026-10-15T17:56:49.026216+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
