@@ -14,6 +14,12 @@ only when the page, read as the site's own crawler would read it:
   - names the event itself (sharing a venue is not enough), and
   - if it states a date for that event, states an actual recorded occurrence.
 
+An organizer's untitled post is the one exception to naming: one that gives
+the event's street address *and* one of its dates is that event even with no
+name, because one address on one day is one event (Lili's Instagram post for
+"Sazón Noche de Brujas", 2026-10-15: "423 W Broadway, Suite 202 ... 10/31,
+5-8pm", no name; the name came from a calendar that copied it).
+
 Usage:
   python3 scripts/link_guard.py <event_id> <url>
 """
@@ -21,6 +27,7 @@ Usage:
 import json
 import re
 import sys
+from datetime import date
 from pathlib import Path
 from typing import Callable, Optional
 
@@ -105,6 +112,53 @@ def stated_days(meta: dict) -> list[str]:
     return sorted(set(days))
 
 
+_MONTH_NUMBERS = {m[:3].lower(): i for i, m in enumerate(
+    ["January", "February", "March", "April", "May", "June", "July",
+     "August", "September", "October", "November", "December"], start=1)}
+# "10/31", "10/31/26"; never inside a longer run like a fraction or a URL path.
+_NUMERIC_DATE_RE = re.compile(r"(?<![\d/])(\d{1,2})/(\d{1,2})(?:/(\d{4}|\d{2}))?(?![\d/])")
+# "October 31", "Oct 31st", "October 31, 2026"
+_WORD_DATE_RE = re.compile(
+    r"\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(\d{1,2})(?:st|nd|rd|th)?"
+    r"(?:,?\s+(\d{4}))?\b", re.I)
+# "423 W Broadway", "260 Sumner Street": the house number and the street name.
+_STREET_RE = re.compile(r"\b(\d{1,5})\s+(?:[NSEW]\.?\s+)?([A-Za-z]+)")
+
+
+# Instagram's "19 likes, 0 comments - lililatindance on October 5, 2026: ..."
+# is when the post went up, not when the event is.
+_POSTED_ON_RE = re.compile(r"\bon [A-Z][a-z]+ \d{1,2}, \d{4}:")
+
+
+def _raw_page_text(meta: dict) -> str:
+    text = " ".join(str(meta.get(k) or "") for k in ("title", "og_title", "og_description"))
+    return _POSTED_ON_RE.sub(" ", text)
+
+
+def _text_days(text: str, event: dict) -> list[str]:
+    """Days a caption states in words or digits. A date with no year takes
+    the year of one of the event's own days."""
+    years = sorted({int(d[:4]) for d in _event_days(event)})
+    found: set[str] = set()
+    cands = [(int(m), int(d), y) for m, d, y in _NUMERIC_DATE_RE.findall(text)]
+    cands += [(_MONTH_NUMBERS[m.lower()], int(d), y) for m, d, y in _WORD_DATE_RE.findall(text)]
+    for month, day, year in cands:
+        for y in ([int(year) + (2000 if len(year) == 2 else 0)] if year else years):
+            try:
+                found.add(date(y, month, day).isoformat())
+            except ValueError:
+                pass
+    return sorted(found)
+
+
+def _states_street_address(text: str, event: dict) -> bool:
+    m = _STREET_RE.search(event.get("location") or "")
+    if not m or m.group(2).lower() in _ADDRESS_NOISE:
+        return False
+    number, street = m.groups()
+    return bool(re.search(rf"\b{number}\s+(?:[NSEW]\.?\s+)?{re.escape(street)}\b", text, re.I))
+
+
 def _dates_fit(event: dict, days: list[str]) -> bool:
     return bool(_event_days(event) & set(days))
 
@@ -148,6 +202,13 @@ def check_link_for_event(url: str, event: dict,
     if (structured and not matching) or (not structured and not _names_event(text, event)):
         matching = [ld for ld in structured if _names_alias(str(ld.get("name", "")), event)]
         by_alias = bool(matching) if structured else _names_alias(text, event)
+        if not by_alias and not structured:
+            raw = _raw_page_text(meta)
+            days = _text_days(raw, event)
+            if _states_street_address(raw, event) and _dates_fit(event, days):
+                page["stated_dates"] = days
+                return {"accepted": True, "page": page, "reason": (
+                    "page loads, gives this event's street address, and states its date")}
         if not by_alias:
             return {"accepted": False, "page": page, "reason": (
                 f"the page never names this event clearly enough in its event data, "

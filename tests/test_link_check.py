@@ -8,6 +8,8 @@ us no signal we must say UNVERIFIABLE, never OK and never BROKEN.
 
 import json
 
+import pytest
+
 import check_links as cl
 
 FB_EVENT = "https://www.facebook.com/events/1299596699048505/"
@@ -344,3 +346,58 @@ def test_collect_targets_checks_the_events_it_is_given(tmp_path, monkeypatch):
     ])
     assert "https://example.com/a" in targets
     assert "https://dead.example/share" not in targets
+
+
+# Lili's Instagram post for "Sazón Noche de Brujas" (2026-10-15): the
+# organizer's own post, with no name for the event, only its address and date.
+_LILI_EVENT = {"id": "sazon", "name": "Sazón Noche de Brujas",
+               "startDate": "2099-10-31T17:00:00-04:00", "endDate": "2099-10-31T20:00:00-04:00",
+               "location": "Lili Latin Dance, 423 W Broadway, Ste 202, South Boston, MA  02127"}
+_LILI_CAPTION = ('Liliana Jimenez on Instagram: "Surprise! Another FREE social this month! '
+                 'Join us for a free Bachata Lesson, and then dance until your next event! '
+                 'Location: 423 W Broadway, Suite 202, Boston, MA Date & Time: {when}, 5-8pm"')
+
+
+def _caption_page(caption):
+    posted = "19 likes, 0 comments - lililatindance on October 5, 2099: " + caption
+    return lambda url: {"status": 200, "title": caption, "og_title": caption,
+                        "og_description": posted, "jsonld_events": [], "final_url": url}
+
+
+@pytest.mark.parametrize("when", ["10/31", "October 31st", "10/31/99"])
+def test_untitled_post_with_the_events_address_and_date_is_accepted(when):
+    import link_guard
+    verdict = link_guard.check_link_for_event(
+        "https://www.instagram.com/p/x/", _LILI_EVENT,
+        fetch=_caption_page(_LILI_CAPTION.format(when=when)))
+    assert verdict["accepted"] is True
+    assert verdict["page"]["stated_dates"] == ["2099-10-31"]
+
+
+@pytest.mark.parametrize("caption", [
+    _LILI_CAPTION.format(when="10/24"),                               # another night there
+    _LILI_CAPTION.format(when="soon"),                                # no date at all
+    _LILI_CAPTION.format(when="10/31").replace("423 W Broadway", "50 Main St"),  # elsewhere
+    _LILI_CAPTION.format(when="10/31").replace("423 W Broadway, ", ""),          # venue only
+])
+def test_untitled_post_needs_both_the_address_and_a_fitting_date(caption):
+    import link_guard
+    verdict = link_guard.check_link_for_event(
+        "https://www.instagram.com/p/x/", _LILI_EVENT, fetch=_caption_page(caption))
+    assert verdict["accepted"] is False
+
+
+def test_instagram_post_with_the_events_address_and_date_verifies(monkeypatch):
+    import link_guard
+    import verify_events
+    monkeypatch.setattr(link_guard, "link_meta", _caption_page(_LILI_CAPTION.format(when="10/31")))
+    row = verify_events.flag_instagram(_LILI_EVENT, "https://www.instagram.com/p/x/")
+    assert row["status"] == "confirmed"
+
+
+def test_instagram_post_the_guard_cannot_read_stays_unverifiable(monkeypatch):
+    import link_guard
+    import verify_events
+    monkeypatch.setattr(link_guard, "link_meta", lambda url: {"status": 200, "title": "Instagram"})
+    row = verify_events.flag_instagram(_LILI_EVENT, "https://www.instagram.com/p/x/")
+    assert row["status"] == "unverifiable"

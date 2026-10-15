@@ -9,7 +9,7 @@ Verification strategies by URL type:
   1. Direct organizer site  -- HTTP fetch + JSON-LD / text extraction
   2. Facebook event URL     -- og-scraper fetch, date read from the preview
   3. Facebook page URL      -- needs browser MCP (flagged for agent)
-  4. Instagram / social     -- flagged as unverifiable
+  4. Instagram / social     -- the link guard reads the post; unverifiable if it cannot
   5. No URL                 -- flagged for web search
 
 Facebook event pages carry no JSON-LD, but their link preview states the
@@ -509,7 +509,14 @@ def verify_facebook_page(event: dict, url: str) -> dict:
 
 
 def flag_instagram(event: dict, url: str) -> dict:
-    return {
+    """An Instagram post, checked by the link guard like a Facebook post.
+
+    Instagram serves a post's caption in its preview, and organizers announce
+    nights there: Lili's 2026-10-31 social was only an untitled post giving its
+    address and date (2026-10-15). Only a page the guard cannot read is left
+    for a person.
+    """
+    result = {
         "event_id": event["id"],
         "event_name": event["name"],
         "url_type": "instagram",
@@ -519,6 +526,12 @@ def flag_instagram(event: dict, url: str) -> dict:
         "our_location": event.get("location", ""),
         "verified_at": datetime.now(timezone.utc).isoformat(),
     }
+    verdict = check_link_for_event(url, event)
+    if verdict["accepted"]:
+        dated = bool((verdict.get("page") or {}).get("stated_dates"))
+        result["status"] = "confirmed" if dated else "reachable_only"
+        result["notes"] = f"Instagram post: {verdict['reason']}"
+    return result
 
 
 # How long "searched, found no link" stands before the weekly review asks again.
