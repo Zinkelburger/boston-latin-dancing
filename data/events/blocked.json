@@ -438,5 +438,38 @@
     "blocked_notes": "Halloween club party in Brockton playing hip hop, dancehall, soca, kompa and afrobeats. Kizomba is only one item in a \"& more\" list, and no Latin genres are named.",
     "location": "Pyramid Restaurant Bar and Grill Function Hall, 1040 Main St, Brockton, MA 02301",
     "block_key": "dead fresh a hallowine affair|pyramid restaurant bar and grill function hall 1040 main st brockton ma 02301"
+  },
+  {
+    "id": "nlf-events-deafinitely-unite-with-next-level-fusion",
+    "name": "DEAFinitely UNITE with Next Level Fusion",
+    "source": "nlf-events",
+    "blocked_reason": "The organizer page only mentions dance workshops and performances with no Latin styles. Boston.gov describes DEAFinitely UNITE as a hip hop dance lesson series, so it is not Latin.",
+    "blocked_category": "not_latin",
+    "blocked_at": "2026-10-14T16:06:25.109690+00:00",
+    "blocked_notes": "The organizer page only mentions dance workshops and performances with no Latin styles. Boston.gov describes DEAFinitely UNITE as a hip hop dance lesson series, so it is not Latin.",
+    "location": "City Hall Plaza, 1 City Hall Square, Boston, MA 02203, USA",
+    "block_key": "deafinitely unite with next level fusion|city hall plaza 1 city hall square boston ma 02203 usa"
+  },
+  {
+    "id": "eb-2003266476959",
+    "name": "HARTFORD'S BIGGEST BACHATA PARTY @ Privé | La Casa de la Bachata",
+    "source": "eventbrite-boston-latin",
+    "blocked_reason": "This bachata party is at 177 Allyn St in Hartford, CT, which is outside greater Boston.",
+    "blocked_category": "out_of_area",
+    "blocked_at": "2026-10-14T16:06:33.163611+00:00",
+    "blocked_notes": "This bachata party is at 177 Allyn St in Hartford, CT, which is outside greater Boston.",
+    "location": "177 Allyn St, 177 Allyn Street, Hartford, CT 06103, Hartford, CT",
+    "block_key": "hartfords biggest bachata party privé la casa de la bachata|177 allyn st 177 allyn street hartford ct 06103 hartford ct"
+  },
+  {
+    "id": "eb-2003076879869",
+    "name": "Latin Heritage Night | Dance, Connection and Celebration",
+    "source": "eventbrite-boston-latin",
+    "blocked_reason": "The Eventbrite page describes a one-hour (7–8pm) beginner bachata lesson with Utopia Dance Company, plus mingling, a gallery and refreshments. No social dance is listed.",
+    "blocked_category": "class_only",
+    "blocked_at": "2026-10-14T16:06:42.108517+00:00",
+    "blocked_notes": "The Eventbrite page describes a one-hour (7–8pm) beginner bachata lesson with Utopia Dance Company, plus mingling, a gallery and refreshments. No social dance is listed.",
+    "location": "Black Walls Gallery at New Dia, 71 Lansdowne Street, Boston, MA 02215, Boston, MA",
+    "block_key": "latin heritage night dance connection and celebration|black walls gallery at new dia 71 lansdowne street boston ma 02215 boston ma"
   }
 ]

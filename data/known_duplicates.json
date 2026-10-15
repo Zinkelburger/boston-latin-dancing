@@ -322,5 +322,17 @@
     "id_b": "tambo-salsa-fb-20261009-0",
     "verdict": "different",
     "reviewed_at": "2026-10-06T17:35:28.846872+00:00"
+  },
+  {
+    "id_a": "bobas-20261014-0",
+    "id_b": "i03kau2g53ji88lq7n45ueea48@google.com",
+    "verdict": "same",
+    "reviewed_at": "2026-10-14T16:08:08.165528+00:00"
+  },
+  {
+    "id_a": "eb-2002988535629",
+    "id_b": "j9isl9bkqbo5s3vgnol0uislqc@google.com",
+    "verdict": "same",
+    "reviewed_at": "2026-10-14T16:08:10.590735+00:00"
   }
 ]

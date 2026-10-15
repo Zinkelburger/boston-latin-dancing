@@ -1,10 +1,10 @@
 {
-  "checked_at": "2026-10-07T18:53:37.782706+00:00",
+  "checked_at": "2026-10-14T16:08:39.585245+00:00",
   "scope": "live",
   "totals": {
-    "urls": 75,
+    "urls": 76,
     "ok": 74,
-    "broken": 0,
+    "broken": 1,
     "unverifiable": 1
   },
   "needs_manual_check": [
@@ -15,26 +15,28 @@
       "url": "https://www.eventbrite.com/e/latin-dance-fundraiser-with-dj-johnny-giraldo-tickets-2000672130198",
       "reason": "Eventbrite lists Sat Oct 24 6:00-11:00 AM, but its own copy calls it 'Latin Night - A Night of Music, Movement...'; published as 6-11 PM. Confirm the time with organizer Aprende y Prospera.",
       "flagged_at": "2026-09-14T21:20:00+00:00"
-    },
-    {
-      "id": "EF9DDA0D-59C2-4A5B-A6DA-F111C3F6B443",
-      "name": "SALSA ROMANTICA VS SALSA BRAVA cruise",
-      "startDate": "2026-10-10T22:00:00+00:00",
-      "url": "https://www.boletosexpress.com/salsa-romantica-vs-salsa-brava-/89559/",
-      "reason": "Date conflict: BoletosExpress ticket page header and Beatrice calendar now say Sat Oct 10 2026 6pm (what we publish), but the Facebook event 894119310110770 and the ticket page's own body copy still say Sat Sep 26. Possibly postponed; confirm with BoletosExpress (+1 800-530-4202) that the cruise runs Oct 10 and did not already happen Sep 26.",
-      "flagged_at": "2026-09-29T22:35:00+00:00"
     }
   ],
-  "broken": [],
+  "broken": [
+    {
+      "url": "https://facebook.com/events/s/boston-bachata-party-cocomango/1252515136999918/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/boston-bachata-party-cocomango/1252515136999918/",
+      "verdict": "broken",
+      "note": "share wrapper resolves to no event (no page title)",
+      "appears_in": [
+        "event: BOSTON BACHATA PARTY Cocomango Speakeasy Cambridge | La Casa de la Bachata (alt)"
+      ]
+    }
+  ],
   "unverifiable": [
     {
       "url": "https://www.facebook.com/groups/576206842396498",
       "status": 200,
-      "final_url": "https://www.facebook.com/login/?next=https%3A%2F%2Fwww.facebook.com%2Fgroups%2F576206842396498",
+      "final_url": null,
       "verdict": "unverifiable",
       "note": "no page title — login wall or deleted, cannot distinguish",
       "appears_in": [
-        "event: BOBAS: Sunset Salsa & Bachata on the Docks",
         "venue: BOBAS: Sunset Salsa & Bachata on the Docks"
       ]
     }
@@ -129,16 +131,6 @@
       "note": "HTTP 200",
       "appears_in": [
         "source: eastboston-events"
-      ]
-    },
-    {
-      "url": "https://facebook.com/events/s/boston-bachata-party-cocomango/1252515136999918/",
-      "status": 200,
-      "final_url": "https://www.facebook.com/events/s/boston-bachata-party-cocomango/1252515136999918/",
-      "verdict": "ok",
-      "note": "live (BOSTON BACHATA PARTY @ Cocomango Speakeasy Cambridge | La Ca)",
-      "appears_in": [
-        "event: BOSTON BACHATA PARTY Cocomango Speakeasy Cambridge | La Casa de la Bachata (alt)"
       ]
     },
     {
@@ -637,6 +629,16 @@
       "note": "live (Halloween Salsa/Bachata Costume Party, Friday 10/30)",
       "appears_in": [
         "event: Halloween Salsa/Bachata Costume Party"
+      ]
+    },
+    {
+      "url": "https://www.facebook.com/events/2029224094463173/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (BOBAS Thursday 6-9pm)",
+      "appears_in": [
+        "event: BOBAS Thursday 6-9pm"
       ]
     },
     {

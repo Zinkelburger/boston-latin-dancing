@@ -1545,3 +1545,46 @@
 {"ts": "2026-10-07T18:51:42.629777+00:00", "action": "approve", "event_id": "bobas-20261008-0", "details": ""}
 {"ts": "2026-10-07T18:51:42.631948+00:00", "action": "edit", "event_id": "bobas-20261008-0", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\", \"bachata\"]}"}
 {"ts": "2026-10-07T18:51:42.633127+00:00", "action": "review_answer", "event_id": "bobas-20261008-0", "details": "new_event: approve BOBAS's own Facebook event for Thu Oct 8, 6-9pm, Hatch Shell docks. Lost on the 10-07 run when ingest folded it into the archived Oct 1 night."}
+{"ts": "2026-10-14T16:05:28.271177+00:00", "action": "quarantine_new", "event_id": "bobas-20261014-0", "details": ""}
+{"ts": "2026-10-14T16:05:29.640471+00:00", "action": "quarantine_new", "event_id": "eb-2003266476959", "details": ""}
+{"ts": "2026-10-14T16:05:29.692228+00:00", "action": "quarantine_new", "event_id": "eb-2003076879869", "details": ""}
+{"ts": "2026-10-14T16:05:29.894991+00:00", "action": "reject_non_latin", "event_id": "nlf-events-deafinitely-unite-with-next-level-fusion", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-10-14T16:05:30.200188+00:00", "action": "quarantine_new", "event_id": "a0gs5jl2q68tecul9dmk1hnomo@google.com", "details": ""}
+{"ts": "2026-10-14T16:05:30.246749+00:00", "action": "quarantine_new", "event_id": "tu0lf9c9plsu1dt6uetlgugvbc@google.com", "details": ""}
+{"ts": "2026-10-14T16:05:30.298687+00:00", "action": "pending_review", "event_id": "j9isl9bkqbo5s3vgnol0uislqc@google.com", "details": "review dup of eb-2002988535629: word_overlap(4/5)+within_24h+same_day"}
+{"ts": "2026-10-14T16:05:30.346004+00:00", "action": "quarantine_new", "event_id": "52svhdsb5j0odrtfc9f1vjppq4@google.com", "details": ""}
+{"ts": "2026-10-14T16:05:30.371433+00:00", "action": "quarantine_new", "event_id": "i03kau2g53ji88lq7n45ueea48@google.com", "details": ""}
+{"ts": "2026-10-14T16:05:30.580027+00:00", "action": "archive", "event_id": "fiesta-18609de322ec", "details": ""}
+{"ts": "2026-10-14T16:05:30.580156+00:00", "action": "archive", "event_id": "3E9BE4C2-2D1C-4F89-8C5E-7DDC9F911A00", "details": ""}
+{"ts": "2026-10-14T16:05:30.580193+00:00", "action": "archive", "event_id": "b9v58n7069hskptuh6oo81njp4@google.com", "details": ""}
+{"ts": "2026-10-14T16:05:30.580235+00:00", "action": "archive", "event_id": "EF9DDA0D-59C2-4A5B-A6DA-F111C3F6B443", "details": ""}
+{"ts": "2026-10-14T16:05:30.580263+00:00", "action": "archive", "event_id": "ade9e534ea63f404f9e2a7339ef50ad7d32fadab@dance-calendar", "details": ""}
+{"ts": "2026-10-14T16:05:30.580292+00:00", "action": "archive", "event_id": "ncr3c1lq7nbiq074ee82a2s9nc@google.com", "details": ""}
+{"ts": "2026-10-14T16:05:30.580324+00:00", "action": "archive", "event_id": "eb-1993623278894", "details": ""}
+{"ts": "2026-10-14T16:05:30.580355+00:00", "action": "archive", "event_id": "8up66jtm4r55nkrn9bced3n8vo@google.com", "details": ""}
+{"ts": "2026-10-14T16:05:30.580379+00:00", "action": "archive", "event_id": "u98kap6gonhh7d8qo7c1jd8c2s@google.com", "details": ""}
+{"ts": "2026-10-14T16:05:30.580402+00:00", "action": "archive", "event_id": "5ts4rr2atql5c1d3qclf055f7g@google.com", "details": ""}
+{"ts": "2026-10-14T16:05:30.580427+00:00", "action": "archive", "event_id": "posh-bachata-brunch-club-libra-affair-", "details": ""}
+{"ts": "2026-10-14T16:05:30.580452+00:00", "action": "archive", "event_id": "posh-callao-salsa-nigth-otoo-entre-hojas-y-sazon-", "details": ""}
+{"ts": "2026-10-14T16:05:30.580477+00:00", "action": "archive", "event_id": "bobas-20261008-0", "details": ""}
+{"ts": "2026-10-14T16:05:47.269299+00:00", "action": "edit", "event_id": "5d78e60be8a128af1c0a11dd80079db6ef84bcc9@dance-calendar", "details": "{\"urls\": [\"https://posh.vip/e/boston-bachata-party-cocomango-speakeasy-cambridge-la-casa-de-la-bachata\"]}"}
+{"ts": "2026-10-14T16:06:25.122202+00:00", "action": "block", "event_id": "nlf-events-deafinitely-unite-with-next-level-fusion", "details": "not_latin: The organizer page only mentions dance workshops and performances with no Latin styles. Boston.gov describes DEAFinitely UNITE as a hip hop dance lesson series, so it is not Latin."}
+{"ts": "2026-10-14T16:06:25.130551+00:00", "action": "review_answer", "event_id": "nlf-events-deafinitely-unite-with-next-level-fusion", "details": "rejected: not_latin The organizer page only mentions dance workshops and performances with no Latin styles. Boston.gov describes DEAFinitely UNITE as a hip hop dance lesson series, so it is not Latin."}
+{"ts": "2026-10-14T16:06:30.174361+00:00", "action": "add", "event_id": "bobas-20261014-0", "details": ""}
+{"ts": "2026-10-14T16:06:30.180528+00:00", "action": "approve", "event_id": "bobas-20261014-0", "details": ""}
+{"ts": "2026-10-14T16:06:30.188510+00:00", "action": "edit", "event_id": "bobas-20261014-0", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\", \"bachata\"]}"}
+{"ts": "2026-10-14T16:06:30.194453+00:00", "action": "review_answer", "event_id": "bobas-20261014-0", "details": "new_event: approve This is BOBAS's regular free outdoor salsa/bachata social at the Hatch Shell on Wednesday from 6 to 9pm, with a Facebook event link. The Sensualeros copy of the same night is not on the map, so this one carries it."}
+{"ts": "2026-10-14T16:06:33.167189+00:00", "action": "block", "event_id": "eb-2003266476959", "details": "out_of_area: This bachata party is at 177 Allyn St in Hartford, CT, which is outside greater Boston."}
+{"ts": "2026-10-14T16:06:33.169096+00:00", "action": "review_answer", "event_id": "eb-2003266476959", "details": "new_event: out_of_area This bachata party is at 177 Allyn St in Hartford, CT, which is outside greater Boston."}
+{"ts": "2026-10-14T16:06:42.112486+00:00", "action": "block", "event_id": "eb-2003076879869", "details": "class_only: The Eventbrite page describes a one-hour (7\u20138pm) beginner bachata lesson with Utopia Dance Company, plus mingling, a gallery and refreshments. No social dance is listed."}
+{"ts": "2026-10-14T16:06:42.116108+00:00", "action": "review_answer", "event_id": "eb-2003076879869", "details": "new_event: class_only The Eventbrite page describes a one-hour (7\u20138pm) beginner bachata lesson with Utopia Dance Company, plus mingling, a gallery and refreshments. No social dance is listed."}
+{"ts": "2026-10-14T16:07:18.167205+00:00", "action": "add", "event_id": "a0gs5jl2q68tecul9dmk1hnomo@google.com", "details": ""}
+{"ts": "2026-10-14T16:07:18.168814+00:00", "action": "approve", "event_id": "a0gs5jl2q68tecul9dmk1hnomo@google.com", "details": ""}
+{"ts": "2026-10-14T16:07:18.171002+00:00", "action": "edit", "event_id": "a0gs5jl2q68tecul9dmk1hnomo@google.com", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\", \"bachata\", \"merengue\"]}"}
+{"ts": "2026-10-14T16:07:18.172156+00:00", "action": "review_answer", "event_id": "a0gs5jl2q68tecul9dmk1hnomo@google.com", "details": "new_event: approve The venue's own page lists the Nov 12 Fuego Thursdays dance night at Sanctuary in Maynard: a monthly DJ night with salsa, bachata, merengue and reggaeton. The fuegothursdays.com lead is an unrelated Manhattan party."}
+{"ts": "2026-10-14T16:07:35.443563+00:00", "action": "reject", "event_id": "tu0lf9c9plsu1dt6uetlgugvbc@google.com", "details": "no link found; asked again if its source lists it again"}
+{"ts": "2026-10-14T16:07:35.445504+00:00", "action": "review_answer", "event_id": "tu0lf9c9plsu1dt6uetlgugvbc@google.com", "details": "new_event: no_link_yet Rumbaland is a Latin dance party at El Barco, but I found no page for vol. 7 on Oct 17. The Eventbrite organizer page lists no upcoming events, and the Instagram leads are for earlier volumes."}
+{"ts": "2026-10-14T16:08:08.202706+00:00", "action": "approve", "event_id": "i03kau2g53ji88lq7n45ueea48@google.com", "details": ""}
+{"ts": "2026-10-14T16:08:08.203912+00:00", "action": "review_answer", "event_id": "i03kau2g53ji88lq7n45ueea48@google.com", "details": "new_event: already_listed This is the same BOBAS Wednesday Hatch Shell social, with the same Facebook event (1112582757836226), as bobas-20261014-0, which is already on the map."}
+{"ts": "2026-10-14T16:08:10.696791+00:00", "action": "approve", "event_id": "j9isl9bkqbo5s3vgnol0uislqc@google.com", "details": ""}
+{"ts": "2026-10-14T16:08:10.698593+00:00", "action": "review_answer", "event_id": "j9isl9bkqbo5s3vgnol0uislqc@google.com", "details": "possible_duplicate: same Both listings have the same Eventbrite link (2002988535629), venue (Cocomango Speakeasy) and time (Oct 31, 8:30pm). This is El Bonche's Halloween Cuban Saturday Night."}

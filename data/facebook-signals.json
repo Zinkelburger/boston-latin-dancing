@@ -1,19 +1,19 @@
 {
   "bobas": {
-    "checked_at": "2026-10-07T12:33:32-04:00",
+    "checked_at": "2026-10-14T12:02:17-04:00",
     "source_url": "https://www.facebook.com/profile.php?id=61551665503735&sk=events",
     "status": "captured",
     "upcoming_events": [
       {
-        "name": "BOBAS Thursday 6-9pm",
-        "date": "October 8, 2026",
-        "url": "https://www.facebook.com/events/2029224094463173/"
+        "name": "BOBAS Wednesday 6-9pm",
+        "date": "October 14, 2026",
+        "url": "https://www.facebook.com/events/1112582757836226/"
       }
     ],
     "latest_post": {
-      "text": "Boston Outdoor Bachata And Salsa created an event . 22 hours ago 22h · Shared with This is a public event, so your post will be visible to anyone on Facebook. Thu, Oct 8 at 6:00 PM EDT BOBAS Thursday 6-9pm Hatch Shell on the Esplanade 38 people interested",
+      "text": "Boston Outdoor Bachata And Salsa created an event . a day ago 1d · Shared with This is a public event, so your post will be visible to anyone on Facebook. Wed, Oct 14 at 6:00 PM EDT BOBAS Wednesday 6-9pm Hatch Shell on the Esplanade 46 people interested",
       "dates": [
-        "2026-10-08"
+        "2026-10-14"
       ]
     },
     "albums": [],
@@ -21,16 +21,10 @@
     "errors": []
   },
   "dantes-inferno-fb": {
-    "checked_at": "2026-10-07T12:33:50-04:00",
+    "checked_at": "2026-10-14T12:03:10-04:00",
     "source_url": "https://www.facebook.com/DantesSalsaInferno/events",
-    "status": "captured",
-    "upcoming_events": [
-      {
-        "name": "Fuego y Candela Oct 10th Salsa Dance Social!",
-        "date": "October 10, 2026",
-        "url": "https://www.facebook.com/events/1803272690885156/"
-      }
-    ],
+    "status": "no_upcoming",
+    "upcoming_events": [],
     "latest_post": {
       "text": "Dante's Salsa Inferno created an event . September 28 at 2:57 PM · Shared with This is a public event, so your post will be visible to anyone on Facebook. Fri, Oct 2 Dante's Salsa Inferno Oct 2nd Salsa/Bachata Social!! The Dante Alighieri Society of Massachusetts Dance · 182 people",
       "dates": [
@@ -84,18 +78,12 @@
     "errors": []
   },
   "dantes-salsa": {
-    "checked_at": "2026-10-07T12:33:41-04:00",
+    "checked_at": "2026-10-14T12:02:51-04:00",
     "source_url": "https://www.facebook.com/FuegoyCandelaSalsa/events",
-    "status": "captured",
-    "upcoming_events": [
-      {
-        "name": "Fuego y Candela Oct 10th Salsa Dance Social!",
-        "date": "October 10, 2026",
-        "url": "https://www.facebook.com/events/1803272690885156/"
-      }
-    ],
+    "status": "no_upcoming",
+    "upcoming_events": [],
     "latest_post": {
-      "text": "Fuego y Candela Salsa Socials about an hour ago 1h · Shared with Public Lo que traigo es sabroso!!… See more 0:00 / 0:43",
+      "text": "Fuego y Candela Salsa Socials 6 days ago 6d · Shared with Public Let the music take control, and heat up the dance floor!… See more 0:00 / 0:00",
       "dates": []
     },
     "albums": [
@@ -138,7 +126,7 @@
     "errors": []
   },
   "lowell-sitp": {
-    "checked_at": "2026-10-07T12:34:42-04:00",
+    "checked_at": "2026-10-14T12:04:22-04:00",
     "source_url": "https://www.facebook.com/LowellSITP/events",
     "status": "no_upcoming",
     "upcoming_events": [],
@@ -164,7 +152,7 @@
     "errors": []
   },
   "noise-boston-fb": {
-    "checked_at": "2026-10-07T12:35:01-04:00",
+    "checked_at": "2026-10-14T12:04:44-04:00",
     "source_url": "https://www.facebook.com/noise.boston/events",
     "status": "captured",
     "upcoming_events": [
@@ -175,7 +163,7 @@
       }
     ],
     "latest_post": {
-      "text": "Noise Boston is at PKL . 3 hours ago 3h · Boston · Shared with Public Para que nunca se vaya . Salsa only at noise Boston .… See more 0:00 / 0:28",
+      "text": "Noise Boston is with Edwin Mendoza at PKL . a day ago 1d · Boston · Shared with Public Amor prohibido #bo … See more 0:00 / 0:38",
       "dates": []
     },
     "albums": [],
@@ -183,7 +171,7 @@
     "errors": []
   },
   "sabor-latino": {
-    "checked_at": "2026-10-07T12:34:21-04:00",
+    "checked_at": "2026-10-14T12:03:43-04:00",
     "source_url": "https://www.facebook.com/SaborLatinoBoston/events",
     "status": "no_upcoming",
     "upcoming_events": [],
@@ -247,15 +235,10 @@
     "errors": []
   },
   "tambo-salsa-fb": {
-    "checked_at": "2026-10-07T12:33:58-04:00",
+    "checked_at": "2026-10-14T12:03:20-04:00",
     "source_url": "https://www.facebook.com/Tambosalsa/events",
     "status": "captured",
     "upcoming_events": [
-      {
-        "name": "Tambo Salsa/Bachata Social, Friday Oct 9th",
-        "date": "October 9, 2026",
-        "url": "https://www.facebook.com/events/1466002282099481/"
-      },
       {
         "name": "Halloween Salsa/Bachata Costume Party, Friday 10/30",
         "date": "October 30, 2026",
@@ -263,9 +246,10 @@
       }
     ],
     "latest_post": {
-      "text": "Tambó Salsa is at Tambó Salsa . a day ago 1d · Cambridge · ﻿ Irimo · Dimension Latina · Shared with Public Tambo Friday, October 9th 8:30pm - 1am Mix of dancing and shows this Friday night!! … See more",
+      "text": "Tambó Salsa is at Tambó Salsa . 5 days ago 5d · Cambridge · ﻿ El Tumbaito · Pirulo y la Tribu · Shared with Public All smiles at Tambo Social, join us! Next Tambo Social • Oct 9th & Oct 31st… See more +10",
       "dates": [
-        "2026-10-09"
+        "2026-10-09",
+        "2026-10-31"
       ]
     },
     "albums": [
@@ -323,7 +307,7 @@
     "errors": []
   },
   "zouk-bos-fb": {
-    "checked_at": "2026-10-07T12:34:53-04:00",
+    "checked_at": "2026-10-14T12:04:33-04:00",
     "source_url": "https://www.facebook.com/profile.php?id=100090589803309&sk=events",
     "status": "no_upcoming",
     "upcoming_events": [],
