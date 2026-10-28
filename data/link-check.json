@@ -1,9 +1,9 @@
 {
-  "checked_at": "2026-10-28T15:32:46.158066+00:00",
+  "checked_at": "2026-10-28T16:08:27.816593+00:00",
   "scope": "live",
   "totals": {
-    "urls": 59,
-    "ok": 58,
+    "urls": 61,
+    "ok": 60,
     "broken": 0,
     "unverifiable": 1
   },
@@ -533,6 +533,16 @@
       ]
     },
     {
+      "url": "https://www.metamovements.com/event-details/halloween-rumbazo",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: HALLOWEEN RUMBAZO"
+      ]
+    },
+    {
       "url": "https://www.nextlevelfusiondance.com",
       "status": 200,
       "final_url": "https://www.nextlevelfusiondance.com/",
@@ -611,6 +621,16 @@
       "note": "HTTP 200",
       "appears_in": [
         "source: lous-live"
+      ]
+    },
+    {
+      "url": "https://www.wearelous.com/lous-live/latin-night-november",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Salsa at Lou's"
       ]
     }
   ]

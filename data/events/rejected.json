@@ -40,9 +40,9 @@
     "cost": "$30",
     "recurring": false,
     "source": "eventbrite-boston-latin",
-    "_rejected_reason": "review skipped: These are two different events: the Apex Rooftop Latin Halloween party at 150 State St, Boston, 10 PM-2 AM, and the Tambó Salsa costume party in Cambridge. Answering \"different\" (big_event=false) failed twice with \"could not add it: pending_review\", so the store seems to refuse adding the pending duplicate candidate, which looks like a bug in the different-answer path. A human should add eb-2003486422823 as a separate event and look into that error.",
+    "_rejected_reason": "review skipped: These are two different events: Apex Rooftop's Latin Halloween party at 150 State St, Boston, Fri Oct 30 10 PM-2 AM, and Bachata Room's party at 41 Hampshire St, Cambridge, Sat Oct 31. Answering \"different\" (big_event=false) failed again with \"could not add it: pending_review\", the same error as last week. Also, the earlier \"restore\" answer for rejected:eb-2003486422823 reported qdl15rphrtsop45q6jp901t3g8@google.com (the Bachata Room event) as restored instead of eb-2003486422823, and eb-2003486422823 is still pending with _dedup_candidate_of set. A human should add eb-2003486422823 as a separate event and fix the different/restore path for pending dedup candidates.",
     "_review_type": "skipped_review",
-    "_rejected_at": "2026-10-28T15:32:27.543059+00:00"
+    "_rejected_at": "2026-10-28T16:08:12.065774+00:00"
   },
   {
     "id": "fpp104hn8iava1dm2gs4ednaa8@google.com",
@@ -61,8 +61,8 @@
     "cost": "$20",
     "recurring": false,
     "source": "sensualeros-boston",
-    "_rejected_reason": "review skipped: This Lou's Latin night (Nov 11, 7-11 PM, lesson then DJ Angel Javier and La Diaspora Combo) belongs, and both correct pages state Nov 11. The link check refuses them only because their title, \"Latin Dance Night\", doesn't match this copy's name, \"Salsa at Lou's\". The pages are https://www.wearelous.com/lous-live/latin-night-november and the Eventbrite page 2003788309775. I merged the Eventbrite copy (eb-2003788309775) into this one earlier, so it was dropped. A human should either approve this copy with the Eventbrite link or bring back eb-2003788309775 so the night stays on the map.",
+    "_rejected_reason": "review skipped: This Lou's Latin night (Nov 11, lesson then DJ and live band) belongs. The previous answer merged the Lou's copy into this event, and the store now shows it active with url wearelous.com/lous-live/latin-night-november. But this question still sees no link, and the link check refuses both the wearelous page and Eventbrite 2003788309775 because the name \"Salsa at Lou's\" doesn't match \"Latin DANCE NIGHT\". I skipped it rather than answer no_link_yet, which would take the night off the map. A human should approve it with that link, or rename it so the link guard matches.",
     "_review_type": "skipped_review",
-    "_rejected_at": "2026-10-28T15:32:27.546510+00:00"
+    "_rejected_at": "2026-10-28T16:08:12.068953+00:00"
   }
 ]

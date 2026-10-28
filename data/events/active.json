@@ -16,7 +16,7 @@
     "cost": "$45.28",
     "recurring": false,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-10-28T15:32:31.634495+00:00",
+    "_verified_at": "2026-10-28T16:08:15.138501+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.eventbrite.com/e/arts-at-the-armory-spotlight-series-presents-tito-puente-jr-tickets-1984583543803",
@@ -53,7 +53,7 @@
       "2027-01-07T21:30:00-05:00",
       "2027-01-14T21:30:00-05:00"
     ],
-    "_verified_at": "2026-10-28T15:32:31.753195+00:00",
+    "_verified_at": "2026-10-28T16:08:15.232893+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://kizboston.com/",
@@ -79,7 +79,7 @@
     "cost": "Free",
     "recurring": true,
     "source": "beatrice-calendar",
-    "_verified_at": "2026-10-28T15:32:32.648466+00:00",
+    "_verified_at": "2026-10-28T16:08:16.133536+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://ma.to/venue/shoreleavebos",
@@ -115,7 +115,7 @@
       "2026-12-20T14:00:00-05:00",
       "2027-01-17T14:00:00-05:00"
     ],
-    "_verified_at": "2026-10-28T15:32:34.213056+00:00",
+    "_verified_at": "2026-10-28T16:08:16.567155+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (location checked)",
     "_verification_url": "https://www.nextlevelfusiondance.com/event-details/egleston-park-summer-socials-2026-09-20-14-00"
@@ -137,7 +137,7 @@
     "cost": "Free",
     "recurring": false,
     "source": "sensualeros-boston",
-    "_verified_at": "2026-10-28T15:32:34.346202+00:00",
+    "_verified_at": "2026-10-28T16:08:16.688510+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://ma.to/event/salsa-night-at-the-grove-29-oct-2026"
@@ -173,7 +173,7 @@
       "2027-01-07T22:00:00-05:00",
       "2027-01-14T22:00:00-05:00"
     ],
-    "_verified_at": "2026-10-28T15:32:34.695872+00:00",
+    "_verified_at": "2026-10-28T16:08:16.983260+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.thetimbamessengers.com"
@@ -211,7 +211,7 @@
       "2027-01-06T21:00:00-05:00",
       "2027-01-13T21:00:00-05:00"
     ],
-    "_verified_at": "2026-10-28T15:32:34.940890+00:00",
+    "_verified_at": "2026-10-28T16:08:17.187152+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.bachataroomboston.com",
@@ -246,7 +246,7 @@
       "2026-12-15T01:00:00+00:00",
       "2026-12-22T01:00:00+00:00"
     ],
-    "_verified_at": "2026-10-28T15:32:35.173506+00:00",
+    "_verified_at": "2026-10-28T16:08:17.399115+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://havanaclubsalsa.com",
@@ -282,7 +282,7 @@
       "2026-12-16T01:00:00+00:00",
       "2026-12-23T01:00:00+00:00"
     ],
-    "_verified_at": "2026-10-28T15:32:35.370211+00:00",
+    "_verified_at": "2026-10-28T16:08:17.522692+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://havanaclubsalsa.com",
@@ -317,7 +317,7 @@
       "2026-12-11T01:30:00+00:00",
       "2026-12-18T01:30:00+00:00"
     ],
-    "_verified_at": "2026-10-28T15:32:35.554234+00:00",
+    "_verified_at": "2026-10-28T16:08:17.697185+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://havanaclubsalsa.com",
@@ -350,7 +350,7 @@
       "2026-12-05T19:00:00-05:00",
       "2027-01-02T19:00:00-05:00"
     ],
-    "_verified_at": "2026-10-28T15:32:35.728425+00:00",
+    "_verified_at": "2026-10-28T16:08:17.813497+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://buenavibradance.com/socials",
@@ -389,7 +389,7 @@
       "2027-01-10T18:00:00-05:00",
       "2027-01-17T18:00:00-05:00"
     ],
-    "_verified_at": "2026-10-28T15:32:35.849653+00:00",
+    "_verified_at": "2026-10-28T16:08:17.892744+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Event page live, upstream date 2026-09-06 — recurring series, not compared against our first occurrence",
     "_verification_url": "https://www.facebook.com/events/1702605367827796/1735471407874525/",
@@ -418,7 +418,7 @@
     "recurring": true,
     "source": "beatrice-calendar",
     "dayOfWeek": "Saturday",
-    "_verified_at": "2026-10-28T15:32:36.185573+00:00",
+    "_verified_at": "2026-10-28T16:08:18.473305+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.lili.dance/workshops",
@@ -455,7 +455,7 @@
       "2026-12-08T20:00:00-05:00",
       "2027-01-12T20:00:00-05:00"
     ],
-    "_verified_at": "2026-10-28T15:32:36.311910+00:00",
+    "_verified_at": "2026-10-28T16:08:18.568954+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://forms.gle/kvUf8nb8iqrYuUKaA",
@@ -483,7 +483,7 @@
       "2026-10-03T19:30:00-04:00",
       "2026-11-07T19:30:00-05:00"
     ],
-    "_verified_at": "2026-10-28T15:32:37.670982+00:00",
+    "_verified_at": "2026-10-28T16:08:18.879427+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.unabulla.com/boston",
@@ -514,7 +514,7 @@
       "https://www.facebook.com/events/1393051752744141/",
       "message:%3C1E.1C.17072.DF12F8A6@i-0d57859519e2973e8.mta1vrest.sd.prd.sparkpost%3E"
     ],
-    "_verified_at": "2026-10-28T15:32:37.912411+00:00",
+    "_verified_at": "2026-10-28T16:08:19.130623+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (location checked)",
     "_verification_url": "https://www.eventbrite.com/e/flow-friday-at-the-anchor-tickets-1997187023149",
@@ -553,7 +553,7 @@
     "cost": "$20",
     "recurring": false,
     "source": "sensualeros-boston",
-    "_verified_at": "2026-10-28T15:32:38.000041+00:00",
+    "_verified_at": "2026-10-28T16:08:19.209988+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "Facebook preview matches (date checked); by Tambó Salsa and 2 others",
     "_verification_url": "https://www.facebook.com/events/1796270331376772/",
@@ -587,7 +587,7 @@
       "2026-12-12T02:00:00+00:00",
       "2026-12-19T02:00:00+00:00"
     ],
-    "_verified_at": "2026-10-28T15:32:39.051606+00:00",
+    "_verified_at": "2026-10-28T16:08:19.869154+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://havanaclubsalsa.com"
@@ -613,7 +613,7 @@
       "2026-11-15T01:30:00+00:00",
       "2026-12-20T01:30:00+00:00"
     ],
-    "_verified_at": "2026-10-28T15:32:39.175888+00:00",
+    "_verified_at": "2026-10-28T16:08:19.985298+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Facebook post names the event; no date in its preview",
     "_verification_url": "https://www.facebook.com/FuegoyCandelaSalsa/events",
@@ -657,7 +657,7 @@
       "2026-12-13T02:00:00+00:00",
       "2026-12-20T02:00:00+00:00"
     ],
-    "_verified_at": "2026-10-28T15:32:39.610652+00:00",
+    "_verified_at": "2026-10-28T16:08:20.448453+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://havanaclubsalsa.com"
@@ -683,7 +683,7 @@
     "urls": [
       "https://www.eventbrite.com/e/festival-navideno-y-tres-reyes-tickets-1998537457334"
     ],
-    "_verified_at": "2026-10-28T15:32:39.766297+00:00",
+    "_verified_at": "2026-10-28T16:08:20.578444+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.puertoricanfestivalofma.org/events-1/festival-navideno-three-kings-celebration-1"
@@ -706,7 +706,7 @@
     "cost": "$20",
     "recurring": false,
     "source": "sensualeros-boston",
-    "_verified_at": "2026-10-28T15:32:39.877599+00:00",
+    "_verified_at": "2026-10-28T16:08:20.681970+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.eventbrite.com/e/6th-annual-salsa-bachata-halloween-party-tickets-2001023303567",
@@ -729,7 +729,7 @@
     "cost": "Free",
     "recurring": false,
     "source": "eventbrite-boston-latin",
-    "_verified_at": "2026-10-28T15:32:39.973912+00:00",
+    "_verified_at": "2026-10-28T16:08:20.770804+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.eventbrite.com/e/777-fridays-haunted-carnival-elite-affairs-tickets-2002180696360",
@@ -754,7 +754,7 @@
     "recurring": false,
     "source": "fiesta-dance-company",
     "_location_override": "Agave Mexican Grill & Cantina, 197A Boston Post Rd W, Marlborough, MA 01752",
-    "_verified_at": "2026-10-28T15:32:40.093484+00:00",
+    "_verified_at": "2026-10-28T16:08:20.877551+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://fiestadancecompany.com/upcoming-socials"
@@ -777,7 +777,7 @@
     "cost": null,
     "recurring": false,
     "source": "fiesta-dance-company",
-    "_verified_at": "2026-10-28T15:32:40.186190+00:00",
+    "_verified_at": "2026-10-28T16:08:20.948722+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://fiestadancecompany.com/upcoming-socials"
@@ -800,7 +800,7 @@
     "cost": null,
     "recurring": false,
     "source": "fiesta-dance-company",
-    "_verified_at": "2026-10-28T15:32:40.278814+00:00",
+    "_verified_at": "2026-10-28T16:08:21.017721+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://fiestadancecompany.com/upcoming-socials"
@@ -823,7 +823,7 @@
     "recurring": false,
     "source": "beatrice-calendar",
     "_big_event_reviewed": true,
-    "_verified_at": "2026-10-28T15:32:40.354897+00:00",
+    "_verified_at": "2026-10-28T16:08:21.099959+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "Instagram post: page loads, gives this event's street address, and states its date",
     "_verification_url": "https://www.instagram.com/p/DeHwUBylUKM/",
@@ -847,7 +847,7 @@
     "recurring": false,
     "source": "eventbrite-boston-latin",
     "_big_event_reviewed": true,
-    "_verified_at": "2026-10-28T15:32:40.800878+00:00",
+    "_verified_at": "2026-10-28T16:08:21.549348+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.eventbrite.com/e/dance-the-night-away-salsa-more-tickets-2002462772056"
@@ -869,7 +869,7 @@
     "cost": "$20",
     "recurring": false,
     "source": "sensualeros-boston",
-    "_verified_at": "2026-10-28T15:32:41.298113+00:00",
+    "_verified_at": "2026-10-28T16:08:21.628043+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.eventbrite.com/e/el-bonches-halloween-cuban-saturday-night-tickets-2002988535629",
@@ -895,7 +895,7 @@
     "source": "dancefam",
     "_big_event_reviewed": true,
     "special": true,
-    "_verified_at": "2026-10-28T15:32:41.403223+00:00",
+    "_verified_at": "2026-10-28T16:08:21.722624+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://dancefam.org/event/2700"
@@ -918,7 +918,7 @@
     "recurring": false,
     "source": "posh",
     "_big_event_reviewed": true,
-    "_verified_at": "2026-10-28T15:32:41.496814+00:00",
+    "_verified_at": "2026-10-28T16:08:21.786279+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://posh.vip/e/bachata-boo-halloween-bachata-brunch-club"
@@ -943,7 +943,7 @@
     "recurring": false,
     "source": "sensualeros-boston",
     "_big_event_reviewed": true,
-    "_verified_at": "2026-10-28T15:32:41.689477+00:00",
+    "_verified_at": "2026-10-28T16:08:21.945720+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://sanctuarymaynard.com/shows/fuego-thursdays-dance-night-reggaeton-salsa-bachata-cumbia-november-12-2026-747557/"
@@ -966,7 +966,7 @@
     "recurring": false,
     "source": "sensualeros-boston",
     "_big_event_reviewed": true,
-    "_verified_at": "2026-10-28T15:32:41.810425+00:00",
+    "_verified_at": "2026-10-28T16:08:22.055578+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://www.thebostoncalendar.com/events/bachataween-social"
@@ -989,7 +989,7 @@
     "recurring": false,
     "source": "eventbrite-boston-latin",
     "_big_event_reviewed": true,
-    "_verified_at": "2026-10-28T15:32:41.964589+00:00",
+    "_verified_at": "2026-10-28T16:08:22.415809+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.eventbrite.com/e/calele-the-global-soul-berklee-caf-show-tickets-2003938011537"
@@ -1013,7 +1013,7 @@
     "source": "eventbrite-boston-latin",
     "_location_override": "525 Market St, Lowell, MA 01852",
     "_big_event_reviewed": true,
-    "_verified_at": "2026-10-28T15:32:42.062847+00:00",
+    "_verified_at": "2026-10-28T16:08:22.492997+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.eventbrite.com/e/girls-love-bachata-tickets-2003488878167"
@@ -1037,7 +1037,7 @@
     "recurring": false,
     "source": "sensualeros-boston",
     "_big_event_reviewed": true,
-    "_verified_at": "2026-10-28T15:32:42.158016+00:00",
+    "_verified_at": "2026-10-28T16:08:22.583502+00:00",
     "_verified_status": "confirmed",
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.eventbrite.com/e/saborcito-el-barco-salsabachata-night-tickets-2003987041186"
@@ -1048,7 +1048,7 @@
     "startDate": "2026-11-08T20:00:00+00:00",
     "endDate": "2026-11-09T01:00:00+00:00",
     "dayOfWeek": "Sunday",
-    "location": "Foxglove Terrace",
+    "location": "40 Western Ave, Allston, MA 02134",
     "lat": 42.3635017,
     "lng": -71.1346873,
     "description": "Price: Early bird 17.49",
@@ -1061,7 +1061,7 @@
     "recurring": false,
     "source": "sensualeros-boston",
     "_location_override": "40 Western Ave, Allston, MA 02134",
-    "_verified_at": "2026-10-28T15:32:42.258914+00:00",
+    "_verified_at": "2026-10-28T16:08:22.658278+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://posh.vip/e/tardeo-salsa-bachata-copy"
@@ -1085,9 +1085,57 @@
     "recurring": false,
     "source": "posh",
     "_big_event_reviewed": true,
-    "_verified_at": "2026-10-28T15:32:42.463988+00:00",
+    "_verified_at": "2026-10-28T16:08:23.700816+00:00",
     "_verified_status": "reachable_only",
     "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
     "_verification_url": "https://posh.vip/e/bacharengue-salsa-party-2026-12-14-1-0"
+  },
+  {
+    "id": "fpp104hn8iava1dm2gs4ednaa8@google.com",
+    "name": "Salsa at Lou's",
+    "startDate": "2026-11-12T00:00:00+00:00",
+    "endDate": "2026-11-12T04:00:00+00:00",
+    "dayOfWeek": "Wednesday",
+    "location": "Lou’s, 13A Brattle St",
+    "lat": 42.3736,
+    "lng": -71.1212,
+    "description": "Price: Lessons & Social Dancing: $20 | Social Dancing: $15",
+    "url": "https://www.wearelous.com/lous-live/latin-night-november",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": "$20",
+    "recurring": false,
+    "source": "sensualeros-boston",
+    "_big_event_reviewed": true,
+    "_verified_at": "2026-10-28T16:08:25.290185+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD matches (date checked)",
+    "_verification_url": "https://www.wearelous.com/lous-live/latin-night-november"
+  },
+  {
+    "id": "8cf52sojf9k8tn7r3jhfb24t0c@google.com",
+    "name": "HALLOWEEN RUMBAZO",
+    "startDate": "2026-10-28T22:30:00+00:00",
+    "endDate": "2026-10-29T00:00:00+00:00",
+    "dayOfWeek": "Wednesday",
+    "location": "JAE Dance Center, 2153 Washington St. Boston, MA 02119",
+    "lat": 42.3315429,
+    "lng": -71.0820412,
+    "description": "Price: $10 Cover",
+    "url": "https://www.metamovements.com/event-details/halloween-rumbazo",
+    "styles": [
+      "other"
+    ],
+    "cost": "$10 Cover",
+    "recurring": false,
+    "source": "sensualeros-boston",
+    "urls": [],
+    "_big_event_reviewed": true,
+    "_verified_at": "2026-10-28T16:08:25.368108+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
+    "_verification_url": "https://www.metamovements.com/event-details/halloween-rumbazo"
   }
 ]

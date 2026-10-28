@@ -57,6 +57,26 @@
     "recurrenceLabel": "Every Wednesday · 9:00 PM – 12:00 AM"
   },
   {
+    "id": "8cf52sojf9k8tn7r3jhfb24t0c@google.com",
+    "name": "HALLOWEEN RUMBAZO",
+    "startDate": "2026-10-28T22:30:00+00:00",
+    "endDate": "2026-10-29T00:00:00+00:00",
+    "dayOfWeek": "Wednesday",
+    "location": "JAE Dance Center, 2153 Washington St. Boston, MA 02119",
+    "lat": 42.3315429,
+    "lng": -71.0820412,
+    "description": "Price: $10 Cover",
+    "url": "https://www.metamovements.com/event-details/halloween-rumbazo",
+    "styles": [
+      "other"
+    ],
+    "cost": "$10 Cover",
+    "recurring": false,
+    "urls": [],
+    "slug": "halloween-rumbazo-8cf52soj",
+    "organizer": "Sensualeros Boston Events"
+  },
+  {
     "id": "havana-club",
     "name": "Havana Club",
     "startDate": "2026-10-29T21:00:00-04:00",
@@ -567,7 +587,7 @@
     "startDate": "2026-11-08T20:00:00+00:00",
     "endDate": "2026-11-09T01:00:00+00:00",
     "dayOfWeek": "Sunday",
-    "location": "Foxglove Terrace",
+    "location": "40 Western Ave, Allston, MA 02134",
     "lat": 42.3635017,
     "lng": -71.1346873,
     "description": "Price: Early bird 17.49",
@@ -605,6 +625,26 @@
     "slug": "senior-zouk-social-2ar83v9i",
     "recurrenceLabel": "Second Tuesday of each month",
     "organizer": "Greater Boston Dance Socials (Beatrice)"
+  },
+  {
+    "id": "fpp104hn8iava1dm2gs4ednaa8@google.com",
+    "name": "Salsa at Lou's",
+    "startDate": "2026-11-12T00:00:00+00:00",
+    "endDate": "2026-11-12T04:00:00+00:00",
+    "dayOfWeek": "Wednesday",
+    "location": "Lou’s, 13A Brattle St",
+    "lat": 42.3736,
+    "lng": -71.1212,
+    "description": "Price: Lessons & Social Dancing: $20 | Social Dancing: $15",
+    "url": "https://www.wearelous.com/lous-live/latin-night-november",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": "$20",
+    "recurring": false,
+    "slug": "salsa-at-lou-s-fpp104hn",
+    "organizer": "Sensualeros Boston Events"
   },
   {
     "id": "a0gs5jl2q68tecul9dmk1hnomo@google.com",

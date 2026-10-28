@@ -1,11 +1,11 @@
 {
-  "checked_at": "2026-10-28T15:28:53.013161+00:00",
+  "checked_at": "2026-10-28T16:05:29.953854+00:00",
   "totals": {
-    "events": 33,
+    "events": 38,
     "with_multiple_sources": 7,
     "disagreements": 0,
-    "location_agreed": 15,
-    "location_unknown": 18
+    "location_agreed": 18,
+    "location_unknown": 20
   },
   "disagreements": [],
   "checked": [
@@ -985,6 +985,148 @@
       "claims": [
         {
           "url": "https://www.thebostoncalendar.com/events/bachataween-social",
+          "location": null,
+          "date": null,
+          "instant": null,
+          "via": null,
+          "city_level": false,
+          "error": "no structured data"
+        }
+      ],
+      "location": {
+        "verdict": "unknown",
+        "notes": []
+      },
+      "date": {
+        "verdict": "unknown",
+        "notes": []
+      }
+    },
+    {
+      "event_id": "eb-2003938011537",
+      "event_name": "Calele & the Global Soul - Berklee CAF Show",
+      "our_location": "160 Massachusetts Ave, 160 Massachusetts Avenue, Boston, MA 02115, Boston, MA",
+      "our_date": "2026-11-03",
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://www.eventbrite.com/e/calele-the-global-soul-berklee-caf-show-tickets-2003938011537",
+          "location": "160 Massachusetts Ave, 160 Massachusetts Avenue, Boston, MA 02115, Boston, MA",
+          "date": "2026-11-03",
+          "instant": "2026-11-03T22:00:00-05:00",
+          "via": "json-ld",
+          "city_level": false,
+          "error": null
+        }
+      ],
+      "location": {
+        "verdict": "agree",
+        "notes": [
+          "eventbrite.com/e/calele-the-global-soul-berkl (json-ld): agree — same address text"
+        ]
+      },
+      "date": {
+        "verdict": "agree",
+        "notes": [
+          "eventbrite.com/e/calele-the-global-soul-berkl (json-ld): says 2026-11-03"
+        ]
+      }
+    },
+    {
+      "event_id": "eb-2003488878167",
+      "event_name": "GIRLS LOVE BACHATA",
+      "our_location": "525 Market St, Lowell, MA 01852",
+      "our_date": "2026-11-25",
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://www.eventbrite.com/e/girls-love-bachata-tickets-2003488878167",
+          "location": "EKOS, 525 Martket st, Lowell, MA 01852, Lowell, MA",
+          "date": "2026-11-25",
+          "instant": "2026-11-25T20:00:00-05:00",
+          "via": "json-ld",
+          "city_level": false,
+          "error": null
+        }
+      ],
+      "location": {
+        "verdict": "agree",
+        "notes": [
+          "eventbrite.com/e/girls-love-bachata-tickets-2 (json-ld): agree — same street number (525)"
+        ]
+      },
+      "date": {
+        "verdict": "agree",
+        "notes": [
+          "eventbrite.com/e/girls-love-bachata-tickets-2 (json-ld): says 2026-11-25"
+        ]
+      }
+    },
+    {
+      "event_id": "q9s2qgclfo8p1qb31j41a6lj5g@google.com",
+      "event_name": "Saborcito @ El Barco - Salsa/Bachata Night",
+      "our_location": "El Barco | Tacos x Tequilas",
+      "our_date": "2026-11-19",
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://www.eventbrite.com/e/saborcito-el-barco-salsabachata-night-tickets-2003987041186",
+          "location": "El Barco | Tacos x Tequilas, 50 Dalton Street, Boston, MA 02115, Boston, MA",
+          "date": "2026-11-19",
+          "instant": "2026-11-19T20:00:00-05:00",
+          "via": "json-ld",
+          "city_level": false,
+          "error": null
+        }
+      ],
+      "location": {
+        "verdict": "agree",
+        "notes": [
+          "eventbrite.com/e/saborcito-el-barco-salsabach (json-ld): agree — same address text"
+        ]
+      },
+      "date": {
+        "verdict": "agree",
+        "notes": [
+          "eventbrite.com/e/saborcito-el-barco-salsabach (json-ld): says 2026-11-19"
+        ]
+      }
+    },
+    {
+      "event_id": "7g93rlpnln7ut6ptekeu6la7oc@google.com",
+      "event_name": "TARDEO Salsa & Bachata",
+      "our_location": "40 Western Ave, Allston, MA 02134",
+      "our_date": "2026-11-08",
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://posh.vip/e/tardeo-salsa-bachata-copy",
+          "location": null,
+          "date": null,
+          "instant": null,
+          "via": null,
+          "city_level": false,
+          "error": "no structured data"
+        }
+      ],
+      "location": {
+        "verdict": "unknown",
+        "notes": []
+      },
+      "date": {
+        "verdict": "unknown",
+        "notes": []
+      }
+    },
+    {
+      "event_id": "posh-bacharengue-salsa-party-2026-12-14-1-0",
+      "event_name": "Bachata Salsa Fest",
+      "our_location": "Joey’s Bar & Grill., 1936 Revere Beach Pkwy, Everett, MA 02149",
+      "our_date": "2026-12-13",
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://posh.vip/e/bacharengue-salsa-party-2026-12-14-1-0",
           "location": null,
           "date": null,
           "instant": null,
