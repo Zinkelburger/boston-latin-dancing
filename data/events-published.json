@@ -327,6 +327,25 @@
     "organizer": "Eventbrite Boston Latin Dance"
   },
   {
+    "id": "eb-2003486422823",
+    "name": "LATIN NIGHT HALLOWEEN PARTY",
+    "startDate": "2026-10-30T22:00:00-04:00",
+    "endDate": "2026-10-31T02:00:00-04:00",
+    "dayOfWeek": "Friday",
+    "location": "Apex Rooftop Bar and Lounge, 150 State Street, Boston, MA 02109, Boston, MA",
+    "lat": 42.3594131,
+    "lng": -71.054075,
+    "description": "Costumes, Cocktails & Latin vibes all night long!\n\nOrganizer: Apex Rooftop Bar & Lounge",
+    "url": "https://www.eventbrite.com/e/latin-night-halloween-party-tickets-2003486422823",
+    "styles": [
+      "other"
+    ],
+    "cost": "$30",
+    "recurring": false,
+    "slug": "latin-night-halloween-party-eb-20034",
+    "organizer": "Eventbrite Boston Latin Dance"
+  },
+  {
     "id": "fiesta-617b9920a493",
     "name": "Salsa & Bachata Social w/ Fiesta Dance Co",
     "startDate": "2026-10-31T00:00:00-04:00",

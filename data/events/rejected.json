@@ -22,47 +22,5 @@
     "_rejected_reason": "not Latin dance relevant (styles=['other'], no Latin terms)",
     "_review_type": "non_latin",
     "_rejected_at": "2026-10-28T15:28:00.559948+00:00"
-  },
-  {
-    "id": "eb-2003486422823",
-    "name": "LATIN NIGHT HALLOWEEN PARTY",
-    "startDate": "2026-10-30T22:00:00-04:00",
-    "endDate": "2026-10-31T02:00:00-04:00",
-    "dayOfWeek": "Friday",
-    "location": "Apex Rooftop Bar and Lounge, 150 State Street, Boston, MA 02109, Boston, MA",
-    "lat": 42.3594131,
-    "lng": -71.054075,
-    "description": "Costumes, Cocktails & Latin vibes all night long!\n\nOrganizer: Apex Rooftop Bar & Lounge",
-    "url": "https://www.eventbrite.com/e/latin-night-halloween-party-tickets-2003486422823",
-    "styles": [
-      "other"
-    ],
-    "cost": "$30",
-    "recurring": false,
-    "source": "eventbrite-boston-latin",
-    "_rejected_reason": "review skipped: These are two different events: Apex Rooftop's Latin Halloween party at 150 State St, Boston, Fri Oct 30 10 PM-2 AM, and Bachata Room's party at 41 Hampshire St, Cambridge, Sat Oct 31. Answering \"different\" (big_event=false) failed again with \"could not add it: pending_review\", the same error as last week. Also, the earlier \"restore\" answer for rejected:eb-2003486422823 reported qdl15rphrtsop45q6jp901t3g8@google.com (the Bachata Room event) as restored instead of eb-2003486422823, and eb-2003486422823 is still pending with _dedup_candidate_of set. A human should add eb-2003486422823 as a separate event and fix the different/restore path for pending dedup candidates.",
-    "_review_type": "skipped_review",
-    "_rejected_at": "2026-10-28T16:08:12.065774+00:00"
-  },
-  {
-    "id": "fpp104hn8iava1dm2gs4ednaa8@google.com",
-    "name": "Salsa at Lou's",
-    "startDate": "2026-11-12T00:00:00+00:00",
-    "endDate": "2026-11-12T04:00:00+00:00",
-    "dayOfWeek": "Wednesday",
-    "location": "Lou’s, 13A Brattle St",
-    "lat": 42.3736,
-    "lng": -71.1212,
-    "description": "Price: Lessons & Social Dancing: $20 | Social Dancing: $15",
-    "url": null,
-    "styles": [
-      "salsa"
-    ],
-    "cost": "$20",
-    "recurring": false,
-    "source": "sensualeros-boston",
-    "_rejected_reason": "review skipped: This Lou's Latin night (Nov 11, lesson then DJ and live band) belongs. The previous answer merged the Lou's copy into this event, and the store now shows it active with url wearelous.com/lous-live/latin-night-november. But this question still sees no link, and the link check refuses both the wearelous page and Eventbrite 2003788309775 because the name \"Salsa at Lou's\" doesn't match \"Latin DANCE NIGHT\". I skipped it rather than answer no_link_yet, which would take the night off the map. A human should approve it with that link, or rename it so the link guard matches.",
-    "_review_type": "skipped_review",
-    "_rejected_at": "2026-10-28T16:08:12.068953+00:00"
   }
 ]
