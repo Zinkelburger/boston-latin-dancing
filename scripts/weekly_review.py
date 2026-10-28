@@ -66,7 +66,7 @@ from event_store import paths, storage  # noqa: E402
 from event_store.archive import HOLD_CANCELLED, HOLD_NO_LINK  # noqa: E402
 from dedup_report import report as duplicate_report  # noqa: E402
 from event_store.classify import derive_special, looks_like_class, special_edition_mismatch  # noqa: E402
-from event_store.dedup import merge_event  # noqa: E402
+from event_store.dedup import find_lookalikes, merge_event  # noqa: E402
 from event_store.ingest import add_event  # noqa: E402
 from event_store.known_duplicates import persist_known_duplicate  # noqa: E402
 from event_store.locations import is_out_of_area, locations_same  # noqa: E402
@@ -447,7 +447,8 @@ def new_event_items(pending: list[dict], active: list[dict]) -> list[dict]:
 
 def possible_duplicate_items(pending: list[dict]) -> list[dict]:
     items = []
-    by_id = {e["id"]: e for e in load_active() + load_archive()}
+    active = load_active()
+    by_id = {e["id"]: e for e in active + load_archive()}
     for event in pending:
         cand_id = event.get("_dedup_candidate_of")
         if not cand_id:
@@ -457,12 +458,16 @@ def possible_duplicate_items(pending: list[dict]) -> list[dict]:
             continue
         evidence = {"new_listing": card(event), "already_listed": card(existing),
                     "why_they_look_alike": event.get("_dedup_reason", "")}
+        others = [e for e in find_lookalikes(event, active) if e["id"] != cand_id]
+        if others:
+            evidence["also_looks_like"] = [card(e) for e in others]
         if not event_url_list(event):
             evidence["link_leads"] = link_leads(event)
         choices = {
             "same": "The same night of the same event. Merged, and future copies merge automatically.",
             "different": "Two different events (another night, another organizer, or one is a "
-                         "special edition such as an anniversary). Both stay on the map.",
+                         "special edition such as an anniversary). Both stay on the map, and the "
+                         "new listing is also kept apart from evidence.also_looks_like.",
             **BLOCKS,
         }
         if special_edition_mismatch(event, existing):
@@ -503,14 +508,25 @@ def active_duplicate_items(active: list[dict]) -> list[dict]:
 
 
 def rejected_items(rejected: list[dict]) -> list[dict]:
-    return [_item(
-        "rejected", e["id"], e.get("name", ""),
-        "This was taken off the map or filtered out as not Latin dance. Should it come back?",
-        {"event": card(e), "why_it_was_removed": e.get("_rejected_reason", "")},
-        {"restore": "It is a Latin social dance that was filtered by mistake. Back on the map.",
-         "duplicate": "It repeats an event already on the map. Blocked for this source only.",
-         **BLOCKS},
-    ) for e in rejected]
+    active = load_active()
+    items = []
+    for e in rejected:
+        evidence = {"event": card(e), "why_it_was_removed": e.get("_rejected_reason", "")}
+        lookalikes = find_lookalikes(e, active)
+        if lookalikes:
+            # A restore is forced past the store's dedup, so without this it
+            # merged into the first lookalike (2026-10-28: Apex Rooftop's
+            # Halloween party "restored" into Bachata Room's).
+            evidence["looks_like"] = [card(x) for x in lookalikes]
+        items.append(_item(
+            "rejected", e["id"], e.get("name", ""),
+            "This was taken off the map or filtered out as not Latin dance. Should it come back?",
+            evidence,
+            {"restore": "It is a Latin social dance that was filtered by mistake. Back on the map, "
+                        "as its own event apart from evidence.looks_like.",
+             "duplicate": "It repeats an event already on the map. Blocked for this source only.",
+             **BLOCKS}))
+    return items
 
 
 def venue_conflict_items() -> list[dict]:
@@ -979,7 +995,8 @@ def _apply_possible_duplicate(item: dict, choice: str, params: dict) -> dict:
     candidate = event["_dedup_candidate_of"]
     clean = {k: v for k, v in event.items() if not k.startswith(("_dedup", "_quarantined"))}
     clean.update(updates)
-    result = add_event(clean, distinct_from=[candidate])
+    others = [c["id"] for c in item["evidence"].get("also_looks_like", [])]
+    result = add_event(clean, distinct_from=[candidate, *others])
     if result.get("status") not in ("added", "duplicate", "merged", "reactivated"):
         raise Refused(f"could not add it: {result.get('message') or result.get('status')}")
     # Destination first: a failed add must leave the reviewable source intact.
@@ -1010,7 +1027,8 @@ def _apply_active_duplicate(item: dict, choice: str, params: dict) -> dict:
 def _apply_rejected(item: dict, choice: str, params: dict) -> dict:
     event = _find(load_rejected(), item["subject"])
     if choice == "restore":
-        result = approve_rejected(event["id"])
+        result = approve_rejected(event["id"], distinct_from=[
+            c["id"] for c in item["evidence"].get("looks_like", [])])
         if result.get("status") in ("not_found", "not_approved"):
             raise Refused(result.get("message") or result.get("status"))
         return {"status": "restored", "event_id": _landed_id(result)}

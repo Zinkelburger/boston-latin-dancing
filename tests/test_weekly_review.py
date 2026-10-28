@@ -784,3 +784,68 @@ def test_recheck_moves_a_skipped_new_event_out_of_pending(store, tmp_path, monke
     assert "guard refused" in rejected[0]["_rejected_reason"]
     assert "_quarantined_new" not in rejected[0]
     assert result["done_automatically"] == 1
+
+
+# ── Halloween lookalikes (2026-10-28: the Apex Rooftop party) ─────────
+
+def _halloween_night():
+    """A new Latin Halloween party and two other Halloween parties the same
+    weekend, each one a review-tier lookalike of the new one."""
+    new = _event(id="apex", name="LATIN NIGHT HALLOWEEN PARTY", source="eventbrite-boston-latin",
+                 startDate=_at(10, 22).isoformat(), endDate=_at(11, 2).isoformat(),
+                 location="Apex Rooftop, 150 State St, Boston, MA", lat=42.3594, lng=-71.0541,
+                 url="https://www.eventbrite.com/e/latin-night-halloween-party-tickets-1")
+    tambo = _event(id="tambo", name="Halloween Salsa/Bachata Costume Party", url="https://example.com/tambo",
+                   startDate=_at(11, 20).replace(minute=30).isoformat(), endDate=_at(12, 1).isoformat())
+    bachata_room = _event(id="bachata-room", name="6th Annual Salsa & Bachata Halloween Party",
+                          location="41 Hampshire St, Cambridge, MA", lat=42.3728, lng=-71.0994,
+                          url="https://example.com/bachata-room",
+                          startDate=_at(11, 21).isoformat(), endDate=_at(12, 1).isoformat())
+    from event_store.dedup import dedup_confidence
+    assert dedup_confidence(tambo, new) == "review"
+    assert dedup_confidence(bachata_room, new) == "review"
+    return new, tambo, bachata_room
+
+
+def test_different_keeps_a_new_event_apart_from_every_lookalike_it_shows(store):
+    new, tambo, bachata_room = _halloween_night()
+    store.save_active([tambo, bachata_room])
+    store.save_pending([{**new, "_dedup_candidate_of": "tambo"}])
+    item = _item_for(_worklist(), "possible_duplicate")
+    assert [c["id"] for c in item["evidence"]["also_looks_like"]] == ["bachata-room"]
+    result = wr.answer(item["id"], "different", big_event=False)
+    assert result["ok"] is True, result
+    assert sorted(e["id"] for e in store.load_active()) == ["apex", "bachata-room", "tambo"]
+    assert store.load_pending() == []
+
+
+def test_restoring_a_rejected_event_does_not_merge_it_into_a_lookalike(store):
+    new, tambo, _ = _halloween_night()
+    store.save_active([tambo])
+    store.storage.queue_rejected(new, "review skipped: separate party", review_type="skipped_review")
+    item = _item_for(_worklist(), "rejected")
+    assert [c["id"] for c in item["evidence"]["looks_like"]] == ["tambo"]
+    result = wr.answer(item["id"], "restore")
+    assert result["ok"] is True, result
+    assert result["applied"]["event_id"] == "apex"
+    active = {e["id"]: e for e in store.load_active()}
+    assert sorted(active) == ["apex", "tambo"]
+    assert active["tambo"]["url"] == "https://example.com/tambo"
+    assert store.load_rejected() == []
+
+
+@pytest.mark.parametrize("candidate", [False, True])
+def test_a_skipped_event_listed_again_is_one_question_not_two(store, candidate):
+    """park_skipped leaves the event in rejected until its source lists it
+    again; ingest then queues it in pending, and the rejected row has to go
+    or the next worklist asks about the same event twice (2026-10-28: Salsa at
+    Lou's was restored from one question and parked again by the other)."""
+    new, tambo, _ = _halloween_night()
+    store.save_active([tambo] if candidate else [])
+    store.storage.queue_rejected(new, "review skipped: no link", review_type="skipped_review")
+    result = store.add_event(dict(new), quarantine_new=True)
+    assert result["status"] == ("pending_review" if candidate else "quarantined_new")
+    assert [e["id"] for e in store.load_pending()] == ["apex"]
+    assert store.load_rejected() == []
+    kinds = sorted(i["kind"] for i in _worklist()["items"] if i["subject"] == "apex")
+    assert kinds == ["possible_duplicate" if candidate else "new_event"]

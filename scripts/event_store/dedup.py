@@ -433,6 +433,18 @@ def find_duplicate_in(event: dict, pool: list[dict]) -> Optional[tuple[int, str]
     return None
 
 
+def find_lookalikes(event: dict, pool: list[dict]) -> list[dict]:
+    """Every event in pool that is a review-tier match for event.
+
+    find_duplicate_in returns only the first, so a "different" verdict against
+    that one lets the next lookalike queue the event for review again
+    (2026-10-28: one Latin Halloween party resembled three others that
+    weekend). Whoever asserts "different" needs to see, and clear, them all.
+    """
+    return [e for e in pool
+            if e.get("id") != event.get("id") and dedup_confidence(e, event) == "review"]
+
+
 def deduplicate(events: list[dict], *, record_log: bool = True) -> list[dict]:
     """Deduplicate for publish. Only merges 'certain' matches."""
     events.sort(key=source_rank)

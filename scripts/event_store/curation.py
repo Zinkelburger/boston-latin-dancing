@@ -160,8 +160,11 @@ def remove_active_event(event_id: str, reason: str = "removed from active", bloc
 
 
 @locked
-def approve_rejected(event_id: str) -> dict:
+def approve_rejected(event_id: str, distinct_from: list | None = None) -> dict:
     """Promote a rejected event to active (bypasses Latin relevance check).
+
+    The add is forced, so a review-tier lookalike on the map swallows the
+    event; pass its id in distinct_from to keep the two apart (see add_event).
 
     Lands the event first; the rejected row is only removed once it has.
     """
@@ -173,7 +176,7 @@ def approve_rejected(event_id: str) -> dict:
     stored = rejected[idx]
     event = _without(stored, _REJECTED_MARKERS)
 
-    result = add_event(event, force=True, skip_latin_check=True)
+    result = add_event(event, force=True, skip_latin_check=True, distinct_from=distinct_from)
     if result.get("status") not in _LANDED_STATUSES:
         return _not_approved(result, stored, "rejected.json")
 

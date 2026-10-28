@@ -249,6 +249,9 @@ def add_event(
                 }
             pending.append(event)
             storage.save_pending(pending)
+            # Back in the queue means a fresh question; a row parked in
+            # rejected would ask about the same event a second time.
+            clear_stale_rejected(event["id"])
             append_changelog("pending_review", event["id"], f"review dup of {existing['id']}: {reason}")
             return {
                 "status": "pending_review",
@@ -299,6 +302,7 @@ def add_event(
             pending.append(event)
             append_changelog("quarantine_new", event["id"])
         storage.save_pending(pending)
+        clear_stale_rejected(event["id"])
         return {"status": "quarantined_new", "event": event}
 
     active.append(event)
