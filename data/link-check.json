@@ -1,9 +1,9 @@
 {
-  "checked_at": "2026-10-15T18:11:47.731620+00:00",
+  "checked_at": "2026-10-28T15:32:46.158066+00:00",
   "scope": "live",
   "totals": {
-    "urls": 70,
-    "ok": 69,
+    "urls": 59,
+    "ok": 58,
     "broken": 0,
     "unverifiable": 1
   },
@@ -102,26 +102,6 @@
       "note": "HTTP 200",
       "appears_in": [
         "source: eastboston-events"
-      ]
-    },
-    {
-      "url": "https://facebook.com/events/s/rumba-y-clave-salsa-bachata-so/2616999995380882/",
-      "status": 200,
-      "final_url": "https://www.facebook.com/events/s/rumba-y-clave-salsa-bachata-so/2616999995380882/",
-      "verdict": "ok",
-      "note": "live (Rumba y Clave: Salsa & Bachata Social)",
-      "appears_in": [
-        "event: Rumba y Clave: Salsa & Bachata Social"
-      ]
-    },
-    {
-      "url": "https://facebook.com/events/s/utopia-dance-company-4th-year-/1873361657408089/",
-      "status": 200,
-      "final_url": "https://www.facebook.com/events/s/utopia-dance-company-4th-year-/1873361657408089/",
-      "verdict": "ok",
-      "note": "live (Utopia Dance Company 4th Year Anniversary Celebration Latin )",
-      "appears_in": [
-        "event: Utopia Dance Company 4th Year Anniversary Celebration Latin Dance Social!"
       ]
     },
     {
@@ -226,6 +206,16 @@
       ]
     },
     {
+      "url": "https://posh.vip/e/bacharengue-salsa-party-2026-12-14-1-0",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Bachata Salsa Fest"
+      ]
+    },
+    {
       "url": "https://posh.vip/e/bachata-boo-halloween-bachata-brunch-club",
       "status": 200,
       "final_url": null,
@@ -236,13 +226,13 @@
       ]
     },
     {
-      "url": "https://posh.vip/e/boston-bachata-party-cocomango-speakeasy-cambridge-la-casa-de-la-bachata",
+      "url": "https://posh.vip/e/tardeo-salsa-bachata-copy",
       "status": 200,
       "final_url": null,
       "verdict": "ok",
       "note": "HTTP 200",
       "appears_in": [
-        "event: BOSTON BACHATA PARTY Cocomango Speakeasy Cambridge | La Casa de la Bachata (alt)"
+        "event: TARDEO Salsa & Bachata"
       ]
     },
     {
@@ -307,13 +297,13 @@
       ]
     },
     {
-      "url": "https://www.eventbrite.com/e/boston-bachata-party-cocomango-speakeasy-cambridge-la-casa-de-la-bachata-tickets-1999738598981",
+      "url": "https://www.eventbrite.com/e/calele-the-global-soul-berklee-caf-show-tickets-2003938011537",
       "status": 200,
       "final_url": null,
       "verdict": "ok",
       "note": "HTTP 200",
       "appears_in": [
-        "event: BOSTON BACHATA PARTY Cocomango Speakeasy Cambridge | La Casa de la Bachata"
+        "event: Calele & the Global Soul - Berklee CAF Show"
       ]
     },
     {
@@ -324,16 +314,6 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: Dance the Night Away! Salsa & More!"
-      ]
-    },
-    {
-      "url": "https://www.eventbrite.com/e/dystopia-night-of-the-sinners-boston-tickets-2002962671268",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Dystopia: Night of the Sinners - Boston"
       ]
     },
     {
@@ -367,43 +347,23 @@
       ]
     },
     {
-      "url": "https://www.eventbrite.com/e/latin-dance-fundraiser-with-dj-johnny-giraldo-tickets-2000672130198",
+      "url": "https://www.eventbrite.com/e/girls-love-bachata-tickets-2003488878167",
       "status": 200,
       "final_url": null,
       "verdict": "ok",
       "note": "HTTP 200",
       "appears_in": [
-        "event: Latin Dance Fundraiser with DJ Johnny Giraldo"
+        "event: GIRLS LOVE BACHATA"
       ]
     },
     {
-      "url": "https://www.eventbrite.com/e/october-latin-dance-night-at-lous-lessons-social-dancing-tickets-2001409938001",
+      "url": "https://www.eventbrite.com/e/saborcito-el-barco-salsabachata-night-tickets-2003987041186",
       "status": 200,
       "final_url": null,
       "verdict": "ok",
       "note": "HTTP 200",
       "appears_in": [
-        "event: October Latin Dance Night at Lou's | Lessons & Social Dancing"
-      ]
-    },
-    {
-      "url": "https://www.eventbrite.com/e/sabroso-halloween-v002-tickets-2002642031225",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: SABROSO HALLOWEEN V.002"
-      ]
-    },
-    {
-      "url": "https://www.eventbrite.com/e/salsa-ween-free-latin-social-salsa-bachata-merengue-tickets-2002919491115",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Salsa-ween: Free Latin Social — Salsa, Bachata, Merengue"
+        "event: Saborcito @ El Barco - Salsa/Bachata Night"
       ]
     },
     {
@@ -414,26 +374,6 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: SUSHI CON SALSA (alt)"
-      ]
-    },
-    {
-      "url": "https://www.eventbrite.com/o/rumbaland-121144221749",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Rumbaland vol. 7"
-      ]
-    },
-    {
-      "url": "https://www.eventbrite.com/o/sabor-latino-boston-63775846633",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Sabor Latino! @ El Barco - Salsa/Bachata Night"
       ]
     },
     {
@@ -492,16 +432,6 @@
       ]
     },
     {
-      "url": "https://www.facebook.com/events/1112582757836226/",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "live (BOBAS Wednesday 6-9pm)",
-      "appears_in": [
-        "event: Sunset Salsa Bachata on the Docks (BOBAS)"
-      ]
-    },
-    {
       "url": "https://www.facebook.com/events/1393051752744141/",
       "status": 200,
       "final_url": null,
@@ -509,26 +439,6 @@
       "note": "live (Flow Friday at The Anchor)",
       "appears_in": [
         "event: Flow Friday at The Anchor: Bachata Class & Social (alt)"
-      ]
-    },
-    {
-      "url": "https://www.facebook.com/events/1415577184111634/",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "live (Moonlight Zouk Social 🧛‍♀️👻 (10/24/26))",
-      "appears_in": [
-        "event: Moonlight Zouk Social"
-      ]
-    },
-    {
-      "url": "https://www.facebook.com/events/1636500777937928/",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "live (Boston Senior Zouk Social (10/20/2026))",
-      "appears_in": [
-        "event: Senior Zouk Social (alt)"
       ]
     },
     {
@@ -560,16 +470,6 @@
       "appears_in": [
         "event: Mambo City Salsa Social",
         "venue: Mambo City Salsa Social"
-      ]
-    },
-    {
-      "url": "https://www.facebook.com/watch/?v=999687709808712",
-      "status": 200,
-      "final_url": "https://www.facebook.com/noise.boston/videos/999687709808712/",
-      "verdict": "ok",
-      "note": "live (🎃🕺 SALSA & BACHATA HALLOWEEN! 👻🔥 Get ready for a night full )",
-      "appears_in": [
-        "event: SALSA & BACHATA HALLOWEEN"
       ]
     },
     {
@@ -711,16 +611,6 @@
       "note": "HTTP 200",
       "appears_in": [
         "source: lous-live"
-      ]
-    },
-    {
-      "url": "https://www.wearelous.com/lous-live/salsa-night-october",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: October Latin Dance Night at Lou's | Lessons & Social Dancing (alt)"
       ]
     }
   ]

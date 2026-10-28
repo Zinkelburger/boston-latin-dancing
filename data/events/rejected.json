@@ -1,1 +1,68 @@
-[]
+[
+  {
+    "id": "lous-c1cfd134",
+    "name": "TANGO DANCE NIGHT",
+    "startDate": "2026-11-18T19:00:00.399000-05:00",
+    "endDate": "2026-11-18T23:00:00.399000-05:00",
+    "dayOfWeek": "Wednesday",
+    "location": "Lou's, 13 Brattle St, Cambridge, MA 02138",
+    "lat": 42.3736,
+    "lng": -71.1212,
+    "description": "JOIN US FOR TANGO NIGHT\nJoin us for an evening of Argentine tango music, dancing, and socializing at Lou’s in Harvard Square!\nYour ticket includes a free introductory tango lesson, followed by dancing for the rest of the evening with music from DJ Facha.\nWhether you’re an experienced dancer or looking to try something new, everyone is welcome. No partner is required.\n7:00–8:00 PM — Beginner Tango Dance Lesson\n8:00–11:00 PM+ — Tango Dancing and Socializing\nAdmission\nGeneral Admission – $20\nIncludes the lesson and social dancing.\nStudent Admission – $15\nAvailable at the door on the night of the event with a valid student ID.\nGet Tickets\nFree Parking at the Harvard Square Parking Garage at 20 Eliot Street.\nHosted by: Sam Galler (IG: @\nsmgaller\n)",
+    "url": "https://www.wearelous.com/lous-live/tango-night",
+    "styles": [
+      "other"
+    ],
+    "cost": "$20",
+    "recurring": false,
+    "source": "lous-live",
+    "artist": "Tango Dance Night",
+    "artistUrl": "https://www.instagram.com/smgaller/",
+    "venueId": "lous-live",
+    "_rejected_reason": "not Latin dance relevant (styles=['other'], no Latin terms)",
+    "_review_type": "non_latin",
+    "_rejected_at": "2026-10-28T15:28:00.559948+00:00"
+  },
+  {
+    "id": "eb-2003486422823",
+    "name": "LATIN NIGHT HALLOWEEN PARTY",
+    "startDate": "2026-10-30T22:00:00-04:00",
+    "endDate": "2026-10-31T02:00:00-04:00",
+    "dayOfWeek": "Friday",
+    "location": "Apex Rooftop Bar and Lounge, 150 State Street, Boston, MA 02109, Boston, MA",
+    "lat": 42.3594131,
+    "lng": -71.054075,
+    "description": "Costumes, Cocktails & Latin vibes all night long!\n\nOrganizer: Apex Rooftop Bar & Lounge",
+    "url": "https://www.eventbrite.com/e/latin-night-halloween-party-tickets-2003486422823",
+    "styles": [
+      "other"
+    ],
+    "cost": "$30",
+    "recurring": false,
+    "source": "eventbrite-boston-latin",
+    "_rejected_reason": "review skipped: These are two different events: the Apex Rooftop Latin Halloween party at 150 State St, Boston, 10 PM-2 AM, and the Tambó Salsa costume party in Cambridge. Answering \"different\" (big_event=false) failed twice with \"could not add it: pending_review\", so the store seems to refuse adding the pending duplicate candidate, which looks like a bug in the different-answer path. A human should add eb-2003486422823 as a separate event and look into that error.",
+    "_review_type": "skipped_review",
+    "_rejected_at": "2026-10-28T15:32:27.543059+00:00"
+  },
+  {
+    "id": "fpp104hn8iava1dm2gs4ednaa8@google.com",
+    "name": "Salsa at Lou's",
+    "startDate": "2026-11-12T00:00:00+00:00",
+    "endDate": "2026-11-12T04:00:00+00:00",
+    "dayOfWeek": "Wednesday",
+    "location": "Lou’s, 13A Brattle St",
+    "lat": 42.3736,
+    "lng": -71.1212,
+    "description": "Price: Lessons & Social Dancing: $20 | Social Dancing: $15",
+    "url": null,
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$20",
+    "recurring": false,
+    "source": "sensualeros-boston",
+    "_rejected_reason": "review skipped: This Lou's Latin night (Nov 11, 7-11 PM, lesson then DJ Angel Javier and La Diaspora Combo) belongs, and both correct pages state Nov 11. The link check refuses them only because their title, \"Latin Dance Night\", doesn't match this copy's name, \"Salsa at Lou's\". The pages are https://www.wearelous.com/lous-live/latin-night-november and the Eventbrite page 2003788309775. I merged the Eventbrite copy (eb-2003788309775) into this one earlier, so it was dropped. A human should either approve this copy with the Eventbrite link or bring back eb-2003788309775 so the night stays on the map.",
+    "_review_type": "skipped_review",
+    "_rejected_at": "2026-10-28T15:32:27.546510+00:00"
+  }
+]

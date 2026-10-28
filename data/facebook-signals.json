@@ -15,15 +15,15 @@
     "errors": []
   },
   "dantes-inferno-fb": {
-    "checked_at": "2026-10-15T11:19:12-04:00",
+    "checked_at": "2026-10-28T11:25:05-04:00",
     "source_url": "https://www.facebook.com/DantesSalsaInferno/events",
     "status": "no_upcoming",
     "upcoming_events": [],
     "latest_post": {
-      "text": "Dante's Salsa Inferno created an event . September 28 at 2:57 PM · Shared with This is a public event, so your post will be visible to anyone on Facebook. Fri, Oct 2 Dante's Salsa Inferno Oct 2nd Salsa/Bachata Social!! The Dante Alighieri Society of Massachusetts Dance · 182 people",
+      "text": "Dante's Salsa Inferno created an event . October 20 at 4:49 AM · Shared with This is a public event, so your post will be visible to anyone on Facebook. Fri, Oct 23 Dante's Salsa Inferno October 23rd Salsa/Bachata Social! The Dante Alighieri Society of Massachusetts Dance · 222 people",
       "dates": [
-        "2026-09-28",
-        "2026-10-02"
+        "2026-10-20",
+        "2026-10-23"
       ]
     },
     "albums": [
@@ -72,7 +72,7 @@
     "errors": []
   },
   "dantes-salsa": {
-    "checked_at": "2026-10-15T11:18:35-04:00",
+    "checked_at": "2026-10-28T11:24:49-04:00",
     "source_url": "https://www.facebook.com/FuegoyCandelaSalsa/events",
     "status": "no_upcoming",
     "upcoming_events": [],
@@ -122,7 +122,7 @@
     "errors": []
   },
   "lowell-sitp": {
-    "checked_at": "2026-10-15T11:21:48-04:00",
+    "checked_at": "2026-10-28T11:26:32-04:00",
     "source_url": "https://www.facebook.com/LowellSITP/events",
     "status": "no_upcoming",
     "upcoming_events": [],
@@ -145,23 +145,15 @@
       }
     ],
     "flyers": [],
-    "errors": [
-      "photos: chrome timed out after 60s rendering https://www.facebook.com/LowellSITP/photos"
-    ]
+    "errors": []
   },
   "noise-boston-fb": {
-    "checked_at": "2026-10-15T11:24:10-04:00",
+    "checked_at": "2026-10-28T11:27:05-04:00",
     "source_url": "https://www.facebook.com/noise.boston/events",
-    "status": "captured",
-    "upcoming_events": [
-      {
-        "name": "SALSA & BACHATA HALLOWEEN",
-        "date": "October 24, 2026",
-        "url": "https://www.facebook.com/events/1850560902580985/"
-      }
-    ],
+    "status": "no_upcoming",
+    "upcoming_events": [],
     "latest_post": {
-      "text": "Noise Boston is with Edwin Mendoza at PKL . 2 days ago 2d · Boston · Shared with Public Amor prohibido #bo … See more 0:00 / 0:38",
+      "text": "Noise Boston is at PKL . 4 hours ago 4h · Boston · Shared with Public Noise edition Halloween 0:00 / 0:35",
       "dates": []
     },
     "albums": [],
@@ -169,12 +161,12 @@
     "errors": []
   },
   "sabor-latino": {
-    "checked_at": "2026-10-15T11:20:42-04:00",
+    "checked_at": "2026-10-28T11:26:02-04:00",
     "source_url": "https://www.facebook.com/SaborLatinoBoston/events",
     "status": "no_upcoming",
     "upcoming_events": [],
     "latest_post": {
-      "text": "Sabor Latino Boston September 18 at 2:53 PM · ﻿ Salsa · Yuri Buenaventura · Shared with Public We’ve got lots of salsa/bachata social events coming up for you in the next two months! Be sure to come check it out! … See more",
+      "text": "Sabor Latino Boston September 18 · ﻿ Salsa · Yuri Buenaventura · Shared with Public We’ve got lots of salsa/bachata social events coming up for you in the next two months! Be sure to come check it out! … See more",
       "dates": [
         "2026-09-18"
       ]
@@ -222,18 +214,12 @@
         "dates": [
           "2026-09-10"
         ]
-      },
-      {
-        "text": "SABOR LATINO Salsa & Bachata Night Pop Popup! up! Aug 12th 8-11pm Salsa class & Party $10 (Free taco to the first25) EL BACK BACKBAy BARCO BAY 50 Dalton St. Boston",
-        "dates": [
-          "2026-08-12"
-        ]
       }
     ],
     "errors": []
   },
   "tambo-salsa-fb": {
-    "checked_at": "2026-10-15T11:19:42-04:00",
+    "checked_at": "2026-10-28T11:25:19-04:00",
     "source_url": "https://www.facebook.com/Tambosalsa/events",
     "status": "captured",
     "upcoming_events": [
@@ -244,13 +230,19 @@
       }
     ],
     "latest_post": {
-      "text": "Tambó Salsa is at Tambó Salsa . 6 days ago 6d · Cambridge · ﻿ El Tumbaito · Pirulo y la Tribu · Shared with Public All smiles at Tambo Social, join us! Next Tambo Social • Oct 9th & Oct 31st… See more +10",
+      "text": "Tambó Salsa is at Tambó Salsa . a day ago 1d · Cambridge · ﻿ Brujeria · El Gran Combo · Shared with Public Tambo Friday Oct 30th $800 in CASH PRIZES for the best costumes!!! 8:… See more That you make me tremble at night and during the day you make me 0:00 / 0:23",
       "dates": [
-        "2026-10-09",
-        "2026-10-31"
+        "2026-10-30"
       ]
     },
     "albums": [
+      {
+        "title": "Tambo Salsa Social 2026/10/09",
+        "items": 79,
+        "dates": [
+          "2026-10-09"
+        ]
+      },
       {
         "title": "Tambo Salsa Social 2026/09/25",
         "items": 57,
@@ -292,37 +284,21 @@
         "dates": [
           "2026-06-12"
         ]
-      },
-      {
-        "title": "Tambo Salsa Social 2026/05/29",
-        "items": 99,
-        "dates": [
-          "2026-05-29"
-        ]
       }
     ],
     "flyers": [],
     "errors": []
   },
   "zouk-bos-fb": {
-    "checked_at": "2026-10-15T11:23:20-04:00",
+    "checked_at": "2026-10-28T11:26:51-04:00",
     "source_url": "https://www.facebook.com/profile.php?id=100090589803309&sk=events",
-    "status": "captured",
-    "upcoming_events": [
-      {
-        "name": "Boston Senior Zouk Social (10/20/2026)",
-        "date": "October 20, 2026",
-        "url": "https://www.facebook.com/events/1636500777937928/"
-      },
-      {
-        "name": "Moonlight Zouk Social 🧛‍♀️👻 (10/24/26)",
-        "date": "October 24, 2026",
-        "url": "https://www.facebook.com/events/1415577184111634/"
-      }
-    ],
+    "status": "no_upcoming",
+    "upcoming_events": [],
     "latest_post": {
-      "text": "Zouk BOS 17 hours ago 17h · Shared with Public Experience the magic of Brazilian Zouk & Lambada at the Moonlight Zouk Social. Our theme for October is: Dress as Anything But Yourself Dress as Philip (if you’… See more",
-      "dates": []
+      "text": "Zouk BOS October 14 at 6:11 PM · Shared with Public Experience the magic of Brazilian Zouk & Lambada at the Moonlight Zouk Social. Our theme for October is: Dress as Anything But Yourself Dress as Philip (if you’… See more",
+      "dates": [
+        "2026-10-14"
+      ]
     },
     "albums": [],
     "flyers": [

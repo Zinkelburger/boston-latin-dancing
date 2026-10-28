@@ -340,5 +340,17 @@
     "id_b": "sensualeros-boston-series-2db8e232ec42",
     "verdict": "different",
     "reviewed_at": "2026-10-15T15:27:25.649147+00:00"
+  },
+  {
+    "id_a": "7g93rlpnln7ut6ptekeu6la7oc@google.com",
+    "id_b": "posh-tardeo-salsa-bachata-copy",
+    "verdict": "same",
+    "reviewed_at": "2026-10-28T15:31:27.775512+00:00"
+  },
+  {
+    "id_a": "eb-2003486422823",
+    "id_b": "fnht1iun7hd7g7cnsmtndag9io@google.com",
+    "verdict": "different",
+    "reviewed_at": "2026-10-28T15:31:59.951425+00:00"
   }
 ]

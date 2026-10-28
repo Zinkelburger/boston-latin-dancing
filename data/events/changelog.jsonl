@@ -1612,3 +1612,82 @@
 {"ts": "2026-10-15T15:27:32.911952+00:00", "action": "review_answer", "event_id": "j9isl9bkqbo5s3vgnol0uislqc@google.com", "details": "big_event: no This is El Bonche's regular Cuban Saturday Night at Cocomango with a Halloween theme: a holiday edition of a recurring night, not a one-off the scene plans around."}
 {"ts": "2026-10-15T18:04:27.236160+00:00", "action": "edit", "event_id": "eb-2000672130198", "details": "{\"_needs_manual_check\": null}"}
 {"ts": "2026-10-15T18:09:29.177977+00:00", "action": "edit", "event_id": "F70A561A-F4BC-402E-87BE-46C950F63265", "details": "{\"url\": \"https://www.instagram.com/p/DeHwUBylUKM/\"}"}
+{"ts": "2026-10-28T15:27:57.657288+00:00", "action": "quarantine_new", "event_id": "eb-2003938011537", "details": ""}
+{"ts": "2026-10-28T15:27:59.002147+00:00", "action": "quarantine_new", "event_id": "eb-2003488878167", "details": ""}
+{"ts": "2026-10-28T15:28:00.106187+00:00", "action": "quarantine_new", "event_id": "eb-2003845166836", "details": ""}
+{"ts": "2026-10-28T15:28:00.166625+00:00", "action": "pending_review", "event_id": "eb-2003486422823", "details": "review dup of fnht1iun7hd7g7cnsmtndag9io@google.com: word_overlap(2/4)+within_24h+same_day"}
+{"ts": "2026-10-28T15:28:00.228364+00:00", "action": "quarantine_new", "event_id": "eb-2003788309775", "details": ""}
+{"ts": "2026-10-28T15:28:00.288658+00:00", "action": "quarantine_new", "event_id": "eb-2003987041186", "details": ""}
+{"ts": "2026-10-28T15:28:00.561810+00:00", "action": "reject_non_latin", "event_id": "lous-c1cfd134", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-10-28T15:28:02.308137+00:00", "action": "quarantine_new", "event_id": "posh-tardeo-salsa-bachata-copy", "details": ""}
+{"ts": "2026-10-28T15:28:02.366230+00:00", "action": "quarantine_new", "event_id": "posh-bacharengue-salsa-party-2026-12-14-1-0", "details": ""}
+{"ts": "2026-10-28T15:28:03.407516+00:00", "action": "quarantine_new", "event_id": "dtaobq5277l6bcgdnq48485h30@google.com", "details": ""}
+{"ts": "2026-10-28T15:28:05.611147+00:00", "action": "quarantine_new", "event_id": "hfbp14fcg7abptjehq108v07i8@google.com", "details": ""}
+{"ts": "2026-10-28T15:28:05.774130+00:00", "action": "quarantine_new", "event_id": "8cf52sojf9k8tn7r3jhfb24t0c@google.com", "details": ""}
+{"ts": "2026-10-28T15:28:06.147374+00:00", "action": "quarantine_new", "event_id": "7hedv7llp5e8sinchd3kqjt60k@google.com", "details": ""}
+{"ts": "2026-10-28T15:28:06.212183+00:00", "action": "quarantine_new", "event_id": "675b1r304fn1hr38cphk6viuuk@google.com", "details": ""}
+{"ts": "2026-10-28T15:28:06.709669+00:00", "action": "quarantine_new", "event_id": "5eged0ealksh7u4jklb4nahsv8@google.com", "details": ""}
+{"ts": "2026-10-28T15:28:08.907994+00:00", "action": "quarantine_new", "event_id": "g13k4natfbetqv05625k8fio24@google.com", "details": ""}
+{"ts": "2026-10-28T15:28:10.011706+00:00", "action": "quarantine_new", "event_id": "7g93rlpnln7ut6ptekeu6la7oc@google.com", "details": ""}
+{"ts": "2026-10-28T15:28:10.072980+00:00", "action": "quarantine_new", "event_id": "7q22smr59cb6lgiuu2j51e021g@google.com", "details": ""}
+{"ts": "2026-10-28T15:28:10.351097+00:00", "action": "quarantine_new", "event_id": "fpp104hn8iava1dm2gs4ednaa8@google.com", "details": ""}
+{"ts": "2026-10-28T15:28:10.476093+00:00", "action": "archive", "event_id": "5d78e60be8a128af1c0a11dd80079db6ef84bcc9@dance-calendar", "details": ""}
+{"ts": "2026-10-28T15:28:10.476404+00:00", "action": "archive", "event_id": "C9CAE836-FB31-4084-9A49-C29FA7B39B4B", "details": ""}
+{"ts": "2026-10-28T15:28:10.476498+00:00", "action": "archive", "event_id": "C77130B0-73C6-4597-9875-A786F4EA78D4", "details": ""}
+{"ts": "2026-10-28T15:28:10.476578+00:00", "action": "archive", "event_id": "eb-2000672130198", "details": ""}
+{"ts": "2026-10-28T15:28:10.476683+00:00", "action": "archive", "event_id": "291FF95C-AC47-4C2F-B9FF-CF4E724097F4", "details": ""}
+{"ts": "2026-10-28T15:28:10.476757+00:00", "action": "archive", "event_id": "eb-2001409938001", "details": ""}
+{"ts": "2026-10-28T15:28:10.476841+00:00", "action": "archive", "event_id": "66vt7rdc2ek70viop57s43fc64@google.com", "details": ""}
+{"ts": "2026-10-28T15:28:10.476934+00:00", "action": "archive", "event_id": "eb-2002642031225", "details": ""}
+{"ts": "2026-10-28T15:28:10.477005+00:00", "action": "archive", "event_id": "eb-2002919491115", "details": ""}
+{"ts": "2026-10-28T15:28:10.477106+00:00", "action": "archive", "event_id": "eb-2002962671268", "details": ""}
+{"ts": "2026-10-28T15:28:10.477211+00:00", "action": "archive", "event_id": "i03kau2g53ji88lq7n45ueea48@google.com", "details": ""}
+{"ts": "2026-10-28T15:28:10.477311+00:00", "action": "archive", "event_id": "mj67va4bf33vu4s4lca22spe8s@google.com", "details": ""}
+{"ts": "2026-10-28T15:28:10.477401+00:00", "action": "archive", "event_id": "ija8cqshhmnp60fg6sf2hojuf8@google.com", "details": ""}
+{"ts": "2026-10-28T15:28:10.477752+00:00", "action": "archive", "event_id": "tu0lf9c9plsu1dt6uetlgugvbc@google.com", "details": ""}
+{"ts": "2026-10-28T15:29:20.886985+00:00", "action": "add", "event_id": "eb-2003938011537", "details": ""}
+{"ts": "2026-10-28T15:29:20.890193+00:00", "action": "approve", "event_id": "eb-2003938011537", "details": ""}
+{"ts": "2026-10-28T15:29:20.894817+00:00", "action": "edit", "event_id": "eb-2003938011537", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\"]}"}
+{"ts": "2026-10-28T15:29:20.898158+00:00", "action": "review_answer", "event_id": "eb-2003938011537", "details": "new_event: approve Free one-hour Berklee student show in \"the Caf\" at 160 Mass Ave that builds to a salsa big band, and the listing invites people to dance. It's a thin listing, so I approved it."}
+{"ts": "2026-10-28T15:29:32.975516+00:00", "action": "add", "event_id": "eb-2003488878167", "details": ""}
+{"ts": "2026-10-28T15:29:32.978387+00:00", "action": "approve", "event_id": "eb-2003488878167", "details": ""}
+{"ts": "2026-10-28T15:29:32.982697+00:00", "action": "edit", "event_id": "eb-2003488878167", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"bachata\"]}"}
+{"ts": "2026-10-28T15:29:32.985988+00:00", "action": "review_answer", "event_id": "eb-2003488878167", "details": "new_event: approve Bachata/R&B night at EKOS in Lowell, 8 PM-1 AM. The address is the Eventbrite one, with its \"Martket st\" typo corrected to Market St."}
+{"ts": "2026-10-28T15:29:35.528366+00:00", "action": "block", "event_id": "eb-2003845166836", "details": "not_dance: A dinner-and-music night of Gypsy jazz and chanson at a Russian restaurant. Nothing says there's a dance floor or Latin social dancing."}
+{"ts": "2026-10-28T15:29:35.533526+00:00", "action": "review_answer", "event_id": "eb-2003845166836", "details": "new_event: not_dance A dinner-and-music night of Gypsy jazz and chanson at a Russian restaurant. Nothing says there's a dance floor or Latin social dancing."}
+{"ts": "2026-10-28T15:29:38.369479+00:00", "action": "block", "event_id": "eb-2003788309775", "details": "duplicate_source: Same Lou's Latin night on Nov 11, 7-11 PM, as the Sensualeros \"Salsa at Lou's\" listing. This copy brings the Eventbrite and wearelous links."}
+{"ts": "2026-10-28T15:29:38.375111+00:00", "action": "review_answer", "event_id": "eb-2003788309775", "details": "new_event: already_listed Same Lou's Latin night on Nov 11, 7-11 PM, as the Sensualeros \"Salsa at Lou's\" listing. This copy brings the Eventbrite and wearelous links."}
+{"ts": "2026-10-28T15:29:41.488897+00:00", "action": "add", "event_id": "q9s2qgclfo8p1qb31j41a6lj5g@google.com", "details": ""}
+{"ts": "2026-10-28T15:29:41.491842+00:00", "action": "approve", "event_id": "q9s2qgclfo8p1qb31j41a6lj5g@google.com", "details": ""}
+{"ts": "2026-10-28T15:29:41.496527+00:00", "action": "edit", "event_id": "q9s2qgclfo8p1qb31j41a6lj5g@google.com", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\", \"bachata\"]}"}
+{"ts": "2026-10-28T15:29:41.499758+00:00", "action": "review_answer", "event_id": "q9s2qgclfo8p1qb31j41a6lj5g@google.com", "details": "new_event: approve Saborcito salsa/bachata social night at El Barco, Nov 19, 8-11 PM, with an Eventbrite link."}
+{"ts": "2026-10-28T15:29:49.930884+00:00", "action": "add", "event_id": "posh-tardeo-salsa-bachata-copy", "details": ""}
+{"ts": "2026-10-28T15:29:49.933297+00:00", "action": "approve", "event_id": "posh-tardeo-salsa-bachata-copy", "details": ""}
+{"ts": "2026-10-28T15:29:49.937948+00:00", "action": "edit", "event_id": "posh-tardeo-salsa-bachata-copy", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\", \"bachata\"]}"}
+{"ts": "2026-10-28T15:29:49.941072+00:00", "action": "review_answer", "event_id": "posh-tardeo-salsa-bachata-copy", "details": "new_event: approve Sunday afternoon salsa/bachata rooftop social (tardeo) at Foxglove Terrace, 40 Western Ave, Allston, 3-8 PM. I approved this Posh copy because it carries the full address."}
+{"ts": "2026-10-28T15:29:55.685202+00:00", "action": "add", "event_id": "posh-bacharengue-salsa-party-2026-12-14-1-0", "details": ""}
+{"ts": "2026-10-28T15:29:55.688850+00:00", "action": "approve", "event_id": "posh-bacharengue-salsa-party-2026-12-14-1-0", "details": ""}
+{"ts": "2026-10-28T15:29:55.693863+00:00", "action": "edit", "event_id": "posh-bacharengue-salsa-party-2026-12-14-1-0", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\", \"bachata\"]}"}
+{"ts": "2026-10-28T15:29:55.696795+00:00", "action": "review_answer", "event_id": "posh-bacharengue-salsa-party-2026-12-14-1-0", "details": "new_event: approve Sunday afternoon salsa/bachata party at Joey's Bar & Grill in Everett, Dec 13, 2-8 PM. It looks like a recurring \"Bacharengue\" bar party rather than a real festival, so big_event is false."}
+{"ts": "2026-10-28T15:29:58.553286+00:00", "action": "block", "event_id": "dtaobq5277l6bcgdnq48485h30@google.com", "details": "out_of_area: Held at the Orleans-Eastham Elks Lodge on outer Cape Cod, about 90 miles from Boston, so it's outside greater Boston."}
+{"ts": "2026-10-28T15:29:58.559419+00:00", "action": "review_answer", "event_id": "dtaobq5277l6bcgdnq48485h30@google.com", "details": "new_event: out_of_area Held at the Orleans-Eastham Elks Lodge on outer Cape Cod, about 90 miles from Boston, so it's outside greater Boston."}
+{"ts": "2026-10-28T15:30:01.009044+00:00", "action": "block", "event_id": "hfbp14fcg7abptjehq108v07i8@google.com", "details": "out_of_area: At Bella Vita Dance Company in Manchester, NH, which is outside greater Boston."}
+{"ts": "2026-10-28T15:30:01.015430+00:00", "action": "review_answer", "event_id": "hfbp14fcg7abptjehq108v07i8@google.com", "details": "new_event: out_of_area At Bella Vita Dance Company in Manchester, NH, which is outside greater Boston."}
+{"ts": "2026-10-28T15:30:24.373438+00:00", "action": "reject", "event_id": "8cf52sojf9k8tn7r3jhfb24t0c@google.com", "details": "no link found; asked again if its source lists it again"}
+{"ts": "2026-10-28T15:30:24.376830+00:00", "action": "review_answer", "event_id": "8cf52sojf9k8tn7r3jhfb24t0c@google.com", "details": "new_event: no_link_yet Cuban rumba Halloween party at JAE Dance Center tonight, which looks like it belongs. The MetaMovements home and events pages show it in a calendar but don't name it in a way the link check accepts, and a search found no page of its own."}
+{"ts": "2026-10-28T15:30:39.602105+00:00", "action": "reject", "event_id": "7hedv7llp5e8sinchd3kqjt60k@google.com", "details": "no link found; asked again if its source lists it again"}
+{"ts": "2026-10-28T15:30:39.605740+00:00", "action": "review_answer", "event_id": "7hedv7llp5e8sinchd3kqjt60k@google.com", "details": "new_event: no_link_yet Salsa social at the Filarmonico in Cambridge on Nov 1, which belongs. The only lead was organizer Rob Suave's Facebook profile, which doesn't name the event, and a web search found no page for this night."}
+{"ts": "2026-10-28T15:31:03.288506+00:00", "action": "reject", "event_id": "675b1r304fn1hr38cphk6viuuk@google.com", "details": "no link found; asked again if its source lists it again"}
+{"ts": "2026-10-28T15:31:03.292692+00:00", "action": "review_answer", "event_id": "675b1r304fn1hr38cphk6viuuk@google.com", "details": "new_event: no_link_yet A monthly class-plus-social at Rumba y Timbal in Cambridge, which belongs. The only pages found are for earlier editions (June 20 opening night, Aug 15 on happeningnext), not Nov 21. The Havana Club lead is a different event."}
+{"ts": "2026-10-28T15:31:14.189942+00:00", "action": "reject", "event_id": "5eged0ealksh7u4jklb4nahsv8@google.com", "details": "no link found; asked again if its source lists it again"}
+{"ts": "2026-10-28T15:31:14.193566+00:00", "action": "review_answer", "event_id": "5eged0ealksh7u4jklb4nahsv8@google.com", "details": "new_event: no_link_yet Bachata club night at Cocomango inside TopMix, 50 CambridgePark Dr, on Nov 6, which belongs. There were no link leads, and a search found no organizer page."}
+{"ts": "2026-10-28T15:31:23.926323+00:00", "action": "reject", "event_id": "g13k4natfbetqv05625k8fio24@google.com", "details": "no link found; asked again if its source lists it again"}
+{"ts": "2026-10-28T15:31:23.929573+00:00", "action": "review_answer", "event_id": "g13k4natfbetqv05625k8fio24@google.com", "details": "new_event: no_link_yet Old-school reggaeton party at the CocoMango speakeasy, 50 CambridgePark Dr, Cambridge, on Nov 7, which belongs. There were no link leads, and a search found no organizer page."}
+{"ts": "2026-10-28T15:31:27.869443+00:00", "action": "approve", "event_id": "7g93rlpnln7ut6ptekeu6la7oc@google.com", "details": ""}
+{"ts": "2026-10-28T15:31:27.874100+00:00", "action": "review_answer", "event_id": "7g93rlpnln7ut6ptekeu6la7oc@google.com", "details": "new_event: already_listed Same Tardeo rooftop social at Foxglove Terrace on Nov 8, with the same Posh link, as the Posh copy approved earlier in this review."}
+{"ts": "2026-10-28T15:31:40.205090+00:00", "action": "reject", "event_id": "7q22smr59cb6lgiuu2j51e021g@google.com", "details": "no link found; asked again if its source lists it again"}
+{"ts": "2026-10-28T15:31:40.209456+00:00", "action": "review_answer", "event_id": "7q22smr59cb6lgiuu2j51e021g@google.com", "details": "new_event: no_link_yet 2000s reggaeton (perreo) club night at West End Johnnie's on Nov 13, which belongs. There were no leads, and a search found only an unrelated May 2026 pop throwback night at the same venue."}
+{"ts": "2026-10-28T15:31:54.258697+00:00", "action": "distinct_from", "event_id": "eb-2003486422823", "details": "pre-marked different from fnht1iun7hd7g7cnsmtndag9io@google.com"}
+{"ts": "2026-10-28T15:32:00.293007+00:00", "action": "distinct_from", "event_id": "eb-2003486422823", "details": "pre-marked different from fnht1iun7hd7g7cnsmtndag9io@google.com"}
+{"ts": "2026-10-28T15:32:27.546026+00:00", "action": "reject", "event_id": "eb-2003486422823", "details": "review skipped: These are two different events: the Apex Rooftop Latin Halloween party at 150 State St, Boston, 10 PM-2 AM, and the Tamb\u00f3 Salsa costume party in Cambridge. Answering \"different\" (big_event=false) failed twice with \"could not add it: pending_review\", so the store seems to refuse adding the pending duplicate candidate, which looks like a bug in the different-answer path. A human should add eb-2003486422823 as a separate event and look into that error."}
+{"ts": "2026-10-28T15:32:27.548550+00:00", "action": "reject", "event_id": "fpp104hn8iava1dm2gs4ednaa8@google.com", "details": "review skipped: This Lou's Latin night (Nov 11, 7-11 PM, lesson then DJ Angel Javier and La Diaspora Combo) belongs, and both correct pages state Nov 11. The link check refuses them only because their title, \"Latin Dance Night\", doesn't match this copy's name, \"Salsa at Lou's\". The pages are https://www.wearelous.com/lous-live/latin-night-november and the Eventbrite page 2003788309775. I merged the Eventbrite copy (eb-2003788309775) into this one earlier, so it was dropped. A human should either approve this copy with the Eventbrite link or bring back eb-2003788309775 so the night stays on the map."}

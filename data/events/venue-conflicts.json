@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-10-15T18:11:48.495354+00:00",
+  "generated_at": "2026-10-28T15:32:47.283378+00:00",
   "conflicts": [],
   "suppressed": [
     {
       "id": "8EDCCA4B-FCFA-4CD9-ABA3-8074966ACFCB",
       "event": {
         "name": "Bachata Room ",
-        "window": "Wed Oct 14, 9:00 PM – 12:00 AM",
+        "window": "Wed Oct 28, 9:00 PM – 12:00 AM",
         "location": "La Fabrica , 450 Massachusetts Ave, Cambridge, MA 02139, United States",
         "styles": [
           "bachata",
@@ -42,7 +42,7 @@
       "id": "4BACCA44-811C-4F7E-99D8-7AC8DA46D5CC",
       "event": {
         "name": "Bachata Sensual Mondays @ Havana Club",
-        "window": "Mon Oct 19, 8:00 PM – 12:30 AM",
+        "window": "Mon Nov 2, 8:00 PM – 12:30 AM",
         "location": "Havana Club, 288 Green St, Cambridge, MA  02139, United States",
         "styles": [
           "bachata",
@@ -84,7 +84,7 @@
       "id": "D7362ECA-A6A7-4528-B752-3CBD6141CE81",
       "event": {
         "name": "Salsa/Bachata Tuesdays @ Havana",
-        "window": "Tue Oct 20, 8:00 PM – 11:30 PM",
+        "window": "Tue Oct 27, 8:00 PM – 11:30 PM",
         "location": "Havana Club, 288 Green St, Cambridge, MA  02139, United States",
         "styles": [
           "bachata",
@@ -126,7 +126,7 @@
       "id": "5984F5C6-9A2D-454E-AE0B-B201FC78B814",
       "event": {
         "name": "Havana Bachata Thursdays",
-        "window": "Thu Oct 15, 8:30 PM – 12:30 AM",
+        "window": "Thu Oct 29, 8:30 PM – 12:30 AM",
         "location": "288 Green St, Central Sq, Cambridge",
         "styles": [
           "bachata",
@@ -196,7 +196,7 @@
       "id": "sensualeros-boston-series-a227772d8b85",
       "event": {
         "name": "Friday Night Bachata/Salsa @ Havana Club",
-        "window": "Fri Oct 16, 9:00 PM – 2:00 AM",
+        "window": "Fri Oct 30, 9:00 PM – 2:00 AM",
         "location": "288 Green St, Central Sq, Cambridge, MA",
         "styles": [
           "bachata",
@@ -234,7 +234,7 @@
       "id": "sensualeros-boston-series-2db8e232ec42",
       "event": {
         "name": "Saturday Night Bachata/Salsa @ Havana Club",
-        "window": "Sat Oct 17, 9:00 PM – 2:00 AM",
+        "window": "Sat Oct 31, 9:00 PM – 2:00 AM",
         "location": "288 Green St, Central Sq, Cambridge, MA",
         "styles": [
           "bachata",

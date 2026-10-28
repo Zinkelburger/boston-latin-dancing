@@ -471,5 +471,49 @@
     "blocked_notes": "The Eventbrite page describes a one-hour (7–8pm) beginner bachata lesson with Utopia Dance Company, plus mingling, a gallery and refreshments. No social dance is listed.",
     "location": "Black Walls Gallery at New Dia, 71 Lansdowne Street, Boston, MA 02215, Boston, MA",
     "block_key": "latin heritage night dance connection and celebration|black walls gallery at new dia 71 lansdowne street boston ma 02215 boston ma"
+  },
+  {
+    "id": "eb-2003845166836",
+    "name": "Jazz Night at Café St. Petersburg | Live Gypsy Jazz & Swing | November 19",
+    "source": "eventbrite-boston-latin",
+    "blocked_reason": "A dinner-and-music night of Gypsy jazz and chanson at a Russian restaurant. Nothing says there's a dance floor or Latin social dancing.",
+    "blocked_category": "not_dance",
+    "blocked_at": "2026-10-28T15:29:35.522804+00:00",
+    "blocked_notes": "A dinner-and-music night of Gypsy jazz and chanson at a Russian restaurant. Nothing says there's a dance floor or Latin social dancing.",
+    "location": "Café St. Petersburg, 57-1 Union St, Newton Centre, Newton, MA 02459, Newton, MA",
+    "block_key": "jazz night at café st petersburg live gypsy jazz swing|café st petersburg 57 1 union st newton centre newton ma 02459 newton ma"
+  },
+  {
+    "id": "eb-2003788309775",
+    "name": "November Latin Dance Night at Lou's | Lessons & Social Dancing",
+    "source": "eventbrite-boston-latin",
+    "blocked_reason": "Same Lou's Latin night on Nov 11, 7-11 PM, as the Sensualeros \"Salsa at Lou's\" listing. This copy brings the Eventbrite and wearelous links.",
+    "blocked_category": "duplicate_source",
+    "blocked_at": "2026-10-28T15:29:38.345357+00:00",
+    "blocked_notes": "Same Lou's Latin night on Nov 11, 7-11 PM, as the Sensualeros \"Salsa at Lou's\" listing. This copy brings the Eventbrite and wearelous links.",
+    "location": "Lou's, 13 Brattle Street, Cambridge, MA 02138, Cambridge, MA",
+    "block_key": "eventbrite-boston-latin::november latin dance night at lous lessons social dancing|lou s 13 brattle street cambridge ma 02138 cambridge ma"
+  },
+  {
+    "id": "dtaobq5277l6bcgdnq48485h30@google.com",
+    "name": "Latin Dance Night",
+    "source": "sensualeros-boston",
+    "blocked_reason": "Held at the Orleans-Eastham Elks Lodge on outer Cape Cod, about 90 miles from Boston, so it's outside greater Boston.",
+    "blocked_category": "out_of_area",
+    "blocked_at": "2026-10-28T15:29:58.547281+00:00",
+    "blocked_notes": "Held at the Orleans-Eastham Elks Lodge on outer Cape Cod, about 90 miles from Boston, so it's outside greater Boston.",
+    "location": "Orleans Eastham Elks Lodge #2572",
+    "block_key": "latin dance night|orleans eastham elks lodge 2572"
+  },
+  {
+    "id": "hfbp14fcg7abptjehq108v07i8@google.com",
+    "name": "603 Salsa & Bachata Social: FIRE & ICE EDITION",
+    "source": "sensualeros-boston",
+    "blocked_reason": "At Bella Vita Dance Company in Manchester, NH, which is outside greater Boston.",
+    "blocked_category": "out_of_area",
+    "blocked_at": "2026-10-28T15:30:01.003151+00:00",
+    "blocked_notes": "At Bella Vita Dance Company in Manchester, NH, which is outside greater Boston.",
+    "location": "Bella Vita Dance Company, 859 Hanover St, Manchester, NH",
+    "block_key": "603 salsa bachata social fire ice edition|bella vita dance company 859 hanover st manchester nh"
   }
 ]
