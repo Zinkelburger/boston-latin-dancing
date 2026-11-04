@@ -1732,3 +1732,86 @@
 {"ts": "2026-10-28T17:46:38.426972+00:00", "action": "add", "event_id": "eb-2003486422823", "details": ""}
 {"ts": "2026-10-28T17:46:38.429408+00:00", "action": "approve_rejected", "event_id": "eb-2003486422823", "details": "promoted from rejected queue"}
 {"ts": "2026-10-28T17:46:38.431973+00:00", "action": "dismiss_rejected", "event_id": "fpp104hn8iava1dm2gs4ednaa8@google.com", "details": "stale: event is active (merged with Lou's own listing, verified on wearelous.com)"}
+{"ts": "2026-11-04T17:06:57.525164+00:00", "action": "quarantine_new", "event_id": "dancefam-2764", "details": ""}
+{"ts": "2026-11-04T17:06:57.598376+00:00", "action": "quarantine_new", "event_id": "dantes-inferno-fb-20261106-0", "details": ""}
+{"ts": "2026-11-04T17:06:57.751414+00:00", "action": "quarantine_new", "event_id": "eb-com-2e6f1af5", "details": ""}
+{"ts": "2026-11-04T17:06:57.893361+00:00", "action": "quarantine_new", "event_id": "eb-2004200368253", "details": ""}
+{"ts": "2026-11-04T17:06:57.965891+00:00", "action": "quarantine_new", "event_id": "eb-2004325565722", "details": ""}
+{"ts": "2026-11-04T17:06:58.054893+00:00", "action": "quarantine_new", "event_id": "eb-2004067665335", "details": ""}
+{"ts": "2026-11-04T17:06:58.268271+00:00", "action": "quarantine_new", "event_id": "eb-2003686510290", "details": ""}
+{"ts": "2026-11-04T17:06:58.427602+00:00", "action": "quarantine_new", "event_id": "eb-2003688552398", "details": ""}
+{"ts": "2026-11-04T17:06:58.495795+00:00", "action": "quarantine_new", "event_id": "eb-2003943635358", "details": ""}
+{"ts": "2026-11-04T17:06:58.788115+00:00", "action": "reject_non_latin", "event_id": "lous-c1cfd134", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-11-04T17:07:00.558798+00:00", "action": "quarantine_new", "event_id": "posh-holyokes-biggest-dominican-bachata-party-at-ekko-bar-lounge-la-casa-de-la-bachata", "details": ""}
+{"ts": "2026-11-04T17:07:00.730160+00:00", "action": "reject_non_latin", "event_id": "pr-festival-ma-cultural-pageant-coronation", "details": "not Latin dance relevant (styles=['other'], no Latin terms)"}
+{"ts": "2026-11-04T17:07:01.344541+00:00", "action": "quarantine_new", "event_id": "5eged0ealksh7u4jklb4nahsv8@google.com", "details": ""}
+{"ts": "2026-11-04T17:07:01.416818+00:00", "action": "quarantine_new", "event_id": "675b1r304fn1hr38cphk6viuuk@google.com", "details": ""}
+{"ts": "2026-11-04T17:07:01.487195+00:00", "action": "quarantine_new", "event_id": "r0o08ujgcibgqs4ibgjvks9vvk@google.com", "details": ""}
+{"ts": "2026-11-04T17:07:01.768823+00:00", "action": "quarantine_new", "event_id": "ad7gega86tudkuisb4co60maa0@google.com", "details": ""}
+{"ts": "2026-11-04T17:07:01.891921+00:00", "action": "quarantine_new", "event_id": "pug9ljnmncr6plcs9o2tsahe3g@google.com", "details": ""}
+{"ts": "2026-11-04T17:07:01.966452+00:00", "action": "quarantine_new", "event_id": "g13k4natfbetqv05625k8fio24@google.com", "details": ""}
+{"ts": "2026-11-04T17:07:02.199636+00:00", "action": "quarantine_new", "event_id": "7q22smr59cb6lgiuu2j51e021g@google.com", "details": ""}
+{"ts": "2026-11-04T17:07:02.270658+00:00", "action": "archive", "event_id": "erd8o7pl35ilifq215nnm59238@google.com", "details": ""}
+{"ts": "2026-11-04T17:07:02.271049+00:00", "action": "archive", "event_id": "fnht1iun7hd7g7cnsmtndag9io@google.com", "details": ""}
+{"ts": "2026-11-04T17:07:02.271154+00:00", "action": "archive", "event_id": "qdl15rphrtsop45q6jp901t3g8@google.com", "details": ""}
+{"ts": "2026-11-04T17:07:02.271211+00:00", "action": "archive", "event_id": "eb-2002180696360", "details": ""}
+{"ts": "2026-11-04T17:07:02.271263+00:00", "action": "archive", "event_id": "fiesta-617b9920a493", "details": ""}
+{"ts": "2026-11-04T17:07:02.271321+00:00", "action": "archive", "event_id": "F70A561A-F4BC-402E-87BE-46C950F63265", "details": ""}
+{"ts": "2026-11-04T17:07:02.271368+00:00", "action": "archive", "event_id": "j9isl9bkqbo5s3vgnol0uislqc@google.com", "details": ""}
+{"ts": "2026-11-04T17:07:02.271420+00:00", "action": "archive", "event_id": "posh-bachata-boo-halloween-bachata-brunch-club", "details": ""}
+{"ts": "2026-11-04T17:07:02.271474+00:00", "action": "archive", "event_id": "52svhdsb5j0odrtfc9f1vjppq4@google.com", "details": ""}
+{"ts": "2026-11-04T17:07:02.271565+00:00", "action": "archive", "event_id": "8cf52sojf9k8tn7r3jhfb24t0c@google.com", "details": ""}
+{"ts": "2026-11-04T17:07:02.271616+00:00", "action": "archive", "event_id": "eb-2003486422823", "details": ""}
+{"ts": "2026-11-04T17:07:46.314222+00:00", "action": "add", "event_id": "lous-c1cfd134", "details": ""}
+{"ts": "2026-11-04T17:07:46.315753+00:00", "action": "approve_rejected", "event_id": "lous-c1cfd134", "details": "promoted from rejected queue"}
+{"ts": "2026-11-04T17:07:46.319159+00:00", "action": "review_answer", "event_id": "lous-c1cfd134", "details": "rejected: restore Argentine tango social night at Lou's with DJ Facha, 8-11 PM social dancing after an intro lesson; Argentine tango is a Latin American social dance."}
+{"ts": "2026-11-04T17:07:48.719857+00:00", "action": "block", "event_id": "pr-festival-ma-cultural-pageant-coronation", "details": "not_dance: A pageant coronation ceremony at Florian Hall, with no social dancing mentioned."}
+{"ts": "2026-11-04T17:07:48.724362+00:00", "action": "review_answer", "event_id": "pr-festival-ma-cultural-pageant-coronation", "details": "rejected: not_dance A pageant coronation ceremony at Florian Hall, with no social dancing mentioned."}
+{"ts": "2026-11-04T17:07:52.645919+00:00", "action": "add", "event_id": "dancefam-2764", "details": ""}
+{"ts": "2026-11-04T17:07:52.649307+00:00", "action": "approve", "event_id": "dancefam-2764", "details": ""}
+{"ts": "2026-11-04T17:07:52.654241+00:00", "action": "edit", "event_id": "dancefam-2764", "details": "{\"_big_event_reviewed\": true, \"special\": true, \"styles\": [\"bachata\", \"merengue\"]}"}
+{"ts": "2026-11-04T17:07:52.657370+00:00", "action": "review_answer", "event_id": "dancefam-2764", "details": "new_event: approve BachaTipico Hangout's branded one-off Dominican Christmas bachata party in Lynn, with live band Grupo Aura and table tickets. It is a different event from the PR Festival's party at Florian Hall."}
+{"ts": "2026-11-04T17:07:55.412510+00:00", "action": "add", "event_id": "dantes-salsa-20261106-0", "details": ""}
+{"ts": "2026-11-04T17:07:55.417278+00:00", "action": "approve", "event_id": "dantes-salsa-20261106-0", "details": ""}
+{"ts": "2026-11-04T17:07:55.424517+00:00", "action": "edit", "event_id": "dantes-salsa-20261106-0", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\", \"bachata\"]}"}
+{"ts": "2026-11-04T17:07:55.429790+00:00", "action": "review_answer", "event_id": "dantes-salsa-20261106-0", "details": "new_event: approve Fuego y Candela's regular salsa/bachata social at the Dante Alighieri Society in Cambridge, listed as a Facebook event."}
+{"ts": "2026-11-04T17:07:58.781770+00:00", "action": "block", "event_id": "eb-com-2e6f1af5", "details": "not_dance: A free Latin dance workout (fitness) class at the East Boston Social Center, not a social."}
+{"ts": "2026-11-04T17:07:58.787626+00:00", "action": "review_answer", "event_id": "eb-com-2e6f1af5", "details": "new_event: not_dance A free Latin dance workout (fitness) class at the East Boston Social Center, not a social."}
+{"ts": "2026-11-04T17:08:01.212118+00:00", "action": "block", "event_id": "eb-2004200368253", "details": "class_only: A bachata technique class at Moves & Vibes (\"learn the secrets of a beautiful flow\"), with no social mentioned."}
+{"ts": "2026-11-04T17:08:01.220471+00:00", "action": "review_answer", "event_id": "eb-2004200368253", "details": "new_event: class_only A bachata technique class at Moves & Vibes (\"learn the secrets of a beautiful flow\"), with no social mentioned."}
+{"ts": "2026-11-04T17:08:04.731379+00:00", "action": "add", "event_id": "eb-2004325565722", "details": ""}
+{"ts": "2026-11-04T17:08:04.734469+00:00", "action": "approve", "event_id": "eb-2004325565722", "details": ""}
+{"ts": "2026-11-04T17:08:04.738880+00:00", "action": "edit", "event_id": "eb-2004325565722", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"bachata\", \"salsa\", \"other\"]}"}
+{"ts": "2026-11-04T17:08:04.741563+00:00", "action": "review_answer", "event_id": "eb-2004325565722", "details": "new_event: approve La Casa de la Bachata's bachata/t\u00edpico/salsa/dembow party night at Macumba Latina in Hyde Park; it reads like a regular club night."}
+{"ts": "2026-11-04T17:08:07.570249+00:00", "action": "add", "event_id": "eb-2004067665335", "details": ""}
+{"ts": "2026-11-04T17:08:07.573475+00:00", "action": "approve", "event_id": "eb-2004067665335", "details": ""}
+{"ts": "2026-11-04T17:08:07.577575+00:00", "action": "edit", "event_id": "eb-2004067665335", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\"]}"}
+{"ts": "2026-11-04T17:08:07.580625+00:00", "action": "review_answer", "event_id": "eb-2004067665335", "details": "new_event: approve A free Cuban and Cale\u00f1a salsa dance night at Capricho in Brookline, 9 PM to 1 AM."}
+{"ts": "2026-11-04T17:08:10.417901+00:00", "action": "add", "event_id": "eb-2003686510290", "details": ""}
+{"ts": "2026-11-04T17:08:10.422336+00:00", "action": "approve", "event_id": "eb-2003686510290", "details": ""}
+{"ts": "2026-11-04T17:08:10.427711+00:00", "action": "edit", "event_id": "eb-2003686510290", "details": "{\"_big_event_reviewed\": true, \"special\": true, \"styles\": [\"salsa\"]}"}
+{"ts": "2026-11-04T17:08:10.430869+00:00", "action": "review_answer", "event_id": "eb-2003686510290", "details": "new_event: approve Noche Latina Dance Company founder's birthday gala, a one-off with a salsa lesson, social dancing and dinner, open to ticket buyers."}
+{"ts": "2026-11-04T17:08:13.297769+00:00", "action": "add", "event_id": "eb-2003688552398", "details": ""}
+{"ts": "2026-11-04T17:08:13.299916+00:00", "action": "approve", "event_id": "eb-2003688552398", "details": ""}
+{"ts": "2026-11-04T17:08:13.305998+00:00", "action": "edit", "event_id": "eb-2003688552398", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\"]}"}
+{"ts": "2026-11-04T17:08:13.308576+00:00", "action": "review_answer", "event_id": "eb-2003688552398", "details": "new_event: approve A $10 SHPE Boston x Draper LatinX salsa social and workshop mixer at Lili Latin Dance; it includes social dancing and anyone with a ticket can attend."}
+{"ts": "2026-11-04T17:08:17.192130+00:00", "action": "add", "event_id": "eb-2003943635358", "details": ""}
+{"ts": "2026-11-04T17:08:17.195063+00:00", "action": "approve", "event_id": "eb-2003943635358", "details": ""}
+{"ts": "2026-11-04T17:08:17.199499+00:00", "action": "edit", "event_id": "eb-2003943635358", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\", \"other\"]}"}
+{"ts": "2026-11-04T17:08:17.202853+00:00", "action": "review_answer", "event_id": "eb-2003943635358", "details": "new_event: approve A Reunion BBQ club night mixing Afrobeats, R&B and hip-hop with salsa on one dance floor; salsa is named, so I approved it as a borderline case."}
+{"ts": "2026-11-04T17:08:19.669821+00:00", "action": "block", "event_id": "posh-holyokes-biggest-dominican-bachata-party-at-ekko-bar-lounge-la-casa-de-la-bachata", "details": "out_of_area: At Ekko Bar & Lounge in Holyoke, Western MA, about 90 miles from Boston."}
+{"ts": "2026-11-04T17:08:19.676074+00:00", "action": "review_answer", "event_id": "posh-holyokes-biggest-dominican-bachata-party-at-ekko-bar-lounge-la-casa-de-la-bachata", "details": "new_event: out_of_area At Ekko Bar & Lounge in Holyoke, Western MA, about 90 miles from Boston."}
+{"ts": "2026-11-04T17:08:39.022617+00:00", "action": "reject", "event_id": "5eged0ealksh7u4jklb4nahsv8@google.com", "details": "no link found; asked again if its source lists it again"}
+{"ts": "2026-11-04T17:08:39.027890+00:00", "action": "review_answer", "event_id": "5eged0ealksh7u4jklb4nahsv8@google.com", "details": "new_event: no_link_yet A bachata night at Cocomango (inside TopMix) in Cambridge from Sensualeros' calendar; it belongs, but web searches found no organizer page and there were no link leads."}
+{"ts": "2026-11-04T17:09:09.358792+00:00", "action": "reject", "event_id": "675b1r304fn1hr38cphk6viuuk@google.com", "details": "no link found; asked again if its source lists it again"}
+{"ts": "2026-11-04T17:09:09.370934+00:00", "action": "review_answer", "event_id": "675b1r304fn1hr38cphk6viuuk@google.com", "details": "new_event: no_link_yet Rumba y Timbal's class-plus-social belongs, but every page I found (happeningnext, thebostoncalendar) is for an earlier night (Jun 20 or Aug 15), and the Havana Club lead is a different event."}
+{"ts": "2026-11-04T17:09:25.814674+00:00", "action": "reject", "event_id": "r0o08ujgcibgqs4ibgjvks9vvk@google.com", "details": "no link found; asked again if its source lists it again"}
+{"ts": "2026-11-04T17:09:25.825986+00:00", "action": "review_answer", "event_id": "r0o08ujgcibgqs4ibgjvks9vvk@google.com", "details": "new_event: no_link_yet The Cantab Underground salsa/bachata social belongs, but searches found pages only for earlier nights (Jun 14 2026), none for Dec 27, and there were no link leads."}
+{"ts": "2026-11-04T17:09:43.016961+00:00", "action": "reject", "event_id": "ad7gega86tudkuisb4co60maa0@google.com", "details": "no link found; asked again if its source lists it again"}
+{"ts": "2026-11-04T17:09:43.028919+00:00", "action": "review_answer", "event_id": "ad7gega86tudkuisb4co60maa0@google.com", "details": "new_event: no_link_yet No page for Nov 26: the ma.to Lawn on D venue page shows no upcoming events (the last Grove salsa night was Oct 29), salsaycontrol.com/events doesn't list it, and Nov 26 is Thanksgiving, so this night may not happen."}
+{"ts": "2026-11-04T17:09:54.615403+00:00", "action": "reject", "event_id": "pug9ljnmncr6plcs9o2tsahe3g@google.com", "details": "no link found; asked again if its source lists it again"}
+{"ts": "2026-11-04T17:09:54.619891+00:00", "action": "review_answer", "event_id": "pug9ljnmncr6plcs9o2tsahe3g@google.com", "details": "new_event: no_link_yet Sensualeros lists a DJ battle night at El Barco (a salsa/bachata venue), which is probably a dance night, but searches found no organizer page for Nov 7 and there were no link leads."}
+{"ts": "2026-11-04T17:10:07.338243+00:00", "action": "reject", "event_id": "g13k4natfbetqv05625k8fio24@google.com", "details": "no link found; asked again if its source lists it again"}
+{"ts": "2026-11-04T17:10:07.344430+00:00", "action": "review_answer", "event_id": "g13k4natfbetqv05625k8fio24@google.com", "details": "new_event: no_link_yet An old-school reggaeton party night at CocoMango Speakeasy in Cambridge belongs, but searches found no organizer page and there were no link leads."}
+{"ts": "2026-11-04T17:10:17.395738+00:00", "action": "reject", "event_id": "7q22smr59cb6lgiuu2j51e021g@google.com", "details": "no link found; asked again if its source lists it again"}
+{"ts": "2026-11-04T17:10:17.401139+00:00", "action": "review_answer", "event_id": "7q22smr59cb6lgiuu2j51e021g@google.com", "details": "new_event: no_link_yet A 2000s reggaeton (perreo) party night at West End Johnnie's belongs, but searches found no organizer page for Nov 13 (only an unrelated May 2026 2000s pop night) and there were no link leads."}

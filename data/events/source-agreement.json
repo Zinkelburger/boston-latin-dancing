@@ -1,11 +1,11 @@
 {
-  "checked_at": "2026-10-28T16:05:29.953854+00:00",
+  "checked_at": "2026-11-04T17:07:36.233791+00:00",
   "totals": {
-    "events": 38,
+    "events": 30,
     "with_multiple_sources": 7,
     "disagreements": 0,
-    "location_agreed": 18,
-    "location_unknown": 20
+    "location_agreed": 12,
+    "location_unknown": 18
   },
   "disagreements": [],
   "checked": [
@@ -43,7 +43,7 @@
       "event_id": "m493k99gsroqpbockbf2e5cgi7@google.com",
       "event_name": "Kiz Thursday",
       "our_location": "Moves & Vibes Dancing Academy, 44 5th St, Cambridge, MA 02141, EE. UU.",
-      "our_date": "2026-10-29",
+      "our_date": "2026-11-05",
       "source_count": 2,
       "claims": [
         {
@@ -83,12 +83,12 @@
       "claims": [
         {
           "url": "https://ma.to/venue/shoreleavebos",
-          "location": "Shore Leave",
-          "date": "2026-10-29",
-          "instant": "2026-10-29T20:00:00.000-04:00",
-          "via": "json-ld",
+          "location": null,
+          "date": null,
+          "instant": null,
+          "via": null,
           "city_level": false,
-          "error": null
+          "error": "no structured data"
         },
         {
           "url": "https://www.eventbrite.com/e/sushi-con-salsa-dance-sessions-vol1-tickets-1988719477492",
@@ -101,16 +101,12 @@
         }
       ],
       "location": {
-        "verdict": "agree",
-        "notes": [
-          "ma.to/venue/shoreleavebos (json-ld): agree — 243m apart"
-        ]
+        "verdict": "unknown",
+        "notes": []
       },
       "date": {
         "verdict": "unknown",
-        "notes": [
-          "recurring series — upstream dates not compared"
-        ]
+        "notes": []
       }
     },
     {
@@ -144,40 +140,10 @@
       }
     },
     {
-      "event_id": "erd8o7pl35ilifq215nnm59238@google.com",
-      "event_name": "Salsa Dancing at The Grove at Lawn on D Presented by Salsa y Control",
-      "our_location": "The Lawn on D Pavilion, 420 D Street, Boston, MA 02210 (Seaport District)",
-      "our_date": "2026-10-29",
-      "source_count": 1,
-      "claims": [
-        {
-          "url": "https://ma.to/event/salsa-night-at-the-grove-29-oct-2026",
-          "location": "The Grove at Lawn on D, 420 D Street, Boston, MA 02210, Boston",
-          "date": "2026-10-29",
-          "instant": "2026-10-29T19:00:00.000-04:00",
-          "via": "json-ld",
-          "city_level": false,
-          "error": null
-        }
-      ],
-      "location": {
-        "verdict": "agree",
-        "notes": [
-          "ma.to/event/salsa-night-at-the-grove-29-oct-2 (json-ld): agree — same street number (420)"
-        ]
-      },
-      "date": {
-        "verdict": "agree",
-        "notes": [
-          "ma.to/event/salsa-night-at-the-grove-29-oct-2 (json-ld): says 2026-10-29"
-        ]
-      }
-    },
-    {
       "event_id": "phfsfa6ctj6jq4nikphf3mql0l@google.com",
       "event_name": "The Timba Messenger at Wally's ",
       "our_location": "Wally's Cafe Jazz Club, 427 Massachusetts Ave, Boston, MA 02118, EE. UU.",
-      "our_date": "2026-10-29",
+      "our_date": "2026-11-05",
       "source_count": 1,
       "claims": [
         {
@@ -203,7 +169,7 @@
       "event_id": "8EDCCA4B-FCFA-4CD9-ABA3-8074966ACFCB",
       "event_name": "Bachata Room ",
       "our_location": "La Fabrica , 450 Massachusetts Ave, Cambridge, MA 02139, United States",
-      "our_date": "2026-10-28",
+      "our_date": "2026-11-04",
       "source_count": 1,
       "claims": [
         {
@@ -229,7 +195,7 @@
       "event_id": "4BACCA44-811C-4F7E-99D8-7AC8DA46D5CC",
       "event_name": "Bachata Sensual Mondays @ Havana Club",
       "our_location": "Havana Club, 288 Green St, Cambridge, MA  02139, United States",
-      "our_date": "2026-11-02",
+      "our_date": "2026-11-09",
       "source_count": 1,
       "claims": [
         {
@@ -255,7 +221,7 @@
       "event_id": "D7362ECA-A6A7-4528-B752-3CBD6141CE81",
       "event_name": "Salsa/Bachata Tuesdays @ Havana",
       "our_location": "Havana Club, 288 Green St, Cambridge, MA  02139, United States",
-      "our_date": "2026-10-27",
+      "our_date": "2026-11-03",
       "source_count": 1,
       "claims": [
         {
@@ -281,7 +247,7 @@
       "event_id": "5984F5C6-9A2D-454E-AE0B-B201FC78B814",
       "event_name": "Havana Bachata Thursdays",
       "our_location": "288 Green St, Central Sq, Cambridge",
-      "our_date": "2026-10-29",
+      "our_date": "2026-11-05",
       "source_count": 2,
       "claims": [
         {
@@ -472,7 +438,7 @@
       "event_id": "8CCA30E6-6C4B-4E0E-8A78-BCA2C5761DE2",
       "event_name": "Flow Friday at The Anchor: Bachata Class & Social",
       "our_location": "The Anchor, 1 Shipyard Park, Charlestown, MA 02129",
-      "our_date": "2026-10-30",
+      "our_date": "2026-11-06",
       "source_count": 3,
       "claims": [
         {
@@ -518,40 +484,10 @@
       }
     },
     {
-      "event_id": "fnht1iun7hd7g7cnsmtndag9io@google.com",
-      "event_name": "Halloween Salsa/Bachata Costume Party",
-      "our_location": "Tambó Salsa, 35 Hampshire St, Cambridge, MA 02139",
-      "our_date": "2026-10-30",
-      "source_count": 1,
-      "claims": [
-        {
-          "url": "https://www.facebook.com/events/1796270331376772/",
-          "location": "Cambridge",
-          "date": "2026-10-30",
-          "instant": null,
-          "via": "facebook-preview",
-          "city_level": true,
-          "error": null
-        }
-      ],
-      "location": {
-        "verdict": "agree",
-        "notes": [
-          "facebook.com/events/1796270331376772/ (facebook-preview): agree — same address text"
-        ]
-      },
-      "date": {
-        "verdict": "agree",
-        "notes": [
-          "facebook.com/events/1796270331376772/ (facebook-preview): says 2026-10-30"
-        ]
-      }
-    },
-    {
       "event_id": "sensualeros-boston-series-a227772d8b85",
       "event_name": "Friday Night Bachata/Salsa @ Havana Club",
       "our_location": "288 Green St, Central Sq, Cambridge, MA",
-      "our_date": "2026-10-30",
+      "our_date": "2026-11-06",
       "source_count": 1,
       "claims": [
         {
@@ -603,7 +539,7 @@
       "event_id": "sensualeros-boston-series-2db8e232ec42",
       "event_name": "Saturday Night Bachata/Salsa @ Havana Club",
       "our_location": "288 Green St, Central Sq, Cambridge, MA",
-      "our_date": "2026-10-31",
+      "our_date": "2026-11-07",
       "source_count": 1,
       "claims": [
         {
@@ -667,92 +603,6 @@
       }
     },
     {
-      "event_id": "qdl15rphrtsop45q6jp901t3g8@google.com",
-      "event_name": "6th Annual Salsa & Bachata Halloween Party",
-      "our_location": "41 Hampshire St, Cambridge, MA 02139",
-      "our_date": "2026-10-31",
-      "source_count": 1,
-      "claims": [
-        {
-          "url": "https://www.eventbrite.com/e/6th-annual-salsa-bachata-halloween-party-tickets-2001023303567",
-          "location": "41 Hampshire St, 41 Hampshire Street, Cambridge, MA 02139, Cambridge, MA",
-          "date": "2026-10-31",
-          "instant": "2026-10-31T21:00:00-04:00",
-          "via": "json-ld",
-          "city_level": false,
-          "error": null
-        }
-      ],
-      "location": {
-        "verdict": "agree",
-        "notes": [
-          "eventbrite.com/e/6th-annual-salsa-bachata-hal (json-ld): agree — same street number (41)"
-        ]
-      },
-      "date": {
-        "verdict": "agree",
-        "notes": [
-          "eventbrite.com/e/6th-annual-salsa-bachata-hal (json-ld): says 2026-10-31"
-        ]
-      }
-    },
-    {
-      "event_id": "eb-2002180696360",
-      "event_name": "777 Fridays: Haunted Carnival (Elite Affairs)",
-      "our_location": "Venu Nightclub, 100 Warrenton Street, Boston, MA 02116, Boston, MA",
-      "our_date": "2026-10-30",
-      "source_count": 1,
-      "claims": [
-        {
-          "url": "https://www.eventbrite.com/e/777-fridays-haunted-carnival-elite-affairs-tickets-2002180696360",
-          "location": "Venu Nightclub, 100 Warrenton Street, Boston, MA 02116, Boston, MA",
-          "date": "2026-10-30",
-          "instant": "2026-10-30T22:00:00-04:00",
-          "via": "json-ld",
-          "city_level": false,
-          "error": null
-        }
-      ],
-      "location": {
-        "verdict": "agree",
-        "notes": [
-          "eventbrite.com/e/777-fridays-haunted-carnival (json-ld): agree — same address text"
-        ]
-      },
-      "date": {
-        "verdict": "agree",
-        "notes": [
-          "eventbrite.com/e/777-fridays-haunted-carnival (json-ld): says 2026-10-30"
-        ]
-      }
-    },
-    {
-      "event_id": "fiesta-617b9920a493",
-      "event_name": "Salsa & Bachata Social w/ Fiesta Dance Co",
-      "our_location": "Agave Mexican Grill & Cantina, 197A Boston Post Rd W, Marlborough, MA 01752",
-      "our_date": "2026-10-31",
-      "source_count": 1,
-      "claims": [
-        {
-          "url": "https://fiestadancecompany.com/upcoming-socials",
-          "location": null,
-          "date": null,
-          "instant": null,
-          "via": null,
-          "city_level": false,
-          "error": "no structured data"
-        }
-      ],
-      "location": {
-        "verdict": "unknown",
-        "notes": []
-      },
-      "date": {
-        "verdict": "unknown",
-        "notes": []
-      }
-    },
-    {
       "event_id": "fiesta-20261106-agave-mexican-grill-cantina-marlborough",
       "event_name": "Salsa & Bachata Social w/ Fiesta Dance Co",
       "our_location": "Agave Mexican Grill & Cantina, 197A Boston Post Rd W, Marlborough, MA 01752",
@@ -805,32 +655,6 @@
       }
     },
     {
-      "event_id": "F70A561A-F4BC-402E-87BE-46C950F63265",
-      "event_name": "Sazón Noche de Brujas",
-      "our_location": "Lili Latin Dance, 423 W Broadway, Ste 202, South Boston, MA  02127, United States",
-      "our_date": "2026-10-31",
-      "source_count": 1,
-      "claims": [
-        {
-          "url": "https://www.instagram.com/p/DeHwUBylUKM/",
-          "location": null,
-          "date": null,
-          "instant": null,
-          "via": null,
-          "city_level": false,
-          "error": "no structured data"
-        }
-      ],
-      "location": {
-        "verdict": "unknown",
-        "notes": []
-      },
-      "date": {
-        "verdict": "unknown",
-        "notes": []
-      }
-    },
-    {
       "event_id": "eb-2002462772056",
       "event_name": "Dance the Night Away! Salsa & More!",
       "our_location": "Nahant Country Club Estate, 280 Nahant Road, Nahant, MA 01908, Nahant, MA",
@@ -857,36 +681,6 @@
         "verdict": "agree",
         "notes": [
           "eventbrite.com/e/dance-the-night-away-salsa-m (json-ld): says 2026-11-14"
-        ]
-      }
-    },
-    {
-      "event_id": "j9isl9bkqbo5s3vgnol0uislqc@google.com",
-      "event_name": "Cuban Saturday Night: Halloween Edition",
-      "our_location": "Cocomango Speakeasy (50 Cambridgepark Dr, Cambridge, MA)",
-      "our_date": "2026-10-31",
-      "source_count": 1,
-      "claims": [
-        {
-          "url": "https://www.eventbrite.com/e/el-bonches-halloween-cuban-saturday-night-tickets-2002988535629",
-          "location": "Cocomango Speakeasy, 50 Cambridgepark Drive, Cambridge, MA 02140, Cambridge, MA",
-          "date": "2026-10-31",
-          "instant": "2026-10-31T20:30:00-04:00",
-          "via": "json-ld",
-          "city_level": false,
-          "error": null
-        }
-      ],
-      "location": {
-        "verdict": "agree",
-        "notes": [
-          "eventbrite.com/e/el-bonches-halloween-cuban-s (json-ld): agree — same street number (50)"
-        ]
-      },
-      "date": {
-        "verdict": "agree",
-        "notes": [
-          "eventbrite.com/e/el-bonches-halloween-cuban-s (json-ld): says 2026-10-31"
         ]
       }
     },
@@ -921,32 +715,6 @@
       }
     },
     {
-      "event_id": "posh-bachata-boo-halloween-bachata-brunch-club",
-      "event_name": "BACHATA BOO 👻 — Halloween Bachata Brunch Club",
-      "our_location": "Grace By Nia, 60 Seaport Blvd #325, Boston, MA 02210",
-      "our_date": "2026-11-01",
-      "source_count": 1,
-      "claims": [
-        {
-          "url": "https://posh.vip/e/bachata-boo-halloween-bachata-brunch-club",
-          "location": null,
-          "date": null,
-          "instant": null,
-          "via": null,
-          "city_level": false,
-          "error": "no structured data"
-        }
-      ],
-      "location": {
-        "verdict": "unknown",
-        "notes": []
-      },
-      "date": {
-        "verdict": "unknown",
-        "notes": []
-      }
-    },
-    {
       "event_id": "a0gs5jl2q68tecul9dmk1hnomo@google.com",
       "event_name": "Fuego Thursdays",
       "our_location": "Sanctuary Cultural Arts Center, 82 Main St, Maynard, MA 01754",
@@ -974,32 +742,6 @@
         "notes": [
           "sanctuarymaynard.com/shows/fuego-thursdays-da (json-ld): says 2026-11-12"
         ]
-      }
-    },
-    {
-      "event_id": "52svhdsb5j0odrtfc9f1vjppq4@google.com",
-      "event_name": "Bachatween Social",
-      "our_location": "Moves & Vibes Dance Studio, 44 Fifth St, Cambridge 2nd Floor",
-      "our_date": "2026-10-27",
-      "source_count": 1,
-      "claims": [
-        {
-          "url": "https://www.thebostoncalendar.com/events/bachataween-social",
-          "location": null,
-          "date": null,
-          "instant": null,
-          "via": null,
-          "city_level": false,
-          "error": "no structured data"
-        }
-      ],
-      "location": {
-        "verdict": "unknown",
-        "notes": []
-      },
-      "date": {
-        "verdict": "unknown",
-        "notes": []
       }
     },
     {
@@ -1142,6 +884,34 @@
       "date": {
         "verdict": "unknown",
         "notes": []
+      }
+    },
+    {
+      "event_id": "fpp104hn8iava1dm2gs4ednaa8@google.com",
+      "event_name": "Salsa at Lou's",
+      "our_location": "Lou’s, 13A Brattle St",
+      "our_date": "2026-11-11",
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://www.wearelous.com/lous-live/latin-night-november",
+          "location": null,
+          "date": "2026-11-11",
+          "instant": "2026-11-11T19:00:00-0500",
+          "via": "json-ld",
+          "city_level": false,
+          "error": null
+        }
+      ],
+      "location": {
+        "verdict": "unknown",
+        "notes": []
+      },
+      "date": {
+        "verdict": "agree",
+        "notes": [
+          "wearelous.com/lous-live/latin-night-november (json-ld): says 2026-11-11"
+        ]
       }
     }
   ]

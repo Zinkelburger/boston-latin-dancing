@@ -515,5 +515,49 @@
     "blocked_notes": "At Bella Vita Dance Company in Manchester, NH, which is outside greater Boston.",
     "location": "Bella Vita Dance Company, 859 Hanover St, Manchester, NH",
     "block_key": "603 salsa bachata social fire ice edition|bella vita dance company 859 hanover st manchester nh"
+  },
+  {
+    "id": "pr-festival-ma-cultural-pageant-coronation",
+    "name": "Cultural Pageant Coronation",
+    "source": "pr-festival-ma",
+    "blocked_reason": "A pageant coronation ceremony at Florian Hall, with no social dancing mentioned.",
+    "blocked_category": "not_dance",
+    "blocked_at": "2026-11-04T17:07:48.715975+00:00",
+    "blocked_notes": "A pageant coronation ceremony at Florian Hall, with no social dancing mentioned.",
+    "location": "Florian Hall, 55 Hallet St, Boston, MA 02124, USA",
+    "block_key": "cultural pageant coronation|florian hall 55 hallet st boston ma 02124 usa"
+  },
+  {
+    "id": "eb-com-2e6f1af5",
+    "name": "Free Latin Dance Workout Classes",
+    "source": "eastboston-events",
+    "blocked_reason": "A free Latin dance workout (fitness) class at the East Boston Social Center, not a social.",
+    "blocked_category": "not_dance",
+    "blocked_at": "2026-11-04T17:07:58.774447+00:00",
+    "blocked_notes": "A free Latin dance workout (fitness) class at the East Boston Social Center, not a social.",
+    "location": "68 Central Square, East Boston",
+    "block_key": "free latin dance workout classes|68 central square east boston"
+  },
+  {
+    "id": "eb-2004200368253",
+    "name": "Bachata Technique Lab",
+    "source": "eventbrite-boston-latin",
+    "blocked_reason": "A bachata technique class at Moves & Vibes (\"learn the secrets of a beautiful flow\"), with no social mentioned.",
+    "blocked_category": "class_only",
+    "blocked_at": "2026-11-04T17:08:01.208279+00:00",
+    "blocked_notes": "A bachata technique class at Moves & Vibes (\"learn the secrets of a beautiful flow\"), with no social mentioned.",
+    "location": "Moves & Vibes Dance and Entertainment Co, 44 Fifth street, Cambridge, MA 02141, Cambridge, MA",
+    "block_key": "bachata technique lab|moves vibes"
+  },
+  {
+    "id": "posh-holyokes-biggest-dominican-bachata-party-at-ekko-bar-lounge-la-casa-de-la-bachata",
+    "name": "Holyoke’s Biggest Dominican Bachata Party at Ekko Bar & Lounge | La Casa de la Bachata™",
+    "source": "posh",
+    "blocked_reason": "At Ekko Bar & Lounge in Holyoke, Western MA, about 90 miles from Boston.",
+    "blocked_category": "out_of_area",
+    "blocked_at": "2026-11-04T17:08:19.664139+00:00",
+    "blocked_notes": "At Ekko Bar & Lounge in Holyoke, Western MA, about 90 miles from Boston.",
+    "location": "Ekko Bar & Lounge, 268 Race St, Holyoke, MA 01040",
+    "block_key": "holyokes biggest dominican bachata party at ekko bar lounge la casa de la bachata|ekko bar lounge 268 race st holyoke ma 01040"
   }
 ]

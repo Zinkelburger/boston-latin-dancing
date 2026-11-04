@@ -1,9 +1,9 @@
 {
-  "checked_at": "2026-10-28T16:08:27.816593+00:00",
+  "checked_at": "2026-11-04T17:10:56.047772+00:00",
   "scope": "live",
   "totals": {
-    "urls": 61,
-    "ok": 60,
+    "urls": 63,
+    "ok": 62,
     "broken": 0,
     "unverifiable": 1
   },
@@ -95,6 +95,16 @@
       ]
     },
     {
+      "url": "https://dancefam.org/event/2764",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Bachatazo Navideño"
+      ]
+    },
+    {
       "url": "https://eastboston.com",
       "status": 200,
       "final_url": "https://eastboston.com/",
@@ -166,16 +176,6 @@
       ]
     },
     {
-      "url": "https://ma.to/event/salsa-night-at-the-grove-29-oct-2026",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Salsa Dancing at The Grove at Lawn on D Presented by Salsa y Control"
-      ]
-    },
-    {
       "url": "https://ma.to/venue/lawnond",
       "status": 200,
       "final_url": null,
@@ -216,13 +216,13 @@
       ]
     },
     {
-      "url": "https://posh.vip/e/bachata-boo-halloween-bachata-brunch-club",
+      "url": "https://posh.vip/e/boston-bachata-party-macumba-latina-la-casa-de-la-bachata",
       "status": 200,
       "final_url": null,
       "verdict": "ok",
       "note": "HTTP 200",
       "appears_in": [
-        "event: BACHATA BOO 👻 — Halloween Bachata Brunch Club"
+        "event: Boston's Biggest Dominican Party at Macumba Latina | La Casa de la Bachata (alt)"
       ]
     },
     {
@@ -233,6 +233,16 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: TARDEO Salsa & Bachata"
+      ]
+    },
+    {
+      "url": "https://posh.vip/e/tremont-nights-afrobeat-4",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: TREMONT NIGHTS (alt)"
       ]
     },
     {
@@ -267,26 +277,6 @@
       ]
     },
     {
-      "url": "https://www.eventbrite.com/e/6th-annual-salsa-bachata-halloween-party-tickets-2001023303567",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: 6th Annual Salsa & Bachata Halloween Party"
-      ]
-    },
-    {
-      "url": "https://www.eventbrite.com/e/777-fridays-haunted-carnival-elite-affairs-tickets-2002180696360",
-      "status": 200,
-      "final_url": "https://www.eventbrite.com/e/777-fridays-gotham-after-dark-heroes-villians-elite-affairs-tickets-2002180696360",
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: 777 Fridays: Haunted Carnival (Elite Affairs)"
-      ]
-    },
-    {
       "url": "https://www.eventbrite.com/e/arts-at-the-armory-spotlight-series-presents-tito-puente-jr-tickets-1984583543803",
       "status": 200,
       "final_url": null,
@@ -294,6 +284,16 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: Arts at the Armory Spotlight Series Presents Tito Puente Jr."
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/bostons-biggest-dominican-party-at-macumba-latina-la-casa-de-la-bachata-tickets-2004325565722",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Boston's Biggest Dominican Party at Macumba Latina | La Casa de la Bachata"
       ]
     },
     {
@@ -307,6 +307,16 @@
       ]
     },
     {
+      "url": "https://www.eventbrite.com/e/cuban-calena-salsa-night-tickets-2004067665335",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Cuban & Caleña Salsa Night"
+      ]
+    },
+    {
       "url": "https://www.eventbrite.com/e/dance-the-night-away-salsa-more-tickets-2002462772056",
       "status": 200,
       "final_url": null,
@@ -314,16 +324,6 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: Dance the Night Away! Salsa & More!"
-      ]
-    },
-    {
-      "url": "https://www.eventbrite.com/e/el-bonches-halloween-cuban-saturday-night-tickets-2002988535629",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Cuban Saturday Night: Halloween Edition"
       ]
     },
     {
@@ -357,6 +357,16 @@
       ]
     },
     {
+      "url": "https://www.eventbrite.com/e/hedwige-birthday-gala-an-all-black-dance-dinner-affair-tickets-2003686510290",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Hedwige Birthday Gala: An All-Black Dance & Dinner Affair"
+      ]
+    },
+    {
       "url": "https://www.eventbrite.com/e/saborcito-el-barco-salsabachata-night-tickets-2003987041186",
       "status": 200,
       "final_url": null,
@@ -367,6 +377,16 @@
       ]
     },
     {
+      "url": "https://www.eventbrite.com/e/salsa-mixer-with-shpe-boston-x-draper-latinx-tickets-2003688552398",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Salsa Mixer with SHPE Boston X Draper LatinX"
+      ]
+    },
+    {
       "url": "https://www.eventbrite.com/e/sushi-con-salsa-dance-sessions-vol1-tickets-1988719477492",
       "status": 200,
       "final_url": null,
@@ -374,6 +394,16 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: SUSHI CON SALSA (alt)"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/tremont-nights-tickets-2003943635358",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: TREMONT NIGHTS"
       ]
     },
     {
@@ -417,7 +447,6 @@
       "appears_in": [
         "event: Fuego y Candela Social",
         "event: Dante's Salsa Fridays (alt)",
-        "event: Fuego y Candela Salsa Social",
         "venue: Fuego y Candela Salsa Social"
       ]
     },
@@ -429,6 +458,16 @@
       "note": "live (Tambó Salsa)",
       "appears_in": [
         "event: Dante's Salsa Fridays (alt)"
+      ]
+    },
+    {
+      "url": "https://www.facebook.com/events/1122442303475207/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Dante's Salsa Inferno Nov 6th Salsa/Bachata Social!)",
+      "appears_in": [
+        "event: Dante's Salsa Inferno Nov 6th Salsa/Bachata Social!"
       ]
     },
     {
@@ -452,16 +491,6 @@
       ]
     },
     {
-      "url": "https://www.facebook.com/events/1796270331376772/",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "live (Halloween Salsa/Bachata Costume Party, Friday 10/30)",
-      "appears_in": [
-        "event: Halloween Salsa/Bachata Costume Party"
-      ]
-    },
-    {
       "url": "https://www.facebook.com/rob.suave.96",
       "status": 200,
       "final_url": null,
@@ -479,7 +508,7 @@
       "verdict": "ok",
       "note": "live (Franklin Condori (@fuegoycandelasalsa))",
       "appears_in": [
-        "event: Fuego y Candela Salsa Social (alt)"
+        "event: Dante's Salsa Inferno Nov 6th Salsa/Bachata Social! (alt)"
       ]
     },
     {
@@ -493,13 +522,13 @@
       ]
     },
     {
-      "url": "https://www.instagram.com/p/DeHwUBylUKM/",
+      "url": "https://www.instagram.com/smgaller/",
       "status": 200,
       "final_url": null,
       "verdict": "ok",
-      "note": "live (Liliana Jimenez on Instagram: \"Surprise! Another FREE social)",
+      "note": "live (Sam Galler (@smgaller))",
       "appears_in": [
-        "event: Sazón Noche de Brujas"
+        "event: TANGO DANCE NIGHT (artist)"
       ]
     },
     {
@@ -530,16 +559,6 @@
       "note": "HTTP 200",
       "appears_in": [
         "source: lister-events"
-      ]
-    },
-    {
-      "url": "https://www.metamovements.com/event-details/halloween-rumbazo",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: HALLOWEEN RUMBAZO"
       ]
     },
     {
@@ -593,16 +612,6 @@
       ]
     },
     {
-      "url": "https://www.thebostoncalendar.com/events/bachataween-social",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Bachatween Social"
-      ]
-    },
-    {
       "url": "https://www.thetimbamessengers.com",
       "status": 200,
       "final_url": "https://www.thetimbamessengers.com/",
@@ -631,6 +640,16 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: Salsa at Lou's"
+      ]
+    },
+    {
+      "url": "https://www.wearelous.com/lous-live/tango-night",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: TANGO DANCE NIGHT"
       ]
     }
   ]
