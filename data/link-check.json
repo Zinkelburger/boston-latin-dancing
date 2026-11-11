@@ -1,9 +1,9 @@
 {
-  "checked_at": "2026-11-04T17:10:56.047772+00:00",
+  "checked_at": "2026-11-11T17:13:16.038956+00:00",
   "scope": "live",
   "totals": {
-    "urls": 63,
-    "ok": 62,
+    "urls": 68,
+    "ok": 67,
     "broken": 0,
     "unverifiable": 1
   },
@@ -115,6 +115,26 @@
       ]
     },
     {
+      "url": "https://facebook.com/events/s/rumba-y-clave-salsa-bachata-so/1517837043556634/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/rumba-y-clave-salsa-bachata-so/1517837043556634/",
+      "verdict": "ok",
+      "note": "live (Rumba y Clave: Salsa & Bachata Social)",
+      "appears_in": [
+        "event: Rumba y Clave: Salsa & Bachata Social"
+      ]
+    },
+    {
+      "url": "https://facebook.com/events/s/salsa-bachata-social-at-the-ca/3241987436189466/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/salsa-bachata-social-at-the-ca/3241987436189466/",
+      "verdict": "ok",
+      "note": "live (Salsa & Bachata Social at the Cantab Underground – Cambridge)",
+      "appears_in": [
+        "event: Salsa & Bachata Social at the Cantab Underground – Cambridge, MA"
+      ]
+    },
+    {
       "url": "https://fiestadancecompany.com",
       "status": 200,
       "final_url": "https://fiestadancecompany.com/",
@@ -216,6 +236,16 @@
       ]
     },
     {
+      "url": "https://posh.vip/e/bachata-brunch-club-ladies-brunch",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Bachata Brunch Club: Ladies Brunch"
+      ]
+    },
+    {
       "url": "https://posh.vip/e/boston-bachata-party-macumba-latina-la-casa-de-la-bachata",
       "status": 200,
       "final_url": null,
@@ -226,23 +256,13 @@
       ]
     },
     {
-      "url": "https://posh.vip/e/tardeo-salsa-bachata-copy",
+      "url": "https://posh.vip/e/callao-salsa-y-cocteles-se-vino-diciembre",
       "status": 200,
       "final_url": null,
       "verdict": "ok",
       "note": "HTTP 200",
       "appears_in": [
-        "event: TARDEO Salsa & Bachata"
-      ]
-    },
-    {
-      "url": "https://posh.vip/e/tremont-nights-afrobeat-4",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: TREMONT NIGHTS (alt)"
+        "event: CALLAO - SALSA Y COCTELES (Se Vino  Diciembre)🎄"
       ]
     },
     {
@@ -277,6 +297,26 @@
       ]
     },
     {
+      "url": "https://www.eventbrite.com/e/18-latin-night-venu-tickets-2004550613847",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: (18+) LATIN NIGHT @ VENU"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/6th-annual-salsa-bachata-thanksgiving-eve-party-tickets-2004471430006",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: 6th Annual Salsa & Bachata Thanksgiving Eve Party"
+      ]
+    },
+    {
       "url": "https://www.eventbrite.com/e/arts-at-the-armory-spotlight-series-presents-tito-puente-jr-tickets-1984583543803",
       "status": 200,
       "final_url": null,
@@ -294,16 +334,6 @@
       "note": "HTTP 200",
       "appears_in": [
         "event: Boston's Biggest Dominican Party at Macumba Latina | La Casa de la Bachata"
-      ]
-    },
-    {
-      "url": "https://www.eventbrite.com/e/calele-the-global-soul-berklee-caf-show-tickets-2003938011537",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Calele & the Global Soul - Berklee CAF Show"
       ]
     },
     {
@@ -363,7 +393,17 @@
       "verdict": "ok",
       "note": "HTTP 200",
       "appears_in": [
-        "event: Hedwige Birthday Gala: An All-Black Dance & Dinner Affair"
+        "event: Hedwige's Birthday Gala"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/midnight-in-glamour-new-years-eve-at-reunion-after-dark-tickets-2004507651345",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Midnight in Glamour | New Year’s Eve at Reunion After Dark"
       ]
     },
     {
@@ -377,16 +417,6 @@
       ]
     },
     {
-      "url": "https://www.eventbrite.com/e/salsa-mixer-with-shpe-boston-x-draper-latinx-tickets-2003688552398",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Salsa Mixer with SHPE Boston X Draper LatinX"
-      ]
-    },
-    {
       "url": "https://www.eventbrite.com/e/sushi-con-salsa-dance-sessions-vol1-tickets-1988719477492",
       "status": 200,
       "final_url": null,
@@ -397,7 +427,7 @@
       ]
     },
     {
-      "url": "https://www.eventbrite.com/e/tremont-nights-tickets-2003943635358",
+      "url": "https://www.eventbrite.com/e/tremont-nights-tickets-2004618058576",
       "status": 200,
       "final_url": null,
       "verdict": "ok",
@@ -447,6 +477,7 @@
       "appears_in": [
         "event: Fuego y Candela Social",
         "event: Dante's Salsa Fridays (alt)",
+        "event: Fuego y Candela Salsa Social",
         "venue: Fuego y Candela Salsa Social"
       ]
     },
@@ -461,13 +492,13 @@
       ]
     },
     {
-      "url": "https://www.facebook.com/events/1122442303475207/",
+      "url": "https://www.facebook.com/events/1369457536260810/",
       "status": 200,
       "final_url": null,
       "verdict": "ok",
-      "note": "live (Dante's Salsa Inferno Nov 6th Salsa/Bachata Social!)",
+      "note": "live (SALSA AND BACHATA LIVE IN BOSTON)",
       "appears_in": [
-        "event: Dante's Salsa Inferno Nov 6th Salsa/Bachata Social!"
+        "event: SALSA AND BACHATA LIVE IN BOSTON"
       ]
     },
     {
@@ -481,6 +512,16 @@
       ]
     },
     {
+      "url": "https://www.facebook.com/events/1471869821706702/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Boston Senior Zouk Social (11/17/2026))",
+      "appears_in": [
+        "event: Boston Senior Zouk Social"
+      ]
+    },
+    {
       "url": "https://www.facebook.com/events/1702605367827796/1735471407874525/",
       "status": 200,
       "final_url": null,
@@ -488,6 +529,16 @@
       "note": "live (Canceled Sept 13: Rueda in the Pahk!)",
       "appears_in": [
         "event: Rueda in the Pahk"
+      ]
+    },
+    {
+      "url": "https://www.facebook.com/events/1713106420245460/",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "live (Tambo Salsa/Bachata Social, Friday Nov 13th)",
+      "appears_in": [
+        "event: Tambo Salsa/Bachata Social"
       ]
     },
     {
@@ -508,7 +559,7 @@
       "verdict": "ok",
       "note": "live (Franklin Condori (@fuegoycandelasalsa))",
       "appears_in": [
-        "event: Dante's Salsa Inferno Nov 6th Salsa/Bachata Social! (alt)"
+        "event: Fuego y Candela Salsa Social (alt)"
       ]
     },
     {

@@ -4616,34 +4616,6 @@
     "archivedAt": "2026-10-28T15:28:10.475785+00:00"
   },
   {
-    "id": "C77130B0-73C6-4597-9875-A786F4EA78D4",
-    "name": "Sabor Latino! @ El Barco - Salsa/Bachata Night",
-    "startDate": "2026-10-23T00:00:00+00:00",
-    "endDate": "2026-10-23T03:00:00+00:00",
-    "dayOfWeek": "Thursday",
-    "location": "50 Dalton Street, Boston, MA 02115, Boston, MA",
-    "lat": 42.3472132,
-    "lng": -71.0854097,
-    "description": "Get ready to spice up your dance moves with Salsa y Control at our Sabor Latino Pop Up Salsa Night! BeginnerLesson & SocialDancing included\n\nSource: https://www.eventbrite.com/e/sabor-latino-el-barco-salsabachata-night-tickets-1991805539988",
-    "url": "https://www.eventbrite.com/o/sabor-latino-boston-63775846633",
-    "styles": [
-      "bachata",
-      "salsa"
-    ],
-    "cost": "$12.51",
-    "recurring": false,
-    "source": "beatrice-calendar",
-    "_dropped_urls": [
-      "https://www.eventbrite.com/e/sabor-latino-el-barco-salsabachata-night-tickets-1991805539988",
-      "https://www.facebook.com/SaborLatinoBoston/events"
-    ],
-    "_verified_at": "2026-10-15T18:11:38.268821+00:00",
-    "_verified_status": "reachable_only",
-    "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
-    "_verification_url": "https://www.eventbrite.com/o/sabor-latino-boston-63775846633",
-    "archivedAt": "2026-10-28T15:28:10.475785+00:00"
-  },
-  {
     "id": "eb-2000672130198",
     "name": "Latin Dance Fundraiser with DJ Johnny Giraldo",
     "startDate": "2026-10-24T18:00:00-04:00",
@@ -5189,5 +5161,186 @@
     "_verified_notes": "JSON-LD matches (date + location checked)",
     "_verification_url": "https://www.eventbrite.com/e/latin-night-halloween-party-tickets-2003486422823",
     "archivedAt": "2026-11-04T17:07:02.270488+00:00"
+  },
+  {
+    "id": "6p0q976tmk0ub5vt98dhuugd5i_R20240803T233000@google.com",
+    "name": "💃 Guateque Cubano",
+    "startDate": "2026-10-03T19:30:00-04:00",
+    "endDate": "2026-10-03T23:30:00-04:00",
+    "dayOfWeek": "Saturday",
+    "location": "George Dilboy VFW Post 529, 351 Summer St, Somerville, MA 02144, USA",
+    "lat": 42.393693,
+    "lng": -71.119445,
+    "description": "Cuban social on the first Saturday of each month. Usually includes a 30-60 min lesson at the start, followed by open dancing.\n\n<b>Price</b>\n$18\n\n<b>Organized by Guateque Cubano</b>\nFacebook: https://www.facebook.com/bostonguateque/\n\n\n---\nManaged by Una Bulla\nhttps://www.unabulla.com/boston",
+    "url": "https://www.unabulla.com/boston",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$18",
+    "recurring": true,
+    "source": "unabulla-cuban-boston",
+    "recurrences": [
+      "2026-10-03T19:30:00-04:00",
+      "2026-11-07T19:30:00-05:00"
+    ],
+    "_verified_at": "2026-11-04T17:10:44.315659+00:00",
+    "_verified_status": "reachable_only",
+    "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
+    "_verification_url": "https://www.unabulla.com/boston",
+    "archivedAt": "2026-11-11T17:09:00.407228+00:00",
+    "reactivatedAt": "2026-09-04T18:51:08.466915+00:00",
+    "urls": [
+      "https://www.facebook.com/bostonguateque/"
+    ]
+  },
+  {
+    "id": "fiesta-20261106-agave-mexican-grill-cantina-marlborough",
+    "name": "Salsa & Bachata Social w/ Fiesta Dance Co",
+    "startDate": "2026-11-06T00:00:00-05:00",
+    "endDate": "2026-11-06T00:00:00-05:00",
+    "dayOfWeek": "Friday",
+    "location": "Agave Mexican Grill & Cantina, 197A Boston Post Rd W, Marlborough, MA 01752",
+    "lat": 42.3404499,
+    "lng": -71.5909618,
+    "description": "Salsa & Bachata social hosted by Fiesta Dance Company at Agave Mexican Grill & Cantina.\n\nOrganized by Fiesta Dance Company\nWebsite: https://fiestadancecompany.com/upcoming-socials\nInstagram: https://www.instagram.com/fiestadancecompany/",
+    "url": "https://fiestadancecompany.com/upcoming-socials",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": null,
+    "recurring": false,
+    "source": "fiesta-dance-company",
+    "_verified_at": "2026-11-04T17:10:46.479122+00:00",
+    "_verified_status": "reachable_only",
+    "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
+    "_verification_url": "https://fiestadancecompany.com/upcoming-socials",
+    "archivedAt": "2026-11-11T17:09:00.407228+00:00"
+  },
+  {
+    "id": "eb-2003938011537",
+    "name": "Calele & the Global Soul - Berklee CAF Show",
+    "startDate": "2026-11-03T22:00:00-05:00",
+    "endDate": "2026-11-03T23:00:00-05:00",
+    "dayOfWeek": "Tuesday",
+    "location": "160 Massachusetts Ave, 160 Massachusetts Avenue, Boston, MA 02115, Boston, MA",
+    "lat": 42.3460483,
+    "lng": -71.0868774,
+    "description": "Expect to be taken on a journey - to feel, cry, dance, and celebrate!  We will start with a small jazz band and end with a salsa big band!\n\nOrganizer: Carolina Perez",
+    "url": "https://www.eventbrite.com/e/calele-the-global-soul-berklee-caf-show-tickets-2003938011537",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": false,
+    "source": "eventbrite-boston-latin",
+    "_big_event_reviewed": true,
+    "_verified_at": "2026-11-04T17:10:47.171443+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
+    "_verification_url": "https://www.eventbrite.com/e/calele-the-global-soul-berklee-caf-show-tickets-2003938011537",
+    "archivedAt": "2026-11-11T17:09:00.407228+00:00"
+  },
+  {
+    "id": "7g93rlpnln7ut6ptekeu6la7oc@google.com",
+    "name": "TARDEO Salsa & Bachata",
+    "startDate": "2026-11-08T20:00:00+00:00",
+    "endDate": "2026-11-09T01:00:00+00:00",
+    "dayOfWeek": "Sunday",
+    "location": "40 Western Ave, Allston, MA 02134",
+    "lat": 42.3635017,
+    "lng": -71.1346873,
+    "description": "Price: Early bird 17.49",
+    "url": "https://posh.vip/e/tardeo-salsa-bachata-copy",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "From $17.49",
+    "recurring": false,
+    "source": "sensualeros-boston",
+    "_location_override": "40 Western Ave, Allston, MA 02134",
+    "_verified_at": "2026-11-04T17:10:48.126195+00:00",
+    "_verified_status": "reachable_only",
+    "_verified_notes": "Page accessible, no JSON-LD found — date/location NOT verified",
+    "_verification_url": "https://posh.vip/e/tardeo-salsa-bachata-copy",
+    "archivedAt": "2026-11-11T17:09:00.407228+00:00"
+  },
+  {
+    "id": "dantes-salsa-20261106-0",
+    "name": "Dante's Salsa Inferno Nov 6th Salsa/Bachata Social!",
+    "startDate": "2026-11-06T21:00:00-05:00",
+    "endDate": "2026-11-07T01:00:00-05:00",
+    "dayOfWeek": "Friday",
+    "location": "The Dante Alighieri Society of Massachusetts, 41 Hampshire St, Cambridge, MA 02139-1547",
+    "lat": 42.3679,
+    "lng": -71.0885,
+    "description": "Dante's Salsa Social is a unique and energetic night of MUSIC, DANCE, and COMMUNITY! Get ready to heat up the dance floor! The Dante Alighieri has plenty of dance space, its own p",
+    "url": "https://www.facebook.com/events/1122442303475207/",
+    "styles": [
+      "salsa",
+      "bachata"
+    ],
+    "cost": "$20",
+    "recurring": false,
+    "source": "dantes-salsa",
+    "_big_event_reviewed": true,
+    "_verified_at": "2026-11-04T17:10:48.876878+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "Facebook preview matches (date checked); by Dante's Salsa Inferno and 3 others",
+    "_verification_url": "https://www.facebook.com/events/1122442303475207/",
+    "archivedAt": "2026-11-11T17:09:00.407228+00:00"
+  },
+  {
+    "id": "eb-2003688552398",
+    "name": "Salsa Mixer with SHPE Boston X Draper LatinX",
+    "startDate": "2026-11-06T18:00:00-05:00",
+    "endDate": "2026-11-06T20:00:00-05:00",
+    "dayOfWeek": "Friday",
+    "location": "Lili Latin Dance, 423 West Broadway, #Suite 202, Boston, MA 02127, Boston, MA",
+    "lat": 42.336527,
+    "lng": -71.047731,
+    "description": "Join SHPE Boston and Draper LatinX in person for a casual, fun salsa social & workshop mixer at Lili Latin Dance studio.\n\nOrganizer: SHPE Boston",
+    "url": "https://www.eventbrite.com/e/salsa-mixer-with-shpe-boston-x-draper-latinx-tickets-2003688552398",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "$10",
+    "recurring": false,
+    "source": "eventbrite-boston-latin",
+    "_big_event_reviewed": true,
+    "_verified_at": "2026-11-04T17:10:51.062533+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
+    "_verification_url": "https://www.eventbrite.com/e/salsa-mixer-with-shpe-boston-x-draper-latinx-tickets-2003688552398",
+    "archivedAt": "2026-11-11T17:09:00.407228+00:00"
+  },
+  {
+    "id": "eb-2003943635358",
+    "name": "TREMONT NIGHTS",
+    "startDate": "2026-11-07T22:00:00-05:00",
+    "endDate": "2026-11-08T02:00:00-05:00",
+    "dayOfWeek": "Saturday",
+    "location": "Reunion BBQ, 439 Tremont Street, Boston, MA 02116, Boston, MA",
+    "lat": 42.3468371,
+    "lng": -71.0691398,
+    "description": "Boston’s best Afrobeats, R&B, hip-hop, and salsa all on one dance floor. • VIP tables available • 21+ • South End.\n\nOrganizer: Reunion BBQ",
+    "url": "https://www.eventbrite.com/e/tremont-nights-tickets-2003943635358",
+    "styles": [
+      "salsa",
+      "other"
+    ],
+    "cost": "$15",
+    "recurring": false,
+    "source": "eventbrite-boston-latin",
+    "urls": [
+      "https://posh.vip/e/tremont-nights-afrobeat-4"
+    ],
+    "_big_event_reviewed": true,
+    "_verified_at": "2026-11-04T17:10:51.401753+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD matches (date + location checked)",
+    "_verification_url": "https://www.eventbrite.com/e/tremont-nights-tickets-2003943635358",
+    "archivedAt": "2026-11-11T17:09:00.407228+00:00"
   }
 ]

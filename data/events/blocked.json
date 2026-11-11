@@ -559,5 +559,16 @@
     "blocked_notes": "At Ekko Bar & Lounge in Holyoke, Western MA, about 90 miles from Boston.",
     "location": "Ekko Bar & Lounge, 268 Race St, Holyoke, MA 01040",
     "block_key": "holyokes biggest dominican bachata party at ekko bar lounge la casa de la bachata|ekko bar lounge 268 race st holyoke ma 01040"
+  },
+  {
+    "id": "eb-com-36d8ed1c",
+    "name": "Free Latin Dance Workout Class",
+    "source": "eastboston-events",
+    "blocked_reason": "East Boston Social Center weekly Latin dance workout — a fitness class, no social dancing.",
+    "blocked_category": "not_dance",
+    "blocked_at": "2026-11-11T17:09:57.574939+00:00",
+    "blocked_notes": "East Boston Social Center weekly Latin dance workout — a fitness class, no social dancing.",
+    "location": "68 Central Square, East Boston",
+    "block_key": "free latin dance workout class|68 central square east boston"
   }
 ]

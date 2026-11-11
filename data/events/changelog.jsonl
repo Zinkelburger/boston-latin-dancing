@@ -1815,3 +1815,93 @@
 {"ts": "2026-11-04T17:10:07.344430+00:00", "action": "review_answer", "event_id": "g13k4natfbetqv05625k8fio24@google.com", "details": "new_event: no_link_yet An old-school reggaeton party night at CocoMango Speakeasy in Cambridge belongs, but searches found no organizer page and there were no link leads."}
 {"ts": "2026-11-04T17:10:17.395738+00:00", "action": "reject", "event_id": "7q22smr59cb6lgiuu2j51e021g@google.com", "details": "no link found; asked again if its source lists it again"}
 {"ts": "2026-11-04T17:10:17.401139+00:00", "action": "review_answer", "event_id": "7q22smr59cb6lgiuu2j51e021g@google.com", "details": "new_event: no_link_yet A 2000s reggaeton (perreo) party night at West End Johnnie's belongs, but searches found no organizer page for Nov 13 (only an unrelated May 2026 2000s pop night) and there were no link leads."}
+{"ts": "2026-11-11T17:08:52.830434+00:00", "action": "quarantine_new", "event_id": "5AD13808-1AA4-48F6-B428-CD2907EA13FA", "details": ""}
+{"ts": "2026-11-11T17:08:54.242241+00:00", "action": "merge_archived_series", "event_id": "C77130B0-73C6-4597-9875-A786F4EA78D4", "details": "folded into active q9s2qgclfo8p1qb31j41a6lj5g@google.com"}
+{"ts": "2026-11-11T17:08:54.373688+00:00", "action": "quarantine_new", "event_id": "F8546DCA-D814-4EA6-A6EA-368F8ED815A7", "details": ""}
+{"ts": "2026-11-11T17:08:54.684188+00:00", "action": "quarantine_new", "event_id": "eb-com-36d8ed1c", "details": ""}
+{"ts": "2026-11-11T17:08:54.851114+00:00", "action": "quarantine_new", "event_id": "eb-2004550613847", "details": ""}
+{"ts": "2026-11-11T17:08:54.939538+00:00", "action": "quarantine_new", "event_id": "eb-2004471430006", "details": ""}
+{"ts": "2026-11-11T17:08:55.685307+00:00", "action": "quarantine_new", "event_id": "eb-2004507651345", "details": ""}
+{"ts": "2026-11-11T17:08:55.910083+00:00", "action": "quarantine_new", "event_id": "eb-2004618058576", "details": ""}
+{"ts": "2026-11-11T17:08:56.299669+00:00", "action": "quarantine_new", "event_id": "fiesta-6444ba7d8e34", "details": ""}
+{"ts": "2026-11-11T17:08:56.590701+00:00", "action": "pending_review", "event_id": "noise-boston-fb-20261121-0", "details": "review dup of C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5: word_overlap(0/2)+within_24h+same_location+same_day"}
+{"ts": "2026-11-11T17:08:56.891291+00:00", "action": "quarantine_new", "event_id": "posh-callao-salsa-y-cocteles-se-vino-diciembre", "details": ""}
+{"ts": "2026-11-11T17:08:57.161202+00:00", "action": "quarantine_new", "event_id": "posh-bachata-brunch-club-ladies-brunch", "details": ""}
+{"ts": "2026-11-11T17:08:58.183183+00:00", "action": "quarantine_new", "event_id": "57a2o1clvd299m04div3t6oho8@google.com", "details": ""}
+{"ts": "2026-11-11T17:08:58.446698+00:00", "action": "quarantine_new", "event_id": "7q22smr59cb6lgiuu2j51e021g@google.com", "details": ""}
+{"ts": "2026-11-11T17:08:59.446825+00:00", "action": "quarantine_new", "event_id": "klkfmrr1v9ub3eir6msikr3t1k@google.com", "details": ""}
+{"ts": "2026-11-11T17:08:59.709139+00:00", "action": "quarantine_new", "event_id": "kvub2gaj2g8rshotb95qo0r654@google.com", "details": ""}
+{"ts": "2026-11-11T17:08:59.795623+00:00", "action": "pending_review", "event_id": "tsbj84e62nu3nadprqpgb7m0tc@google.com", "details": "review dup of 5984F5C6-9A2D-454E-AE0B-B201FC78B814: word_overlap(0/3)+within_24h+same_location+same_day"}
+{"ts": "2026-11-11T17:08:59.982963+00:00", "action": "quarantine_new", "event_id": "ad7gega86tudkuisb4co60maa0@google.com", "details": ""}
+{"ts": "2026-11-11T17:09:00.136623+00:00", "action": "quarantine_new", "event_id": "651f36mtdo6i6500r2cdd5bph4@google.com", "details": ""}
+{"ts": "2026-11-11T17:09:00.407561+00:00", "action": "archive", "event_id": "6p0q976tmk0ub5vt98dhuugd5i_R20240803T233000@google.com", "details": ""}
+{"ts": "2026-11-11T17:09:00.407844+00:00", "action": "archive", "event_id": "fiesta-20261106-agave-mexican-grill-cantina-marlborough", "details": ""}
+{"ts": "2026-11-11T17:09:00.407937+00:00", "action": "archive", "event_id": "eb-2003938011537", "details": ""}
+{"ts": "2026-11-11T17:09:00.407999+00:00", "action": "archive", "event_id": "7g93rlpnln7ut6ptekeu6la7oc@google.com", "details": ""}
+{"ts": "2026-11-11T17:09:00.408070+00:00", "action": "archive", "event_id": "dantes-salsa-20261106-0", "details": ""}
+{"ts": "2026-11-11T17:09:00.408135+00:00", "action": "archive", "event_id": "eb-2003688552398", "details": ""}
+{"ts": "2026-11-11T17:09:00.408183+00:00", "action": "archive", "event_id": "eb-2003943635358", "details": ""}
+{"ts": "2026-11-11T17:09:52.490949+00:00", "action": "add", "event_id": "5AD13808-1AA4-48F6-B428-CD2907EA13FA", "details": ""}
+{"ts": "2026-11-11T17:09:52.494860+00:00", "action": "approve", "event_id": "5AD13808-1AA4-48F6-B428-CD2907EA13FA", "details": ""}
+{"ts": "2026-11-11T17:09:52.500521+00:00", "action": "edit", "event_id": "5AD13808-1AA4-48F6-B428-CD2907EA13FA", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\", \"bachata\"]}"}
+{"ts": "2026-11-11T17:09:52.506290+00:00", "action": "review_answer", "event_id": "5AD13808-1AA4-48F6-B428-CD2907EA13FA", "details": "new_event: approve DJ Clave salsa/bachata social at Cantab Underground, 738 Mass Ave Cambridge; regular recurring social night."}
+{"ts": "2026-11-11T17:09:55.346152+00:00", "action": "add", "event_id": "F8546DCA-D814-4EA6-A6EA-368F8ED815A7", "details": ""}
+{"ts": "2026-11-11T17:09:55.353867+00:00", "action": "approve", "event_id": "F8546DCA-D814-4EA6-A6EA-368F8ED815A7", "details": ""}
+{"ts": "2026-11-11T17:09:55.362999+00:00", "action": "edit", "event_id": "F8546DCA-D814-4EA6-A6EA-368F8ED815A7", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\", \"bachata\"]}"}
+{"ts": "2026-11-11T17:09:55.367830+00:00", "action": "review_answer", "event_id": "F8546DCA-D814-4EA6-A6EA-368F8ED815A7", "details": "new_event: approve DJ Clave salsa/bachata social at Rumba y Timbal studio, 7 Temple St Cambridge; distinct from Havana Club Saturday night."}
+{"ts": "2026-11-11T17:09:57.582846+00:00", "action": "block", "event_id": "eb-com-36d8ed1c", "details": "not_dance: East Boston Social Center weekly Latin dance workout \u2014 a fitness class, no social dancing."}
+{"ts": "2026-11-11T17:09:57.592304+00:00", "action": "review_answer", "event_id": "eb-com-36d8ed1c", "details": "new_event: not_dance East Boston Social Center weekly Latin dance workout \u2014 a fitness class, no social dancing."}
+{"ts": "2026-11-11T17:10:00.015828+00:00", "action": "add", "event_id": "eb-2004550613847", "details": ""}
+{"ts": "2026-11-11T17:10:00.027356+00:00", "action": "approve", "event_id": "eb-2004550613847", "details": ""}
+{"ts": "2026-11-11T17:10:00.047009+00:00", "action": "edit", "event_id": "eb-2004550613847", "details": "{\"_big_event_reviewed\": true}"}
+{"ts": "2026-11-11T17:10:00.054814+00:00", "action": "review_answer", "event_id": "eb-2004550613847", "details": "new_event: approve Latin club night at Venu (100 Warrenton St) with reggaeton, salsa, bachata, merengue; regular club night."}
+{"ts": "2026-11-11T17:10:03.419708+00:00", "action": "add", "event_id": "p34gjp7nq434hggn74v0bpep54@google.com", "details": ""}
+{"ts": "2026-11-11T17:10:03.423984+00:00", "action": "approve", "event_id": "p34gjp7nq434hggn74v0bpep54@google.com", "details": ""}
+{"ts": "2026-11-11T17:10:03.431893+00:00", "action": "edit", "event_id": "p34gjp7nq434hggn74v0bpep54@google.com", "details": "{\"_big_event_reviewed\": true, \"special\": true, \"styles\": [\"salsa\", \"bachata\"]}"}
+{"ts": "2026-11-11T17:10:03.436656+00:00", "action": "review_answer", "event_id": "p34gjp7nq434hggn74v0bpep54@google.com", "details": "new_event: approve 6th annual salsa/bachata Thanksgiving Eve party at Dante Alighieri Society, Cambridge; branded annual one-off."}
+{"ts": "2026-11-11T17:10:06.951879+00:00", "action": "add", "event_id": "eb-2004507651345", "details": ""}
+{"ts": "2026-11-11T17:10:06.957456+00:00", "action": "approve", "event_id": "eb-2004507651345", "details": ""}
+{"ts": "2026-11-11T17:10:06.968300+00:00", "action": "edit", "event_id": "eb-2004507651345", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\"]}"}
+{"ts": "2026-11-11T17:10:06.980073+00:00", "action": "review_answer", "event_id": "eb-2004507651345", "details": "new_event: approve NYE dance party at Reunion BBQ (439 Tremont St) with R&B, salsa and Afrobeat; mixed but includes salsa dancing, holiday bar night."}
+{"ts": "2026-11-11T17:10:09.937250+00:00", "action": "add", "event_id": "eb-2004618058576", "details": ""}
+{"ts": "2026-11-11T17:10:09.951280+00:00", "action": "approve", "event_id": "eb-2004618058576", "details": ""}
+{"ts": "2026-11-11T17:10:09.977894+00:00", "action": "edit", "event_id": "eb-2004618058576", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\"]}"}
+{"ts": "2026-11-11T17:10:09.990346+00:00", "action": "review_answer", "event_id": "eb-2004618058576", "details": "new_event: approve Reunion BBQ club night mixing Afrobeats, R&B, hip-hop and salsa on one dance floor; regular bar night."}
+{"ts": "2026-11-11T17:10:32.961589+00:00", "action": "add", "event_id": "fiesta-6444ba7d8e34", "details": ""}
+{"ts": "2026-11-11T17:10:32.965928+00:00", "action": "approve", "event_id": "fiesta-6444ba7d8e34", "details": ""}
+{"ts": "2026-11-11T17:10:32.974441+00:00", "action": "edit", "event_id": "fiesta-6444ba7d8e34", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\", \"bachata\"]}"}
+{"ts": "2026-11-11T17:10:32.982584+00:00", "action": "review_answer", "event_id": "fiesta-6444ba7d8e34", "details": "new_event: approve Fiesta Dance Co holiday salsa/bachata social Dec 12 at Sol de Mexico; address from organizer's Locations page. No start time listed."}
+{"ts": "2026-11-11T17:10:35.901717+00:00", "action": "add", "event_id": "posh-callao-salsa-y-cocteles-se-vino-diciembre", "details": ""}
+{"ts": "2026-11-11T17:10:35.908286+00:00", "action": "approve", "event_id": "posh-callao-salsa-y-cocteles-se-vino-diciembre", "details": ""}
+{"ts": "2026-11-11T17:10:35.921390+00:00", "action": "edit", "event_id": "posh-callao-salsa-y-cocteles-se-vino-diciembre", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\"]}"}
+{"ts": "2026-11-11T17:10:35.932406+00:00", "action": "review_answer", "event_id": "posh-callao-salsa-y-cocteles-se-vino-diciembre", "details": "new_event: approve Salsa DJ night at La Fonda Colombiana, East Boston, Nov 14; description says from 8:30 PM."}
+{"ts": "2026-11-11T17:10:39.012918+00:00", "action": "add", "event_id": "posh-bachata-brunch-club-ladies-brunch", "details": ""}
+{"ts": "2026-11-11T17:10:39.017220+00:00", "action": "approve", "event_id": "posh-bachata-brunch-club-ladies-brunch", "details": ""}
+{"ts": "2026-11-11T17:10:39.028501+00:00", "action": "edit", "event_id": "posh-bachata-brunch-club-ladies-brunch", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"bachata\", \"salsa\"]}"}
+{"ts": "2026-11-11T17:10:39.033443+00:00", "action": "review_answer", "event_id": "posh-bachata-brunch-club-ladies-brunch", "details": "new_event: approve Bachata Brunch Club dance brunch at Grace by Nia, Seaport; recurring series, Thanksgiving ladies edition."}
+{"ts": "2026-11-11T17:10:42.674982+00:00", "action": "add", "event_id": "57a2o1clvd299m04div3t6oho8@google.com", "details": ""}
+{"ts": "2026-11-11T17:10:42.679851+00:00", "action": "approve", "event_id": "57a2o1clvd299m04div3t6oho8@google.com", "details": ""}
+{"ts": "2026-11-11T17:10:42.685329+00:00", "action": "edit", "event_id": "57a2o1clvd299m04div3t6oho8@google.com", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"salsa\", \"bachata\"]}"}
+{"ts": "2026-11-11T17:10:42.690828+00:00", "action": "review_answer", "event_id": "57a2o1clvd299m04div3t6oho8@google.com", "details": "new_event: approve Tamb\u00f3 Salsa lesson + salsa/bachata social, 35 Hampshire St Cambridge; regular social."}
+{"ts": "2026-11-11T17:10:58.243111+00:00", "action": "reject", "event_id": "7q22smr59cb6lgiuu2j51e021g@google.com", "details": "no link found; asked again if its source lists it again"}
+{"ts": "2026-11-11T17:10:58.249149+00:00", "action": "review_answer", "event_id": "7q22smr59cb6lgiuu2j51e021g@google.com", "details": "new_event: no_link_yet Reggaeton (perreo) club night at West End Johnnie's belongs, but web searches found no organizer page for Nov 13 and there are no link leads."}
+{"ts": "2026-11-11T17:11:14.781163+00:00", "action": "reject", "event_id": "klkfmrr1v9ub3eir6msikr3t1k@google.com", "details": "no link found; asked again if its source lists it again"}
+{"ts": "2026-11-11T17:11:14.787734+00:00", "action": "review_answer", "event_id": "klkfmrr1v9ub3eir6msikr3t1k@google.com", "details": "new_event: no_link_yet Salsa workshop + social at St. Rose of Lima Hall, Chelsea belongs, but no organizer page found; link leads are unrelated organizers (Noche Latina is at Luna Fitness, not Chelsea)."}
+{"ts": "2026-11-11T17:11:18.436015+00:00", "action": "add", "event_id": "kvub2gaj2g8rshotb95qo0r654@google.com", "details": ""}
+{"ts": "2026-11-11T17:11:18.444647+00:00", "action": "approve", "event_id": "kvub2gaj2g8rshotb95qo0r654@google.com", "details": ""}
+{"ts": "2026-11-11T17:11:18.457721+00:00", "action": "edit", "event_id": "kvub2gaj2g8rshotb95qo0r654@google.com", "details": "{\"_big_event_reviewed\": true, \"styles\": [\"zouk\"]}"}
+{"ts": "2026-11-11T17:11:18.464136+00:00", "action": "review_answer", "event_id": "kvub2gaj2g8rshotb95qo0r654@google.com", "details": "new_event: approve Brazilian zouk social at Multicultural Arts Center (Cambridge), Tuesday night; regular social with FB event link."}
+{"ts": "2026-11-11T17:11:49.837898+00:00", "action": "reject", "event_id": "ad7gega86tudkuisb4co60maa0@google.com", "details": "no link found; asked again if its source lists it again"}
+{"ts": "2026-11-11T17:11:49.843458+00:00", "action": "review_answer", "event_id": "ad7gega86tudkuisb4co60maa0@google.com", "details": "new_event: no_link_yet No page for Nov 26 found: Luma pages say the Grove series runs July\u2013October only, salsaycontrol.com/events lists no Lawn on D date, the ma.to Nov 26 URL is 404, and Nov 26 is Thanksgiving, so this date is doubtful."}
+{"ts": "2026-11-11T17:12:06.834654+00:00", "action": "reject", "event_id": "651f36mtdo6i6500r2cdd5bph4@google.com", "details": "no link found; asked again if its source lists it again"}
+{"ts": "2026-11-11T17:12:06.841213+00:00", "action": "review_answer", "event_id": "651f36mtdo6i6500r2cdd5bph4@google.com", "details": "new_event: no_link_yet Rumbaland 8 party at El Barco (50 Dalton St) looks like a Latin dance party, but searches found no organizer page; the only lead is an unrelated Newton rumba class."}
+{"ts": "2026-11-11T17:12:10.460671+00:00", "action": "distinct_from", "event_id": "noise-boston-fb-20261121-0", "details": "pre-marked different from C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5"}
+{"ts": "2026-11-11T17:12:10.527749+00:00", "action": "add", "event_id": "noise-boston-fb-20261121-0", "details": ""}
+{"ts": "2026-11-11T17:12:10.532316+00:00", "action": "reject", "event_id": "noise-boston-fb-20261121-0", "details": "distinct event"}
+{"ts": "2026-11-11T17:12:10.537991+00:00", "action": "edit", "event_id": "noise-boston-fb-20261121-0", "details": "{\"_big_event_reviewed\": true, \"special\": true, \"styles\": [\"salsa\", \"bachata\"]}"}
+{"ts": "2026-11-11T17:12:10.543089+00:00", "action": "review_answer", "event_id": "noise-boston-fb-20261121-0", "details": "possible_duplicate: different Live-band salsa/bachata party at PKL, 120 Emerson St (Ruben Rodr\u00edguez, Laura Rouge, DJ Syco), 9 PM; a different event from Lili Latin Dance's Saz\u00f3n Saturday studio social, 6\u201310 PM at 423 W Broadway."}
+{"ts": "2026-11-11T17:12:32.671077+00:00", "action": "reject", "event_id": "tsbj84e62nu3nadprqpgb7m0tc@google.com", "details": "no link found; asked again if its source lists it again"}
+{"ts": "2026-11-11T17:12:32.674312+00:00", "action": "review_answer", "event_id": "tsbj84e62nu3nadprqpgb7m0tc@google.com", "details": "possible_duplicate: no_link_yet Colombian party at La F\u00e1brica Central, 450 Mass Ave, is a different event from Havana Bachata Thursdays at 288 Green St, but searches found no organizer page, the La F\u00e1brica site returns 403, and none of the leads are for this event."}
+{"ts": "2026-11-11T17:12:35.611739+00:00", "action": "review_answer", "event_id": "zouk-bos-fb", "details": "facebook_signal: not_an_event 2026-11-11 is the post's own timestamp; the text promotes an unspecified upcoming zouk night before Thanksgiving, not a dance on Nov 11."}
+{"ts": "2026-11-11T17:12:39.565915+00:00", "action": "edit", "event_id": "lous-c1cfd134", "details": "{\"_big_event_reviewed\": true}"}
+{"ts": "2026-11-11T17:12:39.571508+00:00", "action": "review_answer", "event_id": "lous-c1cfd134", "details": "big_event: no Regular tango lesson + milonga-style night at Lou's with a single DJ; not a big event."}
