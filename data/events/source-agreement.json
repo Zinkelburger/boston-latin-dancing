@@ -1,13 +1,44 @@
 {
-  "checked_at": "2026-11-11T17:09:41.304500+00:00",
+  "checked_at": "2026-11-23T21:53:10.829897+00:00",
   "totals": {
-    "events": 31,
-    "with_multiple_sources": 7,
-    "disagreements": 0,
-    "location_agreed": 16,
-    "location_unknown": 15
+    "events": 27,
+    "with_multiple_sources": 8,
+    "disagreements": 1,
+    "location_agreed": 12,
+    "location_unknown": 14
   },
-  "disagreements": [],
+  "disagreements": [
+    {
+      "event_id": "eb-2003488878167",
+      "event_name": "GIRLS LOVE BACHATA",
+      "our_location": "525 Market St, Lowell, MA 01852",
+      "our_date": "2026-11-25",
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://www.eventbrite.com/e/girls-love-bachata-tickets-2003488878167",
+          "location": "Cafeto, 1018 Gorham Street, Lowell, MA 01852, Lowell, MA",
+          "date": "2026-11-25",
+          "instant": "2026-11-25T20:00:00-05:00",
+          "via": "json-ld",
+          "city_level": false,
+          "error": null
+        }
+      ],
+      "location": {
+        "verdict": "disagree",
+        "notes": [
+          "eventbrite.com/e/girls-love-bachata-tickets-2 (json-ld): disagree — 2.3km apart"
+        ]
+      },
+      "date": {
+        "verdict": "agree",
+        "notes": [
+          "eventbrite.com/e/girls-love-bachata-tickets-2 (json-ld): says 2026-11-25"
+        ]
+      }
+    }
+  ],
   "checked": [
     {
       "event_id": "a37202a6a3b3ec4c12d49d8e184bab76048a3b2e@dance-calendar",
@@ -43,7 +74,7 @@
       "event_id": "m493k99gsroqpbockbf2e5cgi7@google.com",
       "event_name": "Kiz Thursday",
       "our_location": "Moves & Vibes Dancing Academy, 44 5th St, Cambridge, MA 02141, EE. UU.",
-      "our_date": "2026-11-12",
+      "our_date": "2026-11-26",
       "source_count": 2,
       "claims": [
         {
@@ -78,17 +109,17 @@
       "event_id": "_6crjic1k6co68e1o71h30opp6dhj4d36ccsj4p1i6krm2php74oj8eb175hm2c9m81i62rj3ckmm6obccln68obi_R20260616T220000@google.com",
       "event_name": "SUSHI CON SALSA",
       "our_location": "11 William E Mullins Way, Boston, MA 02118",
-      "our_date": "2026-11-17",
+      "our_date": "2026-12-15",
       "source_count": 2,
       "claims": [
         {
           "url": "https://ma.to/venue/shoreleavebos",
-          "location": "Shore Leave, Boston",
-          "date": "2026-11-12",
-          "instant": "2026-11-12T20:00:00.000-05:00",
-          "via": "json-ld",
+          "location": null,
+          "date": null,
+          "instant": null,
+          "via": null,
           "city_level": false,
-          "error": null
+          "error": "no structured data"
         },
         {
           "url": "https://www.eventbrite.com/e/sushi-con-salsa-dance-sessions-vol1-tickets-1988719477492",
@@ -101,23 +132,19 @@
         }
       ],
       "location": {
-        "verdict": "agree",
-        "notes": [
-          "ma.to/venue/shoreleavebos (json-ld): agree — 243m apart"
-        ]
+        "verdict": "unknown",
+        "notes": []
       },
       "date": {
         "verdict": "unknown",
-        "notes": [
-          "recurring series — upstream dates not compared"
-        ]
+        "notes": []
       }
     },
     {
       "event_id": "4qc656kur2gocnolf5ns78ag18@google.com",
       "event_name": "Egleston Park Summer Social",
       "our_location": "Egleston Square Peace Garden, 3129 Washington St, Jamaica Plain, MA 02130, USA",
-      "our_date": "2026-11-15",
+      "our_date": "2026-12-20",
       "source_count": 1,
       "claims": [
         {
@@ -147,7 +174,7 @@
       "event_id": "phfsfa6ctj6jq4nikphf3mql0l@google.com",
       "event_name": "The Timba Messenger at Wally's ",
       "our_location": "Wally's Cafe Jazz Club, 427 Massachusetts Ave, Boston, MA 02118, EE. UU.",
-      "our_date": "2026-11-12",
+      "our_date": "2026-11-26",
       "source_count": 1,
       "claims": [
         {
@@ -173,7 +200,7 @@
       "event_id": "8EDCCA4B-FCFA-4CD9-ABA3-8074966ACFCB",
       "event_name": "Bachata Room ",
       "our_location": "La Fabrica , 450 Massachusetts Ave, Cambridge, MA 02139, United States",
-      "our_date": "2026-11-11",
+      "our_date": "2026-11-25",
       "source_count": 1,
       "claims": [
         {
@@ -199,7 +226,7 @@
       "event_id": "4BACCA44-811C-4F7E-99D8-7AC8DA46D5CC",
       "event_name": "Bachata Sensual Mondays @ Havana Club",
       "our_location": "Havana Club, 288 Green St, Cambridge, MA  02139, United States",
-      "our_date": "2026-11-16",
+      "our_date": "2026-11-23",
       "source_count": 1,
       "claims": [
         {
@@ -225,7 +252,7 @@
       "event_id": "D7362ECA-A6A7-4528-B752-3CBD6141CE81",
       "event_name": "Salsa/Bachata Tuesdays @ Havana",
       "our_location": "Havana Club, 288 Green St, Cambridge, MA  02139, United States",
-      "our_date": "2026-11-10",
+      "our_date": "2026-11-24",
       "source_count": 1,
       "claims": [
         {
@@ -251,7 +278,7 @@
       "event_id": "5984F5C6-9A2D-454E-AE0B-B201FC78B814",
       "event_name": "Havana Bachata Thursdays",
       "our_location": "288 Green St, Central Sq, Cambridge",
-      "our_date": "2026-11-12",
+      "our_date": "2026-11-26",
       "source_count": 2,
       "claims": [
         {
@@ -295,21 +322,25 @@
       "claims": [
         {
           "url": "https://buenavibradance.com/socials",
-          "location": null,
-          "date": null,
-          "instant": null,
-          "via": null,
+          "location": "Buena Vibra Dance Studio, 75 Pleasant Street, Suite 125, Malden, MA 02148",
+          "date": "2026-12-05",
+          "instant": "2026-12-05T21:00-05:00",
+          "via": "json-ld",
           "city_level": false,
-          "error": "no structured data"
+          "error": null
         }
       ],
       "location": {
-        "verdict": "unknown",
-        "notes": []
+        "verdict": "agree",
+        "notes": [
+          "buenavibradance.com/socials (json-ld): agree — same street number (125, 75)"
+        ]
       },
       "date": {
         "verdict": "unknown",
-        "notes": []
+        "notes": [
+          "recurring series — upstream dates not compared"
+        ]
       }
     },
     {
@@ -321,7 +352,7 @@
       "claims": [
         {
           "url": "https://www.facebook.com/events/1702605367827796/1735471407874525/",
-          "location": "Cambridge",
+          "location": "Cambridge, MA",
           "date": "2026-09-06",
           "instant": null,
           "via": "facebook-preview",
@@ -346,7 +377,7 @@
       "event_id": "C59D1989-7F95-4EE8-AD81-EA4DA41A8AD5",
       "event_name": "Sazón Saturday",
       "our_location": "Lili Latin Dance, 423 W Broadway, Ste 202, South Boston, MA 02127",
-      "our_date": "2026-11-21",
+      "our_date": "2026-12-19",
       "source_count": 2,
       "claims": [
         {
@@ -381,7 +412,7 @@
       "event_id": "2ar83v9imef7dkgkonbfvc5t4q@google.com",
       "event_name": "Senior Zouk Social",
       "our_location": "Multicultural Arts Center, 41 Second St, Cambridge, MA 02141, USA",
-      "our_date": "2026-11-10",
+      "our_date": "2026-12-08",
       "source_count": 1,
       "claims": [
         {
@@ -421,7 +452,7 @@
         },
         {
           "url": "https://www.facebook.com/events/1393051752744141/",
-          "location": "Boston",
+          "location": "Boston, MA",
           "date": "2026-08-28",
           "instant": null,
           "via": "facebook-preview",
@@ -456,7 +487,7 @@
       "event_id": "sensualeros-boston-series-a227772d8b85",
       "event_name": "Friday Night Bachata/Salsa @ Havana Club",
       "our_location": "288 Green St, Central Sq, Cambridge, MA",
-      "our_date": "2026-11-13",
+      "our_date": "2026-11-27",
       "source_count": 1,
       "claims": [
         {
@@ -508,7 +539,7 @@
       "event_id": "sensualeros-boston-series-2db8e232ec42",
       "event_name": "Saturday Night Bachata/Salsa @ Havana Club",
       "our_location": "288 Green St, Central Sq, Cambridge, MA",
-      "our_date": "2026-11-14",
+      "our_date": "2026-11-28",
       "source_count": 1,
       "claims": [
         {
@@ -598,96 +629,6 @@
       }
     },
     {
-      "event_id": "eb-2002462772056",
-      "event_name": "Dance the Night Away! Salsa & More!",
-      "our_location": "Nahant Country Club Estate, 280 Nahant Road, Nahant, MA 01908, Nahant, MA",
-      "our_date": "2026-11-14",
-      "source_count": 1,
-      "claims": [
-        {
-          "url": "https://www.eventbrite.com/e/dance-the-night-away-salsa-more-tickets-2002462772056",
-          "location": "Nahant Country Club Estate, 280 Nahant Road, Nahant, MA 01908, Nahant, MA",
-          "date": "2026-11-14",
-          "instant": "2026-11-14T18:00:00-05:00",
-          "via": "json-ld",
-          "city_level": false,
-          "error": null
-        }
-      ],
-      "location": {
-        "verdict": "agree",
-        "notes": [
-          "eventbrite.com/e/dance-the-night-away-salsa-m (json-ld): agree — same address text"
-        ]
-      },
-      "date": {
-        "verdict": "agree",
-        "notes": [
-          "eventbrite.com/e/dance-the-night-away-salsa-m (json-ld): says 2026-11-14"
-        ]
-      }
-    },
-    {
-      "event_id": "dancefam-2700",
-      "event_name": "El Patio del Tipico",
-      "our_location": "Dorchester Brewing Company, 1250 Massachusetts Avenue, Boston, MA 02125",
-      "our_date": "2026-11-15",
-      "source_count": 1,
-      "claims": [
-        {
-          "url": "https://dancefam.org/event/2700",
-          "location": "Dorchester Brewing Company, 1250 Massachusetts Avenue, Boston, Massachusetts, 02125",
-          "date": "2026-11-15",
-          "instant": "2026-11-15T22:00:00.000Z",
-          "via": "json-ld",
-          "city_level": false,
-          "error": null
-        }
-      ],
-      "location": {
-        "verdict": "agree",
-        "notes": [
-          "dancefam.org/event/2700 (json-ld): agree — same street number (1250)"
-        ]
-      },
-      "date": {
-        "verdict": "agree",
-        "notes": [
-          "dancefam.org/event/2700 (json-ld): says 2026-11-15"
-        ]
-      }
-    },
-    {
-      "event_id": "a0gs5jl2q68tecul9dmk1hnomo@google.com",
-      "event_name": "Fuego Thursdays",
-      "our_location": "Sanctuary Cultural Arts Center, 82 Main St, Maynard, MA 01754",
-      "our_date": "2026-11-12",
-      "source_count": 1,
-      "claims": [
-        {
-          "url": "https://sanctuarymaynard.com/shows/fuego-thursdays-dance-night-reggaeton-salsa-bachata-cumbia-november-12-2026-747557/",
-          "location": "Sanctuary, 82 Main Street, Maynard, MA, 01754",
-          "date": "2026-11-12",
-          "instant": "2026-11-13T00:00:00.000Z",
-          "via": "json-ld",
-          "city_level": false,
-          "error": null
-        }
-      ],
-      "location": {
-        "verdict": "agree",
-        "notes": [
-          "sanctuarymaynard.com/shows/fuego-thursdays-da (json-ld): agree — same street number (82)"
-        ]
-      },
-      "date": {
-        "verdict": "agree",
-        "notes": [
-          "sanctuarymaynard.com/shows/fuego-thursdays-da (json-ld): says 2026-11-12"
-        ]
-      }
-    },
-    {
       "event_id": "eb-2003488878167",
       "event_name": "GIRLS LOVE BACHATA",
       "our_location": "525 Market St, Lowell, MA 01852",
@@ -696,7 +637,7 @@
       "claims": [
         {
           "url": "https://www.eventbrite.com/e/girls-love-bachata-tickets-2003488878167",
-          "location": "EKOS, 525 Martket st, Lowell, MA 01852, Lowell, MA",
+          "location": "Cafeto, 1018 Gorham Street, Lowell, MA 01852, Lowell, MA",
           "date": "2026-11-25",
           "instant": "2026-11-25T20:00:00-05:00",
           "via": "json-ld",
@@ -705,9 +646,9 @@
         }
       ],
       "location": {
-        "verdict": "agree",
+        "verdict": "disagree",
         "notes": [
-          "eventbrite.com/e/girls-love-bachata-tickets-2 (json-ld): agree — same street number (525)"
+          "eventbrite.com/e/girls-love-bachata-tickets-2 (json-ld): disagree — 2.3km apart"
         ]
       },
       "date": {
@@ -718,39 +659,9 @@
       }
     },
     {
-      "event_id": "q9s2qgclfo8p1qb31j41a6lj5g@google.com",
-      "event_name": "Saborcito @ El Barco - Salsa/Bachata Night",
-      "our_location": "El Barco | Tacos x Tequilas",
-      "our_date": "2026-11-19",
-      "source_count": 1,
-      "claims": [
-        {
-          "url": "https://www.eventbrite.com/e/saborcito-el-barco-salsabachata-night-tickets-2003987041186",
-          "location": "El Barco | Tacos x Tequilas, 50 Dalton Street, Boston, MA 02115, Boston, MA",
-          "date": "2026-11-19",
-          "instant": "2026-11-19T20:00:00-05:00",
-          "via": "json-ld",
-          "city_level": false,
-          "error": null
-        }
-      ],
-      "location": {
-        "verdict": "agree",
-        "notes": [
-          "eventbrite.com/e/saborcito-el-barco-salsabach (json-ld): agree — same address text"
-        ]
-      },
-      "date": {
-        "verdict": "agree",
-        "notes": [
-          "eventbrite.com/e/saborcito-el-barco-salsabach (json-ld): says 2026-11-19"
-        ]
-      }
-    },
-    {
-      "event_id": "posh-bacharengue-salsa-party-2026-12-14-1-0",
+      "event_id": "ihoma87cihrvu5vpoke7d1kmt8@google.com",
       "event_name": "Bachata Salsa Fest",
-      "our_location": "Joey’s Bar & Grill., 1936 Revere Beach Pkwy, Everett, MA 02149",
+      "our_location": "Joey’s Bar and Grill, 1936 Revere Beach Parkway, Everett, MA 02149",
       "our_date": "2026-12-13",
       "source_count": 1,
       "claims": [
@@ -771,62 +682,6 @@
       "date": {
         "verdict": "unknown",
         "notes": []
-      }
-    },
-    {
-      "event_id": "fpp104hn8iava1dm2gs4ednaa8@google.com",
-      "event_name": "Salsa at Lou's",
-      "our_location": "Lou’s, 13A Brattle St",
-      "our_date": "2026-11-11",
-      "source_count": 1,
-      "claims": [
-        {
-          "url": "https://www.wearelous.com/lous-live/latin-night-november",
-          "location": null,
-          "date": "2026-11-11",
-          "instant": "2026-11-11T19:00:00-0500",
-          "via": "json-ld",
-          "city_level": false,
-          "error": null
-        }
-      ],
-      "location": {
-        "verdict": "unknown",
-        "notes": []
-      },
-      "date": {
-        "verdict": "agree",
-        "notes": [
-          "wearelous.com/lous-live/latin-night-november (json-ld): says 2026-11-11"
-        ]
-      }
-    },
-    {
-      "event_id": "lous-c1cfd134",
-      "event_name": "TANGO DANCE NIGHT",
-      "our_location": "Lou's, 13 Brattle St, Cambridge, MA 02138",
-      "our_date": "2026-11-18",
-      "source_count": 1,
-      "claims": [
-        {
-          "url": "https://www.wearelous.com/lous-live/tango-night",
-          "location": null,
-          "date": "2026-11-18",
-          "instant": "2026-11-18T19:00:00-0500",
-          "via": "json-ld",
-          "city_level": false,
-          "error": null
-        }
-      ],
-      "location": {
-        "verdict": "unknown",
-        "notes": []
-      },
-      "date": {
-        "verdict": "agree",
-        "notes": [
-          "wearelous.com/lous-live/tango-night (json-ld): says 2026-11-18"
-        ]
       }
     },
     {
@@ -860,11 +715,11 @@
       }
     },
     {
-      "event_id": "eb-2004325565722",
-      "event_name": "Boston's Biggest Dominican Party at Macumba Latina | La Casa de la Bachata",
-      "our_location": "Macumba Latina, 477 River Street, Boston, MA 02126, Boston, MA",
+      "event_id": "372347E7-C86B-4346-807D-E8103E80926E",
+      "event_name": "La Casa de la Bachata | Boston's Biggest Dominican Party at Macumba Latina",
+      "our_location": "Macumba Latina, 477 River Street, Boston, MA 02126, US",
       "our_date": "2027-01-16",
-      "source_count": 2,
+      "source_count": 3,
       "claims": [
         {
           "url": "https://www.eventbrite.com/e/bostons-biggest-dominican-party-at-macumba-latina-la-casa-de-la-bachata-tickets-2004325565722",
@@ -873,6 +728,15 @@
           "instant": "2027-01-16T21:00:00-05:00",
           "via": "json-ld",
           "city_level": false,
+          "error": null
+        },
+        {
+          "url": "https://facebook.com/events/s/bostons-biggest-dominican-part/2118182902154399/",
+          "location": "Boston, MA",
+          "date": "2027-01-16",
+          "instant": null,
+          "via": "facebook-preview",
+          "city_level": true,
           "error": null
         },
         {
@@ -888,28 +752,101 @@
       "location": {
         "verdict": "agree",
         "notes": [
-          "eventbrite.com/e/bostons-biggest-dominican-pa (json-ld): agree — same address text"
+          "eventbrite.com/e/bostons-biggest-dominican-pa (json-ld): agree — same street number (477)",
+          "facebook.com/events/s/bostons-biggest-dominic (facebook-preview): agree — same address text"
         ]
       },
       "date": {
         "verdict": "agree",
         "notes": [
-          "eventbrite.com/e/bostons-biggest-dominican-pa (json-ld): says 2027-01-16"
+          "eventbrite.com/e/bostons-biggest-dominican-pa (json-ld): says 2027-01-16",
+          "facebook.com/events/s/bostons-biggest-dominic (facebook-preview): says 2027-01-16"
         ]
       }
     },
     {
-      "event_id": "eb-2004067665335",
-      "event_name": "Cuban & Caleña Salsa Night",
-      "our_location": "Capricho Colombian Steakhouse, 1627 Beacon Street, #2, Brookline, MA 02445, Brookline, MA",
-      "our_date": "2026-11-13",
+      "event_id": "5AD13808-1AA4-48F6-B428-CD2907EA13FA",
+      "event_name": "Salsa & Bachata Social at the Cantab Underground – Cambridge, MA",
+      "our_location": "Cantab Lounge",
+      "our_date": "2026-12-27",
       "source_count": 1,
       "claims": [
         {
-          "url": "https://www.eventbrite.com/e/cuban-calena-salsa-night-tickets-2004067665335",
-          "location": "Capricho Colombian Steakhouse, 1627 Beacon Street, #2, Brookline, MA 02445, Brookline, MA",
-          "date": "2026-11-13",
-          "instant": "2026-11-13T21:00:00-05:00",
+          "url": "https://facebook.com/events/s/salsa-bachata-social-at-the-ca/3241987436189466/",
+          "location": "Cambridge, MA",
+          "date": "2026-12-27",
+          "instant": null,
+          "via": "facebook-preview",
+          "city_level": true,
+          "error": null
+        }
+      ],
+      "location": {
+        "verdict": "agree",
+        "notes": [
+          "facebook.com/events/s/salsa-bachata-social-at (facebook-preview): agree — 82m apart"
+        ]
+      },
+      "date": {
+        "verdict": "agree",
+        "notes": [
+          "facebook.com/events/s/salsa-bachata-social-at (facebook-preview): says 2026-12-27"
+        ]
+      }
+    },
+    {
+      "event_id": "p34gjp7nq434hggn74v0bpep54@google.com",
+      "event_name": "6th Annual Salsa & Bachata Thanksgiving Eve Party",
+      "our_location": "Dante Alighieri Society of Massachusetts, 41 Hampshire St, Cambridge, MA",
+      "our_date": "2026-11-25",
+      "source_count": 2,
+      "claims": [
+        {
+          "url": "https://www.eventbrite.com/e/6th-annual-salsa-bachata-thanksgiving-eve-party-tickets-2004471430006",
+          "location": "Dante Alighieri Society of Massachusetts, 41 Hampshire Street, Cambridge, MA 02139, Cambridge, MA",
+          "date": "2026-11-25",
+          "instant": "2026-11-25T21:00:00-05:00",
+          "via": "json-ld",
+          "city_level": false,
+          "error": null
+        },
+        {
+          "url": "https://facebook.com/events/s/6th-annual-salsa-bachata-thank/4708621392713637/",
+          "location": "Cambridge, MA",
+          "date": "2026-11-25",
+          "instant": null,
+          "via": "facebook-preview",
+          "city_level": true,
+          "error": null
+        }
+      ],
+      "location": {
+        "verdict": "agree",
+        "notes": [
+          "eventbrite.com/e/6th-annual-salsa-bachata-tha (json-ld): agree — same street number (41)",
+          "facebook.com/events/s/6th-annual-salsa-bachat (facebook-preview): agree — same address text"
+        ]
+      },
+      "date": {
+        "verdict": "agree",
+        "notes": [
+          "eventbrite.com/e/6th-annual-salsa-bachata-tha (json-ld): says 2026-11-25",
+          "facebook.com/events/s/6th-annual-salsa-bachat (facebook-preview): says 2026-11-25"
+        ]
+      }
+    },
+    {
+      "event_id": "eb-2004507651345",
+      "event_name": "Midnight in Glamour | New Year’s Eve at Reunion After Dark",
+      "our_location": "Reunion BBQ, Reunion BBQ, 439 Tremont St, Boston, MA 02116, Boston, MA",
+      "our_date": "2026-12-31",
+      "source_count": 1,
+      "claims": [
+        {
+          "url": "https://www.eventbrite.com/e/midnight-in-glamour-new-years-eve-at-reunion-after-dark-tickets-2004507651345",
+          "location": "Reunion BBQ, Reunion BBQ, 439 Tremont St, Boston, MA 02116, Boston, MA",
+          "date": "2026-12-31",
+          "instant": "2026-12-31T22:00:00-05:00",
           "via": "json-ld",
           "city_level": false,
           "error": null
@@ -918,44 +855,40 @@
       "location": {
         "verdict": "agree",
         "notes": [
-          "eventbrite.com/e/cuban-calena-salsa-night-tic (json-ld): agree — same address text"
+          "eventbrite.com/e/midnight-in-glamour-new-year (json-ld): agree — same address text"
         ]
       },
       "date": {
         "verdict": "agree",
         "notes": [
-          "eventbrite.com/e/cuban-calena-salsa-night-tic (json-ld): says 2026-11-13"
+          "eventbrite.com/e/midnight-in-glamour-new-year (json-ld): says 2026-12-31"
         ]
       }
     },
     {
-      "event_id": "k6dj5dqtonr2hmojphs0lpfsok@google.com",
-      "event_name": "Hedwige's Birthday Gala",
-      "our_location": "735 William T Morrissey Blvd, Dorchester, MA 02122",
-      "our_date": "2026-11-21",
+      "event_id": "fiesta-6444ba7d8e34",
+      "event_name": "Salsa & Bachata Social w/ Fiesta Dance Co",
+      "our_location": "350 E Main St, Milford, MA 01757",
+      "our_date": "2026-12-12",
       "source_count": 1,
       "claims": [
         {
-          "url": "https://www.eventbrite.com/e/hedwige-birthday-gala-an-all-black-dance-dinner-affair-tickets-2003686510290",
-          "location": "Luna Fitness Club, 735 William T Morrissey Boulevard, Boston, MA 02122, Boston, MA",
-          "date": "2026-11-21",
-          "instant": "2026-11-21T20:00:00-05:00",
-          "via": "json-ld",
+          "url": "https://fiestadancecompany.com/upcoming-socials",
+          "location": null,
+          "date": null,
+          "instant": null,
+          "via": null,
           "city_level": false,
-          "error": null
+          "error": "no structured data"
         }
       ],
       "location": {
-        "verdict": "agree",
-        "notes": [
-          "eventbrite.com/e/hedwige-birthday-gala-an-all (json-ld): agree — same street number (735)"
-        ]
+        "verdict": "unknown",
+        "notes": []
       },
       "date": {
-        "verdict": "agree",
-        "notes": [
-          "eventbrite.com/e/hedwige-birthday-gala-an-all (json-ld): says 2026-11-21"
-        ]
+        "verdict": "unknown",
+        "notes": []
       }
     }
   ]

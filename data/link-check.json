@@ -1,9 +1,9 @@
 {
-  "checked_at": "2026-11-11T17:13:16.038956+00:00",
+  "checked_at": "2026-11-23T22:02:03.466502+00:00",
   "scope": "live",
   "totals": {
-    "urls": 68,
-    "ok": 67,
+    "urls": 64,
+    "ok": 63,
     "broken": 0,
     "unverifiable": 1
   },
@@ -85,16 +85,6 @@
       ]
     },
     {
-      "url": "https://dancefam.org/event/2700",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: El Patio del Tipico"
-      ]
-    },
-    {
       "url": "https://dancefam.org/event/2764",
       "status": 200,
       "final_url": null,
@@ -115,13 +105,33 @@
       ]
     },
     {
-      "url": "https://facebook.com/events/s/rumba-y-clave-salsa-bachata-so/1517837043556634/",
+      "url": "https://facebook.com/events/s/6th-annual-salsa-bachata-thank/4708621392713637/",
       "status": 200,
-      "final_url": "https://www.facebook.com/events/s/rumba-y-clave-salsa-bachata-so/1517837043556634/",
+      "final_url": "https://www.facebook.com/events/s/6th-annual-salsa-bachata-thank/4708621392713637/",
       "verdict": "ok",
-      "note": "live (Rumba y Clave: Salsa & Bachata Social)",
+      "note": "live (6th Annual Salsa & Bachata Thanksgiving Party)",
       "appears_in": [
-        "event: Rumba y Clave: Salsa & Bachata Social"
+        "event: 6th Annual Salsa & Bachata Thanksgiving Eve Party (alt)"
+      ]
+    },
+    {
+      "url": "https://facebook.com/events/s/bostons-biggest-dominican-part/2118182902154399/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/bostons-biggest-dominican-part/2118182902154399/",
+      "verdict": "ok",
+      "note": "live (Boston's Biggest Dominican Party at Macumba Latina | La Casa)",
+      "appears_in": [
+        "event: La Casa de la Bachata | Boston's Biggest Dominican Party at Macumba Latina (alt)"
+      ]
+    },
+    {
+      "url": "https://facebook.com/events/s/lili-latin-dance-presents-sazo/1143087098264251/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/lili-latin-dance-presents-sazo/1143087098264251/",
+      "verdict": "ok",
+      "note": "live (Lili Latin Dance Presents: Sazon Saturday Special Food Drive)",
+      "appears_in": [
+        "event: Lili Latin Dance Presents: Sazon Saturday Special Food Drive"
       ]
     },
     {
@@ -132,6 +142,16 @@
       "note": "live (Salsa & Bachata Social at the Cantab Underground – Cambridge)",
       "appears_in": [
         "event: Salsa & Bachata Social at the Cantab Underground – Cambridge, MA"
+      ]
+    },
+    {
+      "url": "https://facebook.com/events/s/salsa-y-control-nov-22nd-vinyl/2046963219351697/",
+      "status": 200,
+      "final_url": "https://www.facebook.com/events/s/salsa-y-control-nov-22nd-vinyl/2046963219351697/",
+      "verdict": "ok",
+      "note": "live (Salsa y Control Nov 22nd Vinyl Jam Social)",
+      "appears_in": [
+        "event: Salsa y Control Nov 22nd Vinyl Jam Social"
       ]
     },
     {
@@ -236,43 +256,23 @@
       ]
     },
     {
-      "url": "https://posh.vip/e/bachata-brunch-club-ladies-brunch",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Bachata Brunch Club: Ladies Brunch"
-      ]
-    },
-    {
       "url": "https://posh.vip/e/boston-bachata-party-macumba-latina-la-casa-de-la-bachata",
       "status": 200,
       "final_url": null,
       "verdict": "ok",
       "note": "HTTP 200",
       "appears_in": [
-        "event: Boston's Biggest Dominican Party at Macumba Latina | La Casa de la Bachata (alt)"
+        "event: La Casa de la Bachata | Boston's Biggest Dominican Party at Macumba Latina (alt)"
       ]
     },
     {
-      "url": "https://posh.vip/e/callao-salsa-y-cocteles-se-vino-diciembre",
+      "url": "https://posh.vip/e/noise-tribute-to-colombian-salsa",
       "status": 200,
       "final_url": null,
       "verdict": "ok",
       "note": "HTTP 200",
       "appears_in": [
-        "event: CALLAO - SALSA Y COCTELES (Se Vino  Diciembre)🎄"
-      ]
-    },
-    {
-      "url": "https://sanctuarymaynard.com/shows/fuego-thursdays-dance-night-reggaeton-salsa-bachata-cumbia-november-12-2026-747557/",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Fuego Thursdays"
+        "event: Noise: Tribute to Colombian Salsa"
       ]
     },
     {
@@ -297,16 +297,6 @@
       ]
     },
     {
-      "url": "https://www.eventbrite.com/e/18-latin-night-venu-tickets-2004550613847",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: (18+) LATIN NIGHT @ VENU"
-      ]
-    },
-    {
       "url": "https://www.eventbrite.com/e/6th-annual-salsa-bachata-thanksgiving-eve-party-tickets-2004471430006",
       "status": 200,
       "final_url": null,
@@ -327,33 +317,23 @@
       ]
     },
     {
+      "url": "https://www.eventbrite.com/e/bachata-de-cabaret-salsa-sin-limites-tickets-2005109522558",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Bachata de Cabaret & Salsa Sin Limites"
+      ]
+    },
+    {
       "url": "https://www.eventbrite.com/e/bostons-biggest-dominican-party-at-macumba-latina-la-casa-de-la-bachata-tickets-2004325565722",
       "status": 200,
       "final_url": null,
       "verdict": "ok",
       "note": "HTTP 200",
       "appears_in": [
-        "event: Boston's Biggest Dominican Party at Macumba Latina | La Casa de la Bachata"
-      ]
-    },
-    {
-      "url": "https://www.eventbrite.com/e/cuban-calena-salsa-night-tickets-2004067665335",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Cuban & Caleña Salsa Night"
-      ]
-    },
-    {
-      "url": "https://www.eventbrite.com/e/dance-the-night-away-salsa-more-tickets-2002462772056",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Dance the Night Away! Salsa & More!"
+        "event: La Casa de la Bachata | Boston's Biggest Dominican Party at Macumba Latina"
       ]
     },
     {
@@ -387,13 +367,23 @@
       ]
     },
     {
-      "url": "https://www.eventbrite.com/e/hedwige-birthday-gala-an-all-black-dance-dinner-affair-tickets-2003686510290",
+      "url": "https://www.eventbrite.com/e/la-parranda-navidena-con-rumbaland-tickets-2005097774419",
       "status": 200,
       "final_url": null,
       "verdict": "ok",
       "note": "HTTP 200",
       "appears_in": [
-        "event: Hedwige's Birthday Gala"
+        "event: La Parranda Navideña Con Rumbaland"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/mega-gitazo-salsa-gaitas-tickets-2005060338447",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Mega Gitazo - Salsa & Gaitas"
       ]
     },
     {
@@ -407,16 +397,6 @@
       ]
     },
     {
-      "url": "https://www.eventbrite.com/e/saborcito-el-barco-salsabachata-night-tickets-2003987041186",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: Saborcito @ El Barco - Salsa/Bachata Night"
-      ]
-    },
-    {
       "url": "https://www.eventbrite.com/e/sushi-con-salsa-dance-sessions-vol1-tickets-1988719477492",
       "status": 200,
       "final_url": null,
@@ -427,13 +407,33 @@
       ]
     },
     {
-      "url": "https://www.eventbrite.com/e/tremont-nights-tickets-2004618058576",
+      "url": "https://www.eventbrite.com/e/the-10th-annual-salsa-bachata-new-years-eve-gala-tickets-2005293748583",
       "status": 200,
       "final_url": null,
       "verdict": "ok",
       "note": "HTTP 200",
       "appears_in": [
-        "event: TREMONT NIGHTS"
+        "event: The 10th Annual Salsa & Bachata New Year's Eve Gala"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/together-a-night-of-gratitude-konpa-bachata-salsa-kizomba-and-more-tickets-2004981833637",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Together | A night of gratitude!"
+      ]
+    },
+    {
+      "url": "https://www.eventbrite.com/e/valentines-konpa-bachata-day-party-tickets-2004872776444",
+      "status": 200,
+      "final_url": null,
+      "verdict": "ok",
+      "note": "HTTP 200",
+      "appears_in": [
+        "event: Valentines konpa & bachata day party"
       ]
     },
     {
@@ -492,16 +492,6 @@
       ]
     },
     {
-      "url": "https://www.facebook.com/events/1369457536260810/",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "live (SALSA AND BACHATA LIVE IN BOSTON)",
-      "appears_in": [
-        "event: SALSA AND BACHATA LIVE IN BOSTON"
-      ]
-    },
-    {
       "url": "https://www.facebook.com/events/1393051752744141/",
       "status": 200,
       "final_url": null,
@@ -512,16 +502,6 @@
       ]
     },
     {
-      "url": "https://www.facebook.com/events/1471869821706702/",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "live (Boston Senior Zouk Social (11/17/2026))",
-      "appears_in": [
-        "event: Boston Senior Zouk Social"
-      ]
-    },
-    {
       "url": "https://www.facebook.com/events/1702605367827796/1735471407874525/",
       "status": 200,
       "final_url": null,
@@ -529,16 +509,6 @@
       "note": "live (Canceled Sept 13: Rueda in the Pahk!)",
       "appears_in": [
         "event: Rueda in the Pahk"
-      ]
-    },
-    {
-      "url": "https://www.facebook.com/events/1713106420245460/",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "live (Tambo Salsa/Bachata Social, Friday Nov 13th)",
-      "appears_in": [
-        "event: Tambo Salsa/Bachata Social"
       ]
     },
     {
@@ -573,13 +543,13 @@
       ]
     },
     {
-      "url": "https://www.instagram.com/smgaller/",
+      "url": "https://www.instagram.com/reel/DfnVlwdMWD6",
       "status": 200,
       "final_url": null,
       "verdict": "ok",
-      "note": "live (Sam Galler (@smgaller))",
+      "note": "live (GABY COTTER & THE TIMBA MESSENGERS on Instagram: \"let’s go d)",
       "appears_in": [
-        "event: TANGO DANCE NIGHT (artist)"
+        "event: Timba Messengers at the Beehive"
       ]
     },
     {
@@ -684,23 +654,13 @@
       ]
     },
     {
-      "url": "https://www.wearelous.com/lous-live/latin-night-november",
+      "url": "https://www.wearelous.com/lous-live/latin-night-december",
       "status": 200,
       "final_url": null,
       "verdict": "ok",
       "note": "HTTP 200",
       "appears_in": [
-        "event: Salsa at Lou's"
-      ]
-    },
-    {
-      "url": "https://www.wearelous.com/lous-live/tango-night",
-      "status": 200,
-      "final_url": null,
-      "verdict": "ok",
-      "note": "HTTP 200",
-      "appears_in": [
-        "event: TANGO DANCE NIGHT"
+        "event: Latin DANCE NIGHT – kristalis y las nenas del swing"
       ]
     }
   ]

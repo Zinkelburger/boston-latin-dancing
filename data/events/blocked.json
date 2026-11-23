@@ -570,5 +570,71 @@
     "blocked_notes": "East Boston Social Center weekly Latin dance workout — a fitness class, no social dancing.",
     "location": "68 Central Square, East Boston",
     "block_key": "free latin dance workout class|68 central square east boston"
+  },
+  {
+    "id": "eb-2005305394416",
+    "name": "$5 Bachata Class: Special Intro Class",
+    "source": "eventbrite-boston-latin",
+    "blocked_reason": "One-hour intro bachata class at Mango Studio, 3-4 PM, with no social dancing mentioned.",
+    "blocked_category": "class_only",
+    "blocked_at": "2026-11-23T21:53:39.120290+00:00",
+    "blocked_notes": "One-hour intro bachata class at Mango Studio, 3-4 PM, with no social dancing mentioned.",
+    "location": "Mango Studio, 112 Bishop Allen Dr, Cambridge, MA 02139, Cambridge, MA",
+    "block_key": "5 bachata class special intro class|mango studio 112 bishop allen dr cambridge ma 02139 cambridge ma"
+  },
+  {
+    "id": "eb-2004742838797",
+    "name": "CUBAN BODY MOVEMENT & TIMBA FUSION WORKSHOP - NOV. 29",
+    "source": "eventbrite-boston-latin",
+    "blocked_reason": "Two-hour Cuban body movement / timba fusion workshop with Elaine (El Bonche), with no social mentioned.",
+    "blocked_category": "class_only",
+    "blocked_at": "2026-11-23T21:53:41.841211+00:00",
+    "blocked_notes": "Two-hour Cuban body movement / timba fusion workshop with Elaine (El Bonche), with no social mentioned.",
+    "location": "620 Massachusetts Ave, 620 Massachusetts Avenue, Cambridge, MA 02139, Cambridge, MA",
+    "block_key": "cuban body movement timba fusion workshop nov 29|620 massachusetts ave 620 massachusetts avenue cambridge ma 02139 cambridge ma"
+  },
+  {
+    "id": "a1hnveilij14qvcesd6oondn8o@google.com",
+    "name": "December Latin Dance Night at Lou's | Lessons & Social Dancing",
+    "source": "sensualeros-boston",
+    "blocked_reason": "Same Lou's Cambridge Latin Night on Wed Dec 9, 7-11 PM, as the Lou's Live listing (lesson, DJ Angel Javier, Kristalis band).",
+    "blocked_category": "duplicate_source",
+    "blocked_at": "2026-11-23T21:53:45.112714+00:00",
+    "blocked_notes": "Same Lou's Cambridge Latin Night on Wed Dec 9, 7-11 PM, as the Lou's Live listing (lesson, DJ Angel Javier, Kristalis band).",
+    "location": "Lou’s, 13A Brattle St, Cambridge, MA 02138",
+    "block_key": "sensualeros-boston::december latin dance night at lous lessons social dancing|lou s 13a brattle st cambridge ma 02138"
+  },
+  {
+    "id": "eb-2004288329347",
+    "name": "Navidad en Mi Tierra: Celebrate the Art, Music, and Flavors of Our Heritage",
+    "source": "eventbrite-boston-latin",
+    "blocked_reason": "Daytime Venezuelan Christmas cultural fair at a Hyde Park cafe/gift shop (art, crafts, food, raffles, toy drive, guest musicians); the page mentions no dancing or dance floor.",
+    "blocked_category": "not_dance",
+    "blocked_at": "2026-11-23T21:54:06.202550+00:00",
+    "blocked_notes": "Daytime Venezuelan Christmas cultural fair at a Hyde Park cafe/gift shop (art, crafts, food, raffles, toy drive, guest musicians); the page mentions no dancing or dance floor.",
+    "location": "Essence of Thyme Cafe and Gift Shop (ETC), 1300 Hyde Park Avenue, Boston, MA 02136, Boston, MA",
+    "block_key": "navidad en mi tierra celebrate the art music and flavors of our heritage|essence of thyme cafe and gift shop etc 1300 hyde park avenue boston ma 02136 boston ma"
+  },
+  {
+    "id": "nlf-events-series-bachata-foundations-social-dancing",
+    "name": "Series: Bachata Foundations & Social Dancing",
+    "source": "nlf-events",
+    "blocked_reason": "A $205, 10-week bachata class series, Wednesdays 8-9 PM, Jan 13 to Mar 17; \"social dancing\" in the title means skills for the social floor, not an included social.",
+    "blocked_category": "class_only",
+    "blocked_at": "2026-11-23T21:54:22.839279+00:00",
+    "blocked_notes": "A $205, 10-week bachata class series, Wednesdays 8-9 PM, Jan 13 to Mar 17; \"social dancing\" in the title means skills for the social floor, not an included social.",
+    "location": "175 Richdale Ave, 175 Richdale Ave, Cambridge, MA 02140, USA",
+    "block_key": "series bachata foundations social dancing|175 richdale ave 175 richdale ave cambridge ma 02140 usa"
+  },
+  {
+    "id": "sensualeros-boston-series-aec8098210b6",
+    "name": "Bachata Foundations & Social Dancing (All levels) | Bachata Technique & Social Dancing (Intermediate)",
+    "source": "sensualeros-boston",
+    "blocked_reason": "Next Level Fusion's paid bachata class series ($200, 10 weeks, Wednesdays 8-9 and 9-10 PM); the organizer page describes only classes, with no open social.",
+    "blocked_category": "class_only",
+    "blocked_at": "2026-11-23T21:54:38.473580+00:00",
+    "blocked_notes": "Next Level Fusion's paid bachata class series ($200, 10 weeks, Wednesdays 8-9 and 9-10 PM); the organizer page describes only classes, with no open social.",
+    "location": "175 Richdale Ave, Cambridge, MA 02140",
+    "block_key": "bachata foundations social dancing all levels bachata technique social dancing intermediate|175 richdale ave cambridge ma 02140"
   }
 ]

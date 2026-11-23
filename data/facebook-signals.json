@@ -1,30 +1,26 @@
 {
   "bobas": {
-    "checked_at": "2026-11-11T12:02:18-05:00",
+    "checked_at": "2026-11-23T16:48:44-05:00",
     "source_url": "https://www.facebook.com/profile.php?id=61551665503735&sk=events",
     "status": "no_upcoming",
     "upcoming_events": [],
-    "latest_post": {
-      "text": "Boston Outdoor Bachata And Salsa created an event . Saturday, October 31, 2026 at 5:30 PM October 31 at 5:30 PM · Shared with This is a public event, so your post will be visible to anyone on Facebook. Mon, Nov 2 BOBAS Monday 6-9pm Hatch Shell on the Esplanade 51 people interested",
-      "dates": [
-        "2026-10-31",
-        "2026-11-02"
-      ]
-    },
+    "latest_post": null,
     "albums": [],
     "flyers": [],
-    "errors": []
+    "errors": [
+      "posts: chrome returned 0 bytes for https://www.facebook.com/profile.php?id=61551665503735 (exit 0); page did not render"
+    ]
   },
   "dantes-inferno-fb": {
-    "checked_at": "2026-11-11T12:04:00-05:00",
+    "checked_at": "2026-11-23T16:49:14-05:00",
     "source_url": "https://www.facebook.com/DantesSalsaInferno/events",
     "status": "no_upcoming",
     "upcoming_events": [],
     "latest_post": {
-      "text": "Dante's Salsa Inferno created an event . Monday, November 2, 2026 at 10:27 PM November 2 at 10:27 PM · Shared with This is a public event, so your post will be visible to anyone on Facebook. Fri, Nov 6 Dante's Salsa Inferno Nov 6th Salsa/Bachata Social! The Dante Alighieri Society of Massachusetts Dance · 158 people",
+      "text": "Dante's Salsa Inferno 5 days ago Wednesday, November 18, 2026 at 4:51 AM 5d · Shared with Public https://www.facebook.com/events/1688076783042161 Fri, Nov 20 Dante's Salsa Inferno Nov 20th Salsa/Bachata Social! The Dante Alighieri Society of Massachusetts Dance · 123 people",
       "dates": [
-        "2026-11-02",
-        "2026-11-06"
+        "2026-11-18",
+        "2026-11-20"
       ]
     },
     "albums": [
@@ -73,11 +69,17 @@
     "errors": []
   },
   "dantes-salsa": {
-    "checked_at": "2026-11-11T12:02:42-05:00",
+    "checked_at": "2026-11-23T16:48:58-05:00",
     "source_url": "https://www.facebook.com/FuegoyCandelaSalsa/events",
     "status": "no_upcoming",
     "upcoming_events": [],
-    "latest_post": null,
+    "latest_post": {
+      "text": "Fuego y Candela Salsa Socials created an event . 5 days ago Wednesday, November 18, 2026 at 4:45 AM 5d · Shared with This is a public event, so your post will be visible to anyone on Facebook. Fri, Nov 20 Dante's Salsa Inferno Nov 20th Salsa/Bachata Social! The Dante Alighieri Society of Massachusetts Dance · 123 people",
+      "dates": [
+        "2026-11-18",
+        "2026-11-20"
+      ]
+    },
     "albums": [
       {
         "title": "Fuego y Candela 15-Year Anniversary Salsa Extravaganza!",
@@ -105,29 +107,19 @@
         "dates": []
       }
     ],
-    "flyers": [
-      {
-        "text": "FUEGO Y CANDELA 2026 Schedule October 1oth- Saturday November 14th Saturday December 19th- Saturday *all dates are subject to change*",
-        "dates": [
-          "2026-10-10",
-          "2026-11-14",
-          "2026-12-19"
-        ]
-      }
-    ],
-    "errors": [
-      "posts: chrome timed out after 60s rendering https://www.facebook.com/FuegoyCandelaSalsa"
-    ]
+    "flyers": [],
+    "errors": []
   },
   "lowell-sitp": {
-    "checked_at": "2026-11-11T12:06:37-05:00",
+    "checked_at": "2026-11-23T16:50:49-05:00",
     "source_url": "https://www.facebook.com/LowellSITP/events",
     "status": "no_upcoming",
     "upcoming_events": [],
     "latest_post": {
       "text": "Lowell Salsa In The Park is with Metamovements Latin Dance Company and 4 others . Friday, July 24, 2026 at 1:02 PM July 24 · Shared with Public Thank you Lowell SITP! … See more +37",
       "dates": [
-        "2026-07-24"
+        "2026-07-24",
+        "2027-07-24"
       ]
     },
     "albums": [
@@ -146,21 +138,14 @@
     "errors": []
   },
   "noise-boston-fb": {
-    "checked_at": "2026-11-11T12:07:39-05:00",
+    "checked_at": "2026-11-23T16:51:28-05:00",
     "source_url": "https://www.facebook.com/noise.boston/events",
-    "status": "captured",
-    "upcoming_events": [
-      {
-        "name": "SALSA AND BACHATA LIVE IN BOSTON",
-        "date": "November 21, 2026",
-        "url": "https://www.facebook.com/events/1369457536260810/"
-      }
-    ],
+    "status": "no_upcoming",
+    "upcoming_events": [],
     "latest_post": {
-      "text": "Noise Boston created an event . a day ago Tuesday, November 10, 2026 at 7:18 AM 1d · Shared with This is a public event, so your post will be visible to anyone on Facebook. 0:00 / 0:42 Sat, Nov 21 at 9:00 PM EST SALSA AND BACHATA LIVE IN BOSTON Boston 1 person going",
+      "text": "Noise Boston is at PKL . 4 days ago Thursday, November 19, 2026 at 1:18 PM 4d · Boston, MA · Shared with Public ¡Noche de pura salsa en Boston! Ven a disfrutar en grande junto a Rubén Rodríguez y Laura Rouge, con la mejor música toda la noche a cargo de DJ Syco. L… See more 0:00 / 0:31",
       "dates": [
-        "2026-11-10",
-        "2026-11-21"
+        "2026-11-19"
       ]
     },
     "albums": [],
@@ -168,7 +153,7 @@
     "errors": []
   },
   "sabor-latino": {
-    "checked_at": "2026-11-11T12:05:46-05:00",
+    "checked_at": "2026-11-23T16:50:12-05:00",
     "source_url": "https://www.facebook.com/SaborLatinoBoston/events",
     "status": "no_upcoming",
     "upcoming_events": [],
@@ -226,18 +211,12 @@
     "errors": []
   },
   "tambo-salsa-fb": {
-    "checked_at": "2026-11-11T12:04:27-05:00",
+    "checked_at": "2026-11-23T16:49:31-05:00",
     "source_url": "https://www.facebook.com/Tambosalsa/events",
-    "status": "captured",
-    "upcoming_events": [
-      {
-        "name": "Tambo Salsa/Bachata Social, Friday Nov 13th",
-        "date": "November 13, 2026",
-        "url": "https://www.facebook.com/events/1713106420245460/"
-      }
-    ],
+    "status": "no_upcoming",
+    "upcoming_events": [],
     "latest_post": {
-      "text": "Tambó Salsa created an event . 3 days ago Sunday, November 8, 2026 at 11:53 AM 3d · Shared with This is a public event, so your post will be visible to anyone on Facebook. Fri, Nov 13 at 8:30 PM EST Tambo Salsa/Bachata Social, Friday Nov 13th Tambó Salsa 15 people interested",
+      "text": "Tambó Salsa created an event . Sunday, November 8, 2026 at 11:53 AM November 8 at 11:53 AM · Shared with This is a public event, so your post will be visible to anyone on Facebook. Fri, Nov 13 Tambo Salsa/Bachata Social, Friday Nov 13th Tambó Salsa 35 people interested",
       "dates": [
         "2026-11-08",
         "2026-11-13"
@@ -298,18 +277,12 @@
     "errors": []
   },
   "zouk-bos-fb": {
-    "checked_at": "2026-11-11T12:07:09-05:00",
+    "checked_at": "2026-11-23T16:51:10-05:00",
     "source_url": "https://www.facebook.com/profile.php?id=100090589803309&sk=events",
-    "status": "captured",
-    "upcoming_events": [
-      {
-        "name": "Boston Senior Zouk Social (11/17/2026)",
-        "date": "November 17, 2026",
-        "url": "https://www.facebook.com/events/1471869821706702/"
-      }
-    ],
+    "status": "no_upcoming",
+    "upcoming_events": [],
     "latest_post": {
-      "text": "Zouk BOS about an hour ago Wednesday, November 11, 2026 at 10:54 AM 1h · Shared with Public Get your zouk dancing in before the Thanksgiving holidays! This will be our only Senior Social for November, so come dance and connect B… See more 2",
+      "text": "Zouk BOS Wednesday, November 11, 2026 at 10:54 AM November 11 at 10:54 AM · Shared with Public Get your zouk dancing in before the Thanksgiving holidays! This will be our only Senior Social for November, so come dance and connect B… See more",
       "dates": [
         "2026-11-11"
       ]

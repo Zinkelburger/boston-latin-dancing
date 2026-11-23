@@ -5,5 +5,12 @@
     "signal": "post: Zouk BOS about an hour ago Wednesday, November 11, 2026 at 10:54 AM 1h · Shared with Public Get your zouk dancing in before the Thanksgiving holidays! This will",
     "note": "2026-11-11 is the post's own timestamp; the text promotes an unspecified upcoming zouk night before Thanksgiving, not a dance on Nov 11.",
     "at": "2026-11-11T17:12:35.601355+00:00"
+  },
+  {
+    "source_id": "lowell-sitp",
+    "date": "2027-07-24",
+    "signal": "post: Lowell Salsa In The Park is with Metamovements Latin Dance Company and 4 others . Friday, July 24, 2026 at 1:02 PM July 24 · Shared with Public Thank you Lowell",
+    "note": "The date is the post's own timestamp (Friday, July 24, 2026, a thank-you post) misread as 2027; it doesn't announce an event.",
+    "at": "2026-11-23T21:57:25.576786+00:00"
   }
 ]
