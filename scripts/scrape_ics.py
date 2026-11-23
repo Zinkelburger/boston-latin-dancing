@@ -23,11 +23,13 @@ from scraper_utils import (
     NY_TZ,
     ScrapeResult,
     detect_styles,
+    ended_series_path,
     extract_cost,
     fetch,
     make_event,
     run_scraper,
     scraper_argparser,
+    write_json,
 )
 
 DEFAULT_SOURCE_ID = "beatrice-calendar"
@@ -89,6 +91,69 @@ def _fix_rrule_until(rule_str: str, tz=NY_TZ) -> str:
         return "UNTIL=" + local.astimezone(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 
     return re.sub(r"UNTIL=(\d{8}T\d{6}|\d{8})(?![\dTZ])", _to_utc, rule_str)
+
+
+def _exdates(component) -> set[float]:
+    """Instants a calendar has struck from a series (EXDATE).
+
+    Deleting one night of a repeating Google Calendar event leaves the rule
+    alone and adds an EXDATE. Expanding the rule without them puts the deleted
+    night back: "Egleston Park Summer Social" was listed for Nov 15 after its
+    calendar had removed that date (2026-11-23).
+    """
+    raw = component.get("exdate")
+    if raw is None:
+        return set()
+    out: set[float] = set()
+    for group in raw if isinstance(raw, list) else [raw]:
+        for item in getattr(group, "dts", []):
+            dt = _ical_dt_to_datetime(item)
+            if dt is not None:
+                out.add(dt.timestamp())
+    return out
+
+
+def _series_rule(component, dtstart: datetime):
+    rule_str = component.get("rrule").to_ical().decode("utf-8")
+    rule_str = _fix_rrule_until(rule_str, tz=dtstart.tzinfo or NY_TZ)
+    return rrulestr(rule_str, dtstart=dtstart)
+
+
+def ended_series(ics_text: str, now: datetime | None = None) -> list[dict]:
+    """Series the calendar itself has closed: a repeating event whose rule is
+    bounded (UNTIL or COUNT) and has no night left.
+
+    The event list only says what is upcoming, so a series that ended simply
+    stops appearing in it — and the store keeps the nights it projected while
+    the rule was still open. These records are the calendar saying so
+    outright: ``{"id": <the VEVENT's UID>, "name", "lastDate"}``, written to
+    ``data/scraped/<source>-ended.json`` and applied by ingest.
+    """
+    cal = Calendar.from_ical(ics_text)
+    now = (now or datetime.now(timezone.utc)) - timedelta(days=1)
+    ended: list[dict] = []
+    for component in cal.walk():
+        if component.name != "VEVENT" or component.get("recurrence-id") is not None:
+            continue
+        rrule = component.get("rrule")
+        dtstart = _ical_dt_to_datetime(component.get("dtstart"))
+        if rrule is None or dtstart is None or not (rrule.get("UNTIL") or rrule.get("COUNT")):
+            continue
+        try:
+            rule = _series_rule(component, dtstart)
+            if rule.after(now, inc=True) is not None:
+                continue
+            struck = _exdates(component)
+            nights = [d if d.tzinfo else d.replace(tzinfo=dtstart.tzinfo or NY_TZ) for d in rule]
+        except Exception as e:
+            print(f"  RRULE error for '{component.get('summary')}': {e}")
+            continue
+        nights = [d for d in nights if d.timestamp() not in struck]
+        if nights and component.get("uid"):
+            ended.append({"id": str(component.get("uid")),
+                          "name": str(component.get("summary", "")),
+                          "lastDate": nights[-1].isoformat()})
+    return ended
 
 
 def _series_key(ev: dict) -> tuple[str, str, int, str]:
@@ -198,12 +263,13 @@ def parse_ics_feed(
         if rrule:
             try:
                 duration = (dtend - dtstart) if dtend else timedelta(hours=2)
-                rule_str = rrule.to_ical().decode("utf-8")
-                rule_str = _fix_rrule_until(rule_str, tz=dtstart.tzinfo or NY_TZ)
-                rule = rrulestr(rule_str, dtstart=dtstart)
+                rule = _series_rule(component, dtstart)
+                struck = _exdates(component)
                 for occ_start in rule.between(now, horizon, inc=True):
                     if occ_start.tzinfo is None:
                         occ_start = occ_start.replace(tzinfo=dtstart.tzinfo or NY_TZ)
+                    if occ_start.timestamp() in struck:
+                        continue
                     occurrences.append((occ_start, occ_start + duration))
             except Exception as e:
                 print(f"  RRULE error for '{summary}': {e}")
@@ -259,6 +325,10 @@ def fetch_source(source: dict) -> ScrapeResult:
         ics_text, source_id=source_id, collapse_series=bool(source.get("group_series")),
     )
     print(f"[{source_id}] Parsed {len(events)} future events")
+
+    ended = ended_series(ics_text)
+    write_json(ended_series_path(source_id), ended)
+    print(f"[{source_id}] {len(ended)} series the calendar has ended")
 
     with_coords = sum(1 for e in events if e.get("lat") and e.get("lng"))
     print(f"  {with_coords} with coordinates, {len(events) - with_coords} without")

@@ -1,7 +1,7 @@
 """Recurring series: collapsing per-date records into one pin, and rolling
 a stale series forward to its next night."""
 
-from datetime import datetime
+from datetime import date, datetime
 from typing import Optional
 
 from recurrence_utils import NY_TZ, parse_date
@@ -200,5 +200,41 @@ def roll_series_forward(ev: dict, today: datetime) -> bool:
     if end is not None:
         ev["endDate"] = eastern_iso(end + delta)
     ev["recurrences"] = [eastern_iso(d) for d in occurrences]
+    ev["dayOfWeek"] = weekday_of(ev["startDate"]) or ev.get("dayOfWeek")
+    return True
+
+
+def trim_series_after(ev: dict, last_day: date) -> bool:
+    """End a series on ``last_day`` (a Boston calendar day): drop every later
+    occurrence and leave startDate on its final night, so the record reads as
+    past and is archived like any other finished event. Returns True when
+    something changed.
+
+    Our occurrence list is a projection of the source's rule, taken when we
+    last saw it. When the organizer ends the series the projection has to end
+    with it: "Rueda in the Pahk" was closed on Nov 1 by its calendar (RRULE
+    UNTIL) and stayed on the map with Sundays through January (2026-11-23).
+    """
+    occurrences = occurrence_instants(ev)
+    if not occurrences:
+        return False
+    kept = [d for d in occurrences if d.astimezone(NY_TZ).date() <= last_day]
+    if len(kept) == len(occurrences):
+        return False
+    start = parse_aware(ev.get("startDate", "")) or occurrences[0]
+    end = parse_aware(ev.get("endDate", ""))
+    duration = end - start if end is not None and end >= start else None
+    if kept:
+        final = kept[-1]
+    else:
+        # Nothing we hold is that early: the last night is the source's, at
+        # the series' usual time of day.
+        local = start.astimezone(NY_TZ)
+        final = datetime.combine(last_day, local.time()).replace(tzinfo=NY_TZ)
+        kept = [final]
+    ev["startDate"] = eastern_iso(final)
+    if duration is not None:
+        ev["endDate"] = eastern_iso(final + duration)
+    ev["recurrences"] = [eastern_iso(d) for d in kept]
     ev["dayOfWeek"] = weekday_of(ev["startDate"]) or ev.get("dayOfWeek")
     return True

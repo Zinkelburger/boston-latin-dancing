@@ -66,6 +66,49 @@ REPORT_PATH = EVENTS_DIR / "verification-report.json"
 # The honest identity (with a contact address) — the same one the scrapers use.
 UA = {"User-Agent": DEV_UA}
 
+# A series' own page showing a night this long ago, and nothing since, is what
+# an ended or out-of-season series looks like from here. A calendar entry that
+# repeats forever keeps projecting it: "Egleston Park Summer Social" was listed
+# for Dec 20 in an outdoor garden while the organizer's last page was Sep 20
+# (2026-11-23). The age of the page is the only thing we can see, so it becomes
+# a question for the weekly review rather than a verdict.
+SERIES_PAGE_STALE_DAYS = 45
+# How long a reviewer's "checked, still running" stands before the page's age
+# is questioned again.
+SERIES_RUNNING_VALID_DAYS = 30
+
+
+def stale_series_page(event: dict, page_day: Optional[str],
+                      now: Optional[datetime] = None) -> Optional[tuple[str, str]]:
+    """(note, next listed occurrence) when a recurring series' own page is for
+    a night long past while we still list upcoming nights; None otherwise."""
+    if not page_day or not (event.get("recurring") or event.get("recurrences")):
+        return None
+    now = now or datetime.now(timezone.utc)
+    try:
+        page_date = datetime.fromisoformat(page_day[:10]).date()
+    except ValueError:
+        return None
+    today = now.astimezone(NY_TZ).date()
+    age = (today - page_date).days
+    if age <= SERIES_PAGE_STALE_DAYS:
+        return None
+    checked = parse_date(event.get("_series_running_checked_at") or "")
+    if checked is not None:
+        if checked.tzinfo is None:
+            checked = checked.replace(tzinfo=NY_TZ)
+        if now - checked <= timedelta(days=SERIES_RUNNING_VALID_DAYS):
+            return None
+    upcoming = sorted(
+        raw for raw in [event.get("startDate", "")] + list(event.get("recurrences") or [])
+        if (_ny_calendar_day(raw) or "") >= today.isoformat()
+    )
+    if not upcoming:
+        return None
+    return (f"series page is for {page_date.isoformat()}, {age} days ago, and shows nothing "
+            f"newer; we list it next on {_ny_calendar_day(upcoming[0])}", upcoming[0])
+
+
 ATTESTATION_STATUSES = {
     "confirmed",
     "cancelled",
@@ -369,6 +412,13 @@ def verify_direct(event: dict, url: str) -> dict:
                             issues.append("location_mismatch")
                             notes.append(f"location: source '{source_loc}' vs our '{event.get('location', '')}'")
 
+        stale = stale_series_page(event, _ny_calendar_day(source_start) if source_start else None)
+        if stale:
+            result["source_date"] = source_start
+            result["our_date"] = stale[1]
+            issues.append("series_page_stale")
+            notes.append(stale[0])
+
         if issues:
             # date_mismatch is the higher-stakes signal — surface it first.
             issues.sort(key=lambda s: 0 if s == "date_mismatch" else 1)
@@ -475,6 +525,12 @@ def verify_facebook_event(event: dict, url: str) -> dict:
                            f"by {details['organizer']}")
         return result
 
+    stale = stale_series_page(event, details["date"])
+    if stale:
+        result["status"] = "series_page_stale"
+        result["notes"] = stale[0]
+        result["our_date"] = stale[1]
+        return result
     result["status"] = "reachable_only"
     result["notes"] = (f"Event page live, upstream date {details['date']} — recurring series, "
                        f"not compared against our first occurrence")
@@ -741,7 +797,7 @@ def print_report(report: list[dict]) -> None:
         status_groups.setdefault(status, []).append(entry)
 
     status_order = [
-        "cancelled", "page_gone", "date_mismatch", "location_mismatch",
+        "cancelled", "page_gone", "date_mismatch", "location_mismatch", "series_page_stale",
         "needs_review", "needs_browser", "unreachable", "no_source", "unverifiable",
         "calendar_only", "reachable_only", "confirmed",
     ]
@@ -751,6 +807,7 @@ def print_report(report: list[dict]) -> None:
         "reachable_only": "REACHABLE ONLY (URL live, details unverified)",
         "location_mismatch": "LOCATION MISMATCH",
         "date_mismatch": "DATE MISMATCH",
+        "series_page_stale": "SERIES PAGE STALE (page is for a night long past)",
         "cancelled": "CANCELLED",
         "page_gone": "PAGE GONE (404)",
         "needs_review": "NEEDS REVIEW",

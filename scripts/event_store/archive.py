@@ -6,7 +6,8 @@ from typing import Optional
 from . import storage
 from .classify import enrich_event
 from .dedup import dedup_confidence, dedup_reason, log_dedup, merge_event
-from .occurrences import last_occurrence
+from .occurrences import last_occurrence, parse_aware
+from .urls import dropped_url_list, event_url_list, url_key
 from .storage import append_changelog, clear_stale_rejected, locked
 
 # Why a hand-archived event must stay archived even though its source still
@@ -16,9 +17,27 @@ from .storage import append_changelog, clear_stale_rejected, locked
 #              straight back onto the map by the next scrape of that listing.
 #   no_link    nobody could find a page for it, and its source may not publish
 #              without one; it returns once the source lists it with a link.
+#   ended      a series has finished or is out of season, but its source still
+#              lists it: "Egleston Park Summer Social" was a calendar entry
+#              repeating forever, so every scrape brought December dates in an
+#              outdoor garden back (2026-11-23). It returns when the source
+#              lists it with a link nobody had seen when it was archived (the
+#              new season's page), or after ENDED_HOLD_DAYS for another look.
 HOLD_CANCELLED = "cancelled"
 HOLD_NO_LINK = "no_link"
-ARCHIVE_HOLDS = (HOLD_CANCELLED, HOLD_NO_LINK)
+HOLD_ENDED = "ended"
+ARCHIVE_HOLDS = (HOLD_CANCELLED, HOLD_NO_LINK, HOLD_ENDED)
+ENDED_HOLD_DAYS = 120
+
+
+def ended_hold_lifts(archived: dict, incoming: dict, now: Optional[datetime] = None) -> bool:
+    """Whether a HOLD_ENDED series may come back for this incoming copy."""
+    seen = {url_key(u) for u in archived.get("_hold_seen_links") or []}
+    if any(url_key(u) not in seen for u in event_url_list(incoming)):
+        return True
+    archived_at = parse_aware(archived.get("archivedAt", ""))
+    now = now or datetime.now(timezone.utc)
+    return archived_at is None or now - archived_at > timedelta(days=ENDED_HOLD_DAYS)
 
 
 @locked
@@ -68,10 +87,14 @@ def archive_past_events() -> list[dict]:
 
 
 @locked
-def archive_event(event_id: str, reason: str = "", hold: Optional[str] = None) -> dict:
+def archive_event(event_id: str, reason: str = "", hold: Optional[str] = None,
+                  seen_links: Optional[list[str]] = None) -> dict:
     """Move one active event to the archive by hand, whatever its dates.
 
-    ``hold`` (one of ARCHIVE_HOLDS) keeps ingest from reactivating it.
+    ``hold`` (one of ARCHIVE_HOLDS) keeps ingest from reactivating it. A
+    HOLD_ENDED hold remembers every link known for the event now — its own,
+    the ones a reviewer removed, and ``seen_links`` (what its source's copy
+    carries) — so only a link that is new later can lift it.
 
     Returns ``{"status": "archived", "event": ...}`` or ``{"status":
     "not_found", "event": None}``. The archive is written before active is,
@@ -89,6 +112,9 @@ def archive_event(event_id: str, reason: str = "", hold: Optional[str] = None) -
     event["archivedAt"] = datetime.now(timezone.utc).isoformat()
     if hold:
         event["_archive_hold"] = hold
+    if hold == HOLD_ENDED:
+        links = event_url_list(event) + dropped_url_list(event) + list(seen_links or [])
+        event["_hold_seen_links"] = sorted({url_key(u): u for u in links if u}.values())
 
     archive = storage.load_archive()
     a_idx = next((i for i, ev in enumerate(archive) if ev.get("id") == event_id), None)

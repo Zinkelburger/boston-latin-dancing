@@ -898,3 +898,56 @@ def test_a_skipped_event_listed_again_is_one_question_not_two(store, candidate):
     assert store.load_rejected() == []
     kinds = sorted(i["kind"] for i in _worklist()["items"] if i["subject"] == "apex")
     assert kinds == ["possible_duplicate" if candidate else "new_event"]
+
+
+# ── a series whose own page is long past ──────────────────────────────
+
+def _old_page_series(**overrides):
+    nights = [_at(d) for d in (27, 55)]
+    return _event(name="Egleston Park Summer Social", recurring=True,
+                  startDate=nights[0].isoformat(), endDate=(nights[0] + timedelta(hours=4)).isoformat(),
+                  recurrences=[n.isoformat() for n in nights], source="beatrice-calendar", **overrides)
+
+
+def _old_page_item(page_day):
+    report = [{"event_id": "evt-1", "status": "series_page_stale", "source_date": page_day,
+               "our_date": _at(27).isoformat(), "source_url": "https://example.com/fiesta",
+               "notes": "series page is for a night 64 days ago"}]
+    return _item_for(_worklist(verification=report), "series_page_stale")
+
+
+def test_an_ended_series_leaves_the_map_and_its_listing_cannot_bring_it_back(store):
+    # Egleston Park Summer Social (2026-11-23): a calendar entry repeating
+    # forever kept an outdoor summer social on the map for Dec 20.
+    store.save_active([_old_page_series()])
+    page_day = _at(-64).isoformat()
+    item = _old_page_item(page_day)
+    assert wr.answer(item["id"], "ended", note="outdoor summer series; organizer lists nothing since")["ok"] is True
+    assert store.load_active() == []
+    (held,) = store.load_archive()
+    assert held["_archive_hold"] == "ended"
+    assert held["startDate"][:10] == page_day[:10] and held["recurrences"] == [held["startDate"]]
+    again = store.add_event(_old_page_series())
+    assert again["status"] == "duplicate" and store.load_active() == []
+
+
+def test_still_running_needs_a_note_and_is_not_asked_again_at_once(store):
+    import verify_events
+    store.save_active([_old_page_series()])
+    item = _old_page_item(_at(-64).isoformat())
+    assert wr.answer(item["id"], "still_running")["ok"] is False
+    assert wr.answer(item["id"], "still_running", note="organizer's Instagram announces the next one")["ok"] is True
+    (event,) = store.load_active()
+    assert event["url"] == "https://example.com/fiesta"
+    assert verify_events.stale_series_page(event, _at(-64).date().isoformat()) is None
+
+
+def test_still_running_with_a_new_page_replaces_the_old_one(store, monkeypatch):
+    store.save_active([_old_page_series()])
+    item = _old_page_item(_at(-64).isoformat())
+    monkeypatch.setattr(link_guard, "link_meta",
+                        lambda u: _page("Egleston Park Summer Social", date=_at(27).isoformat()))
+    assert wr.answer(item["id"], "still_running", note="this season's page",
+                     url="https://example.com/next")["ok"] is True
+    (event,) = store.load_active()
+    assert event["url"] == "https://example.com/next" and not event.get("urls")

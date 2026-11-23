@@ -818,6 +818,20 @@ def scraped_path(source_id: str) -> Path:
     return SCRAPED_DIR / f"{source_id}.json"
 
 
+# Files in data/scraped/ that sit beside a source's event list and are not
+# event lists themselves: Facebook's raw evidence envelope, and the series a
+# calendar has ended (see scrape_ics.ended_series).
+SIDE_FILE_SUFFIXES = ("-raw.json", "-ended.json")
+
+
+def is_scraped_side_file(path: Path) -> bool:
+    return path.name.endswith(SIDE_FILE_SUFFIXES)
+
+
+def ended_series_path(source_id: str) -> Path:
+    return SCRAPED_DIR / f"{source_id}-ended.json"
+
+
 def write_scraped(source_id: str, events: list[dict]) -> Path:
     """Atomically write scraped events to data/scraped/<source_id>.json."""
     out = scraped_path(source_id)

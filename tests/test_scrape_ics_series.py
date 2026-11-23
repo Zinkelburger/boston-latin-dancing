@@ -108,3 +108,49 @@ def test_series_borrows_details_from_a_richer_sibling():
 def test_grouping_is_off_by_default():
     ics = _calendar(*[_vevent(f"f{i}", "Kiz Thursday", f"{d}T210000") for i, d in enumerate(FRIDAYS)])
     assert len(scrape_ics.parse_ics_feed(ics, source_id="sens", now=NOW)) == 4
+
+
+# ── what the calendar took away ───────────────────────────────────────
+
+def _rrule_vevent(uid, summary, start, rrule, extra=""):
+    return (
+        "BEGIN:VEVENT\n"
+        f"UID:{uid}\n"
+        f"SUMMARY:{summary}\n"
+        f"DTSTART;TZID=America/New_York:{start}\n"
+        f"DTEND;TZID=America/New_York:{start.replace('T180000', 'T210000')}\n"
+        f"RRULE:{rrule}\n"
+        + extra
+        + "LOCATION:Jill Brown Rhone Park, Cambridge, MA\n"
+        "END:VEVENT\n"
+    )
+
+
+def test_a_night_the_calendar_deleted_is_not_listed():
+    # Egleston Park Summer Social (2026-11-23): the calendar had struck Nov 15
+    # (EXDATE) and we listed it anyway.
+    ics = _calendar(_rrule_vevent(
+        "egl", "Egleston Park Summer Social", "20260719T180000", "FREQ=MONTHLY;BYDAY=3SU",
+        "EXDATE;TZID=America/New_York:20260920T180000\n"
+        "EXDATE;TZID=America/New_York:20261115T180000\n"))
+    (ev,) = scrape_ics.parse_ics_feed(ics, source_id="bea", now=NOW)
+    # Sep 20 and Nov 15 are gone, which leaves Oct 18 alone inside the window.
+    assert ev["startDate"].startswith("2026-10-18T18:00") and "recurrences" not in ev
+
+
+def test_a_series_the_calendar_closed_is_reported_with_its_last_night():
+    # Rueda in the Pahk (2026-11-23): UNTIL was set to Nov 1, the series left
+    # the event list, and nothing told the store it was over.
+    now = datetime(2026, 11, 23, 12, 0, tzinfo=timezone.utc)
+    ics = _calendar(
+        _rrule_vevent("rueda", "Rueda in the Pahk", "20260531T180000",
+                      "FREQ=WEEKLY;UNTIL=20261102T045959Z",
+                      "EXDATE;TZID=America/New_York:20261101T180000\n"),
+        _rrule_vevent("open", "Kiz Thursday", "20260604T180000", "FREQ=WEEKLY"),
+        _rrule_vevent("running", "Fall Series", "20261004T180000", "FREQ=WEEKLY;UNTIL=20261231T045959Z"),
+    )
+    assert scrape_ics.parse_ics_feed(ics, source_id="bea", now=now)[0]["name"] == "Kiz Thursday"
+    (closed,) = scrape_ics.ended_series(ics, now=now)
+    assert closed["id"] == "rueda" and closed["name"] == "Rueda in the Pahk"
+    # Nov 1 was struck, so the last night it really ran was Oct 25.
+    assert closed["lastDate"].startswith("2026-10-25T18:00")

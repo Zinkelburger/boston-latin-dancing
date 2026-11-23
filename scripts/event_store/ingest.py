@@ -5,16 +5,19 @@ from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 import atomic_io
+import scraper_utils
 import source_signal
 from atomic_io import CorruptJSONError
+from recurrence_utils import NY_TZ
 
 from . import blocklist, paths, sources, storage
-from .archive import HOLD_CANCELLED, HOLD_NO_LINK
+from .archive import HOLD_CANCELLED, HOLD_ENDED, HOLD_NO_LINK, ended_hold_lifts
 from .classify import enrich_event, is_latin_relevant
 from .dedup import dedup_reason, find_duplicate_in, log_dedup, merge_event
 from .known_duplicates import persist_known_duplicate
 from .locations import infer_location, is_out_of_area
-from .occurrences import last_occurrence
+from .occurrences import last_occurrence, parse_aware
+from .series import trim_series_after
 from .sources import is_venue_schedule_record
 from .urls import event_url_list
 from .storage import (
@@ -176,7 +179,9 @@ def add_event(
                 }
             archived = archive[archive_idx]
             hold = archived.get("_archive_hold")
-            if hold == HOLD_CANCELLED or (hold == HOLD_NO_LINK and not event_url_list(event)):
+            if (hold == HOLD_CANCELLED
+                    or (hold == HOLD_NO_LINK and not event_url_list(event))
+                    or (hold == HOLD_ENDED and not ended_hold_lifts(archived, event))):
                 return {
                     "status": "duplicate",
                     "confidence": conf,
@@ -197,7 +202,8 @@ def add_event(
                 # Back on the map is not the same record that was verified before
                 # it left: drop the old verification so the next stale-only check
                 # (weekly_review prepare) looks at it again, and drop the hold.
-                for key in ("_archive_hold", "_verified_at", "_verified_status",
+                for key in ("_archive_hold", "_hold_seen_links", "_series_running_checked_at",
+                            "_verified_at", "_verified_status",
                             "_verified_notes", "_verification_url"):
                     merged.pop(key, None)
                 # Destination first: land the record in active, then retire the
@@ -312,6 +318,61 @@ def add_event(
     return {"status": "added", "event": event}
 
 
+def end_series_the_source_closed(source_id: str) -> list[dict]:
+    """Stop listing nights of a series its own calendar has ended.
+
+    ``data/scraped/<source>-ended.json`` (scrape_ics.ended_series) names each
+    repeating calendar event whose rule has run out, with its last night. The
+    active record with that id keeps the nights it projected while the rule
+    was open; they are dropped here, and archive_past_events then files the
+    series away like any finished event. Matching is by id only: a record that
+    has taken a different id through a merge is left alone.
+
+    A closed rule is not always a closed series. Calendar owners end one
+    repeating entry and start another for the same night ("Kiz Thursday": the
+    entry we took our id from ended in July, and the series runs on under a
+    new one, merged into our record). So a record the source's current event
+    list still matches is left alone, whatever its old entry says.
+    """
+    path = scraper_utils.ended_series_path(source_id)
+    if not path.exists():
+        return []
+    try:
+        closed = atomic_io.read_json(path, default=[])
+    except CorruptJSONError as exc:
+        log(f"  ⚠️  skipping unreadable {path.name}: {exc}")
+        return []
+    last_by_id = {}
+    for row in closed if isinstance(closed, list) else []:
+        last = parse_aware(row.get("lastDate", "")) if isinstance(row, dict) else None
+        if last is not None and row.get("id"):
+            last_by_id[row["id"]] = last
+    if not last_by_id:
+        return []
+
+    try:
+        listed = atomic_io.read_json(scraper_utils.scraped_path(source_id), default=[])
+    except CorruptJSONError:
+        return []
+    listed = [e for e in listed if isinstance(e, dict) and e.get("id")] if isinstance(listed, list) else []
+
+    active = storage.load_active()
+    ended = []
+    for ev in active:
+        last = last_by_id.get(ev.get("id"))
+        if last is None or ev.get("source") != source_id:
+            continue
+        if any(find_duplicate_in(copy, [ev]) is not None for copy in listed):
+            continue
+        if trim_series_after(ev, last.astimezone(NY_TZ).date()):
+            ended.append(ev)
+            append_changelog("series_ended", ev["id"],
+                             f"{source_id} ended it on {last.astimezone(NY_TZ).date().isoformat()}")
+    if ended:
+        storage.save_active(active)
+    return ended
+
+
 @locked
 def ingest_scraped(source_id: Optional[str] = None, quarantine_new: bool = False) -> dict:
     """Ingest events from data/scraped/ into the active store.
@@ -327,7 +388,7 @@ def ingest_scraped(source_id: Optional[str] = None, quarantine_new: bool = False
     else:
         files = sorted(
             p for p in paths.SCRAPED_DIR.glob("*.json")
-            if not p.name.endswith("-raw.json")
+            if not scraper_utils.is_scraped_side_file(p)
         )
 
     added = 0
@@ -406,8 +467,14 @@ def ingest_scraped(source_id: Optional[str] = None, quarantine_new: bool = False
                     "reason": result["reason"],
                 })
 
+    series_ended = [
+        ended for path in files
+        for ended in end_series_the_source_closed(path.stem)
+    ]
+
     result = {
         "status": "ingested",
+        "series_ended": len(series_ended),
         "added": added,
         "merged": merged,
         "reactivated": reactivated,

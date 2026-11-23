@@ -63,7 +63,8 @@ from event_store import (  # noqa: E402
     store_lock,
 )
 from event_store import paths, storage  # noqa: E402
-from event_store.archive import HOLD_CANCELLED, HOLD_NO_LINK  # noqa: E402
+from event_store.archive import HOLD_CANCELLED, HOLD_ENDED, HOLD_NO_LINK  # noqa: E402
+from event_store.series import trim_series_after  # noqa: E402
 from dedup_report import report as duplicate_report  # noqa: E402
 from event_store.classify import derive_special, looks_like_class, special_edition_mismatch  # noqa: E402
 from event_store.dedup import find_lookalikes, merge_event  # noqa: E402
@@ -280,7 +281,7 @@ def _words_meet(a: set[str], b: set[str]) -> bool:
 def _scraped_events() -> list[dict]:
     rows: list[dict] = []
     for path in sorted(paths.SCRAPED_DIR.glob("*.json")):
-        if path.name.endswith("-raw.json"):
+        if scraper_utils.is_scraped_side_file(path):
             continue
         data = atomic_io.read_json(path, default=[])
         rows += [e for e in data if isinstance(e, dict)] if isinstance(data, list) else []
@@ -614,6 +615,22 @@ def verification_items(report: list[dict], active_by_id: dict) -> tuple[list[dic
                 "The source page gives a different place. Which is right?", evidence,
                 {"use_source_location": "The source is right. Moved to the source's address.",
                  "keep_ours": "Our address is right. Explain in note."}))
+        elif status == "series_page_stale":
+            evidence.update(page_is_for=row.get("source_date"), next_listed=row.get("our_date"),
+                            link_leads=link_leads(event))
+            items.append(_item(
+                "series_page_stale", event["id"], event.get("name", ""),
+                "This repeating event's own page is for a night long past and shows nothing "
+                "newer, yet its source still lists upcoming nights. Is it still running? Outdoor "
+                "and summer series stop for the winter; look for a page or post about an "
+                "upcoming night before saying it is.", evidence,
+                {"still_running": "Yes. You found a page or post for an upcoming night: give it "
+                                  "in `url` (it replaces the old page), or say in note where you "
+                                  "saw it. Asked again in a month if the page is still old.",
+                 "ended": "No: it has ended or is out of season. Taken off the map; it comes "
+                          "back when its source lists it with a new page."},
+                {"still_running": {"url": "optional: the page for an upcoming night "
+                                          "(use review_link_check first)"}}))
         elif status in ("cancelled", "page_gone") and not _is_series(event):
             items.append(_item(
                 "cancelled", event["id"], event.get("name", ""),
@@ -1152,6 +1169,34 @@ def _apply_date_mismatch(item: dict, choice: str, params: dict) -> dict:
     return {"status": "off the map until its source lists a link", "removed": stale}
 
 
+def _apply_series_page_stale(item: dict, choice: str, params: dict) -> dict:
+    event = _find(load_active(), item["subject"])
+    stale = item["evidence"].get("source_link")
+    if choice == "ended":
+        # The last night anyone can point to is the one its page shows; the
+        # later ones were only ever the calendar's rule.
+        ended = dict(event)
+        page_day = parse_aware(item["evidence"].get("page_is_for") or "")
+        if page_day is not None and trim_series_after(ended, page_day.astimezone(NY_TZ).date()):
+            edit_event(event["id"], {k: ended[k] for k in
+                                     ("startDate", "endDate", "recurrences", "dayOfWeek") if k in ended})
+        seen = [u for copy in _scraped_events() if copy.get("id") == event["id"]
+                for u in event_url_list(copy)]
+        archive_event(event["id"], reason=params.get("note") or "series ended or out of season",
+                      hold=HOLD_ENDED, seen_links=seen)
+        return {"status": "off the map until its source lists it with a new page"}
+    note = _require_note(params)
+    if params.get("url"):
+        _set_primary_link(event, params["url"])
+        if stale and stale != params["url"]:
+            current = _find(load_active(), event["id"])
+            if stale in event_url_list(current):
+                _drop_link(current, stale)
+        return {"status": "kept; link replaced", "url": params["url"]}
+    edit_event(event["id"], {"_series_running_checked_at": datetime.now(timezone.utc).isoformat()})
+    return {"status": "kept; asked again in a month if its page is still old", "note": note}
+
+
 def _apply_location_mismatch(item: dict, choice: str, params: dict) -> dict:
     event = _find(load_active(), item["subject"])
     if choice == "use_source_location":
@@ -1274,6 +1319,7 @@ APPLY: dict[str, Callable[[dict, str, dict], dict]] = {
     "facebook_signal": _apply_facebook_signal,
     "date_mismatch": _apply_date_mismatch,
     "location_mismatch": _apply_location_mismatch,
+    "series_page_stale": _apply_series_page_stale,
     "cancelled": _apply_cancelled,
     "no_link": _apply_no_link,
     "broken_link": _apply_broken_link,
@@ -1365,7 +1411,8 @@ _KIND_HEADINGS = [
     ("possible_duplicate", "Possible duplicates"),
     ("active_duplicate", "Look-alike events on the map"), ("venue_conflict", "Venue conflicts"),
     ("facebook_signal", "Facebook signals"), ("date_mismatch", "Date mismatches"),
-    ("location_mismatch", "Location mismatches"), ("cancelled", "Cancelled or gone"),
+    ("location_mismatch", "Location mismatches"),
+    ("series_page_stale", "Series with an old page"), ("cancelled", "Cancelled or gone"),
     ("no_link", "Events without a link"), ("broken_link", "Dead links"),
     ("link_date_conflict", "Links disagreeing on the date"),
     ("link_location_conflict", "Links disagreeing on the place"), ("big_event", "Big events"),
