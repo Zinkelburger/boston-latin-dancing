@@ -5742,5 +5742,99 @@
     "_verified_notes": "Facebook preview matches (date checked); by Noise Boston",
     "_verification_url": "https://www.facebook.com/events/1369457536260810/",
     "archivedAt": "2026-11-23T21:52:30.707322+00:00"
+  },
+  {
+    "id": "5ED3301D-8CE8-45D1-8094-C380C699DA99",
+    "name": "Rueda in the Pahk",
+    "startDate": "2026-11-01T18:00:00-05:00",
+    "endDate": "2026-11-01T22:00:00-05:00",
+    "dayOfWeek": "Sunday",
+    "location": "Jill Brown Rhone Park, 389 Massachusetts Ave, Cambridge, MA 02139",
+    "lat": 42.3630579,
+    "lng": -71.0999215,
+    "description": "Free Rueda de Casino lesson for all levels at 6:00 PM, followed by social dancing from 7:00 PM to 9:00 PM. Sundays at Jill Brown Rhone Park in Central Square.",
+    "url": "https://www.facebook.com/events/1702605367827796/1735471407874525/",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": true,
+    "source": "beatrice-calendar",
+    "recurrences": [
+      "2026-11-01T18:00:00-05:00"
+    ],
+    "_verified_at": "2026-11-23T22:01:54.759108+00:00",
+    "_verified_status": "reachable_only",
+    "_verified_notes": "Event page live, upstream date 2026-09-06 — recurring series, not compared against our first occurrence",
+    "_verification_url": "https://www.facebook.com/events/1702605367827796/1735471407874525/",
+    "reactivatedAt": "2026-08-27T20:36:33.740188+00:00",
+    "_dropped_urls": [
+      "https://www.instagram.com/p/DY5afzhhsK7/"
+    ],
+    "_location_override": "Jill Brown Rhone Park, 389 Massachusetts Ave, Cambridge, MA 02139",
+    "archivedAt": "2026-11-23T22:18:41.532232+00:00"
+  },
+  {
+    "id": "8CCA30E6-6C4B-4E0E-8A78-BCA2C5761DE2",
+    "name": "Flow Friday at The Anchor: Bachata Class & Social",
+    "startDate": "2026-10-30T19:00:00-04:00",
+    "endDate": "2026-10-30T23:00:00-04:00",
+    "location": "The Anchor, 1 Shipyard Park, Charlestown, MA 02129",
+    "lat": 42.3731772,
+    "lng": -71.0526574,
+    "description": "The Anchor teams up with Flow Studios for a bachata-only night on the Charlestown waterfront.\n\n7:00 PM — All-levels bachata class\n8:00 PM–close — Bachata social\n\nFree. Outdoor waterfront patio; billed by the organizers as running every Friday.",
+    "url": "https://www.eventbrite.com/e/flow-friday-at-the-anchor-tickets-1997187023149",
+    "styles": [
+      "bachata"
+    ],
+    "cost": "Free",
+    "recurring": true,
+    "source": "beatrice-calendar",
+    "dayOfWeek": "Friday",
+    "urls": [
+      "https://www.facebook.com/events/1393051752744141/",
+      "message:%3C1E.1C.17072.DF12F8A6@i-0d57859519e2973e8.mta1vrest.sd.prd.sparkpost%3E"
+    ],
+    "_verified_at": "2026-11-23T22:01:55.807616+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD matches (location checked)",
+    "_verification_url": "https://www.eventbrite.com/e/flow-friday-at-the-anchor-tickets-1997187023149",
+    "archivedAt": "2026-11-23T22:18:41.532232+00:00",
+    "recurrences": [
+      "2026-10-30T19:00:00-04:00"
+    ],
+    "reactivatedAt": "2026-09-14T20:44:15.685398+00:00"
+  },
+  {
+    "id": "4qc656kur2gocnolf5ns78ag18@google.com",
+    "name": "Egleston Park Summer Social",
+    "startDate": "2026-09-20T14:00:00-04:00",
+    "endDate": "2026-09-20T18:00:00-04:00",
+    "dayOfWeek": "Sunday",
+    "location": "Egleston Square Peace Garden, 3129 Washington St, Jamaica Plain, MA 02130, USA",
+    "lat": 42.3144971,
+    "lng": -71.0997142,
+    "description": "Every 3rd Sunday, join Next Level Fusion at Egleston Square Peace Garden for a class at 2pm followed by social dancing til 6pm!<br><br>Source: <a href=\"https://www.nextlevelfusiondance.com/event-details/egleston-park-summer-socials-2026-07-19-14-00\">Egleston Park Summer Socials | Next Level Fusion</a>",
+    "url": "https://www.nextlevelfusiondance.com/event-details/egleston-park-summer-socials-2026-09-20-14-00",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": true,
+    "source": "beatrice-calendar",
+    "recurrences": [
+      "2026-09-20T14:00:00-04:00"
+    ],
+    "_verified_at": "2026-11-23T22:01:53.451914+00:00",
+    "_verified_status": "confirmed",
+    "_verified_notes": "JSON-LD matches (location checked)",
+    "_verification_url": "https://www.nextlevelfusiondance.com/event-details/egleston-park-summer-socials-2026-09-20-14-00",
+    "archivedAt": "2026-11-23T22:18:41.582314+00:00",
+    "_archive_hold": "ended",
+    "_hold_seen_links": [
+      "https://www.nextlevelfusiondance.com/event-details/egleston-park-summer-socials-2026-07-19-14-00",
+      "https://www.nextlevelfusiondance.com/event-details/egleston-park-summer-socials-2026-09-20-14-00"
+    ]
   }
 ]

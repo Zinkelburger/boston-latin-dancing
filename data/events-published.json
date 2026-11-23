@@ -294,45 +294,6 @@
     "organizer": "The Timba Messengers"
   },
   {
-    "id": "8CCA30E6-6C4B-4E0E-8A78-BCA2C5761DE2",
-    "name": "Flow Friday at The Anchor: Bachata Class & Social",
-    "startDate": "2026-11-27T19:00:00-05:00",
-    "endDate": "2026-11-27T23:00:00-05:00",
-    "location": "The Anchor, 1 Shipyard Park, Charlestown, MA 02129",
-    "lat": 42.3731772,
-    "lng": -71.0526574,
-    "description": "The Anchor teams up with Flow Studios for a bachata-only night on the Charlestown waterfront.\n\n7:00 PM — All-levels bachata class\n8:00 PM–close — Bachata social\n\nFree. Outdoor waterfront patio; billed by the organizers as running every Friday.",
-    "url": "https://www.eventbrite.com/e/flow-friday-at-the-anchor-tickets-1997187023149",
-    "styles": [
-      "bachata"
-    ],
-    "cost": "Free",
-    "recurring": true,
-    "dayOfWeek": "Friday",
-    "urls": [
-      "https://www.facebook.com/events/1393051752744141/",
-      "message:%3C1E.1C.17072.DF12F8A6@i-0d57859519e2973e8.mta1vrest.sd.prd.sparkpost%3E"
-    ],
-    "recurrences": [
-      "2026-11-06T19:00:00-05:00",
-      "2026-11-13T19:00:00-05:00",
-      "2026-11-20T19:00:00-05:00",
-      "2026-11-27T19:00:00-05:00",
-      "2026-12-04T19:00:00-05:00",
-      "2026-12-11T19:00:00-05:00",
-      "2026-12-18T19:00:00-05:00",
-      "2026-12-25T19:00:00-05:00",
-      "2027-01-01T19:00:00-05:00",
-      "2027-01-08T19:00:00-05:00",
-      "2027-01-15T19:00:00-05:00",
-      "2027-01-22T19:00:00-05:00"
-    ],
-    "firstStartDate": "2026-11-06T19:00:00-05:00",
-    "slug": "flow-friday-at-the-anchor-bachata-class-social-8cca30e6",
-    "recurrenceLabel": "Every Friday",
-    "organizer": "Greater Boston Dance Socials (Beatrice)"
-  },
-  {
     "id": "fiesta-20261128-sol-de-mexico-milford",
     "name": "Salsa & Bachata Social w/ Fiesta Dance Co",
     "startDate": "2026-11-28T00:00:00-05:00",
@@ -397,41 +358,6 @@
     "cost": null,
     "recurring": false,
     "slug": "timba-messengers-at-the-beehive-5005ee9d",
-    "organizer": "Greater Boston Dance Socials (Beatrice)"
-  },
-  {
-    "id": "5ED3301D-8CE8-45D1-8094-C380C699DA99",
-    "name": "Rueda in the Pahk",
-    "startDate": "2026-11-29T18:00:00-05:00",
-    "endDate": "2026-11-29T22:00:00-05:00",
-    "dayOfWeek": "Sunday",
-    "location": "Jill Brown Rhone Park, 389 Massachusetts Ave, Cambridge, MA 02139",
-    "lat": 42.3630579,
-    "lng": -71.0999215,
-    "description": "Free Rueda de Casino lesson for all levels at 6:00 PM, followed by social dancing from 7:00 PM to 9:00 PM. Sundays at Jill Brown Rhone Park in Central Square.",
-    "url": "https://www.facebook.com/events/1702605367827796/1735471407874525/",
-    "styles": [
-      "salsa"
-    ],
-    "cost": "Free",
-    "recurring": true,
-    "recurrences": [
-      "2026-11-01T18:00:00-05:00",
-      "2026-11-08T18:00:00-05:00",
-      "2026-11-15T18:00:00-05:00",
-      "2026-11-22T18:00:00-05:00",
-      "2026-11-29T18:00:00-05:00",
-      "2026-12-06T18:00:00-05:00",
-      "2026-12-13T18:00:00-05:00",
-      "2026-12-20T18:00:00-05:00",
-      "2026-12-27T18:00:00-05:00",
-      "2027-01-03T18:00:00-05:00",
-      "2027-01-10T18:00:00-05:00",
-      "2027-01-17T18:00:00-05:00"
-    ],
-    "firstStartDate": "2026-11-01T18:00:00-05:00",
-    "slug": "rueda-in-the-pahk-5ed3301d",
-    "recurrenceLabel": "Every Sunday",
     "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
@@ -810,31 +736,6 @@
     "recurring": false,
     "slug": "la-parranda-navidena-con-rumbaland-ukbq9vcd",
     "organizer": "Sensualeros Boston Events"
-  },
-  {
-    "id": "4qc656kur2gocnolf5ns78ag18@google.com",
-    "name": "Egleston Park Summer Social",
-    "startDate": "2026-12-20T14:00:00-05:00",
-    "endDate": "2026-12-20T18:00:00-05:00",
-    "dayOfWeek": "Sunday",
-    "location": "Egleston Square Peace Garden, 3129 Washington St, Jamaica Plain, MA 02130, USA",
-    "lat": 42.3144971,
-    "lng": -71.0997142,
-    "description": "Every 3rd Sunday, join Next Level Fusion at Egleston Square Peace Garden for a class at 2pm followed by social dancing til 6pm!<br><br>Source: <a href=\"https://www.nextlevelfusiondance.com/event-details/egleston-park-summer-socials-2026-07-19-14-00\">Egleston Park Summer Socials | Next Level Fusion</a>",
-    "url": "https://www.nextlevelfusiondance.com/event-details/egleston-park-summer-socials-2026-09-20-14-00",
-    "styles": [
-      "bachata",
-      "salsa"
-    ],
-    "cost": "Free",
-    "recurring": true,
-    "recurrences": [
-      "2026-12-20T14:00:00-05:00",
-      "2027-01-17T14:00:00-05:00"
-    ],
-    "slug": "egleston-park-summer-social-4qc656ku",
-    "recurrenceLabel": "Third Sunday of each month",
-    "organizer": "Greater Boston Dance Socials (Beatrice)"
   },
   {
     "id": "5AD13808-1AA4-48F6-B428-CD2907EA13FA",
@@ -5926,6 +5827,83 @@
     "archived": true
   },
   {
+    "id": "5ED3301D-8CE8-45D1-8094-C380C699DA99",
+    "name": "Rueda in the Pahk",
+    "startDate": "2026-11-01T18:00:00-05:00",
+    "endDate": "2026-11-01T22:00:00-05:00",
+    "dayOfWeek": "Sunday",
+    "location": "Jill Brown Rhone Park, 389 Massachusetts Ave, Cambridge, MA 02139",
+    "lat": 42.3630579,
+    "lng": -71.0999215,
+    "description": "Free Rueda de Casino lesson for all levels at 6:00 PM, followed by social dancing from 7:00 PM to 9:00 PM. Sundays at Jill Brown Rhone Park in Central Square.",
+    "url": "https://www.facebook.com/events/1702605367827796/1735471407874525/",
+    "styles": [
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": true,
+    "recurrences": [
+      "2026-11-01T18:00:00-05:00"
+    ],
+    "slug": "rueda-in-the-pahk-5ed3301d",
+    "recurrenceLabel": "Every Sunday",
+    "organizer": "Greater Boston Dance Socials (Beatrice)",
+    "archived": true
+  },
+  {
+    "id": "8CCA30E6-6C4B-4E0E-8A78-BCA2C5761DE2",
+    "name": "Flow Friday at The Anchor: Bachata Class & Social",
+    "startDate": "2026-10-30T19:00:00-04:00",
+    "endDate": "2026-10-30T23:00:00-04:00",
+    "location": "The Anchor, 1 Shipyard Park, Charlestown, MA 02129",
+    "lat": 42.3731772,
+    "lng": -71.0526574,
+    "description": "The Anchor teams up with Flow Studios for a bachata-only night on the Charlestown waterfront.\n\n7:00 PM — All-levels bachata class\n8:00 PM–close — Bachata social\n\nFree. Outdoor waterfront patio; billed by the organizers as running every Friday.",
+    "url": "https://www.eventbrite.com/e/flow-friday-at-the-anchor-tickets-1997187023149",
+    "styles": [
+      "bachata"
+    ],
+    "cost": "Free",
+    "recurring": true,
+    "dayOfWeek": "Friday",
+    "urls": [
+      "https://www.facebook.com/events/1393051752744141/",
+      "message:%3C1E.1C.17072.DF12F8A6@i-0d57859519e2973e8.mta1vrest.sd.prd.sparkpost%3E"
+    ],
+    "recurrences": [
+      "2026-10-30T19:00:00-04:00"
+    ],
+    "slug": "flow-friday-at-the-anchor-bachata-class-social-8cca30e6",
+    "recurrenceLabel": "Every Friday",
+    "organizer": "Greater Boston Dance Socials (Beatrice)",
+    "archived": true
+  },
+  {
+    "id": "4qc656kur2gocnolf5ns78ag18@google.com",
+    "name": "Egleston Park Summer Social",
+    "startDate": "2026-09-20T14:00:00-04:00",
+    "endDate": "2026-09-20T18:00:00-04:00",
+    "dayOfWeek": "Sunday",
+    "location": "Egleston Square Peace Garden, 3129 Washington St, Jamaica Plain, MA 02130, USA",
+    "lat": 42.3144971,
+    "lng": -71.0997142,
+    "description": "Every 3rd Sunday, join Next Level Fusion at Egleston Square Peace Garden for a class at 2pm followed by social dancing til 6pm!<br><br>Source: <a href=\"https://www.nextlevelfusiondance.com/event-details/egleston-park-summer-socials-2026-07-19-14-00\">Egleston Park Summer Socials | Next Level…",
+    "url": "https://www.nextlevelfusiondance.com/event-details/egleston-park-summer-socials-2026-09-20-14-00",
+    "styles": [
+      "bachata",
+      "salsa"
+    ],
+    "cost": "Free",
+    "recurring": true,
+    "recurrences": [
+      "2026-09-20T14:00:00-04:00"
+    ],
+    "slug": "egleston-park-summer-social-4qc656ku",
+    "recurrenceLabel": "Every Sunday",
+    "organizer": "Greater Boston Dance Socials (Beatrice)",
+    "archived": true
+  },
+  {
     "id": "dantes-tambo",
     "name": "Dante's Salsa Fridays",
     "startDate": "",
@@ -5987,7 +5965,7 @@
     "location": "Hatch Shell on the Esplanade, Boston, MA",
     "lat": 42.357256,
     "lng": -71.073702,
-    "description": "Boston Outdoor Bachata And Salsa. Outdoor social dancing on the docks behind the Hatch Shell — bachata on one side, salsa on the other.\n\nFree, weather permitting. Check Facebook.",
+    "description": "Boston Outdoor Bachata And Salsa. Outdoor social dancing on the docks behind the Hatch Shell — bachata on one side, salsa on the other.\n\nFree, weather permitting. Outdoors and seasonal: in 2026 it ran from late May to mid-October, on a different weekday most weeks, and the last listed night was Oct 14. Check Facebook for the next season.",
     "url": "https://www.facebook.com/groups/576206842396498",
     "styles": [
       "bachata",
@@ -5996,7 +5974,7 @@
     "cost": "Free",
     "recurring": true,
     "nextDateApproximate": true,
-    "recurrenceLabel": "Usually Tuesdays",
+    "recurrenceLabel": "Warm months only, day varies",
     "searchOnly": true,
     "slug": "bobas-sunset-salsa-bachata-on-the-docks-bobas",
     "organizer": "Boston Outdoor Bachata And Salsa (BOBAS)"
