@@ -28,6 +28,24 @@ if [[ -n "$(git status --porcelain)" ]]; then
   exit 1
 fi
 
+# Wait for the network instead of dying on the first DNS failure. The weekly
+# timer is Persistent, so a laptop that was asleep at noon runs it the moment
+# it wakes — before Wi-Fi is up. On 2026-11-18 that run failed in 11 seconds
+# ("Could not resolve hostname github.com"), nothing retried it, and the map
+# went a week without an update.
+NETWORK_WAIT_SECS="${BLD_NETWORK_WAIT_SECS:-1800}"
+waited=0
+until git ls-remote --quiet --exit-code origin HEAD >/dev/null 2>&1; do
+  if (( waited >= NETWORK_WAIT_SECS )); then
+    log "ERROR: cannot reach the git remote after ${waited}s; giving up."
+    exit 1
+  fi
+  (( waited == 0 )) && log "git remote unreachable; waiting up to ${NETWORK_WAIT_SECS}s for the network"
+  sleep 30
+  waited=$(( waited + 30 ))
+done
+(( waited > 0 )) && log "network is back after ${waited}s"
+
 git pull --rebase --quiet
 
 if [[ ! -d .venv ]]; then

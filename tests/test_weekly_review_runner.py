@@ -96,5 +96,31 @@ def test_refresh_review_mode_never_commits_or_checks_published_links(tmp_path):
                             env=env, capture_output=True, text=True, timeout=20)
     assert result.returncode == 0, result.stderr
     assert trace.read_text().splitlines() == [
-        'git status --porcelain', 'git pull --rebase --quiet',
-        'python scripts/run_pipeline.py --no-publish']
+        'git status --porcelain', 'git ls-remote --quiet --exit-code origin HEAD',
+        'git pull --rebase --quiet', 'python scripts/run_pipeline.py --no-publish']
+
+
+@pytest.mark.parametrize('down_for,limit,pulled', [(2, '1800', True), (99, '60', False)])
+def test_refresh_waits_for_the_network_instead_of_failing_at_once(tmp_path, down_for, limit, pulled):
+    # 2026-11-18: the laptop woke at noon, the timer fired before Wi-Fi was up,
+    # git could not resolve github.com, and the week went unpublished.
+    trace = tmp_path / 'calls'
+    _executable(tmp_path / 'bin/git', '''
+if [[ "$1" == ls-remote ]]; then
+  n=$(grep -c ls-remote "$TRACE" || true)
+  echo ls-remote >> "$TRACE"
+  [[ "$n" -ge "$DOWN_FOR" ]]
+  exit
+fi
+[[ "$1" == pull ]] && echo pull >> "$TRACE"
+exit 0
+''')
+    _executable(tmp_path / 'bin/sleep', 'exit 0\n')
+    _executable(tmp_path / '.venv/bin/pip', 'exit 0\n')
+    _executable(tmp_path / '.venv/bin/python', 'exit 0\n')
+    env = {**os.environ, 'BLD_REPO_DIR': str(tmp_path), 'TRACE': str(trace), 'DOWN_FOR': str(down_for),
+           'BLD_NETWORK_WAIT_SECS': limit, 'PATH': f'{tmp_path / "bin"}:{os.environ["PATH"]}'}
+    result = subprocess.run(['bash', str(ROOT / 'automation/refresh.sh'), '--review'],
+                            env=env, capture_output=True, text=True, timeout=20)
+    assert ('pull' in trace.read_text().splitlines()) is pulled
+    assert (result.returncode == 0) is pulled, result.stdout + result.stderr
