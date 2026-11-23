@@ -18,9 +18,9 @@ const events = (allEvents as DanceEvent[]).filter(e => !e.archived && !e.searchO
 const homeDescription =
   events.length >= 5
     ? `Every salsa and bachata night in Boston on one live map — ` +
-      `${events.length} socials, classes, and parties, updated daily.`
+      `${events.length} socials, classes, and parties, checked every week.`
     : 'Where to dance salsa and bachata in Boston. A live map of Latin dance ' +
-      'socials, parties, and classes near you, updated daily.';
+      'socials, parties, and classes near you, checked every week.';
 
 export const metadata: Metadata = {
   title: {
@@ -89,7 +89,7 @@ export default function Home() {
       <h1 className="sr-only">Salsa &amp; Latin Dance Events in Boston This Week</h1>
       <p className="sr-only">
         Where to dance salsa and bachata in Boston. Find Latin dance socials, parties, and classes
-        happening tonight, this weekend, and all week. Updated daily.
+        happening tonight, this weekend, and all week. Checked every week.
       </p>
       <HomeJsonLd />
       <MapView />
