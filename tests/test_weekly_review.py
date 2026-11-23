@@ -344,13 +344,62 @@ def test_use_source_date_moves_a_one_off_and_keeps_the_time(store):
     assert moved["_time_override"]["startDate"] == moved["startDate"]
 
 
-def test_keep_ours_needs_a_note_and_flags_a_human(store):
+def _date_mismatch_item(source_url="https://example.com/fiesta"):
+    report = [{"event_id": "evt-1", "status": "date_mismatch", "our_date": "a", "source_date": "b",
+               "source_url": source_url}]
+    return _item_for(_worklist(verification=report), "date_mismatch")
+
+
+def test_keep_ours_on_a_trusted_calendar_drops_the_stale_link_and_still_verifies(store):
+    # Saborcito @ El Barco (2026-11-23): Beatrice's calendar reused July's
+    # Eventbrite link for the Dec 10 night. keep_ours flagged a human and left
+    # the link on, so the event failed verification and finish blocked the week.
+    import verify_events
+    store.save_active([_event(source="beatrice-calendar")])
+    item = _date_mismatch_item()
+    assert wr.answer(item["id"], "keep_ours")["ok"] is False  # a note is required
+    assert wr.answer(item["id"], "keep_ours", note="the link is July's night, reused")["ok"] is True
+    (event,) = store.load_active()
+    assert not event.get("url") and "_needs_manual_check" not in event
+    assert verify_events.flag_no_url(event)["status"] == "calendar_only"
+
+
+def test_keep_ours_from_another_source_comes_off_the_map_without_blocking(store):
+    store.save_active([_event(source="sensualeros-boston")])
+    item = _date_mismatch_item()
+    assert wr.answer(item["id"], "keep_ours", note="the link is July's night, reused")["ok"] is True
+    assert store.load_active() == []
+    [held] = store.load_archive()
+    assert held["_archive_hold"] == "no_link"
+
+
+def test_keep_ours_keeps_the_events_other_links(store):
+    store.save_active([_event(urls=["https://example.com/organizer"])])
+    item = _date_mismatch_item()
+    assert wr.answer(item["id"], "keep_ours", note="the link is July's night, reused")["ok"] is True
+    (event,) = store.load_active()
+    assert event["url"] == "https://example.com/organizer" and not event.get("urls")
+
+
+def test_keep_ours_can_swap_in_the_right_page_and_a_refused_one_changes_nothing(store, monkeypatch):
     store.save_active([_event()])
-    report = [{"event_id": "evt-1", "status": "date_mismatch", "our_date": "a", "source_date": "b"}]
-    item = _item_for(_worklist(verification=report), "date_mismatch")
-    assert wr.answer(item["id"], "keep_ours")["ok"] is False
-    assert wr.answer(item["id"], "keep_ours", note="Eventbrite still shows last year's date")["ok"] is True
-    assert "_needs_manual_check" in store.load_active()[0]
+    item = _date_mismatch_item()
+    monkeypatch.setattr(link_guard, "link_meta", lambda u: _page("Brunch Menu | Cafe"))
+    refused = wr.answer(item["id"], "keep_ours", note="reused link", url="https://example.com/right")
+    assert refused["ok"] is False
+    assert store.load_active()[0]["url"] == "https://example.com/fiesta"
+    monkeypatch.setattr(link_guard, "link_meta", lambda u: _page())
+    assert wr.answer(item["id"], "keep_ours", note="reused link", url="https://example.com/right")["ok"] is True
+    (event,) = store.load_active()
+    assert event["url"] == "https://example.com/right" and not event.get("urls")
+
+
+def test_keep_ours_flags_a_human_when_the_disagreeing_page_is_not_our_link(store):
+    store.save_active([_event()])
+    item = _date_mismatch_item(source_url="https://example.com/somewhere-else")
+    assert wr.answer(item["id"], "keep_ours", note="their listing page is stale")["ok"] is True
+    (event,) = store.load_active()
+    assert event["url"] == "https://example.com/fiesta" and "_needs_manual_check" in event
 
 
 def test_big_event_question_asked_once(store):

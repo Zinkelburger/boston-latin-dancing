@@ -600,9 +600,13 @@ def verification_items(report: list[dict], active_by_id: dict) -> tuple[list[dic
                 f"The source page says {row.get('source_date')}, we list {row.get('our_date')}. Which is right?",
                 evidence,
                 {"use_source_date": "The source is right. Moved to the source's date, same time of day.",
-                 "keep_ours": "Our date is right (the source is stale or wrong). Flagged for a human "
-                              "to confirm; explain in note.",
-                 "not_happening": "The event is not happening. Taken off the map."}))
+                 "keep_ours": "Our date is right, so the linked page is for another night (stale or "
+                              "reused) and is removed. Search for this night's own page and give "
+                              "it in `url` if there is one. With no link left, a trusted "
+                              "calendar's event stays on the map without one and any other comes "
+                              "off until its source lists a link. Explain in note.",
+                 "not_happening": "The event is not happening. Taken off the map."},
+                {"keep_ours": {"url": "optional: this night's own page (use review_link_check first)"}}))
         elif status == "location_mismatch":
             evidence.update(our_location=row.get("our_location"), source_location=row.get("source_location"))
             items.append(_item(
@@ -1122,9 +1126,30 @@ def _apply_date_mismatch(item: dict, choice: str, params: dict) -> dict:
         return archive_event(event["id"], reason=params.get("note") or "not happening per source",
                              hold=HOLD_CANCELLED)
     note = _require_note(params)
-    _flag_manual(event["id"], f"source says {item['evidence'].get('source_date')}, we list "
-                              f"{item['evidence'].get('our_date')}: {note}")
-    return {"status": "kept; flagged for a human"}
+    stale = item["evidence"].get("source_link")
+    if stale not in event_url_list(event):
+        # The page that disagrees is not one of the event's links, so there is
+        # nothing of ours to remove; only a person can settle it.
+        _flag_manual(event["id"], f"source says {item['evidence'].get('source_date')}, we list "
+                                  f"{item['evidence'].get('our_date')}: {note}")
+        return {"status": "kept; flagged for a human"}
+    # Our date is right, so the page stating another date is not this night's
+    # page. Left attached, the event fails verification at finish and the whole
+    # week goes unpublished (2026-11-23: Saborcito @ El Barco on Dec 10, whose
+    # calendar entry reused the Eventbrite link of the Jul 8 night).
+    if params.get("url"):
+        _check_link(params["url"], event)
+    _drop_link(event, stale)
+    if params.get("url"):
+        _set_primary_link(_find(load_active(), event["id"]), params["url"])
+        return {"status": "kept; link replaced", "removed": stale, "url": params["url"]}
+    if event_url_list(_find(load_active(), event["id"])):
+        return {"status": "kept; stale link removed", "removed": stale}
+    if scraper_utils.publishes_without_link(event.get("source")):
+        edit_event(event["id"], {"no_link_searched_at": datetime.now(timezone.utc).isoformat()})
+        return {"status": "kept without a link (trusted calendar)", "removed": stale}
+    archive_event(event["id"], reason=f"its only link was for another date: {note}", hold=HOLD_NO_LINK)
+    return {"status": "off the map until its source lists a link", "removed": stale}
 
 
 def _apply_location_mismatch(item: dict, choice: str, params: dict) -> dict:
